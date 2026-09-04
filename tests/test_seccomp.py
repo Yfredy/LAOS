@@ -34,7 +34,8 @@ class TestAssemble(unittest.TestCase):
         self.assertIsNotNone(prog)
         # [0] 读 seccomp_data.arch（偏移 4）
         self.assertEqual(prog[0], (BPF_LD_W_ABS, 0, 0, 4))
-        # [1] 校验 AUDIT_ARCH_X86_64，不匹配则跳去 deny
+        # [1] 校验 AUDIT_ARCH_X86_64：匹配（jt=1）跳过下一条 deny RET；
+        #     不匹配则**落入**下一条 RET EPERM（fall-through，非跳转）
         self.assertEqual(prog[1], (BPF_JEQ_K, 1, 0, AUDIT_ARCH_X86_64))
         # [2] 错误架构 -> ERRNO|EPERM
         self.assertEqual(prog[2], (BPF_RET_K, 0, 0, SECCOMP_RET_ERRNO_EPERM))
@@ -57,6 +58,19 @@ class TestAssemble(unittest.TestCase):
         # clone=56（glibc 线程回退目标）、futex=202、execve=59、openat=257
         for essential in (56, 202, 59, 257):
             self.assertNotIn(essential, blocked)
+
+    def test_blocked_nr_mapping_matches_linux_table(self):
+        # 对照 arch/x86/entry/syscalls/syscall_64.tbl 逐条核对过的映射。
+        # 曾经写错：pivot_root 被误标 218（实为 set_tid_address，glibc 启动
+        # 路径，EPERM 会弄死驱动启动）、finit_module 被误标 273（实为
+        # set_robust_list，glibc 线程创建基础设施；273 是它的 aarch64 号）。
+        by_name = {name: nr for name, nr in BLOCKED_X86_64}
+        self.assertEqual(by_name.get("pivot_root"), 155)
+        self.assertEqual(by_name.get("finit_module"), 313)
+        blocked = set(by_name.values())
+        # 这两个号是 glibc 命脉，绝不能进黑名单
+        self.assertNotIn(218, blocked)  # set_tid_address
+        self.assertNotIn(273, blocked)  # set_robust_list
 
 
 if __name__ == "__main__":

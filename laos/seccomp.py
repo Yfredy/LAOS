@@ -43,10 +43,10 @@ _OFFSET_ARCH = 4
 #: 危险 syscall 黑名单（x86_64 号）。装上过滤器后这些调用一律 EPERM。
 #: 注意：不含 clone/futex/execve/openat/mmap —— CPython 与 glibc 的命脉。
 BLOCKED_X86_64: tuple[tuple[str, int], ...] = (
-    ("mount", 165), ("umount2", 166), ("pivot_root", 218), ("chroot", 161),
+    ("mount", 165), ("umount2", 166), ("pivot_root", 155), ("chroot", 161),
     ("swapon", 167), ("swapoff", 168), ("reboot", 169), ("sethostname", 170),
     ("iopl", 172), ("ioperm", 173), ("create_module", 174),
-    ("init_module", 175), ("finit_module", 273), ("delete_module", 176),
+    ("init_module", 175), ("finit_module", 313), ("delete_module", 176),
     ("kexec_load", 246), ("kexec_file_load", 320),
     ("open_by_handle_at", 304), ("bpf", 321), ("perf_event_open", 298),
     ("ptrace", 101), ("add_key", 248), ("request_key", 249), ("keyctl", 250),
