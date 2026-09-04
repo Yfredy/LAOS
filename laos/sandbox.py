@@ -20,6 +20,8 @@ import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 
+from .seccomp import BLOCKED_X86_64, assemble_block_dangerous, install_seccomp
+
 
 @dataclass
 class IsolationReport:
@@ -34,17 +36,25 @@ class IsolationReport:
 
 class Sandbox:
     def __init__(self, workdir: Path | None = None, allow_network: bool = False,
-                 enabled: bool = True):
+                 enabled: bool = True, seccomp: str | None = None):
         self.workdir = Path(workdir) if workdir else Path(".")
         self.allow_network = allow_network
         self.enabled = enabled
+        self.seccomp_mode = seccomp or os.environ.get("LAOS_SECCOMP", "block-dangerous")
+        if self.seccomp_mode not in ("off", "block-dangerous"):
+            self.seccomp_mode = "off"
+        self._seccomp_prog: list[tuple[int, int, int, int]] | None = None
         self.report = self._probe()
 
     # -- 能力探测 ---------------------------------------------------------
     def _probe(self) -> IsolationReport:
         reasons: list[str] = []
         if platform.system() != "Linux":
-            return IsolationReport("none", "host", [f"非 Linux 宿主 ({platform.system()})，跳过内核隔离"])
+            self.seccomp_mode = "off"
+            return IsolationReport(
+                "none", "host",
+                [f"非 Linux 宿主 ({platform.system()})，跳过内核隔离; seccomp 关闭"],
+            )
 
         have_unshare = shutil.which("unshare") is not None
         have_cgroup = Path("/sys/fs/cgroup/cgroup.controllers").exists()
@@ -52,6 +62,19 @@ class Sandbox:
             reasons.append("unshare 可用")
         if have_cgroup:
             reasons.append("cgroup v2 可用")
+
+        # seccomp 与 unshare 无关：没有 namespace 也能装过滤器
+        if self.seccomp_mode == "off":
+            reasons.append("seccomp=off")
+        else:
+            prog = assemble_block_dangerous(platform.machine())
+            if prog is None:
+                self.seccomp_mode = "off"
+                reasons.append(f"seccomp 不可用（未知架构 {platform.machine()}）")
+            else:
+                self._seccomp_prog = prog
+                reasons.append(f"seccomp=block-dangerous ({len(BLOCKED_X86_64)} 条 deny)")
+
         if have_unshare and os.geteuid() == 0:
             return IsolationReport("full", "namespace+cgroup", reasons)
         if have_unshare:
@@ -70,6 +93,25 @@ class Sandbox:
             ns = ["--net"] if os.geteuid() == 0 else []
             prefix = ["unshare", "--mount", "--pid", *ns, "--fork", "--map-root-user"]
         return [*prefix, "--", *argv]
+
+    def popen_kwargs(self) -> dict:
+        """subprocess.Popen 额外参数：Linux 且 seccomp 启用时注入 preexec。
+
+        过滤器随 fork/execve 继承 —— 驱动进程装一次，
+        proc.exec 拉起的孙子进程自动被同一策略覆盖。
+        非 Linux / off / 程序未组装成功时返回 {}（跨平台降级）。
+        """
+        if platform.system() != "Linux" or self.seccomp_mode != "block-dangerous":
+            return {}
+        prog = self._seccomp_prog
+        if prog is None:
+            return {}
+
+        def _preexec() -> None:
+            # fail-closed：装不上就炸掉这次 spawn，绝不允许裸奔运行
+            install_seccomp(prog)
+
+        return {"preexec_fn": _preexec}
 
     def estimate(self) -> IsolationReport:
         """当前强制隔离状态快照：active 表示内核原语真正生效。"""

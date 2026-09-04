@@ -8,7 +8,12 @@ TestPopenKwargs / TestSeccompLinux 在 Task 2 Step 1 追加。
 """
 from __future__ import annotations
 
+import errno
+import os
+import platform
+import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -71,6 +76,59 @@ class TestAssemble(unittest.TestCase):
         # 这两个号是 glibc 命脉，绝不能进黑名单
         self.assertNotIn(218, blocked)  # set_tid_address
         self.assertNotIn(273, blocked)  # set_robust_list
+
+
+class TestPopenKwargs(unittest.TestCase):
+    def test_off_is_empty_everywhere(self):
+        from laos.sandbox import Sandbox
+        self.assertEqual(Sandbox(enabled=True, seccomp="off").popen_kwargs(), {})
+
+    @unittest.skipUnless(platform.system() == "Linux", "seccomp 仅 Linux")
+    def test_linux_has_preexec(self):
+        from laos.sandbox import Sandbox
+        kw = Sandbox(enabled=True, seccomp="block-dangerous").popen_kwargs()
+        self.assertIn("preexec_fn", kw)
+
+
+class TestSeccompLinux(unittest.TestCase):
+    """真实内核行为：装上过滤器后 swapon 必须得到 EPERM，正常代码不受影响。"""
+
+    @unittest.skipUnless(platform.system() == "Linux", "seccomp 仅 Linux")
+    def test_blocks_swapon_with_eperm(self):
+        from laos.sandbox import Sandbox
+        sb = Sandbox(enabled=True, seccomp="block-dangerous")
+        kw = sb.popen_kwargs()
+        if "preexec_fn" not in kw:
+            self.skipTest("当前环境（无 unshare/未知架构）seccomp 未启用")
+        # swapon = 167：驱动与普通 Python 都不需要它
+        code = (
+            "import ctypes\n"
+            "libc = ctypes.CDLL(None, use_errno=True)\n"
+            "r = libc.syscall(167, b'/tmp/laos-swapon-probe', 0)\n"
+            "raise SystemExit(0 if r == 0 else ctypes.get_errno())\n"
+        )
+        with tempfile.TemporaryDirectory() as td:
+            r = subprocess.run(
+                [sys.executable, "-c", code], capture_output=True,
+                cwd=td, timeout=15, **kw,
+            )
+        self.assertEqual(r.returncode, errno.EPERM)
+
+    @unittest.skipUnless(platform.system() == "Linux", "seccomp 仅 Linux")
+    def test_normal_code_survives_filter(self):
+        from laos.sandbox import Sandbox
+        sb = Sandbox(enabled=True, seccomp="block-dangerous")
+        kw = sb.popen_kwargs()
+        if "preexec_fn" not in kw:
+            self.skipTest("当前环境 seccomp 未启用")
+        with tempfile.TemporaryDirectory() as td:
+            r = subprocess.run(
+                [sys.executable, "-c",
+                 "import os; os.mkdir('d'); open('d/f','w').write('x'); print('ok')"],
+                capture_output=True, text=True, cwd=td, timeout=15, **kw,
+            )
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("ok", r.stdout)
 
 
 if __name__ == "__main__":
