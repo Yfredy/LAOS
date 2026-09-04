@@ -7,6 +7,7 @@ laosd 的内核状态在内存里，laosctl 通过持久化的审计日志做回
     python bin/laosctl.py trace --pid 1001      # 回放某个 Agent 的 syscall
     python bin/laosctl.py denied                # 所有被拒绝的调用
     python bin/laosctl.py top                   # 按 syscall 聚合耗时
+    python bin/laosctl.py prof                  # eBPF 采集的真实 syscall 分布
 """
 
 from __future__ import annotations
@@ -104,18 +105,32 @@ def cmd_ps(records: list[dict], args) -> None:
     print("\n  syscalls=成功执行  denied=内核能力表拒绝  failed=驱动拒绝")
 
 
+def cmd_prof(records: list[dict], args) -> None:
+    profs = [r for r in records if r.get("event") == "prof_summary"]
+    if not profs:
+        print("无 prof_summary 记录（需要 LAOS_PROF=1 且 Linux + root + bpftrace）")
+        return
+    r = profs[-1]
+    print(f"backend={r.get('backend')}")
+    probes = r.get("probes", {})
+    if not probes:
+        return
+    print(f"{'probe':<44}{'count':>10}")
+    for name, n in sorted(probes.items(), key=lambda kv: -kv[1])[:15]:
+        print(f"{name:<44}{n:>10}")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="laosctl —— Linux AgentOS 控制面")
-    ap.add_argument("command", choices=["audit", "trace", "denied", "top", "ps"])
+    ap.add_argument("command", choices=["audit", "trace", "denied", "top", "ps", "prof"])
     ap.add_argument("--file", type=str, default=str(DEFAULT_AUDIT))
     ap.add_argument("--pid", type=int)
     ap.add_argument("--event", type=str)
     args = ap.parse_args()
 
     records = load(Path(args.file))
-    {"audit": cmd_audit, "trace": cmd_trace, "denied": cmd_denied, "top": cmd_top, "ps": cmd_ps}[
-        args.command
-    ](records, args)
+    {"audit": cmd_audit, "trace": cmd_trace, "denied": cmd_denied,
+     "top": cmd_top, "ps": cmd_ps, "prof": cmd_prof}[args.command](records, args)
     return 0
 
 

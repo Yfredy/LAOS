@@ -142,6 +142,23 @@ async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
     hr("4. ReAct 循环（每一次 tool call 都是一次 syscall）")
     t0 = time.perf_counter()
     user_task = task or "确保 hosts 中存在 myapp.local -> 127.0.0.1 的解析记录，并回读验证。"
+
+    # ---- eBPF 语义 profiling（可选，缺席自动降级）-------------------------
+    prof = None
+    if os.environ.get("LAOS_PROF", "1") != "0":
+        from laos.profiling import BpfTraceProfiler
+        driver_pids = [m["pid"] for m in kernel.lsmod()]
+        if driver_pids:  # bpftrace 不接受空谓词，无驱动 pid 时降级
+            prof = BpfTraceProfiler(driver_pids)
+            if not prof.start():
+                print(f"  [profiler] 未启用: {prof.reason}")
+                kernel.audit.write({"t": time.time(), "event": "prof_summary",
+                                    "backend": f"unavailable: {prof.reason}", "probes": {}})
+                prof = None
+        else:
+            kernel.audit.write({"t": time.time(), "event": "prof_summary",
+                                "backend": "unavailable: no driver pids", "probes": {}})
+
     results = await run_agents(kernel, [ops, guest], [user_task, user_task])
 
     name_of = {r.pid: kernel.procs[r.pid].name for r in results}
@@ -173,6 +190,14 @@ async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
         print(f"  {res}  ({name_of[res.pid]})")
     print(f"  耗时     : {time.perf_counter() - t0:.2f}s")
     print(f"  审计记录 : {len(kernel.audit.records)} 条 -> {kernel.audit.path}")
+
+    if prof is not None:
+        probes = prof.stop()
+        kernel.audit.write({"t": time.time(), "event": "prof_summary",
+                            "backend": prof.reason, "probes": probes})
+        print("\n  eBPF: 驱动进程树真实 syscall 分布（top 10，对照上面“声称”的 tool call）:")
+        for probe, n in sorted(probes.items(), key=lambda kv: -kv[1])[:10]:
+            print(f"    {probe:<44}{n:>10}")
 
     denied = [r for r in kernel.audit.records if r.get("event") == "syscall" and not r["ok"]]
     if denied:
