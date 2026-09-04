@@ -261,6 +261,21 @@ class TestDrivers(KernelTestCase):
         self.assertIn("hostname=", res.text)
         self.assertIn("***[", res.text)  # 脱敏生效
 
+    def test_fs_write_on_hardlinked_branch_keeps_base(self):
+        # 全栈回归：fork 出的分支经 MCP fs.append 写文件，
+        # main 的同源文件必须原封不动（CoW 断链发生在驱动写路径上）
+        exp = self.main.fork("exp-driver")
+        pcb = self.kernel.spawn(name="t", caps=["fs.*"], ctx=object())
+        res = asyncio.run(self.kernel.syscall(
+            pcb.pid, "fs.append",
+            {"path": "/exp-driver/workspace/hosts", "content": "# taint\n"},
+        ))
+        self.assertTrue(res.ok, res.error)
+        self.assertNotIn(
+            "# taint", (self.main.workspace / "workspace" / "hosts").read_text(encoding="utf-8"),
+            "写分支污染了 main（驱动写路径没有 CoW 断链）",
+        )
+
 
 class TestAgent(KernelTestCase):
     def test_agent_completes_task(self):

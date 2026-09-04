@@ -16,6 +16,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from laos.cow import cow_append, cow_write  # noqa: E402
 from laos.mcp import MCPServer  # noqa: E402
 from laos.sandbox import PathJail  # noqa: E402
 
@@ -59,8 +60,7 @@ def fs_read(path: str) -> str:
 )
 def fs_write(path: str, content: str) -> str:
     p = jail.resolve(path)
-    p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(content, encoding="utf-8")
+    cow_write(p, content, "utf-8")
     return f"OK wrote {len(content.encode('utf-8'))} bytes -> {jail.unresolve(p)}"
 
 
@@ -78,9 +78,7 @@ def fs_write(path: str, content: str) -> str:
 )
 def fs_append(path: str, content: str) -> str:
     p = jail.resolve(path)
-    p.parent.mkdir(parents=True, exist_ok=True)
-    with p.open("a", encoding="utf-8") as f:
-        f.write(content)
+    cow_append(p, content, "utf-8")
     return f"OK appended {len(content.encode('utf-8'))} bytes -> {jail.unresolve(p)}"
 
 
