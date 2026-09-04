@@ -12,10 +12,15 @@ Exploration》。Agent 在探索期会并行尝试多条解法，每条解法都
 论文用 FUSE 实现 BranchFS（微秒级 fork、原子 commit）。本 demo 用纯
 Python 的 overlay + 操作日志实现同一套语义，便于跨平台阅读与验证；
 语义层与论文一致，底层可替换成 BranchFS。
+
+实现：fork 用硬链接共享数据块（O(inode)、零字节拷贝），写入走
+laos.cow 的 temp+os.replace 断链 —— 这是 BranchFS COW 在用户态的
+零依赖等价物；BranchContext 接口不变，日后可整体替换为 FUSE。
 """
 
 from __future__ import annotations
 
+import os
 import shutil
 import threading
 import time
@@ -23,12 +28,37 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from .cow import cow_write
+
 
 class BranchState:
     EXPLORING = "exploring"
     COMMITTED = "committed"
     ABORTED = "aborted"
     INVALIDATED = "invalidated"  # 被兄弟分支的 first-commit-wins 干掉
+
+
+def _hardlink_tree(src: Path, dst: Path) -> bool:
+    """把 src 目录树硬链接到 dst。返回是否全部走硬链接。
+
+    目录 mkdir、普通文件 os.link、符号链接与链接失败退 copy2（不整体失败）。
+    硬链接共享数据块：fork 只复制目录项，后续写入靠 laos.cow 断链。
+    """
+    all_linked = True
+    for p in src.rglob("*"):
+        t = dst / p.relative_to(src)
+        if p.is_dir():
+            t.mkdir(parents=True, exist_ok=True)
+        elif p.is_symlink():
+            all_linked = False
+            shutil.copy2(p, t, follow_symlinks=False)
+        else:
+            try:
+                os.link(p, t)
+            except OSError:
+                all_linked = False
+                shutil.copy2(p, t)
+    return all_linked
 
 
 @dataclass
@@ -42,6 +72,7 @@ class BranchContext:
     journal: list[dict] = field(default_factory=list)
     created_at: float = field(default_factory=time.time)
     committed_at: float | None = None
+    cow: bool = False  # fork 是否全程硬链接（混合/纯拷贝为 False）
 
     # ------------------------------------------------------------------
     @property
@@ -54,19 +85,30 @@ class BranchContext:
             raise RuntimeError(f"EINVAL: branch {self.name} is {self.state}")
 
     # -- 生命周期 --------------------------------------------------------
-    def fork(self, name: str) -> "BranchContext":
+    def fork(self, name: str, copy_mode: str = "auto") -> "BranchContext":
         """复制出子分支。
 
-        论文里是 O(1) 的 COW（BranchFS）；demo 用 copytree 模拟，
-        语义一致：子分支拿到独立可写视图，提交前不影响父分支。
+        copy_mode="auto"：硬链接父分支整棵目录树 —— 只复制目录项，
+        数据块全共享（fork 零字节拷贝）；后续写入靠 laos.cow 断链。
+        单个文件链接失败（跨设备/不支持）自动退 copy2，整体仍成功。
+        copy_mode="copy"：退回 shutil.copytree 全量拷贝（旧行为）。
+        语义两者一致：子分支拿到独立可写视图，提交前不影响父分支。
         目录名即分支名，便于通过虚拟路径 `/<branch>/...` 访问。
         """
         self._assert_alive()
         child_ws = self.workspace.parent / name
         if child_ws.exists():
             shutil.rmtree(child_ws)
-        shutil.copytree(self.workspace, child_ws)
-        child = BranchContext(name=name, base=self.workspace, workspace=child_ws, parent=self)
+        child_ws.mkdir(parents=True)
+        used_cow = False
+        if copy_mode == "auto":
+            used_cow = _hardlink_tree(self.workspace, child_ws)
+        else:
+            shutil.copytree(self.workspace, child_ws, dirs_exist_ok=True)
+        child = BranchContext(
+            name=name, base=self.workspace, workspace=child_ws,
+            parent=self, cow=used_cow,
+        )
         self.children.append(child)
         return child
 
@@ -78,7 +120,9 @@ class BranchContext:
             raise PermissionError(f"EACCES: {rel_path} escapes branch workspace")
         if op == "write":
             target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_text(content or "", encoding="utf-8")
+            # 硬链接 fork 后 workspace 文件可能与父/兄弟分支共享 inode，
+            # 原地 write_text 会改写共享数据块 —— 必须走 CoW 断链写入
+            cow_write(target, content or "", encoding="utf-8")
         elif op == "delete":
             target.unlink(missing_ok=True)
         else:
@@ -110,8 +154,16 @@ class BranchContext:
 
         def same(a: Path, b: Path) -> bool:
             try:
-                if a.stat().st_size != b.stat().st_size:
-                    return False
+                sa, sb = a.stat(), b.stat()
+            except OSError:
+                return False
+            if sa.st_size != sb.st_size:
+                return False
+            # inode 快路径：CoW 原语保证共享 inode 从不原地改写，
+            # 同 dev+ino 即同内容，免去整文件字节比对
+            if sa.st_ino and sa.st_dev == sb.st_dev and sa.st_ino == sb.st_ino:
+                return True
+            try:
                 return a.read_bytes() == b.read_bytes()
             except OSError:
                 return False
@@ -139,10 +191,10 @@ class BranchContext:
         entries = [{"op": "write", "path": str(r).replace("\\", "/")} for r in sorted(changed)]
         entries += [{"op": "delete", "path": str(r).replace("\\", "/")} for r in sorted(deleted)]
 
+        # 父分支文件可能被兄弟分支硬链接共享 —— 必须用 CoW 替换，
+        # 绝不能 shutil.copy2 原地截断共享 inode（会改写兄弟分支的内容）
         for rel in changed:
-            dst = self.parent.workspace / rel
-            dst.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(self.workspace / rel, dst)
+            cow_write(self.parent.workspace / rel, (self.workspace / rel).read_bytes())
         for rel in deleted:
             (self.parent.workspace / rel).unlink(missing_ok=True)
 

@@ -126,6 +126,31 @@ class TestBranch(unittest.TestCase):
         a.commit()
         self.assertEqual((main.workspace / "f.txt").read_text(encoding="utf-8"), "deep")
 
+    def test_fork_hardlinks_share_data(self):
+        # COW fork：子分支文件与父分支共享 inode（数据零拷贝）
+        t, main = self._tree()
+        b = main.fork("b1")
+        self.assertTrue(b.cow, "auto 模式默认应走硬链接（本地文件系统）")
+        si = (main.workspace / "f.txt").stat()
+        ci = (b.workspace / "f.txt").stat()
+        if si.st_ino == 0:
+            self.skipTest("文件系统无 inode 语义")
+        self.assertEqual((si.st_dev, si.st_ino), (ci.st_dev, ci.st_ino))
+
+    def test_commit_does_not_corrupt_siblings(self):
+        # A 提交时父分支文件可能与 B 硬链接共享 inode：
+        # commit 必须走 CoW 替换，而不是 copy2 原地截断共享 inode
+        t, main = self._tree()
+        a = main.fork("A")
+        b = main.fork("B")
+        a.explore("f.txt", "from-A")
+        a.commit()
+        self.assertEqual(
+            (b.workspace / "f.txt").read_text(encoding="utf-8"),
+            "v0",
+            "兄弟分支的 inode 被 commit 改写了",
+        )
+
 
 # --------------------------------------------------------------------------
 class KernelTestCase(unittest.TestCase):
