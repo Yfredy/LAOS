@@ -86,7 +86,7 @@ class TestWrapShim(unittest.TestCase):
         if platform.system() != "Linux":
             self.assertEqual(w, cmd)  # 跨平台降级：原样
         else:
-            self.assertNotIn("-c", w)  # namespace 前缀可有，shim 必无
+            self.assertNotIn("install_seccomp", " ".join(w))  # namespace 前缀可有，shim 必无
             self.assertEqual(w[-len(cmd):], list(cmd))
 
     def test_seccomp_on_appends_shim(self):
@@ -97,6 +97,8 @@ class TestWrapShim(unittest.TestCase):
         if platform.system() != "Linux":
             self.assertEqual(w, cmd)  # 非 Linux：无 shim
         else:
+            if sb._seccomp_prog is None:
+                self.skipTest("非 x86_64 架构，seccomp 未启用")
             self.assertIn("install_seccomp", " ".join(w))
             self.assertEqual(w[-len(cmd):], list(cmd))  # 原命令在最后
             if sb.report.level != "none":

@@ -21,7 +21,7 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-from .seccomp import BLOCKED_X86_64, assemble_block_dangerous, install_seccomp
+from .seccomp import BLOCKED_X86_64, assemble_block_dangerous
 
 
 @dataclass
