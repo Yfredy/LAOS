@@ -4,12 +4,11 @@
     python -m unittest tests.test_seccomp -v
 
 本任务只写 TestAssemble（自洽，不依赖 Task 2 的 Sandbox 改动）；
-TestPopenKwargs / TestSeccompLinux 在 Task 2 Step 1 追加。
+TestWrapShim / TestSeccompLinux 在 Task 2 追加。
 """
 from __future__ import annotations
 
 import errno
-import os
 import platform
 import subprocess
 import sys
@@ -78,16 +77,30 @@ class TestAssemble(unittest.TestCase):
         self.assertNotIn(273, blocked)  # set_robust_list
 
 
-class TestPopenKwargs(unittest.TestCase):
-    def test_off_is_empty_everywhere(self):
+class TestWrapShim(unittest.TestCase):
+    def test_seccomp_off_wraps_without_shim(self):
         from laos.sandbox import Sandbox
-        self.assertEqual(Sandbox(enabled=True, seccomp="off").popen_kwargs(), {})
+        sb = Sandbox(enabled=True, seccomp="off")
+        cmd = ["python", "-c", "print(1)"]
+        w = sb.wrap(cmd)
+        if platform.system() != "Linux":
+            self.assertEqual(w, cmd)  # 跨平台降级：原样
+        else:
+            self.assertNotIn("-c", w)  # namespace 前缀可有，shim 必无
+            self.assertEqual(w[-len(cmd):], list(cmd))
 
-    @unittest.skipUnless(platform.system() == "Linux", "seccomp 仅 Linux")
-    def test_linux_has_preexec(self):
+    def test_seccomp_on_appends_shim(self):
         from laos.sandbox import Sandbox
-        kw = Sandbox(enabled=True, seccomp="block-dangerous").popen_kwargs()
-        self.assertIn("preexec_fn", kw)
+        sb = Sandbox(enabled=True, seccomp="block-dangerous")
+        cmd = ["python", "-c", "print(1)"]
+        w = sb.wrap(cmd)
+        if platform.system() != "Linux":
+            self.assertEqual(w, cmd)  # 非 Linux：无 shim
+        else:
+            self.assertIn("install_seccomp", " ".join(w))
+            self.assertEqual(w[-len(cmd):], list(cmd))  # 原命令在最后
+            if sb.report.level != "none":
+                self.assertEqual(w[0], "unshare")  # shim 在 namespace 里
 
 
 class TestSeccompLinux(unittest.TestCase):
@@ -97,10 +110,8 @@ class TestSeccompLinux(unittest.TestCase):
     def test_blocks_swapon_with_eperm(self):
         from laos.sandbox import Sandbox
         sb = Sandbox(enabled=True, seccomp="block-dangerous")
-        kw = sb.popen_kwargs()
-        if "preexec_fn" not in kw:
-            self.skipTest("当前环境（无 unshare/未知架构）seccomp 未启用")
-        # swapon = 167：驱动与普通 Python 都不需要它
+        if sb._seccomp_prog is None:
+            self.skipTest("当前环境（未知架构）seccomp 未启用")
         code = (
             "import ctypes\n"
             "libc = ctypes.CDLL(None, use_errno=True)\n"
@@ -109,8 +120,8 @@ class TestSeccompLinux(unittest.TestCase):
         )
         with tempfile.TemporaryDirectory() as td:
             r = subprocess.run(
-                [sys.executable, "-c", code], capture_output=True,
-                cwd=td, timeout=15, **kw,
+                sb.wrap([sys.executable, "-c", code]), capture_output=True,
+                cwd=td, timeout=15,
             )
         self.assertEqual(r.returncode, errno.EPERM)
 
@@ -118,14 +129,13 @@ class TestSeccompLinux(unittest.TestCase):
     def test_normal_code_survives_filter(self):
         from laos.sandbox import Sandbox
         sb = Sandbox(enabled=True, seccomp="block-dangerous")
-        kw = sb.popen_kwargs()
-        if "preexec_fn" not in kw:
+        if sb._seccomp_prog is None:
             self.skipTest("当前环境 seccomp 未启用")
         with tempfile.TemporaryDirectory() as td:
             r = subprocess.run(
-                [sys.executable, "-c",
-                 "import os; os.mkdir('d'); open('d/f','w').write('x'); print('ok')"],
-                capture_output=True, text=True, cwd=td, timeout=15, **kw,
+                sb.wrap([sys.executable, "-c",
+                         "import os; os.mkdir('d'); open('d/f','w').write('x'); print('ok')"]),
+                capture_output=True, text=True, cwd=td, timeout=15,
             )
         self.assertEqual(r.returncode, 0, r.stderr)
         self.assertIn("ok", r.stdout)

@@ -145,12 +145,9 @@ class AgentKernel:
 
     # -- 驱动管理（insmod / rmmod）---------------------------------------
     def load_driver(self, name: str, argv: list[str], env: dict | None = None) -> MCPClient:
-        # 驱动子进程经 sandbox 包装启动（Linux 上 unshare 隔离，跨平台降级原样）
-        # seccomp 过滤器经 preexec_fn 注入，随 fork/execve 继承到 proc.exec 的子进程
-        client = MCPClient(
-            name, self.sandbox.wrap(argv), env=env,
-            popen_kwargs=self.sandbox.popen_kwargs(),
-        )
+        # 驱动子进程经 sandbox 包装启动（Linux 上 unshare 隔离 + seccomp shim，
+        # 跨平台降级原样）
+        client = MCPClient(name, self.sandbox.wrap(argv), env=env)
         client.start()
         # cgroup v2 资源上限：仅 root + cgroupfs 可写时生效，否则 None（降级）
         cgroup = self.sandbox.make_cgroup(f"drv-{name}")

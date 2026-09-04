@@ -17,6 +17,7 @@ import os
 import platform
 import shutil
 import subprocess
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -83,35 +84,47 @@ class Sandbox:
         return IsolationReport("none", "host", ["缺少 unshare，仅依赖能力表"])
 
     # -- 命令包装 ---------------------------------------------------------
+    def _seccomp_shim(self) -> list[str]:
+        """bootstrap：先装 seccomp 过滤器，再 execvp 真正的命令。
+
+        过滤器 deny 了 unshare(2)，所以安装必须发生在 unshare(1) 完成
+        namespace 设置**之后**——这就是为什么不能用 preexec_fn。
+        shim 崩溃 = 驱动起不来 = fail-closed。
+        """
+        repo = Path(__file__).resolve().parents[1]
+        shim = (
+            "import os, sys; sys.path.insert(0, r'" + str(repo) + "'); "
+            "from laos.seccomp import assemble_block_dangerous, install_seccomp; "
+            "prog = assemble_block_dangerous(os.uname().machine); "
+            "prog is not None and install_seccomp(prog); "
+            "os.execvp(sys.argv[1], sys.argv[1:])"
+        )
+        return [sys.executable, "-c", shim]
+
     def wrap(self, argv: list[str]) -> list[str]:
-        """把一个命令包进隔离环境。disabled 或降级（非 Linux/无原语）时原样返回。"""
-        if not self.enabled or self.report.level == "none":
+        """把一个命令包进隔离环境。
+
+        namespace 前缀（unshare）在最外层；seccomp bootstrap shim 在
+        namespace 里、真正命令之前——顺序不可颠倒：过滤器 deny
+        unshare(2)，必须等 unshare(1) 干完活再装。非 Linux 或 disabled
+        时原样返回（跨平台降级）。
+        """
+        if not self.enabled or platform.system() != "Linux":
             return list(argv)
 
-        prefix = ["unshare", "--mount", "--pid", "--fork", "--map-root-user"]
-        if not self.allow_network:
-            ns = ["--net"] if os.geteuid() == 0 else []
+        use_ns = self.report.level in ("full", "partial")
+        use_shim = (
+            self.seccomp_mode == "block-dangerous" and self._seccomp_prog is not None
+        )
+
+        out = list(argv)
+        if use_shim:
+            out = [*self._seccomp_shim(), *out]
+        if use_ns:
+            ns = [] if self.allow_network else (["--net"] if os.geteuid() == 0 else [])
             prefix = ["unshare", "--mount", "--pid", *ns, "--fork", "--map-root-user"]
-        return [*prefix, "--", *argv]
-
-    def popen_kwargs(self) -> dict:
-        """subprocess.Popen 额外参数：Linux 且 seccomp 启用时注入 preexec。
-
-        过滤器随 fork/execve 继承 —— 驱动进程装一次，
-        proc.exec 拉起的孙子进程自动被同一策略覆盖。
-        非 Linux / off / 程序未组装成功时返回 {}（跨平台降级）。
-        """
-        if platform.system() != "Linux" or self.seccomp_mode != "block-dangerous":
-            return {}
-        prog = self._seccomp_prog
-        if prog is None:
-            return {}
-
-        def _preexec() -> None:
-            # fail-closed：装不上就炸掉这次 spawn，绝不允许裸奔运行
-            install_seccomp(prog)
-
-        return {"preexec_fn": _preexec}
+            out = [*prefix, "--", *out]
+        return out
 
     def estimate(self) -> IsolationReport:
         """当前强制隔离状态快照：active 表示内核原语真正生效。"""

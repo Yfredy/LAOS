@@ -200,12 +200,10 @@ class MCPServer:
 class MCPClient:
     """以子进程方式拉起一个 MCP Server，并通过 stdio 与之通信。"""
 
-    def __init__(self, name: str, argv: list[str], env: dict | None = None,
-                 popen_kwargs: dict | None = None):
+    def __init__(self, name: str, argv: list[str], env: dict | None = None):
         self.name = name
         self._argv = argv
         self._env = env
-        self._popen_kwargs = popen_kwargs or {}
         self._proc: subprocess.Popen | None = None
         self._lock = threading.Lock()
         self._id = 0
@@ -226,7 +224,6 @@ class MCPClient:
             encoding="utf-8",
             bufsize=1,
             env=env,
-            **self._popen_kwargs,
         )
         self._initialize()
         self.tools = {t.name: t for t in self.list_tools()}
