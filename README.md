@@ -10,7 +10,7 @@
 ```bash
 python bin/laosd.py                    # 跑完整 demo（脚本化大脑，无需 API key）
 python bin/laosd.py --real             # 有 OPENAI_API_KEY 时用真 LLM
-python -m unittest discover -s tests   # 26 项回归测试
+python -m unittest discover -s tests   # 68 项回归测试
 ```
 
 ---
@@ -199,11 +199,11 @@ python bin/laosctl.py denied    # 所有被拒调用
 
 | 缺口 | 现状 | 该怎么做 |
 |---|---|---|
-| **强制隔离** | Linux 上已封装 `unshare` / cgroup v2，但未接入 Agent 启动路径 | 把 `sandbox.wrap()` 接到驱动 `spawn` 与 `proc.exec`，加 seccomp profile |
+| **强制隔离** | 驱动 spawn 已接 namespace + cgroup v2 + **seccomp block-dangerous**（`LAOS_SECCOMP`，unshare 后经 bootstrap shim 注入、随 fork/execve 继承到 proc.exec 子进程） | per-agent（而非 per-driver）cgroup；seccomp 白名单模式（按驱动画像） |
 | **不可逆操作预算** | 只有 syscall 次数预算（EDQUOT） | 实现 Irreversibility Budget：按 tool 标注可逆/不可逆，车队级配额 + 准入控制 |
-| **分支的 O(1) 创建** | copytree 模拟，O(n) | 接 [BranchFS](https://arxiv.org/abs/2602.08199)（FUSE）或 overlayfs |
+| **分支的 O(1) 创建** | **hardlink COW**：fork 只复制目录项、数据块全共享、写路径 temp+replace 断链（`laos/cow.py`）；diff 走 inode 快路径 | FUSE BranchFS（真 O(1) inode 级 + 原子 rename 语义）仍是长期项 |
 | **上下文一致性** | 只看 token 水位 | 检测 stale context（工作区已变但上下文未同步），触发强制重读 |
-| **语义 profiling** | 只有耗时 | 做 AgentProf 式的语义剖析：每步的意图、工具选择是否合理 |
+| **语义 profiling** | **bpftrace 集成**（`LAOS_PROF=1`）：采集驱动进程树真实 syscall 分布，`laosctl prof` 回放 | AgentProf 式语义剖析：每步意图、工具选择合理性 |
 | **多 Agent 通信** | 共享文件系统 | Agent 间 IPC：消息队列 + 能力委托（capability delegation） |
 | **可观测闭环** | JSONL 审计 | 导出 OpenTelemetry trace，一次任务 = 一条 trace，一次 syscall = 一个 span |
 
@@ -221,6 +221,9 @@ laos/
     context.py    Context Manager：窗口 / 摘要压缩 / swap
     branch.py     BranchContext：fork / explore / commit，first-commit-wins
     sandbox.py    Linux 隔离封装（namespace / cgroup）+ 路径 jail
+    seccomp.py    seccomp 经典 BPF 组装 + ctypes 安装（block-dangerous 黑名单）
+    cow.py        CoW 原语：temp + os.replace 断链写，保护 hardlink 共享 inode
+    profiling.py  bpftrace 集成：驱动进程树真实 syscall 分布（可选，缺席降级）
   drivers/
     drv_fs.py     文件系统驱动：read / write / append / list / stat（jail 内）
     drv_proc.py   进程驱动：list / exec（白名单 + 危险模式拦截）
@@ -229,7 +232,7 @@ laos/
     laosd.py      引导器（init）：加载驱动 → fork 分支 → 起 Agent → commit
     laosctl.py    控制面：ps / top / trace / denied / audit
   tests/
-    test_laos.py  26 项回归测试
+    test_*.py     68 项回归测试（laos / seccomp / cow / profiling / sandbox 等 10 个文件）
   var/            运行期产物：audit.jsonl / branches/ / swap/
 ```
 
@@ -245,3 +248,5 @@ laos/
 | `LAOS_PRIVACY_MASK` | `1` | 主机名等标识信息脱敏 |
 | `LAOS_CTX_TOKENS` | `2000` | 上下文窗口上限 |
 | `LAOS_BUDGET` / `LAOS_STEPS` | `8` / `8` | syscall 预算 / 最大步数 |
+| `LAOS_SECCOMP` | `block-dangerous` | `off` 关闭；`block-dangerous` 给驱动装 seccomp 黑名单过滤器（仅 Linux） |
+| `LAOS_PROF` | `1` | `0` 关闭 eBPF profiling；开启需 Linux + root + bpftrace，缺席自动降级 |
