@@ -149,9 +149,11 @@ class AgentKernel:
         # 跨平台降级原样）
         client = MCPClient(name, self.sandbox.wrap(argv), env=env)
         client.start()
-        # cgroup v2 资源上限：仅 root + cgroupfs 可写时生效，否则 None（降级）
+        # cgroup v2 资源上限：仅 root + cgroupfs 可写时生效，否则 None（降级）。
+        # attach 目标是真实驱动进程（unshare --fork 的直接子进程），
+        # cgroup 按进程树继承，其子孙（proc.exec 等）一并受限
         cgroup = self.sandbox.make_cgroup(f"drv-{name}")
-        Sandbox.attach(cgroup, client.pid)
+        Sandbox.attach(cgroup, client.driver_pid)
         self.drivers[name] = client
         for tool in client.tools.values():
             self.syscall_table[tool.name] = (name, tool)
@@ -162,6 +164,7 @@ class AgentKernel:
                 "driver": name,
                 "tools": len(client.tools),
                 "cgroup": str(cgroup) if cgroup else None,
+                "driver_pid": client.driver_pid,
             }
         )
         return client
@@ -333,6 +336,7 @@ class AgentKernel:
             {
                 "driver": name,
                 "pid": c.pid,
+                "driver_pid": c.driver_pid,
                 "tools": [t.name for t in c.tools.values()],
             }
             for name, c in self.drivers.items()

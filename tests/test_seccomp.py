@@ -9,6 +9,7 @@ TestWrapShim / TestSeccompLinux 在 Task 2 追加。
 from __future__ import annotations
 
 import errno
+import os
 import platform
 import subprocess
 import sys
@@ -114,6 +115,8 @@ class TestSeccompLinux(unittest.TestCase):
         sb = Sandbox(enabled=True, seccomp="block-dangerous")
         if sb._seccomp_prog is None:
             self.skipTest("当前环境（未知架构）seccomp 未启用")
+        if os.geteuid() != 0:
+            self.skipTest("swapon 探针判别力需要 root（无过滤器时为 EINVAL 而非 EPERM）")
         code = (
             "import ctypes\n"
             "libc = ctypes.CDLL(None, use_errno=True)\n"
@@ -125,6 +128,9 @@ class TestSeccompLinux(unittest.TestCase):
                 sb.wrap([sys.executable, "-c", code]), capture_output=True,
                 cwd=td, timeout=15,
             )
+        # EPERM 必须由过滤器产生，而非 shim 崩溃（崩溃同样 exit 1 == EPERM，
+        # 但会在 stderr 留下 Traceback）
+        self.assertNotIn(b"Traceback", r.stderr)
         self.assertEqual(r.returncode, errno.EPERM)
 
     @unittest.skipUnless(platform.system() == "Linux", "seccomp 仅 Linux")

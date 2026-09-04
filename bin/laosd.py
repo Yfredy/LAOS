@@ -147,7 +147,8 @@ async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
     prof = None
     if os.environ.get("LAOS_PROF", "1") != "0":
         from laos.profiling import BpfTraceProfiler
-        driver_pids = [m["pid"] for m in kernel.lsmod()]
+        # 必须是真实驱动 pid（unshare wrapper 的子进程），wrapper 本身是空闲父进程
+        driver_pids = [p for p in (m["driver_pid"] for m in kernel.lsmod()) if p]
         if driver_pids:  # bpftrace 不接受空谓词，无驱动 pid 时降级
             prof = BpfTraceProfiler(driver_pids)
             if not prof.start():

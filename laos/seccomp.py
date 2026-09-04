@@ -51,6 +51,10 @@ BLOCKED_X86_64: tuple[tuple[str, int], ...] = (
     ("open_by_handle_at", 304), ("bpf", 321), ("perf_event_open", 298),
     ("ptrace", 101), ("add_key", 248), ("request_key", 249), ("keyctl", 250),
     ("setns", 308), ("unshare", 272), ("mknod", 133), ("mknodat", 259),
+    # 新挂载 API（open_tree/move_mount/fs*）可绕过 legacy mount 拒绝，一并封死；
+    # 号码已对照 arch/x86/entry/syscalls/syscall_64.tbl 逐条核对
+    ("io_uring_setup", 425), ("open_tree", 428), ("move_mount", 429),
+    ("fsopen", 430), ("fsconfig", 431), ("fsmount", 432), ("fspick", 433),
 )
 
 
@@ -79,10 +83,12 @@ def assemble_block_dangerous(machine: str) -> list[tuple[int, int, int, int]] | 
 
 
 def install_seccomp(prog: list[tuple[int, int, int, int]]) -> None:
-    """在**当前进程**安装过滤器。仅 Linux 调用（在 preexec_fn 里跑）。
+    """在**当前进程**安装过滤器。仅 Linux 调用。
 
-    失败抛 OSError —— 调用方（preexec_fn）必须让它炸出去：
-    过滤器装不上就宁可进程起不来，也不能裸奔（fail-closed）。
+    由 Sandbox.wrap() 的 bootstrap shim 在 unshare(1) 完成 namespace 设置
+    **之后**执行（早期的 preexec_fn 设计已废弃：过滤器 deny unshare(2)，
+    必须等 namespace 就绪再装）。失败抛 OSError —— shim 里任何异常都会
+    让驱动起不来，而不是裸奔 exec（fail-closed）。
     """
     machine = platform.machine()
     sys_seccomp = SYS_SECCOMP.get(machine)

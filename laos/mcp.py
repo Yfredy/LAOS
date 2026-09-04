@@ -14,10 +14,12 @@ from __future__ import annotations
 
 import json
 import os
+import platform
 import subprocess
 import sys
 import threading
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any, Callable
 
 PROTOCOL_VERSION = "2025-06-18"
@@ -246,6 +248,24 @@ class MCPClient:
     @property
     def pid(self) -> int | None:
         return self._proc.pid if self._proc else None
+
+    @property
+    def driver_pid(self) -> int | None:
+        """真实驱动进程 pid（unshare --fork 的直接子进程；shim execvp 后 pid 稳定）。
+
+        非 Linux、无 /proc 或解析失败时回退 wrapper pid —— 调用方无需分支。
+        """
+        if self._proc is None:
+            return None
+        wrapper = self._proc.pid
+        if platform.system() != "Linux":
+            return wrapper
+        try:
+            raw = (Path("/proc") / str(wrapper) / "task" / str(wrapper) / "children").read_text()
+            kids = raw.split()
+            return int(kids[0]) if kids else wrapper
+        except (OSError, ValueError):
+            return wrapper
 
     # -- RPC --------------------------------------------------------------
     def _rpc(self, method: str, params: dict | None = None, notify: bool = False) -> dict:

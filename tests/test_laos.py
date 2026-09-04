@@ -275,6 +275,12 @@ class TestDrivers(KernelTestCase):
             "# taint", (self.main.workspace / "workspace" / "hosts").read_text(encoding="utf-8"),
             "写分支污染了 main（驱动写路径没有 CoW 断链）",
         )
+        # 反向闭合：main 没被污染的同时，分支文件必须真的写进去了，
+        # 否则 cow_append 静默 no-op 也能让上面的断言空转通过
+        self.assertIn(
+            "# taint", (exp.workspace / "workspace" / "hosts").read_text(encoding="utf-8"),
+            "分支文件未实际写入（cow_append 静默 no-op）",
+        )
 
 
 class TestAgent(KernelTestCase):

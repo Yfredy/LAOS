@@ -96,7 +96,8 @@ class Sandbox:
             "import os, sys; sys.path.insert(0, r'" + str(repo) + "'); "
             "from laos.seccomp import assemble_block_dangerous, install_seccomp; "
             "prog = assemble_block_dangerous(os.uname().machine); "
-            "prog is not None and install_seccomp(prog); "
+            # 组装失败必须 abort 子进程，绝不能 execvp 一个无过滤器的裸驱动（fail-closed）
+            "prog is None and sys.exit(1); install_seccomp(prog); "
             "os.execvp(sys.argv[1], sys.argv[1:])"
         )
         return [sys.executable, "-c", shim]
