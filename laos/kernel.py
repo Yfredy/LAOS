@@ -1,0 +1,348 @@
+"""laosd —— Linux AgentOS 的内核（用户态实现）。
+
+它不替代 Linux kernel，而是**架在 Linux kernel 之上的薄内核**：
+
+    真 Linux kernel   : 线程调度、内存、namespace / cgroup / seccomp 强制隔离
+    laosd（本文件）   : Agent 进程表、能力检查、MCP 驱动路由、审计、上下文配额
+
+因此所有特权操作最终仍由 Linux 执行，laosd 只负责"允许不允许、记不记、
+怎么路由"。这也是"Linux AgentOS = Linux kernel + Agent + MCP"里最务实的
+一段：语义层自己写，强制层交给内核。
+"""
+
+from __future__ import annotations
+
+import asyncio
+import json
+import os
+import time
+from dataclasses import asdict, dataclass, field
+from pathlib import Path
+from typing import Any
+
+from .branch import BranchTable
+from .mcp import MCPClient, ToolSpec
+from .sandbox import IsolationReport, Sandbox
+from .scheduler import AgentScheduler
+
+# --------------------------------------------------------------------------
+# 能力（capability）—— 点分命名 + 通配，等价于 Linux 的 CAP_* 位图
+# --------------------------------------------------------------------------
+
+
+class CapabilitySet:
+    """支持 `*`（全部）、`fs.*`（整个驱动）、`fs.read`（单条调用）三级粒度。"""
+
+    def __init__(self, patterns: list[str] | None = None):
+        self.patterns = set(patterns or [])
+
+    def allows(self, tool: str) -> bool:
+        if "*" in self.patterns:
+            return True
+        if tool in self.patterns:
+            return True
+        driver = tool.split(".", 1)[0]
+        return f"{driver}.*" in self.patterns
+
+    def __repr__(self) -> str:
+        return f"CapabilitySet({sorted(self.patterns)})"
+
+    def delegate(self, subset: list[str]) -> "CapabilitySet":
+        """委派子集：结果必须 ⊆ 自身能力，越权即 ValueError（可委派不可提升）。"""
+        cand = CapabilitySet(subset)
+        for pat in cand.patterns:
+            # 该模式必须能被 self 覆盖：要么 self 含 '*'，要么 self 含该模式，
+            # 要么 self 含其驱动通配（如委派 fs.read 需 self 有 fs.* 或 fs.read）
+            if "*" in self.patterns:
+                continue
+            if pat in self.patterns:
+                continue
+            driver = pat.split(".", 1)[0]
+            if f"{driver}.*" in self.patterns:
+                continue
+            raise ValueError(f"cannot delegate {pat!r}: not granted to parent")
+        return cand
+
+
+# --------------------------------------------------------------------------
+# PCB —— Agent 进程控制块
+# --------------------------------------------------------------------------
+@dataclass
+class PCB:
+    pid: int
+    name: str
+    caps: CapabilitySet
+    state: str = "ready"  # ready | running | blocked | zombie | killed
+    parent: int = 0
+    created_at: float = field(default_factory=time.time)
+    ctx: Any = None  # ContextManager
+    stats: dict = field(default_factory=lambda: {"syscalls": 0, "denied": 0, "tokens": 0})
+    branch: str | None = None
+    budget: int | None = None  # 最大 syscall 次数，None = 无限
+
+    def to_dict(self) -> dict:
+        d = asdict(self)
+        d.pop("ctx", None)
+        d["caps"] = sorted(self.caps.patterns)
+        return d
+
+
+# --------------------------------------------------------------------------
+# 审计 —— 相当于 strace + auditd 的合体
+# --------------------------------------------------------------------------
+class AuditLog:
+    def __init__(self, path: Path, mode: str = "w"):
+        """mode='w' 表示每次 laosd 启动重写一次审计轨迹，便于 demo 复现；
+        生产环境应传 'a' 做累积审计。"""
+        self.path = Path(path)
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        self._fh = self.path.open(mode, encoding="utf-8")
+        self.records: list[dict] = []
+
+    def write(self, record: dict) -> None:
+        self.records.append(record)
+        self._fh.write(json.dumps(record, ensure_ascii=False) + "\n")
+        self._fh.flush()
+
+    def close(self) -> None:
+        self._fh.close()
+
+
+# --------------------------------------------------------------------------
+# 内核
+# --------------------------------------------------------------------------
+class AgentKernel:
+    def __init__(
+        self,
+        workdir: Path,
+        isolation: IsolationReport | None = None,
+        audit_mode: str = "w",
+        irreversibility_budget: int | None = None,
+        confirm=None,
+    ):
+        self.workdir = Path(workdir)
+        self.workdir.mkdir(parents=True, exist_ok=True)
+        self.drivers: dict[str, MCPClient] = {}
+        self.syscall_table: dict[str, tuple[str, ToolSpec]] = {}  # tool -> (driver, spec)
+        self.procs: dict[int, PCB] = {}
+        self.audit = AuditLog(self.workdir / "audit.jsonl", mode=audit_mode)
+        self.branches = BranchTable(self.workdir / "branches")
+        self.sandbox = Sandbox(self.workdir)
+        self.isolation = isolation or self.sandbox.report
+        self._next_pid = 1000
+        self._sched_lock = asyncio.Lock()
+        self.scheduler = AgentScheduler()
+        # driver 是单工 stdio 会话，同一 driver 的 RPC 必须串行（并发写会挂死）
+        self._driver_locks: dict[str, asyncio.Lock] = {}
+        self._agent_token_budget = int(os.environ.get("LAOS_AGENT_TOKENS", "0")) or None
+        self.irreversibility_budget = (
+            irreversibility_budget
+            if irreversibility_budget is not None
+            else int(os.environ.get("LAOS_IRREV_BUDGET", "3"))
+        )
+        self.confirm = confirm or self._cli_confirm
+        self.boot_at = time.time()
+
+    # -- 驱动管理（insmod / rmmod）---------------------------------------
+    def load_driver(self, name: str, argv: list[str], env: dict | None = None) -> MCPClient:
+        # 驱动子进程经 sandbox 包装启动（Linux 上 unshare 隔离，跨平台降级原样）
+        client = MCPClient(name, self.sandbox.wrap(argv), env=env)
+        client.start()
+        self.drivers[name] = client
+        for tool in client.tools.values():
+            self.syscall_table[tool.name] = (name, tool)
+        self.audit.write(
+            {"t": time.time(), "event": "driver_load", "driver": name, "tools": len(client.tools)}
+        )
+        return client
+
+    def unload_driver(self, name: str) -> None:
+        client = self.drivers.pop(name, None)
+        if client:
+            client.close()
+            for tool in [t for t, (d, _) in self.syscall_table.items() if d == name]:
+                self.syscall_table.pop(tool, None)
+        self.audit.write({"t": time.time(), "event": "driver_unload", "driver": name})
+
+    def close_all_drivers(self) -> None:
+        for name in list(self.drivers):
+            self.unload_driver(name)
+
+    # -- 进程管理（fork / kill / ps）--------------------------------------
+    def spawn(
+        self,
+        name: str,
+        caps: list[str],
+        ctx: Any,
+        branch: str | None = None,
+        parent: int = 0,
+        budget: int | None = None,
+    ) -> PCB:
+        self._next_pid += 1
+        pcb = PCB(
+            pid=self._next_pid,
+            name=name,
+            caps=CapabilitySet(caps),
+            ctx=ctx,
+            branch=branch,
+            parent=parent,
+            budget=budget,
+        )
+        self.procs[pcb.pid] = pcb
+        self.scheduler.register(pcb.pid, token_budget=self._agent_token_budget)
+        self.audit.write(
+            {"t": time.time(), "event": "spawn", "pid": pcb.pid, "name": name, "caps": caps}
+        )
+        return pcb
+
+    def kill(self, pid: int, sig: str = "SIGTERM") -> bool:
+        pcb = self.procs.get(pid)
+        if not pcb or pcb.state in ("zombie", "killed"):
+            return False
+        pcb.state = "killed"
+        self.scheduler.retire(pid)
+        self.audit.write({"t": time.time(), "event": "kill", "pid": pid, "sig": sig})
+        return True
+
+    def ps(self) -> list[dict]:
+        return [p.to_dict() for p in self.procs.values()]
+
+    # -- 系统调用网关 -----------------------------------------------------
+    async def syscall(self, pid: int, tool: str, args: dict | None = None) -> Any:
+        """AgentOS 的核心入口，等价于 glibc 里的 syscall()。
+
+        流程：解析 -> 查表 -> 进程状态检查 -> 能力检查 -> 预算检查
+              -> 驱动调用 -> 审计 -> 返回
+        """
+        from .mcp import CallResult
+        from .validate import ValidationError, validate_args
+
+        args = args or {}
+        started = time.perf_counter()
+        pcb = self.procs.get(pid)
+        if pcb is None:
+            return CallResult.fail("ESRCH: no such process")
+        if pcb.state == "killed":
+            return CallResult.fail("EACCES: process killed")
+
+        entry = self.syscall_table.get(tool)
+        if entry is None:
+            return self._deny(pcb, tool, args, started, "ENOSYS: no such syscall")
+        driver_name, _spec = entry
+
+        if not pcb.caps.allows(tool):
+            return self._deny(pcb, tool, args, started, "EPERM: capability not granted")
+
+        # 参数校验：dispatch 前由内核强制（堵 AIOS Tool Manager 无校验的洞）
+        try:
+            validate_args(_spec.input_schema, args)
+        except ValidationError as ve:
+            return self._deny(pcb, tool, args, started, str(ve))
+
+        # 不可逆闸门：预算是硬上限（耗尽直接拒，确认也不放行），high risk 需人类确认
+        if not _spec.reversible:
+            if self.irreversibility_budget <= 0:
+                return self._deny(pcb, tool, args, started,
+                                  "EACCES: irreversibility budget exhausted")
+            if _spec.risk == "high" and not self.confirm(
+                {"tool": tool, "args": args, "risk": _spec.risk}
+            ):
+                return self._deny(pcb, tool, args, started,
+                                  "EACCES: irreversible operation requires confirmation")
+            self.irreversibility_budget -= 1
+
+        if pcb.budget is not None and pcb.stats["syscalls"] >= pcb.budget:
+            return self._deny(pcb, tool, args, started, "EDQUOT: syscall budget exhausted")
+
+        # 驱动调用放进线程：stdio RPC 是阻塞的，不能卡住事件循环。
+        # 同一 driver 的调用按设备互斥（单工 stdio 会话），不同 driver 可并行。
+        pcb.state = "running"
+        try:
+            async with self._driver_locks.setdefault(driver_name, asyncio.Lock()):
+                result = await asyncio.to_thread(
+                    self.drivers[driver_name].call_tool, tool, args
+                )
+        except Exception as exc:
+            result = CallResult.fail(f"EIO: driver {driver_name} failed: {exc}")
+        finally:
+            pcb.state = "ready" if pcb.state != "killed" else "killed"
+
+        elapsed_ms = (time.perf_counter() - started) * 1000
+        pcb.stats["syscalls"] += 1
+        self.audit.write(
+            {
+                "t": time.time(),
+                "event": "syscall",
+                "pid": pid,
+                "agent": pcb.name,
+                "tool": tool,
+                "driver": driver_name,
+                "args": args,
+                "ok": result.ok,
+                "ms": round(elapsed_ms, 2),
+                "result": result.text[:500],
+            }
+        )
+        return result
+
+    def _deny(self, pcb: PCB, tool: str, args: dict, started: float, err: str):
+        from .mcp import CallResult
+
+        pcb.stats["denied"] += 1
+        self.audit.write(
+            {
+                "t": time.time(),
+                "event": "syscall",
+                "pid": pcb.pid,
+                "agent": pcb.name,
+                "tool": tool,
+                "args": args,
+                "ok": False,
+                "ms": round((time.perf_counter() - started) * 1000, 2),
+                "result": err,
+            }
+        )
+        return CallResult.fail(err)
+
+    @staticmethod
+    def _cli_confirm(op: dict) -> bool:
+        # 默认准入回调：CLI 交互确认；非交互环境（EOF）默认拒绝
+        try:
+            return input(f"allow {op['tool']}? [y/N] ").lower() == "y"
+        except EOFError:
+            return False
+
+    # -- 调度器：LLM 是最贵的资源，也要有时间片 ---------------------------
+    def scheduler_ctx(self) -> "AgentScheduler":
+        # 保留兼容接口；实际调度由 self.scheduler 在 agent._do_syscall 中驱动
+        return self.scheduler
+
+    # -- 观测 -------------------------------------------------------------
+    def lsmod(self) -> list[dict]:
+        return [
+            {
+                "driver": name,
+                "pid": c.pid,
+                "tools": [t.name for t in c.tools.values()],
+            }
+            for name, c in self.drivers.items()
+        ]
+
+    def syscalls(self) -> list[str]:
+        return sorted(self.syscall_table)
+
+    def status(self) -> dict:
+        return {
+            "uptime_s": round(time.time() - self.boot_at, 2),
+            "isolation": str(self.isolation),
+            "drivers": len(self.drivers),
+            "syscalls": len(self.syscall_table),
+            "processes": len(self.procs),
+            "branches": self.branches.list(),
+            "audit_records": len(self.audit.records),
+        }
+
+    def shutdown(self) -> None:
+        self.close_all_drivers()
+        self.audit.write({"t": time.time(), "event": "shutdown"})
+        self.audit.close()
