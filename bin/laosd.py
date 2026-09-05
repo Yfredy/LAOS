@@ -100,7 +100,7 @@ async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
         "只能通过系统调用（MCP tool）操作世界，越权调用会被内核拒绝并返回 errno。"
     )
 
-    def new_agent(name: str, caps: list[str], brain) -> Agent:
+    def new_agent(name: str, caps: list[str], brain, task_scope=None) -> Agent:
         ctx = ContextManager(
             system_prompt=system_prompt,
             max_tokens=int(os.environ.get("LAOS_CTX_TOKENS", "2000")),
@@ -112,9 +112,11 @@ async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
             ctx=ctx,
             branch="exp-A",
             budget=int(os.environ.get("LAOS_BUDGET", "8")),
+            task_scope=task_scope,
         )
         agent = Agent(kernel, pcb, brain, max_steps=int(os.environ.get("LAOS_STEPS", "8")))
-        print(f"  pid={pcb.pid} name={pcb.name} caps={sorted(pcb.caps.patterns)}")
+        print(f"  pid={pcb.pid} name={pcb.name} caps={sorted(pcb.caps.patterns)} "
+              f"scope={pcb.task_scope}")
         print(f"        可见 syscalls: {[t['name'] for t in agent.visible_tools]}")
         return agent
 
@@ -124,7 +126,8 @@ async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
         ["sys.*", "fs.*", "proc.*", "msg.*"],
         OpenAIChatBrain() if use_real else ScriptedBrain(branch="exp-A"),
     )
-    # guest-agent：只给了 sys.*，却硬要调 fs.read —— 用来演示内核层的 EPERM
+    # guest-agent：只给了 sys.*，却硬要调 fs.read —— 用来演示内核层的 EPERM；
+    # task_scope 把它的任务边界收窄到 /exp-A/（能力随任务意图收窄）
     guest = new_agent(
         "guest-agent",
         ["sys.*", "msg.*"],
@@ -135,6 +138,7 @@ async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
             deny_probe="fs.read",
             deny_args={"path": "/exp-A/workspace/hosts"},
         ),
+        task_scope=["/exp-A/"],
     )
     print(f"  brain={ops.brain.name}")
 
@@ -248,7 +252,12 @@ async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
     if denied:
         print("\n  被拒绝的 syscall（两层防御都命中了）：")
         for r in denied:
-            layer = "内核能力表" if r["result"].startswith("EPERM") else "驱动防护"
+            if r["result"].startswith("EPERM"):
+                layer = "内核能力表"
+            elif "outside task scope" in r["result"]:
+                layer = "内核 task_scope"
+            else:
+                layer = "驱动防护"
             print(f"    [{layer}] pid={r['pid']} {r['tool']} -> {r['result']}")
 
     hr("7. 内核状态")

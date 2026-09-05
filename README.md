@@ -10,7 +10,7 @@
 ```bash
 python bin/laosd.py                    # 跑完整 demo（脚本化大脑，无需 API key）
 python bin/laosd.py --real             # 有 OPENAI_API_KEY 时用真 LLM
-python -m unittest discover -s tests   # 125 项回归测试
+python -m unittest discover -s tests   # 131 项回归测试
 ```
 
 ---
@@ -214,6 +214,10 @@ python bin/laosctl.py spans     # AgentProf 语义剖析回放
 > 驱动侧 `elicitation/create` 请求统一路由到内核 `confirm` 人类在环闸门
 > （`drv_proc` 的 `LAOS_EXEC_ELICIT=1` 白名单外放行即建于此机制上）。
 
+> 能力随任务意图收窄（Oracle Labs 思想）：`spawn` 支持 `task_scope` 虚拟路径前缀白名单——
+> 能力说"能读文件"，任务说"读哪些文件"；内核在能力检查之后强制越界即
+> `EACCES: outside task scope`，任务边界随 fork 血统继承，不因分支或能力委托放宽。
+
 ---
 
 ## 七、目录结构
@@ -222,7 +226,9 @@ python bin/laosctl.py spans     # AgentProf 语义剖析回放
 laos/
   laos/
     mcp.py        MCP 2026-07-28 子集（Tasks/Elicitation）+ JSON-RPC 2.0 over stdio
-    kernel.py     laosd 薄内核：PCB、能力表、syscall 网关、审计、分支表、内建 IPC
+    kernel.py     laosd 薄内核：PCB（caps / budget / risk_cap / task_scope）、能力表、
+                  syscall 网关（能力 → task_scope 意图收窄 → 校验 → 预算 → 风险）、审计、
+                  分支表、内建 IPC
     agent.py      Agent 运行时（ReAct 循环）
     brain.py      Brain 接口 + ScriptedBrain（确定性）+ OpenAIChatBrain（真 LLM）
     context.py    Context Manager：窗口 / 摘要压缩 / swap / 观察簿（stale 检测）
@@ -242,7 +248,7 @@ laos/
     laosd.py      引导器（init）：加载驱动 → fork 分支 → 起 Agent → commit
     laosctl.py    控制面：ps / top / trace / denied / audit
   tests/
-    test_*.py     125 项回归测试（laos / ipc / seccomp / cow / profiling / sandbox 等 16 个文件）
+    test_*.py     131 项回归测试（laos / ipc / scope / seccomp / cow / profiling / sandbox 等 17 个文件）
   var/            运行期产物：audit.jsonl / branches/ / swap/
 ```
 
