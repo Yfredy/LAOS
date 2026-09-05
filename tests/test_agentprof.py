@@ -56,5 +56,28 @@ class TestBuildSpans(unittest.TestCase):
         self.assertTrue(any("tool monoculture" not in f for f in flags))  # 3/4 未到 0.8
 
 
+class TestOtlpExport(unittest.TestCase):
+    def test_export_shape(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            spans = build_spans(_recs())
+            paths = export_otlp(spans, Path(td) / "traces")
+            self.assertEqual(len(paths), 1)
+            doc = json.loads(paths[0].read_text(encoding="utf-8"))
+            rs = doc["resourceSpans"][0]
+            attrs = {a["key"]: a["value"] for a in rs["resource"]["attributes"]}
+            self.assertEqual(attrs["laos.pid"]["intValue"], 1001)
+            spans_list = rs["scopeSpans"][0]["spans"]
+            self.assertEqual(len(spans_list), 4)
+            first = spans_list[0]
+            self.assertEqual(len(first["traceId"]), 32)
+            self.assertEqual(len(first["spanId"]), 16)
+            self.assertIn(first["status"]["code"],
+                          ("STATUS_CODE_OK", "STATUS_CODE_ERROR"))
+            denied = [s for s in spans_list if s["status"]["code"] == "STATUS_CODE_ERROR"]
+            self.assertEqual(len(denied), 1)
+            self.assertEqual(denied[0]["name"], "proc.exec")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
