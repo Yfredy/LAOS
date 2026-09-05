@@ -345,6 +345,10 @@ def main() -> int:
 
     kernel = laosd.boot_kernel(laosd.WORKDIR)
     laosd.seed_main_branch(kernel)
+    # 面板场景没有可交互 stdin：confirm 绝不读终端（读终端会阻塞 demo 线程）。
+    # 默认拒绝（高危操作在确认关被拦，审计流里可见）；LAOS_CONFIRM=yes 自动放行。
+    kernel.confirm = lambda op: os.environ.get(
+        "LAOS_CONFIRM", "no").lower() in ("1", "yes", "y", "true")
     _kernel = kernel
 
     def _run_demo():
