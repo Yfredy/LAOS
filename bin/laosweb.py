@@ -51,6 +51,7 @@ _pending: dict[str, dict] = {}
 _auto_yes = False             # confirm=auto-yes 时秒答 True（跳过横幅，照常计费）
 _operator_pid: int | None = None  # 人也是进程：operator 的 pid（信箱入口）
 _demo_gen = 0                 # demo 代数：restart 后旧线程不得置结束徽标
+_restart_lock = threading.Lock()  # 防并发 restart（双击/浏览器重试）把面板搞坏
 
 
 def set_kernel(kernel) -> None:
@@ -609,7 +610,10 @@ def _handle_msg(body: dict) -> tuple[int, dict]:
 
 
 def _handle_recv(body: dict) -> tuple[int, dict]:
-    """POST /api/recv {"pid"}：以该 pid 自己的身份收取信箱（内建 syscall）。"""
+    """POST /api/recv {"pid"}：以该 pid 自己的身份收取信箱（内建 syscall）。
+
+    设计选择：localhost-only 面板，无鉴权，任何浏览器用户可读任意进程信箱。
+    """
     kernel = get_kernel()
     if kernel is None:
         return 503, {"error": "kernel not available"}
@@ -630,6 +634,16 @@ def _handle_restart(body: dict) -> tuple[int, dict]:
     新栈完全就绪（cutover）后才 shutdown 旧内核——boot 半途失败时面板
     永不 503。env 先写再 boot（boot_kernel 从环境读 LAOS_RISK_BUDGET）。
     """
+    if not _restart_lock.acquire(blocking=False):
+        return 409, {"error": "restart already in progress"}
+    try:
+        return _do_restart(body)
+    finally:
+        _restart_lock.release()
+
+
+def _do_restart(body: dict) -> tuple[int, dict]:
+    """restart 的真正实现（由 _restart_lock 串行化）。"""
     confirm = body.get("confirm", "no")
     if confirm not in ("no", "auto-yes"):
         return 400, {"error": "confirm must be 'no' or 'auto-yes'"}
@@ -758,8 +772,9 @@ def main() -> int:
         pass
     finally:
         # 关当前内核（restart 可能已换过持有者）
-        if get_kernel() is not None:
-            get_kernel().shutdown()
+        k = get_kernel()
+        if k is not None:
+            k.shutdown()
         print("laosweb 已关闭")
     return 0
 
