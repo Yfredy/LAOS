@@ -150,6 +150,8 @@ class AgentKernel:
             reserve=int(os.environ.get("LAOS_RISK_RESERVE", "1")),
         )
         self.confirm = confirm or self._cli_confirm
+        # MCP Tasks（2026-07-28）：task 路径轮询 tasks/result 的总超时
+        self.task_timeout = float(os.environ.get("LAOS_TASK_TIMEOUT", "30"))
         self.boot_at = time.time()
 
     # -- 兼容层：旧接口 irreversibility_budget 读写映射到车队账本 -----------
@@ -168,6 +170,9 @@ class AgentKernel:
         # 驱动子进程经 sandbox 包装启动（Linux 上 unshare 隔离 + seccomp shim，
         # 跨平台降级原样）
         client = MCPClient(name, self.sandbox.wrap(argv), env=env)
+        # server→client 请求（elicitation/create）走内核 confirm 路由：
+        # 必须在 start()（initialize 握手）之前装好
+        client.on_server_request = self._on_elicit
         client.start()
         # cgroup v2 资源上限：仅 root + cgroupfs 可写时生效，否则 None（降级）。
         # attach 目标是真实驱动进程（unshare --fork 的直接子进程），
@@ -255,11 +260,15 @@ class AgentKernel:
         return [p.to_dict() for p in self.procs.values()]
 
     # -- 系统调用网关 -----------------------------------------------------
-    async def syscall(self, pid: int, tool: str, args: dict | None = None) -> Any:
+    async def syscall(self, pid: int, tool: str, args: dict | None = None,
+                      task: bool = False) -> Any:
         """AgentOS 的核心入口，等价于 glibc 里的 syscall()。
 
         流程：解析 -> 查表 -> 进程状态检查 -> 能力检查 -> 预算检查
               -> 驱动调用 -> 审计 -> 返回
+
+        task=True（MCP Tasks 2026-07-28）：驱动声明了 tasks capability 时走
+        call_tool_task + task_result 异步路径，否则降级为同步路径（不是错误）。
         """
         from .mcp import CallResult
         from .validate import ValidationError, validate_args
@@ -315,12 +324,19 @@ class AgentKernel:
 
         # 驱动调用放进线程：stdio RPC 是阻塞的，不能卡住事件循环。
         # 同一 driver 的调用按设备互斥（单工 stdio 会话），不同 driver 可并行。
+        # task 路径同样包在同一把 driver 锁里：call_tool_task 发起 + task_result
+        # 轮询必须独占单工会话，与同步路径互斥。
         pcb.state = "running"
         try:
             async with self._driver_locks.setdefault(driver_name, asyncio.Lock()):
-                result = await asyncio.to_thread(
-                    self.drivers[driver_name].call_tool, tool, args
-                )
+                client = self.drivers[driver_name]
+                if task and client.capabilities.get("tasks"):
+                    def _run_task():
+                        task_id = client.call_tool_task(tool, args)
+                        return client.task_result(task_id, timeout_s=self.task_timeout)
+                    result = await asyncio.to_thread(_run_task)
+                else:
+                    result = await asyncio.to_thread(client.call_tool, tool, args)
         except Exception as exc:
             result = CallResult.fail(f"EIO: driver {driver_name} failed: {exc}")
         finally:
@@ -371,6 +387,15 @@ class AgentKernel:
             }
         )
         return CallResult.fail(err)
+
+    def _on_elicit(self, method: str, params: dict) -> dict:
+        """驱动 elicitation/create → 内核 confirm（人类在环，协议内机制）。"""
+        if method != "elicitation/create":
+            raise RuntimeError(f"ENOSYS: client does not support {method}")
+        ok = self.confirm({"tool": "elicitation",
+                           "message": params.get("message", ""),
+                           "risk": "high"})
+        return {"action": "accept" if ok else "decline", "value": ""}
 
     @staticmethod
     def _cli_confirm(op: dict) -> bool:

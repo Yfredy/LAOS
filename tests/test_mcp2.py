@@ -57,6 +57,46 @@ class TestBidirectionalRequests(_DriverCase):
         self.assertIn("EDENIED", res.text)
 
 
+class TestKernelTasksAndElicit(unittest.TestCase):
+    """内核接线：syscall(task=True) 任务路径 + elicitation→confirm 路由。"""
+
+    def setUp(self):
+        import asyncio
+        import tempfile
+
+        from laos.context import ContextManager
+        from laos.kernel import AgentKernel
+
+        self.asyncio = asyncio
+        self._td = tempfile.TemporaryDirectory()
+        self.kernel = AgentKernel(Path(self._td.name) / "var", confirm=lambda op: True)
+        self.kernel.load_driver("fix", [sys.executable, str(FIX_DRIVER)])
+        # load_driver 已把 fix 驱动的全部工具注册进 syscall_table（echo/elicit_gate/slow）
+        ctx = ContextManager(system_prompt="t", max_tokens=2000)
+        self.pcb = self.kernel.spawn(name="a", caps=["*"], ctx=ctx)
+
+    def tearDown(self):
+        self.kernel.shutdown()
+        self._td.cleanup()
+
+    def test_task_true_completes(self):
+        res = self.asyncio.run(self.kernel.syscall(
+            self.pcb.pid, "echo", {"text": "hello"}, task=True))
+        self.assertTrue(res.ok, res.error)
+        self.assertIn("ECHO: hello", res.text)
+
+    def test_elicit_routes_to_confirm(self):
+        seen = []
+        self.kernel.confirm = lambda op: seen.append(op) or False
+        res = self.asyncio.run(self.kernel.syscall(
+            self.pcb.pid, "elicit_gate", {"text": "x"}))
+        self.assertFalse(res.ok)
+        self.assertIn("EDENIED", res.text)  # confirm False → decline → driver 抛 EDENIED
+        # confirm 收到的必须是 elicitation 语义的 op（人类在环路由生效的证据）
+        self.assertEqual(
+            seen, [{"tool": "elicitation", "message": "allow x?", "risk": "high"}])
+
+
 class TestTasks(_DriverCase):
     """MCP Tasks：tools/call 异步执行 + tasks/get / tasks/result 轮询。"""
 
