@@ -105,6 +105,29 @@ def cmd_ps(records: list[dict], args) -> None:
     print("\n  syscalls=成功执行  denied=内核能力表拒绝  failed=驱动拒绝")
 
 
+def cmd_budget(records: list[dict], args) -> None:
+    """Irreversibility Budget 2.0 的车队风险账本回放。"""
+    spent = 0
+    per_agent: Counter = Counter()
+    per_tool: Counter = Counter()
+    denied_admissions = 0
+    for r in records:
+        if r.get("event") == "risk_spend":
+            spent += r["cost"]
+            per_agent[r["pid"]] += r["cost"]
+            per_tool[r["tool"]] += r["cost"]
+        elif r.get("event") == "admission" and r.get("decision") == "deny":
+            denied_admissions += 1
+    print(f"fleet spent: {spent}")
+    print(f"{'pid':<10}{'risk_spent':>12}")
+    for pid, s in per_agent.most_common():
+        print(f"{pid:<10}{s:>12}")
+    print(f"\n{'tool':<16}{'risk_spent':>12}")
+    for tool, s in per_tool.most_common():
+        print(f"{tool:<16}{s:>12}")
+    print(f"\n  denied admissions: {denied_admissions}")
+
+
 def cmd_prof(records: list[dict], args) -> None:
     profs = [r for r in records if r.get("event") == "prof_summary"]
     if not profs:
@@ -122,7 +145,8 @@ def cmd_prof(records: list[dict], args) -> None:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="laosctl —— Linux AgentOS 控制面")
-    ap.add_argument("command", choices=["audit", "trace", "denied", "top", "ps", "prof"])
+    ap.add_argument("command", choices=["audit", "trace", "denied", "top", "ps", "prof",
+                                        "budget"])
     ap.add_argument("--file", type=str, default=str(DEFAULT_AUDIT))
     ap.add_argument("--pid", type=int)
     ap.add_argument("--event", type=str)
@@ -130,7 +154,8 @@ def main() -> int:
 
     records = load(Path(args.file))
     {"audit": cmd_audit, "trace": cmd_trace, "denied": cmd_denied,
-     "top": cmd_top, "ps": cmd_ps, "prof": cmd_prof}[args.command](records, args)
+     "top": cmd_top, "ps": cmd_ps, "prof": cmd_prof,
+     "budget": cmd_budget}[args.command](records, args)
     return 0
 
 

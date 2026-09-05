@@ -13,6 +13,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
+sys.path.insert(0, str(REPO / "bin"))  # bin/ 非包，路径注入以便 import laosctl
 
 from laos.kernel import AgentKernel, CapabilitySet, PCB  # noqa: E402
 from laos.mcp import ToolSpec  # noqa: E402
@@ -180,6 +181,34 @@ class TestAdmissionControl(unittest.TestCase):
         self.k.spawn(name="a", caps=["sys.*"], ctx=object())
         spawns = [r for r in self.k.audit.records if r.get("event") == "spawn"]
         self.assertEqual(spawns[0]["fleet_remaining"], 2)
+
+
+class TestLaosctlBudget(unittest.TestCase):
+    def _records(self):
+        return [
+            {"t": 1, "event": "risk_spend", "pid": 1001, "tool": "proc.exec",
+             "cost": 3, "agent_spent": 3, "fleet_spent": 3},
+            {"t": 2, "event": "risk_spend", "pid": 1002, "tool": "t.op",
+             "cost": 1, "agent_spent": 1, "fleet_spent": 4},
+            {"t": 3, "event": "admission", "name": "late", "decision": "deny",
+             "fleet_remaining": 1},
+            {"t": 4, "event": "spawn", "pid": 1003, "name": "n", "caps": [],
+             "risk_cap": None, "fleet_remaining": 4},
+        ]
+
+    def test_budget_report(self):
+        import io
+        import contextlib
+        from laosctl import cmd_budget  # laosctl 以脚本存放但可导入
+
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            cmd_budget(self._records(), None)
+        out = buf.getvalue()
+        self.assertIn("fleet spent: 4", out)
+        self.assertIn("1001", out)
+        self.assertIn("proc.exec", out)
+        self.assertIn("denied admissions: 1", out)
 
 
 if __name__ == "__main__":
