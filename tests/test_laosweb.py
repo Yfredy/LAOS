@@ -162,6 +162,12 @@ class TestHttp(unittest.TestCase):
             self.assertIn("text/html", resp.headers["Content-Type"])
             body = resp.read().decode("utf-8")
         self.assertIn("laosweb", body)
+        # 静态骨架唯一性（防 per-tick 重复渲染回归）：单 h1、六个固定面板体
+        self.assertEqual(body.count("<h1"), 1)
+        self.assertEqual(body.count('class="panel'), 6)
+        for panel_id in ("procs-body", "branches-body", "risk-body",
+                         "sched-body", "audit-body", "syscalls-body"):
+            self.assertEqual(body.count(f'id="{panel_id}"'), 1)
 
     def test_unknown_path_404(self):
         with self.assertRaises(urllib.error.HTTPError) as cm:

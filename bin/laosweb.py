@@ -115,12 +115,12 @@ PAGE = r"""<!doctype html>
   <div class="chips" id="chips"></div>
 </header>
 <div class="grid">
-  <section class="panel"><h2>进程表</h2><div id="procs"></div></section>
-  <section class="panel"><h2>分支树</h2><div id="branches"></div></section>
-  <section class="panel"><h2>风险账本</h2><div id="risk"></div></section>
-  <section class="panel"><h2>调度快照</h2><div id="sched"></div></section>
-  <section class="panel wide"><h2>审计流（最新在上）</h2><div id="audit"></div></section>
-  <section class="panel wide"><h2>系统调用表</h2><div id="sys"></div></section>
+  <section class="panel"><h2>进程表</h2><div id="procs-body"></div></section>
+  <section class="panel"><h2>分支树</h2><div id="branches-body"></div></section>
+  <section class="panel"><h2>风险账本</h2><div id="risk-body"></div></section>
+  <section class="panel"><h2>调度快照</h2><div id="sched-body"></div></section>
+  <section class="panel wide"><h2>审计流（最新在上）</h2><div id="audit-body"></div></section>
+  <section class="panel wide"><h2>系统调用表</h2><div id="syscalls-body"></div></section>
 </div>
 <footer>laosweb v0.1 —— 纯标准库实现，1s 轮询 /api/state</footer>
 <script>
@@ -162,7 +162,7 @@ function renderProcs(s) {
     '</td><td>' + esc(p.stats ? p.stats.syscalls : 0) + '</td><td>' +
     esc(p.stats ? p.stats.denied : 0) + '</td><td>' +
     esc(p.stats ? p.stats.risk : 0) + '</td></tr>').join('');
-  $('procs').innerHTML =
+  $('procs-body').innerHTML =
     '<table><tr><th>pid</th><th>name</th><th>state</th><th>caps</th><th>scope</th>' +
     '<th>branch</th><th>sys</th><th>deny</th><th>risk</th></tr>' + rows + '</table>';
 }
@@ -172,7 +172,7 @@ function renderBranches(s) {
     '<div class="st-' + esc(b.state) + '">' + esc(b.name) + ' [' + esc(b.state) +
     '] changes=' + esc(b.changes) +
     (b.parent ? ' <span class="dim">(← ' + esc(b.parent) + ')</span>' : '') + '</div>').join('');
-  $('branches').innerHTML = rows || '<span class="dim">（无分支）</span>';
+  $('branches-body').innerHTML = rows || '<span class="dim">（无分支）</span>';
 }
 
 function renderRisk(s) {
@@ -188,7 +188,7 @@ function renderRisk(s) {
     '<div class="bar-row"><span>' + esc(k) + '</span><div class="bar"><div style="width:' +
     Math.max(2, Math.round(100 * pt[k] / max)) + '%"></div></div><span>' + esc(pt[k]) +
     '</span></div>').join('') || '<span class="dim">（尚无开销）</span>';
-  $('risk').innerHTML = html;
+  $('risk-body').innerHTML = html;
 }
 
 function renderSched(s) {
@@ -197,11 +197,11 @@ function renderSched(s) {
     ' err=' + esc(r.err_used) + '/' + (r.err_budget == null ? '∞' : esc(r.err_budget)) +
     ' tokens=' + esc(r.token_used) +
     (r.suspended ? ' [挂起: ' + esc(r.reason || '') + ']' : '') + '</div>').join('');
-  $('sched').innerHTML = rows || '<span class="dim">（暂无调度快照）</span>';
+  $('sched-body').innerHTML = rows || '<span class="dim">（暂无调度快照）</span>';
 }
 
 function renderSys(s) {
-  $('sys').innerHTML = (s.syscalls || []).map(t =>
+  $('syscalls-body').innerHTML = (s.syscalls || []).map(t =>
     '<span class="chip" style="margin:2px">' + esc(t) + '</span>').join('');
 }
 
@@ -226,9 +226,24 @@ function eventDesc(r) {
   return r.backend || r.branch || '';
 }
 
-const auditRows = new Map();  // key -> 行 HTML（插入序 = 时间序：旧 -> 新）
+const auditRows = new Map();  // key -> 已见标记（插入序 = 时间序：旧 -> 新）
+const AUDIT_MAX = 200;        // 客户端保留行数上限
+
+function auditRowHtml(r) {
+  const pid = r.pid != null ? r.pid : (r.from != null ? r.from : (r.to != null ? r.to : '-'));
+  const label = r.event === 'syscall' ? r.tool : r.event;
+  let color = '#64748b';
+  if (r.event === 'syscall') color = r.builtin ? BADGE_COLOR.builtin : '#94a3b8';
+  else if (BADGE_COLOR[r.event]) color = BADGE_COLOR[r.event];
+  const cls = r.event === 'syscall' ? (r.ok ? 'ok' : 'err') : '';
+  return '<div class="arow ' + cls + '"><span class="at">' + hms(r.t) + '</span> ' +
+    '<span class="apid">' + esc(pid) + '</span> ' +
+    '<span class="badge" style="color:' + color + '">' + esc(label) + '</span>' +
+    '<span class="ares">→ ' + esc(String(eventDesc(r)).slice(0, 80)) + '</span></div>';
+}
 
 function renderAudit(s) {
+  const body = $('audit-body');            // 固定容器：只追加新行，绝不重建面板
   const recs = s.audit || [];
   const n = recs.length;
   const total = (s.status && s.status.audit_records) || n;
@@ -239,22 +254,13 @@ function renderAudit(s) {
     const gi = Math.max(0, total - n) + i;
     const key = gi + '|' + r.t + '|' + r.tool;
     if (auditRows.has(key)) continue;
-    const pid = r.pid != null ? r.pid : (r.from != null ? r.from : (r.to != null ? r.to : '-'));
-    const label = r.event === 'syscall' ? r.tool : r.event;
-    let color = '#64748b';
-    if (r.event === 'syscall') color = r.builtin ? BADGE_COLOR.builtin : '#94a3b8';
-    else if (BADGE_COLOR[r.event]) color = BADGE_COLOR[r.event];
-    const cls = r.event === 'syscall' ? (r.ok ? 'ok' : 'err') : '';
-    auditRows.set(key,
-      '<div class="arow ' + cls + '"><span class="at">' + hms(r.t) + '</span> ' +
-      '<span class="apid">' + esc(pid) + '</span> ' +
-      '<span class="badge" style="color:' + color + '">' + esc(label) + '</span>' +
-      '<span class="ares">→ ' + esc(String(eventDesc(r)).slice(0, 80)) + '</span></div>');
+    auditRows.set(key, true);
+    body.insertAdjacentHTML('afterbegin', auditRowHtml(r));  // 逐条插到最上 = 最新在上
   }
-  while (auditRows.size > 200) auditRows.delete(auditRows.keys().next().value);
-  let html = '';
-  for (const k of Array.from(auditRows.keys()).reverse()) html += auditRows.get(k);
-  $('audit').innerHTML = html;
+  // 上限 200：顶部最新、底部最旧，超限从底部裁
+  while (body.children.length > AUDIT_MAX) body.removeChild(body.lastChild);
+  // 去重账本同步截尾（窗口内的键必属最新的 200 个，不会被误删重插）
+  while (auditRows.size > AUDIT_MAX) auditRows.delete(auditRows.keys().next().value);
 }
 
 function render(s) {
