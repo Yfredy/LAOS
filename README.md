@@ -209,6 +209,11 @@ python bin/laosctl.py spans     # AgentProf 语义剖析回放
 | **多 Agent 通信** | 共享文件系统 | Agent 间 IPC：消息队列 + 能力委托（capability delegation） |
 | **可观测闭环** | JSONL 审计 | 导出 OpenTelemetry trace，一次任务 = 一条 trace，一次 syscall = 一个 span |
 
+> 驱动总线已升级至 **MCP 2026-07-28 子集：Tasks + Elicitation**（同步路径）：
+> 长任务可经 `syscall(..., task=True)` 异步派发并轮询结果（`LAOS_TASK_TIMEOUT`），
+> 驱动侧 `elicitation/create` 请求统一路由到内核 `confirm` 人类在环闸门
+> （`drv_proc` 的 `LAOS_EXEC_ELICIT=1` 白名单外放行即建于此机制上）。
+
 ---
 
 ## 七、目录结构
@@ -216,7 +221,7 @@ python bin/laosctl.py spans     # AgentProf 语义剖析回放
 ```
 laos/
   laos/
-    mcp.py        MCP 最小实现（JSON-RPC 2.0 over stdio）+ Server/Client
+    mcp.py        MCP 2026-07-28 子集（Tasks/Elicitation）+ JSON-RPC 2.0 over stdio
     kernel.py     laosd 薄内核：PCB、能力表、syscall 网关、审计、分支表
     agent.py      Agent 运行时（ReAct 循环）
     brain.py      Brain 接口 + ScriptedBrain（确定性）+ OpenAIChatBrain（真 LLM）
@@ -256,3 +261,5 @@ laos/
 | `LAOS_PROF` | `1` | `0` 关闭 eBPF profiling；开启需 Linux + root + bpftrace，缺席自动降级 |
 | `LAOS_RISK_BUDGET` | `LAOS_IRREV_BUDGET` 或 `3` | 车队级不可逆风险总预算 |
 | `LAOS_RISK_RESERVE` | `1` | spawn 准入保留水位（剩余预算须严格高于此值） |
+| `LAOS_TASK_TIMEOUT` | `30` | MCP Tasks 路径（`syscall(..., task=True)`）轮询任务结果的总超时（秒） |
+| `LAOS_EXEC_ELICIT` | `0` | 置 `1` 时 proc.exec 白名单外命令先经 elicitation 请求人类放行（accept 放行 / decline 拒绝） |

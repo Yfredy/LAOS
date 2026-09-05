@@ -40,6 +40,10 @@ DENY_PATTERNS: tuple[str, ...] = (
 
 TIMEOUT = int(os.environ.get("LAOS_EXEC_TIMEOUT", "5"))
 
+# 2026-07-28 elicitation：置 1 时白名单外命令先经 elicitation 请求人类放行
+# （accept 视为本次放行；decline 由 drv.elicit 内部抛 EDENIED）。默认 0，行为不变。
+ELICIT = os.environ.get("LAOS_EXEC_ELICIT", "0") == "1"
+
 
 @drv.tool(
     "proc.list",
@@ -58,6 +62,16 @@ def proc_list(limit: int = 20) -> str:
         return f"EIO: {exc}"
     lines = [l for l in out.stdout.strip().splitlines() if l.strip()]
     return "\n".join(lines[:limit]) or "(empty)"
+
+
+def _elicit_allowed(prog: str) -> bool:
+    """白名单外命令的 elicitation 闸门（仅 ELICIT=1 时被调用）。
+
+    accept → 本次放行（返回 True）；decline → drv.elicit 内部直接抛
+    EDENIED（PermissionError），不会走到返回值。
+    """
+    drv.elicit(f"allow execution of {prog!r}? (not in allowlist)")
+    return True
 
 
 @drv.tool(
@@ -83,7 +97,10 @@ def proc_exec(cmdline: str) -> str:
             raise PermissionError(f"EDENIED: dangerous command blocked by driver: {pat!r}")
 
     prog = cmd.split()[0]
-    if prog not in ALLOWLIST:
+    if prog not in ALLOWLIST and not (ELICIT and _elicit_allowed(prog)):
+        # ELICIT=1 时白名单外命令先经 elicitation 请求人类放行
+        # （kernel.confirm 路由）：accept 视为本次放行，decline 在
+        # _elicit_allowed 内部抛 EDENIED；ELICIT=0 走原有拒绝路径
         raise PermissionError(
             f"EACCES: {prog!r} not in exec allowlist {list(ALLOWLIST)}"
         )
