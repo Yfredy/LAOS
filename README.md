@@ -166,6 +166,7 @@ python bin/laosctl.py ps        # 进程表：syscalls / denied / caps
 python bin/laosctl.py top       # 按 syscall 聚合耗时
 python bin/laosctl.py trace --pid 1001
 python bin/laosctl.py denied    # 所有被拒调用
+python bin/laosctl.py budget    # 车队风险账本回放
 ```
 
 ---

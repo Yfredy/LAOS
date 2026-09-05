@@ -8,6 +8,7 @@ laosd 的内核状态在内存里，laosctl 通过持久化的审计日志做回
     python bin/laosctl.py denied                # 所有被拒绝的调用
     python bin/laosctl.py top                   # 按 syscall 聚合耗时
     python bin/laosctl.py prof                  # eBPF 采集的真实 syscall 分布
+    python bin/laosctl.py budget                # 车队风险账本回放（Irreversibility Budget 2.0）
 """
 
 from __future__ import annotations

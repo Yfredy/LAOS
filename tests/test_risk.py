@@ -53,7 +53,10 @@ class TestWeightedGate(unittest.TestCase):
     def setUp(self):
         self.td = tempfile.TemporaryDirectory()
         self.k = AgentKernel(Path(self.td.name) / "var", audit_mode="w",
+                             irreversibility_budget=10,
                              confirm=lambda op: True)
+        # 钉死账本参数：断言不得随 LAOS_RISK_BUDGET / LAOS_RISK_RESERVE 漂移
+        self.k.risk.reserve = 1
 
     def tearDown(self):
         self.k.shutdown()
@@ -108,6 +111,8 @@ class TestAgentRiskCap(unittest.TestCase):
         self.k.syscall_table["proc.exec"] = ("proc", _spec(cost=2))
         # 车队默认预算 3 会抢先触发 fleet 闸门；本类只测 agent 帽，调大隔离干扰
         self.k.risk.budget = 100
+        # reserve 同样钉死：spawn 准入不得随 LAOS_RISK_RESERVE 漂移
+        self.k.risk.reserve = 1
         self.td2 = tempfile.TemporaryDirectory()
 
     def tearDown(self):
@@ -152,6 +157,8 @@ class TestAdmissionControl(unittest.TestCase):
         self.k = AgentKernel(Path(self.td.name) / "var", audit_mode="w",
                              irreversibility_budget=2, confirm=lambda op: True)
         # remaining=2, reserve=1：2 > 1 → 首个 agent 准入
+        # reserve 钉死为 1，不随 LAOS_RISK_RESERVE 漂移
+        self.k.risk.reserve = 1
 
     def tearDown(self):
         self.k.shutdown()

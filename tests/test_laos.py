@@ -157,7 +157,8 @@ class KernelTestCase(unittest.TestCase):
     def setUp(self):
         self._td = tempfile.TemporaryDirectory()
         self.workdir = Path(self._td.name) / "var"
-        self.kernel = AgentKernel(self.workdir, confirm=lambda op: True)
+        self.kernel = AgentKernel(self.workdir, confirm=lambda op: True,
+                                  irreversibility_budget=100)
         env = {
             "PYTHONPATH": str(REPO),
             "PYTHONIOENCODING": "utf-8",

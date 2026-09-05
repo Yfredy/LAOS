@@ -8,7 +8,17 @@ Control for Agent Operating Systems》（AgenticOS @ SOSP 2026, MPI-SWS）：
 
 记账语义：kill/abort **不退款** —— 不可逆操作的定义就是"无法通过
 终止进程撤销"；退款只属于显式回滚机制（分支 abort 只回滚分支内
-可逆写，而那些写在写时就没有计费）。
+可逆写，而那些写在写时就没有计费）。注意这条边界的适用范围：
+未计费的 fs.write / fs.append 只有在写入探索分支工作区时才谈得上
+"可回滚"——写进 /main（或 commit 之后的状态）是持久的、未计费的、
+且在闸门之外；把这段持久写纳入定价是已知下一步（README §6
+future-work 列的"探索期免计费、commit 时结算"）。
+
+计价语义：**按尝试计费**（attempt-based pricing）——闸门一旦放行
+（车队余量、agent 风险帽、人工确认三关全过），这笔账即落定；即便
+驱动随后拒绝（EDENIED）或失败（EIO）也不退，账本记录的是"授权
+决定"本身，而非驱动的执行结果。syscall 次数预算（EDQUOT）在闸门
+**之前**检查：因预算耗尽被拒的调用永远不会计费。
 """
 
 from __future__ import annotations

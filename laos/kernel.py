@@ -152,6 +152,8 @@ class AgentKernel:
         self.boot_at = time.time()
 
     # -- 兼容层：旧接口 irreversibility_budget 读写映射到车队账本 -----------
+    # 注意 setter 改的是 risk.budget，因此同时影响 spawn 准入控制：
+    # remaining <= reserve 时新 agent 一律拒绝进场
     @property
     def irreversibility_budget(self) -> int:
         return self.risk.remaining
@@ -283,6 +285,11 @@ class AgentKernel:
         except ValidationError as ve:
             return self._deny(pcb, tool, args, started, str(ve))
 
+        # syscall 次数预算先于不可逆闸门：注定因 EDQUOT 被拒的调用
+        # 不允许消耗车队风险预算（attempt-based pricing 见 risk.py 模块注释）
+        if pcb.budget is not None and pcb.stats["syscalls"] >= pcb.budget:
+            return self._deny(pcb, tool, args, started, "EDQUOT: syscall budget exhausted")
+
         # 不可逆闸门 2.0：车队级风险记账 + 每 agent 风险帽（Irreversibility Budget）
         if not _spec.reversible:
             cost = max(1, _spec.irreversibility_cost)
@@ -304,9 +311,6 @@ class AgentKernel:
                  "tool": tool, "cost": cost,
                  "agent_spent": pcb.stats["risk"], "fleet_spent": self.risk.spent}
             )
-
-        if pcb.budget is not None and pcb.stats["syscalls"] >= pcb.budget:
-            return self._deny(pcb, tool, args, started, "EDQUOT: syscall budget exhausted")
 
         # 驱动调用放进线程：stdio RPC 是阻塞的，不能卡住事件循环。
         # 同一 driver 的调用按设备互斥（单工 stdio 会话），不同 driver 可并行。

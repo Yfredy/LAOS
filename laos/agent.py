@@ -62,7 +62,10 @@ class Agent:
         return out
 
     def fork_child(self, name: str, caps_subset: list[str], branch: str, child_brain) -> "Agent":
-        """派生子进程：只能委派自身能力的子集（kernel.spawn(parent=...)）。"""
+        """派生子进程：只能委派自身能力的子集（kernel.spawn(parent=...)）。
+
+        风险帽同预算一样随父进程继承：委派可以收窄、不可以提升风险特权。
+        """
         child_caps = self.pcb.caps.delegate(caps_subset)
         ctx = ContextManager(
             system_prompt=self.pcb.ctx._system.content,
@@ -72,6 +75,7 @@ class Agent:
         child_pcb = self.kernel.spawn(
             name=name, caps=sorted(child_caps.patterns), ctx=ctx,
             branch=branch, parent=self.pcb.pid, budget=self.pcb.budget,
+            risk_cap=self.pcb.risk_cap,
         )
         return Agent(self.kernel, child_pcb, child_brain, max_steps=self.max_steps)
 
