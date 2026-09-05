@@ -384,6 +384,23 @@ class AgentKernel:
     def _digest(text: str) -> str:
         return hashlib.sha256(text.encode("utf-8")).hexdigest()[:16]
 
+    # -- Stale Context：branch commit 批量失效 -----------------------------
+    def on_branch_committed(self, branch: str, paths: list[str]) -> None:
+        """分支提交改变了父分支内容：所有观察过这些路径的上下文失效。
+
+        commit 的 paths 是分支内相对路径（如 workspace/hosts），虚拟化为
+        /{branch}/{path} —— 观察簿的 key 正是虚拟路径，而 invalidate 对
+        未观察过的路径是无操作，因此直接按完整虚拟路径全量广播即可。
+        """
+        for virt in (f"/{branch}/{p}".replace("\\", "/") for p in paths):
+            for pcb in self.procs.values():
+                if hasattr(pcb.ctx, "invalidate"):
+                    pcb.ctx.invalidate(virt)
+        self.audit.write(
+            {"t": time.time(), "event": "stale_broadcast", "branch": branch,
+             "paths": len(paths)}
+        )
+
     # -- 调度器：LLM 是最贵的资源，也要有时间片 ---------------------------
     def scheduler_ctx(self) -> "AgentScheduler":
         # 保留兼容接口；实际调度由 self.scheduler 在 agent._do_syscall 中驱动

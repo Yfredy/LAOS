@@ -97,6 +97,12 @@ class Agent:
         result = AgentResult(pid=self.pcb.pid, ok=False)
         try:
             for step in range(1, self.max_steps + 1):
+                # Stale Context：内核通告注入（HKU: 当上下文与现实不符时强制重读）
+                if hasattr(self.pcb.ctx, "drain_notices"):
+                    for stale_path in self.pcb.ctx.drain_notices():
+                        self.pcb.ctx.notice(
+                            f"STALE: {stale_path} 已被外部修改，之前的读取结果不可信，请重新 fs.read"
+                        )
                 tools = self.visible_tools
                 thought: Thought = await asyncio.to_thread(self.brain.think, ctx.messages, tools)
                 result.steps = step

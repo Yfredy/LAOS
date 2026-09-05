@@ -109,5 +109,50 @@ class TestKernelStaleWiring(unittest.TestCase):
         self.assertTrue(res.ok)  # ctx 无 observe 方法时静默跳过
 
 
+class TestNoticeInjection(unittest.TestCase):
+    def setUp(self):
+        self._td = tempfile.TemporaryDirectory()
+        self.workdir = Path(self._td.name) / "var"
+        self.kernel = AgentKernel(self.workdir, confirm=lambda op: True)
+        env = {"PYTHONPATH": str(REPO), "PYTHONIOENCODING": "utf-8",
+               "LAOS_FS_ROOT": str(self.workdir / "branches")}
+        self.kernel.load_driver("fs", [sys.executable, str(REPO / "drivers" / "drv_fs.py")], env=env)
+        self.main = self.kernel.branches.create_root("main")
+        (self.main.workspace / "workspace").mkdir(parents=True, exist_ok=True)
+        (self.main.workspace / "workspace" / "hosts").write_text(
+            "127.0.0.1 localhost\n", encoding="utf-8")
+
+    def tearDown(self):
+        self.kernel.shutdown()
+        self._td.cleanup()
+
+    def test_branch_commit_invalidates_observers(self):
+        from laos.context import ContextManager
+        ctx = ContextManager(system_prompt="t", max_tokens=2000,
+                             swap_dir=self.workdir / "swap")
+        pcb = self.kernel.spawn(name="r", caps=["fs.*"], ctx=ctx, branch="main")
+        asyncio.run(self.kernel.syscall(pcb.pid, "fs.read",
+                                        {"path": "/main/workspace/hosts"}))
+        self.kernel.on_branch_committed("main", ["workspace/hosts"])
+        self.assertIn("/main/workspace/hosts", ctx.drain_notices())
+
+    def test_agent_injects_notice_before_next_think(self):
+        from laos.context import ContextManager
+        from laos.brain import ScriptedBrain
+        from laos.agent import Agent
+        ctx = ContextManager(system_prompt="t", max_tokens=2000,
+                             swap_dir=self.workdir / "swap")
+        pcb = self.kernel.spawn(name="r", caps=["fs.*", "sys.*"], ctx=ctx, branch="main")
+        asyncio.run(self.kernel.syscall(pcb.pid, "fs.read",
+                                        {"path": "/main/workspace/hosts"}))
+        ctx.invalidate("/main/workspace/hosts")
+        agent = Agent(self.kernel, pcb,
+                      ScriptedBrain(branch="main"), max_steps=8)
+        res = asyncio.run(agent.run("read and verify hosts"))
+        notices = [m for m in pcb.ctx.messages
+                   if m["role"] == "user" and str(m.get("content", "")).startswith("[kernel-notice]")]
+        self.assertGreaterEqual(len(notices), 1)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

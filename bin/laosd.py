@@ -177,7 +177,11 @@ async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
     # ---- 提交 ------------------------------------------------------------
     hr("5. commit（first-commit-wins）")
     print(f"  exp-A 与 main 的差异: {exp_a.diff()}")
+    # Stale Context：diff 必须在 commit 前取（提交后两侧一致，diff 变空）；
+    # 提交落地后向所有观察过 /main/... 路径的上下文广播失效
+    committed_paths = [e["path"] for e in exp_a.diff()]
     applied = exp_a.commit()
+    kernel.on_branch_committed("main", committed_paths)
     print(f"  exp-A 提交 {applied} 项变更到 main")
     print(main.tree())
     final = (main.workspace / "workspace" / "hosts").read_text(encoding="utf-8")
