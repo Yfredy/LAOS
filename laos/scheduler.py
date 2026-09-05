@@ -2,6 +2,8 @@
 
 受 AIOS Scheduler 启发：AIOS 用 FIFO/RR 给 LLM 推理请求排队，RR 的 p90 等待更低。
 这里把"全局锁"升级为带 priority 的时间片轮转 + 每 agent token 预算，超额自动挂起。
+另加 per-agent 可靠性预算（Patient Bytes 启发）：syscall 失败累计计入 err 预算，
+耗尽即挂起——一个反复失败的 agent 不配再占用最贵的 LLM 时间片。
 """
 from __future__ import annotations
 
@@ -14,11 +16,18 @@ class AgentScheduler:
         self._suspended: set[int] = set()
         self._last_served: dict[int, int] = {}
         self._serve_tick = 1  # 从未服务的 agent 默认 last=0，故 tick 从 1 起以区分"更老"
+        # 可靠性预算（err budget）：失败次数记账，与 token 预算并行运作
+        self._err_budget: dict[int, int | None] = {}
+        self._err_used: dict[int, int] = {}
+        self._suspended_reason: dict[int, str] = {}
 
-    def register(self, pid: int, priority: int = 0, token_budget: int | None = None) -> None:
+    def register(self, pid: int, priority: int = 0, token_budget: int | None = None,
+                 err_budget: int | None = None) -> None:
         self._prio[pid] = priority
         self._budget[pid] = token_budget
         self._used[pid] = 0
+        self._err_budget[pid] = err_budget
+        self._err_used[pid] = 0
 
     def next_pid(self) -> int | None:
         alive = [p for p in self._prio if p not in self._suspended]
@@ -51,9 +60,42 @@ class AgentScheduler:
         self._used.pop(pid, None)
         self._suspended.discard(pid)
         self._last_served.pop(pid, None)
+        self._err_budget.pop(pid, None)
+        self._err_used.pop(pid, None)
+        self._suspended_reason.pop(pid, None)
 
     def note_tokens(self, pid: int, n: int) -> None:
         self._used[pid] = self._used.get(pid, 0) + n
         b = self._budget.get(pid)
         if b is not None and self._used[pid] >= b:
             self._suspended.add(pid)
+
+    def note_outcome(self, pid: int, ok: bool) -> None:
+        """可靠性记账：ok=False 消耗 1 次错误预算，耗尽即挂起（Patient Bytes）。
+
+        ok=True 不消耗也不恢复——预算是累计的，失败不可逆。
+        """
+        if pid not in self._err_used:
+            return
+        if ok:
+            return
+        self._err_used[pid] += 1
+        b = self._err_budget.get(pid)
+        if b is not None and self._err_used[pid] >= b:
+            self._suspended.add(pid)
+            self._suspended_reason[pid] = (
+                f"err-budget exhausted ({self._err_used[pid]} failures)")
+
+    def snapshot(self) -> list[dict]:
+        """调度观测：每个注册 agent 一行（token 与 err 双预算 + 挂起状态）。"""
+        return [
+            {"pid": pid,
+             "priority": self._prio.get(pid, 0),
+             "token_used": self._used.get(pid, 0),
+             "token_budget": self._budget.get(pid),
+             "err_used": self._err_used.get(pid, 0),
+             "err_budget": self._err_budget.get(pid),
+             "suspended": pid in self._suspended,
+             "reason": self._suspended_reason.get(pid)}
+            for pid in self._prio
+        ]
