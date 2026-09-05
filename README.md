@@ -167,6 +167,7 @@ python bin/laosctl.py top       # 按 syscall 聚合耗时
 python bin/laosctl.py trace --pid 1001
 python bin/laosctl.py denied    # 所有被拒调用
 python bin/laosctl.py budget    # 车队风险账本回放
+python bin/laosctl.py spans     # AgentProf 语义剖析回放
 ```
 
 ---
@@ -204,7 +205,7 @@ python bin/laosctl.py budget    # 车队风险账本回放
 | **不可逆操作预算** | ~~只有 syscall 次数预算（EDQUOT）~~ → **Irreversibility Budget 2.0**：按工具定价（`irreversibility_cost`）+ agent 风险帽 + 车队账本（`FleetLedger`）+ spawn 准入控制（保留水位） | 探索期免计费、commit 时结算（Externalization Barriers 式延迟定价） |
 | **分支的 O(1) 创建** | **hardlink COW**：fork 只复制目录项、数据块全共享、写路径 temp+replace 断链（`laos/cow.py`）；diff 走 inode 快路径 | FUSE BranchFS（真 O(1) inode 级 + 原子 rename 语义）仍是长期项 |
 | **上下文一致性** | ~~只看 token 水位~~ → **Stale Context 检测**：fs.read 观察簿 + fs.write/append 失效他人 + branch commit 批量失效，内核通告注入 agent 窗口 | 跨驱动（非 fs 类）副作用的一致性追踪 |
-| **语义 profiling** | **bpftrace 集成**（`LAOS_PROF=1`）：按真实驱动 pid 采集驱动进程与其直接子进程的 syscall 分布，`laosctl prof` 回放 | AgentProf 式语义剖析：每步意图、工具选择合理性 |
+| **语义 profiling** | ~~bpftrace 集成~~ → **eBPF（内核真值）+ AgentProf（语义层）**：审计流 → per-agent span（重复浪费/拒绝率/单工具依赖启发式）→ OTLP/JSON 导出（`var/traces/`）+ `laosctl spans` | 每步意图建模、工具选择合理性评分（论文全量目标） |
 | **多 Agent 通信** | 共享文件系统 | Agent 间 IPC：消息队列 + 能力委托（capability delegation） |
 | **可观测闭环** | JSONL 审计 | 导出 OpenTelemetry trace，一次任务 = 一条 trace，一次 syscall = 一个 span |
 
@@ -226,6 +227,7 @@ laos/
     seccomp.py    seccomp 经典 BPF 组装 + ctypes 安装（block-dangerous 黑名单）
     cow.py        CoW 原语：temp + os.replace 断链写，保护 hardlink 共享 inode
     profiling.py  bpftrace 集成：驱动进程树真实 syscall 分布（可选，缺席降级）
+    agentprof.py  AgentProf：审计流 → per-agent 语义 span + 启发式发现 + OTLP/JSON 导出
   drivers/
     drv_fs.py     文件系统驱动：read / write / append / list / stat（jail 内）
     drv_proc.py   进程驱动：list / exec（白名单 + 危险模式拦截）
