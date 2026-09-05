@@ -168,6 +168,22 @@ class TestHttp(unittest.TestCase):
             urllib.request.urlopen(f"http://127.0.0.1:{self.port}/nope")
         self.assertEqual(cm.exception.code, 404)
 
+    def test_head_liveness(self):
+        # curl -sI 探活：HEAD / 与 HEAD /api/state 均 200，未知路径 404
+        req = urllib.request.Request(f"http://127.0.0.1:{self.port}/", method="HEAD")
+        with urllib.request.urlopen(req) as resp:
+            self.assertEqual(resp.status, 200)
+            self.assertIn("text/html", resp.headers["Content-Type"])
+        req = urllib.request.Request(
+            f"http://127.0.0.1:{self.port}/api/state", method="HEAD")
+        with urllib.request.urlopen(req) as resp:
+            self.assertEqual(resp.status, 200)
+        req = urllib.request.Request(
+            f"http://127.0.0.1:{self.port}/nope", method="HEAD")
+        with self.assertRaises(urllib.error.HTTPError) as cm:
+            urllib.request.urlopen(req)
+        self.assertEqual(cm.exception.code, 404)
+
     def test_state_unavailable_503(self):
         prev = laosweb._kernel
         laosweb._kernel = None
