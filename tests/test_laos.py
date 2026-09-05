@@ -327,6 +327,50 @@ class TestAgent(KernelTestCase):
         self.assertFalse(res.ok)
         self.assertIn("EPERM", res.error)
 
+    def test_kill_mid_run_state_stays_killed(self):
+        """运行中 kill：Agent.run 的收尾不得把 state 改写回 zombie/ready。
+
+        面板视角：/api/kill 后 /api/state 必须稳定显示 killed。brain 在第二
+        次 think 上阻塞等 kill 落地，保证处决一定发生在 run() 仍在飞行的窗口
+        （否则 run 可能在末次 syscall 后同步跑完，kill 只能落在 zombie 上）。
+        """
+        import threading
+        from laos.brain import Brain, Thought, ToolCall
+
+        release = threading.Event()
+
+        class _GateBrain(Brain):
+            """第一步发一次 syscall；第二步等 kill 落地后再收尾（ok=True）。"""
+
+            def __init__(self) -> None:
+                self._step = 0
+
+            def think(self, messages, tools):
+                self._step += 1
+                if self._step == 1:
+                    return Thought(tool_calls=[ToolCall("sys.info", {}, "c1")])
+                release.wait(timeout=5)
+                return Thought(text="done", finish=True)
+
+        agent = self.spawn("victim", ["sys.*"], brain=_GateBrain())
+
+        async def scenario():
+            runner = asyncio.ensure_future(agent.run("随时会被处决的任务"))
+            for _ in range(500):  # 等第一次 syscall 完成（上限 ~5s）
+                if agent.pcb.stats["syscalls"] >= 1:
+                    break
+                await asyncio.sleep(0.01)
+            self.assertGreaterEqual(agent.pcb.stats["syscalls"], 1)
+            self.assertTrue(self.kernel.kill(agent.pcb.pid), "mid-run kill 必须成功")
+            release.set()
+            return await runner
+
+        result = asyncio.run(scenario())
+        # 收尾 think 是 finish=True（ok=True）：无守卫时 state 会被改写成 zombie
+        self.assertTrue(result.ok)
+        self.assertEqual(agent.pcb.state, "killed",
+                         "kill 后运行收尾不得把 state 改写回 zombie/ready")
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -7,9 +7,17 @@
 """
 from __future__ import annotations
 
+import threading
+
 
 class AgentScheduler:
     def __init__(self) -> None:
+        # 调度状态会被两类线程并发触碰：demo 事件循环（next_pid/acquire 轮转）
+        # 与 HTTP 线程（/api/kill -> retire、内建 syscall -> note_outcome、
+        # /api/state -> snapshot）。迭代 dict 视图撞上并发插入/删除会抛
+        # RuntimeError: dictionary changed size during iteration，足以无声炸掉
+        # demo 协程——所有读写都在锁内。RLock：acquire 内部嵌套调 next_pid。
+        self._lock = threading.RLock()
         self._prio: dict[int, int] = {}
         self._budget: dict[int, int | None] = {}
         self._used: dict[int, int] = {}
@@ -23,31 +31,34 @@ class AgentScheduler:
 
     def register(self, pid: int, priority: int = 0, token_budget: int | None = None,
                  err_budget: int | None = None) -> None:
-        self._prio[pid] = priority
-        self._budget[pid] = token_budget
-        self._used[pid] = 0
-        self._err_budget[pid] = err_budget
-        self._err_used[pid] = 0
+        with self._lock:
+            self._prio[pid] = priority
+            self._budget[pid] = token_budget
+            self._used[pid] = 0
+            self._err_budget[pid] = err_budget
+            self._err_used[pid] = 0
 
     def next_pid(self) -> int | None:
-        alive = [p for p in self._prio if p not in self._suspended]
-        if not alive:
-            return None
-        # 优先级高者优先；平级时上次服务时间最老者优先（轮转，避免饥饿）
-        return max(alive, key=lambda p: (self._prio[p], -self._last_served.get(p, 0)))
+        with self._lock:
+            alive = [p for p in self._prio if p not in self._suspended]
+            if not alive:
+                return None
+            # 优先级高者优先；平级时上次服务时间最老者优先（轮转，避免饥饿）
+            return max(alive, key=lambda p: (self._prio[p], -self._last_served.get(p, 0)))
 
     def acquire(self, pid: int) -> bool:
-        if pid in self._suspended:
-            return False
-        b = self._budget.get(pid)
-        if b is not None and self._used.get(pid, 0) >= b:
-            self._suspended.add(pid)
-            return False
-        if self.next_pid() != pid:
-            return False
-        self._last_served[pid] = self._serve_tick
-        self._serve_tick += 1
-        return True
+        with self._lock:
+            if pid in self._suspended:
+                return False
+            b = self._budget.get(pid)
+            if b is not None and self._used.get(pid, 0) >= b:
+                self._suspended.add(pid)
+                return False
+            if self.next_pid() != pid:
+                return False
+            self._last_served[pid] = self._serve_tick
+            self._serve_tick += 1
+            return True
 
     def release(self, pid: int) -> None:
         # 轮转状态由 _last_served 维护，release 无需动作；保留接口以对齐 Agent 调用
@@ -55,47 +66,51 @@ class AgentScheduler:
 
     def retire(self, pid: int) -> None:
         """进程退出即注销：否则轮转指针会停在已结束的 pid 上，饿死其余 agent。"""
-        self._prio.pop(pid, None)
-        self._budget.pop(pid, None)
-        self._used.pop(pid, None)
-        self._suspended.discard(pid)
-        self._last_served.pop(pid, None)
-        self._err_budget.pop(pid, None)
-        self._err_used.pop(pid, None)
-        self._suspended_reason.pop(pid, None)
+        with self._lock:
+            self._prio.pop(pid, None)
+            self._budget.pop(pid, None)
+            self._used.pop(pid, None)
+            self._suspended.discard(pid)
+            self._last_served.pop(pid, None)
+            self._err_budget.pop(pid, None)
+            self._err_used.pop(pid, None)
+            self._suspended_reason.pop(pid, None)
 
     def note_tokens(self, pid: int, n: int) -> None:
-        self._used[pid] = self._used.get(pid, 0) + n
-        b = self._budget.get(pid)
-        if b is not None and self._used[pid] >= b:
-            self._suspended.add(pid)
+        with self._lock:
+            self._used[pid] = self._used.get(pid, 0) + n
+            b = self._budget.get(pid)
+            if b is not None and self._used[pid] >= b:
+                self._suspended.add(pid)
 
     def note_outcome(self, pid: int, ok: bool) -> None:
         """可靠性记账：ok=False 消耗 1 次错误预算，耗尽即挂起（Patient Bytes）。
 
         ok=True 不消耗也不恢复——预算是累计的，失败不可逆。
         """
-        if pid not in self._err_used:
-            return
-        if ok:
-            return
-        self._err_used[pid] += 1
-        b = self._err_budget.get(pid)
-        if b is not None and self._err_used[pid] >= b:
-            self._suspended.add(pid)
-            self._suspended_reason[pid] = (
-                f"err-budget exhausted ({self._err_used[pid]} failures)")
+        with self._lock:
+            if pid not in self._err_used:
+                return
+            if ok:
+                return
+            self._err_used[pid] += 1
+            b = self._err_budget.get(pid)
+            if b is not None and self._err_used[pid] >= b:
+                self._suspended.add(pid)
+                self._suspended_reason[pid] = (
+                    f"err-budget exhausted ({self._err_used[pid]} failures)")
 
     def snapshot(self) -> list[dict]:
         """调度观测：每个注册 agent 一行（token 与 err 双预算 + 挂起状态）。"""
-        return [
-            {"pid": pid,
-             "priority": self._prio.get(pid, 0),
-             "token_used": self._used.get(pid, 0),
-             "token_budget": self._budget.get(pid),
-             "err_used": self._err_used.get(pid, 0),
-             "err_budget": self._err_budget.get(pid),
-             "suspended": pid in self._suspended,
-             "reason": self._suspended_reason.get(pid)}
-            for pid in self._prio
-        ]
+        with self._lock:
+            return [
+                {"pid": pid,
+                 "priority": self._prio.get(pid, 0),
+                 "token_used": self._used.get(pid, 0),
+                 "token_budget": self._budget.get(pid),
+                 "err_used": self._err_used.get(pid, 0),
+                 "err_budget": self._err_budget.get(pid),
+                 "suspended": pid in self._suspended,
+                 "reason": self._suspended_reason.get(pid)}
+                for pid in self._prio
+            ]

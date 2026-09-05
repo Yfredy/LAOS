@@ -158,7 +158,10 @@ class Agent:
         result.syscalls = self.pcb.stats["syscalls"]
         result.denied = self.pcb.stats["denied"]
         result.tokens = ctx.stats.total_tokens
-        self.pcb.state = "zombie" if result.ok else "ready"
+        # 生命周期收尾不得覆盖 kill：被处决的进程必须停在 killed 上
+        # （否则 run 迟一步返回，/api/state 会看到 killed 又变回 zombie/ready）
+        if self.pcb.state != "killed":
+            self.pcb.state = "zombie" if result.ok else "ready"
         return result
 
 

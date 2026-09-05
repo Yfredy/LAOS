@@ -21,15 +21,17 @@
 | 列 | 含义 |
 |---|---|
 | pid / name | 进程号（从 1001 起）和名字 |
-| state | ready=可调度 · running=syscall 执行中 · zombie=正常退出 |
+| state | ready=可调度 · running=syscall 执行中 · zombie=正常退出 · killed=被终止 |
 | caps | 能力表——**它能调哪些 syscall**（`fs.*`=文件读写、`proc.*`=执行命令、`sys.*`=系统信息、`msg.*`=消息） |
 | scope | 任务边界——`/exp-A/` 表示只许碰这个路径前缀（意图收窄） |
 | branch | 它在哪个分支上工作 |
 | sys / deny / risk | 成功调用数 / 被拒次数 / 风险账单 |
 
 **看点**：guest-agent 只有 `sys.*`，它去调 `fs.read` 会被内核当场拒绝（EPERM）——这就是"能力表"在执法。
-每行末尾的 **✕ 按钮**可以随时 kill 一个进程（operator 和已死进程没有按钮）；kill 后 state 变 `killed`，
-它的一切 syscall 都会拿到 EACCES。进程表里那个叫 **operator** 的常驻进程就是你自己——human-in-the-loop
+每行末尾的 **✕ 按钮**可以随时 kill 一个进程（operator 和已死进程没有按钮）；kill 后 state 变 `killed`
+并保持不变，调度器随即注销该 pid——它后续的 syscall 会在调度闸门上拿到
+`ESRCH: scheduler suspended pid (token/err budget exhausted)`，不再占用 LLM 时间片。
+进程表里那个叫 **operator** 的常驻进程就是你自己——human-in-the-loop
 是以"人也是一个进程"的方式进场的。
 
 ### 3. 分支树
@@ -80,25 +82,32 @@ demo 冻结等你裁决；面板顶部弹出红色横幅（闪烁边框）：`�
 
 ### 重启控制台（换参数重跑 demo）
 面板顶部的小面板：选 confirm 模式（横幅裁决 / 自动放行）+ 填风险预算（默认 3），点 [↻ 重跑]——
-旧内核 shutdown、按新参数重新 boot，demo 从头跑一遍。适合做实验：预算调成 1 就能看到
-`proc.exec` 被"车队风险预算耗尽"拒绝；切自动放行就能完整看一遍计费流。
+面板按新参数重新 boot，新内核完全就绪后才退役旧内核（boot 半途失败时旧内核照常服务，面板不会 503），
+demo 从头跑一遍。预算必须 **> 保留水位 reserve=1**（输入框已限 min=2，低于会被 400 拒绝——预算 1
+连 operator 都 spawn 不进）。适合做实验：预算调成 2 就能看到 `proc.exec` 被"车队风险预算耗尽"拒绝；
+切自动放行就能完整看一遍计费流。
 重启后审计流从头滚动（客户端去重账本会自动清空）。
 
 ### kill 按钮
-进程表每行末尾的 ✕：随时终止一个越权/失控的 agent（同步 `kernel.kill`，HTTP 线程安全）。
-被 kill 的进程 state 变 `killed`，后续一切 syscall 得到 EACCES；它授出的能力委托也会被内核即时撤销。
+进程表每行末尾的 ✕：随时终止一个越权/失控的 agent（同步 `kernel.kill`，HTTP 线程安全；operator 是
+你自己，直接 POST /api/kill 也会被 400 `cannot kill operator` 拒绝）。
+被 kill 的进程 state 变 `killed` 并保持不变（不会在运行收尾时被改写回 zombie/ready）；调度器随即注销
+它——agent 后续的 syscall 会在调度闸门上拿到 `ESRCH: scheduler suspended pid (token/err budget
+exhausted)`（有界等待约 2s 后返回），不再分配 LLM 时间片；它授出的能力委托也会被内核即时撤销。
 
 ### 实验
 1. **横幅裁决**：默认启动 → demo 到 `proc.exec` 时横幅弹出 → 点 [✗ 拒绝] → 审计红行、spent 仍 0；
    再点 [↻ 重跑] → 这次点 [✓ 允许] → 审计绿行、spent=3。
 2. **给 agent 递纸条**：消息面板选 ops-agent 的 pid，发送"请先 fs.stat 再 read"，再点它的 [收取] 看信箱。
-3. **处决**：点 guest-agent 行的 ✕ → state 变 killed → 它后续 syscall 全部 EACCES。
+3. **处决**：点 guest-agent 行的 ✕ → state 变 killed 并保持不变 → 它被移出调度器，
+   后续 syscall 全部 `ESRCH: scheduler suspended pid`。
 
 ## 动手实验
 
 1. **看拒绝计费**：横幅弹出时点 [✗ 拒绝] → 审计流 proc.exec 红、spent=0；重启控制台切"自动放行"再重跑
    （或启动前 `set LAOS_CONFIRM=auto-yes`）→ 审计流里 proc.exec 变绿、风险账本 spent=3。
-2. **调预算**：`set LAOS_RISK_BUDGET=1` → 一条 proc.exec（价 3）直接被车队预算拒（`fleet risk budget exhausted`）。
+2. **调预算**：`set LAOS_RISK_BUDGET=2` → 一条 proc.exec（价 3）直接被车队预算拒（`fleet risk budget exhausted`）。
+   （预算必须 > reserve=1：设 1 会在 boot 时连 operator 都 spawn 不进。）
 3. **换端口**：`set LAOS_WEB_PORT=9000`。
 4. **事后回放**（不用面板）：`python bin\laosctl.py ps`（进程表）/ `top`（耗时）/ `budget`（风险账本）/
    `spans`（语义剖析）/ `trace --pid 1001`（单 agent 回放）/ `denied`（全部被拒调用）。

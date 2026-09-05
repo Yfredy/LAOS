@@ -208,7 +208,8 @@ PAGE = r"""<!doctype html>
     <option value="auto-yes">自动放行</option>
   </select>
   <span class="lbl">风险预算</span>
-  <input id="restart-budget" type="number" min="1" step="1" value="3" style="width:64px">
+  <input id="restart-budget" type="number" min="2" step="1" value="3" style="width:64px"
+         title="必须 > reserve(1)：低于会连 operator 都 spawn 不进">
   <button onclick="restartDemo()">↻ 重跑</button>
   <span id="restart-msg" class="dim"></span>
 </div>
@@ -580,6 +581,9 @@ def _handle_kill(body: dict) -> tuple[int, dict]:
     kernel = get_kernel()
     if kernel is None:
         return 503, {"error": "kernel not available"}
+    if pid == _operator_pid:
+        # 人也是进程，但人是不可杀的常驻进程（UI 已隐藏按钮，API 再兜底）
+        return 400, {"ok": False, "error": "cannot kill operator"}
     if not kernel.kill(pid):
         return 404, {"ok": False, "error": f"no such process {pid}"}
     return 200, {"ok": True}
@@ -621,8 +625,10 @@ def _handle_restart(body: dict) -> tuple[int, dict]:
     """POST /api/restart {"confirm", "risk_budget"}：换参数重 boot 内核。
 
     confirm: "no"=横幅裁决（默认）| "auto-yes"=自动放行（跳横幅，照常计费）。
-    旧内核先 shutdown（其 demo 线程的后续驱动调用会失败——线程自行吞掉退场），
-    env 先写再 boot（boot_kernel 从环境读 LAOS_RISK_BUDGET）。
+    fail-safe 语义：先校验参数（risk_budget 必须 > reserve，否则新内核连
+    第一个进程都 spawn 不进），再 boot 新栈；boot 全程旧内核继续服务，
+    新栈完全就绪（cutover）后才 shutdown 旧内核——boot 半途失败时面板
+    永不 503。env 先写再 boot（boot_kernel 从环境读 LAOS_RISK_BUDGET）。
     """
     confirm = body.get("confirm", "no")
     if confirm not in ("no", "auto-yes"):
@@ -631,15 +637,25 @@ def _handle_restart(body: dict) -> tuple[int, dict]:
         risk_budget = int(body.get("risk_budget", 3))
     except (TypeError, ValueError):
         return 400, {"error": "risk_budget must be an integer"}
-    _deny_all_pending()  # 冻结在确认关的旧 demo 线程立即按拒绝苏醒
     old = get_kernel()
+    reserve = old.risk.reserve if old is not None \
+        else int(os.environ.get("LAOS_RISK_RESERVE", "1"))
+    if risk_budget <= reserve:
+        # 新内核的第一个 spawn（operator）就要过准入：remaining=budget 必须
+        # 严格高于 reserve（can_admit）。先校验后动手，避免 boot 半途炸掉。
+        return 400, {"ok": False,
+                     "error": f"risk_budget must be > reserve ({reserve})"}
+    try:
+        _boot_stack(confirm, risk_budget)  # 内部完成 cutover（持有者 + demo）
+    except Exception as exc:
+        # 新栈已自行回收（_boot_stack 内 shutdown+re-raise）；旧内核原封不动
+        return 500, {"ok": False, "error": f"restart boot failed: {exc}"}
+    # cutover 已完成，此刻才退役旧内核：其 demo 线程的下次内核调用即失败，
+    # 线程自行吞掉退场（先 shutdown 再清队列，被唤醒的旧线程死在下一个
+    # 内核调用上，不会重新往确认队列里压队）
     if old is not None:
         old.shutdown()
-    try:
-        _boot_stack(confirm, risk_budget)
-    except Exception as exc:
-        set_kernel(None)
-        return 500, {"ok": False, "error": f"restart boot failed: {exc}"}
+    _deny_all_pending()  # 冻结在确认关的旧 demo 线程按拒绝苏醒并随即退场
     return 200, {"ok": True}
 
 
@@ -695,19 +711,26 @@ def _boot_stack(confirm_mode: str, risk_budget: int):
 
     main() 首启与 POST /api/restart 共用。confirm_mode：no=横幅裁决（默认）、
     auto-yes=自动放行。boot_kernel 从环境读 LAOS_RISK_BUDGET——必须先写
-    env 再 boot。内核接上模块持有器后才起 demo 线程（demo 一进来就能被
-    /api/state 观测到）。
+    env 再 boot。fail-safe：boot 半途（seed/接线/spawn 准入）任何一步失败，
+    先 shutdown 半启动的新内核（回收驱动子进程与审计句柄）再上抛——持有者
+    未被触碰，restart 端点得以让旧内核继续服务。持有者移交 + demo 线程是
+    不可回退的 cutover 点，放在最后一步。
     """
     global _auto_yes, _operator_pid, _demo_done
     os.environ["LAOS_CONFIRM"] = confirm_mode
     os.environ["LAOS_RISK_BUDGET"] = str(risk_budget)
     kernel = laosd.boot_kernel(laosd.WORKDIR)
-    laosd.seed_main_branch(kernel)
-    # 横幅永远接管确认关：web_confirm 不读终端（读终端会阻塞 demo 线程）；
-    # auto-yes 模式在 web_confirm 顶部秒答 True——跳过横幅、照常计费。
-    kernel.confirm = web_confirm
+    try:
+        laosd.seed_main_branch(kernel)
+        # 横幅永远接管确认关：web_confirm 不读终端（读终端会阻塞 demo 线程）；
+        # auto-yes 模式在 web_confirm 顶部秒答 True——跳过横幅、照常计费。
+        kernel.confirm = web_confirm
+        _operator_pid = _spawn_operator(kernel)
+    except Exception:
+        kernel.shutdown()  # 半启动的内核就地回收，绝不泄漏驱动子进程
+        raise
+    # ---- cutover：新栈完全就绪才接管持有者并起 demo（此后不可回退）----
     _auto_yes = confirm_mode == "auto-yes"
-    _operator_pid = _spawn_operator(kernel)
     _demo_done = False
     set_kernel(kernel)
     _start_demo(kernel)
