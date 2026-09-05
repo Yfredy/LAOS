@@ -246,13 +246,13 @@ function renderAudit(s) {
   const body = $('audit-body');            // 固定容器：只追加新行，绝不重建面板
   const recs = s.audit || [];
   const n = recs.length;
-  const total = (s.status && s.status.audit_records) || n;
   for (let i = 0; i < n; i++) {
     const r = recs[i];
-    // 全局序号 = 审计总数 - 本批条数 + 批内下标：窗口滑动也不串号；
+    // 去重键 = 内核审计单调序号 seq（AuditLog.write 在 append 前盖章）：
+    // 不由"总数-窗口+下标"反推 —— 采样 status 与切片 audit 之间若混入
+    // 新记录，反推序号会漂移，导致同一批记录下一 tick 被重复插入；
     // 与 t + tool 联合去重（同秒同工具多次调用靠序号区分）
-    const gi = Math.max(0, total - n) + i;
-    const key = gi + '|' + r.t + '|' + r.tool;
+    const key = r.seq + '|' + r.t + '|' + r.tool;
     if (auditRows.has(key)) continue;
     auditRows.set(key, true);
     body.insertAdjacentHTML('afterbegin', auditRowHtml(r));  // 逐条插到最上 = 最新在上

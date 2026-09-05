@@ -249,12 +249,15 @@ class BranchTable:
         return self._branches.get(name)
 
     def list(self) -> list[dict[str, Any]]:
-        return [
-            {
-                "name": b.name,
-                "state": b.state,
-                "changes": len(b.journal),
-                "parent": b.parent.name if b.parent else None,
-            }
-            for b in self._branches.values()
-        ]
+        # 与 register/create_root 互斥：观测线程迭代 dict 视图的同时若注册
+        # 新分支，会 RuntimeError: dictionary changed size during iteration
+        with self._lock:
+            return [
+                {
+                    "name": b.name,
+                    "state": b.state,
+                    "changes": len(b.journal),
+                    "parent": b.parent.name if b.parent else None,
+                }
+                for b in self._branches.values()
+            ]

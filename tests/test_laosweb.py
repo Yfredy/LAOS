@@ -21,6 +21,7 @@ sys.path.insert(0, str(REPO))
 sys.path.insert(0, str(REPO / "bin"))  # bin/ 非包，路径注入以便 import laosweb
 
 import laosweb  # noqa: E402
+from laos.branch import BranchContext  # noqa: E402
 from laos.context import ContextManager  # noqa: E402
 from laos.kernel import AgentKernel  # noqa: E402
 
@@ -112,6 +113,65 @@ class TestBuildState(KernelTestCase):
         row["event"] = "tampered"
         self.assertNotEqual(self.kernel.audit.records[-1]["event"], "tampered",
                             "audit 切片必须是浅拷贝，不得共享顶层 dict")
+
+
+class TestRaceFreeReads(KernelTestCase):
+    """laosweb 的 1s 轮询读 vs demo 线程写：内核可观测面不得抛竞态异常。"""
+
+    def test_pcb_to_dict_excludes_live_ctx(self):
+        """to_dict 不得深拷贝"活的" ContextManager。
+
+        回归背景：asdict 会深拷贝非 dataclass 叶子 —— 包括 demo 线程仍在
+        向 _window 追加消息的 ctx，1s 轮询 × 每 agent 放大后既慢又可能在
+        拷贝途中 RuntimeError。输出形状必须不变：无 ctx 键、caps 为排序列表。
+        """
+        ctx = ContextManager(system_prompt="race", max_tokens=2000,
+                             swap_dir=self.workdir / "swap")
+        ctx.append("user", "hello world")
+        pcb = self.kernel.spawn(name="snap-agent", caps=["b", "a"], ctx=ctx,
+                                branch="main")
+        d = pcb.to_dict()
+        self.assertNotIn("ctx", d)
+        self.assertEqual(d["caps"], ["a", "b"])
+        # 此后继续向上下文追加：已返回的 dict 不受影响（不得共享引用）
+        before = json.dumps(d, sort_keys=True, ensure_ascii=False)
+        ctx.append("assistant", "x" * 400)
+        self.assertEqual(json.dumps(d, sort_keys=True, ensure_ascii=False), before)
+
+    def test_concurrent_spawn_while_reading_ps_and_branches(self):
+        """并发冒烟：spawn 线程边写表，主线程边读 ps()/branches.list()。
+
+        未快照/未加锁时，dict 视图迭代撞上插入会抛
+        RuntimeError: dictionary changed size during iteration。
+        """
+        errors: list[BaseException] = []
+        main = self.kernel.branches.get("main")
+
+        def spawner():
+            try:
+                for i in range(50):
+                    ctx = ContextManager(system_prompt=f"s{i}", max_tokens=500,
+                                         swap_dir=self.workdir / "swap")
+                    self.kernel.spawn(name=f"race-{i}", caps=["sys.*"],
+                                      ctx=ctx, branch="main")
+                    if i % 5 == 0:  # 让 branches.list() 的竞态也真实发生
+                        self.kernel.branches.register(BranchContext(
+                            name=f"race-b{i}", base=main.workspace,
+                            workspace=main.workspace))
+            except BaseException as exc:
+                errors.append(exc)
+
+        t = threading.Thread(target=spawner)
+        t.start()
+        for _ in range(50):  # 与 spawn 并发交错的固定读取次数（短且确定）
+            self.kernel.ps()
+            self.kernel.branches.list()
+        t.join()
+        self.assertFalse(errors, f"并发读写期间出现异常: {errors!r}")
+        self.assertEqual(len(self.kernel.ps()), 50)
+        names = {b["name"] for b in self.kernel.branches.list()}
+        self.assertIn("main", names)
+        self.assertTrue(any(n.startswith("race-b") for n in names))
 
 
 class TestHttp(unittest.TestCase):

@@ -18,7 +18,7 @@ import json
 import os
 import posixpath
 import time
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, replace
 from pathlib import Path
 from typing import Any, Callable
 
@@ -86,7 +86,11 @@ class PCB:
     task_scope: list[str] | None = None  # 意图驱动的虚拟路径前缀白名单（空/None = 不限）
 
     def to_dict(self) -> dict:
-        d = asdict(self)
+        # asdict 会深拷贝全部字段，而 ctx 是"活的" ContextManager（demo 线程
+        # 还在往窗口追加消息）：深拷贝既慢（1s 轮询 × 每 agent）又可能撞上
+        # RuntimeError。用 replace 把 ctx 置空让 asdict 根本不触碰它，
+        # 输出形状不变（无 ctx 键，caps 为排序列表）。
+        d = asdict(replace(self, ctx=None))
         d.pop("ctx", None)
         d["caps"] = sorted(self.caps.patterns)
         return d
@@ -105,6 +109,11 @@ class AuditLog:
         self.records: list[dict] = []
 
     def write(self, record: dict) -> None:
+        # 单调序号在 append 前盖章：seq == 记录在 self.records 里的下标，
+        # 审计消费者（laosweb 前端去重键）不必再从"总数-窗口"反推全局序号
+        # —— 观测线程采样 status 与切片 audit 之间若混入新记录，反推值会
+        # 漂移导致前端重复插入。GIL 下 len+append 对本用途足够原子。
+        record["seq"] = len(self.records)
         self.records.append(record)
         self._fh.write(json.dumps(record, ensure_ascii=False) + "\n")
         self._fh.flush()
@@ -315,7 +324,10 @@ class AgentKernel:
                                   "by": pid, "to": to_pid})
 
     def ps(self) -> list[dict]:
-        return [p.to_dict() for p in self.procs.values()]
+        # 先快照再迭代：HTTP 观测线程读 ps() 的同时 demo 线程可能 spawn
+        # （往 self.procs 插入），直接迭代 dict 视图会
+        # RuntimeError: dictionary changed size during iteration
+        return [p.to_dict() for p in list(self.procs.values())]
 
     # -- 系统调用网关 -----------------------------------------------------
     async def syscall(self, pid: int, tool: str, args: dict | None = None,

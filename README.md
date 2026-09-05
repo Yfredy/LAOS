@@ -273,3 +273,4 @@ laos/
 | `LAOS_RISK_RESERVE` | `1` | spawn 准入保留水位（剩余预算须严格高于此值） |
 | `LAOS_TASK_TIMEOUT` | `30` | MCP Tasks 路径（`syscall(..., task=True)`）轮询任务结果的总超时（秒） |
 | `LAOS_EXEC_ELICIT` | `0` | 置 `1` 时 proc.exec 白名单外命令先经 elicitation 请求人类放行（accept 放行 / decline 拒绝） |
+| `LAOS_WEB_PORT` | `8800` | laosweb 面板端口（本机若 8800 被占用/保留，可用 LAOS_WEB_PORT=18800 规避） |
