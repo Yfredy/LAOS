@@ -9,6 +9,7 @@ laosd 的内核状态在内存里，laosctl 通过持久化的审计日志做回
     python bin/laosctl.py top                   # 按 syscall 聚合耗时
     python bin/laosctl.py prof                  # eBPF 采集的真实 syscall 分布
     python bin/laosctl.py budget                # 车队风险账本回放（Irreversibility Budget 2.0）
+    python bin/laosctl.py spans                 # AgentProf 语义剖析回放
 """
 
 from __future__ import annotations
@@ -21,6 +22,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
 DEFAULT_AUDIT = REPO / "var" / "audit.jsonl"
+sys.path.insert(0, str(REPO))  # cmd_spans 需要 import laos.agentprof（同 laosd.py）
 
 
 def load(path: Path) -> list[dict]:
@@ -106,6 +108,20 @@ def cmd_ps(records: list[dict], args) -> None:
     print("\n  syscalls=成功执行  denied=内核能力表拒绝  failed=驱动拒绝")
 
 
+def cmd_spans(records: list[dict], args) -> None:
+    """AgentProf 语义剖析回放：per-agent span 摘要 + 启发式发现。"""
+    from laos.agentprof import build_spans, score
+    spans = build_spans(records)
+    if not spans:
+        print("无 spawn 记录，无法构建 span")
+        return
+    for sp in spans:
+        print(f"pid={sp.pid} {sp.name}: calls={len(sp.calls)} denied={sp.denied} "
+              f"total_ms={sp.total_ms:.1f}")
+        for flag in score(sp):
+            print(f"    ! {flag}")
+
+
 def cmd_budget(records: list[dict], args) -> None:
     """Irreversibility Budget 2.0 的车队风险账本回放。"""
     spent = 0
@@ -147,7 +163,7 @@ def cmd_prof(records: list[dict], args) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser(description="laosctl —— Linux AgentOS 控制面")
     ap.add_argument("command", choices=["audit", "trace", "denied", "top", "ps", "prof",
-                                        "budget"])
+                                        "budget", "spans"])
     ap.add_argument("--file", type=str, default=str(DEFAULT_AUDIT))
     ap.add_argument("--pid", type=int)
     ap.add_argument("--event", type=str)
@@ -156,7 +172,7 @@ def main() -> int:
     records = load(Path(args.file))
     {"audit": cmd_audit, "trace": cmd_trace, "denied": cmd_denied,
      "top": cmd_top, "ps": cmd_ps, "prof": cmd_prof,
-     "budget": cmd_budget}[args.command](records, args)
+     "budget": cmd_budget, "spans": cmd_spans}[args.command](records, args)
     return 0
 
 

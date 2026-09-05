@@ -198,6 +198,16 @@ async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
     print(f"  风险账本   : spent={kernel.risk.spent} remaining={kernel.risk.remaining} "
           f"(budget={kernel.risk.budget}, reserve={kernel.risk.reserve})")
 
+    from laos.agentprof import build_spans, score, export_otlp
+    spans = build_spans(kernel.audit.records)
+    if spans:
+        trace_dir = WORKDIR / "traces"
+        export_otlp(spans, trace_dir)
+        print(f"  语义剖析   : {len(spans)} 个 agent span -> {trace_dir}")
+        for sp in spans:
+            for flag in score(sp):
+                print(f"    [pid={sp.pid} {sp.name}] {flag}")
+
     if prof is not None:
         probes = prof.stop()
         kernel.audit.write({"t": time.time(), "event": "prof_summary",
