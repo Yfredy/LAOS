@@ -35,7 +35,8 @@
 **Interfaces:**
 - Produces:
   - 模块级：`_pending: dict[str, dict]`（cid → {op, event: threading.Event, answer: bool|None}）、`_operator_pid: int | None`。
-  - `web_confirm(op: dict) -> bool`：压队（cid = f"c{seq}"）→ `event.wait(60)` → 返回 answer（超时/未答 = False）。
+  - `web_confirm(op: dict) -> bool`：压队（cid = f"c{seq}"）→ `event.wait(CONFIRM_TIMEOUT_S)` → 返回 answer（超时/未答 = False）。等待时长为模块常量 `CONFIRM_TIMEOUT_S = 60`（测试 monkeypatch 用）。
+  - `set_kernel(kernel) -> None` / `get_kernel() -> AgentKernel`：模块级内核持有器的读写接口（Handler 与测试共用）。
   - `build_state` 增键 `"pending_confirm": [{"id", "tool", "message"}...]`（从 _pending 投影）与 `"operator_pid"`。
   - POST 端点（JSON body，返回 JSON）：
     - `POST /api/confirm` `{"id": cid, "allow": bool}` → 置 answer + set event → `{"ok": true}`
@@ -85,10 +86,13 @@ class TestInteractivity(unittest.TestCase):
     def test_confirm_timeout_denies(self):
         import time
         res = binmod.web_confirm({"tool": "x"})  # 无 pending 投放（直接测函数需短超时）
-        # 注：直测超时需要 60s——改为测压队后答 False 的路径
-```
+        # 注：直测超时需要 60s——把 CONFIRM_TIMEOUT_S monkeypatch 成 0.5，
+        # 压队后不开答，0.8s 后断言返回 False 且队列清空
+        time.sleep(0.8)
+        self.assertFalse(res)
+        self.assertEqual(len(binmod._pending), 0)
 
-（实现者注意：`web_confirm` 的 60s 等待不能直接测——把等待时长提为模块常量 `CONFIRM_TIMEOUT_S = 60`，测试里 monkeypatch 成 0.5；`test_confirm_timeout_denies` 压队后不开答，0.8s 后断言返回 False 且队列清空。）
+    def test_kill_agent(self):
 
     def test_kill_agent(self):
         victim = <spawn 一个一次性 agent>
