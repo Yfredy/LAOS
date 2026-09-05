@@ -209,6 +209,16 @@ class AgentKernel:
         budget: int | None = None,
         risk_cap: int | None = None,
     ) -> PCB:
+        # 准入控制：车队风险剩余低于保留水位时拒绝新 agent 进场
+        if not self.risk.can_admit():
+            self.audit.write(
+                {"t": time.time(), "event": "admission", "name": name,
+                 "decision": "deny", "fleet_remaining": self.risk.remaining}
+            )
+            raise PermissionError(
+                f"EACCES: fleet risk reserve not met "
+                f"(remaining={self.risk.remaining}, reserve={self.risk.reserve})"
+            )
         self._next_pid += 1
         pcb = PCB(
             pid=self._next_pid,
@@ -224,7 +234,8 @@ class AgentKernel:
         self.scheduler.register(pcb.pid, token_budget=self._agent_token_budget)
         self.audit.write(
             {"t": time.time(), "event": "spawn", "pid": pcb.pid, "name": name,
-             "caps": caps, "risk_cap": risk_cap}
+             "caps": caps, "risk_cap": risk_cap,
+             "fleet_remaining": self.risk.remaining}
         )
         return pcb
 

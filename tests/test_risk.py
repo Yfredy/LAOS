@@ -145,5 +145,42 @@ class TestAgentRiskCap(unittest.TestCase):
         self.assertNotIn("EACCES", res.error)
 
 
+class TestAdmissionControl(unittest.TestCase):
+    def setUp(self):
+        self.td = tempfile.TemporaryDirectory()
+        self.k = AgentKernel(Path(self.td.name) / "var", audit_mode="w",
+                             irreversibility_budget=2, confirm=lambda op: True)
+        # remaining=2, reserve=1：2 > 1 → 首个 agent 准入
+
+    def tearDown(self):
+        self.k.shutdown()
+        self.td.cleanup()
+
+    def test_admit_when_above_reserve(self):
+        pcb = self.k.spawn(name="a", caps=["sys.*"], ctx=object())
+        self.assertIn(pcb.pid, self.k.procs)
+
+    def test_deny_when_at_reserve(self):
+        self.k.risk.budget = 1  # remaining=1 <= reserve=1
+        with self.assertRaises(PermissionError) as cm:
+            self.k.spawn(name="b", caps=["sys.*"], ctx=object())
+        self.assertIn("fleet risk reserve", str(cm.exception))
+        denies = [r for r in self.k.audit.records if r.get("event") == "admission"]
+        self.assertEqual(len(denies), 1)
+        self.assertEqual(denies[0]["decision"], "deny")
+
+    def test_spend_then_deny(self):
+        self.k.syscall_table["t.op"] = ("proc", _spec(name="t.op", cost=1))
+        self.k.procs[1] = PCB(pid=1, name="a", caps=CapabilitySet(["*"]), budget=None)
+        asyncio.run(self.k.syscall(1, "t.op", {"x": "y"}))  # remaining 2->1
+        with self.assertRaises(PermissionError):
+            self.k.spawn(name="b", caps=["sys.*"], ctx=object())  # 1 <= 1
+
+    def test_admit_event_records_fleet_remaining(self):
+        self.k.spawn(name="a", caps=["sys.*"], ctx=object())
+        spawns = [r for r in self.k.audit.records if r.get("event") == "spawn"]
+        self.assertEqual(spawns[0]["fleet_remaining"], 2)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
