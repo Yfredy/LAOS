@@ -57,5 +57,27 @@ class TestBidirectionalRequests(_DriverCase):
         self.assertIn("EDENIED", res.text)
 
 
+class TestTasks(_DriverCase):
+    """MCP Tasks：tools/call 异步执行 + tasks/get / tasks/result 轮询。"""
+
+    def setUp(self):
+        super().setUp()
+        self.client.start()
+        self.assertIn("tasks", self.client.capabilities)
+
+    def test_task_lifecycle(self):
+        task_id = self.client.call_tool_task("slow", {"seconds": 0.3})
+        status = self.client._rpc("tasks/get", {"taskId": task_id})["result"]["task"]["status"]
+        self.assertIn(status, ("working", "completed"))
+        res = self.client.task_result(task_id, timeout_s=10.0)
+        self.assertTrue(res.ok, res.error)
+        self.assertIn("SLOW-OK", res.text)
+
+    def test_task_result_unknown(self):
+        res = self.client.task_result("t-nope", timeout_s=1.0)
+        self.assertFalse(res.ok)
+        self.assertIn("ENOENT", res.error)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

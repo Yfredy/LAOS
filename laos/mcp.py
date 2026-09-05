@@ -22,7 +22,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable
 
-PROTOCOL_VERSION = "2025-06-18"
+PROTOCOL_VERSION = "2026-07-28"
 
 _JSONRPC_PARSE_ERROR = -32700
 _JSONRPC_INVALID_REQUEST = -32600
@@ -88,6 +88,9 @@ class MCPServer:
         self._tools: dict[str, tuple[ToolSpec, Callable[..., str]]] = {}
         # server→client 请求的 id 计数（从 10000 起，避免与 client 请求 id 混淆）
         self._req_id = 10000
+        # Tasks（2026-07-28）：taskId -> {"taskId","status","content","is_error"}
+        self._tasks: dict[str, dict] = {}
+        self._task_seq = 0
 
     def tool(self, name: str, description: str, schema: dict | None = None,
              reversible: bool = True, risk: str = "low",
@@ -117,7 +120,7 @@ class MCPServer:
                 "id": rid,
                 "result": {
                     "protocolVersion": PROTOCOL_VERSION,
-                    "capabilities": {"tools": {}},
+                    "capabilities": {"tools": {}, "tasks": {}},
                     "serverInfo": {"name": self.name, "version": self.version},
                 },
             }
@@ -146,8 +149,31 @@ class MCPServer:
                         "message": f"ENOSYS: no such tool: {tool_name}",
                     },
                 }
+            spec, fn = entry
+            if "task" in params:
+                # Tasks（2026-07-28）：异步执行，立即返回任务句柄。
+                # 注意用 key 存在性判断而非真值——规范线格式是 "task": {}（空 dict 为假值）。
+                # 红线：task 线程内禁止 elicit（会与主循环抢 stdin）。
+                self._task_seq += 1
+                task_id = f"t-{self._task_seq}"
+                record = {"taskId": task_id, "status": "working",
+                          "content": None, "is_error": False}
+                self._tasks[task_id] = record
+
+                def _run():
+                    try:
+                        out = str(fn(**arguments))
+                        record["content"] = [{"type": "text", "text": out}]
+                    except Exception as exc:
+                        record["content"] = [{"type": "text", "text": str(exc)}]
+                        record["is_error"] = True
+                    record["status"] = "completed"
+
+                threading.Thread(target=_run, daemon=True).start()
+                return {"jsonrpc": "2.0", "id": rid,
+                        "result": {"task": {"taskId": task_id, "status": "working"}}}
             try:
-                out = entry[1](**arguments)
+                out = fn(**arguments)
                 return {
                     "jsonrpc": "2.0",
                     "id": rid,
@@ -167,6 +193,28 @@ class MCPServer:
                         "isError": True,
                     },
                 }
+
+        if method == "tasks/get":
+            task = self._tasks.get((req.get("params") or {}).get("taskId", ""))
+            if task is None:
+                return {"jsonrpc": "2.0", "id": rid,
+                        "error": {"code": _JSONRPC_METHOD_NOT_FOUND,
+                                  "message": "ENOENT: no such task"}}
+            return {"jsonrpc": "2.0", "id": rid,
+                    "result": {"task": {"taskId": task["taskId"], "status": task["status"]}}}
+
+        if method == "tasks/result":
+            task = self._tasks.get((req.get("params") or {}).get("taskId", ""))
+            if task is None:
+                return {"jsonrpc": "2.0", "id": rid,
+                        "error": {"code": _JSONRPC_METHOD_NOT_FOUND,
+                                  "message": "ENOENT: no such task"}}
+            if task["status"] != "completed":
+                return {"jsonrpc": "2.0", "id": rid,
+                        "result": {"task": {"taskId": task["taskId"], "status": task["status"]}}}
+            return {"jsonrpc": "2.0", "id": rid,
+                    "result": {"status": "completed", "content": task["content"],
+                               "isError": task["is_error"]}}
 
         return {
             "jsonrpc": "2.0",
@@ -249,6 +297,7 @@ class MCPClient:
         self._lock = threading.Lock()
         self._id = 0
         self.tools: dict[str, ToolSpec] = {}
+        self.capabilities: dict = {}  # initialize 响应里的 server capabilities
         self._on_server_request = on_server_request
 
     @property
@@ -364,7 +413,7 @@ class MCPClient:
                     return resp
 
     def _initialize(self) -> None:
-        self._rpc(
+        resp = self._rpc(
             "initialize",
             {
                 "protocolVersion": PROTOCOL_VERSION,
@@ -372,6 +421,7 @@ class MCPClient:
                 "clientInfo": {"name": "laosd", "version": "0.1.0"},
             },
         )
+        self.capabilities = resp.get("result", {}).get("capabilities", {})
         self._rpc("notifications/initialized", notify=True)
 
     def list_tools(self) -> list[ToolSpec]:
@@ -397,3 +447,31 @@ class MCPClient:
         if result.get("isError"):
             return CallResult(False, content, content[0].get("text") if content else "EIO")
         return CallResult(True, content)
+
+    def call_tool_task(self, name: str, arguments: dict) -> str:
+        """异步发起 tools/call（Tasks 2026-07-28），返回 taskId。"""
+        resp = self._rpc("tools/call", {"name": name, "arguments": arguments,
+                                        "task": {}})
+        task = resp.get("result", {}).get("task") or {}
+        if not task.get("taskId"):
+            raise RuntimeError(f"driver {self.name} did not accept task mode")
+        return task["taskId"]
+
+    def task_result(self, task_id: str, timeout_s: float = 30.0,
+                    poll_s: float = 0.05) -> CallResult:
+        """轮询 tasks/result 直到 completed / 出错 / 超时。"""
+        import time as _time
+        deadline = _time.monotonic() + timeout_s
+        while _time.monotonic() < deadline:
+            resp = self._rpc("tasks/result", {"taskId": task_id})
+            if "error" in resp:
+                return CallResult.fail(resp["error"].get("message", "unknown error"))
+            result = resp.get("result", {})
+            if result.get("status") == "completed":
+                content = result.get("content", [])
+                if result.get("isError"):
+                    return CallResult(False, content,
+                                      content[0].get("text") if content else "EIO")
+                return CallResult(True, content)
+            _time.sleep(poll_s)
+        return CallResult.fail(f"ETIMEDOUT: task {task_id}")
