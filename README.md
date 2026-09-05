@@ -203,7 +203,7 @@ python bin/laosctl.py budget    # 车队风险账本回放
 | **强制隔离** | 驱动 spawn 已接 namespace + cgroup v2（挂真实驱动 pid，子孙继承）+ **seccomp block-dangerous**（`LAOS_SECCOMP`，unshare 后经 bootstrap shim 注入、随 fork/execve 继承到 proc.exec 子进程） | per-agent（而非 per-driver）cgroup；seccomp 白名单模式（按驱动画像） |
 | **不可逆操作预算** | ~~只有 syscall 次数预算（EDQUOT）~~ → **Irreversibility Budget 2.0**：按工具定价（`irreversibility_cost`）+ agent 风险帽 + 车队账本（`FleetLedger`）+ spawn 准入控制（保留水位） | 探索期免计费、commit 时结算（Externalization Barriers 式延迟定价） |
 | **分支的 O(1) 创建** | **hardlink COW**：fork 只复制目录项、数据块全共享、写路径 temp+replace 断链（`laos/cow.py`）；diff 走 inode 快路径 | FUSE BranchFS（真 O(1) inode 级 + 原子 rename 语义）仍是长期项 |
-| **上下文一致性** | 只看 token 水位 | 检测 stale context（工作区已变但上下文未同步），触发强制重读 |
+| **上下文一致性** | ~~只看 token 水位~~ → **Stale Context 检测**：fs.read 观察簿 + fs.write/append 失效他人 + branch commit 批量失效，内核通告注入 agent 窗口 | 跨驱动（非 fs 类）副作用的一致性追踪 |
 | **语义 profiling** | **bpftrace 集成**（`LAOS_PROF=1`）：按真实驱动 pid 采集驱动进程与其直接子进程的 syscall 分布，`laosctl prof` 回放 | AgentProf 式语义剖析：每步意图、工具选择合理性 |
 | **多 Agent 通信** | 共享文件系统 | Agent 间 IPC：消息队列 + 能力委托（capability delegation） |
 | **可观测闭环** | JSONL 审计 | 导出 OpenTelemetry trace，一次任务 = 一条 trace，一次 syscall = 一个 span |
@@ -219,7 +219,7 @@ laos/
     kernel.py     laosd 薄内核：PCB、能力表、syscall 网关、审计、分支表
     agent.py      Agent 运行时（ReAct 循环）
     brain.py      Brain 接口 + ScriptedBrain（确定性）+ OpenAIChatBrain（真 LLM）
-    context.py    Context Manager：窗口 / 摘要压缩 / swap
+    context.py    Context Manager：窗口 / 摘要压缩 / swap / 观察簿（stale 检测）
     branch.py     BranchContext：fork / explore / commit，first-commit-wins
     sandbox.py    Linux 隔离封装（namespace / cgroup）+ 路径 jail
     risk.py       FleetLedger：车队级不可逆风险账本（加权/两级记账/准入水位）
