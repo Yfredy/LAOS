@@ -207,6 +207,7 @@ class AgentKernel:
         branch: str | None = None,
         parent: int = 0,
         budget: int | None = None,
+        risk_cap: int | None = None,
     ) -> PCB:
         self._next_pid += 1
         pcb = PCB(
@@ -217,11 +218,13 @@ class AgentKernel:
             branch=branch,
             parent=parent,
             budget=budget,
+            risk_cap=risk_cap,
         )
         self.procs[pcb.pid] = pcb
         self.scheduler.register(pcb.pid, token_budget=self._agent_token_budget)
         self.audit.write(
-            {"t": time.time(), "event": "spawn", "pid": pcb.pid, "name": name, "caps": caps}
+            {"t": time.time(), "event": "spawn", "pid": pcb.pid, "name": name,
+             "caps": caps, "risk_cap": risk_cap}
         )
         return pcb
 

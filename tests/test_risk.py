@@ -99,5 +99,51 @@ class TestWeightedGate(unittest.TestCase):
         self.assertEqual(self.k.irreversibility_budget, 0)
 
 
+class TestAgentRiskCap(unittest.TestCase):
+    def setUp(self):
+        self.td = tempfile.TemporaryDirectory()
+        self.k = AgentKernel(Path(self.td.name) / "var", audit_mode="w",
+                             confirm=lambda op: True)
+        self.k.syscall_table["proc.exec"] = ("proc", _spec(cost=2))
+        # 车队默认预算 3 会抢先触发 fleet 闸门；本类只测 agent 帽，调大隔离干扰
+        self.k.risk.budget = 100
+        self.td2 = tempfile.TemporaryDirectory()
+
+    def tearDown(self):
+        self.k.shutdown()
+        self.td.cleanup()
+        self.td2.cleanup()
+
+    def _spawn(self, risk_cap):
+        return self.k.spawn(name="a", caps=["proc.*"], ctx=object(),
+                            risk_cap=risk_cap)
+
+    def test_cap_exceeded_denies_before_confirm(self):
+        pcb = self._spawn(risk_cap=1)  # 帽 1 < cost 2
+        res = asyncio.run(self.k.syscall(pcb.pid, "proc.exec", {"x": "y"}))
+        self.assertFalse(res.ok)
+        self.assertIn("agent risk cap exceeded", res.error)
+        self.assertEqual(self.k.risk.spent, 0)
+
+    def test_cap_boundary_allows(self):
+        pcb = self._spawn(risk_cap=2)  # 帽 == cost，恰好放行
+        res = asyncio.run(self.k.syscall(pcb.pid, "proc.exec", {"x": "y"}))
+        self.assertNotIn("EACCES", res.error)   # 无真驱动，落到 EIO
+        self.assertIn("EIO", res.error)
+        self.assertEqual(pcb.stats["risk"], 2)
+
+    def test_cumulative_spend_hits_cap(self):
+        pcb = self._spawn(risk_cap=3)
+        asyncio.run(self.k.syscall(pcb.pid, "proc.exec", {"x": "1"}))   # 0+2 <= 3，计 2
+        res = asyncio.run(self.k.syscall(pcb.pid, "proc.exec", {"x": "2"}))
+        self.assertIn("agent risk cap exceeded", res.error)  # 2+2 > 3
+        self.assertEqual(self.k.risk.per_agent[pcb.pid], 2)
+
+    def test_no_cap_is_unlimited(self):
+        pcb = self._spawn(risk_cap=None)
+        res = asyncio.run(self.k.syscall(pcb.pid, "proc.exec", {"x": "y"}))
+        self.assertNotIn("EACCES", res.error)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
