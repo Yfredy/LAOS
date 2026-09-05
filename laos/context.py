@@ -52,6 +52,7 @@ class ContextStats:
     turns: int = 0
     compactions: int = 0
     swapped_bytes: int = 0
+    stale_marks: int = 0
 
 
 class ContextManager:
@@ -70,6 +71,9 @@ class ContextManager:
         self.stats = ContextStats()
         self._summary: str = ""
         self._window: list[Message] = []
+        # 观察簿：path -> 读时内容摘要（Stale Context 检测，HKU/AgenticOS'26）
+        self._observations: dict[str, str] = {}
+        self._stale: set[str] = set()
         if system_prompt:
             self._system = Message("system", system_prompt)
         else:
@@ -182,3 +186,25 @@ class ContextManager:
 
     def resume(self) -> None:
         self._suspended = False
+
+    # -- Stale Context：观察簿 --------------------------------------------
+    def observe(self, path: str, digest: str) -> None:
+        """记录一次 fs.read 观察：读到的内容摘要。重读即愈合。"""
+        self._observations[path] = digest
+        self._stale.discard(path)
+
+    def invalidate(self, path: str) -> None:
+        """该路径被外部修改：观察过它的上下文从此陈旧。"""
+        if path in self._observations and path not in self._stale:
+            self._stale.add(path)
+            self.stats.stale_marks += 1
+
+    def drain_notices(self) -> list[str]:
+        """取走当前陈旧路径列表（一次性，取走即清）。"""
+        out = sorted(self._stale)
+        self._stale.clear()
+        return out
+
+    def notice(self, content: str) -> Message:
+        """内核通告：以 user 角色注入（append('system') 会替换系统提示，勿用）。"""
+        return self.append("user", f"[kernel-notice] {content}")
