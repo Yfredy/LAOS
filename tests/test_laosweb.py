@@ -8,9 +8,11 @@ from __future__ import annotations
 import asyncio
 import http.server
 import json
+import os
 import sys
 import tempfile
 import threading
+import time
 import unittest
 import urllib.error
 import urllib.request
@@ -20,6 +22,7 @@ REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 sys.path.insert(0, str(REPO / "bin"))  # bin/ 非包，路径注入以便 import laosweb
 
+import laosd  # noqa: E402  （laosweb 已把 bin/ 注入 sys.path，此处取同一模块对象）
 import laosweb  # noqa: E402
 from laos.branch import BranchContext  # noqa: E402
 from laos.context import ContextManager  # noqa: E402
@@ -259,6 +262,217 @@ class TestHttp(unittest.TestCase):
             self.assertEqual(cm.exception.code, 503)
         finally:
             laosweb._kernel = prev
+
+def _safe_shutdown(kernel) -> None:
+    """二次 shutdown 会向已关闭的审计句柄写记录 —— 只关还没关过的。"""
+    if kernel is None or kernel.audit._fh.closed:
+        return
+    kernel.shutdown()
+
+
+class TestInteractivity(unittest.TestCase):
+    """POST 交互端点：确认队列 / kill / operator 信箱 / restart。
+
+    内核不带驱动（kill 与 msg.* 是内建路径，无需 MCP 子进程）；restart
+    用例自行把 laosd.WORKDIR / laosd.demo 换成临时桩，避免重跑完整 demo。
+    """
+
+    def setUp(self):
+        self._td = tempfile.TemporaryDirectory()
+        self.workdir = Path(self._td.name) / "var"
+        self.kernel = AgentKernel(self.workdir, confirm=lambda op: True,
+                                  irreversibility_budget=100)
+        self._prev_kernel = laosweb.get_kernel()
+        self._prev_operator = laosweb._operator_pid
+        self._prev_auto = laosweb._auto_yes
+        self._prev_demo_done = laosweb._demo_done
+        self._prev_env = {k: os.environ.get(k)
+                          for k in ("LAOS_CONFIRM", "LAOS_RISK_BUDGET")}
+        laosweb.set_kernel(self.kernel)
+        self.server = http.server.ThreadingHTTPServer(("127.0.0.1", 0),
+                                                      laosweb.Handler)
+        self.port = self.server.server_address[1]
+        threading.Thread(target=self.server.serve_forever, daemon=True).start()
+
+    def tearDown(self):
+        cur = laosweb.get_kernel()
+        laosweb.set_kernel(self._prev_kernel)
+        laosweb._operator_pid = self._prev_operator
+        laosweb._auto_yes = self._prev_auto
+        laosweb._demo_done = self._prev_demo_done
+        for key, val in self._prev_env.items():
+            if val is None:
+                os.environ.pop(key, None)
+            else:
+                os.environ[key] = val
+        self.server.shutdown()
+        self.server.server_close()
+        _safe_shutdown(cur)          # restart 用例：cur 是重启后的新内核
+        _safe_shutdown(self.kernel)  # 未 restart 的用例：老内核在此关闭
+        self._td.cleanup()
+
+    def _spawn(self, name: str, caps: list[str]):
+        ctx = ContextManager(system_prompt="test", max_tokens=500,
+                             swap_dir=self.workdir / "swap")
+        return self.kernel.spawn(name=name, caps=caps, ctx=ctx)
+
+    def _post(self, path, body):
+        req = urllib.request.Request(
+            f"http://127.0.0.1:{self.port}{path}",
+            data=json.dumps(body).encode("utf-8"),
+            headers={"Content-Type": "application/json"})
+        return json.loads(urllib.request.urlopen(req).read())
+
+    def _post_raw(self, path, data: bytes):
+        req = urllib.request.Request(
+            f"http://127.0.0.1:{self.port}{path}", data=data,
+            headers={"Content-Type": "application/json"})
+        return urllib.request.urlopen(req)
+
+    def _get_state(self):
+        with urllib.request.urlopen(
+                f"http://127.0.0.1:{self.port}/api/state") as resp:
+            return json.loads(resp.read().decode("utf-8"))
+
+    # -- 确认队列 ----------------------------------------------------------
+
+    def test_confirm_roundtrip(self):
+        answers = []
+
+        def ask():
+            answers.append(laosweb.web_confirm(
+                {"tool": "proc.exec", "message": "rm -rf /"}))
+
+        t = threading.Thread(target=ask, daemon=True)
+        t.start()
+        deadline = time.time() + 2
+        while not laosweb._pending and time.time() < deadline:
+            time.sleep(0.02)
+        state = self._get_state()
+        self.assertEqual(len(state["pending_confirm"]), 1)
+        row = state["pending_confirm"][0]
+        self.assertEqual(row["tool"], "proc.exec")
+        self.assertEqual(row["message"], "rm -rf /")
+        self.assertTrue(row["id"])
+        self.assertIn("operator_pid", state)
+        res = self._post("/api/confirm", {"id": row["id"], "allow": True})
+        self.assertTrue(res["ok"])
+        t.join(timeout=2)
+        self.assertFalse(t.is_alive(), "裁决后 web_confirm 必须返回")
+        self.assertEqual(answers, [True])
+        self.assertEqual(laosweb._pending, {}, "已裁决的队列项必须移除")
+
+    def test_confirm_deny_roundtrip(self):
+        answers = []
+
+        def ask():
+            answers.append(laosweb.web_confirm({"tool": "proc.exec"}))
+
+        t = threading.Thread(target=ask, daemon=True)
+        t.start()
+        deadline = time.time() + 2
+        while not laosweb._pending and time.time() < deadline:
+            time.sleep(0.02)
+        cid = next(iter(laosweb._pending))
+        self._post("/api/confirm", {"id": cid, "allow": False})
+        t.join(timeout=2)
+        self.assertEqual(answers, [False])
+        self.assertEqual(laosweb._pending, {})
+
+    def test_confirm_unknown_id_404(self):
+        with self.assertRaises(urllib.error.HTTPError) as cm:
+            self._post("/api/confirm", {"id": "c999", "allow": True})
+        self.assertEqual(cm.exception.code, 404)
+
+    def test_confirm_timeout_denies_and_cleans_queue(self):
+        old = laosweb.CONFIRM_TIMEOUT_S
+        laosweb.CONFIRM_TIMEOUT_S = 0.3  # monkeypatch：等 0.3s 即超时
+        try:
+            res = laosweb.web_confirm({"tool": "x", "message": "y"})
+        finally:
+            laosweb.CONFIRM_TIMEOUT_S = old
+        self.assertFalse(res, "超时按拒绝处理")
+        self.assertEqual(laosweb._pending, {}, "超时后队列项必须清掉")
+
+    def test_auto_yes_short_circuits_without_queueing(self):
+        laosweb._auto_yes = True
+        self.assertTrue(laosweb.web_confirm({"tool": "proc.exec"}))
+        self.assertEqual(laosweb._pending, {}, "auto-yes 不得压队")
+
+    def test_post_unknown_path_404(self):
+        with self.assertRaises(urllib.error.HTTPError) as cm:
+            self._post("/api/nope", {})
+        self.assertEqual(cm.exception.code, 404)
+
+    def test_post_invalid_json_400(self):
+        with self.assertRaises(urllib.error.HTTPError) as cm:
+            self._post_raw("/api/confirm", b"{not json")
+        self.assertEqual(cm.exception.code, 400)
+
+    # -- kill --------------------------------------------------------------
+
+    def test_kill_agent(self):
+        victim = self._spawn("victim", ["msg.*"])
+        res = self._post("/api/kill", {"pid": victim.pid})
+        self.assertTrue(res["ok"])
+        self.assertEqual(self.kernel.procs[victim.pid].state, "killed")
+        with self.assertRaises(urllib.error.HTTPError) as cm:
+            self._post("/api/kill", {"pid": 424242})
+        self.assertEqual(cm.exception.code, 404)
+
+    # -- operator 信箱 -----------------------------------------------------
+
+    def test_operator_msg_send_and_recv(self):
+        operator = self._spawn("operator", ["msg.*"])
+        target = self._spawn("worker", ["msg.*"])
+        laosweb._operator_pid = operator.pid  # 生产中由 _boot_stack 装配
+        res = self._post("/api/msg", {"to_pid": target.pid, "text": "hi"})
+        self.assertTrue(res["ok"])
+        recv = asyncio.run(self.kernel.syscall(target.pid, "msg.recv", {}))
+        self.assertTrue(recv.ok)
+        self.assertIn("hi", recv.text)
+        # /api/recv：以目标 pid 自己的身份收取信箱（再来一条验证端点）
+        self._post("/api/msg", {"to_pid": target.pid, "text": "again"})
+        res2 = self._post("/api/recv", {"pid": target.pid})
+        self.assertTrue(res2["ok"])
+        self.assertIn("again", res2["text"])
+        # 发给不存在的 pid：syscall 层 ESRCH → ok=false 透传
+        res3 = self._post("/api/msg", {"to_pid": 987654, "text": "nope"})
+        self.assertFalse(res3["ok"])
+
+    # -- restart -----------------------------------------------------------
+
+    def test_restart_rebuilds_kernel(self):
+        async def _noop_demo(kernel, use_real, task):
+            await asyncio.sleep(0)
+
+        prev_workdir = laosd.WORKDIR
+        prev_demo = laosd.demo
+        laosd.WORKDIR = self.workdir      # 新内核落盘进临时目录
+        laosd.demo = _noop_demo           # 不重跑完整 demo（保持用例快速）
+        # 非法 confirm 先拒（此时旧内核还活着）
+        with self.assertRaises(urllib.error.HTTPError) as cm:
+            self._post("/api/restart", {"confirm": "banana", "risk_budget": 3})
+        self.assertEqual(cm.exception.code, 400)
+        try:
+            res = self._post("/api/restart",
+                             {"confirm": "auto-yes", "risk_budget": 9})
+        finally:
+            laosd.WORKDIR = prev_workdir
+            laosd.demo = prev_demo
+        self.assertTrue(res["ok"])
+        newk = laosweb.get_kernel()
+        self.assertIsNot(newk, self.kernel, "restart 必须换新内核对象")
+        self.assertEqual(os.environ.get("LAOS_RISK_BUDGET"), "9")
+        self.assertEqual(os.environ.get("LAOS_CONFIRM"), "auto-yes")
+        self.assertTrue(laosweb._auto_yes)
+        # 新内核含 operator 进程，且 state 暴露 operator_pid
+        names = {p["name"] for p in newk.ps()}
+        self.assertIn("operator", names)
+        state = self._get_state()
+        self.assertIsNotNone(state["operator_pid"])
+        self.assertEqual(state["operator_pid"], laosweb._operator_pid)
+        self.assertIn("pending_confirm", state)
 
 
 if __name__ == "__main__":

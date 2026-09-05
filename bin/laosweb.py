@@ -1,20 +1,27 @@
 #!/usr/bin/env python3
-"""laosweb —— Linux AgentOS 内核状态实时面板。
+"""laosweb —— Linux AgentOS 内核状态实时面板 + 交互操控台。
 
 不重复造轮子：内核引导 / 种子分支 / demo 全部复用 laosd，
-本模块只做两件事——
+本模块做三件事——
   1. build_state(kernel)：把内核可观测面聚合成一个可 JSON 化的 dict
   2. http.server 起一个单页面板 + /api/state（1s 轮询，零依赖）
+  3. POST /api/* 交互端点：确认裁决 / 重启 / kill / operator 信箱
+
+线程红线：HTTP 线程只允许 ① 读状态 ② 同步内核调用（kernel.kill /
+确认队列操作）③ asyncio.run 跑**内建** syscall（msg.*——不经 MCP 驱动、
+无 driver 锁，绝不触碰 demo 循环的驱动互斥量）。
 
 用法：
     python bin/laosweb.py                # 内核 + demo + 面板 (http://127.0.0.1:8800)
     LAOS_WEB_PORT=9000 python bin/laosweb.py
+    LAOS_CONFIRM=auto-yes python bin/laosweb.py   # 高危操作自动放行（照常计费）
 """
 
 from __future__ import annotations
 
 import asyncio
 import http.server
+import itertools
 import json
 import os
 import sys
@@ -25,6 +32,7 @@ REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
 import laosd  # noqa: E402  复用引导器：boot_kernel / seed_main_branch / demo / WORKDIR
+from laos.context import ContextManager  # noqa: E402  operator 进程的上下文
 
 PORT = int(os.environ.get("LAOS_WEB_PORT", "8800"))
 
@@ -32,6 +40,56 @@ PORT = int(os.environ.get("LAOS_WEB_PORT", "8800"))
 _kernel = None
 # demo 线程结束后置 True，面板据此前置"运行中/已结束"徽标
 _demo_done = False
+
+# ---- 交互状态（确认队列 / operator / demo 代数）--------------------------
+# 确认队列：cid -> {id, op, event, answer}；web_confirm 压队并阻塞等待，
+# /api/confirm 应答。demo 线程的事件循环在等待期间冻结——诚实的
+# "系统等你裁决"；HTTP 线程不受影响（每个请求本就是独立线程）。
+CONFIRM_TIMEOUT_S = 60  # 等待裁决上限（秒）；超时按拒绝处理
+_confirm_seq = itertools.count(1)
+_pending: dict[str, dict] = {}
+_auto_yes = False             # confirm=auto-yes 时秒答 True（跳过横幅，照常计费）
+_operator_pid: int | None = None  # 人也是进程：operator 的 pid（信箱入口）
+_demo_gen = 0                 # demo 代数：restart 后旧线程不得置结束徽标
+
+
+def set_kernel(kernel) -> None:
+    """写入模块级内核持有者（Handler 与测试共用）。"""
+    global _kernel
+    _kernel = kernel
+
+
+def get_kernel():
+    """读取模块级内核持有者。"""
+    return _kernel
+
+
+def web_confirm(op: dict) -> bool:
+    """kernel.confirm 的面板实现：压入待裁决队列并阻塞等待人类裁决。
+
+    裁决经 POST /api/confirm 写 answer + 点亮 event；60s 超时按拒绝。
+    _auto_yes（restart 带 confirm=auto-yes）时不排队直接放行。
+    """
+    if _auto_yes:
+        return True
+    cid = f"c{next(_confirm_seq)}"
+    entry = {"id": cid, "op": op, "event": threading.Event(), "answer": None}
+    _pending[cid] = entry
+    try:
+        # CONFIRM_TIMEOUT_S 在调用点取值：测试可 monkeypatch 成短超时
+        if not entry["event"].wait(CONFIRM_TIMEOUT_S):
+            return False  # 超时：默认拒绝
+        return bool(entry["answer"])
+    finally:
+        _pending.pop(cid, None)  # 已裁决/超时后移除队列项
+
+
+def _deny_all_pending() -> None:
+    """restart 时清空确认队列：挂起的裁决一律按拒绝，等待线程立即苏醒。"""
+    for entry in list(_pending.values()):
+        entry["answer"] = False
+        entry["event"].set()
+    _pending.clear()
 
 
 # --------------------------------------------------------------------------
@@ -55,6 +113,13 @@ def build_state(kernel) -> dict:
         "syscalls": kernel.syscalls(),
         "audit": [dict(r) for r in kernel.audit.records[-60:]],
         "demo_done": bool(_demo_done),
+        # 待裁决队列投影（从模块级 _pending 取——确认关属于面板而非单个内核）
+        "pending_confirm": [
+            {"id": e["id"], "tool": e["op"].get("tool", ""),
+             "message": e["op"].get("message", "")}
+            for e in list(_pending.values())
+        ],
+        "operator_pid": _operator_pid,
     }
 
 
@@ -323,6 +388,31 @@ class Handler(http.server.BaseHTTPRequestHandler):
         else:
             self._send(404, b"not found", "text/plain; charset=utf-8", head_only=True)
 
+    def do_POST(self):
+        path = self.path.split("?", 1)[0]
+        handler = _POST_ROUTES.get(path)
+        if handler is None:
+            self._send(404, b'{"error": "not found"}',
+                       "application/json; charset=utf-8")
+            return
+        try:
+            length = int(self.headers.get("Content-Length") or 0)
+            body = json.loads(self.rfile.read(length).decode("utf-8")) if length else {}
+        except ValueError:
+            self._send(400, b'{"error": "invalid JSON body"}',
+                       "application/json; charset=utf-8")
+            return
+        if not isinstance(body, dict):
+            self._send(400, b'{"error": "JSON object body required"}',
+                       "application/json; charset=utf-8")
+            return
+        try:
+            code, payload = handler(body)
+        except Exception as exc:  # 单请求故障不炸服务器线程
+            code, payload = 500, {"ok": False, "error": f"internal error: {exc}"}
+        self._send(code, json.dumps(payload, ensure_ascii=False).encode("utf-8"),
+                   "application/json; charset=utf-8")
+
     def _send(self, code: int, body: bytes, ctype: str, head_only: bool = False) -> None:
         self.send_response(code)
         self.send_header("Content-Type", ctype)
@@ -335,30 +425,162 @@ class Handler(http.server.BaseHTTPRequestHandler):
         pass  # 静默访问日志，避免刷屏
 
 
+# ---- POST 交互端点（HTTP 线程红线：读状态 / 同步 kill / 内建 syscall）----
+def _handle_confirm(body: dict) -> tuple[int, dict]:
+    """POST /api/confirm {"id", "allow"}：应答待裁决项（web_confirm 苏醒）。"""
+    cid = str(body.get("id", ""))
+    entry = _pending.get(cid)
+    if entry is None:
+        return 404, {"ok": False, "error": f"no pending confirm {cid!r}"}
+    entry["answer"] = bool(body.get("allow"))
+    entry["event"].set()
+    return 200, {"ok": True}
+
+
+def _handle_kill(body: dict) -> tuple[int, dict]:
+    """POST /api/kill {"pid"}：同步 kill，HTTP 线程安全（无 await）。"""
+    try:
+        pid = int(body.get("pid"))
+    except (TypeError, ValueError):
+        return 400, {"error": "pid must be an integer"}
+    kernel = get_kernel()
+    if kernel is None:
+        return 503, {"error": "kernel not available"}
+    if not kernel.kill(pid):
+        return 404, {"ok": False, "error": f"no such process {pid}"}
+    return 200, {"ok": True}
+
+
+def _handle_msg(body: dict) -> tuple[int, dict]:
+    """POST /api/msg {"to_pid", "text"}：以 operator 身份 msg.send。
+
+    msg.* 是内核内建 syscall——不经 MCP 驱动、无 driver 锁，HTTP 线程用
+    独立事件循环（asyncio.run）执行安全；绝不在此跑 MCP 路径。
+    """
+    kernel = get_kernel()
+    if kernel is None or _operator_pid is None:
+        return 503, {"error": "kernel/operator not available"}
+    try:
+        to_pid = int(body.get("to_pid"))
+    except (TypeError, ValueError):
+        return 400, {"error": "to_pid must be an integer"}
+    text = str(body.get("text", ""))
+    result = asyncio.run(kernel.syscall(
+        _operator_pid, "msg.send", {"to_pid": to_pid, "text": text}))
+    return 200, {"ok": result.ok, "text": result.text}
+
+
+def _handle_recv(body: dict) -> tuple[int, dict]:
+    """POST /api/recv {"pid"}：以该 pid 自己的身份收取信箱（内建 syscall）。"""
+    kernel = get_kernel()
+    if kernel is None:
+        return 503, {"error": "kernel not available"}
+    try:
+        pid = int(body.get("pid"))
+    except (TypeError, ValueError):
+        return 400, {"error": "pid must be an integer"}
+    result = asyncio.run(kernel.syscall(pid, "msg.recv", {}))
+    return 200, {"ok": result.ok, "text": result.text}
+
+
+def _handle_restart(body: dict) -> tuple[int, dict]:
+    """POST /api/restart {"confirm", "risk_budget"}：换参数重 boot 内核。
+
+    confirm: "no"=横幅裁决（默认）| "auto-yes"=自动放行（跳横幅，照常计费）。
+    旧内核先 shutdown（其 demo 线程的后续驱动调用会失败——线程自行吞掉退场），
+    env 先写再 boot（boot_kernel 从环境读 LAOS_RISK_BUDGET）。
+    """
+    confirm = body.get("confirm", "no")
+    if confirm not in ("no", "auto-yes"):
+        return 400, {"error": "confirm must be 'no' or 'auto-yes'"}
+    try:
+        risk_budget = int(body.get("risk_budget", 3))
+    except (TypeError, ValueError):
+        return 400, {"error": "risk_budget must be an integer"}
+    _deny_all_pending()  # 冻结在确认关的旧 demo 线程立即按拒绝苏醒
+    old = get_kernel()
+    if old is not None:
+        old.shutdown()
+    try:
+        _boot_stack(confirm, risk_budget)
+    except Exception as exc:
+        set_kernel(None)
+        return 500, {"ok": False, "error": f"restart boot failed: {exc}"}
+    return 200, {"ok": True}
+
+
+_POST_ROUTES = {
+    "/api/confirm": _handle_confirm,
+    "/api/kill": _handle_kill,
+    "/api/msg": _handle_msg,
+    "/api/recv": _handle_recv,
+    "/api/restart": _handle_restart,
+}
+
+
 # --------------------------------------------------------------------------
+def _start_demo(kernel) -> None:
+    """起 demo 守护线程（首启与 restart 共用）。
+
+    restart 后旧线程若还活着，其驱动/审计调用会因旧内核 shutdown 而抛错
+    ——捕获后静默退场（旧线程是 daemon，不阻塞退出）。只有"当代"线程
+    允许置 _demo_done：旧线程晚死不得抢走新 demo 的"运行中"徽标。
+    """
+    global _demo_done, _demo_gen
+    _demo_gen += 1
+    gen = _demo_gen
+
+    def _run():
+        global _demo_done
+        try:
+            asyncio.run(laosd.demo(kernel, use_real=False, task=None))
+        except Exception:
+            pass  # 旧内核已 shutdown：句柄全失效，异常即退场信号
+        finally:
+            if gen == _demo_gen:
+                _demo_done = True
+
+    threading.Thread(target=_run, daemon=True).start()
+
+
+def _boot_stack(confirm_mode: str, risk_budget: int):
+    """boot 一整套：内核 + 种子分支 + operator 进程 + confirm 接线 + demo 线程。
+
+    main() 首启与 POST /api/restart 共用。confirm_mode：no=横幅裁决（默认）、
+    auto-yes=自动放行。boot_kernel 从环境读 LAOS_RISK_BUDGET——必须先写
+    env 再 boot。内核接上模块持有器后才起 demo 线程（demo 一进来就能被
+    /api/state 观测到）。
+    """
+    global _auto_yes, _operator_pid, _demo_done
+    os.environ["LAOS_CONFIRM"] = confirm_mode
+    os.environ["LAOS_RISK_BUDGET"] = str(risk_budget)
+    kernel = laosd.boot_kernel(laosd.WORKDIR)
+    laosd.seed_main_branch(kernel)
+    # 横幅永远接管确认关：web_confirm 不读终端（读终端会阻塞 demo 线程）；
+    # auto-yes 模式在 web_confirm 顶部秒答 True——跳过横幅、照常计费。
+    kernel.confirm = web_confirm
+    _auto_yes = confirm_mode == "auto-yes"
+    # 人也是系统里的一个进程：operator 常驻，pid 出现在进程表，
+    # 人类经 POST /api/msg 以它的身份给任意 agent 发消息
+    _operator_pid = kernel.spawn(
+        name="operator", caps=["msg.*"],
+        ctx=ContextManager(system_prompt="human operator")).pid
+    _demo_done = False
+    set_kernel(kernel)
+    _start_demo(kernel)
+    return kernel
+
+
 def main() -> int:
-    global _kernel
     try:
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # type: ignore[attr-defined]
     except Exception:
         pass
 
-    kernel = laosd.boot_kernel(laosd.WORKDIR)
-    laosd.seed_main_branch(kernel)
-    # 面板场景没有可交互 stdin：confirm 绝不读终端（读终端会阻塞 demo 线程）。
-    # 默认拒绝（高危操作在确认关被拦，审计流里可见）；LAOS_CONFIRM=yes 自动放行。
-    kernel.confirm = lambda op: os.environ.get(
-        "LAOS_CONFIRM", "no").lower() in ("1", "yes", "y", "true")
-    _kernel = kernel
-
-    def _run_demo():
-        global _demo_done
-        try:
-            asyncio.run(laosd.demo(kernel, use_real=False, task=None))
-        finally:
-            _demo_done = True
-
-    threading.Thread(target=_run_demo, daemon=True).start()
+    mode = ("auto-yes" if os.environ.get("LAOS_CONFIRM", "no").lower()
+            in ("1", "yes", "y", "true", "auto-yes") else "no")
+    budget = int(os.environ.get("LAOS_RISK_BUDGET") or 3)
+    _boot_stack(mode, budget)
 
     # 先绑定再播报：端口被占（如 Windows 保留端口段）时立即报错退出，
     # 而不是带着一个已被 finally 关掉内核的僵尸 demo 线程继续跑
@@ -369,7 +591,9 @@ def main() -> int:
     except KeyboardInterrupt:
         pass
     finally:
-        kernel.shutdown()
+        # 关当前内核（restart 可能已换过持有者）
+        if get_kernel() is not None:
+            get_kernel().shutdown()
         print("laosweb 已关闭")
     return 0
 
