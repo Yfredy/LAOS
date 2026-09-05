@@ -70,6 +70,8 @@ def build_spans(records: list[dict]) -> list[AgentSpan]:
                 "result": str(r.get("result", ""))[:120],
                 "args_digest": _args_digest(r.get("args") or {}),
                 "seq": seq,
+                # 审计 t 是 time.time()（亚秒浮点），每个 syscall 有自己的时刻（R206）
+                "t_ns": int(r.get("t", 0.0) * 1e9),
             })
             if not r.get("ok"):
                 span.denied += 1
@@ -111,7 +113,9 @@ def export_otlp(spans: list[AgentSpan], out_dir) -> list:
                 ]},
                 "scopeSpans": [{
                     "scope": {"name": "laos.agentprof", "version": "0.1.0"},
-                    "spans": [_span_json(span, c) for c in span.calls],
+                    "spans": [_span_json(span, c,
+                                         span.calls[i + 1] if i + 1 < len(span.calls) else None)
+                              for i, c in enumerate(span.calls)],
                 }],
             }]
         }
@@ -121,16 +125,19 @@ def export_otlp(spans: list[AgentSpan], out_dir) -> list:
     return paths
 
 
-def _span_json(span: AgentSpan, call: dict) -> dict:
-    # 审计只有 t 秒精度：起点用 span.start_ns、终点用 end_ns 是当前数据下的
-    # 诚实选择——不伪造比审计更细的时间粒度。
+def _span_json(span: AgentSpan, call: dict, next_call: dict | None = None) -> dict:
+    # R206：审计 t 是 time.time()（亚秒浮点），每个 syscall 都有自己的时刻。
+    # 起点 = 本调用的 t_ns；终点 = 同 span 内下一次调用的 t_ns（无则用 span.end_ns
+    # 兜底）；终点永不少于起点 + 1ns。相邻 span 因此首尾相接、不再重叠。
+    end_ns = next_call["t_ns"] if next_call is not None else span.end_ns
+    end_ns = max(end_ns, call["t_ns"] + 1)
     return {
         "traceId": hashlib.sha256(f"{span.pid}".encode()).hexdigest()[:32],
         "spanId": hashlib.sha256(f"{span.pid}:{call['seq']}".encode()).hexdigest()[:16],
         "name": call["tool"],
         "kind": "SPAN_KIND_INTERNAL",
-        "startTimeUnixNano": str(span.start_ns),
-        "endTimeUnixNano": str(max(span.start_ns + 1, span.end_ns)),
+        "startTimeUnixNano": str(call["t_ns"]),
+        "endTimeUnixNano": str(end_ns),
         "attributes": [
             {"key": "laos.ok", "value": {"boolValue": call["ok"]}},
             {"key": "laos.ms", "value": {"doubleValue": call["ms"]}},
