@@ -16,6 +16,7 @@ import asyncio
 import hashlib
 import json
 import os
+import posixpath
 import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -353,11 +354,19 @@ class AgentKernel:
             return self._deny(pcb, tool, args, started, "EPERM: capability not granted")
 
         # 意图收窄（task_scope）：能力说"能读文件"，任务说"读哪些文件"。
-        # 仅当 PCB 声明了白名单且本次调用带 path 参数时强制：虚拟路径必须以
-        # 白名单某前缀开头（startswith），否则 EACCES —— Oracle Labs 思想：
-        # 能力随任务意图收窄，而非静态授权一刀切。
+        # 仅当 PCB 声明了白名单且本次调用带 path 参数时强制：虚拟路径必须
+        # 先归一化再与白名单前缀做分隔符收边匹配，否则 EACCES —— Oracle Labs
+        # 思想：能力随任务意图收窄，而非静态授权一刀切。
         if pcb.task_scope and "path" in args:
-            if not any(str(args["path"]).startswith(p) for p in pcb.task_scope):
+            # 先归一化再匹配：.. / 重复斜杠不得借道越过任务边界（虚拟路径
+            # 是 jail 相对路径且无符号链接，normpath 归一化安全）；
+            # 前缀必须以分隔符收边（/workspace/host 不得准入 /workspace/hosts）
+            norm = posixpath.normpath(str(args["path"]))
+            allowed = any(
+                norm == p or norm.startswith(p if p.endswith("/") else p + "/")
+                for p in pcb.task_scope
+            )
+            if not allowed:
                 return self._deny(pcb, tool, args, started,
                                   "EACCES: outside task scope")
 
@@ -395,7 +404,7 @@ class AgentKernel:
             )
 
         # 内建分支：内核直供的 syscall（msg.*），不经 MCP 驱动、无 driver 锁。
-        # 与 MCP 路径共享同一道闸门链（caps -> validate -> EDQUOT -> 风险闸门），
+        # 与 MCP 路径共享同一道闸门链（caps -> task_scope -> validate -> EDQUOT -> 风险闸门），
         # 并与 MCP 路径共用函数尾部统一的可靠性记账（见下方单一收口）。
         if entry is None:
             result = self._builtin_impls[tool](pcb, args)

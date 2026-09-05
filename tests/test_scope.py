@@ -64,6 +64,31 @@ class TestTaskScope(unittest.TestCase):
         self.assertFalse(res.ok)
         self.assertIn("outside task scope", res.error)
 
+    def test_dotdot_traversal_denied(self):
+        # .. 穿越不得绕过 scope：归一化后落在 /secret.txt（scope 之外），
+        # 修复前靠原始字符串 startswith("/main/workspace/") 蒙混过关，
+        # jail 归一化后实际读到 main 分支外的 secret
+        (self.workdir / "branches" / "secret.txt").write_text(
+            "top secret\n", encoding="utf-8")
+        pcb = self._spawn(["fs.*"], task_scope=["/main/workspace/"])
+        res = self._read(pcb.pid, "/main/workspace/../../secret.txt")
+        self.assertFalse(res.ok)
+        self.assertIn("EACCES", res.error)
+        self.assertIn("outside task scope", res.error)
+        self.assertNotIn("top secret", res.text)
+
+    def test_scope_boundary_is_separator_aware(self):
+        # 前缀必须落在 '/' 边界：scope 项 /main/workspace/hosts 不得
+        # 误纳 /main/workspace/hosts.txt（裸 startswith 的经典缺陷）
+        (self.main.workspace / "workspace" / "hosts.txt").write_text(
+            "decoy\n", encoding="utf-8")
+        pcb = self._spawn(["fs.*"], task_scope=["/main/workspace/hosts"])
+        res = self._read(pcb.pid, "/main/workspace/hosts.txt")
+        self.assertFalse(res.ok)
+        self.assertIn("EACCES", res.error)
+        self.assertIn("outside task scope", res.error)
+        self.assertNotIn("decoy", res.text)
+
     def test_no_scope_unrestricted(self):
         pcb = self._spawn(["fs.*"])
         res = self._read(pcb.pid, "/main/workspace/other.txt")

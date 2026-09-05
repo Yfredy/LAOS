@@ -250,7 +250,7 @@ async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
 
     denied = [r for r in kernel.audit.records if r.get("event") == "syscall" and not r["ok"]]
     if denied:
-        print("\n  被拒绝的 syscall（两层防御都命中了）：")
+        print("\n  被拒绝的 syscall（多层防御都命中了）：")
         for r in denied:
             if r["result"].startswith("EPERM"):
                 layer = "内核能力表"

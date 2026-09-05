@@ -10,7 +10,7 @@
 ```bash
 python bin/laosd.py                    # 跑完整 demo（脚本化大脑，无需 API key）
 python bin/laosd.py --real             # 有 OPENAI_API_KEY 时用真 LLM
-python -m unittest discover -s tests   # 131 项回归测试
+python -m unittest discover -s tests   # 133 项回归测试
 ```
 
 ---
@@ -248,7 +248,7 @@ laos/
     laosd.py      引导器（init）：加载驱动 → fork 分支 → 起 Agent → commit
     laosctl.py    控制面：ps / top / trace / denied / audit
   tests/
-    test_*.py     131 项回归测试（laos / ipc / scope / seccomp / cow / profiling / sandbox 等 17 个文件）
+    test_*.py     133 项回归测试（laos / ipc / scope / seccomp / cow / profiling / sandbox 等 17 个文件）
   var/            运行期产物：audit.jsonl / branches/ / swap/
 ```
 
