@@ -14,6 +14,10 @@ from .brain import Brain, Thought
 from .context import ContextManager
 from .kernel import AgentKernel, PCB
 
+# 调度等待上界：200 轮 x 10ms ≈ 2s。挂起（token/err 预算耗尽）的 agent
+# 等满上界即收到调度拒绝，而不是永久自旋占住事件循环（R307）。
+_SCHED_WAIT_ROUNDS = 200
+
 
 @dataclass
 class AgentResult:
@@ -87,9 +91,15 @@ class Agent:
         return Agent(self.kernel, child_pcb, child_brain, max_steps=self.max_steps)
 
     async def _do_syscall(self, call) -> str:
-        # LLM 是最贵的共享资源：所有 Agent 经 AgentScheduler 公平抢时间片
+        # LLM 是最贵的共享资源：所有 Agent 经 AgentScheduler 公平抢时间片；
+        # 挂起（token/err 预算耗尽）的 agent 在有界等待后收到调度拒绝，
+        # 而不是永久自旋（Patient Bytes 语义：预算耗尽 = 让出）。
         sched = self.kernel.scheduler
+        waited = 0
         while not sched.acquire(self.pcb.pid):
+            waited += 1
+            if waited > _SCHED_WAIT_ROUNDS:
+                return "ESRCH: scheduler suspended pid (token/err budget exhausted)"
             await asyncio.sleep(0.01)
         try:
             res = await self.kernel.syscall(self.pcb.pid, call.name, call.arguments)
