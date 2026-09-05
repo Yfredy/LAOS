@@ -48,10 +48,17 @@ class Agent:
 
     @property
     def visible_tools(self) -> list[dict]:
-        """内核按能力集裁剪 syscall 表后，才交给 LLM 看到。"""
+        """内核按能力集裁剪 syscall 表后，才交给 LLM 看到。
+
+        MCP 驱动表与内核内建表（msg.* 等）合并裁剪：统一走
+        kernel._effective_allows（自身 caps ∪ 未过期委托，不 consume）。
+        """
+        specs = {tool: spec for tool, (_driver, spec) in self.kernel.syscall_table.items()}
+        for tool, spec in self.kernel._builtin_specs.items():
+            specs.setdefault(tool, spec)
         out = []
-        for tool, (_driver, spec) in sorted(self.kernel.syscall_table.items()):
-            if self.pcb.caps.allows(tool):
+        for tool, spec in sorted(specs.items()):
+            if self.kernel._effective_allows(self.pcb, tool):
                 out.append(
                     {
                         "name": spec.name,

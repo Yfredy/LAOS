@@ -19,7 +19,7 @@ import os
 import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 from .branch import BranchTable
 from .mcp import MCPClient, ToolSpec
@@ -153,6 +153,28 @@ class AgentKernel:
         # MCP Tasks（2026-07-28）：task 路径轮询 tasks/result 的总超时
         self.task_timeout = float(os.environ.get("LAOS_TASK_TIMEOUT", "30"))
         self.boot_at = time.time()
+        # -- 内建 syscall 层（内核直供，不经 MCP 驱动）------------------------
+        self._builtin_specs: dict[str, ToolSpec] = {
+            "msg.send": ToolSpec(
+                "msg.send", "向另一个 agent 的信箱投递消息",
+                {"type": "object",
+                 "properties": {"to_pid": {"type": "integer"},
+                                "text": {"type": "string"}},
+                 "required": ["to_pid", "text"]}),
+            "msg.recv": ToolSpec("msg.recv", "收取并清空自己的信箱",
+                                 {"type": "object", "properties": {}}),
+            "msg.list": ToolSpec("msg.list", "列出所有信箱的积压情况",
+                                 {"type": "object", "properties": {}}),
+        }
+        self._builtin_impls: dict[str, Callable] = {
+            "msg.send": self._impl_msg_send,
+            "msg.recv": self._impl_msg_recv,
+            "msg.list": self._impl_msg_list,
+        }
+        self._mailboxes: dict[int, list[dict]] = {}
+        # 运行时能力委托（Task 3 使用）：pid -> [{"caps": CapabilitySet,
+        #   "remaining": int, ...}]；本 task 先占位，_effective_allows 已可消费
+        self._delegations: dict[int, list[dict]] = {}
 
     # -- 兼容层：旧接口 irreversibility_budget 读写映射到车队账本 -----------
     # 注意 setter 改的是 risk.budget，因此同时影响 spawn 准入控制：
@@ -281,17 +303,23 @@ class AgentKernel:
         if pcb.state == "killed":
             return CallResult.fail("EACCES: process killed")
 
+        # 查表：先 MCP 驱动表，miss 再查内核内建表（msg.* 等）；
+        # 两处都 miss 才是 ENOSYS
         entry = self.syscall_table.get(tool)
-        if entry is None:
+        builtin_spec = self._builtin_specs.get(tool)
+        if entry is None and builtin_spec is None:
             return self._deny(pcb, tool, args, started, "ENOSYS: no such syscall")
-        driver_name, _spec = entry
+        driver_name = entry[0] if entry else None
+        spec = entry[1] if entry else builtin_spec
 
-        if not pcb.caps.allows(tool):
+        # 有效能力：自身 caps ∪ 未过期委托（MCP 与内建统一语义）；
+        # consume=True 时扣减首个匹配委托的剩余额度
+        if not self._effective_allows(pcb, tool, consume=True):
             return self._deny(pcb, tool, args, started, "EPERM: capability not granted")
 
         # 参数校验：dispatch 前由内核强制（堵 AIOS Tool Manager 无校验的洞）
         try:
-            validate_args(_spec.input_schema, args)
+            validate_args(spec.input_schema, args)
         except ValidationError as ve:
             return self._deny(pcb, tool, args, started, str(ve))
 
@@ -301,16 +329,16 @@ class AgentKernel:
             return self._deny(pcb, tool, args, started, "EDQUOT: syscall budget exhausted")
 
         # 不可逆闸门 2.0：车队级风险记账 + 每 agent 风险帽（Irreversibility Budget）
-        if not _spec.reversible:
-            cost = max(1, _spec.irreversibility_cost)
+        if not spec.reversible:
+            cost = max(1, spec.irreversibility_cost)
             if self.risk.remaining < cost:
                 return self._deny(pcb, tool, args, started,
                                   "EACCES: fleet risk budget exhausted")
             if pcb.risk_cap is not None and pcb.stats["risk"] + cost > pcb.risk_cap:
                 return self._deny(pcb, tool, args, started,
                                   "EACCES: agent risk cap exceeded")
-            if _spec.risk == "high" and not self.confirm(
-                {"tool": tool, "args": args, "risk": _spec.risk}
+            if spec.risk == "high" and not self.confirm(
+                {"tool": tool, "args": args, "risk": spec.risk}
             ):
                 return self._deny(pcb, tool, args, started,
                                   "EACCES: irreversible operation requires confirmation")
@@ -321,6 +349,20 @@ class AgentKernel:
                  "tool": tool, "cost": cost,
                  "agent_spent": pcb.stats["risk"], "fleet_spent": self.risk.spent}
             )
+
+        # 内建分支：内核直供的 syscall（msg.*），不经 MCP 驱动、无 driver 锁。
+        # 与 MCP 路径共享同一道闸门链（caps -> validate -> EDQUOT -> 风险闸门）。
+        if entry is None:
+            result = self._builtin_impls[tool](pcb, args)
+            elapsed_ms = (time.perf_counter() - started) * 1000
+            pcb.stats["syscalls"] += 1
+            self.audit.write(
+                {"t": time.time(), "event": "syscall", "pid": pid, "agent": pcb.name,
+                 "tool": tool, "args": args, "ok": result.ok,
+                 "ms": round(elapsed_ms, 2), "result": result.text[:500],
+                 "builtin": True}
+            )
+            return result
 
         # 驱动调用放进线程：stdio RPC 是阻塞的，不能卡住事件循环。
         # 同一 driver 的调用按设备互斥（单工 stdio 会话），不同 driver 可并行。
@@ -368,6 +410,52 @@ class AgentKernel:
             }
         )
         return result
+
+    # -- 有效能力：自身 caps + 未过期委托（consume=True 时扣 TTL 额度）------
+    def _effective_allows(self, pcb: PCB, tool: str, consume: bool = False) -> bool:
+        if pcb.caps.allows(tool):
+            return True
+        for d in self._delegations.get(pcb.pid, []):
+            if d["remaining"] > 0 and d["caps"].allows(tool):
+                if consume:
+                    d["remaining"] -= 1
+                return True
+        return False
+
+    # -- 内建实现（内核直供，不经 MCP 驱动）--------------------------------
+    MAILBOX_MAX = 16
+    MSG_MAX_CHARS = 4096
+
+    def _impl_msg_send(self, pcb: PCB, args: dict) -> "CallResult":
+        from .mcp import CallResult
+        to_pid = int(args["to_pid"])
+        text = str(args["text"])
+        if to_pid not in self.procs:
+            return CallResult.fail(f"ESRCH: no such process {to_pid}")
+        if len(text) > self.MSG_MAX_CHARS:
+            return CallResult.fail(f"EMSGSIZE: {len(text)} > {self.MSG_MAX_CHARS}")
+        box = self._mailboxes.setdefault(to_pid, [])
+        if len(box) >= self.MAILBOX_MAX:
+            return CallResult.fail(f"ENOBUFS: mailbox full for {to_pid}")
+        box.append({"from": pcb.pid, "text": text, "t": time.time()})
+        self.audit.write({"t": time.time(), "event": "msg", "from": pcb.pid,
+                          "to": to_pid, "bytes": len(text)})
+        return CallResult.ok_text(f"OK sent to pid={to_pid}")
+
+    def _impl_msg_recv(self, pcb: PCB, args: dict) -> "CallResult":
+        from .mcp import CallResult
+        box = self._mailboxes.get(pcb.pid, [])
+        self._mailboxes[pcb.pid] = []
+        if not box:
+            return CallResult.ok_text("(empty)")
+        lines = [f"from={m['from']}: {m['text']}" for m in box]
+        return CallResult.ok_text("\n".join(lines))
+
+    def _impl_msg_list(self, pcb: PCB, args: dict) -> "CallResult":
+        from .mcp import CallResult
+        rows = [f"pid={pid}: {len(box)} pending"
+                for pid, box in self._mailboxes.items() if box]
+        return CallResult.ok_text("\n".join(rows) or "(no pending messages)")
 
     def _deny(self, pcb: PCB, tool: str, args: dict, started: float, err: str):
         from .mcp import CallResult
