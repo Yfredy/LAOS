@@ -86,6 +86,8 @@ class MCPServer:
         self.name = name
         self.version = version
         self._tools: dict[str, tuple[ToolSpec, Callable[..., str]]] = {}
+        # server→client 请求的 id 计数（从 10000 起，避免与 client 请求 id 混淆）
+        self._req_id = 10000
 
     def tool(self, name: str, description: str, schema: dict | None = None,
              reversible: bool = True, risk: str = "low",
@@ -176,8 +178,12 @@ class MCPServer:
         }
 
     def serve_forever(self) -> None:
-        """stdio 主循环：一行一个 JSON-RPC 请求。"""
-        for line in sys.stdin:
+        """stdio 主循环：逐行读 JSON-RPC 请求（readline 而非迭代器，
+        便于 elicit 在工具执行中途再读一行响应而不丢缓冲数据）。"""
+        while True:
+            line = sys.stdin.readline()
+            if not line:  # EOF
+                break
             line = line.strip()
             if not line:
                 continue
@@ -195,6 +201,34 @@ class MCPServer:
             if resp is not None:
                 self._write(resp)
 
+    def elicit(self, message: str, schema: dict | None = None) -> dict:
+        """server→client 请求用户输入（MCP elicitation/create，同步路径专用）。
+
+        仅允许在 serve_forever 主线程的工具执行中调用——task 线程内调用
+        会与主循环抢 stdin（规范上也不允许）。
+        """
+        self._req_id += 1
+        req_id = self._req_id
+        self._write({"jsonrpc": "2.0", "id": req_id, "method": "elicitation/create",
+                     "params": {"message": message, "requestedSchema": schema or {}}})
+        while True:
+            line = sys.stdin.readline()
+            if not line:
+                raise RuntimeError(f"EIO: stdin closed during elicitation: {message!r}")
+            line = line.strip()
+            if not line:
+                continue
+            resp = json.loads(line)
+            if resp.get("id") != req_id:
+                continue  # 与本次请求无关的消息（理论上不应出现）丢弃
+            if "error" in resp:
+                raise PermissionError(f"EDENIED: elicitation rejected by client: "
+                                      f"{resp['error'].get('message', '')}")
+            result = resp.get("result") or {}
+            if result.get("action") == "accept":
+                return result
+            raise PermissionError(f"EDENIED: elicitation declined ({message!r})")
+
     def _write(self, obj: dict) -> None:
         sys.stdout.write(json.dumps(obj, ensure_ascii=False) + "\n")
         sys.stdout.flush()
@@ -206,7 +240,8 @@ class MCPServer:
 class MCPClient:
     """以子进程方式拉起一个 MCP Server，并通过 stdio 与之通信。"""
 
-    def __init__(self, name: str, argv: list[str], env: dict | None = None):
+    def __init__(self, name: str, argv: list[str], env: dict | None = None,
+                 on_server_request: Callable[[str, dict], dict] | None = None):
         self.name = name
         self._argv = argv
         self._env = env
@@ -214,6 +249,20 @@ class MCPClient:
         self._lock = threading.Lock()
         self._id = 0
         self.tools: dict[str, ToolSpec] = {}
+        self._on_server_request = on_server_request
+
+    @property
+    def on_server_request(self) -> Callable[[str, dict], dict] | None:
+        """server→client 请求（elicitation/create 等）的拦截 handler。
+
+        handler(method, params) -> result dict；None 表示不支持（回 -32601）。
+        须在 start() 之前设置。
+        """
+        return self._on_server_request
+
+    @on_server_request.setter
+    def on_server_request(self, handler: Callable[[str, dict], dict] | None) -> None:
+        self._on_server_request = handler
 
     # -- 生命周期 ---------------------------------------------------------
     def start(self) -> None:
@@ -288,6 +337,29 @@ class MCPClient:
                 if not line:
                     raise RuntimeError(f"driver {self.name} exited unexpectedly")
                 resp = json.loads(line)
+                if "method" in resp and resp.get("id") is not None:
+                    # server→client 请求（elicitation/create 等）：拦截并回包
+                    handler = self._on_server_request
+                    if handler is not None:
+                        try:
+                            result = handler(resp["method"], resp.get("params") or {})
+                        except Exception as exc:  # handler 抛错按 JSON-RPC error 回
+                            self._proc.stdin.write(json.dumps(  # type: ignore[union-attr]
+                                {"jsonrpc": "2.0", "id": resp["id"],
+                                 "error": {"code": _JSONRPC_INTERNAL_ERROR,
+                                           "message": str(exc)}}) + "\n")
+                            self._proc.stdin.flush()  # type: ignore[union-attr]
+                            continue
+                        self._proc.stdin.write(json.dumps(  # type: ignore[union-attr]
+                            {"jsonrpc": "2.0", "id": resp["id"], "result": result}) + "\n")
+                        self._proc.stdin.flush()  # type: ignore[union-attr]
+                        continue
+                    self._proc.stdin.write(json.dumps(  # type: ignore[union-attr]
+                        {"jsonrpc": "2.0", "id": resp["id"],
+                         "error": {"code": _JSONRPC_METHOD_NOT_FOUND,
+                                   "message": f"client does not support {resp['method']}"}}) + "\n")
+                    self._proc.stdin.flush()  # type: ignore[union-attr]
+                    continue
                 if resp.get("id") == self._id:
                     return resp
 
