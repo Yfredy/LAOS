@@ -42,6 +42,7 @@ class ToolSpec:
     input_schema: dict
     reversible: bool = True
     risk: str = "low"
+    irreversibility_cost: int = 1  # 不可逆操作的风险定价（Irreversibility Budget）
 
     def to_dict(self) -> dict:
         return {
@@ -50,6 +51,7 @@ class ToolSpec:
             "inputSchema": self.input_schema,
             "reversible": self.reversible,
             "risk": self.risk,
+            "irreversibilityCost": self.irreversibility_cost,
         }
 
 
@@ -86,13 +88,15 @@ class MCPServer:
         self._tools: dict[str, tuple[ToolSpec, Callable[..., str]]] = {}
 
     def tool(self, name: str, description: str, schema: dict | None = None,
-             reversible: bool = True, risk: str = "low"):
+             reversible: bool = True, risk: str = "low",
+             irreversibility_cost: int = 1):
         def deco(fn: Callable[..., str]):
             self._tools[name] = (
                 ToolSpec(
                     name, description,
                     schema or {"type": "object", "properties": {}},
                     reversible=reversible, risk=risk,
+                    irreversibility_cost=irreversibility_cost,
                 ),
                 fn,
             )
@@ -305,6 +309,9 @@ class MCPClient:
                 t["name"],
                 t.get("description", ""),
                 t.get("inputSchema", {"type": "object", "properties": {}}),
+                reversible=t.get("reversible", True),
+                risk=t.get("risk", "low"),
+                irreversibility_cost=int(t.get("irreversibilityCost", 1)),
             )
             for t in resp["result"]["tools"]
         ]

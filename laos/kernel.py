@@ -22,6 +22,7 @@ from typing import Any
 
 from .branch import BranchTable
 from .mcp import MCPClient, ToolSpec
+from .risk import FleetLedger
 from .sandbox import IsolationReport, Sandbox
 from .scheduler import AgentScheduler
 
@@ -76,9 +77,10 @@ class PCB:
     parent: int = 0
     created_at: float = field(default_factory=time.time)
     ctx: Any = None  # ContextManager
-    stats: dict = field(default_factory=lambda: {"syscalls": 0, "denied": 0, "tokens": 0})
+    stats: dict = field(default_factory=lambda: {"syscalls": 0, "denied": 0, "tokens": 0, "risk": 0})
     branch: str | None = None
     budget: int | None = None  # 最大 syscall 次数，None = 无限
+    risk_cap: int | None = None  # 本 agent 的风险帽（Irreversibility Budget）
 
     def to_dict(self) -> dict:
         d = asdict(self)
@@ -135,13 +137,28 @@ class AgentKernel:
         # driver 是单工 stdio 会话，同一 driver 的 RPC 必须串行（并发写会挂死）
         self._driver_locks: dict[str, asyncio.Lock] = {}
         self._agent_token_budget = int(os.environ.get("LAOS_AGENT_TOKENS", "0")) or None
-        self.irreversibility_budget = (
+        risk_budget = (
             irreversibility_budget
             if irreversibility_budget is not None
-            else int(os.environ.get("LAOS_IRREV_BUDGET", "3"))
+            else int(os.environ.get("LAOS_RISK_BUDGET")
+                     or os.environ.get("LAOS_IRREV_BUDGET")
+                     or "3")
+        )
+        self.risk = FleetLedger(
+            budget=risk_budget,
+            reserve=int(os.environ.get("LAOS_RISK_RESERVE", "1")),
         )
         self.confirm = confirm or self._cli_confirm
         self.boot_at = time.time()
+
+    # -- 兼容层：旧接口 irreversibility_budget 读写映射到车队账本 -----------
+    @property
+    def irreversibility_budget(self) -> int:
+        return self.risk.remaining
+
+    @irreversibility_budget.setter
+    def irreversibility_budget(self, v: int) -> None:
+        self.risk.budget = v
 
     # -- 驱动管理（insmod / rmmod）---------------------------------------
     def load_driver(self, name: str, argv: list[str], env: dict | None = None) -> MCPClient:
@@ -252,17 +269,27 @@ class AgentKernel:
         except ValidationError as ve:
             return self._deny(pcb, tool, args, started, str(ve))
 
-        # 不可逆闸门：预算是硬上限（耗尽直接拒，确认也不放行），high risk 需人类确认
+        # 不可逆闸门 2.0：车队级风险记账 + 每 agent 风险帽（Irreversibility Budget）
         if not _spec.reversible:
-            if self.irreversibility_budget <= 0:
+            cost = max(1, _spec.irreversibility_cost)
+            if self.risk.remaining < cost:
                 return self._deny(pcb, tool, args, started,
-                                  "EACCES: irreversibility budget exhausted")
+                                  "EACCES: fleet risk budget exhausted")
+            if pcb.risk_cap is not None and pcb.stats["risk"] + cost > pcb.risk_cap:
+                return self._deny(pcb, tool, args, started,
+                                  "EACCES: agent risk cap exceeded")
             if _spec.risk == "high" and not self.confirm(
                 {"tool": tool, "args": args, "risk": _spec.risk}
             ):
                 return self._deny(pcb, tool, args, started,
                                   "EACCES: irreversible operation requires confirmation")
-            self.irreversibility_budget -= 1
+            self.risk.charge(pcb.pid, tool, cost)
+            pcb.stats["risk"] += cost
+            self.audit.write(
+                {"t": time.time(), "event": "risk_spend", "pid": pcb.pid,
+                 "tool": tool, "cost": cost,
+                 "agent_spent": pcb.stats["risk"], "fleet_spent": self.risk.spent}
+            )
 
         if pcb.budget is not None and pcb.stats["syscalls"] >= pcb.budget:
             return self._deny(pcb, tool, args, started, "EDQUOT: syscall budget exhausted")

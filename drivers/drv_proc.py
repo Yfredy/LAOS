@@ -70,6 +70,7 @@ def proc_list(limit: int = 20) -> str:
     },
     reversible=False,
     risk="high",
+    irreversibility_cost=3,
 )
 def proc_exec(cmdline: str) -> str:
     cmd = cmdline.strip()
