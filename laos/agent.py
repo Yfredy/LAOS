@@ -76,6 +76,7 @@ class Agent:
         """派生子进程：只能委派自身能力的子集（kernel.spawn(parent=...)）。
 
         风险帽同预算一样随父进程继承：委派可以收窄、不可以提升风险特权。
+        任务边界（task_scope）随血统继承，不因分支放宽。
         """
         child_caps = self.pcb.caps.delegate(caps_subset)
         ctx = ContextManager(
@@ -86,7 +87,7 @@ class Agent:
         child_pcb = self.kernel.spawn(
             name=name, caps=sorted(child_caps.patterns), ctx=ctx,
             branch=branch, parent=self.pcb.pid, budget=self.pcb.budget,
-            risk_cap=self.pcb.risk_cap,
+            risk_cap=self.pcb.risk_cap, task_scope=self.pcb.task_scope,
         )
         return Agent(self.kernel, child_pcb, child_brain, max_steps=self.max_steps)
 

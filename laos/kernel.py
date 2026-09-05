@@ -82,6 +82,7 @@ class PCB:
     branch: str | None = None
     budget: int | None = None  # 最大 syscall 次数，None = 无限
     risk_cap: int | None = None  # 本 agent 的风险帽（Irreversibility Budget）
+    task_scope: list[str] | None = None  # 意图驱动的虚拟路径前缀白名单（空/None = 不限）
 
     def to_dict(self) -> dict:
         d = asdict(self)
@@ -254,6 +255,7 @@ class AgentKernel:
         parent: int = 0,
         budget: int | None = None,
         risk_cap: int | None = None,
+        task_scope: list[str] | None = None,
     ) -> PCB:
         # 准入控制：车队风险剩余低于保留水位时拒绝新 agent 进场
         if not self.risk.can_admit():
@@ -275,6 +277,7 @@ class AgentKernel:
             parent=parent,
             budget=budget,
             risk_cap=risk_cap,
+            task_scope=list(task_scope) if task_scope else None,
         )
         self.procs[pcb.pid] = pcb
         self.scheduler.register(pcb.pid, token_budget=self._agent_token_budget,
@@ -285,7 +288,7 @@ class AgentKernel:
             r for r in self.scheduler.snapshot() if r["pid"] == pcb.pid)
         self.audit.write(
             {"t": time.time(), "event": "spawn", "pid": pcb.pid, "name": name,
-             "caps": caps, "risk_cap": risk_cap,
+             "caps": caps, "risk_cap": risk_cap, "task_scope": task_scope,
              "fleet_remaining": self.risk.remaining}
         )
         return pcb
@@ -348,6 +351,15 @@ class AgentKernel:
         # consume=True 时扣减首个匹配委托的剩余额度
         if not self._effective_allows(pcb, tool, consume=True):
             return self._deny(pcb, tool, args, started, "EPERM: capability not granted")
+
+        # 意图收窄（task_scope）：能力说"能读文件"，任务说"读哪些文件"。
+        # 仅当 PCB 声明了白名单且本次调用带 path 参数时强制：虚拟路径必须以
+        # 白名单某前缀开头（startswith），否则 EACCES —— Oracle Labs 思想：
+        # 能力随任务意图收窄，而非静态授权一刀切。
+        if pcb.task_scope and "path" in args:
+            if not any(str(args["path"]).startswith(p) for p in pcb.task_scope):
+                return self._deny(pcb, tool, args, started,
+                                  "EACCES: outside task scope")
 
         # 参数校验：dispatch 前由内核强制（堵 AIOS Tool Manager 无校验的洞）
         try:
