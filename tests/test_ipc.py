@@ -78,5 +78,30 @@ class TestMsg(IPCBase):
         self.assertIn("msg.recv", names)
 
 
+class TestMailboxQuotas(IPCBase):
+    def setUp(self):
+        super().setUp()
+        self.a = self._spawn("a", ["msg.*"])
+        self.b = self._spawn("b", ["msg.*"])
+
+    def test_mailbox_overflow_enobufs(self):
+        for i in range(16):
+            res = self._call(self.a.pid, "msg.send",
+                             {"to_pid": self.b.pid, "text": f"m{i}"})
+            self.assertTrue(res.ok, res.error)
+        res = self._call(self.a.pid, "msg.send", {"to_pid": self.b.pid, "text": "x"})
+        self.assertIn("ENOBUFS", res.error)
+
+    def test_oversized_message_emsgsize(self):
+        res = self._call(self.a.pid, "msg.send",
+                         {"to_pid": self.b.pid, "text": "x" * 4097})
+        self.assertIn("EMSGSIZE", res.error)
+
+    def test_msg_list(self):
+        self._call(self.a.pid, "msg.send", {"to_pid": self.b.pid, "text": "x"})
+        res = self._call(self.a.pid, "msg.list", {})
+        self.assertIn(f"pid={self.b.pid}: 1 pending", res.text)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
