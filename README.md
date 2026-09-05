@@ -200,7 +200,7 @@ python bin/laosctl.py denied    # 所有被拒调用
 | 缺口 | 现状 | 该怎么做 |
 |---|---|---|
 | **强制隔离** | 驱动 spawn 已接 namespace + cgroup v2（挂真实驱动 pid，子孙继承）+ **seccomp block-dangerous**（`LAOS_SECCOMP`，unshare 后经 bootstrap shim 注入、随 fork/execve 继承到 proc.exec 子进程） | per-agent（而非 per-driver）cgroup；seccomp 白名单模式（按驱动画像） |
-| **不可逆操作预算** | 只有 syscall 次数预算（EDQUOT） | 实现 Irreversibility Budget：按 tool 标注可逆/不可逆，车队级配额 + 准入控制 |
+| **不可逆操作预算** | ~~只有 syscall 次数预算（EDQUOT）~~ → **Irreversibility Budget 2.0**：按工具定价（`irreversibility_cost`）+ agent 风险帽 + 车队账本（`FleetLedger`）+ spawn 准入控制（保留水位） | 探索期免计费、commit 时结算（Externalization Barriers 式延迟定价） |
 | **分支的 O(1) 创建** | **hardlink COW**：fork 只复制目录项、数据块全共享、写路径 temp+replace 断链（`laos/cow.py`）；diff 走 inode 快路径 | FUSE BranchFS（真 O(1) inode 级 + 原子 rename 语义）仍是长期项 |
 | **上下文一致性** | 只看 token 水位 | 检测 stale context（工作区已变但上下文未同步），触发强制重读 |
 | **语义 profiling** | **bpftrace 集成**（`LAOS_PROF=1`）：按真实驱动 pid 采集驱动进程与其直接子进程的 syscall 分布，`laosctl prof` 回放 | AgentProf 式语义剖析：每步意图、工具选择合理性 |
@@ -221,6 +221,7 @@ laos/
     context.py    Context Manager：窗口 / 摘要压缩 / swap
     branch.py     BranchContext：fork / explore / commit，first-commit-wins
     sandbox.py    Linux 隔离封装（namespace / cgroup）+ 路径 jail
+    risk.py       FleetLedger：车队级不可逆风险账本（加权/两级记账/准入水位）
     seccomp.py    seccomp 经典 BPF 组装 + ctypes 安装（block-dangerous 黑名单）
     cow.py        CoW 原语：temp + os.replace 断链写，保护 hardlink 共享 inode
     profiling.py  bpftrace 集成：驱动进程树真实 syscall 分布（可选，缺席降级）
@@ -250,3 +251,5 @@ laos/
 | `LAOS_BUDGET` / `LAOS_STEPS` | `8` / `8` | syscall 预算 / 最大步数 |
 | `LAOS_SECCOMP` | `block-dangerous` | `off` 关闭；`block-dangerous` 给驱动装 seccomp 黑名单过滤器（仅 Linux） |
 | `LAOS_PROF` | `1` | `0` 关闭 eBPF profiling；开启需 Linux + root + bpftrace，缺席自动降级 |
+| `LAOS_RISK_BUDGET` | `LAOS_IRREV_BUDGET` 或 `3` | 车队级不可逆风险总预算 |
+| `LAOS_RISK_RESERVE` | `1` | spawn 准入保留水位（剩余预算须严格高于此值） |

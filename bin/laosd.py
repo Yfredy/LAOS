@@ -191,6 +191,8 @@ async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
         print(f"  {res}  ({name_of[res.pid]})")
     print(f"  耗时     : {time.perf_counter() - t0:.2f}s")
     print(f"  审计记录 : {len(kernel.audit.records)} 条 -> {kernel.audit.path}")
+    print(f"  风险账本   : spent={kernel.risk.spent} remaining={kernel.risk.remaining} "
+          f"(budget={kernel.risk.budget}, reserve={kernel.risk.reserve})")
 
     if prof is not None:
         probes = prof.stop()
