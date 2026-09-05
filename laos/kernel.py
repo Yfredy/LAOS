@@ -13,6 +13,7 @@
 from __future__ import annotations
 
 import asyncio
+import hashlib
 import json
 import os
 import time
@@ -325,6 +326,15 @@ class AgentKernel:
         finally:
             pcb.state = "ready" if pcb.state != "killed" else "killed"
 
+        # Stale Context：fs.read 记录观察；fs.write/append 失效其他 agent 的观察
+        if result.ok and hasattr(pcb.ctx, "observe"):
+            if tool == "fs.read" and "path" in args:
+                pcb.ctx.observe(args["path"], self._digest(result.text))
+            elif tool in ("fs.write", "fs.append") and "path" in args:
+                for other in self.procs.values():
+                    if other.pid != pcb.pid and hasattr(other.ctx, "invalidate"):
+                        other.ctx.invalidate(args["path"])
+
         elapsed_ms = (time.perf_counter() - started) * 1000
         pcb.stats["syscalls"] += 1
         self.audit.write(
@@ -369,6 +379,10 @@ class AgentKernel:
             return input(f"allow {op['tool']}? [y/N] ").lower() == "y"
         except EOFError:
             return False
+
+    @staticmethod
+    def _digest(text: str) -> str:
+        return hashlib.sha256(text.encode("utf-8")).hexdigest()[:16]
 
     # -- 调度器：LLM 是最贵的资源，也要有时间片 ---------------------------
     def scheduler_ctx(self) -> "AgentScheduler":

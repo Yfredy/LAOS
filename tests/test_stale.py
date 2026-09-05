@@ -5,7 +5,9 @@
 """
 from __future__ import annotations
 
+import asyncio
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -13,6 +15,7 @@ REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
 from laos.context import ContextManager  # noqa: E402
+from laos.kernel import AgentKernel  # noqa: E402
 
 
 class TestObservationBook(unittest.TestCase):
@@ -48,6 +51,62 @@ class TestObservationBook(unittest.TestCase):
         ctx.observe("/p", "d")
         ctx.invalidate("/p")
         self.assertEqual(ctx.stats.stale_marks, 1)
+
+
+class TestKernelStaleWiring(unittest.TestCase):
+    def setUp(self):
+        self._td = tempfile.TemporaryDirectory()
+        self.workdir = Path(self._td.name) / "var"
+        self.kernel = AgentKernel(self.workdir, confirm=lambda op: True)
+        env = {
+            "PYTHONPATH": str(REPO),
+            "PYTHONIOENCODING": "utf-8",
+            "LAOS_FS_ROOT": str(self.workdir / "branches"),
+        }
+        self.kernel.load_driver("fs", [sys.executable, str(REPO / "drivers" / "drv_fs.py")], env=env)
+        self.kernel.load_driver("sys", [sys.executable, str(REPO / "drivers" / "drv_sys.py")], env=env)
+        self.main = self.kernel.branches.create_root("main")
+        (self.main.workspace / "workspace").mkdir(parents=True, exist_ok=True)
+        (self.main.workspace / "workspace" / "hosts").write_text(
+            "127.0.0.1 localhost\n", encoding="utf-8")
+
+    def tearDown(self):
+        self.kernel.shutdown()
+        self._td.cleanup()
+
+    def _spawn(self, name, caps):
+        from laos.context import ContextManager
+        ctx = ContextManager(system_prompt="t", max_tokens=2000,
+                             swap_dir=self.workdir / "swap")
+        return self.kernel.spawn(name=name, caps=caps, ctx=ctx, branch="main")
+
+    def test_read_records_observation(self):
+        pcb = self._spawn("reader", ["fs.*"])
+        res = asyncio.run(self.kernel.syscall(pcb.pid, "fs.read",
+                                              {"path": "/main/workspace/hosts"}))
+        self.assertTrue(res.ok)
+        self.assertIn("/main/workspace/hosts", pcb.ctx._observations)
+
+    def test_writer_invalidates_other_readers_only(self):
+        reader = self._spawn("reader", ["fs.*"])
+        writer = self._spawn("writer", ["fs.*"])
+        asyncio.run(self.kernel.syscall(reader.pid, "fs.read",
+                                        {"path": "/main/workspace/hosts"}))
+        asyncio.run(self.kernel.syscall(writer.pid, "fs.read",
+                                        {"path": "/main/workspace/hosts"}))
+        res = asyncio.run(self.kernel.syscall(writer.pid, "fs.append",
+                                              {"path": "/main/workspace/hosts",
+                                               "content": "# changed\n"}))
+        self.assertTrue(res.ok)
+        # 写者豁免（对刚写的内容知情），读者被标陈旧
+        self.assertNotIn("/main/workspace/hosts", writer.ctx._stale)
+        self.assertIn("/main/workspace/hosts", reader.ctx._stale)
+
+    def test_object_stub_ctx_never_crashes(self):
+        pcb = self.kernel.spawn(name="stub", caps=["fs.*"], ctx=object())
+        res = asyncio.run(self.kernel.syscall(pcb.pid, "fs.read",
+                                              {"path": "/main/workspace/hosts"}))
+        self.assertTrue(res.ok)  # ctx 无 observe 方法时静默跳过
 
 
 if __name__ == "__main__":
