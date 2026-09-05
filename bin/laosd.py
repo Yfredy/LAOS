@@ -121,13 +121,13 @@ async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
     # ops-agent：权限较全，用来走通主流程；它会去碰 proc.exec，被驱动拦下
     ops = new_agent(
         "ops-agent",
-        ["sys.*", "fs.*", "proc.*"],
+        ["sys.*", "fs.*", "proc.*", "msg.*"],
         OpenAIChatBrain() if use_real else ScriptedBrain(branch="exp-A"),
     )
     # guest-agent：只给了 sys.*，却硬要调 fs.read —— 用来演示内核层的 EPERM
     guest = new_agent(
         "guest-agent",
-        ["sys.*"],
+        ["sys.*", "msg.*"],
         OpenAIChatBrain()
         if use_real
         else ScriptedBrain(
@@ -173,6 +173,24 @@ async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
             else:
                 print(f"    step{row['step']}  [think] {row['say'][:120]}")
         print(f"    结论: {res.answer}")
+
+    # ---- 内核 IPC：信箱 + 运行时能力委托 ----------------------------------
+    hr("4.5 内核 IPC：msg.* 与运行时能力委托")
+    res = await kernel.syscall(ops.pcb.pid, "msg.send",
+                               {"to_pid": guest.pcb.pid, "text": "exp-A 即将提交，请注意 main 变化"})
+    print(f"  ops -> guest: {res.text}")
+    res = await kernel.syscall(guest.pcb.pid, "msg.recv", {})
+    print(f"  guest 收取: {res.text.splitlines()[0]}")
+    res = await kernel.syscall(ops.pcb.pid, "sys.delegate",
+                               {"to_pid": guest.pcb.pid, "caps_subset": ["fs.read"],
+                                "ttl_calls": 1})
+    print(f"  ops 委托 fs.read 给 guest: {res.text}")
+    res = await kernel.syscall(guest.pcb.pid, "fs.read",
+                               {"path": "/main/workspace/hosts"})
+    print(f"  guest 经委托读取: {'OK' if res.ok else res.error}")
+    res = await kernel.syscall(guest.pcb.pid, "fs.read",
+                               {"path": "/main/workspace/hosts"})
+    print(f"  guest 二次读取（TTL 已耗尽）: {'OK' if res.ok else res.error}")
 
     # ---- 提交 ------------------------------------------------------------
     hr("5. commit（first-commit-wins）")

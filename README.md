@@ -10,7 +10,7 @@
 ```bash
 python bin/laosd.py                    # 跑完整 demo（脚本化大脑，无需 API key）
 python bin/laosd.py --real             # 有 OPENAI_API_KEY 时用真 LLM
-python -m unittest discover -s tests   # 68 项回归测试
+python -m unittest discover -s tests   # 120 项回归测试
 ```
 
 ---
@@ -206,7 +206,7 @@ python bin/laosctl.py spans     # AgentProf 语义剖析回放
 | **分支的 O(1) 创建** | **hardlink COW**：fork 只复制目录项、数据块全共享、写路径 temp+replace 断链（`laos/cow.py`）；diff 走 inode 快路径 | FUSE BranchFS（真 O(1) inode 级 + 原子 rename 语义）仍是长期项 |
 | **上下文一致性** | ~~只看 token 水位~~ → **Stale Context 检测**：fs.read 观察簿 + fs.write/append 失效他人 + branch commit 批量失效，内核通告注入 agent 窗口 | 跨驱动（非 fs 类）副作用的一致性追踪 |
 | **语义 profiling** | ~~bpftrace 集成~~ → **eBPF（内核真值）+ AgentProf（语义层）**：审计流 → per-agent span（重复浪费/拒绝率/单工具依赖启发式）→ OTLP/JSON 导出（`var/traces/`）+ `laosctl spans` | 每步意图建模、工具选择合理性评分（论文全量目标） |
-| **多 Agent 通信** | 共享文件系统 | Agent 间 IPC：消息队列 + 能力委托（capability delegation） |
+| **多 Agent 通信** | ~~共享文件系统~~ → **内核 IPC**：`msg.send/recv/list` 信箱（配额 + 审计）+ `sys.delegate` 运行时能力委托（TTL、委托者死亡即撤销） | 消息持久化 / 组播 / 委托链路审计可视化 |
 | **可观测闭环** | JSONL 审计 | 导出 OpenTelemetry trace，一次任务 = 一条 trace，一次 syscall = 一个 span |
 
 > 驱动总线已升级至 **MCP 2026-07-28 子集：Tasks + Elicitation**（同步路径）：
@@ -222,7 +222,7 @@ python bin/laosctl.py spans     # AgentProf 语义剖析回放
 laos/
   laos/
     mcp.py        MCP 2026-07-28 子集（Tasks/Elicitation）+ JSON-RPC 2.0 over stdio
-    kernel.py     laosd 薄内核：PCB、能力表、syscall 网关、审计、分支表
+    kernel.py     laosd 薄内核：PCB、能力表、syscall 网关、审计、分支表、内建 IPC
     agent.py      Agent 运行时（ReAct 循环）
     brain.py      Brain 接口 + ScriptedBrain（确定性）+ OpenAIChatBrain（真 LLM）
     context.py    Context Manager：窗口 / 摘要压缩 / swap / 观察簿（stale 检测）
@@ -241,7 +241,7 @@ laos/
     laosd.py      引导器（init）：加载驱动 → fork 分支 → 起 Agent → commit
     laosctl.py    控制面：ps / top / trace / denied / audit
   tests/
-    test_*.py     68 项回归测试（laos / seccomp / cow / profiling / sandbox 等 10 个文件）
+    test_*.py     120 项回归测试（laos / ipc / seccomp / cow / profiling / sandbox 等 15 个文件）
   var/            运行期产物：audit.jsonl / branches/ / swap/
 ```
 
