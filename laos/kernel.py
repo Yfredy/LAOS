@@ -138,6 +138,12 @@ class AgentKernel:
         # driver 是单工 stdio 会话，同一 driver 的 RPC 必须串行（并发写会挂死）
         self._driver_locks: dict[str, asyncio.Lock] = {}
         self._agent_token_budget = int(os.environ.get("LAOS_AGENT_TOKENS", "0")) or None
+        # 可靠性预算（Patient Bytes）：per-agent 派发后失败次数上限，耗尽即挂起；
+        # "0" 表示不限（or None）。内核层 _deny（EPERM/EDQUOT 等）不算失败。
+        self._agent_err_budget = int(os.environ.get("LAOS_AGENT_ERR_BUDGET", "3")) or None
+        # 调度观测缓存：agent 退出即被 retire 出调度器（防饿死其余 agent），
+        # 这里留存每个 pid 末次派发后的调度视图行，供运行报告在进程退出后仍可观测。
+        self.sched_view: dict[int, dict] = {}
         risk_budget = (
             irreversibility_budget
             if irreversibility_budget is not None
@@ -271,7 +277,12 @@ class AgentKernel:
             risk_cap=risk_cap,
         )
         self.procs[pcb.pid] = pcb
-        self.scheduler.register(pcb.pid, token_budget=self._agent_token_budget)
+        self.scheduler.register(pcb.pid, token_budget=self._agent_token_budget,
+                                err_budget=self._agent_err_budget)
+        # 观测缓存以 spawn 时的初始行打底：从未成功派发过的 agent（每次都被
+        # 内核 _deny）也要能出现在调度快照里
+        self.sched_view[pcb.pid] = next(
+            r for r in self.scheduler.snapshot() if r["pid"] == pcb.pid)
         self.audit.write(
             {"t": time.time(), "event": "spawn", "pid": pcb.pid, "name": name,
              "caps": caps, "risk_cap": risk_cap,
@@ -372,7 +383,8 @@ class AgentKernel:
             )
 
         # 内建分支：内核直供的 syscall（msg.*），不经 MCP 驱动、无 driver 锁。
-        # 与 MCP 路径共享同一道闸门链（caps -> validate -> EDQUOT -> 风险闸门）。
+        # 与 MCP 路径共享同一道闸门链（caps -> validate -> EDQUOT -> 风险闸门），
+        # 并与 MCP 路径共用函数尾部统一的可靠性记账（见下方单一收口）。
         if entry is None:
             result = self._builtin_impls[tool](pcb, args)
             elapsed_ms = (time.perf_counter() - started) * 1000
@@ -383,53 +395,59 @@ class AgentKernel:
                  "ms": round(elapsed_ms, 2), "result": result.text[:500],
                  "builtin": True}
             )
-            return result
+        else:
+            # 驱动调用放进线程：stdio RPC 是阻塞的，不能卡住事件循环。
+            # 同一 driver 的调用按设备互斥（单工 stdio 会话），不同 driver 可并行。
+            # task 路径同样包在同一把 driver 锁里：call_tool_task 发起 + task_result
+            # 轮询必须独占单工会话，与同步路径互斥。
+            pcb.state = "running"
+            try:
+                async with self._driver_locks.setdefault(driver_name, asyncio.Lock()):
+                    client = self.drivers[driver_name]
+                    if task and client.capabilities.get("tasks"):
+                        def _run_task():
+                            task_id = client.call_tool_task(tool, args)
+                            return client.task_result(task_id, timeout_s=self.task_timeout)
+                        result = await asyncio.to_thread(_run_task)
+                    else:
+                        result = await asyncio.to_thread(client.call_tool, tool, args)
+            except Exception as exc:
+                result = CallResult.fail(f"EIO: driver {driver_name} failed: {exc}")
+            finally:
+                pcb.state = "ready" if pcb.state != "killed" else "killed"
 
-        # 驱动调用放进线程：stdio RPC 是阻塞的，不能卡住事件循环。
-        # 同一 driver 的调用按设备互斥（单工 stdio 会话），不同 driver 可并行。
-        # task 路径同样包在同一把 driver 锁里：call_tool_task 发起 + task_result
-        # 轮询必须独占单工会话，与同步路径互斥。
-        pcb.state = "running"
-        try:
-            async with self._driver_locks.setdefault(driver_name, asyncio.Lock()):
-                client = self.drivers[driver_name]
-                if task and client.capabilities.get("tasks"):
-                    def _run_task():
-                        task_id = client.call_tool_task(tool, args)
-                        return client.task_result(task_id, timeout_s=self.task_timeout)
-                    result = await asyncio.to_thread(_run_task)
-                else:
-                    result = await asyncio.to_thread(client.call_tool, tool, args)
-        except Exception as exc:
-            result = CallResult.fail(f"EIO: driver {driver_name} failed: {exc}")
-        finally:
-            pcb.state = "ready" if pcb.state != "killed" else "killed"
+            # Stale Context：fs.read 记录观察；fs.write/append 失效其他 agent 的观察
+            if result.ok and hasattr(pcb.ctx, "observe"):
+                if tool == "fs.read" and "path" in args:
+                    pcb.ctx.observe(args["path"], self._digest(result.text))
+                elif tool in ("fs.write", "fs.append") and "path" in args:
+                    for other in self.procs.values():
+                        if other.pid != pcb.pid and hasattr(other.ctx, "invalidate"):
+                            other.ctx.invalidate(args["path"])
 
-        # Stale Context：fs.read 记录观察；fs.write/append 失效其他 agent 的观察
-        if result.ok and hasattr(pcb.ctx, "observe"):
-            if tool == "fs.read" and "path" in args:
-                pcb.ctx.observe(args["path"], self._digest(result.text))
-            elif tool in ("fs.write", "fs.append") and "path" in args:
-                for other in self.procs.values():
-                    if other.pid != pcb.pid and hasattr(other.ctx, "invalidate"):
-                        other.ctx.invalidate(args["path"])
+            elapsed_ms = (time.perf_counter() - started) * 1000
+            pcb.stats["syscalls"] += 1
+            self.audit.write(
+                {
+                    "t": time.time(),
+                    "event": "syscall",
+                    "pid": pid,
+                    "agent": pcb.name,
+                    "tool": tool,
+                    "driver": driver_name,
+                    "args": args,
+                    "ok": result.ok,
+                    "ms": round(elapsed_ms, 2),
+                    "result": result.text[:500],
+                }
+            )
 
-        elapsed_ms = (time.perf_counter() - started) * 1000
-        pcb.stats["syscalls"] += 1
-        self.audit.write(
-            {
-                "t": time.time(),
-                "event": "syscall",
-                "pid": pid,
-                "agent": pcb.name,
-                "tool": tool,
-                "driver": driver_name,
-                "args": args,
-                "ok": result.ok,
-                "ms": round(elapsed_ms, 2),
-                "result": result.text[:500],
-            }
-        )
+        # 可靠性记账（Patient Bytes）——builtin 与 MCP 两条派发路径的唯一收口：
+        # 审计写入之后、返回之前。_deny 的内核裁决（EPERM/EDQUOT/EACCES）不经此处；
+        # 驱动返回的 isError=True（如 EDENIED）属于 agent 的失败尝试，照记。
+        self.scheduler.note_outcome(pid, result.ok)
+        # 顺手刷新调度观测缓存（agent 退出 retire 后 snapshot 不可见，见 sched_view）
+        self.sched_view.update({r["pid"]: r for r in self.scheduler.snapshot()})
         return result
 
     # -- 有效能力：自身 caps + 未过期委托（consume=True 时扣 TTL 额度）------

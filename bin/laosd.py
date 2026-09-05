@@ -226,6 +226,16 @@ async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
             for flag in score(sp):
                 print(f"    [pid={sp.pid} {sp.name}] {flag}")
 
+    # 调度快照：token/err 双预算与挂起状态（可靠性预算耗尽即挂起，见 scheduler.py）。
+    # Agent 退出即被 retire 出调度器，故在册视图为空时回退到内核留存的
+    # 末次派发视图（kernel.sched_view），保证运行报告里每 pid 一行。
+    rows = kernel.scheduler.snapshot() or list(kernel.sched_view.values())
+    suspended = [r for r in rows if r["suspended"]]
+    print(f"  调度快照   : {len(rows)} agents, {len(suspended)} suspended")
+    for r in rows:
+        print(f"    pid={r['pid']} err={r['err_used']}/{r['err_budget']} "
+              f"tokens={r['token_used']}{'' if not r['suspended'] else f' ({r['reason']})'}")
+
     if prof is not None:
         probes = prof.stop()
         kernel.audit.write({"t": time.time(), "event": "prof_summary",

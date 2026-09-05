@@ -10,7 +10,7 @@
 ```bash
 python bin/laosd.py                    # 跑完整 demo（脚本化大脑，无需 API key）
 python bin/laosd.py --real             # 有 OPENAI_API_KEY 时用真 LLM
-python -m unittest discover -s tests   # 120 项回归测试
+python -m unittest discover -s tests   # 125 项回归测试
 ```
 
 ---
@@ -95,7 +95,7 @@ MCP（Model Context Protocol）已经是事实标准，它的角色非常接近 
 | init / udev | 引导器 | `bin/laosd.py` |
 | capability / seccomp | 能力表 + Linux 隔离 | `CapabilitySet` + `sandbox.py` |
 | 内存管理 / 换页 | 上下文分页与换出 | `ContextManager`（窗口 + 摘要 + swap） |
-| 调度器 | LLM 时间片 | `kernel.scheduler_ctx()`（全局锁轮转） |
+| 调度器 | LLM 时间片 + 可靠性预算 | `AgentScheduler`（轮转 + token/err 双预算挂起） |
 | fork / COW | 探索分支 | `BranchContext`（fork / explore / commit） |
 | strace + auditd | 审计 | `AuditLog` + `bin/laosctl.py` |
 
@@ -229,6 +229,7 @@ laos/
     branch.py     BranchContext：fork / explore / commit，first-commit-wins
     sandbox.py    Linux 隔离封装（namespace / cgroup）+ 路径 jail
     risk.py       FleetLedger：车队级不可逆风险账本（加权/两级记账/准入水位）
+    scheduler.py  AgentScheduler：token/err 双预算轮转 + 快照
     seccomp.py    seccomp 经典 BPF 组装 + ctypes 安装（block-dangerous 黑名单）
     cow.py        CoW 原语：temp + os.replace 断链写，保护 hardlink 共享 inode
     profiling.py  bpftrace 集成：驱动进程树真实 syscall 分布（可选，缺席降级）
@@ -241,7 +242,7 @@ laos/
     laosd.py      引导器（init）：加载驱动 → fork 分支 → 起 Agent → commit
     laosctl.py    控制面：ps / top / trace / denied / audit
   tests/
-    test_*.py     120 项回归测试（laos / ipc / seccomp / cow / profiling / sandbox 等 15 个文件）
+    test_*.py     125 项回归测试（laos / ipc / seccomp / cow / profiling / sandbox 等 16 个文件）
   var/            运行期产物：audit.jsonl / branches/ / swap/
 ```
 
@@ -257,6 +258,7 @@ laos/
 | `LAOS_PRIVACY_MASK` | `1` | 主机名等标识信息脱敏 |
 | `LAOS_CTX_TOKENS` | `2000` | 上下文窗口上限 |
 | `LAOS_BUDGET` / `LAOS_STEPS` | `8` / `8` | syscall 预算 / 最大步数 |
+| `LAOS_AGENT_ERR_BUDGET` | `3` | per-agent 可靠性预算：派发后的失败次数（含驱动 EDENIED），耗尽即挂起；`0` = 不限 |
 | `LAOS_SECCOMP` | `block-dangerous` | `off` 关闭；`block-dangerous` 给驱动装 seccomp 黑名单过滤器（仅 Linux） |
 | `LAOS_PROF` | `1` | `0` 关闭 eBPF profiling；开启需 Linux + root + bpftrace，缺席自动降级 |
 | `LAOS_RISK_BUDGET` | `LAOS_IRREV_BUDGET` 或 `3` | 车队级不可逆风险总预算 |
