@@ -165,15 +165,25 @@ class AgentKernel:
                                  {"type": "object", "properties": {}}),
             "msg.list": ToolSpec("msg.list", "列出所有信箱的积压情况",
                                  {"type": "object", "properties": {}}),
+            "sys.delegate": ToolSpec(
+                "sys.delegate", "把自身能力子集授予另一个 agent（TTL 按调用次数）",
+                {"type": "object",
+                 "properties": {"to_pid": {"type": "integer"},
+                                "caps_subset": {"type": "array",
+                                                "items": {"type": "string"}},
+                                "ttl_calls": {"type": "integer", "minimum": 1}},
+                 "required": ["to_pid", "caps_subset", "ttl_calls"]}),
         }
         self._builtin_impls: dict[str, Callable] = {
             "msg.send": self._impl_msg_send,
             "msg.recv": self._impl_msg_recv,
             "msg.list": self._impl_msg_list,
+            "sys.delegate": self._impl_sys_delegate,
         }
         self._mailboxes: dict[int, list[dict]] = {}
-        # 运行时能力委托（Task 3 使用）：pid -> [{"caps": CapabilitySet,
-        #   "remaining": int, ...}]；本 task 先占位，_effective_allows 已可消费
+        # 运行时能力委托：pid -> [{"caps": CapabilitySet, "remaining": int,
+        #   "by": int}]；_effective_allows 每次经委托使用扣 1（TTL 按调用次数），
+        # 委托者 kill 即全部撤销（_drop_delegations_by）
         self._delegations: dict[int, list[dict]] = {}
 
     # -- 兼容层：旧接口 irreversibility_budget 读写映射到车队账本 -----------
@@ -275,8 +285,19 @@ class AgentKernel:
             return False
         pcb.state = "killed"
         self.scheduler.retire(pid)
+        # 委托者死亡即撤销其授出的一切委托（可委派不可提升，亦不可遗赠）
+        self._drop_delegations_by(pid)
         self.audit.write({"t": time.time(), "event": "kill", "pid": pid, "sig": sig})
         return True
+
+    def _drop_delegations_by(self, pid: int) -> None:
+        """委托者死亡即撤销其授出的一切委托（可委派不可提升，亦不可遗赠）。"""
+        for to_pid, lst in list(self._delegations.items()):
+            kept = [d for d in lst if d["by"] != pid]
+            if len(kept) != len(lst):
+                self._delegations[to_pid] = kept
+                self.audit.write({"t": time.time(), "event": "delegate_revoke",
+                                  "by": pid, "to": to_pid})
 
     def ps(self) -> list[dict]:
         return [p.to_dict() for p in self.procs.values()]
@@ -456,6 +477,27 @@ class AgentKernel:
         rows = [f"pid={pid}: {len(box)} pending"
                 for pid, box in self._mailboxes.items() if box]
         return CallResult.ok_text("\n".join(rows) or "(no pending messages)")
+
+    def _impl_sys_delegate(self, pcb: PCB, args: dict) -> "CallResult":
+        # CapabilitySet 就定义在本模块，直接引用，无循环导入
+        from .mcp import CallResult
+        to_pid = int(args["to_pid"])
+        subset = list(args["caps_subset"])
+        ttl = int(args["ttl_calls"])
+        if to_pid not in self.procs:
+            return CallResult.fail(f"ESRCH: no such process {to_pid}")
+        if ttl < 1:
+            return CallResult.fail("EINVAL: ttl_calls must be >= 1")
+        try:
+            delegated = pcb.caps.delegate(subset)
+        except ValueError as exc:
+            return CallResult.fail(f"EPERM: {exc}")
+        self._delegations.setdefault(to_pid, []).append(
+            {"caps": delegated, "remaining": ttl, "by": pcb.pid})
+        self.audit.write({"t": time.time(), "event": "delegate", "from": pcb.pid,
+                          "to": to_pid, "caps": sorted(delegated.patterns), "ttl": ttl})
+        return CallResult.ok_text(
+            f"OK delegated {len(delegated.patterns)} caps to pid={to_pid} (ttl={ttl} calls)")
 
     def _deny(self, pcb: PCB, tool: str, args: dict, started: float, err: str):
         from .mcp import CallResult

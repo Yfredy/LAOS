@@ -103,5 +103,72 @@ class TestMailboxQuotas(IPCBase):
         self.assertIn(f"pid={self.b.pid}: 1 pending", res.text)
 
 
+class TestDelegation(IPCBase):
+    def setUp(self):
+        super().setUp()
+        env = {"PYTHONPATH": str(REPO), "PYTHONIOENCODING": "utf-8",
+               "LAOS_FS_ROOT": str(Path(self._td.name) / "var" / "branches")}
+        self.kernel.load_driver("fs", [sys.executable, str(REPO / "drivers" / "drv_fs.py")],
+                                env=env)
+        self.kernel.load_driver("sys", [sys.executable, str(REPO / "drivers" / "drv_sys.py")],
+                                env=env)
+        self.main = self.kernel.branches.create_root("main")
+        (self.main.workspace / "workspace").mkdir(parents=True, exist_ok=True)
+        (self.main.workspace / "workspace" / "hosts").write_text(
+            "127.0.0.1 localhost\n", encoding="utf-8")
+        self.ops = self._spawn("ops", ["fs.*", "sys.*", "msg.*"])
+        self.guest = self._spawn("guest", ["sys.*", "msg.*"])
+
+    def test_delegation_grants_and_expires(self):
+        res = self._call(self.ops.pid, "sys.delegate",
+                         {"to_pid": self.guest.pid,
+                          "caps_subset": ["fs.read"], "ttl_calls": 2})
+        self.assertTrue(res.ok, res.error)
+        # guest 原本无 fs.read —— 委托后可用
+        for _ in range(2):
+            res = self._call(self.guest.pid, "fs.read",
+                             {"path": "/main/workspace/hosts"})
+            self.assertTrue(res.ok, res.error)
+        # TTL 耗尽
+        res = self._call(self.guest.pid, "fs.read",
+                         {"path": "/main/workspace/hosts"})
+        self.assertIn("EPERM", res.error)
+
+    def test_delegation_cannot_elevate(self):
+        res = self._call(self.guest.pid, "sys.delegate",
+                         {"to_pid": self.ops.pid, "caps_subset": ["fs.*"],
+                          "ttl_calls": 2})
+        self.assertIn("EPERM", res.error)  # guest 自己没有 fs.*，不可授人
+
+    def test_delegator_death_revokes(self):
+        self._call(self.ops.pid, "sys.delegate",
+                   {"to_pid": self.guest.pid, "caps_subset": ["fs.read"],
+                    "ttl_calls": 5})
+        self.kernel.kill(self.ops.pid)
+        res = self._call(self.guest.pid, "fs.read",
+                         {"path": "/main/workspace/hosts"})
+        self.assertIn("EPERM", res.error)
+
+    def test_delegate_unknown_target(self):
+        res = self._call(self.ops.pid, "sys.delegate",
+                         {"to_pid": 424242, "caps_subset": ["fs.read"],
+                          "ttl_calls": 2})
+        self.assertIn("ESRCH", res.error)
+
+    def test_delegated_call_denied_by_validation_still_burns_ttl(self):
+        # 语义钉子（attempt-based，与风险预算同价）：能力门先于参数校验，
+        # 委托额度在能力检查放行那一刻即扣减 —— 校验拒绝同样计入 TTL。
+        self._call(self.ops.pid, "sys.delegate",
+                   {"to_pid": self.guest.pid, "caps_subset": ["fs.read"],
+                    "ttl_calls": 1})
+        res = self._call(self.guest.pid, "fs.read", {})  # 缺 path -> EINVAL
+        self.assertFalse(res.ok)
+        self.assertIn("EINVAL", res.error)
+        # TTL 已扣为 0，补全参数也救不回来
+        res = self._call(self.guest.pid, "fs.read",
+                         {"path": "/main/workspace/hosts"})
+        self.assertIn("EPERM", res.error)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

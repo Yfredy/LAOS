@@ -303,7 +303,7 @@ class TestAgent(KernelTestCase):
     def test_visible_tools_filtered_by_caps(self):
         self.assertEqual(
             [t["name"] for t in self.spawn("guest", ["sys.*"]).visible_tools],
-            ["sys.info", "sys.load"],
+            ["sys.delegate", "sys.info", "sys.load"],
         )
         self.assertIn("fs.read", [t["name"] for t in self.spawn("ops", ["fs.*"]).visible_tools])
 
