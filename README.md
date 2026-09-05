@@ -10,7 +10,7 @@
 ```bash
 python bin/laosd.py                    # 跑完整 demo（脚本化大脑，无需 API key）
 python bin/laosd.py --real             # 有 OPENAI_API_KEY 时用真 LLM
-python bin/laosweb.py                  # 启动内核 + Web 面板 (http://127.0.0.1:8800)
+python bin/laosweb.py                  # 启动内核 + Web 交互面板 (http://127.0.0.1:8800)
 python -m unittest discover -s tests   # 142 项回归测试
 ```
 
@@ -248,7 +248,7 @@ laos/
   bin/
     laosd.py      引导器（init）：加载驱动 → fork 分支 → 起 Agent → commit
     laosctl.py    控制面：ps / top / trace / denied / audit
-    laosweb.py    内核状态实时 Web 面板（http.server，零依赖）
+    laosweb.py    实时面板 + 交互操控（确认横幅/重启/信箱）（http.server，零依赖）
   tests/
     test_*.py     142 项回归测试（laos / ipc / scope / seccomp / cow / profiling / sandbox 等 18 个文件）
   var/            运行期产物：audit.jsonl / branches/ / swap/

@@ -225,12 +225,15 @@ class TestHttp(unittest.TestCase):
             self.assertIn("text/html", resp.headers["Content-Type"])
             body = resp.read().decode("utf-8")
         self.assertIn("laosweb", body)
-        # 静态骨架唯一性（防 per-tick 重复渲染回归）：单 h1、六个固定面板体
+        # 静态骨架唯一性（防 per-tick 重复渲染回归）：单 h1、七个固定面板体
         self.assertEqual(body.count("<h1"), 1)
-        self.assertEqual(body.count('class="panel'), 6)
+        self.assertEqual(body.count('class="panel'), 7)
         for panel_id in ("procs-body", "branches-body", "risk-body",
-                         "sched-body", "audit-body", "syscalls-body"):
+                         "sched-body", "audit-body", "syscalls-body", "msgs-body"):
             self.assertEqual(body.count(f'id="{panel_id}"'), 1)
+        # 交互骨架：确认横幅与重启控制台各一份
+        for node_id in ("confirm-banner", "restart-console"):
+            self.assertEqual(body.count(f'id="{node_id}"'), 1)
 
     def test_unknown_path_404(self):
         with self.assertRaises(urllib.error.HTTPError) as cm:
@@ -421,6 +424,19 @@ class TestInteractivity(unittest.TestCase):
         self.assertEqual(cm.exception.code, 404)
 
     # -- operator 信箱 -----------------------------------------------------
+
+    def test_operator_spawn_not_in_scheduler(self):
+        """回归：operator 若留在调度器轮转队列，会以 (priority, last_served)
+        平局首位（dict 插入序最先）永久霸占 next_pid()——它没有脑循环、
+        永不 acquire 让位，全部真 agent 会被饿死在 acquire() 的自旋上
+        （laosweb 手工验收复现：demo 的 agent 一个 syscall 都发不出）。"""
+        op_pid = laosweb._spawn_operator(self.kernel)
+        self.assertEqual(self.kernel.procs[op_pid].name, "operator")
+        self.assertIsNone(self.kernel.scheduler.next_pid(),
+                          "operator 不得占用调度器轮转位")
+        agent = self._spawn("worker", ["msg.*"])
+        self.assertEqual(self.kernel.scheduler.next_pid(), agent.pid,
+                         "agent 必须能被调度器正常轮转到")
 
     def test_operator_msg_send_and_recv(self):
         operator = self._spawn("operator", ["msg.*"])

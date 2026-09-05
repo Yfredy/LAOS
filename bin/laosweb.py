@@ -172,13 +172,46 @@ PAGE = r"""<!doctype html>
            margin-right: 4px; font-size: 11px; }
   .ares { color: var(--dim); }
   footer { margin-top: 14px; color: var(--gray); font-size: 11px; }
+  /* ---- 交互操控：确认横幅 / 重启控制台 / kill / 消息面板 ---- */
+  button { background: #334155; color: var(--fg); border: 1px solid var(--line);
+           border-radius: 4px; padding: 2px 10px; cursor: pointer; font: inherit; }
+  button:hover { background: #475569; }
+  select, input { background: #0f172a; color: var(--fg); border: 1px solid var(--line);
+                  border-radius: 4px; padding: 2px 6px; font: inherit; }
+  #confirm-banner { display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+                    background: #dc2626; color: #fff; padding: 10px 20px; font-weight: 600;
+                    box-shadow: 0 2px 14px rgba(0,0,0,.55);
+                    animation: alert 0.9s ease-in-out infinite; }
+  @keyframes alert { 0%,100% { outline: 3px solid #fecaca; outline-offset: -3px; }
+                     50% { outline: 3px solid #7f1d1d; outline-offset: -3px; } }
+  #confirm-banner .allow { background: #16a34a; border-color: #16a34a; margin-left: 12px; }
+  #confirm-banner .deny { background: #7f1d1d; border-color: #fca5a5; margin-left: 6px; }
+  #restart-console { display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+                     margin: 0 0 12px; background: var(--card);
+                     border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; }
+  .mrow { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+  .rrow { padding: 1px 0; }
+  .rrow button { margin: 0 10px 0 6px; padding: 0 6px; font-size: 11px; }
+  .kill { color: var(--err); padding: 0 6px; font-size: 11px; }
 </style>
 </head>
 <body>
+<div id="confirm-banner"></div>
 <header>
   <h1>laos —— Linux AgentOS 面板</h1>
   <div class="chips" id="chips"></div>
 </header>
+<div id="restart-console">
+  <span class="lbl">重启控制台</span>
+  <select id="restart-confirm">
+    <option value="no">横幅裁决</option>
+    <option value="auto-yes">自动放行</option>
+  </select>
+  <span class="lbl">风险预算</span>
+  <input id="restart-budget" type="number" min="1" step="1" value="3" style="width:64px">
+  <button onclick="restartDemo()">↻ 重跑</button>
+  <span id="restart-msg" class="dim"></span>
+</div>
 <div class="grid">
   <section class="panel"><h2>进程表</h2><div id="procs-body"></div></section>
   <section class="panel"><h2>分支树</h2><div id="branches-body"></div></section>
@@ -186,8 +219,19 @@ PAGE = r"""<!doctype html>
   <section class="panel"><h2>调度快照</h2><div id="sched-body"></div></section>
   <section class="panel wide"><h2>审计流（最新在上）</h2><div id="audit-body"></div></section>
   <section class="panel wide"><h2>系统调用表</h2><div id="syscalls-body"></div></section>
+  <section class="panel wide"><h2>消息面板（operator 信箱）</h2><div id="msgs-body">
+    <div class="mrow">
+      <span class="lbl">to_pid</span>
+      <select id="msg-to"></select>
+      <input id="msg-text" type="text" placeholder="以 operator 身份发给 agent…"
+             style="flex:1; min-width:160px">
+      <button onclick="sendMsg()">发送</button>
+    </div>
+    <div id="msg-out" class="dim">（发送 / 收取结果显示在这里）</div>
+    <div id="recv-list" style="margin-top:8px"></div>
+  </div></section>
 </div>
-<footer>laosweb v0.1 —— 纯标准库实现，1s 轮询 /api/state</footer>
+<footer>laosweb v0.2 —— 纯标准库实现，1s 轮询 /api/state + POST /api/* 交互操控</footer>
 <script>
 const $ = id => document.getElementById(id);
 
@@ -220,16 +264,23 @@ function renderChips(s) {
 }
 
 function renderProcs(s) {
-  const rows = (s.procs || []).map(p =>
-    '<tr><td>' + esc(p.pid) + '</td><td>' + esc(p.name) + '</td><td>' + esc(p.state) +
+  const op = s.operator_pid;
+  const rows = (s.procs || []).map(p => {
+    const dead = p.state === 'zombie' || p.state === 'killed';
+    // kill 列：活进程可杀；operator（人）与已死进程不显示按钮
+    const killCell = (!dead && p.pid !== op)
+      ? '<td><button class="kill" onclick="killProc(' + esc(p.pid) + ')">✕</button></td>'
+      : '<td></td>';
+    return '<tr><td>' + esc(p.pid) + '</td><td>' + esc(p.name) + '</td><td>' + esc(p.state) +
     '</td><td>' + esc((p.caps || []).join(' ')) + '</td><td>' +
     esc(p.task_scope ? p.task_scope.join(' ') : '-') + '</td><td>' + esc(p.branch || '-') +
     '</td><td>' + esc(p.stats ? p.stats.syscalls : 0) + '</td><td>' +
     esc(p.stats ? p.stats.denied : 0) + '</td><td>' +
-    esc(p.stats ? p.stats.risk : 0) + '</td></tr>').join('');
+    esc(p.stats ? p.stats.risk : 0) + '</td>' + killCell + '</tr>';
+  }).join('');
   $('procs-body').innerHTML =
     '<table><tr><th>pid</th><th>name</th><th>state</th><th>caps</th><th>scope</th>' +
-    '<th>branch</th><th>sys</th><th>deny</th><th>risk</th></tr>' + rows + '</table>';
+    '<th>branch</th><th>sys</th><th>deny</th><th>risk</th><th>✕</th></tr>' + rows + '</table>';
 }
 
 function renderBranches(s) {
@@ -330,12 +381,95 @@ function renderAudit(s) {
 
 function render(s) {
   renderChips(s);
+  renderBanner(s);
   renderProcs(s);
   renderBranches(s);
   renderRisk(s);
   renderSched(s);
   renderSys(s);
+  renderMsgs(s);
   renderAudit(s);
+}
+
+// ---- 交互操控：POST 助手 + 确认横幅 + 重启控制台 + kill + 消息面板 ------
+async function post(path, body) {
+  try {
+    const resp = await fetch(path, { method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body) });
+    const data = await resp.json().catch(() => ({}));
+    return { ok: resp.ok, status: resp.status, data: data || {} };
+  } catch (e) { return { ok: false, status: 0, data: {} }; }
+}
+
+function renderBanner(s) {
+  const el = $('confirm-banner');       // 固定节点：只改内容，不重建横幅本体
+  const rows = s.pending_confirm || [];
+  if (!rows.length) { el.style.display = 'none'; el.innerHTML = ''; return; }
+  el.style.display = 'block';
+  el.innerHTML = rows.map(r =>
+    '<div class="crow">⚠ 内核等待裁决：' + esc(r.message || r.tool) +
+    '<button class="allow" onclick="decide(\'' + esc(r.id) + '\',true)">✓ 允许</button>' +
+    '<button class="deny" onclick="decide(\'' + esc(r.id) + '\',false)">✗ 拒绝</button></div>'
+  ).join('');
+}
+
+async function decide(id, allow) {
+  await post('/api/confirm', { id: id, allow: allow });
+  tick();  // 任何 POST 后立即刷新
+}
+
+async function restartDemo() {
+  const body = { confirm: $('restart-confirm').value,
+                 risk_budget: Number($('restart-budget').value || 3) };
+  $('restart-msg').textContent = '重启中…';
+  const r = await post('/api/restart', body);
+  if (!r.ok) {
+    $('restart-msg').textContent = '失败: ' + (r.data.error || 'HTTP ' + r.status);
+    return;
+  }
+  $('restart-msg').textContent = '已重启，审计流从头滚动';
+  auditRows.clear();  // 新内核审计 seq 从 0 重新计数：去重账本必须清空
+  $('audit-body').innerHTML = '';
+  tick();
+}
+
+async function killProc(pid) {
+  await post('/api/kill', { pid: pid });
+  tick();
+}
+
+// 消息面板：输入框所在面板绝不整体重建（会丢焦点/草稿），只刷新下拉与收取列表
+function renderMsgs(s) {
+  const sel = $('msg-to');
+  const prev = sel.value;
+  const live = (s.procs || []).filter(p =>
+    p.pid !== s.operator_pid && p.state !== 'zombie' && p.state !== 'killed');
+  sel.innerHTML = live.map(p =>
+    '<option value="' + esc(p.pid) + '">' + esc(p.pid + ' ' + p.name) + '</option>').join('');
+  if (prev && live.some(p => String(p.pid) === prev)) sel.value = prev;
+  $('recv-list').innerHTML = (s.procs || []).filter(p =>
+    p.state !== 'zombie' && p.state !== 'killed').map(p =>
+    '<span class="rrow"><span class="apid">' + esc(p.pid) + '</span> ' + esc(p.name) +
+    '<button onclick="recvMsg(' + esc(p.pid) + ')">收取</button></span>').join('');
+}
+
+async function sendMsg() {
+  const to = Number($('msg-to').value);
+  const text = $('msg-text').value.trim();
+  if (!to || !text) return;
+  const r = await post('/api/msg', { to_pid: to, text: text });
+  if (!r.ok) $('msg-out').textContent = '发送失败: ' + (r.data.error || 'HTTP ' + r.status);
+  else if (r.data.ok) { $('msg-out').textContent = '已发送 → pid=' + to; $('msg-text').value = ''; }
+  else $('msg-out').textContent = '内核拒绝: ' + (r.data.text || '');
+  tick();
+}
+
+async function recvMsg(pid) {
+  const r = await post('/api/recv', { pid: pid });
+  if (!r.ok) $('msg-out').textContent = '收取失败: ' + (r.data.error || 'HTTP ' + r.status);
+  else $('msg-out').textContent = 'pid=' + pid + ' 信箱 → ' + (r.data.text || '(empty)');
+  tick();
 }
 
 async function tick() {
@@ -543,6 +677,19 @@ def _start_demo(kernel) -> None:
     threading.Thread(target=_run, daemon=True).start()
 
 
+def _spawn_operator(kernel) -> int:
+    """人也是进程：spawn 常驻 operator（pid 进程表可见），是人类发消息的身份。
+
+    spawn 后立即从调度器注销：operator 没有脑循环、永远不 acquire 时间片，
+    若留在轮转队列里，它会以 (priority, last_served) 平局的首位（dict 插入
+    序最先）永久霸占 next_pid()，把所有真 agent 饿死在 acquire() 的自旋上。
+    """
+    pid = kernel.spawn(name="operator", caps=["msg.*"],
+                       ctx=ContextManager(system_prompt="human operator")).pid
+    kernel.scheduler.retire(pid)
+    return pid
+
+
 def _boot_stack(confirm_mode: str, risk_budget: int):
     """boot 一整套：内核 + 种子分支 + operator 进程 + confirm 接线 + demo 线程。
 
@@ -560,11 +707,7 @@ def _boot_stack(confirm_mode: str, risk_budget: int):
     # auto-yes 模式在 web_confirm 顶部秒答 True——跳过横幅、照常计费。
     kernel.confirm = web_confirm
     _auto_yes = confirm_mode == "auto-yes"
-    # 人也是系统里的一个进程：operator 常驻，pid 出现在进程表，
-    # 人类经 POST /api/msg 以它的身份给任意 agent 发消息
-    _operator_pid = kernel.spawn(
-        name="operator", caps=["msg.*"],
-        ctx=ContextManager(system_prompt="human operator")).pid
+    _operator_pid = _spawn_operator(kernel)
     _demo_done = False
     set_kernel(kernel)
     _start_demo(kernel)
