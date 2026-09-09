@@ -91,7 +91,7 @@ MCP（Model Context Protocol）已经是事实标准，它的角色非常接近 
 |---|---|---|
 | 进程 `task_struct` | Agent 进程 | `PCB`（pid / caps / state / budget） + `Agent` |
 | 系统调用 | MCP tool call | `kernel.syscall(pid, tool, args)` |
-| 设备驱动 | MCP Server | `drivers/drv_fs.py`、`drv_proc.py`、`drv_sys.py` |
+| 设备驱动 | MCP Server | `drivers/drv_fs.py`、`drv_proc.py`、`drv_sys.py`、`drv_npu.py` |
 | `/dev`、`/proc` | 驱动注册表 | `kernel.syscall_table`（tool → driver） |
 | init / udev | 引导器 | `bin/laosd.py` |
 | capability / seccomp | 能力表 + Linux 隔离 | `CapabilitySet` + `sandbox.py` |
@@ -245,12 +245,13 @@ laos/
     drv_fs.py     文件系统驱动：read / write / append / list / stat（jail 内）
     drv_proc.py   进程驱动：list / exec（白名单 + 危险模式拦截）
     drv_sys.py    系统信息驱动：info / load（主机名默认脱敏）
+    drv_npu.py    NPU/加速器驱动：devices / infer（QNN 后端探测 + 功耗定价）
   bin/
     laosd.py      引导器（init）：加载驱动 → fork 分支 → 起 Agent → commit
     laosctl.py    控制面：ps / top / trace / denied / audit
     laosweb.py    实时面板 + 交互操控（确认横幅/重启/信箱）（http.server，零依赖）
   tests/
-    test_*.py     154 项回归测试（laos / ipc / scope / seccomp / cow / profiling / sandbox 等 18 个文件）
+    test_*.py     161 项回归测试（laos / ipc / scope / seccomp / cow / profiling / npu / sandbox 等 19 个文件）
   var/            运行期产物：audit.jsonl / branches/ / swap/
 ```
 
