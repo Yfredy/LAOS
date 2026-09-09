@@ -11,7 +11,7 @@
 python bin/laosd.py                    # 跑完整 demo（脚本化大脑，无需 API key）
 python bin/laosd.py --real             # 有 OPENAI_API_KEY 时用真 LLM
 python bin/laosweb.py                  # 启动内核 + Web 交互面板 (http://127.0.0.1:8800)
-python -m unittest discover -s tests   # 154 项回归测试
+python -m unittest discover -s tests   # 161 项回归测试
 ```
 
 ---
