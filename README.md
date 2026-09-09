@@ -11,7 +11,7 @@
 python bin/laosd.py                    # 跑完整 demo（脚本化大脑，无需 API key）
 python bin/laosd.py --real             # 有 OPENAI_API_KEY 时用真 LLM
 python bin/laosweb.py                  # 启动内核 + Web 交互面板 (http://127.0.0.1:8800)
-python -m unittest discover -s tests   # 161 项回归测试
+python -m unittest discover -s tests   # 169 项回归测试
 ```
 
 ---
@@ -235,6 +235,7 @@ laos/
     context.py    Context Manager：窗口 / 摘要压缩 / swap / 观察簿（stale 检测）
     branch.py     BranchContext：fork / explore / commit，first-commit-wins
     sandbox.py    Linux 隔离封装（namespace / cgroup）+ 路径 jail
+    enforcement/  强制隔离后端层（linux / android / stub，CherryUSB OSAL 模式）
     risk.py       FleetLedger：车队级不可逆风险账本（加权/两级记账/准入水位）
     scheduler.py  AgentScheduler：token/err 双预算轮转 + 快照
     seccomp.py    seccomp 经典 BPF 组装 + ctypes 安装（block-dangerous 黑名单）
@@ -251,7 +252,7 @@ laos/
     laosctl.py    控制面：ps / top / trace / denied / audit
     laosweb.py    实时面板 + 交互操控（确认横幅/重启/信箱）（http.server，零依赖）
   tests/
-    test_*.py     161 项回归测试（laos / ipc / scope / seccomp / cow / profiling / npu / sandbox 等 19 个文件）
+    test_*.py     169 项回归测试（laos / ipc / scope / seccomp / cow / profiling / npu / sandbox / enforcement 等 20 个文件）
   var/            运行期产物：audit.jsonl / branches/ / swap/
 ```
 

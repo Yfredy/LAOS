@@ -27,6 +27,7 @@ enforcement_macos_seatbelt.py / enforcement_stub.py`——核心内核只依赖�
 `enforcement_*` 原语集（wrap/popen_kwargs/cgroup/audit-hook），上 Android、上
 WSL、上真实 Linux 都只是"再写一个 osal 文件"。**路线 A（Android 闭环）的工程
 障碍会小一半。**
+（laos 已落地：`laos/enforcement/` 包，linux/android/stub 三后端 + `LAOS_ENFORCEMENT` 选择器，2026-09-10）
 
 ### 2. 类驱动契约：两个回调就是一台"设备"
 
