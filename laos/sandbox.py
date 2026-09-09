@@ -34,7 +34,11 @@ class Sandbox:
         seccomp_mode = seccomp or os.environ.get("LAOS_SECCOMP", "block-dangerous")
         if seccomp_mode not in ("off", "block-dangerous"):
             seccomp_mode = "off"
-        self._backend = enforcement.select(enabled, seccomp_mode, self.workdir)
+        # LAOS_ENFORCEMENT：显式后端覆盖（auto|linux|android|stub），见 select()
+        self._backend = enforcement.select(
+            enabled, seccomp_mode, self.workdir,
+            override=os.environ.get("LAOS_ENFORCEMENT"),
+        )
         self._backend.allow_network = allow_network
         self.report = self._backend.report
 
