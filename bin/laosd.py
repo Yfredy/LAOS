@@ -57,6 +57,7 @@ def boot_kernel(workdir: Path) -> AgentKernel:
     kernel.load_driver("fs", [py, str(DRIVERS / "drv_fs.py")], env=env)
     kernel.load_driver("proc", [py, str(DRIVERS / "drv_proc.py")], env=env)
     kernel.load_driver("sys", [py, str(DRIVERS / "drv_sys.py")], env=env)
+    kernel.load_driver("npu", [py, str(DRIVERS / "drv_npu.py")], env=env)
     return kernel
 
 
@@ -123,7 +124,7 @@ async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
     # ops-agent：权限较全，用来走通主流程；它会去碰 proc.exec，被驱动拦下
     ops = new_agent(
         "ops-agent",
-        ["sys.*", "fs.*", "proc.*", "msg.*"],
+        ["sys.*", "fs.*", "proc.*", "msg.*", "npu.*"],
         OpenAIChatBrain() if use_real else ScriptedBrain(branch="exp-A"),
     )
     # guest-agent：只给了 sys.*，却硬要调 fs.read —— 用来演示内核层的 EPERM；
@@ -195,6 +196,16 @@ async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
     res = await kernel.syscall(guest.pcb.pid, "fs.read",
                                {"path": "/main/workspace/hosts"})
     print(f"  guest 二次读取（TTL 已耗尽）: {'OK' if res.ok else res.error}")
+
+    # ---- 端侧 NPU 推理（真实 OS 集成：QNN/ADSP 驱动，见 docs/research §四）--
+    hr("4.6 端侧 NPU 推理：npu.* 驱动（风险定价 cost=2）")
+    res = await kernel.syscall(ops.pcb.pid, "npu.devices", {})
+    for line in res.text.splitlines():
+        print(f"  {line}")
+    res = await kernel.syscall(ops.pcb.pid, "npu.infer",
+                               {"model": "timnet", "input": "audio-feature-26x479"})
+    print(f"  ops 推理 → top1: {res.text.splitlines()[-1] if res.ok else res.error}")
+    print(f"  风险账本: spent={kernel.risk.spent} remaining={kernel.risk.remaining}")
 
     # ---- 提交 ------------------------------------------------------------
     hr("5. commit（first-commit-wins）")
