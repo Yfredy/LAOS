@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>laos 项目结构与使用说明书（详细版）</title>
+<style>
+  :root{
+    --bg:#0f1420;--panel:#171e2e;--panel2:#1c2438;--border:#2a3550;
+    --text:#dbe4f5;--muted:#8fa0c0;--accent:#4da3ff;--accent2:#7ee0b0;
+    --warn:#ffb454;--bad:#ff6b6b;--code:#101624;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI","Microsoft YaHei",system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:15px}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{display:flex;min-height:100vh}
+  nav{width:250px;flex:0 0 250px;background:var(--panel);border-right:1px solid var(--border);padding:20px 14px;position:sticky;top:0;height:100vh;overflow-y:auto}
+  nav h3{font-size:13px;color:var(--muted);margin:6px 0 12px;letter-spacing:1px}
+  nav a{display:block;color:var(--text);font-size:13.5px;padding:6px 10px;border-radius:6px;margin:1px 0}
+  nav a:hover{background:var(--panel2);text-decoration:none}
+  main{flex:1;padding:34px 44px;max-width:1080px;min-width:0}
+  h1{font-size:26px;margin:0 0 4px}
+  .sub{color:var(--muted);margin-bottom:26px;font-size:14px}
+  h2{font-size:20px;border-bottom:1px solid var(--border);padding-bottom:8px;margin:44px 0 16px;scroll-margin-top:20px}
+  h3{font-size:16px;margin:26px 0 10px;color:var(--accent2)}
+  p{margin:8px 0}
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:13.5px}
+  th,td{border:1px solid var(--border);padding:7px 10px;text-align:left;vertical-align:top}
+  th{background:var(--panel2);color:var(--accent);font-weight:600;white-space:nowrap}
+  tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+  code{background:var(--code);border:1px solid var(--border);border-radius:4px;padding:1px 6px;font-family:Consolas,"Courier New",monospace;font-size:12.8px;color:#9fd0ff;word-break:break-all}
+  pre{background:var(--code);border:1px solid var(--border);border-radius:8px;padding:14px 16px;overflow-x:auto;line-height:1.55;margin:12px 0}
+  pre code{background:none;border:none;padding:0;color:#c9dcf5;font-size:12.8px}
+  .callout{border-left:4px solid var(--accent);background:var(--panel2);border-radius:0 8px 8px 0;padding:12px 16px;margin:14px 0}
+  .callout.warn{border-left-color:var(--warn)}
+  .callout.bad{border-left-color:var(--bad)}
+  .callout.good{border-left-color:var(--accent2)}
+  .callout b.t{display:block;margin-bottom:4px;color:var(--accent)}
+  .callout.warn b.t{color:var(--warn)}
+  .callout.bad b.t{color:var(--bad)}
+  .callout.good b.t{color:var(--accent2)}
+  .tree{font-family:Consolas,monospace;font-size:12.8px;line-height:1.62;color:#bcd0ef}
+  .tree b{color:var(--accent2);font-weight:600}
+  .tree i{color:var(--muted);font-style:normal}
+  .kvs{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin:14px 0}
+  .kv{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
+  .kv b{display:block;font-size:12px;color:var(--muted);font-weight:500;margin-bottom:3px}
+  .kv span{font-size:15px;color:var(--text);font-weight:600}
+  details{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:10px 16px;margin:10px 0}
+  summary{cursor:pointer;color:var(--accent);font-weight:600;font-size:14px}
+  details[open]{padding-bottom:14px}
+  .tag{display:inline-block;background:var(--panel2);border:1px solid var(--border);border-radius:20px;padding:1px 10px;font-size:12px;color:var(--muted);margin:2px 4px 2px 0}
+  .tag.hot{color:var(--bad);border-color:var(--bad)}
+  .tag.ok{color:var(--accent2);border-color:var(--accent2)}
+  @media (max-width:900px){.wrap{flex-direction:column}nav{position:static;width:auto;height:auto;border-right:none;border-bottom:1px solid var(--border)}main{padding:22px 18px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+  <h3>laos · 详细版说明书</h3>
+  <a href="#summary">0. 关键事实速查</a>
+  <a href="#arch">1. 系统架构与路线</a>
+  <a href="#structure">2. 完整项目结构</a>
+  <a href="#inventory">3. 文件清单统计</a>
+  <a href="#sourcemap">4. 分层源码地图</a>
+  <a href="#contracts">5. 内核契约速查</a>
+  <a href="#flows">6. 核心流程详解</a>
+  <a href="#manual">7. 使用说明书</a>
+  <a href="#commands">8. 逐命令与逐端点</a>
+  <a href="#drivers">9. 驱动与两层防御</a>
+  <a href="#testing">10. 测试体系</a>
+  <a href="#process">11. 开发流程与研究资料</a>
+  <a href="#common">12. 与 DSHA 的共同之处</a>
+  <a href="#borrow">13. DSHA 可借鉴清单</a>
+  <a href="#lessons">14. 设计教训</a>
+  <a href="#appendix">15. 附录：模块全表</a>
+</nav>
+<main>
+
+<h1>laos —— Linux AgentOS 原型</h1>
+<p class="sub">命题：<code>Linux AgentOS = Linux kernel + Agent + MCP</code> ｜ 用户态薄内核 <code>laosd</code> ｜ 零第三方依赖 ｜ Python 3.10+ ｜ 154 项回归测试 ｜ 路径 <code>C:\Users\yaoyue\CodeBuddy\Claw\laos</code></p>
+
+<h2 id="summary">0. 关键事实速查</h2>
+<div class="kvs">
+  <div class="kv"><b>一句话</b><span>不改内核：namespace/cgroup/seccomp 做强制层，laosd 薄内核做语义层，MCP Server 当设备驱动，tool call 当系统调用</span></div>
+  <div class="kv"><b>规模</b><span>约 4400 行 Python（15 模块 + 3 驱动 + 3 入口），18+ 测试文件 / 154 项测试</span></div>
+  <div class="kv"><b>依赖</b><span>零第三方依赖，纯标准库；非 Linux 平台自动降级为「仅能力表」</span></div>
+  <div class="kv"><b>入口</b><span>bin/laosd.py（init）、bin/laosctl.py（控制面）、bin/laosweb.py（面板 :8800）</span></div>
+  <div class="kv"><b>运行产物</b><span>var/audit.jsonl（审计）、var/branches/（分支树）、var/swap/（上下文换出）、var/traces/（OTLP span）</span></div>
+  <div class="kv"><b>开发方式</b><span>docs/superpowers/plans/ 下 8 份 writing-plans 计划驱动开发（与 superpowers skill 同源）</span></div>
+</div>
+
+<div class="callout good"><b class="t">本文回答两个问题</b>
+① laos 这个项目本身是什么、怎么用（第 1–11 章，可直接当上手手册）；
+② 它和 DSHA 有什么共同之处、哪些设计能搬过去（第 12–14 章，是重点）。</div>
+
+<h2 id="arch">1. 系统架构与路线</h2>
+
+<h3>1.1 三层结构</h3>
+<table>
+  <tr><th>层</th><th>角色</th><th>laos 中的实现</th><th>传统 OS 对应</th></tr>
+  <tr><td><b>语义层</b></td><td>进程表、能力表、预算、审计、路由</td><td><code>laos/kernel.py</code> 薄内核（PCB + syscall 网关）</td><td>内核核心</td></tr>
+  <tr><td><b>强制层</b></td><td>真正的隔离与资源上限</td><td>Linux namespace / cgroup v2 / seccomp BPF / PathJail</td><td>硬件与内核强制</td></tr>
+  <tr><td><b>驱动层</b></td><td>把文件/进程/系统信息封装成 tool</td><td><code>drv_fs</code> / <code>drv_proc</code> / <code>drv_sys</code>（独立 MCP 子进程）</td><td>设备驱动 + /dev</td></tr>
+  <tr><td><b>调度</b></td><td>LLM 时间片与可靠性预算</td><td><code>AgentScheduler</code>（token/err 双预算轮转）</td><td>CPU 调度器</td></tr>
+  <tr><td><b>内存</b></td><td>上下文分页与换出</td><td><code>ContextManager</code>（窗口 + 摘要压缩 + swap）</td><td>虚拟内存</td></tr>
+  <tr><td><b>探索</b></td><td>fork / explore / commit</td><td><code>BranchContext</code> + hardlink COW（first-commit-wins）</td><td>fork / COW</td></tr>
+  <tr><td><b>审计</b></td><td>事后追责与回放</td><td><code>AuditLog</code>(JSONL+seq) + <code>laosctl</code> 离线回放 + AgentProf</td><td>strace + auditd</td></tr>
+</table>
+
+<h3>1.2 一次 syscall 的完整闸门链（顺序即语义）</h3>
+<pre><code>kernel.syscall(pid, tool, args)
+ ├─ PCB 存在?            否 → ESRCH
+ ├─ 进程已 killed?        是 → EACCES
+ ├─ 查 syscall 表         （MCP 表 → 内建表，都 miss → ENOSYS）
+ ├─ 能力检查（caps ∪ 未过期委托）          → EPERM
+ ├─ task_scope 路径前缀收窄（normpath 后匹配）→ EACCES: outside task scope
+ ├─ 参数 schema 校验                       → EINVAL
+ ├─ 次数预算 EDQUOT        ← 必须在风险闸门之前：注定被拒的调用不许消耗风险额度
+ ├─ 不可逆风险闸门：车队账本 → agent risk_cap → risk=="high" 需人类 confirm
+ └─ 派发：内建同步 / MCP 走 to_thread + per-driver 锁
+       └─ 唯一收口 scheduler.note_outcome(pid, ok)   （内核 _deny 不算 agent 失败）</code></pre>
+
+<h3>1.3 三条路线中的定位</h3>
+<table>
+  <tr><th>路线</th><th>代表</th><th>优点</th><th>代价</th></tr>
+  <tr><td>A. 用户态薄内核</td><td>AIOS、<b>laos</b></td><td>今天就落地、跨发行版</td><td>强制力依赖能力表本身写对</td></tr>
+  <tr><td>B. 发行版级集成</td><td>阿里云 Agentic OS</td><td>开箱即用、省 token</td><td>绑定发行版</td></tr>
+  <tr><td>C. 新内核原语</td><td>branch() syscall、BranchFS</td><td>内核强制不可绕过</td><td>上游周期长</td></tr>
+</table>
+
+<h2 id="structure">2. 完整项目结构</h2>
+<pre class="tree">laos/
+├── bin/                          <i>── 入口层 ──</i>
+│   ├── laosd.py        (292 行)  <i>引导器/init：加载驱动 → fork 分支 → 起 Agent → commit → 报告</i>
+│   ├── laosctl.py      (180 行)  <i>控制面 CLI：ps/top/trace/denied/budget/prof/spans/audit，纯离线回放</i>
+│   └── laosweb.py      (783 行)  <i>零依赖 Web 面板 :8800：实时状态 + confirm 横幅 + 重启 + 信箱</i>
+├── laos/                         <i>── 薄内核（语义层）──</i>
+│   ├── kernel.py       (644 行)  <i>PCB、能力表、syscall 网关闸门链、审计、分支表、内建 IPC</i>
+│   ├── mcp.py          (477 行)  <i>MCP 2026-07-28 子集：JSON-RPC over stdio + Tasks + Elicitation</i>
+│   ├── branch.py       (263 行)  <i>BranchContext：fork/explore/commit/abort，first-commit-wins，diff 提交</i>
+│   ├── brain.py        (232 行)  <i>Brain 接口 + ScriptedBrain（确定性）+ OpenAIChatBrain（真 LLM）</i>
+│   ├── context.py      (210 行)  <i>窗口/摘要压缩/swap + 观察簿（stale 检测）</i>
+│   ├── sandbox.py      (186 行)  <i>namespace/cgroup 封装 + PathJail + IsolationReport 能力探测</i>
+│   ├── agent.py        (170 行)  <i>Agent 运行时（ReAct 循环 + 内核通告注入）</i>
+│   ├── agentprof.py    (148 行)  <i>审计流 → per-agent span + 启发式评分 + OTLP/JSON 导出</i>
+│   ├── seccomp.py      (119 行)  <i>经典 BPF 组装 + ctypes 安装（block-dangerous 黑名单）</i>
+│   ├── scheduler.py    (116 行)  <i>token/err 双预算轮转 + 快照</i>
+│   ├── profiling.py     (94 行)  <i>bpftrace 集成：能力探测 + 脚本生成 + 解析（缺席降级）</i>
+│   ├── validate.py      (59 行)  <i>syscall 参数 schema 校验</i>
+│   ├── cow.py           (57 行)  <i>hardlink COW：temp+os.replace 断链写</i>
+│   └── risk.py          (50 行)  <i>FleetLedger：车队级不可逆风险账本（两级记账 + 准入水位）</i>
+├── drivers/                      <i>── 设备驱动（独立 MCP 子进程）──</i>
+│   ├── drv_proc.py     (124 行)  <i>proc.list/exec：白名单 + 危险模式拦截（EDENIED）</i>
+│   ├── drv_fs.py       (114 行)  <i>fs.read/write/append/list/stat：PathJail 内</i>
+│   └── drv_sys.py       (79 行)  <i>sys.info/load：主机名默认脱敏（LAOS_PRIVACY_MASK）</i>
+├── tests/                        <i>18+ 文件 / 154 项回归测试</i>
+│   ├── test_laos.py              <i>内核主流程（真内核+真驱动子进程测试台 KernelTestCase）</i>
+│   ├── test_capability.py / test_scope.py / test_validate.py
+│   ├── test_ipc.py / test_irreversibility.py / test_relbudget.py / test_risk.py
+│   ├── test_sandbox.py / test_seccomp.py（BPF 逐条断言 + Linux 行为层 skipUnless）
+│   ├── test_cow.py / test_stale.py / test_context.py / test_scheduler.py
+│   ├── test_mcp2.py / test_laosweb.py / test_agentprof.py / test_profiling.py
+│   └── fix_mcp2_driver.py        <i>测试辅助</i>
+├── docs/
+│   ├── research/                 <i>3 篇调研笔记 + papers/ 120 篇 arXiv 论文 PDF</i>
+│   ├── superpowers/plans/        <i>8 份 writing-plans 格式的实现计划（开发流程见第 11 章）</i>
+│   └── guide-panel.md            <i>面板使用指南</i>
+├── var/                          <i>── 运行期产物（不提交）──</i>
+│   ├── audit.jsonl               <i>统一审计流（seq 单调号）</i>
+│   ├── branches/                 <i>分支树：main / exp-A / exp-B（hardlink 共享数据块）</i>
+│   ├── swap/ · traces/           <i>上下文换出 / OTLP span 导出</i>
+│   └── *.py                      <i>抓论文用的临时脚本（download_papers 等）</i>
+├── fsroot/main/workspace/hosts   <i>fs 驱动的默认 jail 根（LAOS_FS_ROOT 兜底值）</i>
+├── README.md  (18.7 KB)          <i>极高质量的项目自述：调研→结论→架构→demo→四个真问题→路线图</i>
+├── .superpowers/sdd/             <i>子代理驱动开发的过程报告</i>
+└── dl*.log / err*.log / sel.log  <i>一次性调试日志（可清理）</i></pre>
+
+<h2 id="inventory">3. 文件清单统计</h2>
+<table>
+  <tr><th>目录</th><th>合计</th><th>.py</th><th>.pdf</th><th>.md</th><th>说明</th></tr>
+  <tr><td>laos/</td><td>15</td><td>15</td><td>—</td><td>—</td><td>薄内核包，全部标准库</td></tr>
+  <tr><td>drivers/</td><td>3</td><td>3</td><td>—</td><td>—</td><td>三个 MCP 驱动</td></tr>
+  <tr><td>bin/</td><td>3</td><td>3</td><td>—</td><td>—</td><td>init / 控制面 / 面板</td></tr>
+  <tr><td>tests/</td><td>20</td><td>20</td><td>—</td><td>—</td><td>154 项回归测试</td></tr>
+  <tr><td>docs/</td><td>135</td><td>—</td><td>119</td><td>15</td><td>研究论文库 + 调研笔记 + 实现计划</td></tr>
+  <tr><td>var/</td><td>15</td><td>5</td><td>1</td><td>—</td><td>运行期产物与临时脚本</td></tr>
+  <tr><td>fsroot/</td><td>1</td><td>—</td><td>—</td><td>—</td><td>默认 jail 根的种子文件</td></tr>
+  <tr><td><b>合计</b></td><td><b>201</b></td><td><b>46</b></td><td><b>120</b></td><td><b>17</b></td><td>另有 5 个 .log 与零散文件</td></tr>
+</table>
+
+<h2 id="sourcemap">4. 分层源码地图</h2>
+<p>laos 的代码组织是「一个包 + 一圈驱动 + 三个入口」，职责边界切得很干净：</p>
+<table>
+  <tr><th>模块</th><th>行数</th><th>职责</th><th>关键类/函数</th></tr>
+  <tr><td>kernel.py</td><td>644</td><td>唯一裁决点：所有 syscall 都过同一道闸门链</td><td><code>AgentKernel</code>·<code>PCB</code>·<code>syscall()</code>·<code>spawn()</code>·<code>on_branch_committed()</code>·<code>sched_view</code></td></tr>
+  <tr><td>mcp.py</td><td>477</td><td>驱动总线：stdio JSON-RPC、单工锁、Tasks 轮询、Elicitation 路由</td><td><code>McpClient</code>·<code>_rpc()</code>·<code>elicit()</code>·<code>ToolSpec(irreversibility_cost)</code></td></tr>
+  <tr><td>branch.py</td><td>263</td><td>探索分支：状态机 + diff-based commit</td><td><code>BranchContext</code>·<code>_diff_files()</code>·<code>commit()</code>·<code>fork()</code></td></tr>
+  <tr><td>brain.py</td><td>232</td><td>LLM 是可替换 CPU：确定性脚本脑 + OpenAI 兼容脑</td><td><code>Brain.think()</code>·<code>ScriptedBrain</code>·<code>OpenAIChatBrain</code></td></tr>
+  <tr><td>context.py</td><td>210</td><td>上下文=新内存：窗口压缩、swap、观察簿失效</td><td><code>ContextManager</code>·<code>observe()/invalidate()/drain_notices()</code></td></tr>
+  <tr><td>sandbox.py</td><td>186</td><td>强制层封装 + 能力探测报告 + 路径 jail</td><td><code>wrap()</code>·<code>PathJail.resolve()</code>·<code>IsolationReport</code></td></tr>
+  <tr><td>agent.py</td><td>170</td><td>ReAct 循环：每步先 drain 通告、后 think、errno 原文回灌</td><td><code>Agent.run()</code>·<code>visible_tools</code>·<code>run_agents()</code></td></tr>
+  <tr><td>agentprof.py</td><td>148</td><td>语义剖析：重复浪费/拒绝率/单工具依赖三条可解释规则</td><td><code>build_spans()</code>·<code>score()</code>·<code>export_otlp()</code></td></tr>
+  <tr><td>seccomp.py</td><td>119</td><td>纯 Python 组装 BPF 四元组，ctypes 安装，RET_ERRNO 而非 kill</td><td><code>assemble()</code>·<code>install_seccomp()</code>·<code>BLOCKED_X86_64</code></td></tr>
+  <tr><td>scheduler.py</td><td>116</td><td>双预算轮转：优先级 + 最久未服务优先；失败预算只增不减</td><td><code>acquire()</code>·<code>note_outcome()</code>·<code>snapshot()</code></td></tr>
+  <tr><td>profiling.py</td><td>94</td><td>bpftrace 能力探测 + 脚本/解析纯函数化（可离线测）</td><td><code>available()</code>·<code>script()</code>·<code>parse()</code></td></tr>
+  <tr><td>cow.py</td><td>57</td><td>无条件 temp+os.replace；不判断 st_nlink 再决定写法（TOCTOU）</td><td><code>fork()</code>·<code>cow_write()</code>·<code>cow_append()</code></td></tr>
+  <tr><td>risk.py</td><td>50</td><td>attempt-based 计费 + <code>can_admit()</code> 严格高于保留水位</td><td><code>FleetLedger</code>·<code>charge()</code>·<code>can_admit()</code></td></tr>
+  <tr><td>bin/laosd.py</td><td>292</td><td>七幕 demo：启动→分支→进程→ReAct→IPC→commit→报告</td><td><code>boot_kernel()</code>·<code>demo()</code></td></tr>
+  <tr><td>bin/laosctl.py</td><td>180</td><td>8 个子命令全部是「读 audit.jsonl 的纯函数」</td><td><code>load()</code>·<code>cmd_ps/top/trace/denied/budget/spans</code></td></tr>
+  <tr><td>bin/laosweb.py</td><td>783</td><td>零依赖面板：1s 轮询、confirm 横幅、fail-safe 重启</td><td><code>build_state()</code>·<code>web_confirm()</code>·<code>_do_restart()</code></td></tr>
+</table>
+
+<h2 id="contracts">5. 内核契约速查</h2>
+
+<h3>5.1 PCB（进程控制块）字段</h3>
+<pre><code>pid / name / caps / state(ready|running|blocked|zombie|killed) / parent
+created_at / ctx(ContextManager) / branch / budget(syscall 次数)
+risk_cap(per-agent 风险帽) / task_scope(路径前缀白名单)
+stats{syscalls, denied, tokens, risk}</code></pre>
+<div class="callout"><b class="t">快照防坑</b><code>to_dict</code> 先 <code>replace(self, ctx=None)</code> 再 asdict——ctx 是活对象，demo 线程还在追加；<code>ps()</code> 先对 <code>procs.values()</code> 取 list 快照，否则 HTTP 观测线程会撞 "dictionary changed size during iteration"。</div>
+
+<h3>5.2 errno 语义表（字符串前缀，可透传、可归因）</h3>
+<table>
+  <tr><th>errno</th><th>产生层</th><th>含义</th><th>控制面归因</th></tr>
+  <tr><td>ESRCH</td><td>内核</td><td>pid 不存在 / 被调度器挂起</td><td>内核拒绝（denied）</td></tr>
+  <tr><td>ENOSYS</td><td>内核</td><td>syscall 表里没有这个 tool</td><td>内核拒绝</td></tr>
+  <tr><td>EPERM</td><td>内核 / seccomp</td><td>能力表未授权 / 过滤器拦截</td><td>内核拒绝</td></tr>
+  <tr><td>EACCES</td><td>内核 / PathJail</td><td>越出 task_scope / 越出 jail / 风险预算不足</td><td>内核拒绝</td></tr>
+  <tr><td>EDQUOT</td><td>内核</td><td>syscall 次数预算耗尽</td><td>内核拒绝</td></tr>
+  <tr><td>EDENIED</td><td>驱动</td><td>危险命令被驱动黑名单拦下 / elicitation 拒绝</td><td>驱动拒绝（failed）</td></tr>
+  <tr><td>ENOENT / EISDIR / EFBIG / ENOTDIR</td><td>驱动</td><td>文件系统常规错误</td><td>驱动失败</td></tr>
+  <tr><td>ETIMEDOUT</td><td>驱动</td><td>MCP Tasks 轮询超时</td><td>驱动失败</td></tr>
+  <tr><td>ENOBUFS / EMSGSIZE</td><td>内核 IPC</td><td>信箱满 16 条 / 消息超 4096 字符</td><td>背压</td></tr>
+</table>
+<div class="callout good"><b class="t">核心约定</b>驱动抛出的 errno <b>原样透传，绝不包一层 EIO</b>——上层必须能区分「被拒绝」和「驱动崩溃」。<code>laosctl ps</code> 就是靠 errno 前缀把 rejected 拆成 denied（内核拦的）与 failed（驱动拒的）两类。</div>
+
+<h3>5.3 审计记录 schema（var/audit.jsonl，一行一事件）</h3>
+<pre><code>{"t":1788630364.83, "event":"driver_load", "driver":"fs", "tools":5, "cgroup":null, "driver_pid":36808, "seq":0}
+{"t":..., "event":"spawn",  "pid":1002, "name":"ops-agent", "caps":["fs.*","proc.*","sys.*"],
+ "risk_cap":null, "task_scope":["/exp-A/"], "fleet_remaining":3, "seq":3}
+{"t":..., "event":"syscall", "pid":1002, "agent":"ops-agent", "tool":"sys.info", "driver":"sys",
+ "args":{}, "ok":true, "ms":67.88, "result":"...", "seq":8}
+{"t":..., "event":"risk_spend", "pid":1002, "tool":"proc.exec", "cost":3,
+ "agent_spent":3, "fleet_spent":3, "seq":N}
+{"t":..., "event":"prof_summary", "backend":"unavailable: bpftrace 仅 Linux", "probes":{}}</code></pre>
+<p><code>seq</code> 由 <code>AuditLog.write</code> 在 append 前<code>len(records)</code>盖章，是全链路去重锚点——前端与回放都靠它，不从「总数-窗口」反推。</p>
+
+<h3>5.4 内建 IPC（不经驱动）</h3>
+<table>
+  <tr><th>syscall</th><th>语义</th><th>限制</th></tr>
+  <tr><td><code>msg.send/recv/list</code></td><td>信箱 IPC，agent 间传消息</td><td>信箱 16 条（ENOBUFS）、单条 4096 字符（EMSGSIZE）</td></tr>
+  <tr><td><code>sys.delegate</code></td><td>运行时能力委托（子集 ⊆ 自身，不可提升）</td><td>TTL 按调用次数计；委托者被 kill 全部撤销（不可遗赠）</td></tr>
+</table>
+
+<h3>5.5 环境变量全表</h3>
+<table>
+  <tr><th>变量</th><th>默认</th><th>说明</th></tr>
+  <tr><td>OPENAI_API_KEY</td><td>—</td><td>设置后 <code>laosd --real</code> 走真 LLM</td></tr>
+  <tr><td>LAOS_LLM_BASE_URL / LAOS_LLM_MODEL</td><td>openai / gpt-4o-mini</td><td>任意 OpenAI 兼容端点</td></tr>
+  <tr><td>LAOS_FS_ROOT</td><td>./fsroot（laosd 里实际传 var/branches）</td><td>fs 驱动 jail 根</td></tr>
+  <tr><td>LAOS_EXEC_ALLOW</td><td>echo,hostname,uname,whoami,uptime</td><td>proc.exec 命令<b>白名单</b>（白名单而非黑名单）</td></tr>
+  <tr><td>LAOS_PRIVACY_MASK</td><td>1</td><td>主机名等标识脱敏：前 4 字符 + sha256[:8] 哈希尾巴</td></tr>
+  <tr><td>LAOS_CTX_TOKENS / LAOS_BUDGET / LAOS_STEPS</td><td>2000 / 8 / 8</td><td>上下文窗口 / syscall 次数预算 / 最大步数</td></tr>
+  <tr><td>LAOS_AGENT_ERR_BUDGET</td><td>3</td><td>per-agent 可靠性预算（失败含 EDENIED；成功不恢复）</td></tr>
+  <tr><td>LAOS_SECCOMP</td><td>block-dangerous</td><td>off 关闭；否则给驱动装 BPF 黑名单（仅 Linux）</td></tr>
+  <tr><td>LAOS_PROF</td><td>1</td><td>0 关闭 eBPF profiling；缺席自动降级并写审计留痕</td></tr>
+  <tr><td>LAOS_RISK_BUDGET / LAOS_RISK_RESERVE</td><td>3 / 1</td><td>车队不可逆总预算 / spawn 准入保留水位（剩余须严格高于）</td></tr>
+  <tr><td>LAOS_TASK_TIMEOUT</td><td>30</td><td>MCP Tasks 异步派发的轮询总超时（秒）</td></tr>
+  <tr><td>LAOS_EXEC_ELICIT</td><td>0</td><td>1 = 白名单外命令先经 elicitation 请求人类放行</td></tr>
+  <tr><td>LAOS_WEB_PORT / LAOS_WORKDIR</td><td>8800 / var</td><td>面板端口 / 运行产物目录</td></tr>
+  <tr><td>LAOS_CONFIRM</td><td>—</td><td>auto-yes 时 confirm 秒答 True（跳横幅、照常计费）</td></tr>
+</table>
+
+<h2 id="flows">6. 核心流程详解</h2>
+
+<h3>6.1 laosd 七幕引导（bin/laosd.py）</h3>
+<table>
+  <tr><th>幕</th><th>内容</th><th>关键点</th></tr>
+  <tr><td>1 内核启动</td><td>AgentKernel(workdir) + load_driver×3</td><td>打印隔离能力报告与 9 条 syscall 表</td></tr>
+  <tr><td>2 分支 fork</td><td>main → exp-A / exp-B</td><td>hardlink 只复制目录项，数据块共享</td></tr>
+  <tr><td>3 起进程</td><td>ops-agent（全权）+ guest-agent（仅 sys.* + task_scope=/exp-A/）</td><td><code>visible_tools</code> 按 caps 裁剪后才给 LLM</td></tr>
+  <tr><td>4 ReAct</td><td>每步 drain 通告 → think → syscall → 结果回灌</td><td>errno 原文进上下文（<code>[error] EPERM: ...</code>）</td></tr>
+  <tr><td>4.5 IPC</td><td>msg.send/recv + sys.delegate（TTL=1 次后 EPERM）</td><td>演示「委托-过期-撤销」闭环</td></tr>
+  <tr><td>5 commit</td><td>diff → 应用 → first-commit-wins 作废 exp-B → 广播 stale</td><td><b>diff 必须在 commit 前取</b>，否则两边一致 diff 变空</td></tr>
+  <tr><td>6/7 报告</td><td>syscall 数、拒绝分类、风险账本、span 评分、调度快照</td><td>被拒调用按「内核能力表 / task_scope / 驱动」三层归因打印</td></tr>
+</table>
+
+<h3>6.2 diff-based commit（branch.py）</h3>
+<pre><code>def _diff_files(self):
+    base_files, ws_files = snapshot(self.base), snapshot(self.workspace)  # rglob 文件集
+    if sa.st_ino and sa.st_dev == sb.st_dev and sa.st_ino == sb.st_ino:
+        return True                    # inode 快路径：CoW 保证共享 inode 从不原地改写
+    return a.read_bytes() == b.read_bytes()
+# commit(): 先算 diff → 逐项 cow_write 回父分支（绝不 copy2 原地截断共享 inode）
+#           → 遍历 parent.children 把其他 exploring 兄弟置 INVALIDATED</code></pre>
+<div class="callout warn"><b class="t">为什么不用 journal</b>Agent 的写操作发生在 MCP 驱动进程里，分支层看不见——第一版靠 journal 记账，结果提交了个空。<b>不信任记账，以快照 diff 为准</b>（语义等同 overlayfs upper/lower 合并）。</div>
+
+<h3>6.3 CoW 原语（cow.py）—— 无条件 temp+replace</h3>
+<pre><code>tmp = p.with_name(f".{p.name}.cow-{os.getpid()}-{threading.get_ident()}.tmp")
+tmp.write_bytes(raw); os.replace(tmp, p)     # 原子目录项替换，旧 inode 上的兄弟链接不受影响</code></pre>
+<p>关键注释：<b>永远无条件走 temp+replace，不判断 st_nlink 再决定写法</b>——「先判断后写入」在 fork 并发下是 TOCTOU 竞态。<code>cow_append</code> 是读旧+整体替换而非真 append（append 到共享 inode 会污染兄弟分支）。</p>
+
+<h3>6.4 强制层封装与 fail-closed（sandbox.py / seccomp.py）</h3>
+<ul>
+  <li><b>包装顺序不可颠倒</b>：unshare 在最外层 → seccomp shim 在 namespace 里 → 真命令。过滤器 deny 了 unshare(2)，必须等它干完活再装。</li>
+  <li><b>bootstrap shim</b>：<code>python -c "组装; install(prog); execvp(...)"</code>，组装失败必须 <code>sys.exit(1)</code> —— <b>绝不 exec 一个无过滤器的裸驱动（fail-closed）</b>。</li>
+  <li><b>deny 用 RET_ERRNO|EPERM 而非 kill</b>：调用方拿到可观察的 EPERM，而不是进程凭空消失。</li>
+  <li><b>黑名单不碰 CPython 命脉</b>（clone/futex/execve 绝不在列），并封死 open_tree/move_mount 等可绕过 legacy mount 的新挂载 API。安装前先 PR_SET_NO_NEW_PRIVS。</li>
+  <li><b>能力探测降级</b>：<code>IsolationReport(level, backend, reasons)</code> —— 非 Linux=off，有 unshare 非 root=partial，都没有=none（仅能力表）。降级原因写进审计，不静默。</li>
+  <li><b>cgroup 纳管技巧</b>：attach 到 unshare --fork 的真实子进程，靠进程树继承罩住 proc.exec 的孙进程，无需逐个 attach。</li>
+</ul>
+
+<h3>6.5 人类在环：confirm 闸门（laosweb.py）</h3>
+<pre><code>web_confirm(op):  _pending[cid] = {op, event, answer}; entry["event"].wait(60)
+UI: 红色横幅渲染 pending_confirm → 点允许/拒绝 → POST /api/confirm → event.set()
+超时 = 拒绝。LAOS_CONFIRM=auto-yes 秒答 True（跳横幅、照常计费 risk）。</code></pre>
+<p>接线：MCP 驱动的 <code>elicitation/create</code> 请求 → 内核 <code>client.on_server_request</code> → <code>kernel.confirm</code> → Web 横幅。红线：task 线程内禁止 elicit（会与主循环抢 stdin）。</p>
+
+<h3>6.6 fail-safe 重启（laosweb.py）</h3>
+<ol>
+  <li>先校验 <code>risk_budget &gt; reserve</code>，否则 400 —— 避免新内核连 operator 都 spawn 不进；</li>
+  <li><code>_restart_lock.acquire(blocking=False)</code> 防并发双击 → 409；</li>
+  <li><b>新栈完全就绪才 cutover</b>（set_kernel + 起 demo），之后才 old.shutdown() + <code>_deny_all_pending()</code>（冻在确认关的旧线程按「拒绝」苏醒退场）；</li>
+  <li>demo 线程带代号（_demo_gen），旧线程不得抢新 demo 的运行徽标。</li>
+</ol>
+
+<h3>6.7 stale context 观察簿（context.py）</h3>
+<pre><code>fs.read 成功     → pcb.ctx.observe(path, sha256(result)[:16])
+fs.write/append  → 遍历所有其他 agent 调 invalidate(path)
+分支 commit      → on_branch_committed() 虚拟化路径后全量广播（未观察过的 no-op）
+agent 每步开头   → drain_notices() → ctx.notice("STALE: ... 请重新 fs.read")</code></pre>
+<p>两个细节：notice 用 <b>user</b> 角色注入（<code>append("system")</code> 会替换系统提示）；drain 一次性取走即清，避免刷屏。</p>
+
+<h2 id="manual">7. 使用说明书</h2>
+
+<h3>7.1 快速开始</h3>
+<pre><code># 1) 完整 demo（脚本化大脑，无需 API key，Windows/macOS 自动降级为仅能力表）
+python bin/laosd.py
+
+# 2) 真 LLM（OpenAI 兼容端点）
+set OPENAI_API_KEY=sk-...
+python bin/laosd.py --real
+python bin/laosd.py --real --task "检查 hosts 里有没有 myapp.local 记录"
+
+# 3) Web 交互面板（浏览器打开）
+python bin/laosweb.py            # http://127.0.0.1:8800
+
+# 4) 回归测试
+python -m unittest discover -s tests</code></pre>
+
+<h3>7.2 典型体验路径</h3>
+<ol>
+  <li>先跑 <code>laosd.py</code> 看七幕输出 —— 重点看第 4 幕 guest-agent 的 <code>EPERM</code>（内核能力表拦截）与 ops-agent 的 <code>EDENIED</code>（驱动危险命令拦截），两层防御同时命中；</li>
+  <li>开 <code>laosweb.py</code>，点 <b>Kill</b> 杀掉一个 agent、在信箱里给 operator 发消息，体验「人也是一个进程」；</li>
+  <li>跑 <code>laosctl ps / denied / budget / spans</code> 复盘刚才那次运行（离线回放，内核已关也能看）；</li>
+  <li>设置 <code>LAOS_EXEC_ELICIT=1</code> 重跑，白名单外命令会弹确认横幅 —— 人类在环。</li>
+</ol>
+
+<div class="callout warn"><b class="t">平台须知</b>seccomp / namespace / cgroup / bpftrace 均为 Linux-only；Windows 上自动降级为「仅能力表 + PathJail」，<code>IsolationReport</code> 会明说降级原因（也写进审计 prof_summary）。README 的能力路线图（per-agent cgroup、seccomp 白名单、FUSE BranchFS）是 Linux 上的长期项。</div>
+
+<h2 id="commands">8. 逐命令与逐端点说明</h2>
+
+<h3>8.1 laosctl（控制面，纯离线回放）</h3>
+<table>
+  <tr><th>子命令</th><th>数据源过滤</th><th>输出</th></tr>
+  <tr><td><code>laosctl ps</code></td><td>spawn 建表 + syscall 累计</td><td>每 agent 的 syscalls / <b>denied（内核拦）/ failed（驱动拒）</b> / caps</td></tr>
+  <tr><td><code>laosctl top</code></td><td>syscall 事件按 tool 聚合 ms</td><td>count / total_ms / avg_ms</td></tr>
+  <tr><td><code>laosctl trace --pid N</code></td><td>event==syscall</td><td>逐步 <code>[OK/ERR] tool(args) -&gt; result[:200]</code></td></tr>
+  <tr><td><code>laosctl denied</code></td><td>ok==false</td><td>被拒调用明细 + 计数</td></tr>
+  <tr><td><code>laosctl budget</code></td><td>risk_spend / admission(deny)</td><td>车队 / per-agent / per-tool 风险账</td></tr>
+  <tr><td><code>laosctl prof</code></td><td>末条 prof_summary</td><td>profiling 后端状态 + top15 探针</td></tr>
+  <tr><td><code>laosctl spans</code></td><td>复用 agentprof</td><td>per-agent span + 启发式 flag（重复浪费/高拒绝率/单工具依赖）</td></tr>
+  <tr><td><code>laosctl audit --event X</code></td><td>全量过滤</td><td>原样 dump</td></tr>
+</table>
+<p>全部命令支持 <code>--file</code> 指定任意轨迹文件——<b>内核不在线也能复盘</b>，这是「审计即产品」的关键设计。</p>
+
+<h3>8.2 laosweb（127.0.0.1:8800）</h3>
+<table>
+  <tr><th>端点/交互</th><th>行为</th></tr>
+  <tr><td>GET /api/state</td><td>聚合 status/procs/branches/scheduler/risk/lsmod/audit[-60:]/pending_confirm（纯函数 build_state，浅拷贝）</td></tr>
+  <tr><td>POST /api/confirm</td><td>处理 pending 的人类在环请求，回包 answer 后 event.set() 唤醒</td></tr>
+  <tr><td>POST /api/restart</td><td>fail-safe 重启（见 6.6）</td></tr>
+  <tr><td>POST /api/kill</td><td>同步 kernel.kill；operator 不可杀</td></tr>
+  <tr><td>信箱输入框</td><td>人作为 <code>operator</code> 进程（caps=["msg.*"]）参与 IPC，spawn 后立即 retire 防止霸占轮转指针</td></tr>
+  <tr><td>实时刷新</td><td>1 秒轮询（非 SSE）；审计行按 seq|t|tool 去重，insertAdjacentHTML 就地追加，上限 200 从底部裁</td></tr>
+</table>
+<div class="callout bad"><b class="t">安全边界</b>面板绑定 127.0.0.1、<b>无鉴权</b>，docstring 明写任何本地浏览器用户可读任意进程信箱。仅适合本机实验，不可暴露端口。</div>
+
+<h2 id="drivers">9. 驱动与两层防御</h2>
+<table>
+  <tr><th>检查</th><th>层</th><th>为什么只能在这层做</th></tr>
+  <tr><td>caps / 委托 / task_scope / EDQUOT / 风险闸门</td><td>内核</td><td>统一裁决点，绕不过；MCP 没有权限模型，必须由内核补</td></tr>
+  <tr><td>PathJail（resolve 后判 root in parents）</td><td>驱动</td><td>内核看不懂真实路径语义（符号链接、.. 借道）</td></tr>
+  <tr><td>proc.exec 白名单 + 危险模式（rm -rf /、mkfs、dd if=、fork 炸弹）</td><td>驱动</td><td>命令可否执行只有驱动有领域知识</td></tr>
+  <tr><td>主机名/release 脱敏（前 4 字符 + sha256 尾巴，保留可关联性防指纹）</td><td>驱动</td><td>数据在驱动手里，脱敏要保语义</td></tr>
+  <tr><td>seccomp BPF（syscall 号级）</td><td>OS</td><td>语义层拦不住内核攻击面，必须真强制</td></tr>
+</table>
+<div class="callout good"><b class="t">纵深防御共识</b>laos 的内核注释与 DSHA 的 DangerShellGuard 注释是同一句话的两个版本：<b>黑名单防误操作，防不了定向攻击；真正的防线是边界（proot / namespace）+ 确认（人点一下）+ 鉴权（token）</b>。两个项目都靠这四层叠加。</div>
+
+<h2 id="testing">10. 测试体系（18+ 文件 / 154 项）</h2>
+<table>
+  <tr><th>手法</th><th>做法</th><th>可移植性</th></tr>
+  <tr><td>真内核 + 真驱动测试台</td><td>KernelTestCase：TemporaryDirectory + 真内核 + 起<b>真 MCP 子进程</b>，一次成功 + 一次 EPERM，保证每类数据都有内容</td><td>高</td></tr>
+  <tr><td>Linux-only 代码分层测</td><td>汇编层：BPF 指令元组<b>逐条相等</b>断言（曾把 pivot_root 误标 218 弄死驱动启动，注释留档）；行为层：skipUnless(Linux) + ctypes 探针断言 EPERM，并 assertNotIn(Traceback) 区分「过滤器拒绝」与「shim 崩溃」</td><td><b>极高</b></td></tr>
+  <tr><td>纯函数化外部依赖</td><td>bpftrace 的 script()/parse() 不碰进程，喂字符串样本即可测</td><td>高</td></tr>
+  <tr><td>monkeypatch 常量测超时</td><td>CONFIRM_TIMEOUT_S=0.3 直接改模块级常量（调用点取值）</td><td>高</td></tr>
+  <tr><td>端口 0 起真 HTTP</td><td>ThreadingHTTPServer(("127.0.0.1",0)) + daemon 线程，全走真实 urllib</td><td>高</td></tr>
+  <tr><td>并发回归</td><td>专测「观测线程读 ps 时 demo 线程在 spawn」；build_state 必须浅拷贝</td><td>高</td></tr>
+</table>
+
+<h2 id="process">11. 开发流程与研究资料</h2>
+<ul>
+  <li><b>docs/superpowers/plans/ 下 8 份实现计划</b>（2026-08-31 起至 09-06）：<code>laos-aios-mechanisms</code>、<code>kernel-enforcement-cow-ebpf</code>、<code>agentprof-spans</code>、<code>irreversibility-budget-2</code>、<code>kernel-ipc</code>、<code>mcp-2026-07-28</code>、<code>stale-context</code>、<code>intent-scope</code>。格式与 superpowers 的 writing-plans 完全一致（plan 头 + Task N + Files/Interfaces/Steps + 复选框）。<b>这个项目本身就是用 subagent-driven-development 流程写出来的</b>（.superpowers/sdd/ 留有过程报告）。</li>
+  <li><b>docs/research/</b>：3 篇调研笔记（agentos 全景 2026-08、AIOS 深读、下一步清单）+ papers/ 120 篇 arXiv PDF（含 AIOS 2403.16971、Fork-Explore-Commit 2602.08199 等）。</li>
+  <li><b>git 提交纪律</b>：中文提交信息 + <code>type(laos):</code> 前缀，review 修正独立成提交（restart lock / fail-safe / race-free reads）——与 DSHA 的约定一致。</li>
+</ul>
+
+<h2 id="common">12. 与 DSHA 的共同之处</h2>
+<p>两个项目目标不同（DSHA 把现成 agent harness 装进手机；laos 从零造 AgentOS 语义层），但在<b>工程命题</b>上高度同构 —— 都是「让一个有 shell 能力的 agent 在受控边界里干活，且出了事能查、能停、能恢复」。</p>
+<table>
+  <tr><th>共同命题</th><th>laos 的答案</th><th>DSHA 现状</th></tr>
+  <tr><td><b>agent 永远在隔离边界内活动</b></td><td>namespace/cgroup/seccomp + PathJail；能力探测降级留痕</td><td>proot Ubuntu rootfs（ptrace 伪装）+ BINDS 挂载清单 + arm64-only</td></tr>
+  <tr><td><b>黑名单防不了定向攻击</b></td><td>内核能力表是裁决点；prompt 约束在安全上无效（README 四真问题 #2）</td><td>DangerShellGuard 注释原话：「任何黑名单都能绕过……真正的防线是另外三层」——<b>两个项目各自独立得出同一结论</b></td></tr>
+  <tr><td><b>不可逆操作要人确认</b></td><td>risk=="high" → confirm 横幅，<b>超时=拒绝</b>，照常计费</td><td>DangerShellGuard 命中 → BridgeAskDialog 确认（DSH_CONFIRM=1）</td></tr>
+  <tr><td><b>失控进程要能停、且停得干净</b></td><td>err 预算耗尽挂起；fail-safe 重启（先验预算→新栈就绪才 cutover→旧线程按拒绝退场）</td><td>pid 文件 + 哨兵文件 + WebProcSel 绝不误杀 proot + RestartBudget（同代次计一次、稳定 2 分钟清零、3 次熔断）</td></tr>
+  <tr><td><b>失败预算按代次记账</b></td><td>scheduler err-budget：失败 +1、<b>成功不恢复</b>、耗尽挂起并记 reason</td><td>RestartBudget：generation 校验防跨代错记 —— 思想相同，DSHA 的代次设计甚至更细</td></tr>
+  <tr><td><b>纯逻辑必须可单测</b></td><td>18+ 文件 154 项，bpftrace 都拆成纯函数</td><td>util/ 禁 Android import + 43 个 JVM 测试类锁定不变式</td></tr>
+  <tr><td><b>降级要显式、不静默</b></td><td>IsolationReport(partial/none+原因) 写进审计</td><td>standard/low 双 flavor、GeckoView 兜底旧 WebView</td></tr>
+  <tr><td><b>开发流程同源</b></td><td>docs/superpowers/plans 8 份 writing-plans 计划驱动，sdd 子代理执行</td><td>已安装同一套 superpowers skill，AGENTS.md 的「回填清单」就是它的 plan 骨架</td></tr>
+  <tr><td><b>提交纪律</b></td><td>中文提交信息 + type: 前缀 + review 修正独立提交</td><td>完全相同的约定（AGENTS.md 明文）</td></tr>
+  <tr><td><b>零依赖偏好</b></td><td>纯标准库，驱动独立进程</td><td>纯 Java 17 无 Kotlin、单模块 :app</td></tr>
+</table>
+<p>反向也成立——<b>DSHA 有三样 laos 还没有的东西</b>：① Keystore AES/GCM 加密 API key（laos 的 key 裸放在环境变量里）；② 备份/恢复的命名契约（BackupScope：部分备份绝不叫 DSHA-backup-*）；③ 停止协议（哨兵文件防「秒复活」）。laos 的 web 面板正好没有鉴权，DSHA 的 LanAuth token 门控值得反向借鉴给它。</p>
+
+<h2 id="borrow">13. DSHA 可借鉴清单（按优先级，标注落点）</h2>
+
+<h3><span class="tag hot">P0</span>统一审计流 + seq 单调号 + 离线回放控制面</h3>
+<p><b>缺口</b>：DSHA 的可观测性 = Logcat + 应用内自检（selftest.py 23 项）+ 零散日志，<b>没有跨进程的统一事件总线</b>，出问题时无法按时间线复盘「agent 做了什么、被谁拦下」。<br>
+<b>抄法</b>：容器内所有关键动作（dsh 启停、桥命令、安装六步、插件操作、备份）追加写一条 JSONL 到 <code>/sdcard</code> 或私有目录的 <code>audit.jsonl</code>，字段对齐 laos：<code>{t, event, actor, tool, args, ok, ms, result, seq}</code>；<code>seq</code> 在 append 前盖章。再写一个 ~200 行的 <code>dsha-ctl.py</code>（放容器 PATH）提供 <code>ps/trace/denied/top</code>——纯读文件，不需要在线内核。laos 证明这整套东西 <b>180 行就够</b>。<br>
+<b>落点</b>：HarnessService / HttpShellService / InstallPipeline / BackupManager 的关键分支各加一行 append；对应 AGENTS.md 回填清单 #3。</p>
+
+<h3><span class="tag hot">P0</span>拒绝归因约定（errno 前缀分层透传）</h3>
+<p><b>缺口</b>：DangerShellGuard.isDangerous 只返回布尔；桥命令被拦、proot 失败、驱动崩溃在日志里不可区分。<br>
+<b>抄法</b>：约定统一前缀——<code>EPERM</code>（权限/确认拒绝）、<code>EDENIED</code>（危险命令拦截）、<code>EDQUOT</code>（预算耗尽）、<code>EIO</code>（进程失败），原样透传给 dsh 上下文与审计，<b>绝不包壳</b>。这样 <code>dsha-ctl denied</code> 才能把「被谁拒的」分类统计——这是 laosctl ps 里 denied vs failed 的唯一依据。<br>
+<b>落点</b>：HttpShellService 拦截分支、DangerShellGuard、bridge 问答协议。</p>
+
+<h3><span class="tag ok">P1</span>不可逆操作风险账本（按工具定价）</h3>
+<p><b>缺口</b>：DSHA 有确认弹窗但没有<b>累积记账</b>——一个会话里 agent 可以反复申请危险操作，人疲劳之后会无脑点允许（DangerShellGuard 注释自己预言了这个失败模式）。<br>
+<b>抄法</b>：给桥会话加 risk 预算：<code>rm -rf</code>=3 分、<code>pm uninstall</code>=3、<code>chmod 000</code>=2、普通确认=1；per-session risk_cap 超限 → 直接 EPERM 不再弹窗（强迫重开会话）；全局账本剩余 &lt; 保留水位 → 新 dsh 会话拒绝启动（spawn 准入）。laos 的 <code>risk.py</code> 只有 <b>50 行</b>，两级记账（per-agent / per-tool 直方图）+ attempt-based 计费即可。<br>
+<b>落点</b>：ConfigStore 加两个键；HttpShellService 确认分支后记账。</p>
+
+<h3><span class="tag ok">P1</span>task_scope：能力随任务意图收窄</h3>
+<p><b>缺口</b>：dsh 会话一旦起来就拥有整个 rootfs 视图；「能力说能写文件，任务没说能写哪些文件」。<br>
+<b>抄法</b>：spawn dsh 时可带任务路径白名单，映射成 proot 额外的只读/拒绝绑定（<code>-b path:ro</code> 或 blacklisted 路径）——<b>ProotBootstrap/ContainerRuntime 已有 BINDS 组装点，落地成本最低</b>。内核侧再加一道 normpath 前缀校验（laos 的收边写法：分隔符收边，<code>/workspace/host</code> 不得匹配 <code>/workspace/hosts</code>），双层防御。<br>
+<b>落点</b>：ContainerRuntime（BINDS 清单）+ RuntimeTools（env 传 scope）。</p>
+
+<h3><span class="tag ok">P1</span>diff-based 提交：不信任 journal</h3>
+<p><b>启示</b>：laos 第一版 commit 靠 journal 记账，agent 用 MCP 写完文件后 <code>changes=0</code> 提交了个空——<b>因为写发生在驱动进程里，记账层看不见</b>。DSHA 的对应场景：<b>容器内任何进程（dsh、插件、用户 PTY）都绕过 Java 层记账</b>，所以「维护事务」的 committed 标记、备份引擎的变更检测都必须以<b>文件系统快照 diff</b> 为准，而不是内存/日志记账。MaintenanceTransaction 已经做对一半（改名不删、旧环境保留），把「校验归档」换成提交前 diff 快照即闭环。<br>
+<b>附带教训</b>：若未来为省空间用 hardlink 共享 rootfs 快照，写路径必须无条件 temp+os.replace（cow.py 的 TOCTOU 教训：<b>先判断 st_nlink 再决定写法</b>在并发下是竞态）。</p>
+
+<h3><span class="tag">P2</span>stale 观察簿（多表面一致性）</h3>
+<p>DSHA 的 rootfs 同时被 3080 WebView、终端 PTY、3090 桥、ADB 桥多方写入——dsh 上下文里读过的文件随时可能被外部改掉，正是 laos 论文笔记里的 stale context 问题。最小版借鉴：3090 桥的写操作成功后，通过 AppBridge 契约向 dsh 会话注入一条 <code>[notice] 文件 X 已被外部修改，请重新读取</code>（bridge/HttpShellService 已有 questions 机制可复用）。</p>
+
+<h3><span class="tag">P2</span>测试手法直接搬</h3>
+<ul>
+  <li><b>平台相关代码分层测</b>：指令/字节码层离线逐条断言（DSHA 对应：终端 JNI 16KB 对齐、RELRO 检查脚本可单测其解析函数），行为层 skipUnless 真机跑；</li>
+  <li><b>端口 0 起真 server</b>：LanAuth / 3090 桥测试可以用真实 HTTP 客户端全链路走一遍，而不是 mock；</li>
+  <li><b>monkeypatch 常量测超时路径</b>：RestartBudget/WebLifecycle 的时间逻辑测试可以把常量改小而不是真等。</li>
+</ul>
+
+<h3><span class="tag">P2</span>能力探测报告（启动时说清降级程度）</h3>
+<p>laos 启动第一件事就是打印 IsolationReport：<code>{level: full/partial/none, backend, reasons[]}</code>。DSHA 可在自检报告头部加同等物：proot 是否真强制的隔离报告（link2syscall 是否生效、L2S 目录绑定是否成功、CA 包是否注入），让「降级」从开发者的隐式知识变成用户可见的一行。</p>
+
+<div class="callout good"><b class="t">不建议照搬的部分</b>① laos 的 per-driver asyncio 锁、MCP Tasks/Elicitation——DSHA 的 dsh 自带完整的 harness，桥接层不需要再造；② BranchContext 全套 COW——proot 环境做 inode 级 COW 成本高，快照+diff 已够用；③ laosweb 的无鉴权面板——DSHA 面向真实用户，LanAuth token 门控必须保留。</div>
+
+<h2 id="lessons">14. 设计教训（laos 用代码换来的）</h2>
+<table>
+  <tr><th>#</th><th>教训</th><th>原文位置</th><th>对 DSHA 的映射</th></tr>
+  <tr><td>1</td><td><b>写操作发生在你看不见的进程里</b>——journal 会漏，快照 diff 不会</td><td>branch._diff_files</td><td>容器内写操作绕过 Java 层；校验/备份用快照</td></tr>
+  <tr><td>2</td><td><b>prompt 约束在安全上无效</b>——能力必须由裁决点强制，且工具表先裁剪再给 LLM</td><td>kernel.syscall / agent.visible_tools</td><td>DangerShellGuard 是兜底不是防线；3090 token 门禁才是</td></tr>
+  <tr><td>3</td><td><b>errno 不能被吞</b>——拒绝≠崩溃；seccomp deny 用 RET_ERRNO 不用 kill</td><td>mcp.py:185</td><td>拦截结果要分类透传，排障和预算都靠它</td></tr>
+  <tr><td>4</td><td><b>上下文是新的内存</b>——会变旧，需要失效广播与重读提醒</td><td>context.py 观察簿</td><td>多表面并发写的失效通告</td></tr>
+  <tr><td>5</td><td><b>检查顺序即语义</b>——EDQUOT 在风险计费之前，否则被拒调用白耗预算</td><td>kernel.py:365</td><td>桥的闸门链要显式排序并写注释</td></tr>
+  <tr><td>6</td><td><b>先判断后动作=TOCTOU</b>——无条件原子替换，不判断 st_nlink</td><td>cow.py 注释</td><td>并发写文件一律 temp+rename</td></tr>
+  <tr><td>7</td><td><b>fail-closed</b>——seccomp 组装失败绝不 exec 裸驱动</td><td>sandbox.wrap</td><td>proot 参数装配失败宁可不起 dsh</td></tr>
+  <tr><td>8</td><td><b>观测要先快照</b>——读 ps 时撞 spawn 就是 dictionary changed size</td><td>kernel.to_dict / laosweb</td><td>Android 侧同样适用（遍历进程表/集合前先 copy）</td></tr>
+  <tr><td>9</td><td><b>预算按「代次」记账，恢复条件显式</b>——失败不因成功清零，健康满窗口才清</td><td>scheduler / RestartBudget 各自实现</td><td>两边一致；RestartBudget 的 STABLE_MS 模式更细</td></tr>
+  <tr><td>10</td><td><b>重启要先验证新栈能活</b>——否则重启本身制造死锁</td><td>laosweb._do_restart</td><td>维护事务的「先建新环境再切换」同构，已做对</td></tr>
+</table>
+
+<h2 id="appendix">15. 附录：源码模块全表（行数）</h2>
+<table>
+  <tr><th>文件</th><th>行数</th><th>一句话</th></tr>
+  <tr><td>bin/laosweb.py</td><td>783</td><td>零依赖实时面板 + confirm/重启/kill/信箱</td></tr>
+  <tr><td>laos/kernel.py</td><td>644</td><td>PCB + 闸门链 + 审计 + IPC，唯一裁决点</td></tr>
+  <tr><td>laos/mcp.py</td><td>477</td><td>stdio JSON-RPC + 单工锁 + Tasks/Elicitation</td></tr>
+  <tr><td>bin/laosd.py</td><td>292</td><td>init：七幕 demo 引导器</td></tr>
+  <tr><td>laos/branch.py</td><td>263</td><td>fork/explore/commit 状态机 + diff 提交</td></tr>
+  <tr><td>laos/brain.py</td><td>232</td><td>可替换 CPU：Scripted / OpenAI 兼容</td></tr>
+  <tr><td>laos/context.py</td><td>210</td><td>窗口压缩 + swap + 观察簿</td></tr>
+  <tr><td>laos/sandbox.py</td><td>186</td><td>namespace/cgroup + PathJail + 探测报告</td></tr>
+  <tr><td>laos/agent.py</td><td>170</td><td>ReAct 循环 + 通告注入</td></tr>
+  <tr><td>laos/agentprof.py</td><td>148</td><td>span 构建 + 评分 + OTLP 导出</td></tr>
+  <tr><td>drivers/drv_proc.py</td><td>124</td><td>exec 白名单 + 危险拦截</td></tr>
+  <tr><td>laos/seccomp.py</td><td>119</td><td>BPF 组装 + ctypes 安装</td></tr>
+  <tr><td>laos/scheduler.py</td><td>116</td><td>双预算轮转</td></tr>
+  <tr><td>drivers/drv_fs.py</td><td>114</td><td>fs 五操作 + jail</td></tr>
+  <tr><td>laos/profiling.py</td><td>94</td><td>bpftrace 探测/脚本/解析</td></tr>
+  <tr><td>drivers/drv_sys.py</td><td>79</td><td>系统信息 + 脱敏</td></tr>
+  <tr><td>bin/laosctl.py</td><td>180</td><td>离线回放控制面（8 子命令）</td></tr>
+  <tr><td>laos/validate.py</td><td>59</td><td>参数 schema 校验</td></tr>
+  <tr><td>laos/cow.py</td><td>57</td><td>hardlink COW 原语</td></tr>
+  <tr><td>laos/risk.py</td><td>50</td><td>车队风险账本</td></tr>
+</table>
+
+<p style="margin-top:30px;color:var(--muted);font-size:13px">生成于 2026-09-09 ｜ 依据 laos 仓库 commit 93d2dc3 与全文源码阅读 ｜ 若与源码冲突以源码为准</p>
+</main>
+</div>
+</body>
+</html>
