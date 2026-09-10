@@ -11,7 +11,7 @@
 python bin/laosd.py                    # 跑完整 demo（脚本化大脑，无需 API key）
 python bin/laosd.py --real             # 有 OPENAI_API_KEY 时用真 LLM
 python bin/laosweb.py                  # 启动内核 + Web 交互面板 (http://127.0.0.1:8800)
-python -m unittest discover -s tests   # 175 项回归测试
+python -m unittest discover -s tests   # 225 项回归测试
 ```
 
 ---
@@ -257,7 +257,7 @@ laos/
     laosweb.py    实时面板 + 交互操控（确认横幅/重启/信箱/记忆/日记）（http.server，零依赖）
     diary.py      每日日记：审计 + 记忆聚合 → var/diary/<date>.md（LLM 摘要可选）
   tests/
-    test_*.py     201 项回归测试（laos / ipc / scope / seccomp / cow / profiling / npu / sandbox / enforcement / memory / diary 等 24 个文件）
+    test_*.py     225 项回归测试（laos / ipc / scope / seccomp / cow / profiling / npu / sandbox / enforcement / memory / diary 等 24 个文件）
   var/            运行期产物：audit.jsonl / memory.jsonl / branches/ / diary/ / ear/ / swap/
 ```
 
