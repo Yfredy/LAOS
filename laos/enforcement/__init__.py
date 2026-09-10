@@ -8,6 +8,7 @@
 
 from __future__ import annotations
 
+import shutil
 import sys
 from pathlib import Path
 
@@ -26,22 +27,32 @@ __all__ = [
 ]
 
 
+def _is_android() -> bool:
+    """Android/Termux 探测：sys.platform 在 Termux 上是 "linux" 而非 "android"，
+    需要 getprop（Android 属性工具，Termux PATH 里有）或 com.termux 前缀识别。"""
+    if sys.platform == "android":
+        return True
+    if sys.platform != "linux":
+        return False
+    return "com.termux" in sys.prefix.lower() or shutil.which("getprop") is not None
+
+
 def select(enabled: bool, seccomp_mode: str, workdir: Path,
            override: str | None = None) -> EnforcementBackend:
     """选择并构造（构造即探测）强制隔离后端。
 
-    override 为空或 "auto" 时按 `sys.platform` 自动选择（linux→Linux /
-    android→Android / 其他→Stub）。显式指定的后端若与宿主平台不符：
+    override 为空或 "auto" 时自动选择（Android/Termux→Android / 其他
+    linux→Linux / 其余→Stub）。显式指定的后端若与宿主平台不符：
     尊重选择但降级为 stub 行为，并在 report.reasons 里记录原因
     （Android 后端是 Linux 后端的特化，两宿主相通即拿真后端）；
     非法值按 auto 处理并记录。
     """
 
     def _auto() -> EnforcementBackend:
+        if _is_android():
+            return AndroidBackend(enabled, seccomp_mode, workdir)
         if sys.platform == "linux":
             return LinuxBackend(enabled, seccomp_mode, workdir)
-        if sys.platform == "android":
-            return AndroidBackend(enabled, seccomp_mode, workdir)
         return StubBackend(enabled, seccomp_mode, workdir)
 
     if not override or override == "auto":
@@ -51,7 +62,7 @@ def select(enabled: bool, seccomp_mode: str, workdir: Path,
         return StubBackend(enabled, seccomp_mode, workdir)
 
     if override in ("linux", "android"):
-        if sys.platform in ("linux", "android"):
+        if sys.platform == "linux" or _is_android():
             cls = LinuxBackend if override == "linux" else AndroidBackend
             return cls(enabled, seccomp_mode, workdir)
         # 显式指定与宿主平台不符：降级 stub，原因可见

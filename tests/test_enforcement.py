@@ -75,6 +75,15 @@ class TestEnforcement(unittest.TestCase):
             sys.platform, "stub")
         self.assertEqual(sb._backend.name, expected_name)
 
+    def test_termux_detected_as_android(self):
+        # Termux 上 sys.platform 是 "linux"——getprop/com.termux 前缀才是识别依据
+        with mock.patch("sys.platform", "linux"), \
+             mock.patch("laos.enforcement.shutil.which",
+                        return_value="/system/bin/getprop"):
+            backend = select(True, "off", _WD)
+        self.assertIsInstance(backend, AndroidBackend)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
