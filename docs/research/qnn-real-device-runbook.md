@@ -80,3 +80,21 @@ base64 后走上面方式一。原型阶段静音即可验证闭环。
 
 InferenceServer 只绑定手机 `127.0.0.1`，仅 adb forward 能从外部访问；无鉴权——
 这是调试用的设计选择，不要在公共网络下把 8900 端口暴露出设备。
+
+## 屏幕层（drv_screen）：真机操作
+
+前置：设备已连接（`adb devices` 可见）、`LAOS_ADB` 指向 adb（默认已探测 SDK 路径）。
+
+```bash
+# 1. 确认驱动已加载（laosd 启动日志 [screen] 行）
+# 2. 面板/agent 调用示例：
+#    screen.dump  → 控件树 + 前台包名（只读，不进风险账本）
+#    screen.tap {"x":360,"y":1360,"pkg":"com.timnet.lpai"} → 真实点击（计 1 点风险）
+#    screen.text {"text":"hello","pkg":"..."} → 输入（空格自动转 %s）
+#    screen.shot → var/screen/shot-<ts>.png
+```
+
+安全语义：
+- `pkg` 参数必须同时通过 ①内核 `pkg:` task_scope 白名单 ②驱动前台包名校验
+- 操控类 syscall 全部 `reversible=False`（真机动作不可撤销），每次扣 1 点风险
+- 无 task_scope 限制时 pkg 仅由驱动前台校验兜底——建议生产环境总是设置 `pkg:` 作用域

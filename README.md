@@ -91,7 +91,7 @@ MCP（Model Context Protocol）已经是事实标准，它的角色非常接近 
 |---|---|---|
 | 进程 `task_struct` | Agent 进程 | `PCB`（pid / caps / state / budget） + `Agent` |
 | 系统调用 | MCP tool call | `kernel.syscall(pid, tool, args)` |
-| 设备驱动 | MCP Server | `drivers/drv_fs.py`、`drv_proc.py`、`drv_sys.py`、`drv_npu.py`、`drv_audio.py`（需 .venv-audio） |
+| 设备驱动 | MCP Server | `drivers/drv_fs.py`、`drv_proc.py`、`drv_sys.py`、`drv_npu.py`、`drv_audio.py`（需 .venv-audio）、`drv_screen.py`（adb 屏幕操控） |
 | `/dev`、`/proc` | 驱动注册表 | `kernel.syscall_table`（tool → driver） |
 | init / udev | 引导器 | `bin/laosd.py` |
 | capability / seccomp | 能力表 + Linux 隔离 | `CapabilitySet` + `sandbox.py` |
