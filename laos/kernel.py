@@ -509,6 +509,12 @@ class AgentKernel:
                 }
             )
 
+            # 隐私红线：每一次 mic.* syscall（无论成败）都额外落一条
+            # event:"mic" 审计记录——录音行为必须可追责、可计数
+            if tool.startswith("mic."):
+                self.audit.write({"t": time.time(), "event": "mic",
+                                  "pid": pid, "tool": tool, "ok": result.ok})
+
         # 可靠性记账（Patient Bytes）——builtin 与 MCP 两条派发路径的唯一收口：
         # 审计写入之后、返回之前。_deny 的内核裁决（EPERM/EDQUOT/EACCES）不经此处；
         # 驱动返回的 isError=True（如 EDENIED）属于 agent 的失败尝试，照记。

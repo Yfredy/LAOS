@@ -64,6 +64,14 @@ def boot_kernel(workdir: Path) -> AgentKernel:
     if audio_py.exists():
         kernel.load_driver("audio", [str(audio_py), str(DRIVERS / "drv_audio.py")],
                            env={"LAOS_FS_ROOT": env["LAOS_FS_ROOT"]})
+    # 听觉双驱动：drv_ear（双通道 ASR，server 通道零依赖）+ drv_mic（录音，
+    # 必须 sounddevice 所在的解释器）。LAOS_EAR_PYTHON 优先，其次本机 conda
+    # python，都没有则退回主解释器（此时仅 server 通道 / status 可用）。
+    ear_py = os.environ.get("LAOS_EAR_PYTHON") or (
+        "C:/Users/yaoyue/miniconda3/python.exe"
+        if Path("C:/Users/yaoyue/miniconda3/python.exe").exists() else py)
+    kernel.load_driver("ear", [ear_py, str(DRIVERS / "drv_ear.py")], env=env)
+    kernel.load_driver("mic", [ear_py, str(DRIVERS / "drv_mic.py")], env=env)
     return kernel
 
 
@@ -130,7 +138,7 @@ async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
     # ops-agent：权限较全，用来走通主流程；它会去碰 proc.exec，被驱动拦下
     ops = new_agent(
         "ops-agent",
-        ["sys.*", "fs.*", "proc.*", "msg.*", "npu.*", "audio.*"],
+        ["sys.*", "fs.*", "proc.*", "msg.*", "npu.*", "audio.*", "ear.*", "mic.*"],
         OpenAIChatBrain() if use_real else ScriptedBrain(branch="exp-A"),
     )
     # guest-agent：只给了 sys.*，却硬要调 fs.read —— 用来演示内核层的 EPERM；
