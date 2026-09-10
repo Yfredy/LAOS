@@ -509,11 +509,13 @@ class AgentKernel:
                 }
             )
 
-            # 隐私红线：每一次 mic.* syscall（无论成败）都额外落一条
-            # event:"mic" 审计记录——录音行为必须可追责、可计数
+            # 隐私红线：成功派发到驱动的每一次 mic.* syscall 都额外落一条
+            # event:"mic" 审计记录（被内核 _deny 拒绝的调用由 _deny 补记，
+            # denied:true）——录音行为无论成败都必须可追责、可计数
             if tool.startswith("mic."):
                 self.audit.write({"t": time.time(), "event": "mic",
-                                  "pid": pid, "tool": tool, "ok": result.ok})
+                                  "pid": pid, "tool": tool, "ok": result.ok,
+                                  "denied": False})
 
         # 可靠性记账（Patient Bytes）——builtin 与 MCP 两条派发路径的唯一收口：
         # 审计写入之后、返回之前。_deny 的内核裁决（EPERM/EDQUOT/EACCES）不经此处；
@@ -644,6 +646,12 @@ class AgentKernel:
                 "result": err,
             }
         )
+        # 隐私红线补口子：mic.* 被内核拒绝（EPERM/EDQUOT/EACCES 等）同样要
+        # 留下 event:"mic" 审计——录音意图无论成败都可追责、可计数
+        if tool.startswith("mic."):
+            self.audit.write({"t": time.time(), "event": "mic",
+                              "pid": pcb.pid, "tool": tool,
+                              "denied": True, "reason": err})
         return CallResult.fail(err)
 
     def _on_elicit(self, method: str, params: dict) -> dict:

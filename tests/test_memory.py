@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 import sys
 import tempfile
 import unittest
@@ -46,6 +47,20 @@ class TestMemoryStore(unittest.TestCase):
         self.assertTrue(self.store.forget(rec["id"]))
         self.assertFalse(self.store.forget(rec["id"]))
         self.assertEqual(self.store.recall("x", k=5), [])
+
+    def test_forget_rewrite_atomic_no_tmp_residue(self):
+        """forget 全量重写走 temp + os.replace（同 cow.py）：重写后文件仍是
+        合法 JSONL（每行可解析），且目录无 .tmp 残留——崩溃最坏留残迹，
+        不会像"先 truncate 再写"那样毁掉整个库。"""
+        self.store.remember("fact", "第一条")
+        rec = self.store.remember("diary", "第二条")
+        self.assertTrue(self.store.forget(rec["id"]))
+        lines = self.store.path.read_text(encoding="utf-8").splitlines()
+        self.assertEqual(len(lines), 1)
+        self.assertEqual(json.loads(lines[0])["text"], "第一条")
+        self.assertEqual(
+            [p.name for p in self.store.path.parent.iterdir()],
+            [self.store.path.name], "残留 .tmp 文件")
 
     def test_stats_and_persistence(self):
         self.store.remember("fact", "a")

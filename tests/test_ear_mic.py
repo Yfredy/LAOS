@@ -330,6 +330,44 @@ class TestMicReal(unittest.TestCase):
         self.assertTrue(res.ok, res.error or res.text)  # 内容 0/1 段皆可
 
 
+class TestMicDeniedStillAudited(unittest.TestCase):
+    """隐私红线补口子：被内核 _deny 的 mic.* 调用（EPERM 等）同样要留
+    event:"mic" 审计（denied:true）——录音意图无论成败都可追责、可计数。
+    不需要声卡：驱动加载（惰性导入）+ 能力表拒绝，全程零重依赖。"""
+
+    def setUp(self):
+        self._td = tempfile.TemporaryDirectory()
+        self.workdir = Path(self._td.name) / "var"
+        self.kernel = AgentKernel(self.workdir, confirm=lambda op: True)
+        env = {"PYTHONPATH": str(REPO), "PYTHONIOENCODING": "utf-8"}
+        self.kernel.load_driver("mic", [sys.executable,
+                                        str(REPO / "drivers" / "drv_mic.py")],
+                                env=env)
+        self.kernel.branches.create_root("main")
+
+    def tearDown(self):
+        self.kernel.shutdown()
+        self._td.cleanup()
+
+    def test_denied_mic_record_writes_both_records(self):
+        pcb = self.kernel.spawn(name="a", caps=["sys.*"],
+                                ctx=ContextManager(system_prompt="t"))
+        res = asyncio.run(self.kernel.syscall(pcb.pid, "mic.record",
+                                              {"seconds": 1}))
+        self.assertFalse(res.ok)
+        self.assertIn("EPERM", res.error)
+        sys_recs = [r for r in self.kernel.audit.records
+                    if r.get("event") == "syscall"
+                    and r.get("tool") == "mic.record"]
+        mic_recs = [r for r in self.kernel.audit.records
+                    if r.get("event") == "mic"]
+        self.assertEqual(len(sys_recs), 1)      # 拒绝本身有 syscall 记录
+        self.assertFalse(sys_recs[0]["ok"])
+        self.assertEqual(len(mic_recs), 1)      # 且有 mic 审计事件
+        self.assertTrue(mic_recs[0]["denied"])
+        self.assertIn("EPERM", mic_recs[0]["reason"])
+
+
 class TestMicGracefulNoSounddevice(unittest.TestCase):
     """裸 uv python（无 sounddevice）：驱动可加载、status 可答、record 报错不崩。"""
 

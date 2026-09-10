@@ -24,6 +24,7 @@ import http.server
 import itertools
 import json
 import os
+import re
 import sys
 import threading
 import time
@@ -741,6 +742,9 @@ def _handle_diary(body: dict) -> tuple[int, dict]:
     if kernel is None:
         return 503, {"error": "kernel not available"}
     date = str(body.get("date") or time.strftime("%Y-%m-%d")).strip()
+    # 日期白名单：只放行 YYYY-MM-DD——../ 之类的路径串不得借 date 逃出 var/diary/
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", date):
+        return 400, {"error": "date must be YYYY-MM-DD"}
     result = diary_mod.build_diary(date, kernel.audit.records, kernel.memory)
     return 200, {"ok": True, "path": result["path"], "date": result["date"],
                  "summary": result["summary"]}

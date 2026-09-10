@@ -18,7 +18,7 @@
   - 驱动模块加载时绝不启动任何录音线程；监听线程只能被 mic.listen_start
     显式拉起，mic.listen_stop / 进程退出即终止；
   - 每一次 mic.* syscall 在内核审计里额外落一条 event:"mic" 记录
-    （见 laos/kernel.py syscall 派发尾部）。
+    （见 laos/kernel.py syscall 派发尾部与 _deny 拒绝路径——无论成败）。
 
 分段算法 split_on_silence 是模块级纯函数（能量 dBFS 阈值 + 最短静音），
 测试可直接合成样本验证，无需声卡。
@@ -127,9 +127,12 @@ def _listen_loop(threshold_db: float, min_silence_ms: int) -> None:
     chunk = SAMPLE_RATE // 10
     buffer: list[int] = []
     emitted = 0
-    stream = sd.InputStream(samplerate=SAMPLE_RATE, channels=CHANNELS,
-                            dtype="int16")
+    stream = None
     try:
+        # 设备打开也在 try 里：麦克风被占用/拔出时 InputStream() 构造即抛，
+        # 不能让监听线程带崩得无声无息——要落到 _listen_error 供 status 如实上报
+        stream = sd.InputStream(samplerate=SAMPLE_RATE, channels=CHANNELS,
+                                dtype="int16")
         stream.start()
         while not _listen_stop.is_set():
             data, _frames = stream.read(chunk)
@@ -143,11 +146,12 @@ def _listen_loop(threshold_db: float, min_silence_ms: int) -> None:
     except Exception as exc:  # 设备拔出等：如实上报到 status
         _listen_error = f"EIO: listen stream failed: {exc}"
     finally:
-        try:
-            stream.stop()
-            stream.close()
-        except Exception:
-            pass
+        if stream is not None:
+            try:
+                stream.stop()
+                stream.close()
+            except Exception:
+                pass
         if buffer:  # 收尾：最后一段未闭合有声区也落盘
             try:
                 segs = split_on_silence(buffer, SAMPLE_RATE, threshold_db,
