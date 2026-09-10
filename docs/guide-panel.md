@@ -11,7 +11,7 @@
 并发跑 ReAct 任务 → 演示内核 IPC 和能力委托 → first-commit-wins 提交。
 面板把这整个过程的状态**实时**展示出来，每秒刷新一次。
 
-## 七个面板怎么读
+## 面板怎么读
 
 ### 1. 顶部状态条
 `uptime` 内核存活秒数 · `隔离` Linux 内核隔离是否生效（Windows 上显示 none = 仅能力表，上 Linux 会变 full）·
@@ -67,6 +67,45 @@
 - **收取**：每个活进程一粒 [收取] 按钮，以该 pid 自己的身份跑 `msg.recv` 并把信箱内容显示在面板上——
   你可以替任何 agent"拆信"，看它收到了什么。
 发送/收取都是**内核内建 syscall**（不经 MCP 驱动），所以从 HTTP 线程直接发起也是安全的。
+
+### 9. 记忆面板（个人记忆库）
+内核的 episodic memory：demo 的 4.8 幕会以 ops-agent 的身份执行
+`mem.remember("fact", "用户偏好中文回复")`，面板随即出现这条记忆。
+- 顶部 chips 是 `mem.stats` 全库概览（total + 各 kind 条数）；
+- 下方按时间倒序列出最近 10 条记忆，**kind 徽标着色**：`fact`(绿) / `episodic`(蓝) / `diary`(紫)，
+  行尾方括号是该条记忆的 tags（日记条目以日期为标签）。
+
+### 10. 日记面板
+`var/diary/` 里最近 3 篇日记（文件名即日期），每篇一行标题。
+点 **[生成今日日记]**：面板 POST `/api/diary` → 服务端把当天审计流（syscall 总数/成功/被拒/工具 TOP5）
+和记忆库聚合成 `var/diary/<今天>.md`（四章：今天做了什么 / 新记住的事 / 被拒绝与原因 / 明天可以试试），
+并把摘要作为一条 `kind=diary` 的记忆写回记忆库——下一篇日记会按日期标签召回它。
+设置了 `OPENAI_API_KEY` 时摘要段由 LLM 生成，否则抽取式模板；LLM 失败自动回落模板，按钮不会报错。
+
+## 记忆与日记
+
+laos 的"耳虫记忆"由三块组成，面板全部可见：
+
+**mem.\* 内建 syscall 用法**（与 `msg.*` 同模式——内核直供、不经 MCP 驱动、审计 `builtin:true`）：
+
+| syscall | 参数 | 返回示例 |
+|---|---|---|
+| `mem.remember` | `{"kind": "fact", "text": "用户偏好中文回复", "tags": ["偏好"]}` | `OK remembered #3` |
+| `mem.recall` | `{"query": "偏好", "k": 5}` | `#3 [fact] 用户偏好中文回复 (score=0.52)` |
+| `mem.forget` | `{"id": 3}` | `OK forgot #3`（不存在 → `ENOSTR`） |
+| `mem.stats` | `{}` | `total=3 diary=1 fact=1 episodic=1` |
+
+检索评分 = 字符 bigram Jaccard×0.7 + 标签命中×0.2 + 时间加成×0.1，零相关的条目不召回——
+"完全不相关的查询"不会把整库按新旧顺序捞出来。agent 需要拥有 `mem.*` 能力（demo 里 ops-agent 有）。
+
+**日记**：面板按钮之外，命令行也能生成：`python bin\diary.py --date 2026-09-10 --json`。
+日记写 `var/diary/<date>.md`，四章结构固定；摘要段同时存入记忆库（`kind=diary`，tags=[日期]），
+形成"记忆 → 日记 → 记忆"的固化闭环。
+
+**隐私说明（红线）**：录音（`mic.*`）**仅在被显式调用时发生**——驱动加载绝不启动任何录音线程，
+后台监听只能由 `mic.listen_start` 显式拉起、`mic.listen_stop` 或进程退出即终止；且每一次
+`mic.*` syscall（无论成败）都在审计流里额外落一条 `event:"mic"` 记录（面板审计流可见），可追责、可计数。
+记忆库与日记都是本机 JSONL 文本（`var/memory.jsonl` / `var/diary/`），不出本机。
 
 ## 交互功能
 

@@ -5,7 +5,7 @@
 本模块做三件事——
   1. build_state(kernel)：把内核可观测面聚合成一个可 JSON 化的 dict
   2. http.server 起一个单页面板 + /api/state（1s 轮询，零依赖）
-  3. POST /api/* 交互端点：确认裁决 / 重启 / kill / operator 信箱
+  3. POST /api/* 交互端点：确认裁决 / 重启 / kill / operator 信箱 / 生成日记
 
 线程红线：HTTP 线程只允许 ① 读状态 ② 同步内核调用（kernel.kill /
 确认队列操作）③ asyncio.run 跑**内建** syscall（msg.*——不经 MCP 驱动、
@@ -26,12 +26,15 @@ import json
 import os
 import sys
 import threading
+import time
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
+sys.path.insert(0, str(REPO / "bin"))  # bin/ 非包：注入以便 import diary
 
 import laosd  # noqa: E402  复用引导器：boot_kernel / seed_main_branch / demo / WORKDIR
+import diary as diary_mod  # noqa: E402  每日日记生成（build_diary）
 from laos.context import ContextManager  # noqa: E402  operator 进程的上下文
 
 PORT = int(os.environ.get("LAOS_WEB_PORT", "8800"))
@@ -94,6 +97,54 @@ def _deny_all_pending() -> None:
 
 
 # --------------------------------------------------------------------------
+MEM_RECENT_N = 10   # 记忆面板展示的最近记忆条数
+DIARY_LATEST_N = 3  # 日记面板展示的最近篇数
+
+
+def _memories_view(kernel) -> dict:
+    """记忆库视图：stats + 最近 N 条（读 MemoryStore 的 JSONL，走公开 .path）。"""
+    view: dict = {"stats": kernel.memory.stats(), "recent": []}
+    try:
+        lines = kernel.memory.path.read_text(encoding="utf-8").splitlines()
+    except OSError:
+        return view
+    recent: list[dict] = []
+    for line in reversed(lines):
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            recent.append(json.loads(line))
+        except json.JSONDecodeError:
+            continue  # 崩溃残迹（半行）跳过
+        if len(recent) >= MEM_RECENT_N:
+            break
+    view["recent"] = recent
+    return view
+
+
+def _diary_view(kernel) -> list[dict]:
+    """最近几篇日记：文件名 + 首个标题行（文件名即日期，倒序 = 最新在先）。"""
+    diary_dir = kernel.memory.path.parent / "diary"
+    if not diary_dir.is_dir():
+        return []
+    out: list[dict] = []
+    for p in sorted(diary_dir.glob("*.md"), key=lambda p: p.name,
+                    reverse=True)[:DIARY_LATEST_N]:
+        title = ""
+        try:
+            with p.open("r", encoding="utf-8") as fh:
+                for line in fh:
+                    line = line.strip()
+                    if line.startswith("#"):
+                        title = line
+                        break
+        except OSError:
+            continue
+        out.append({"name": p.name, "title": title})
+    return out
+
+
 def build_state(kernel) -> dict:
     """聚合内核可观测面为单个 dict（纯函数，可直接单测 / JSON 序列化）。"""
     # snapshot 在 agent 全部 retire 后为空，回退到内核留存的末次派发视图
@@ -121,6 +172,9 @@ def build_state(kernel) -> dict:
             for e in list(_pending.values())
         ],
         "operator_pid": _operator_pid,
+        # 记忆与日记（episodic memory 的可观测面）
+        "memories": _memories_view(kernel),
+        "diary": _diary_view(kernel),
     }
 
 
@@ -232,8 +286,16 @@ PAGE = r"""<!doctype html>
     <div id="msg-out" class="dim">（发送 / 收取结果显示在这里）</div>
     <div id="recv-list" style="margin-top:8px"></div>
   </div></section>
+  <section class="panel"><h2>记忆面板（个人记忆库）</h2><div id="mem-body"></div></section>
+  <section class="panel"><h2>日记面板</h2>
+    <div class="mrow">
+      <button onclick="genDiary()">生成今日日记</button>
+      <span id="diary-msg" class="dim"></span>
+    </div>
+    <div id="diary-list"></div>
+  </section>
 </div>
-<footer>laosweb v0.2 —— 纯标准库实现，1s 轮询 /api/state + POST /api/* 交互操控</footer>
+<footer>laosweb v0.3 —— 纯标准库实现，1s 轮询 /api/state + POST /api/* 交互操控</footer>
 <script>
 const $ = id => document.getElementById(id);
 
@@ -390,6 +452,8 @@ function render(s) {
   renderSched(s);
   renderSys(s);
   renderMsgs(s);
+  renderMemories(s);
+  renderDiary(s);
   renderAudit(s);
 }
 
@@ -454,6 +518,46 @@ function renderMsgs(s) {
     p.state !== 'zombie' && p.state !== 'killed').map(p =>
     '<span class="rrow"><span class="apid">' + esc(p.pid) + '</span> ' + esc(p.name) +
     '<button onclick="recvMsg(' + esc(p.pid) + ')">收取</button></span>').join('');
+}
+
+// ---- 记忆面板 + 日记面板（episodic memory 的可观测面）-------------------
+const KIND_COLOR = { fact: '#4ade80', episodic: '#60a5fa',
+                     diary: '#a78bfa', preference: '#facc15' };
+
+function renderMemories(s) {
+  const m = s.memories || {};
+  const st = m.stats || {};
+  const kinds = Object.keys(st.by_kind || {}).map(k =>
+    '<span class="chip" style="margin:2px">' + esc(k) + ' <b>' +
+    esc(st.by_kind[k]) + '</b></span>').join('');
+  const rows = (m.recent || []).map(r =>
+    '<div class="arow"><span class="badge" style="color:' +
+    (KIND_COLOR[r.kind] || '#94a3b8') + '">' + esc(r.kind) + '</span>' +
+    '#' + esc(r.id) + ' ' + esc(String(r.text).slice(0, 60)) +
+    ((r.tags && r.tags.length)
+      ? ' <span class="dim">[' + esc(r.tags.join(',')) + ']</span>' : '') +
+    '</div>').join('');
+  // 固定容器就地更新：按钮/标题不重建
+  $('mem-body').innerHTML =
+    '<div style="margin-bottom:6px">total <b>' + esc(st.total || 0) + '</b> ' +
+    kinds + '</div>' + (rows || '<span class="dim">（记忆库还是空的）</span>');
+}
+
+function renderDiary(s) {
+  const rows = (s.diary || []).map(d =>
+    '<div class="arow"><span class="apid">' + esc(d.name) + '</span> ' +
+    '<span class="ares">' + esc(d.title) + '</span></div>').join('');
+  $('diary-list').innerHTML =
+    rows || '<span class="dim">（还没有日记——点上面按钮生成）</span>';
+}
+
+async function genDiary() {
+  $('diary-msg').textContent = '生成中…';
+  const r = await post('/api/diary', {});
+  $('diary-msg').textContent = (r.ok && r.data.ok)
+    ? '已写入 ' + (r.data.path || '')
+    : '失败: ' + (r.data.error || 'HTTP ' + r.status);
+  tick();  // POST 后立即刷新
 }
 
 async function sendMsg() {
@@ -625,6 +729,23 @@ def _handle_recv(body: dict) -> tuple[int, dict]:
     return 200, {"ok": result.ok, "text": result.text}
 
 
+def _handle_diary(body: dict) -> tuple[int, dict]:
+    """POST /api/diary {"date"?}：聚合当天审计 + 记忆库，生成每日日记。
+
+    build_diary 是纯同步文件 I/O（读内存中的 audit.records、写 var/diary、
+    向 MemoryStore 追加一行）——不经 MCP 驱动、无 driver 锁、无 asyncio，
+    与 msg.* 同级，HTTP 线程直接调用安全。LLM 摘要在 build_diary 内部
+    try/except 兜底：失败自动回落抽取式模板，端点永不 500 于 LLM 故障。
+    """
+    kernel = get_kernel()
+    if kernel is None:
+        return 503, {"error": "kernel not available"}
+    date = str(body.get("date") or time.strftime("%Y-%m-%d")).strip()
+    result = diary_mod.build_diary(date, kernel.audit.records, kernel.memory)
+    return 200, {"ok": True, "path": result["path"], "date": result["date"],
+                 "summary": result["summary"]}
+
+
 def _handle_restart(body: dict) -> tuple[int, dict]:
     """POST /api/restart {"confirm", "risk_budget"}：换参数重 boot 内核。
 
@@ -679,6 +800,7 @@ _POST_ROUTES = {
     "/api/msg": _handle_msg,
     "/api/recv": _handle_recv,
     "/api/restart": _handle_restart,
+    "/api/diary": _handle_diary,
 }
 
 

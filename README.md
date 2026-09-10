@@ -242,19 +242,23 @@ laos/
     cow.py        CoW 原语：temp + os.replace 断链写，保护 hardlink 共享 inode
     profiling.py  bpftrace 集成：驱动进程树真实 syscall 分布（可选，缺席降级）
     agentprof.py  AgentProf：审计流 → per-agent 语义 span + 启发式发现 + OTLP/JSON 导出
+    memory.py     记忆库：JSONL 追加存储 + 字符 bigram 检索（mem.* 内建 syscall 的存储层）
   drivers/
     drv_fs.py     文件系统驱动：read / write / append / list / stat（jail 内）
     drv_proc.py   进程驱动：list / exec（白名单 + 危险模式拦截）
     drv_sys.py    系统信息驱动：info / load（主机名默认脱敏）
     drv_npu.py    NPU/加速器驱动：devices / infer（QNN 后端探测 + 功耗定价）
     drv_audio.py  语音增强驱动：separate / aec（Qwen Audio 开源模型，需 .venv-audio）
+    drv_ear.py    语音转文字驱动：transcribe / status（SenseVoice 本机 / server HTTP 双通道）
+    drv_mic.py    麦克风录音驱动：record / listen / segments（显式触发 + VAD 分段，录音必审计）
   bin/
     laosd.py      引导器（init）：加载驱动 → fork 分支 → 起 Agent → commit
     laosctl.py    控制面：ps / top / trace / denied / audit
-    laosweb.py    实时面板 + 交互操控（确认横幅/重启/信箱）（http.server，零依赖）
+    laosweb.py    实时面板 + 交互操控（确认横幅/重启/信箱/记忆/日记）（http.server，零依赖）
+    diary.py      每日日记：审计 + 记忆聚合 → var/diary/<date>.md（LLM 摘要可选）
   tests/
-    test_*.py     175 项回归测试（laos / ipc / scope / seccomp / cow / profiling / npu / sandbox / enforcement 等 21 个文件）
-  var/            运行期产物：audit.jsonl / branches/ / swap/
+    test_*.py     201 项回归测试（laos / ipc / scope / seccomp / cow / profiling / npu / sandbox / enforcement / memory / diary 等 24 个文件）
+  var/            运行期产物：audit.jsonl / memory.jsonl / branches/ / diary/ / ear/ / swap/
 ```
 
 ## 八、环境变量
@@ -277,3 +281,7 @@ laos/
 | `LAOS_TASK_TIMEOUT` | `30` | MCP Tasks 路径（`syscall(..., task=True)`）轮询任务结果的总超时（秒） |
 | `LAOS_EXEC_ELICIT` | `0` | 置 `1` 时 proc.exec 白名单外命令先经 elicitation 请求人类放行（accept 放行 / decline 拒绝） |
 | `LAOS_WEB_PORT` | `8800` | laosweb 面板端口（本机若 8800 被占用/保留，可用 LAOS_WEB_PORT=18800 规避） |
+| `LAOS_EAR_PYTHON` | 主解释器 | 听觉双驱动（drv_ear / drv_mic）用的解释器；未设置时自动探测本机 conda python（sounddevice 所在），再退回主解释器（此时仅 server 通道 / status 可用） |
+| `LAOS_ASR_CHANNEL` | `funasr` | `ear.transcribe` 通道：`funasr`（本机 SenseVoice，需 conda python + 模型）或 `server`（HTTP，零依赖） |
+| `LAOS_ASR_SERVER` | `http://127.0.0.1:8000` | `server` 通道的 ASR 服务端点（POST /v1/transcribe，multipart 上传 wav） |
+| `LAOS_SENSEVOICE_MODEL` / `LAOS_SENSEVOICE_VAD` | 本机模型目录 | funasr 通道的 SenseVoice 模型与 fsmn-vad 路径 |

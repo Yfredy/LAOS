@@ -225,11 +225,13 @@ class TestHttp(unittest.TestCase):
             self.assertIn("text/html", resp.headers["Content-Type"])
             body = resp.read().decode("utf-8")
         self.assertIn("laosweb", body)
-        # 静态骨架唯一性（防 per-tick 重复渲染回归）：单 h1、七个固定面板体
+        # 静态骨架唯一性（防 per-tick 重复渲染回归）：单 h1、九个固定面板体
+        # （v0.3 增记忆面板 mem-body + 日记面板 diary-list）
         self.assertEqual(body.count("<h1"), 1)
-        self.assertEqual(body.count('class="panel'), 7)
+        self.assertEqual(body.count('class="panel'), 9)
         for panel_id in ("procs-body", "branches-body", "risk-body",
-                         "sched-body", "audit-body", "syscalls-body", "msgs-body"):
+                         "sched-body", "audit-body", "syscalls-body", "msgs-body",
+                         "mem-body", "diary-list"):
             self.assertEqual(body.count(f'id="{panel_id}"'), 1)
         # 交互骨架：确认横幅与重启控制台各一份
         for node_id in ("confirm-banner", "restart-console"):

@@ -138,7 +138,8 @@ async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
     # ops-agent：权限较全，用来走通主流程；它会去碰 proc.exec，被驱动拦下
     ops = new_agent(
         "ops-agent",
-        ["sys.*", "fs.*", "proc.*", "msg.*", "npu.*", "audio.*", "ear.*", "mic.*"],
+        ["sys.*", "fs.*", "proc.*", "msg.*", "npu.*", "audio.*",
+         "ear.*", "mic.*", "mem.*"],
         OpenAIChatBrain() if use_real else ScriptedBrain(branch="exp-A"),
     )
     # guest-agent：只给了 sys.*，却硬要调 fs.read —— 用来演示内核层的 EPERM；
@@ -238,6 +239,16 @@ async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
         print(f"  {res.text}")
         res = await kernel.syscall(ops.pcb.pid, "audio.separate", {"wav": str(mix)})
         print(f"  分离: {res.text.splitlines()[0]}")
+
+    # ---- 记忆：mem.* 内建 syscall（个人记忆库，episodic memory）------------
+    hr("4.8 记忆：mem.* 内建 syscall（个人记忆库）")
+    res = await kernel.syscall(ops.pcb.pid, "mem.remember",
+                               {"kind": "fact", "text": "用户偏好中文回复"})
+    print(f"  ops 记住: {res.text}")
+    res = await kernel.syscall(ops.pcb.pid, "mem.recall", {"query": "偏好"})
+    print(f"  ops 回忆: {res.text.splitlines()[0] if res.ok else res.error}")
+    res = await kernel.syscall(ops.pcb.pid, "mem.stats", {})
+    print(f"  记忆库: {res.text}")
 
     # ---- 提交 ------------------------------------------------------------
     hr("5. commit（first-commit-wins）")
