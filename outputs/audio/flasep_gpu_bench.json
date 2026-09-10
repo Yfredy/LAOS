@@ -1,0 +1,34 @@
+[
+  {
+    "wav": "mix_speech1.wav",
+    "dur_s": 2.5,
+    "cpu_s": 1.08,
+    "gpu_s": 0.17,
+    "speedup": 6.43,
+    "gpu_peak_mb": 198.1
+  },
+  {
+    "wav": "mix_synth_10s.wav",
+    "dur_s": 10.0,
+    "cpu_s": 4.96,
+    "gpu_s": 0.62,
+    "speedup": 7.95,
+    "gpu_peak_mb": 672.7
+  },
+  {
+    "wav": "mix_synth_15s.wav",
+    "dur_s": 15.0,
+    "cpu_s": 8.35,
+    "gpu_s": 0.96,
+    "speedup": 8.74,
+    "gpu_peak_mb": 1051.6
+  },
+  {
+    "wav": "mix_synth_30s.wav",
+    "dur_s": 30.0,
+    "cpu_s": 18.59,
+    "gpu_s": 1.99,
+    "speedup": 9.33,
+    "gpu_peak_mb": 2521.1
+  }
+]
