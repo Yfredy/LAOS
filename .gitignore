@@ -5,3 +5,4 @@ fsroot/
 *.log
 .superpowers/
 .zcode/
+.venv-audio/

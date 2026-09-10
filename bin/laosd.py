@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import math
 import os
 import sys
 import time
@@ -58,6 +59,11 @@ def boot_kernel(workdir: Path) -> AgentKernel:
     kernel.load_driver("proc", [py, str(DRIVERS / "drv_proc.py")], env=env)
     kernel.load_driver("sys", [py, str(DRIVERS / "drv_sys.py")], env=env)
     kernel.load_driver("npu", [py, str(DRIVERS / "drv_npu.py")], env=env)
+    # 语音增强驱动需要 modelscope/torch（仓库外依赖）：仅在音频 venv 存在时加载
+    audio_py = REPO / ".venv-audio" / "Scripts" / "python.exe"
+    if audio_py.exists():
+        kernel.load_driver("audio", [str(audio_py), str(DRIVERS / "drv_audio.py")],
+                           env={"LAOS_FS_ROOT": env["LAOS_FS_ROOT"]})
     return kernel
 
 
@@ -112,7 +118,7 @@ async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
             caps=caps,
             ctx=ctx,
             branch="exp-A",
-            budget=int(os.environ.get("LAOS_BUDGET", "8")),
+            budget=int(os.environ.get("LAOS_BUDGET", "16")),
             task_scope=task_scope,
         )
         agent = Agent(kernel, pcb, brain, max_steps=int(os.environ.get("LAOS_STEPS", "8")))
@@ -124,7 +130,7 @@ async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
     # ops-agent：权限较全，用来走通主流程；它会去碰 proc.exec，被驱动拦下
     ops = new_agent(
         "ops-agent",
-        ["sys.*", "fs.*", "proc.*", "msg.*", "npu.*"],
+        ["sys.*", "fs.*", "proc.*", "msg.*", "npu.*", "audio.*"],
         OpenAIChatBrain() if use_real else ScriptedBrain(branch="exp-A"),
     )
     # guest-agent：只给了 sys.*，却硬要调 fs.read —— 用来演示内核层的 EPERM；
@@ -206,6 +212,24 @@ async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
                                {"model": "timnet", "input": "audio-feature-26x479"})
     print(f"  ops 推理 → top1: {res.text.splitlines()[-1] if res.ok else res.error}")
     print(f"  风险账本: spent={kernel.risk.spent} remaining={kernel.risk.remaining}")
+
+    # ---- 语音增强（Qwen Audio 开源模型，ModelScope 驱动）------------------
+    if "audio" in kernel.drivers:
+        hr("4.7 语音增强：audio.* 驱动（Qwen Audio 开源模型）")
+        import wave as _wave
+        mix = WORKDIR / "demo_mix.wav"
+        with _wave.open(str(mix), "wb") as w:
+            w.setnchannels(1); w.setsampwidth(2); w.setframerate(8000)
+            frames = bytearray()
+            for i in range(16000):
+                v = 0.5 * math.sin(2 * math.pi * 300 * i / 8000) \
+                    + 0.5 * math.sin(2 * math.pi * 800 * i / 8000)
+                frames += int(v * 26000).to_bytes(2, "little", signed=True)
+            w.writeframes(bytes(frames))
+        res = await kernel.syscall(ops.pcb.pid, "audio.models", {})
+        print(f"  {res.text}")
+        res = await kernel.syscall(ops.pcb.pid, "audio.separate", {"wav": str(mix)})
+        print(f"  分离: {res.text.splitlines()[0]}")
 
     # ---- 提交 ------------------------------------------------------------
     hr("5. commit（first-commit-wins）")
