@@ -416,6 +416,14 @@ class AgentKernel:
                 return self._deny(pcb, tool, args, started,
                                   "EACCES: outside task scope")
 
+        # pkg 作用域：屏幕操控限制在白名单 App（task_scope 的 pkg:<package> 条目）
+        pkg_scopes = [s[4:] for s in (pcb.task_scope or []) if s.startswith("pkg:")]
+        if pkg_scopes and tool.startswith("screen.") and "pkg" in args:
+            pkg = str(args["pkg"])
+            if not any(pkg == p or pkg.startswith(p + ".") for p in pkg_scopes):
+                return self._deny(pcb, tool, args, started,
+                                  "EACCES: outside task scope")
+
         # 参数校验：dispatch 前由内核强制（堵 AIOS Tool Manager 无校验的洞）
         try:
             validate_args(spec.input_schema, args)
