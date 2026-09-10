@@ -671,6 +671,17 @@ class AgentKernel:
                            "risk": "high"})
         return {"action": "accept" if ok else "decline", "value": ""}
 
+    # -- 动态功耗定价：电池/温控状态驱动的风险乘数 -------------------------
+    def set_pricing_multiplier(self, m: float) -> None:
+        """调整风险定价乘数（写审计 event:"pricing"）。
+
+        语义：乘数作用于所有不可逆操作的基础定价——低电量/高温时上调，
+        让 Agent 自动收敛不可逆操作；恢复后回落。"""
+        self.risk.multiplier = float(m)
+        self.audit.write({"t": time.time(), "event": "pricing",
+                          "multiplier": self.risk.multiplier,
+                          "fleet_remaining": self.risk.remaining})
+
     @staticmethod
     def _cli_confirm(op: dict) -> bool:
         # 默认准入回调：CLI 交互确认；非交互环境（EOF）默认拒绝

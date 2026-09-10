@@ -28,11 +28,16 @@ from dataclasses import dataclass, field
 
 @dataclass
 class FleetLedger:
-    """车队总预算 + 保留水位 + 两级（pid / tool）支出直方图。"""
+    """车队总预算 + 保留水位 + 定价乘数 + 两级（pid / tool）支出直方图。
+
+    multiplier 是动态定价钩子：外部（如电池状态、温控）可调整——
+    低电量时成本上浮，让 Agent 在资源紧张时自动收敛不可逆操作。
+    """
 
     budget: int
     reserve: int = 1
     spent: int = 0
+    multiplier: float = 1.0
     per_agent: dict[int, int] = field(default_factory=dict)
     per_tool: dict[str, int] = field(default_factory=dict)
 
@@ -45,6 +50,7 @@ class FleetLedger:
         return self.remaining > self.reserve
 
     def charge(self, pid: int, tool: str, cost: int) -> None:
-        self.spent += cost
-        self.per_agent[pid] = self.per_agent.get(pid, 0) + cost
-        self.per_tool[tool] = self.per_tool.get(tool, 0) + cost
+        applied = max(1, round(cost * self.multiplier))
+        self.spent += applied
+        self.per_agent[pid] = self.per_agent.get(pid, 0) + applied
+        self.per_tool[tool] = self.per_tool.get(tool, 0) + applied
