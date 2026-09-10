@@ -98,3 +98,19 @@ InferenceServer 只绑定手机 `127.0.0.1`，仅 adb forward 能从外部访问
 - `pkg` 参数必须同时通过 ①内核 `pkg:` task_scope 白名单 ②驱动前台包名校验
 - 操控类 syscall 全部 `reversible=False`（真机动作不可撤销），每次扣 1 点风险
 - 无 task_scope 限制时 pkg 仅由驱动前台校验兜底——建议生产环境总是设置 `pkg:` 作用域
+
+## 全天候感知（Part 4）：事件流与电池
+
+App（重建后的 app-debug.apk）新增端点：
+
+```bash
+curl http://127.0.0.1:8900/events?since=0      # 情感变化事件（top1 变化即记录，环形 100 条）
+curl http://127.0.0.1:8900/battery             # {"percent": 87}（MainActivity 读 BatteryManager）
+```
+
+laos 侧消费：`drv_events` 的 `events.since` 拉增量 → `mem.remember(kind="sensor")`
+入库（laosd 常驻循环或 agent 显式调用 `events.ingest` 语义）；
+`drv_battery` 的 `battery.status`（termux/app 传输）喂给动态功耗定价——
+`kernel.set_pricing_multiplier(3.0)` 在低电量时上调不可逆成本。
+
+全部检查项跑一遍：`python scripts/termux_matrix.py`（Termux 降级矩阵实测报告）。
