@@ -112,6 +112,13 @@ class Agent:
     async def run(self, task: str) -> AgentResult:
         ctx = self.pcb.ctx
         ctx.append("user", task)
+        # 越用越聪明：检索相似历史任务的成功解法，注入 [skill-hint]（失败静默）
+        try:
+            from .skills import SkillStore
+            for hint in SkillStore(self.kernel.memory).match(task, k=1):
+                ctx.append("user", f"[skill-hint] 类似任务的历史解法：{hint['text']}")
+        except Exception:
+            pass
         result = AgentResult(pid=self.pcb.pid, ok=False)
         try:
             for step in range(1, self.max_steps + 1):
@@ -158,6 +165,13 @@ class Agent:
         result.syscalls = self.pcb.stats["syscalls"]
         result.denied = self.pcb.stats["denied"]
         result.tokens = ctx.stats.total_tokens
+        # 越用越聪明：成功任务（无拒绝、多步序列）沉淀为技能，供后续任务检索
+        if result.ok:
+            try:
+                from .skills import SkillStore
+                SkillStore(self.kernel.memory).learn_from_result(result, task)
+            except Exception:
+                pass
         # 生命周期收尾不得覆盖 kill：被处决的进程必须停在 killed 上
         # （否则 run 迟一步返回，/api/state 会看到 killed 又变回 zombie/ready）
         if self.pcb.state != "killed":
