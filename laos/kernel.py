@@ -24,6 +24,7 @@ from typing import Any, Callable
 
 from .branch import BranchTable
 from .mcp import MCPClient, ToolSpec
+from .memory import MemoryStore
 from .risk import FleetLedger
 from .sandbox import IsolationReport, Sandbox
 from .scheduler import AgentScheduler
@@ -170,6 +171,9 @@ class AgentKernel:
         # MCP Tasks（2026-07-28）：task 路径轮询 tasks/result 的总超时
         self.task_timeout = float(os.environ.get("LAOS_TASK_TIMEOUT", "30"))
         self.boot_at = time.time()
+        # 个人记忆库（episodic memory）：mem.* 内建 syscall 的存储层，
+        # JSONL 追加日志放 workdir，与审计/分支同一套"一切皆文件"取向
+        self.memory = MemoryStore(self.workdir / "memory.jsonl")
         # -- 内建 syscall 层（内核直供，不经 MCP 驱动）------------------------
         self._builtin_specs: dict[str, ToolSpec] = {
             "msg.send": ToolSpec(
@@ -190,12 +194,42 @@ class AgentKernel:
                                                 "items": {"type": "string"}},
                                 "ttl_calls": {"type": "integer", "minimum": 1}},
                  "required": ["to_pid", "caps_subset", "ttl_calls"]}),
+            "mem.remember": ToolSpec(
+                "mem.remember", "把一条事实/事件写入个人记忆库",
+                {"type": "object",
+                 "properties": {"kind": {"type": "string"},
+                                "text": {"type": "string"},
+                                "tags": {"type": "array",
+                                         "items": {"type": "string"}}},
+                 "required": ["kind", "text"]},
+                reversible=True, risk="low"),
+            "mem.recall": ToolSpec(
+                "mem.recall", "按相关度检索个人记忆库（bigram Jaccard + 标签 + 时间）",
+                {"type": "object",
+                 "properties": {"query": {"type": "string"},
+                                "k": {"type": "integer", "minimum": 1}},
+                 "required": ["query"]},
+                reversible=True, risk="low"),
+            "mem.forget": ToolSpec(
+                "mem.forget", "按 id 从个人记忆库删除一条记忆",
+                {"type": "object",
+                 "properties": {"id": {"type": "integer"}},
+                 "required": ["id"]},
+                reversible=True, risk="low"),
+            "mem.stats": ToolSpec(
+                "mem.stats", "个人记忆库统计（总数 / 按 kind 分布）",
+                {"type": "object", "properties": {}},
+                reversible=True, risk="low"),
         }
         self._builtin_impls: dict[str, Callable] = {
             "msg.send": self._impl_msg_send,
             "msg.recv": self._impl_msg_recv,
             "msg.list": self._impl_msg_list,
             "sys.delegate": self._impl_sys_delegate,
+            "mem.remember": self._impl_mem_remember,
+            "mem.recall": self._impl_mem_recall,
+            "mem.forget": self._impl_mem_forget,
+            "mem.stats": self._impl_mem_stats,
         }
         self._mailboxes: dict[int, list[dict]] = {}
         # 运行时能力委托：pid -> [{"caps": CapabilitySet, "remaining": int,
@@ -549,6 +583,43 @@ class AgentKernel:
                           "to": to_pid, "caps": sorted(delegated.patterns), "ttl": ttl})
         return CallResult.ok_text(
             f"OK delegated {len(delegated.patterns)} caps to pid={to_pid} (ttl={ttl} calls)")
+
+    # -- mem.* 内建实现：个人记忆库（episodic memory）----------------------
+    MEM_RECALL_DEFAULT_K = 5
+
+    def _impl_mem_remember(self, pcb: PCB, args: dict) -> "CallResult":
+        from .mcp import CallResult
+        rec = self.memory.remember(
+            str(args["kind"]), str(args["text"]),
+            tags=[str(t) for t in args.get("tags", [])])
+        self.audit.write({"t": time.time(), "event": "memory", "op": "remember",
+                          "pid": pcb.pid, "id": rec["id"], "kind": rec["kind"]})
+        return CallResult.ok_text(f"OK remembered #{rec['id']}")
+
+    def _impl_mem_recall(self, pcb: PCB, args: dict) -> "CallResult":
+        from .mcp import CallResult
+        hits = self.memory.recall(
+            str(args["query"]), int(args.get("k", self.MEM_RECALL_DEFAULT_K)))
+        if not hits:
+            return CallResult.ok_text("(no matching memories)")
+        lines = [f"#{h['id']} [{h['kind']}] {h['text']} (score={h['score']:.2f})"
+                 for h in hits]
+        return CallResult.ok_text("\n".join(lines))
+
+    def _impl_mem_forget(self, pcb: PCB, args: dict) -> "CallResult":
+        from .mcp import CallResult
+        mid = int(args["id"])
+        if not self.memory.forget(mid):
+            return CallResult.fail(f"ENOSTR: no such memory #{mid}")
+        self.audit.write({"t": time.time(), "event": "memory", "op": "forget",
+                          "pid": pcb.pid, "id": mid})
+        return CallResult.ok_text(f"OK forgot #{mid}")
+
+    def _impl_mem_stats(self, pcb: PCB, args: dict) -> "CallResult":
+        from .mcp import CallResult
+        st = self.memory.stats()
+        kinds = " ".join(f"{k}={n}" for k, n in sorted(st["by_kind"].items()))
+        return CallResult.ok_text(f"total={st['total']}" + (f" {kinds}" if kinds else ""))
 
     def _deny(self, pcb: PCB, tool: str, args: dict, started: float, err: str):
         from .mcp import CallResult
