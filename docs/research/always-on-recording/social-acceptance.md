@@ -1,7 +1,7 @@
 # 全天候录音：社会接受度实证研究 + 2024–2026 争议事件时间线
 
 > 配套文档：
-> - 业界图谱 / 技术机制 / 法律条文 → [`../always-on-recording-industry-2026-09.md`](../always-on-recording-industry-2026-09.md)（§6 已覆盖民法典 1033/1034、个保法、加州 Penal Code §632、GDPR Art.5/6，**本文不重复法条**）
+> - 业界图谱 / 技术机制 / 法律条文 → [`../always-on-recording-industry-2026-09.md`](../always-on-recording-industry-2026-09.md)（§7 已覆盖民法典 1033/1034、个保法、加州 Penal Code §632、GDPR Art.5/6，**本文不重复法条**）
 > - 本文只做两件事：**(a) 学界对持续录音的实证社会接受度研究**；**(b) 2024–2026 争议事件的完整时间线与真实后果**
 >
 > 标注约定：

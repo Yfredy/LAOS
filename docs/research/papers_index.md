@@ -119,3 +119,13 @@
 | [2608.30177](https://arxiv.org/abs/2608.30177) | 2026-08-31 | Understanding Stage-Wise Utility-Risk Trade-offs in LLM Agent Memory |
 | [2609.00275](https://arxiv.org/abs/2609.00275) | 2026-08-31 | The Irreversibility Budget: Fleet-Level Risk Accounting and Admission Control for Agent Operating Systems |
 | [2609.01035](https://arxiv.org/abs/2609.01035) | 2026-09-01 | Spawn Freely, Act Sparingly: Progressive Risk Vesting for Recursive LLM-Agent Trees |
+
+## Always-on recording（全天候录音）
+
+> 2026-09-11 由 `scripts/arxiv_download.py` 归档，共 3 篇。
+
+| arXiv | 标题 |
+|---|---|
+| [2211.06687v4](https://arxiv.org/abs/2211.06687) | Large-scale Contrastive Language-Audio Pretraining with Feature Fusion and Keyword-to-Caption Augmentation |
+| [2010.00475v2](https://arxiv.org/abs/2010.00475) | FSD50K: An Open Dataset of Human-Labeled Sound Events |
+| [2104.03603v4](https://arxiv.org/abs/2104.03603) | AISHELL-4: An Open Source Dataset for Speech Enhancement, Separation, Recognition and Speaker Diarization in Conference Scenario |

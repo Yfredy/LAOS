@@ -96,7 +96,7 @@ AudioMoth（Open Acoustic Devices）是唯一把"长期录音的每一毫瓦花�
 | MobileNetV3 三后端（第三代骁龙 8） | CPU **1200 mW** / GPU **900 mW** / Hexagon NPU **300 mW** | 开发者实测（二手） | [CSDN 实测](https://tencentcloud.csdn.net/69eaf28f54b52172bc6facbb.html) |
 | 手机常驻听觉（Pixel Now Playing） | 24 小时额外耗电 **2–3%**（≈**24 mW** 折算） | 媒体博客（**未证实**，仅作量级参考） | [分析文章](https://jinguli.connectquest.co.in/technology/04-03-2026/analysis-pixels-now-playing---revolutionizing-media-tracking.php) |
 
-**结论**：ASR / 情感识别（漏斗③）在手机上**无论跑在哪个核上都是"百毫瓦到瓦"级**，只能"触发后短时运行"，绝不能常驻。这与 [industry 报告 §8.1](../always-on-recording-industry-2026-09.md) 的结论完全一致，也解释了为什么所有活下来的产品都是 **buffer-and-burst（本地低码率存着，充电/Wi-Fi 时批量转写）**。laos 的 `bin/journal.py` 批量转写管线方向正确。
+**结论**：ASR / 情感识别（漏斗③）在手机上**无论跑在哪个核上都是"百毫瓦到瓦"级**，只能"触发后短时运行"，绝不能常驻。这与 [industry 报告 §9.1](../always-on-recording-industry-2026-09.md) 的结论完全一致，也解释了为什么所有活下来的产品都是 **buffer-and-burst（本地低码率存着，充电/Wi-Fi 时批量转写）**。laos 的 `bin/journal.py` 批量转写管线方向正确。
 
 ---
 
