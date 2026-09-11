@@ -16,6 +16,38 @@ python -m unittest discover -s tests   # 253 项回归测试
 
 ---
 
+## 这个项目是什么（30 秒版）
+
+laos 是一个**给 AI Agent 用的"操作系统"**——站在 Linux/Android 内核之上，给 Agent 提供进程管理、权限控制、资源记账、记忆和感官，让多个 Agent 安全、可审计、越用越聪明地替你干活。它解决裸 Agent 的四个致命缺陷：
+
+| 裸 Agent 的问题 | laos 的答案 |
+|---|---|
+| **无权限模型**——给它 shell 它就能 `rm -rf /` | 三层能力执法：能力表 → 任务作用域（路径前缀 / `pkg:` 应用包名）→ 确认横幅（高危操作人类裁决） |
+| **无资源记账**——一个 Agent 能烧光预算 | 不可逆风险账本（按工具定价 × 电池感知乘数）+ token/错误双预算调度 + spawn 准入控制 |
+| **无记忆**——每次从零开始 | 情景记忆库（中文免分词检索）+ 技能库（成功任务沉淀复用）+ 每日日记 |
+| **不可审计**——黑盒干活 | 每次 tool call = 一条带 errno 的 syscall 审计 + eBPF 内核真值 + OTLP span |
+
+一句话类比：**Agent 是进程，MCP tool call 是系统调用，MCP Server 是设备驱动，能力表是文件权限，审计流是事件查看器**。
+
+### 目录速览
+
+```
+laos/laos/        ★ 内核（语义层，纯标准库）：syscall 闸门链 / 记忆 / 风险账本 / 调度 /
+                    分支(fork-COW) / seccomp / 强制层后端(linux|android|stub) / VAD / 剖析
+laos/drivers/     ★ 设备驱动（14 个 MCP Server 子进程）：fs / proc / sys / npu(QNN真机) /
+                    audio(分离+AEC) / ear(ASR双通道) / mic / rec(听觉日志) / genie(端侧LLM) /
+                    screen(adb操控+pkg白名单) / notify / comms(短信TTS) / battery / events
+laos/bin/         ★ 用户入口：laosd(引导demo) / laosweb(实时面板+操控) / laosctl(审计回放) /
+                    diary(日记) / journal(录音转写) / mood_report(情绪周报)
+laos/scripts/     termux_matrix(Android降级矩阵实测) / flasep_gpu_bench(GPU基准)
+laos/tests/       253 项回归测试（真录音/真 ASR 用例实测通过）
+laos/docs/        论文调研 / 真机 runbook / 面板教程 / 完整项目介绍(PROJECT_OVERVIEW.md)
+```
+
+> 📖 **新访客请先读 [docs/PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md)**——完整的"是什么/为什么/每个文件干什么"总览。
+
+---
+
 ## 一、调研：AIOS / AgentOS 现在的三条主流路线
 
 ### 1. 学术派 —— AIOS：把 LLM 塞进操作系统当"大脑"
