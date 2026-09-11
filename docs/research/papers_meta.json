@@ -1,0 +1,577 @@
+{
+ "2405.06907": {
+  "title": "AIOS Compiler: LLM as Interpreter for Natural Language Programming and Flow Programming of AI Agents",
+  "published": "2024-05-11",
+  "summary": "Since their inception, programming languages have trended towards greater readability and lower barriers for programmers. Following this trend, natural language can be a promising type of programming language that provides great flexibility and usability and helps towards the democracy of programming. However, the inherent vagueness, ambiguity, and verbosity of natural language pose significant ch"
+ },
+ "2410.11843": {
+  "title": "From Commands to Prompts: LLM-based Semantic File System for AIOS",
+  "published": "2024-09-23",
+  "summary": "Large language models (LLMs) have demonstrated significant potential in the development of intelligent applications and systems such as LLM-based agents and agent operating systems (AIOS). However, when these applications and systems interact with the underlying file system, the file system still remains the traditional paradigm: reliant on manual navigation through precise commands. This paradigm"
+ },
+ "2403.16971": {
+  "title": "AIOS: LLM Agent Operating System",
+  "published": "2024-03-25",
+  "summary": "LLM-based intelligent agents face significant deployment challenges, particularly related to resource management. Allowing unrestricted access to LLM or tool resources can lead to inefficient or even potentially harmful resource allocation and utilization for agents. Furthermore, the absence of proper scheduling and resource management mechanisms in current agent designs hinders concurrent process"
+ },
+ "2410.02644": {
+  "title": "Agent Security Bench (ASB): Formalizing and Benchmarking Attacks and Defenses in LLM-based Agents",
+  "published": "2024-10-03",
+  "summary": "Although LLM-based agents, powered by Large Language Models (LLMs), can use external tools and memory mechanisms to solve complex real-world tasks, they may also introduce critical security vulnerabilities. However, the existing literature does not comprehensively evaluate attacks and defenses against LLM-based agents. To address this, we introduce Agent Security Bench (ASB), a comprehensive frame"
+ },
+ "2312.03815": {
+  "title": "LLM as OS, Agents as Apps: Envisioning AIOS, Agents and the AIOS-Agent Ecosystem",
+  "published": "2023-12-06",
+  "summary": "This paper envisions a revolutionary AIOS-Agent ecosystem, where Large Language Model (LLM) serves as the (Artificial) Intelligent Operating System (IOS, or AIOS)--an operating system \"with soul\". Upon this foundation, a diverse range of LLM-based AI Agent Applications (Agents, or AAPs) are developed, enriching the AIOS-Agent ecosystem and signaling a paradigm shift from the traditional OS-APP eco"
+ },
+ "2403.17934": {
+  "title": "AiOS: All-in-One-Stage Expressive Human Pose and Shape Estimation",
+  "published": "2024-03-26",
+  "summary": "Expressive human pose and shape estimation (a.k.a. 3D whole-body mesh recovery) involves the human body, hand, and expression estimation. Most existing methods have tackled this task in a two-stage manner, first detecting the human body part with an off-the-shelf detection model and inferring the different human body parts individually. Despite the impressive results achieved, these methods suffer"
+ },
+ "2311.16169": {
+  "title": "Understanding the Effectiveness of Large Language Models in Detecting Security Vulnerabilities",
+  "published": "2023-11-16",
+  "summary": "While automated vulnerability detection techniques have made promising progress in detecting security vulnerabilities, their scalability and applicability remain challenging. The remarkable performance of Large Language Models (LLMs), such as GPT-4 and CodeLlama, on code-related tasks has prompted recent works to explore if LLMs can be used to detect vulnerabilities. In this paper, we perform a mo"
+ },
+ "2308.01542": {
+  "title": "Memory Sandbox: Transparent and Interactive Memory Management for Conversational Agents",
+  "published": "2023-08-03",
+  "summary": "The recent advent of large language models (LLM) has resulted in high-performing conversational agents such as chatGPT. These agents must remember key information from an ongoing conversation to provide responses that are contextually relevant to the user. However, these agents have limited memory and can be distracted by irrelevant parts of the conversation. While many strategies exist to manage "
+ },
+ "2503.11444": {
+  "title": "Cerebrum (AIOS SDK): A Platform for Agent Development, Deployment, Distribution, and Discovery",
+  "published": "2025-03-14",
+  "summary": "Autonomous LLM-based agents have emerged as a powerful paradigm for complex task execution, yet the field lacks standardized tools for development, deployment, distribution and discovery of agents. We present Cerebrum, an Agent SDK for AIOS that addresses this gap through three key components: (1) a comprehensive SDK featuring a modular four-layer architecture for agent development, encompassing L"
+ },
+ "2502.19145": {
+  "title": "Multi-Agent Security Tax: Trading Off Security and Collaboration Capabilities in Multi-Agent Systems",
+  "published": "2025-02-26",
+  "summary": "As AI agents are increasingly adopted to collaborate on complex objectives, ensuring the security of autonomous multi-agent systems becomes crucial. We develop simulations of agents collaborating on shared objectives to study these security risks and security trade-offs. We focus on scenarios where an attacker compromises one agent, using it to steer the entire system toward misaligned outcomes by"
+ },
+ "2412.05187": {
+  "title": "SurgBox: Agent-Driven Operating Room Sandbox with Surgery Copilot",
+  "published": "2024-12-06",
+  "summary": "Surgical interventions, particularly in neurology, represent complex and high-stakes scenarios that impose substantial cognitive burdens on surgical teams. Although deliberate education and practice can enhance cognitive capabilities, surgical training opportunities remain limited due to patient safety concerns. To address these cognitive challenges in surgical training and operation, we propose S"
+ },
+ "2410.22662": {
+  "title": "EMOS: Embodiment-aware Heterogeneous Multi-robot Operating System with LLM Agents",
+  "published": "2024-10-30",
+  "summary": "Heterogeneous multi-robot systems (HMRS) have emerged as a powerful approach for tackling complex tasks that single robots cannot manage alone. Current large-language-model-based multi-agent systems (LLM-based MAS) have shown success in areas like software development and operating systems, but applying these systems to robot control presents unique challenges. In particular, the capabilities of e"
+ },
+ "2503.20036": {
+  "title": "Agents in the Sandbox: End-to-End Crash Bug Reproduction for Minecraft",
+  "published": "2025-03-25",
+  "summary": "Reproducing game bugs, particularly crash bugs in continuously evolving games like Minecraft, is a notoriously manual, time-consuming, and challenging process to automate; insights from a key decision maker from Minecraft we interviewed confirm this, highlighting that a substantial portion of crash reports necessitate manual scenario reconstruction. Despite the success of LLM-driven bug reproducti"
+ },
+ "2501.17070": {
+  "title": "Contextual Agent Security: A Policy for Every Purpose",
+  "published": "2025-01-28",
+  "summary": "Judging an action's safety requires knowledge of the context in which the action takes place. To human agents who act in various contexts, this may seem obvious: performing an action such as email deletion may or may not be appropriate depending on the email's content, the goal (e.g., to erase sensitive emails or to clean up trash), and the type of email address (e.g., work or personal). Unlike pe"
+ },
+ "2502.09809": {
+  "title": "AgentGuard: Repurposing Agentic Orchestrator for Safety Evaluation of Tool Orchestration",
+  "published": "2025-02-13",
+  "summary": "The integration of tool use into large language models (LLMs) enables agentic systems with real-world impact. In the meantime, unlike standalone LLMs, compromised agents can execute malicious workflows with more consequential impact, signified by their tool-use capability. We propose AgentGuard, a framework to autonomously discover and validate unsafe tool-use workflows, followed by generating saf"
+ },
+ "2501.06781": {
+  "title": "Eliza: A Web3 friendly AI Agent Operating System",
+  "published": "2025-01-12",
+  "summary": "AI Agent, powered by large language models (LLMs) as its cognitive core, is an intelligent agentic system capable of autonomously controlling and determining the execution paths under user's instructions. With the burst of capabilities of LLMs and various plugins, such as RAG, text-to-image/video/3D, etc., the potential of AI Agents has been vastly expanded, with their capabilities growing stronge"
+ },
+ "2504.20984": {
+  "title": "ACE: A Security Architecture for LLM-Integrated App Systems",
+  "published": "2025-04-29",
+  "summary": "LLM-integrated app systems extend the utility of Large Language Models (LLMs) with third-party apps that are invoked by a system LLM using interleaved planning and execution phases to answer user queries. These systems introduce new attack vectors where malicious apps can cause integrity violation of planning or execution, availability breakdown, or privacy compromise during execution. In this wor"
+ },
+ "2505.15935": {
+  "title": "MAPS: A Multilingual Benchmark for Agent Performance and Security",
+  "published": "2025-05-21",
+  "summary": "Agentic AI systems, which build on Large Language Models (LLMs) and interact with tools and memory, have rapidly advanced in capability and scope. Yet, since LLMs have been shown to struggle in multilingual settings, typically resulting in lower performance and reduced safety, agentic systems risk inheriting these limitations. This raises concerns about the accessibility of such systems, as users "
+ },
+ "2505.12981": {
+  "title": "From Assistants to Adversaries: Exploring the Security Risks of Mobile LLM Agents",
+  "published": "2025-05-19",
+  "summary": "The growing adoption of large language models (LLMs) has led to a new paradigm in mobile computing--LLM-powered mobile AI agents--capable of decomposing and automating complex tasks directly on smartphones. However, the security implications of these agents remain largely unexplored. In this paper, we present the first comprehensive security analysis of mobile LLM agents, encompassing three repres"
+ },
+ "2505.18829": {
+  "title": "LiteCUA: Computer as MCP Server for Computer-Use Agent on AIOS",
+  "published": "2025-05-24",
+  "summary": "We present AIOS 1.0, a novel platform designed to advance computer-use agent (CUA) capabilities through environmental contextualization. While existing approaches primarily focus on building more powerful agent frameworks or enhancing agent models, we identify a fundamental limitation: the semantic disconnect between how language models understand the world and how computer interfaces are structur"
+ },
+ "2504.18575": {
+  "title": "WASP: Benchmarking Web Agent Security Against Prompt Injection Attacks",
+  "published": "2025-04-22",
+  "summary": "Autonomous UI agents powered by AI have tremendous potential to boost human productivity by automating routine tasks such as filing taxes and paying bills. However, a major challenge in unlocking their full potential is security, which is exacerbated by the agent's ability to take action on their user's behalf. Existing tests for prompt injections in web agents either over-simplify the threat by t"
+ },
+ "2504.14411": {
+  "title": "Planet as a Brain: Towards Internet of AgentSites based on AIOS Server",
+  "published": "2025-04-19",
+  "summary": "The internet is undergoing a historical transformation from the \"Internet of Websites\" to the \"Internet of AgentSites.\" While traditional Websites served as the foundation for information hosting and dissemination, a new frontier is emerging where AgentSites serve as the hubs of the internet, where each AgentSite hosts one or more AI agents that receive tasks, address them, and deliver actionable "
+ },
+ "2506.11017": {
+  "title": "TeleEval-OS: Performance evaluations of large language models for operations scheduling",
+  "published": "2025-05-06",
+  "summary": "The rapid advancement of large language models (LLMs) has significantly propelled progress in artificial intelligence, demonstrating substantial application potential across multiple specialized domains. Telecommunications operation scheduling (OS) is a critical aspect of the telecommunications industry, involving the coordinated management of networks, services, risks, and human resources to opti"
+ },
+ "2504.04072": {
+  "title": "Among Us: A Sandbox for Measuring and Detecting Agentic Deception",
+  "published": "2025-04-05",
+  "summary": "Prior studies on deception in language-based AI agents typically assess whether the agent produces a false statement about a topic, or makes a binary choice prompted by a goal, rather than allowing open-ended deceptive behavior to emerge in pursuit of a longer-term goal. To fix this, we introduce Among Us, a sandbox social deception game where LLM-agents exhibit long-term, open-ended deception as "
+ },
+ "2506.13590": {
+  "title": "Agent Capability Negotiation and Binding Protocol (ACNBP)",
+  "published": "2025-06-16",
+  "summary": "As multi-agent systems evolve to encompass increasingly diverse and specialized agents, the challenge of enabling effective collaboration between heterogeneous agents has become paramount, with traditional agent communication protocols often assuming homogeneous environments or predefined interaction patterns that limit their applicability in dynamic, open-world scenarios. This paper presents the "
+ },
+ "2509.11507": {
+  "title": "MedicalOS: An LLM Agent based Operating System for Digital Healthcare",
+  "published": "2025-09-15",
+  "summary": "Decades' advances in digital health technologies, such as electronic health records, have largely streamlined routine clinical processes. Yet, most these systems are still hard to learn and use: Clinicians often face the burden of managing multiple tools, repeating manual actions for each patient, navigating complicated UI trees to locate functions, and spending significant time on administration "
+ },
+ "2510.06445": {
+  "title": "A Survey on Agentic Security: Applications, Threats and Defenses",
+  "published": "2025-10-07",
+  "summary": "LLM-based agents are now used throughout cybersecurity. While these agents facilitate powerful and autonomous security applications, their autonomy opens up new attack surfaces, and the security community is actively building defenses to secure them. Yet the literature on this subject has grown quickly and unevenly. Existing surveys treat applications, threats, and defenses in isolation, leaving n"
+ },
+ "2507.02699": {
+  "title": "Control at Stake: Evaluating the Security Landscape of LLM-Driven Email Agents",
+  "published": "2025-07-03",
+  "summary": "The increasing capabilities of LLMs have led to the rapid proliferation of LLM agent apps, where developers enhance LLMs with access to external resources to support complex task execution. Among these, LLM email agent apps represent one of the widely used categories, as email remains a critical communication medium for users. LLM email agents are capable of managing and responding to email using "
+ },
+ "2506.12104": {
+  "title": "DRIFT: Dynamic Rule-Based Defense with Injection Isolation for Securing LLM Agents",
+  "published": "2025-06-13",
+  "summary": "Large Language Models (LLMs) are increasingly central to agentic systems due to their strong reasoning and planning capabilities. By interacting with external environments through predefined tools, these agents can carry out complex user tasks. Nonetheless, this interaction also introduces the risk of prompt injection attacks, where malicious inputs from external sources can mislead the agent's be"
+ },
+ "2508.15940": {
+  "title": "ASIC-Agent: An Autonomous Multi-Agent System for ASIC Design with Benchmark Evaluation",
+  "published": "2025-08-21",
+  "summary": "Large Language Models (LLMs) have demonstrated remarkable capabilities in Register Transfer Level (RTL) design, enabling high-quality code generation from natural language descriptions. However, LLMs alone face significant limitations in real-world hardware design workflows, including the inability to execute code, lack of debugging capabilities, and absence of long-term memory. To address these c"
+ },
+ "2508.11711": {
+  "title": "Enhancing GraphQL Security by Detecting Malicious Queries Using Large Language Models, Sentence Transformers, and Convolutional Neural Networks",
+  "published": "2025-08-14",
+  "summary": "GraphQL's flexibility, while beneficial for efficient data fetching, introduces unique security vulnerabilities that traditional API security mechanisms often fail to address. Malicious GraphQL queries can exploit the language's dynamic nature, leading to denial-of-service attacks, data exfiltration through injection, and other exploits. Existing solutions, such as static analysis, rate limiting, "
+ },
+ "2509.01245": {
+  "title": "Towards Agentic OS: An LLM Agent Framework for Linux Schedulers",
+  "published": "2025-09-01",
+  "summary": "Operating system schedulers suffer from a fundamental semantic gap, where kernel policies fail to understand application-specific needs, leading to suboptimal performance. We introduce SchedCP, the first framework that enables fully autonomous Large Language Model (LLM) agents to safely and efficiently optimize Linux schedulers without human involvement. Our core insight is that the challenge is n"
+ },
+ "2510.16996": {
+  "title": "STARK: Strategic Team of Agents for Refining Kernels",
+  "published": "2025-10-19",
+  "summary": "The efficiency of GPU kernels is central to the progress of modern AI, yet optimizing them remains a difficult and labor-intensive task due to complex interactions between memory hierarchies, thread scheduling, and hardware-specific characteristics. While recent advances in large language models (LLMs) provide new opportunities for automated code generation, existing approaches largely treat LLMs "
+ },
+ "2510.27287": {
+  "title": "Can LLMs Help You at Work? A Sandbox for Evaluating LLM Agents in Enterprise Environments",
+  "published": "2025-10-31",
+  "summary": "Enterprise systems are crucial for enhancing productivity and decision-making among employees and customers. Integrating LLM based systems into enterprise systems enables intelligent automation, personalized experiences, and efficient information retrieval, driving operational efficiency and strategic growth. However, developing and evaluating such systems is challenging due to the inherent comple"
+ },
+ "2512.01610": {
+  "title": "Agent-Kernel: A MicroKernel Multi-Agent System Framework for Adaptive Social Simulation Powered by LLMs",
+  "published": "2025-12-01",
+  "summary": "Multi-Agent System (MAS) developing frameworks serve as the foundational infrastructure for social simulations powered by Large Language Models (LLMs). However, existing frameworks fail to adequately support large-scale simulation development due to inherent limitations in adaptability, configurability, reliability, and code reusability. For example, they cannot simulate a society where the agent "
+ },
+ "2510.27140": {
+  "title": "Measuring the Security of Mobile LLM Agents under Adversarial Prompts from Untrusted Third-Party Channels",
+  "published": "2025-10-31",
+  "summary": "Large Language Models (LLMs) have transformed software development, enabling AI-powered applications known as LLM-based agents that promise to automate tasks across diverse apps and workflows. Yet, the security implications of deploying such agents in adversarial mobile environments remain poorly understood. In this paper, we present the first systematic study of security risks in mobile LLM agent"
+ },
+ "2510.06727": {
+  "title": "Scaling LLM Multi-turn RL with End-to-end Summarization-based Context Management",
+  "published": "2025-10-08",
+  "summary": "We study reinforcement learning (RL) fine-tuning of large language model (LLM) agents for long-horizon multi-turn tool use, where context length quickly becomes a fundamental bottleneck. Existing RL pipelines can suffer from degraded instruction following, excessive rollout costs, and most importantly, strict context limits. To address these challenges, we introduce summarization-based context man"
+ },
+ "2510.22620": {
+  "title": "Breaking Agent Backbones: Evaluating the Security of Backbone LLMs in AI Agents",
+  "published": "2025-10-26",
+  "summary": "AI agents powered by large language models (LLMs) are being deployed at scale, yet we lack a systematic understanding of how the choice of backbone LLM affects agent security. The non-deterministic sequential nature of AI agents complicates security modeling, while the integration of traditional software with AI components entangles novel LLM vulnerabilities with conventional security risks. Exist"
+ },
+ "2510.13982": {
+  "title": "Static Sandboxes Are Inadequate: Modeling Societal Complexity Requires Open-Ended Co-Evolution in LLM-Based Multi-Agent Simulations",
+  "published": "2025-10-15",
+  "summary": "What if artificial agents could not just communicate, but also evolve, adapt, and reshape their worlds in ways we cannot fully predict? With llm now powering multi-agent systems and social simulations, we are witnessing new possibilities for modeling open-ended, ever-changing environments. Yet, most current simulations remain constrained within static sandboxes, characterized by predefined tasks, "
+ },
+ "2511.02230": {
+  "title": "Continuum: Efficient and Robust Multi-Turn LLM Agent Scheduling with KV Cache Time-to-Live",
+  "published": "2025-11-04",
+  "summary": "KV cache management is essential for efficient LLM inference. To maximize utilization, existing inference engines evict finished requests' KV cache if new requests are waiting. This policy breaks for agentic workloads, which interleave LLM calls with tools, introducing pauses that prevent effective KV reuse across turns. Since many tool calls have much shorter durations than human response multi-t"
+ },
+ "2512.02589": {
+  "title": "PaperDebugger: A Plugin-Based Multi-Agent System for In-Editor Academic Writing, Review, and Editing",
+  "published": "2025-12-02",
+  "summary": "Large language models are increasingly embedded into academic writing workflows, yet existing assistants remain external to the editor, preventing deep interaction with document state, structure, and revision history. This separation makes it impossible to support agentic, context-aware operations directly within LaTeX editors such as Overleaf. We present PaperDebugger, an in-editor, multi-agent, "
+ },
+ "2602.12430": {
+  "title": "Agent Skills for Large Language Models: Architecture, Acquisition, Security, and the Path Forward",
+  "published": "2026-02-12",
+  "summary": "The transition from monolithic language models to modular, skill-equipped agents marks a defining shift in how large language models (LLMs) are deployed in practice. Rather than encoding all procedural knowledge within model weights, agent skills -- composable packages of instructions, code, and resources that agents load on demand -- enable dynamic capability extension without retraining. It is f"
+ },
+ "2602.00979": {
+  "title": "GradingAttack: Exposing Security Vulnerabilities in LLM Based Educational Grading Agents",
+  "published": "2026-02-01",
+  "summary": "Large language models (LLMs) are increasingly deployed as educational agents for automatic short answer grading (ASAG) in real-world educational environments, significantly boosting assessment efficiency and scalability. However, when these grading agents operate ``in the wild'', their vulnerability to adversarial manipulation raises critical concerns about agent security and trustworthiness. In t"
+ },
+ "2601.13981": {
+  "title": "VirtualCrime: Evaluating the Criminal Potential and Agentic Behaviors of Large Language Models via Sandbox Simulation",
+  "published": "2026-01-20",
+  "summary": "Large language models (LLMs) have shown strong capabilities in multi-step decision-making, and are increasingly integrated into real-world agentic applications. While existing safety evaluations focus on static interactions or refusal rates, it remains largely underexplored what level of threat these models pose once an adversary successfully assigns them a malicious role. To evaluate this agentic"
+ },
+ "2512.08290": {
+  "title": "Systematization of Knowledge: Security and Safety in the Model Context Protocol Ecosystem",
+  "published": "2025-12-09",
+  "summary": "The Model Context Protocol (MCP) has emerged as the de facto standard for connecting Large Language Models (LLMs) to external data and tools, effectively functioning as the \"USB-C for Agentic AI.\" While this decoupling of context and execution solves critical interoperability challenges, it introduces a profound new threat landscape where the boundary between epistemic errors (hallucinations) and "
+ },
+ "2512.12806": {
+  "title": "Fault-Tolerant Sandboxing for AI Coding Agents: A Transactional Approach to Safe Autonomous Execution",
+  "published": "2025-12-14",
+  "summary": "The transition of Large Language Models (LLMs) from passive code generators to autonomous agents introduces significant safety risks, specifically regarding destructive commands and inconsistent system states. Existing commercial solutions often prioritize interactive user safety, enforcing authentication barriers that break the headless loops required for true autonomy. This paper presents a Faul"
+ },
+ "2601.14567": {
+  "title": "Agent Identity URI Scheme: Topology-Independent Naming and Capability-Based Discovery for Multi-Agent Systems",
+  "published": "2026-01-21",
+  "summary": "Multi-agent systems face a fundamental architectural flaw: agent identity is bound to network location. When agents migrate between providers, scale across instances, or federate across organizations, URI-based identity schemes break references, fragment audit trails, and require centralized coordination. We propose the agent:// URI scheme, which decouples identity from topology through three orth"
+ },
+ "2602.10915": {
+  "title": "Blind Gods and Broken Screens: Architecting a Secure, Intent-Centric Mobile Agent Operating System",
+  "published": "2026-02-11",
+  "summary": "The evolution of Large Language Models (LLMs) has shifted mobile computing from App-centric interactions to system-level autonomous agents. Current implementations predominantly rely on a \"Screen-as-Interface\" paradigm, which inherits structural vulnerabilities and conflicts with the mobile ecosystem's economic foundations. In this paper, we conduct a systematic security analysis of state-of-the-a"
+ },
+ "2603.11721": {
+  "title": "When OpenClaw Meets Hospital: Toward an Agentic Operating System for Dynamic Clinical Workflows",
+  "published": "2026-03-12",
+  "summary": "Large language model (LLM) agents extend generative models with reasoning, tool use, and persistent memory, thereby enabling the automation of complex tasks. In healthcare, such systems could support documentation, care coordination, and clinical decision making. Their reliable deployment in hospitals, however, remains constrained by safety risks, limited transparency, and inadequate mechanisms fo"
+ },
+ "2603.13110": {
+  "title": "AgentRM: An OS-Inspired Resource Manager for LLM Agent Systems",
+  "published": "2026-03-13",
+  "summary": "Large Language Model (LLM) agent systems have experienced rapid adoption across diverse domains, yet they suffer from critical user experience problems that limit their practical deployment. Through an empirical analysis of over 40,000 GitHub issues from six major agent frameworks (OpenClaw, AutoGen, CrewAI, LangGraph, Codex, Claude Code), we identify two fundamental resource management challenges"
+ },
+ "2603.19649": {
+  "title": "PolicySim: An LLM-Based Agent Social Simulation Sandbox for Proactive Policy Optimization",
+  "published": "2026-03-20",
+  "summary": "Social platforms serve as central hubs for information exchange, where user behaviors and platform interventions jointly shape opinions. However, intervention policies like recommendation and content filtering, can unintentionally amplify echo chambers and polarization, posing significant societal risks. Proactively evaluating the impact of such policies is therefore crucial. Existing approaches p"
+ },
+ "2603.19469": {
+  "title": "A Framework for Formalizing LLM Agent Security",
+  "published": "2026-03-19",
+  "summary": "Security in LLM agents is inherently contextual. For example, the same action taken by an agent may represent legitimate behavior or a security violation depending on whose instruction led to the action, what objective is being pursued, and whether the action serves that objective. However, existing definitions of security attacks against LLM agents often fail to capture this contextual nature. As"
+ },
+ "2603.17419": {
+  "title": "Caging the Agents: A Zero Trust Security Architecture for Autonomous AI in Healthcare",
+  "published": "2026-03-18",
+  "summary": "Autonomous AI agents powered by large language models are being deployed in production with capabilities including shell execution, file system access, database queries, and multi-party communication. Recent red teaming research demonstrates that these agents exhibit critical vulnerabilities in realistic settings: unauthorized compliance with non-owner instructions, sensitive information disclosur"
+ },
+ "2603.17694": {
+  "title": "MALLES: A Multi-agent LLMs-based Economic Sandbox with Consumer Preference Alignment",
+  "published": "2026-03-18",
+  "summary": "In the real economy, modern decision-making is fundamentally challenged by high-dimensional, multimodal environments, which are further complicated by agent heterogeneity and combinatorial data sparsity. This paper introduces a Multi-Agent Large Language Model-based Economic Sandbox (MALLES), leveraging the inherent generalization capabilities of large-sacle models to establish a unified simulatio"
+ },
+ "2603.23801": {
+  "title": "AgentRFC: Security Design Principles and Conformance Testing for Agent Protocols",
+  "published": "2026-03-25",
+  "summary": "AI agent protocols -- including MCP, A2A, ANP, and ACP -- enable autonomous agents to discover capabilities, delegate tasks, and compose services across trust boundaries. Despite massive deployment (MCP alone has 97M+ monthly SDK downloads), no systematic security framework for these protocols exists. We present three contributions. First, the Agent Protocol Stack, a 6-layer architectural model th"
+ },
+ "2603.02277": {
+  "title": "Quantifying Frontier LLM Capabilities for Container Sandbox Escape",
+  "published": "2026-03-01",
+  "summary": "Large language models (LLMs) increasingly act as autonomous agents, using tools to execute code, read and write files, and access networks, creating novel security risks. To mitigate these risks, agents are commonly deployed and evaluated in isolated \"sandbox\" environments, often implemented using Docker/OCI containers. We introduce SANDBOXESCAPEBENCH, an open benchmark that safely measures an LLM"
+ },
+ "2604.24348": {
+  "title": "OS-SPEAR: A Toolkit for the Safety, Performance,Efficiency, and Robustness Analysis of OS Agents",
+  "published": "2026-04-27",
+  "summary": "The evolution of Multimodal Large Language Models (MLLMs) has shifted the focus from text generation to active behavioral execution, particularly via OS agents navigating complex GUIs. However, the transition of these agents into trustworthy daily partners is hindered by a lack of rigorous evaluation regarding safety, efficiency, and multi-modal robustness. Current benchmarks suffer from narrow sa"
+ },
+ "2604.13630": {
+  "title": "SafeHarness: Lifecycle-Integrated Security Architecture for LLM-based Agent Deployment",
+  "published": "2026-04-15",
+  "summary": "The performance of large language model (LLM) agents depends critically on the execution harness, the system layer that orchestrates tool use, context management, and state persistence. Yet this same architectural centrality makes the harness a high-value attack surface: a single compromise at the harness level can cascade through the entire execution pipeline. We observe that existing security ap"
+ },
+ "2604.24020": {
+  "title": "Poster: ClawdGo: Endogenous Security Awareness Training for Autonomous AI Agents",
+  "published": "2026-04-27",
+  "summary": "Autonomous AI agents deployed on platforms such as OpenClaw face prompt injection, memory poisoning, supply-chain attacks, and social engineering, yet existing defences address only the platform perimeter, leaving the agent's own threat judgement entirely untrained. We present ClawdGo, a framework for endogenous security awareness training: we teach the agent to recognise and reason about threats "
+ },
+ "2604.16762": {
+  "title": "CapSeal: Capability-Sealed Secret Mediation for Secure Agent Execution",
+  "published": "2026-04-18",
+  "summary": "Modern AI agents routinely depend on secrets such as API keys and SSH credentials, yet the dominant deployment model still exposes those secrets directly to the agent process through environment variables, local files, or forwarding sockets. This design fails against prompt injection, tool misuse, and model-controlled exfiltration because the agent can both use and reveal the same bearer credentia"
+ },
+ "2604.11839": {
+  "title": "Beyond Static Sandboxing: Learned Capability Governance for Autonomous AI Agents",
+  "published": "2026-04-12",
+  "summary": "Autonomous AI agents built on open-source runtimes such as OpenClaw expose every available tool to every session by default, regardless of the task. A summarization task receives the same shell execution, subagent spawning, and credential access capabilities as a code deployment task, a 15x overprovision ratio that we call the capability overprovisioning problem. Existing defenses, including the N"
+ },
+ "2604.06392": {
+  "title": "Qualixar OS: A Universal Operating System for AI Agent Orchestration",
+  "published": "2026-04-07",
+  "summary": "We present Qualixar OS, the first application-layer operating system for universal AI agent orchestration. Unlike kernel-level approaches (AIOS) or single-framework tools (AutoGen, CrewAI), Qualixar OS provides a complete runtime for heterogeneous multi-agent systems spanning 10 LLM providers, 8+ agent frameworks, and 7 transports. We contribute: (1) execution semantics for 12 multi-agent topologi"
+ },
+ "2604.06019": {
+  "title": "CritBench: A Framework for Evaluating Cybersecurity Capabilities of Large Language Models in IEC 61850 Digital Substation Environments",
+  "published": "2026-04-07",
+  "summary": "The advancement of Large Language Models (LLMs) has raised concerns regarding their dual-use potential in cybersecurity. Existing evaluation frameworks overwhelmingly focus on Information Technology (IT) environments, failing to capture the constraints, and specialized protocols of Operational Technology (OT). To address this gap, we introduce CritBench, a novel framework designed to evaluate the "
+ },
+ "2604.28138": {
+  "title": "Crab: A Semantics-Aware Checkpoint/Restore Runtime for Agent Sandboxes",
+  "published": "2026-04-30",
+  "summary": "Autonomous agents act through sandboxed containers and microVMs whose state spans filesystems, processes, and runtime artifacts. Checkpoint and restore (C/R) of this state is needed for fault tolerance, spot execution, RL rollout branching, and safe rollback-yet existing approaches fall into two extremes: application-level recovery preserves chat history but misses OS-side effects, while full per-"
+ },
+ "2605.29270": {
+  "title": "Indexing the Unreadable: LLM-Native Recursive Construction and Search of Service Taxonomies",
+  "published": "2026-05-28",
+  "summary": "The era of the Internet of Agents (IoA) is taking shape: LLM agents are expected to fulfill user goals by orchestrating fast-growing populations of Model Context Protocol (MCP) servers, Agent-to-Agent (A2A) endpoints, reusable skills, and other LLM-callable services. Yet LLMs face a structural mismatch with this regime: effective context is a scarce resource that does not scale with the number of "
+ },
+ "2605.21560": {
+  "title": "AutoMCU: Feasibility-First MCU Neural Network Customization via LLM-based Multi-Agent Systems",
+  "published": "2026-05-20",
+  "summary": "Deploying neural networks on microcontroller units (MCUs) is critical for edge intelligence but remains challenging due to tight memory, storage, and computation constraints. Existing approaches, such as model compression and hardware-aware neural architecture search (HW-NAS), often depend on proxy metrics, incur high search cost, and do not fully bridge the gap between architecture design and ver"
+ },
+ "2605.23931": {
+  "title": "BODHI: Precise OS Kernel Specification Inference",
+  "published": "2026-04-22",
+  "summary": "The formal verification of operating system kernels requires precise specifications that capture the intended behavior of system calls. Writing these specifications manually demands deep domain expertise, motivating the use of large language models (LLMs) to automate the process. However, in OSV-Bench, a benchmark of 245 specification generation tasks derived from the Hyperkernel OS kernel, the be"
+ },
+ "2605.15556": {
+  "title": "TopoClaw: A Human-Centric and Topology-Aware Agent Operating System",
+  "published": "2026-05-15",
+  "summary": "Large language models (LLMs) have evolved AI assistants into autonomous reasoning engines that maintain context, invoke tools, and pursue long-horizon tasks. This has spurred Agent Operating Systems (Agent OS) as kernel-like layers for lifecycle management, memory, scheduling, and access control. Yet most designs remain agent-centric, treating the OS as a single-host runtime for internal reasoning"
+ },
+ "2605.30604": {
+  "title": "An Organization-Scoped LLM Agent Runtime Architecture for Regulated Cybersecurity Operations",
+  "published": "2026-05-28",
+  "summary": "Regulated cybersecurity workflows lack a runtime substrate that enforces organization-level scope across retrieval, tool calls, memory, findings, reports, and audit while remaining model-agnostic and locally deployable. Recent large language model (LLM) agent systems report strong results on isolated cybersecurity tasks, yet they do not by themselves define an auditable platform architecture for r"
+ },
+ "2605.22781": {
+  "title": "DeltaBox: Scaling Stateful AI Agents with Millisecond-Level Sandbox Checkpoint/Rollback",
+  "published": "2026-05-21",
+  "summary": "LLM-powered AI agents require high-frequency state exploration (e.g., test-time tree search and reinforcement learning), relying on rapid checkpoint and rollback (C/R) of the complete sandbox state, including files and process state (e.g., memory, contexts, etc.). Existing mechanisms duplicate the entire state, causing hundreds of milliseconds to seconds of latency per C/R, which severely bottlene"
+ },
+ "2605.10787": {
+  "title": "ComplexMCP: Evaluation of LLM Agents in Dynamic, Interdependent, and Large-Scale Tool Sandbox",
+  "published": "2026-05-11",
+  "summary": "Current LLM agents are proficient at calling isolated APIs but struggle with the \"last mile\" of commercial software automation. In real-world scenarios, tools are not independent; they are atomic, interdependent, and prone to environmental noise. We introduce $\\textbf{ComplexMCP}$, a benchmark designed to evaluate agents in these rigorous conditions. Built on the Model Context Protocol (MCP), $\\te"
+ },
+ "2605.24309": {
+  "title": "Reframing LLM Agent Security as an Agent-Human Interaction Problem",
+  "published": "2026-05-23",
+  "summary": "We argue that LLM agent security is fundamentally an agent-human interaction (AHI) problem, not a purely algorithmic one. To substantiate this position, we conduct a systematic analysis of 59 academic papers, 21 production agent systems, and 26 security plugins as of April 2026. Our analysis reveals a striking pattern: the three widely deployed human-centric security mechanisms (policy specificati"
+ },
+ "2606.03895": {
+  "title": "Agent libOS: A Runtime Substrate for Capability-Controlled Self-Evolving LLM Agents",
+  "published": "2026-06-02",
+  "summary": "Large language model (LLM) agents can persist across tasks, acquire memory, activate Skills, synthesize tools, fork child processes, attach remote resources, and commit checkpoints as reusable images. These mechanisms expand the action surface after deployment and create authority-escalation and data-exfiltration risks when visibility is mistaken for permission. We present Agent libOS, an agent-na"
+ },
+ "2606.03841": {
+  "title": "EvoDS: Self-Evolving Autonomous Data Science Agent with Skill Learning and Context Management",
+  "published": "2026-06-02",
+  "summary": "Recent progress in Large Language Model (LLM) agents has enabled promising advances in automated data science. However, existing approaches remain fundamentally limited by their static action sets and lack of principled long-horizon context management, hindering their ability to accumulate reusable experience across tasks and operate reliably in multi-stage, iterative data science pipelines. To ad"
+ },
+ "2606.15242": {
+  "title": "Benign in Isolation, Harmful in Composition: Security Risks in Agent Skill Ecosystems",
+  "published": "2026-06-13",
+  "summary": "Skills are becoming the capability layer through which LLM agents turn plans into actions, but their use introduces security risks such as data leakage, unauthorized operations, and tool misuse. Existing vetting usually evaluates each skill in isolation, while real agent tasks often invoke multiple skills in a shared execution context. This creates Skill Composition Risk (SCR): a skill that appear"
+ },
+ "2606.02302": {
+  "title": "SeClaw: Spec-Driven Security Task Synthesis for Evaluating Autonomous Agents",
+  "published": "2026-06-01",
+  "summary": "Autonomous LLM agents increasingly operate in stateful environments where they access tools, files, memory, and external services. While such capabilities enable complex real-world workflows, they also introduce security risks that are difficult to capture with existing evaluations. Current agent security benchmarks often rely on manually curated tasks, provide limited coverage of emerging threats"
+ },
+ "2606.01508": {
+  "title": "Agent Operating Systems (AOS): Integrating Agentic Control Planes into, and Beyond, Traditional Operating Systems",
+  "published": "2026-06-01",
+  "summary": "Traditional operating systems were designed around deterministic programs, explicit control flow, and human initiated workflows. Their core abstractions processes, threads, system calls, files, and permissions assume bounded behavior and predictable interaction patterns. Agentic AI systems introduce a different execution model: long-lived, goal-directed entities that reason probabilistically, invo"
+ },
+ "2605.30785": {
+  "title": "Learning Agent-Compatible Context Management for Long-Horizon Tasks",
+  "published": "2026-05-29",
+  "summary": "LLM agents increasingly face long-horizon tasks such as web search and deep research in real-world applications, where accumulated context can cause long-context degradation and reasoning failures. Prior work mitigates this through context management with agent-side context control or fixed strategies such as summarization, which require training the agent itself for adaptation - making it impract"
+ },
+ "2606.03014": {
+  "title": "MOSAIC: Efficient Mixture-of-Agent Scheduling via Adaptive Aggregation and Inference Concurrency",
+  "published": "2026-06-02",
+  "summary": "Mixture-of-Agents (MoA) systems improve reasoning accuracy by routing each query to multiple expert LLMs and aggregating their outputs. Efficiently executing this workload on limited GPU resources has bottlenecks. Skill-based routing creates skewed expert demand, and combining instruction-tuned LLMs with long-reasoning models results in extreme variability in generation lengths. Consequently, trad"
+ },
+ "2606.17016": {
+  "title": "TokenPilot: Cache-Efficient Context Management for LLM Agents",
+  "published": "2026-06-15",
+  "summary": "As LLM agents are deployed in long-horizon sessions, context accumulation drives up inference costs. Existing approaches utilize text pruning or dynamic memory eviction to minimize token footprints; however, their unconstrained sequence mutations alter layouts, introducing prefix mismatches and cache invalidation. This reveals a critical trade-off between text sparsity and prompt cache continuity."
+ },
+ "2607.01793": {
+  "title": "Safety Testing LLM Agents at Scale: From Risk Discovery to Evidence-Grounded Verification",
+  "published": "2026-07-02",
+  "summary": "LLM agents increasingly perform autonomous actions through external tools, leading to complex and evolving safety risks. However, existing safety testing targets expert-designed safety violations, and the corresponding outcomes are evaluated by hard-coded rules, making them costly to extend as agents evolve. To this end, we present Vera, an end-to-end automated safety testing framework that instan"
+ },
+ "2606.28450": {
+  "title": "LLM agents security duality: a comprehensive survey of self-security and empowered cybersecurity",
+  "published": "2026-06-26",
+  "summary": "Large language model (LLM) agents are rapidly being integrated into real-world systems. Their autonomy and tool-use capabilities generate substantial value while simultaneously expanding the security attack surface. This survey provides a comprehensive overview of the opportunities and challenges of LLM agents in security, focusing on two core areas: (1) threats to LLM agents themselves and corres"
+ },
+ "2606.18356": {
+  "title": "SafeClawBench: Separating Semantic, Audit-Evidence, and Sandbox Harm in Tool-Using LLM Agents",
+  "published": "2026-06-16",
+  "summary": "Tool-using language-model agents introduce security failures that go beyond unsafe text: they can disclose protected objects, write persistent memory, send messages, modify databases, or trigger harmful code and tool effects. Existing evaluations often collapse these stages into a single attack success rate, making it difficult to tell whether a model merely agreed with an attacker or actually pro"
+ },
+ "2606.19382": {
+  "title": "DynAMO:Dynamic Asset Management Orchestration via Topological Multi-Agent Scheduling",
+  "published": "2026-06-14",
+  "summary": "While LLM-powered agents offer end-to-end automation for industrial asset lifecycles, real-world Industry 4.0 deployment is hindered by latency, concurrency instability, and safety risks. We present DynAMO (Dynamic Asset Management Orchestration), a deployment-ready engine using a Plan-then-Execute architecture to generate verifiable workflow graphs. DynAMO supports both SequentialWorkflow (topolo"
+ },
+ "2606.22953": {
+  "title": "Plans Don't Persist: Why Context Management Is Load Bearing for LLM Agents",
+  "published": "2026-06-22",
+  "summary": "Long-horizon agents depend on context management: systems compress, summarize, and evict old tokens so tasks can continue beyond finite windows. That is safe only when dropped information is no longer needed or has been internalized. Plans are the stress case: they are written early, used for many steps, and first to be evicted. We introduce replay pairing, a diagnostic that runs the same trajecto"
+ },
+ "2607.00297": {
+  "title": "EPC: A Standardized Protocol for Measuring Evaluator Preference Dynamics in LLM Agent Systems",
+  "published": "2026-07-01",
+  "summary": "When LLM agents use evaluator feedback to adapt their behavior in closed loops, evaluator biases propagate through the agent's strategy distribution -- a phenomenon known as evaluator preference coupling. Prior work has documented coupling across multiple evaluator families and model versions, but the field lacks a standardized protocol that enables third-party researchers to (i) reproduce couplin"
+ },
+ "2606.22528": {
+  "title": "Governance Decay: How Context Compaction Silently Erases Safety Constraints in Long-Horizon LLM Agents",
+  "published": "2026-06-21",
+  "summary": "Modern LLM agents increasingly rely on context compaction, summarization, or eviction to keep long-running sessions within a token budget. We show that this context-management layer is a safety-critical failure surface: in-context governance constraints that agents reliably obey while visible can be silently removed by compaction, causing the same agent to perform prohibited tool actions later in "
+ },
+ "2606.23075": {
+  "title": "Safety in Self-Evolving LLM Agent Systems: Threats, Amplification, and Case Studies",
+  "published": "2026-06-22",
+  "summary": "Self-evolving LLM agent systems, which autonomously update their model parameters, memory, tools, and architectures, introduce a qualitatively new threat landscape in which adversarial influences become permanently encoded, self-amplify across generations, and propagate through populations without sustained attacker access. We present a systematic security and privacy analysis organized around the"
+ },
+ "2607.12406": {
+  "title": "Isolation as a First-Class Principle for LLM-Agent System Safety: Concepts, Taxonomy, Challenges and Future Directions",
+  "published": "2026-07-14",
+  "summary": "The capability of LLM agents to function as the ``brain'' of a system fundamentally expands the scope of analysis beyond a standalone model. Consequently, safety is no longer only about input--output content alignment. It also concerns system behavior and real-world execution outcomes. However, the current literature is fragmented across attack types, applications, and benchmarks. This makes it ha"
+ },
+ "2607.05743": {
+  "title": "The Balkanization of Execution-Security Research for AI Coding Agents: Isolation, Access Control, and Time-of-Check-to-Time-of-Use Vulnerabilities",
+  "published": "2026-07-07",
+  "summary": "AI coding agents now read repositories, call tools, and execute shell commands with limited human oversight, and a fast-growing body of work studies whether the execution layer around them is actually safe. That literature is scattered. Papers on sandbox isolation, capability and access control, policy enforcement, time-of-check-to-time-of-use (TOCTOU) races, Model Context Protocol (MCP) threats, "
+ },
+ "2607.11288": {
+  "title": "Mako: A Self-Evolving Agentic Operating System (SE-AOS) for Autonomous Web Exploitation",
+  "published": "2026-07-13",
+  "summary": "We introduce the Self-Evolving Agentic Operating System (SE-AOS): a new class of AI agent that treats exploit capability as a mutable, versioned kernel it extends at runtime, observing its own failures, synthesising new capabilities, proving them against a live target, and hot-loading them back into itself. Mako is the first SE-AOS instance for security research and the autonomous web exploitation"
+ },
+ "2607.19356": {
+  "title": "NEXUS: Structured Runtime Safety for Tool-Using LLM Agents",
+  "published": "2026-05-25",
+  "summary": "Tool-using LLM agents increasingly execute high-impact actions, making runtime safety monitoring essential. We present NEXUS (Neural EXecution Utility and Safety), a structured-plan safety monitor that applies a formal intervention policy to select among four actions: allow, block, request confirmation, or request revision. NEXUS combines deterministic safety rules, argument-level inspection, and "
+ },
+ "2607.10350": {
+  "title": "ABot-AgentOS: A General Robotic Agent OS with Lifelong Multi-modal Memory",
+  "published": "2026-07-11",
+  "summary": "Recent VLM and VLA systems have improved robotic perception and action prediction, yet long-horizon embodied agents still require a general runtime layer for reasoning, memory, tool use, verification, and cross-embodiment execution. We present ABot-AgentOS, a general robotic Agent Operating System that sits above low-level controllers and provides a deliberative agent layer for scene-conditioned p"
+ },
+ "2607.22242": {
+  "title": "Agentic CPU-GPU Scheduling for Heterogeneous AI Workloads",
+  "published": "2026-07-24",
+  "summary": "Agentic AI systems compose heterogeneous tool workloads on shared GPU/CPU infrastructure, yet existing frameworks assign all GPU-capable tools to the GPU by default. We profile 19 AI tools across GPU and CPU and find that 11 are GPU-preferred, 4 are ambiguous, 1 is CPU-preferred due to PCIe transfer dominance, and 3 are device-neutral, establishing that blanket GPU-first scheduling is suboptimal. "
+ },
+ "2607.21835": {
+  "title": "ToolGuardian: Declarative Security for AI Agent-Tool Interactions",
+  "published": "2026-07-23",
+  "summary": "LLM agents increasingly rely on external tools, expanding capability while creating a new security boundary: third-party tools may appear benign at the interface level while embedding unsafe behavior in implementation. Existing defenses rely on weak metadata, collapse characterization and policy judgment into a single decision, or use heuristic/LLM enforcement that lacks deterministic, auditable r"
+ },
+ "2607.13987": {
+  "title": "Agent Skill Security: Threat Models, Attacks, Defenses, and Evaluation",
+  "published": "2026-07-15",
+  "summary": "Reusable skills are becoming a fundamental building block of Large Language Model (LLM) agents, enabling capabilities to be packaged, shared, and reused across diverse applications. However, existing security research primarily focuses on prompt injection and runtime execution, leaving security risks throughout the broader skill lifecycle largely unexplored. In this paper, we present SkillSec-Eval"
+ },
+ "2607.25076": {
+  "title": "Towards an Agent Operating System - Lessons from Classical and Cloud OS",
+  "published": "2026-07-27",
+  "summary": "Every major wave of platform software follows the same arc: an initial period of experimentation with competing frameworks and ad-hoc implementations, followed by the articulation of a small set of stable abstractions with well-defined semantics, and finally consolidation around those abstractions into a platform that applications can portably target. POSIX did this for classical operating systems"
+ },
+ "2607.26637": {
+  "title": "Filesystem-Based Memory for LLM Agents: Organization, Evolution, and Sustainability",
+  "published": "2026-07-29",
+  "summary": "Deployed LLM agents increasingly keep their long-term memory as a filesystem: a directory tree of markdown files that the agent itself reads, writes, and reorganizes through generic file tools. Yet research has largely passed over this medium: prior systems design bespoke memory representations and study retrieval over them, leaving the default's two working assumptions untested: that an agent can"
+ },
+ "2608.08131": {
+  "title": "Compositional Threat Analysis of Latent Compromise in LLM Agent Systems: The Order 66 Scenario",
+  "published": "2026-08-08",
+  "summary": "In the fictional Order 66, catastrophe does not arise from a powerful command alone: a trusted population is preconditioned, a short directive activates the concealed condition, and protective authority turns against the system. This paper translates that mechanism into an origin-neutral security analysis of tool-using large language model (LLM) agents. A representative scenario combines a deploye"
+ },
+ "2608.03214": {
+  "title": "The Agent Operating System (AOS): A Reference Operating Architecture for Distributed Agentic Systems",
+  "published": "2026-08-04",
+  "summary": "Large language models have transformed artificial intelligence from isolated prediction services into components of long-running, distributed systems that reason, invoke tools, retrieve external state, delegate tasks, and act on behalf of users and organizations. The surrounding ecosystem has responded with agent frameworks, workflow engines, model-serving platforms, memory systems, communication "
+ },
+ "2608.03626": {
+  "title": "A Security-Oriented Lifecycle Model for Large Language Model Systems",
+  "published": "2026-08-04",
+  "summary": "Large language models are being integrated into critical infrastructure and enterprise workflows at unprecedented scale,yet the lifecycle frameworks governing their development and operations were designed for operational efficiency rather than security analysis. As a result, security-relevant activities such as data provenance verification, artifact signing, agentic permission control, and decomm"
+ },
+ "2608.07280": {
+  "title": "Why Study Emergent Behavior When You Can Regulate It? Aligning Multi-Agent Systems with Reward Prediction",
+  "published": "2026-08-07",
+  "summary": "Multi-agent simulations are widely used to study complex social and ecological systems, where rich and often unexpected emergent behaviors arise from local interactions. A large body of prior work has focused on analyzing such emergent dynamics across domains. In this paper, we move beyond analyzing emergent behavior and introduce a learning-based mechanism for actively shaping it via social rewar"
+ },
+ "2607.23933": {
+  "title": "SpecBox: Speculative Sandbox Scheduling for Efficient LLM Agent Serving",
+  "published": "2026-07-27",
+  "summary": "As LLM agents increasingly rely on the Model Context Protocol (MCP) to invoke isolated external sandboxes, disaggregated sandbox deployment introduces a fundamental tension between resource utilization and interactive tail latency. Persistent long-lived sandbox reservations incur excessive memory overhead at scale, while lazy on-demand instantiation generates severe cold-start penalties that degra"
+ },
+ "2608.08497": {
+  "title": "SocialFiVis: A Visual Analytics Sandbox for LLM-Grounded Multi-Agent Simulation in Social Finance",
+  "published": "2026-08-09",
+  "summary": "The emergence of social finance (SocialFi) transforms online communities into complex socio-economic systems. Within these spaces, collective decisions shape a \"digital commons\" characterized by social capital (e.g., community trust) and financial health (e.g., market liquidity). Governing such hybrid ecosystems is challenging because real-world interventions are costly and irreversible. While cou"
+ },
+ "2608.15703": {
+  "title": "HyMem: Hierarchical Context Management for Long-Horizon Agents via Information Isolation",
+  "published": "2026-08-16",
+  "summary": "Large language model (LLM) agents often perform poorly on complex, long-horizon tasks because their context becomes increasingly cluttered over time. As interactions accumulate, detailed execution traces and intermediate outputs dominate the context, making it difficult for the model to retain and use high-level planning information. Most existing methods address this issue through compression or "
+ },
+ "2608.12371": {
+  "title": "Multi-Agent Scheduling with LLM-Assisted Contract Net Negotiation for Stream Processing in Mobile Edge Computing",
+  "published": "2026-07-19",
+  "summary": "Stream-processing systems increasingly operate across heterogeneous mobile edge--cloud infrastructures, where workload volatility, resource contention, and stringent quality-of-service (QoS) requirements complicate decentralized scheduling. This paper proposes \\emph{MAS-DecStream}, whose main contribution is \\emph{LLM-MR-CNP}: an extension of the classical Contract Net Protocol with semantic CFP f"
+ },
+ "2608.10669": {
+  "title": "REDAgentBench: Executable Red Teaming and Faithful Measurement of LLM Agent Systems",
+  "published": "2026-08-11",
+  "summary": "Large language model (LLM) agents combine language-based reasoning with external tools to perform complex tasks. Adversarial inputs can exploit interactions between the agent and its environment, causing the agent to violate safety policies during execution. Yet existing evaluations often reduce agent safety to a single attack success rate (ASR), collapsing exposure, execution, observation, and ad"
+ },
+ "2608.28027": {
+  "title": "String: An Agentic OS Where Every App Is a Markdown File",
+  "published": "2026-08-28",
+  "summary": "LLM agents have become a new class of software user, but every surface they work through was designed for someone else. Pages are built for human eyes, which can skim and ignore; tool schemas for programs, which pay nothing to carry definitions they never call. An agent has neither luxury: it re-reads, and pays again for, everything it is shown on every turn. We present String, an open-source runt"
+ },
+ "2608.13030": {
+  "title": "InterSAGE: The Secure and Verifiable Interoperability Protocol for An Internet of Agents",
+  "published": "2026-08-13",
+  "summary": "The emerging Internet of Agents enables LLM-powered agents to discover peers, invoke tools, and delegate tasks across organizational boundaries. Existing protocols increasingly define how agents exchange messages, but not how an agent proves its identity, authorization, advertised capabilities, or accountability after delegation. We present InterSAGE, a trust-native protocol suite that supplies th"
+ },
+ "2608.25570": {
+  "title": "Beyond Scaling: Self-Evolving LLM Agents for Hardware Kernel Optimization via an Experience-Driven Workflow and Experience Graph Memory",
+  "published": "2026-08-26",
+  "summary": "Hardware kernel optimization requires repeated compilation, correctness testing, profiling, and revision. LLM agents can automate parts of this process, and stronger foundation models, longer context windows, and longer execution horizons have improved optimization within individual tasks. These advances alone do not enable an agent to learn from completed optimization runs. Existing kernel-optimi"
+ },
+ "2608.21690": {
+  "title": "Context as an Environment: Programmatic Context Management for Long-Horizon Agents",
+  "published": "2026-08-21",
+  "summary": "LLM agents increasingly take on long-running tasks whose history grows far beyond a single model context window. Existing approaches compress earlier interactions or extract selected information into fixed memory representations, committing to what to preserve before future needs are known. We present Scroll, a context manager that treats each agent session as an executable Session Environment. Th"
+ },
+ "2608.29596": {
+  "title": "Towards a Systems Foundation for Agentic Skills: Architecture, Lifecycle, and Security",
+  "published": "2026-08-30",
+  "summary": "Autonomous large language model (LLM) agents increasingly face reliability, context consumption, and execution stability bottlenecks when deployed on complex, long-horizon tasks. While monolithic prompt engineering and stateless tool-calling paradigms struggle to scale, the field is rapidly converging toward \\emph{agentic skills}: modular procedural abstractions that externalize execution knowledg"
+ },
+ "2608.30177": {
+  "title": "Understanding Stage-Wise Utility-Risk Trade-offs in LLM Agent Memory",
+  "published": "2026-08-31",
+  "summary": "Long-term memory is becoming a core capability of LLM agents, enabling personalization and long-horizon interaction. However, memory mechanisms that retain, transform, or expose more information can affect both benign utility and susceptibility to memory poisoning. Existing evaluations typically measure memory utility or attack risk in isolation under fixed configurations, providing limited insigh"
+ },
+ "2609.01035": {
+  "title": "Spawn Freely, Act Sparingly: Progressive Risk Vesting for Recursive LLM-Agent Trees",
+  "published": "2026-09-01",
+  "summary": "Recursive LLM agents can broaden their search by spawning specialists. Some branches later request tools that send data or deploy code. When should a branch receive authority to act? We distinguish sandbox spawning, in which external controls prevent the specified harm, from capability activation, in which a selected branch crosses an irreversible-action boundary. Progressive Risk Vesting (PRV) ho"
+ },
+ "2609.00275": {
+  "title": "The Irreversibility Budget: Fleet-Level Risk Accounting and Admission Control for Agent Operating Systems",
+  "published": "2026-08-31",
+  "summary": "Fleets of LLM agents now externalize effects that cannot be fully undone: they move money, deploy code, delete data, and disclose information. Current controls check one effect at a time, so a fleet of individually authorized agents can overdraw its principal's risk under a shared trigger while every local gate stays correct. We propose the irreversibility budget, a cumulative account of residual "
+ }
+}
