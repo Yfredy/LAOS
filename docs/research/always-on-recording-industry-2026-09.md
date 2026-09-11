@@ -44,15 +44,15 @@
 
 这是全天候录音领域最具代表性的案例，完整经历了"理念爆发 → 转型云端 → 被平台收购 → 产品停服"四阶段。
 
-- **Rewind.ai（2022–2024）**：macOS 后台 App，持续捕获屏幕 + 麦克风/系统音频，以"mind-boggling compression"（10GB 录制约压缩到 <3MB）和"数据永不出设备"为卖点。✅官方源已查证（rewind.ai 历史页）
-- **改名 Limitless（2024）**：产品方向从纯 Mac 本地 App 转向云端 + 硬件 Pendant。✅官方源已查证（rewind.ai/what-happened-to-rewind）
+- **Rewind.ai（2022–2024）**：macOS 后台 App，持续捕获屏幕 + 麦克风/系统音频，以"mind-boggling compression"（10GB 录制约压缩到 <3MB）和"数据永不出设备"为卖点。🔶第三方转述（原 rewind.ai 官方宣传口径、经 aiwiki 等转述；rewind.ai 域名已易主，不再作官方源引用）
+- **改名 Limitless（2024）**：产品方向从纯 Mac 本地 App 转向云端 + 硬件 Pendant。🔶第三方存档（域名已易主：rewind.ai/what-happened-to-rewind 现由无关第三方运营、页面自述 no affiliation）；事实本身由 limitless.ai 官方公告 + 9to5mac 双证
 - **Limitless Pendant**：约 32mm 直径铝制圆形徽章，多麦克风阵列，**常开被动录音**，无按键；音频上传云端转写；官方宣称 ~100 小时续航，第三方实测真实录音约 6–7 小时；隐私政策明确"we will receive audio recordings"。🔶第三方/媒体声称（vibe.us、aiwiki）
 - **被 Meta 收购（2025-12-05）**：CEO Dan Siroker 发信确认，团队并入 Reality Labs。✅官方源已查证（limitless.ai 公告）
 - **停服（2025-12-19）**：Rewind Mac/iPhone App 禁用全部屏幕与音频捕获功能；Pendant 停售；存量用户保留支持至少 12 个月，订阅转免费。✅官方源已查证（9to5Mac 引述官方邮件）
 
 **关键教训**：以"本地处理"建立信任 → 转向云端 → 被以广告变现著称的 Meta 收购，用户信任链断裂。这是"常开录音 + 纯云依赖"商业模式的致命问题。
 
-来源：https://rewind.ai/what-happened-to-rewind/ ；https://limitless.ai/ ；https://9to5mac.com/2025/12/05/rewind-limitless-meta-acquisition/
+来源：https://rewind.ai/what-happened-to-rewind/（🔶域名已易主、现由无关第三方运营，仅作存档参考） ；https://limitless.ai/（官方收购公告+FAQ：停服与 12 个月支持口径） ；https://9to5mac.com/2025/12/05/rewind-limitless-meta-acquisition/ ；https://vibe.us/blog/vibe-dot-vs-limitless-pendant/（第三方真机实测 6–7h 口径） ；https://aiwiki.ai/wiki/limitless_ai（Limitless 历史与价格沿革）
 
 #### 3.1.2 Omi（BasedHardware 开源硬件）
 
@@ -191,7 +191,7 @@
 | 产品 | 形态 | 触发方式 | 处理位置 | 续航 | 隐私设计 | 2026 现状 |
 |---|---|---|---|---|---|---|
 | Rewind.ai | Mac/iPhone App | 常开后台 | 早期纯端侧 | N/A | 本地存储承诺 | **已停服**，并入 Meta |
-| Limitless Pendant | 胸针/挂绳 | **always-on 被动** | **纯云端** | 官方 100h / 实测 6–7h | Consent Mode、Confidential Cloud | **停售**，并入 Meta |
+| Limitless Pendant | 胸针/挂绳 | **always-on 被动** | **纯云端** | 官方 100h / 第三方实测 6–7h（一次充电实际使用，vibe.us 口径） | Consent Mode、Confidential Cloud | **停售**，并入 Meta |
 | Omi | 项链/胸针 | 24h+ 连续捕获 | 混合（**可自托管开源**） | 24h+ | 完全开源、可选端侧 | **活跃** |
 | Plaud NotePin | 胸针/项链/腕带 | **物理按键手动** | 云端 + 64GB 本地 | 20h 录音 / 40 天待机 | 本地为主、Find My | **活跃** |
 | Bee | 腕带/胸针夹 | 按键触发，LED 指示 | 实时、**不存原始音频** | 160h / 7 天 | LED 绿=录、不存 raw | **被 Amazon 收购**（2025-07），并入后持续迭代 |
@@ -355,7 +355,7 @@
 |---|---|---|
 | 延迟 | 流式数百 ms–1.5s（受模型大小制约） | 150–400ms（网络往返+服务端解码） |
 | 隐私 | 音频不出设备，合规友好 | 音频离端，受各国录音/跨境传输监管 |
-| 成本 | 无按分钟计费；一次部署 | 按分钟计费（Limitless 月赠 1200 分钟约只够 3 天全天录音） |
+| 成本 | 无按分钟计费；一次部署 | 按分钟计费（Limitless 免费档月赠 1200 分钟=20 小时，按每日 6–7h 真实使用口径约只够 3 天；✅官方免费额度：https://www.limitless.ai/vs/plaud 、https://feedback.limitless.ai/announcements/whats-new-at-limitless-copy-for-llm-pendant-updates-and-more） |
 | 准确率 | 小模型 WER 略高；1B 参数 Whisper 经优化可匹敌 gpt-4o-transcribe | 前沿模型略优 |
 | 模型大小 | 27M–1B 参数，需量化/蒸馏 | 无本地体积约束 |
 | 适用 | 隐私敏感、离线、7×24 低功耗、带宽受限 | 最高准确率、多说话人、复杂口音 |
@@ -375,18 +375,18 @@
 | Qualcomm Sensing Hub + Hexagon DSP | Snapdragon 8 Elite Gen 5 的 "Dual Always-Sensing" 微 NPU 专司音频、语音、传感器，主 SoC 休眠时由其工作 | https://www.qualcomm.com/content/dam/qcomm-martech/dm-assets/documents/Snapdragon-8-Elite-Gen-5-SM8850-1-AB-V-Series.pdf |
 | Snapdragon W5+ Gen 1 | 混合架构——4nm 主 SoC + 22nm AON 协处理器，专司显示、传感器、音频、通知 | https://www.qualcomm.com/wearables/products/snapdragon-w5-plus-gen-1-wearable-platform |
 | Ambiq Apollo 系列 | SPOT 亚阈值功耗技术，Apollo510 每焦耳推理吞吐提升 300× | https://ambiq.com/soc/ |
-| Apple 路线 | "Hey Siri"由 SoC 内独立超低功耗协处理器/传感器中枢常驻处理麦克风流；Apple Watch Live Rewind 由 S11 做持续听觉，双击表冠给出"过去 15 秒说了什么" | https://www.macrumors.com/ |
+| Apple 路线 | "Hey Siri"由 SoC 内独立超低功耗协处理器/传感器中枢常驻处理麦克风流；Apple Watch Live Rewind 由 S11 做持续听觉，双击表冠给出"过去 15 秒说了什么" | https://www.macrumors.com/2026/09/10/apple-watch-live-rewind/ |
 | Brilliant Halo | Alif Balletto SoC + **音频活动检测(AAD)硬件级低功耗唤醒**，14h 电池 | https://github.com/brilliantlabsAR/halo-firmware |
 
 **(b) 软件侧省电策略：**
 - **事件驱动 / VAD 门控录音**：只在检测到语音段时触发编码与上传，静音帧直接丢弃——这是 24/7 续航的核心。
-- **缓冲+突发上传（buffer-and-burst）**：音频先以 Opus 压缩存本地，在充电/连 WiFi 时批量回传转写。产品实证：Omi 支持离线录音（本地先存，事后 10–20s 完成离线转写）；Limitless 支持约 35 小时离线录音后再处理。
+- **缓冲+突发上传（buffer-and-burst）**：音频先以 Opus 压缩存本地，在充电/连 WiFi 时批量回传转写。产品实证：Omi 支持离线录音（本地先存，事后 10–20s 完成离线转写）；Limitless 亦支持离线录音、本地先存后联网再处理——🔶第三方评测称其本地约可存 35 小时音频（plaud 对比文 2026-09：https://uk.plaud.ai/blogs/articles/plaud-vs-limitless-which-is-the-better-ai-voice-recorder ；该数字未见于 Limitless 官方页面，离线录音行为本身另有 humai.blog 真机实测佐证，见本节 (c) 表）。
 
 **(c) 硬件产品实际续航（标称 vs 实测）：**
 
 | 产品 | 标称续航 | 实测/典型 | 来源 |
 |---|---|---|---|
-| Limitless Pendant | 100h 待机 | 全天常开实际 12–14h；会议录音 1.5–2 天一充 | https://www.umevo.ai/blogs/ume-all-posts/wearable-ai-wars-2026-limitless-pendant-vs-bee-pioneer-vs-plaud-notepin |
+| Limitless Pendant | 100h 待机 | 常开采集（Rewind 持续听）开启后 12–14h 耗尽（umevo.ai 实测口径；另有第三方实测 6–7h——vibe.us，见 §3.3，两家使用模式与条件不同，不矛盾）；会议录音 1.5–2 天一充 | https://www.umevo.ai/blogs/ume-all-posts/wearable-ai-wars-2026-limitless-pendant-vs-bee-pioneer-vs-plaud-notepin |
 | Plaud Note | Enhance 30h / Endurance 50h | 厂商规格 | https://eu.plaud.ai/pages/plaud-note |
 | Plaud NotePin | 20h 录音 | 实测约 12–14h | https://www.humai.blog/ai-gadgets-for-productivity-tools-that-replace-your-assistant/ |
 | Omi | 24h+ 连续捕获 | 与标称接近；离线录音支持 | https://www.omi.me/pages/product |
@@ -597,7 +597,7 @@ Opus 官方规格：RFC 6716，6–64 kbps，算法延迟约 25ms（20ms 帧）�
 
 ### 8.2 AI 硬件爆发期与形态演变
 
-- 2023–2024"AI 吊坠"命题：屏外、麦克风+LLM 做对话记忆。Humane AI Pin（$240M 融资）、Rabbit R1、Limitless Pendant（$99，Sam Altman 背书）同期登场。
+- 2023–2024"AI 吊坠"命题：屏外、麦克风+LLM 做对话记忆。Humane AI Pin（$240M 融资）、Rabbit R1、Limitless Pendant（2024-04 发布价 $99、后期零售价上调至 $199，Sam Altman 背书。🔶第三方/媒体声称：https://aiwiki.ai/wiki/limitless_ai ；发布价 $99 另见 2024-04 当期报道 gadgets360、Business Insider）同期登场。
 - **洗牌**：2025-02 Humane 资产售 HP 后变砖；2025-07 **Amazon 收购 Bee**（团队并入 Devices & Services，独立消费品牌路线图停摆）；2025-12 **Meta 收购 Limitless**并入 Reality Labs，吊坠停售——平台型公司（HP、Amazon、Meta）批量吸收独立 AI 硬件初创，独立"常听可穿戴"作为独立品类已基本消亡。
 - **市场数据**：2025 上半年全球智能眼镜出货 406.5 万台，同比 +64.2%；2025 前三季度全球腕戴设备出货 1.5 亿台，中国 5843 万台同比 +27.6%。
 - **形态路线**：智能手表 → AI 徽章/吊坠（Pendant、NotePin、Omi）→ AI 眼镜（Ray-Ban/Oakley Meta 2025 单年销量超 700 万副，2023–2024 两年合计仅约 200 万副；EssilorLuxottica 财报口径）→ 项链/耳机内嵌持续听觉（Apple Watch Live Rewind、华为 FreeBuds Pro 5）。
@@ -700,7 +700,7 @@ laos 的 `drivers/ear` 是双通道设计（流式近实时 + 高精度异步）
 ## 10. 参考来源
 
 ### 消费产品
-- Rewind/Limitless：https://rewind.ai/what-happened-to-rewind/ ；https://limitless.ai/ ；https://9to5mac.com/2025/12/05/rewind-limitless-meta-acquisition/ ；https://screenpipe.com/blog/rewind-ai-alternative-2026
+- Rewind/Limitless：https://rewind.ai/what-happened-to-rewind/（🔶域名已易主、现由无关第三方运营，仅作存档） ；https://limitless.ai/（官方收购公告+FAQ） ；https://9to5mac.com/2025/12/05/rewind-limitless-meta-acquisition/ ；https://screenpipe.com/blog/rewind-ai-alternative-2026
 - Omi：https://github.com/basedhardware/omi ；https://docs.omi.me/doc/hardware/consumer ；https://www.omi.me/products/omi-dev-kit-2 ；https://www.desiblitz.com/content/what-is-omi-and-how-do-you-use-it
 - Plaud：https://global.plaud.ai/products/plaud-notepin ；https://tw.plaud.ai/products/notepin
 - Bee：https://bee.computer/ ；https://www.aboutamazon.com/news/devices/bee-amazon-wearable-ai-device-new-features ；https://www.thepaper.cn/newsDetail_forward_31240075 ；https://www.latent.space/p/bee
@@ -725,7 +725,7 @@ laos 的 `drivers/ear` 是双通道设计（流式近实时 + 高精度异步）
 ### 技术机制
 - VAD/唤醒词/ASR 指标：https://github.com/Kai-Karren/silero-vad ；https://picovoice.ai/products/voice/wake-word/ ；https://k2-fsa.github.io/sherpa/onnx/pretrained_models/online-transducer/zipformer-transducer-models.html ；https://www.yashchudasama.com/blog/ai/realtime-ai-pipelines/
 - 端侧 ASR 进展：https://arxiv.org/pdf/2507.10860 ；https://arxiv.org/html/2507.07877v2 ；https://dl.acm.org/doi/pdf/10.1145/3746252.3761477 ；https://www.amd.com/en/developer/resources/technical-articles/2025/unlocking-on-device-asr-with-whisper-on-ryzen-ai-npus.html
-- 低功耗硬件：https://www.qualcomm.com/wearables/products/snapdragon-w5-plus-gen-1-wearable-platform ；https://ambiq.com/soc/ ；https://www.macrumors.com/
+- 低功耗硬件：https://www.qualcomm.com/wearables/products/snapdragon-w5-plus-gen-1-wearable-platform ；https://ambiq.com/soc/ ；https://www.macrumors.com/2026/09/10/apple-watch-live-rewind/
 - 续航实测：https://www.umevo.ai/blogs/ume-all-posts/wearable-ai-wars-2026-limitless-pendant-vs-bee-pioneer-vs-plaud-notepin
 - 存储/压缩：https://datatracker.ietf.org/doc/draft-ietf-codec-opus ；https://insiderllm.com/pdfs/embedding-models-rag.pdf ；https://bge.baai.ac.cn/
 - RAG/记忆：https://qdrant.tech/documentation/frameworks/mem0/ ；https://mem0.ai/blog/rag-vs-ai-memory ；https://github.com/jonburchel/claude-rag-memory
