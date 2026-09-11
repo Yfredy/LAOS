@@ -252,6 +252,9 @@ laos 的听觉链路信条是"**常驻的是耳朵的注意力，不是存储**"
 
 **已验证的用途**：Limitless 式会议记忆外挂、长期情绪追踪（情绪周报）、独居看护（异常静音/情绪低落告警）、语言学习发音回顾。
 
+**业界对标（2026-09 调研）**：盘点的 16 个商业产品里，`always_on = 常开被动录音` 的只有 2 个（Rewind、Limitless），**两个都已停服/停售**；活下来的产品全部收敛为"触发式捕获 + 端侧蒸馏 + 原始音频短期留存"，与 laos 的四段漏斗同构。功耗侧的两个锚点决定了路线边界：高通官方口径 Sensing Hub 常驻处理 **<1 mA**，而跑通用 Linux 的机器**空闲就 400–1000 mW**——所以 `mic.always_on` 这一级在 proot 里不成立，必须走原生 App 上 aDSP 才能进 mW 档。完整证据：
+[全景 HTML](docs/always-on-recording.html) · [收敛版结论](docs/research/always-on-recording/2026-09-landscape.md) · [学术论文线](docs/research/always-on-recording/academic-papers.md) · [硬件与功耗](docs/research/always-on-recording/hardware-power.md) · [社会接受度与争议事件](docs/research/always-on-recording/social-acceptance.md)
+
 ---
 
 ## 七、与"真正的 AgentOS"还差什么

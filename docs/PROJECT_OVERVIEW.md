@@ -122,6 +122,8 @@ laos/
 
 **④ 感官与执行**：麦克风（VAD 触发录音）｜ASR（SenseVoice 双通道，GPU RTF≈0.01，带情感标签）｜语音增强（分离/回声消除，GPU 实测 9.3x 加速）｜屏幕操控（adb，pkg 白名单）｜通信（短信/TTS/通知）｜端侧 LLM（Genie/ollama）｜NPU（QNN 真机传输）
 
+> **听觉链路的业界对标（2026-09）**：业界已收敛为"触发式捕获 + 端侧蒸馏 + 原始音频短期留存"，与 laos 的四段漏斗同构；纯常开被动录音的 2 个产品（Rewind / Limitless）均已停服或停售。功耗边界：高通官方口径 Sensing Hub 常驻 <1 mA，而通用 Linux 设备空闲即 400–1000 mW——`mic.always_on` 需原生 App 上 aDSP 才成立。详见 [全景 HTML](../always-on-recording.html) 与 [收敛版结论](../research/always-on-recording/2026-09-landscape.md)。
+
 **⑤ 可观测**：全量审计（每次 syscall 带 errno）｜eBPF 内核真值对照｜OTLP span 导出｜Web 面板实时看板+操控
 
 ---
