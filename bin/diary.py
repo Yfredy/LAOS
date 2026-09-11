@@ -20,6 +20,7 @@
 from __future__ import annotations
 
 import argparse
+from datetime import datetime
 import json
 import os
 import sys
@@ -36,12 +37,13 @@ DEFAULT_AUDIT = REPO / "var" / "audit.jsonl"
 DEFAULT_MEMORY = REPO / "var" / "memory.jsonl"
 
 TITLE = "# laos 日记 {date}"
-# 四章标题（顺序即 md 章节顺序）；单测钉住这四个关键字
+# 章节标题（顺序即 md 章节顺序）；单测钉住这些关键字
 SECTION_TITLES = (
     "一、今天做了什么",
     "二、新记住的事",
     "三、被拒绝与原因",
     "四、明天可以试试",
+    "五、今天听到的",
 )
 TOP_TOOLS_N = 5
 
@@ -220,7 +222,24 @@ def build_diary(date: str, audit_records: list[dict], memory_store: MemoryStore,
     tips.append("试试把今天的高频操作固化成脚本，或用 mem.recall 验证记忆召回。")
     tomorrow = "\n".join(f"- {t}" for t in tips)
 
-    sections = dict(zip(SECTION_TITLES, (did, memories, denied_txt, tomorrow)))
+    # ---- 第五章：今天听到的（听觉日志 journal 记忆 + 情感统计）------------
+    day_start = datetime.strptime(date, "%Y-%m-%d").timestamp()
+    day_end = day_start + 86400
+    heard = [r for r in memory_store._records
+             if r.get("kind") == "journal" and day_start <= r.get("ts", 0) < day_end]
+    if heard:
+        from collections import Counter
+        emo = Counter(next((t for t in r.get("tags", [])
+                            if t.isupper()), "NEUTRAL") for r in heard)
+        emo_bar = "  ".join(f"{e}:{n}" for e, n in emo.most_common())
+        lines = [f"- 共听到 {len(heard)} 段语音，情感分布：{emo_bar}"]
+        lines += [f"- {r['text'][:80]}" for r in heard[:10]]
+        heard_txt = "\n".join(lines)
+    else:
+        heard_txt = "（今天没有听觉日志——rec.start + bin/journal.py 可以补上）"
+
+    sections = dict(zip(SECTION_TITLES,
+                        (did, memories, denied_txt, tomorrow, heard_txt)))
 
     # ---- 写文件 + 记住日记 ------------------------------------------------
     diary_dir = memory_store.path.parent / "diary"

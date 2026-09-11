@@ -20,7 +20,7 @@ sys.path.insert(0, str(REPO / "bin"))  # bin/ 非包，路径注入以便 import
 from laos.memory import MemoryStore  # noqa: E402
 from diary import SECTION_TITLES, build_diary  # noqa: E402
 
-FOUR_TITLES = ("一、今天做了什么", "二、新记住的事", "三、被拒绝与原因", "四、明天可以试试")
+SECTION_TITLES_EXPECTED = ("一、今天做了什么", "二、新记住的事", "三、被拒绝与原因", "四、明天可以试试", "五、今天听到的")
 
 
 class TestBuildDiary(unittest.TestCase):
@@ -57,13 +57,13 @@ class TestBuildDiary(unittest.TestCase):
 
     def test_four_sections_and_file_written(self):
         result = self._build(self.records)
-        for title in FOUR_TITLES:
+        for title in SECTION_TITLES_EXPECTED:
             self.assertIn(title, result)          # 返回 dict 含四章关键字
             self.assertTrue(result[title].strip())  # 且每章都有内容
         # md 文件写出：标题 + 四个 ## 章节齐全
         md = Path(result["path"]).read_text(encoding="utf-8")
         self.assertIn(f"# laos 日记 {self.date}", md)
-        for title in FOUR_TITLES:
+        for title in SECTION_TITLES_EXPECTED:
             self.assertIn(f"## {title}", md)
         # 聚合数字正确：3 次 syscall（2 成功 1 被拒），TOP 工具 fs.read
         self.assertIn("3", result["一、今天做了什么"])
@@ -84,11 +84,11 @@ class TestBuildDiary(unittest.TestCase):
 
     def test_empty_audit_still_has_all_sections(self):
         result = self._build([])
-        for title in FOUR_TITLES:
+        for title in SECTION_TITLES_EXPECTED:
             self.assertIn(title, result)
         self.assertIn("今天没有 syscall 记录", result["一、今天做了什么"])
         md = Path(result["path"]).read_text(encoding="utf-8")
-        for title in FOUR_TITLES:
+        for title in SECTION_TITLES_EXPECTED:
             self.assertIn(f"## {title}", md)
 
     def test_records_of_other_days_are_excluded(self):
@@ -106,7 +106,7 @@ class TestBuildDiary(unittest.TestCase):
             "%Y-%m-%d", time.localtime(self.now - 86400)))  # sanity
 
     def test_section_titles_constant(self):
-        self.assertEqual(tuple(SECTION_TITLES), FOUR_TITLES)
+        self.assertEqual(tuple(SECTION_TITLES), SECTION_TITLES_EXPECTED)
 
 
 class _FakeBrain:
