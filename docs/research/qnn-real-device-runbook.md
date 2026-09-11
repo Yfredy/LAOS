@@ -114,3 +114,27 @@ laos 侧消费：`drv_events` 的 `events.since` 拉增量 → `mem.remember(kin
 `kernel.set_pricing_multiplier(3.0)` 在低电量时上调不可逆成本。
 
 全部检查项跑一遍：`python scripts/termux_matrix.py`（Termux 降级矩阵实测报告）。
+
+## 听觉日志（always-on audio journal）：真机闭环
+
+App（重建后）新增录音端点（VAD 触发式，只有有声段落盘到 App 私存）：
+
+```bash
+curl -X POST http://127.0.0.1:8900/rec/start -d '{"threshold_dbfs": -35}'
+# … 对手机说话 …
+curl -X POST http://127.0.0.1:8900/rec/stop
+curl http://127.0.0.1:8900/rec/segments   # [{"wav":"rec-0001-...wav","bytes":...,"ts":...}]
+adb shell run-as com.timnet.lpai ls files/journal   # 段文件（App 私有存储）
+adb shell run-as com.timnet.lpai cat files/journal/<seg>.wav > seg.wav  # 拉回 PC 转写
+```
+
+桌面端管线（PC 侧驱动）：
+
+```bash
+set LAOS_REC=1            # 总开关（0 = 全局禁录）
+# laos 面板/agent: rec.start → 说话 → rec.stop → rec.segments
+python bin\journal.py     # 批量转写 → mem.remember(kind=journal) → 原音频即焚（默认 6h）
+python bin\mood_report.py --days 7   # 情绪周报（字符图）
+```
+
+**合规提示**：录制他人需知情同意（中国民法典 1033 条）；本管线默认仅拾取使用者本人环境音、转写后原音频即焚、全部本地处理。

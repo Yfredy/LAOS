@@ -11,7 +11,7 @@
 python bin/laosd.py                    # 跑完整 demo（脚本化大脑，无需 API key）
 python bin/laosd.py --real             # 有 OPENAI_API_KEY 时用真 LLM
 python bin/laosweb.py                  # 启动内核 + Web 交互面板 (http://127.0.0.1:8800)
-python -m unittest discover -s tests   # 236 项回归测试
+python -m unittest discover -s tests   # 253 项回归测试
 ```
 
 ---
@@ -91,7 +91,7 @@ MCP（Model Context Protocol）已经是事实标准，它的角色非常接近 
 |---|---|---|
 | 进程 `task_struct` | Agent 进程 | `PCB`（pid / caps / state / budget） + `Agent` |
 | 系统调用 | MCP tool call | `kernel.syscall(pid, tool, args)` |
-| 设备驱动 | MCP Server | `drivers/drv_fs.py`、`drv_proc.py`、`drv_sys.py`、`drv_npu.py`、`drv_audio.py`（需 .venv-audio）、`drv_screen.py`（adb 屏幕操控）、`drv_mic.py`/`drv_ear.py`（麦克风/ASR 双通道）、`drv_genie.py`（端侧 LLM）、`drv_notify.py`/`drv_comms.py`/`drv_battery.py`/`drv_events.py`（通信/传感） |
+| 设备驱动 | MCP Server | `drivers/drv_fs.py`、`drv_proc.py`、`drv_sys.py`、`drv_npu.py`、`drv_audio.py`（需 .venv-audio）、`drv_screen.py`（adb 屏幕操控）、`drv_mic.py`/`drv_ear.py`（麦克风/ASR 双通道）、`drv_genie.py`（端侧 LLM）、`drv_notify.py`/`drv_comms.py`/`drv_battery.py`/`drv_events.py`（通信/传感）、`drv_rec.py`（VAD 触发录音） |
 | `/dev`、`/proc` | 驱动注册表 | `kernel.syscall_table`（tool → driver） |
 | init / udev | 引导器 | `bin/laosd.py` |
 | capability / seccomp | 能力表 + Linux 隔离 | `CapabilitySet` + `sandbox.py` |
@@ -257,7 +257,7 @@ laos/
     laosweb.py    实时面板 + 交互操控（确认横幅/重启/信箱/记忆/日记）（http.server，零依赖）
     diary.py      每日日记：审计 + 记忆聚合 → var/diary/<date>.md（LLM 摘要可选）
   tests/
-    test_*.py     236 项回归测试（laos / ipc / scope / seccomp / cow / profiling / npu / sandbox / enforcement / memory / diary 等 24 个文件）
+    test_*.py     253 项回归测试（laos / ipc / scope / seccomp / cow / profiling / npu / sandbox / enforcement / memory / diary 等 24 个文件）
   var/            运行期产物：audit.jsonl / memory.jsonl / branches/ / diary/ / ear/ / swap/
 ```
 
