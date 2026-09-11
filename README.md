@@ -152,6 +152,10 @@ MCP（Model Context Protocol）已经是事实标准，它的角色非常接近 
         └───────────────────────────────────────────────────────────-┘
 ```
 
+**完整架构图**（九层全貌；红色为全天候录音链路，右下角为对应的四段漏斗，可用 draw.io 打开 `docs/images/laos-architecture.drawio` 编辑）：
+
+![laos 完整架构图](docs/images/laos-architecture.drawio.png)
+
 ---
 
 ## 四、Demo 记录了什么
@@ -228,7 +232,29 @@ python bin/laosctl.py spans     # AgentProf 语义剖析回放
 
 ---
 
-## 六、与"真正的 AgentOS"还差什么
+## 六、重点能力：全天候录音（四段漏斗）
+
+laos 的听觉链路信条是"**常驻的是耳朵的注意力，不是存储**"——四个阶段逐段缩小数据量、提升抽象层级，每一环都有测试与审计覆盖：
+
+| 阶段 | 模块 | 保留什么 | 丢弃什么 |
+|---|---|---|---|
+| ① 常驻检测 | `laos/vad.py` StreamingVAD / 真机 ADSP LPAI | 只有"有没有人声"这一个比特 | 全部静音——**原音频根本不落盘** |
+| ② 触发捕获 | `drv_rec.rec_start` / App `/rec/start` | 有人声的片段（带前后 padding） | 静音段、停顿 |
+| ③ 即时蒸馏 | `drv_ear`（SenseVoice ASR+情感）→ `bin/journal.py` | 文本 + 情感标签，`mem.remember(kind="journal")` 入库 | 语气、音色等多余信息 |
+| ④ 原音频即焚 | `rec_gc(keep_hours=6)` | 只有文本记忆留存 | 原始音频 6 小时后自动删除 |
+
+四条关键设计：
+
+1. **功耗分层**：真机上第①段跑在骁龙 ADSP 的 LPAI 上（<5mW），检测到人声才唤醒 AP；桌面端是纯 Python 能量 VAD（零依赖）。同一套 `StreamingVAD` 算法保证批量/流式分段结果一致（有 parity 测试）。
+2. **隐私四件套**：录音必须显式 syscall 触发；`LAOS_REC=0` 一键全局禁用（返回 `EACCES`）；每次录音成功**和被拒**都写 `event:"mic"` 审计；ASR 全本地不出机器。即焚是最后一道兜底——即使前三环被滥用，原始音频最多活 6 小时。
+3. **越用越聪明闭环**：蒸馏出的记忆 → `mem.recall` 检索 → `bin/diary.py` "今天听到的"章节 + `bin/mood_report.py` 情绪堆积图 → 技能库沉淀。听到的东西变成日记、情绪曲线和可复用技能，而不是一堆没人听的 wav。
+4. **真机/桌面双路径**：手机端 App 内 VAD 录音线程 + `/rec/*` HTTP 端点（`adb forward` 即达，ADSP 推理 <5mW）；桌面端 `drv_rec` + `journal.py` 定时管线。同一套漏斗语义。
+
+**已验证的用途**：Limitless 式会议记忆外挂、长期情绪追踪（情绪周报）、独居看护（异常静音/情绪低落告警）、语言学习发音回顾。
+
+---
+
+## 七、与"真正的 AgentOS"还差什么
 
 按重要性排序，也是下一步的路线图：
 
@@ -251,9 +277,30 @@ python bin/laosctl.py spans     # AgentProf 语义剖析回放
 > 能力说"能读文件"，任务说"读哪些文件"；内核在能力检查之后强制越界即
 > `EACCES: outside task scope`，任务边界随 fork 血统继承，不因分支或能力委托放宽。
 
+### 下一步计划与待实现功能
+
+**近期（纯软件，立即可做）**
+
+1. **说话人分离（diarization）**——journal 现在分不清"我说的"和"别人说的"；加入轻量声纹嵌入后日记按说话人分段，这是听觉链路最后一块明显缺口
+2. **记忆分层（MemOS 式）**——MemoryStore 目前是单层 JSONL；按召回频次把热记忆提升为明文层、冷记忆降级为摘要层，控制上下文注入成本
+3. **技能库精化**——SkillStore 签名目前只看工具序列 digest；加参数相似度聚类，减少误命中
+4. **MCP Tasks / Elicitation 硬化**——旧客户端 elicitation 挂起超时、task 线程运行时守卫、task 记录 GC
+
+**中期（需要真机 / 持续工程）**
+
+5. **Android 前台常驻录音服务合规完善**——App 的 VAD 录音线程已工作，还差前台服务通知 + 用户可见开关 + 电池优化白名单引导
+6. **Termux namespace / cgroup 实测矩阵**——enforcement 的 android 后端已写好，需真机跑通 `termux_matrix.py` 五项（mount ns / cgroup v2 / driver_pid 正路径 / swapon E2E / bpftrace 采集）
+7. **fs.write /main 延迟定价**——不可逆预算目前调用时扣费；对外发布类 syscall 改为 commit 时结算（Externalization Barriers 机制）
+8. **drv_screen 多轮真机验收**——屏幕五层能力的前两层已测；通知/短信/传感器/技能编排的真机用例未跑全
+
+**远期（架构级）**
+
+9. **FUSE BranchFS**——把 Python 硬链接 COW 换成真 FUSE 文件系统，branch 对所有进程透明
+10. **gVisor 可插拔沙箱**——seccomp 之后的下一档隔离强度，做成 enforcement 第四个后端
+
 ---
 
-## 七、目录结构
+## 八、目录结构
 
 ```
 laos/
@@ -275,6 +322,7 @@ laos/
     profiling.py  bpftrace 集成：驱动进程树真实 syscall 分布（可选，缺席降级）
     agentprof.py  AgentProf：审计流 → per-agent 语义 span + 启发式发现 + OTLP/JSON 导出
     memory.py     记忆库：JSONL 追加存储 + 字符 bigram 检索（mem.* 内建 syscall 的存储层）
+    vad.py        流式/批量 VAD：能量阈值 + 迟滞 + padding（四段漏斗第①段，桌面/真机同一算法）
   drivers/
     drv_fs.py     文件系统驱动：read / write / append / list / stat（jail 内）
     drv_proc.py   进程驱动：list / exec（白名单 + 危险模式拦截）
@@ -283,17 +331,24 @@ laos/
     drv_audio.py  语音增强驱动：separate / aec（Qwen Audio 开源模型，需 .venv-audio）
     drv_ear.py    语音转文字驱动：transcribe / status（SenseVoice 本机 / server HTTP 双通道）
     drv_mic.py    麦克风录音驱动：record / listen / segments（显式触发 + VAD 分段，录音必审计）
+    drv_rec.py    触发式录音驱动：rec_start/stop/segments/gc（VAD 捕获 + 原音频即焚，第②④段）
+    drv_screen.py 屏幕驱动：uiautomator 解析 + adb 操控（pkg: 应用白名单收窄）
+    drv_genie.py  端侧 LLM 驱动：genie-t2t-run / OpenAI 兼容双后端
+    drv_notify.py / drv_comms.py / drv_battery.py / drv_events.py
+                  通知 / 短信TTS / 电池 / 传感器事件（通信与感知四驱动）
   bin/
     laosd.py      引导器（init）：加载驱动 → fork 分支 → 起 Agent → commit
     laosctl.py    控制面：ps / top / trace / denied / audit
     laosweb.py    实时面板 + 交互操控（确认横幅/重启/信箱/记忆/日记）（http.server，零依赖）
-    diary.py      每日日记：审计 + 记忆聚合 → var/diary/<date>.md（LLM 摘要可选）
+    diary.py      每日日记：审计 + 记忆聚合 → var/diary/<date>.md（五章节含"今天听到的"）
+    journal.py    录音蒸馏管线：批量转写 → mem.remember(kind=journal) → rec_gc 即焚（第③④段）
+    mood_report.py 情绪周报：journal 情感标签按天聚合 → 字符堆积图
   tests/
     test_*.py     253 项回归测试（laos / ipc / scope / seccomp / cow / profiling / npu / sandbox / enforcement / memory / diary 等 24 个文件）
   var/            运行期产物：audit.jsonl / memory.jsonl / branches/ / diary/ / ear/ / swap/
 ```
 
-## 八、环境变量
+## 九、环境变量
 
 | 变量 | 默认 | 说明 |
 |---|---|---|
