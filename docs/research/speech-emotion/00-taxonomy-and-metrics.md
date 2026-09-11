@@ -169,3 +169,49 @@ Emotion-LLaMA `[待核实]`、AffectGPT `[待核实]`
 （仍归中型）。对外引用时采用「164M（官方标称 ~300M，存在冲突）」的写法。
 
 另注：常见的二手表格里"3.5 亿 / 10 亿"的说法是错的，不要采信。
+
+### 裁定 3：「模态」列记**推理时的输入通道**，不是训练期用到的模态
+
+`A+T` 在 `03-large-models.md` 里曾被同时用于两种结构完全不同的系统，必须拆开：
+
+| 系统类型 | 推理时输入 | 记法 |
+|---|---|---|
+| **端到端 Audio-LLM**（音频编码器直连 LLM，中间不产生转写文本） | 只有音频 | **`A`** |
+| **ASR + LLM 两段式**（先转写，再把转写稿交给 LLM） | 音频 + 中间产生的转写稿 | `A+T` |
+| 原生支持视频/图像输入的模型 | 音频 + 文本 + 视觉 | `A+T+V` |
+
+三条细则：
+
+1. **指令 prompt 不算模态。**「这段语音的情绪是什么？」这类 system/user prompt 不携带情感信息，
+   不因为它存在就把模型记成 `A+T`。否则几乎所有 LLM 都会变成 `A+T`。
+2. **训练期的教师 / 辅助模态不计入**，但要在「版本/权重」列注明。
+   例如 CARE 用文本模型做蒸馏教师、推理时只吃音频 → 记 `A`，版本列注明「文本仅作蒸馏教师」。
+3. **内部有 Whisper 编码器不等于有 T 通道。** SALMONN / WavLLM / Qwen2-Audio 都用 Whisper 系列
+   做音频编码器，但它输出的是音频表征，不是转写文本。
+
+据此已把 `03-large-models.md` 的 **Qwen2-Audio-7B、SALMONN-7B、SALMONN-13B、WavLLM** 由 `A+T` 改为 `A`；
+Cascade 与 R3 两条两段式流水线保留 `A+T`。
+
+**连带影响**：改完后大型档里真正标记为 `A+T+V` 的只剩 Qwen2.5-Omni-7B、Emotion-LLaMA、
+Phi-4-multimodal-instruct 三条，**「大型档普遍是多模态」这个印象不成立**——大型档的多数是
+端到端纯音频 LLM。这一点在 `2026-09-landscape.md` 的交叉表里要体现。
+
+### 裁定 4：CARE（160M）的模态是 `A`
+
+论文原文："CARE is designed to model the semantic and acoustic properties of speech with the
+**uni-modal input**"（arXiv 2409.05566 §I-C）——文本模型只是**蒸馏教师**。
+因此它属「语音-文本对齐蒸馏」路线，不是多模态输入模型。
+CARE 目前只在 `03-large-models.md` 的正文对照表里出现（作为 8 数据集横评的基线），
+未进 12 列主表；若日后归档，模态列应记 `A`。
+
+### 裁定 5：MER2024 / MER2025 基线（MERTools）不是单一模型，不进 12 列表
+
+它由「HUBERT-large + CLIP-large + RoBERTa/MacBERT 三路预抽取特征 + 注意力融合头」组成，
+官方只给各编码器的模型卡，**未给系统总参数量**；且 Top1 组合随数据集变化，自己相加估算不可核验。
+按「参数量查不到就删」处理，只在 `05-multimodal.md` 作融合方式证据。
+
+### 裁定 6：融合方式写进「版本/权重」列，不新增列
+
+12 列表头逐字照抄 schema，列数不可变。多模态模型的融合方式（early / late / hybrid /
+cross-attention / gating）写进「版本/权重」列，例如
+`cross-attention 融合（MHCA）；VoxCeleb2 自监督权重`。

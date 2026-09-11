@@ -13,13 +13,13 @@
 
 | 模型 | 版本/权重 | 参数量(M) | 模态 | 预训练语料 | 输出 | 基准 | 指标 | 许可 | 权重可得 | edge | 来源 |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Qwen2-Audio-7B | Qwen/Qwen2-Audio-7B | 8000 | A+T | Qwen2 文本语料 + 多任务音频数据（ASR / S2TT / 音频理解） | 自由文本（可给出情感类别与理由） | IEMOCAP, AIR-Bench | ACC 54.0 (IEMOCAP)；AIR-Bench Speech 69.7 (AIR-Bench) | Apache-2.0 | yes | no | arXiv:2407.10759 https://huggingface.co/Qwen/Qwen2-Audio-7B |
+| Qwen2-Audio-7B | Qwen/Qwen2-Audio-7B；端到端（非 ASR+LLM 两段式，见裁定 3） | 8000 | A | Qwen2 文本语料 + 多任务音频数据（ASR / S2TT / 音频理解） | 自由文本（可给出情感类别与理由） | IEMOCAP, AIR-Bench | ACC 54.0 (IEMOCAP)；AIR-Bench Speech 69.7 (AIR-Bench) | Apache-2.0 | yes | no | arXiv:2407.10759 https://huggingface.co/Qwen/Qwen2-Audio-7B |
 | Qwen2.5-Omni-7B | Qwen/Qwen2.5-Omni-7B | 10700 | A+T+V | Qwen2.5 文本语料 + 音视频多任务预训练 | 自由文本（可给出情感类别与理由） | EmotionHallucer | ACC 18.65 (EmotionHallucer 全量，随机基线 25.0)；ACC 25.44 (EmotionHallucer NoAudio 子集) | Apache-2.0 | yes | no | arXiv:2503.20215 https://huggingface.co/Qwen/Qwen2.5-Omni-7B |
 | SALMONN-7B | tsinghua-ee/SALMONN-7B；speaker-capable | 7000 | A+T | Whisper + BEATs 编码器；OpenAQA-5M 指令微调 | 自由文本（情感类别 / 描述） | IEMOCAP | WF1 75.8 (IEMOCAP-4) | Apache-2.0 | yes | no | arXiv:2310.13289 https://github.com/bytedance/SALMONN |
 | SALMONN-13B | tsinghua-ee/SALMONN-13B；speaker-capable | 13000 | A+T | Whisper + BEATs 编码器；OpenAQA-5M 指令微调 | 自由文本（情感类别 / 描述） | IEMOCAP | WF1 72.9 (IEMOCAP-4) | Apache-2.0 | yes | no | arXiv:2310.13289 https://huggingface.co/tsinghua-ee/SALMONN-13B |
 | SenseVoice-Large | iic/SenseVoiceLarge（Large 权重未公开发布，仅 Small 可下载） | 1587 | A | 多任务弱标注语音（ASR / 语种 / 事件 / 情感联合训练） | 情感 + 事件 + 语种标签（自回归 token） | CASIA | WA 95.0 (CASIA)；WA 69.0 (MER2023) | MIT（FunAudioLLM/SenseVoice 代码）；Large 权重未发布 | no | no | arXiv:2407.04051 https://github.com/FunAudioLLM/SenseVoice |
 | Emotion-LLaMA | ZebangCheng/Emotion-LLaMA | 7000 | A+T+V | LLaMA-2 文本语料 + HuBERT/EVA/MAE/VideoMAE 编码器 + MER2023 等情感指令数据 | 自由文本描述（细粒度情感） | MER2023 | F1 90.36 (MER2023) | Apache-2.0（HF 模型卡）；MER2023 数据仅限研究用途 | yes | no | arXiv:2406.11161 https://huggingface.co/ZebangCheng/Emotion-LLaMA |
-| WavLLM | microsoft/SpeechT5 → WavLLM；speaker-capable | 7550 | A+T | Whisper-large-v2（语义）+ WavLM-base（声学）编码器 + LibriSpeech 等多任务数据 | 自由文本（情感类别） | IEMOCAP | ACC 59.8 (IEMOCAP) | MIT（SpeechT5 仓库 LICENSE）；基座 LLaMA-2-7B-chat 另受 LLaMA-2 社区许可约束 | yes | no | arXiv:2404.00656 https://github.com/microsoft/SpeechT5 |
+| WavLLM | microsoft/SpeechT5 → WavLLM；端到端（非两段式，见裁定 3）；speaker-capable | 7550 | A | Whisper-large-v2（语义）+ WavLM-base（声学）编码器 + LibriSpeech 等多任务数据 | 自由文本（情感类别） | IEMOCAP | ACC 59.8 (IEMOCAP) | MIT（SpeechT5 仓库 LICENSE）；基座 LLaMA-2-7B-chat 另受 LLaMA-2 社区许可约束 | yes | no | arXiv:2404.00656 https://github.com/microsoft/SpeechT5 |
 | Phi-4-multimodal-instruct | microsoft/Phi-4-multimodal-instruct | 5600 | A+T+V | Phi-4-Mini 文本语料 + 语音 / 视觉编码器预训练数据 | 自由文本 | IEMOCAP | ACC 41.0 (IEMOCAP) | MIT | yes | unknown(未找到公开转换案例) | arXiv:2503.01743 https://huggingface.co/microsoft/Phi-4-multimodal-instruct |
 | Cascade（Whisper + Llama-3） | ASR+LLM 两段式（Whisper-large-v3 转写 → Llama-3-8B-Instruct 判情感） | 9550 | A+T | Whisper-large-v3（680k h 弱监督 ASR）+ Llama-3-8B 文本语料 | 情感类别 | IEMOCAP, MELD | ACC 46.7 (IEMOCAP)；ACC 36.8 (MELD-ER) | Whisper MIT；Llama-3 社区许可 | yes | no | https://arxiv.org/abs/2506.06820 |
 | R3 流水线（7B） | ASR+LLM 两段式（Whisper-large 转写 → Llama-2-7b-chat-hf 判情感） | 8550 | A+T | Whisper-large（680k h 弱监督 ASR）+ Llama-2 文本语料 | 4 类（angry/happy/neutral/sad） | IEMOCAP | UA 64.67 (IEMOCAP，LoRA 指令微调)；UA 49.72 (IEMOCAP，零样本) | Whisper MIT；LLaMA-2 社区许可 | yes | no | https://arxiv.org/abs/2409.15551 |
@@ -40,6 +40,14 @@
    SALMONN 的 WF1 来自 CARE 论文（arXiv:2409.05566）的 IEMOCAP-4 协议，与前者不同基准。
 3. **speaker-capable**：SALMONN（含说话人验证任务）、WavLLM（含 SV 任务）具备说话人相关能力。
    按红线 1，仅在此标注，**不参与任何选型结论**。
+4. **「模态」列记推理时的输入通道，不记内部结构**（`00` 裁定 3）。
+   本表已据此把 **Qwen2-Audio-7B / SALMONN-7B / SALMONN-13B / WavLLM 由 `A+T` 改为 `A`**——
+   它们是**端到端 Audio-LLM**：音频编码器（Whisper / BEATs / WavLM）直接接入 LLM，
+   中间**不产生转写文本**；内部有 Whisper 编码器不等于有 T 通道，指令 prompt 也不算模态。
+   只有 **Cascade 与 R3** 这两条真正的 ASR+LLM 两段式流水线保留 `A+T`。
+   改完后本表里 `A+T+V`（真多模态）只剩 Qwen2.5-Omni-7B、Emotion-LLaMA、Phi-4-multimodal-instruct 三条——
+   **「大型档普遍是多模态」这个印象不成立**，大型档的多数是端到端纯音频 LLM。
+   这一区别对架构有直接含义：端到端模型**不需要 ASR 前置**，两段式才需要。
 
 ### 已核实但因红线 3 排除的条目（留痕）
 

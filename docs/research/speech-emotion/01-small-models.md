@@ -25,6 +25,7 @@
 | TERA | s3prl upstream | 21.33 | A | LibriSpeech 960h | 768-d 帧级隐层 | SUPERB ER | Acc 56.27 (SUPERB ER / IEMOCAP 4类) | Apache-2.0（s3prl 主体；Facebook 著权文件为 CC-BY-NC） | yes | unknown(未找到公开转换案例) | arxiv.org/abs/2105.01051 表1、表2；github.com/s3prl/s3prl |
 | BYOL-A (2048-d) | AudioNTT2020-BYOLA-64x96d2048 | 6.33 | A | AudioSet（BYOL 自监督，2 层卷积） | 2048-d utterance embedding | SERAB | Acc 62.8 (IEMOCAP 4类)，72.8 (SERAB 跨库平均) | 仅限论文评测用途（官方 LICENSE 声明） | yes | unknown(未找到公开转换案例) | arxiv.org/abs/2110.03414 表3；arxiv.org/abs/2204.07402 表I（6,333,376 参数）；github.com/nttcslab/byol-a |
 | ECAPA-TDNN (C=512) | C=512，**speaker-capable**（具备说话人确认能力） | 6.2 | A | VoxCeleb1+2（说话人识别语料） | 192-d 说话人 embedding，可接情感分类头 | VoxCeleb1（说话人）、IEMOCAP（情感） | EER 1.01 (VoxCeleb1)；Acc 65.7 (IEMOCAP, SpeechBrain recipe) | Apache-2.0（SpeechBrain） | yes | unknown(未找到公开转换案例) | arxiv.org/abs/2005.07143 表1（6.2M / EER 1.01）；github.com/speechbrain/speechbrain |
+| HiCMAE-T | cross-attention 融合（MHCA 跨模态融合编码器）；VoxCeleb2 自监督权重 | 20 | A+V | VoxCeleb2（无标注音视频，掩码重建 + 层级对比） | 4/6 类情绪（融合特征 + 线性头） | IEMOCAP | UAR 66.85 (IEMOCAP)；WAR 62.70 (IEMOCAP 仅音频分支 8M) | MIT | yes | unknown(未找到公开转换案例) | arxiv.org/abs/2401.05698; github.com/sunlicai/HiCMAE |
 | Moonshine-tiny | UsefulSensors/moonshine-tiny（ASR，非情感模型，供两段式流水线参考） | 27 | A | 英文 ASR 数据（蒸馏自 base；官方未完整公开语料构成） | 英文文本转写，不含情感标签 | LibriSpeech | WER 4.55 (LibriSpeech test-clean)，11.68 (LibriSpeech other) | MIT | yes | yes: GGUF Q8_0 34 MB / ONNX，CPU 约 11.2x 实时 | huggingface.co/UsefulSensors/moonshine-tiny；arxiv.org/abs/2410.15608 |
 
 **表内说明**
@@ -32,7 +33,14 @@
 - SERAB（arXiv 2110.03414）报告的是 **test accuracy**，即 WAR（按样本数加权），**不是 UAR**；UM 是其 9 个数据集（英/法/德/希/意/波斯，6 种语言）准确率的等权平均。跨表比较时不要把 SERAB 的 Acc 和别处的 UAR 直接相减。
 - 同一模型在不同论文里的 IEMOCAP 数字不可直接横比：SUPERB ER 是冻结特征 + 线性头、4 类、官方划分；SERAB 的 IEM 也是 4 类但划分不同；NOSS 的 IEMOCAP 又是另一套划分。
 - ECAPA-TDNN 一栏标注 `speaker-capable`：它具备说话人确认能力，按红线一**不得进入任何推荐或结论**；此处仅作为"6M 量级编码器在 IEMOCAP 上能到多少"的参照。
-- `edge` 列只记**已核到的公开证据**，且按 `00-taxonomy-and-metrics.md` 的规矩，`yes` **必须点名 runtime**。「真端侧（原生 App / aDSP）」与「proot 内可行（CPU 推理）」两档的区分与逐条判定，见 [`04-edge-deployment.md`](04-edge-deployment.md) §5——本轮回填中 **DistilHuBERT 因"只报了 INT8 体积、未点名 runtime"被降级为 `unknown(...)`**，这是口径收紧，不是新增否定。
+- `edge` 列只记**已核到的公开证据**，且按 `00-taxonomy-and-metrics.md` 的规矩，`yes` **必须点名 runtime**。
+- **HiCMAE-T（20M，`A+V`）来自多模态轴**，是本轮 `05-multimodal.md` 调研新增的条目，按参数量落在小型档。
+  参数量（20M）与指标取自 arXiv 2401.05698（Information Fusion 2024，同行评审）Table 10
+  （IEMOCAP 4 类，session-independent）——该表同时给出 A / V / A+V 三种输入的参数量与 UAR/WAR，
+  是本次找到的**唯一一份把「缺模态」与「全模态」放在同一张官方表里的 SER 数字**。
+  注意它的 A+V 参数量（20M）大于其纯音频分支（8M），符合「含两个编码器」的口径。
+  它是本表唯一的多模态条目；多模态轴的整体结论是「**不引入视觉模态**」（见 `05-multimodal.md`），
+  因此这行**不是落地推荐**，只是记录「多模态在 20M 量级能做到多少」。
 - 涉及健康/情感状态的任何表述均为**非诊断**用途。
 
 **因缺少可靠来源而删除的候选（不写入表）**

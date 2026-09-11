@@ -25,6 +25,10 @@
 | wav2vec 2.0 | `wav2vec 2.0 Large`（316M 级，见下方「分档边界争议」） | 317.38 | A | LibriLight-60k | 情感表征（下游线性头 4 类） | IEMOCAP | WA 65.64 (IEMOCAP) | Apache-2.0 | yes | unknown(未找到公开转换案例) | arxiv.org/abs/2312.15185; github.com/pytorch/fairseq |
 | HuBERT | `HuBERT Large`（316M 级，见下方「分档边界争议」） | 316.61 | A | LibriLight-60k | 情感表征（下游线性头 4 类） | IEMOCAP | UA 67.42 (IEMOCAP) | Apache-2.0 | yes | unknown(未找到公开转换案例) | arxiv.org/abs/2406.07162; huggingface.co/facebook/hubert-large-ls960-ft |
 | WavLM | `microsoft/wavlm-large`（speaker-capable；316M 级，见下方「分档边界争议」） | 316.62 | A | Mix-94k | 情感表征（下游线性头 4 类） | IEMOCAP | UA 69.47 (IEMOCAP) | other（microsoft/UniSpeech LICENSE，非 SPDX） | yes | unknown(未找到公开转换案例) | arxiv.org/abs/2406.07162; huggingface.co/microsoft/wavlm-large |
+| HiCMAE-S | cross-attention 融合（MHCA 跨模态融合编码器）；VoxCeleb2 自监督权重 | 46 | A+V | VoxCeleb2（无标注音视频，掩码重建 + 层级对比） | 4/6 类情绪（融合特征 + 线性头） | IEMOCAP | UAR 67.46 (IEMOCAP)；WAR 64.06 (IEMOCAP 仅音频分支 18M) | MIT | yes | unknown(未找到公开转换案例) | arxiv.org/abs/2401.05698; github.com/sunlicai/HiCMAE |
+| HiCMAE-B | cross-attention 融合（MHCA）；VoxCeleb2 自监督权重 | 81 | A+V | VoxCeleb2（无标注音视频，掩码重建 + 层级对比） | 4/6 类情绪（融合特征 + 线性头） | IEMOCAP | UAR 68.21 (IEMOCAP)；WAR 65.23 (IEMOCAP 仅音频分支 32M) | MIT | yes | unknown(未找到公开转换案例) | arxiv.org/abs/2401.05698; github.com/sunlicai/HiCMAE |
+| AV-HuBERT（Base） | early fusion（音视频逐帧拼接后入 Transformer）+ modality dropout；speaker-capable | 103 | A+V | LRS3 + VoxCeleb2(En)，掩码多模态聚类预测 | 帧级音视频表示；情感需下游微调头 | IEMOCAP | WAR 58.54 (IEMOCAP 仅音频分支 90M)；WAR 46.45 (IEMOCAP A+V 融合) | other（AV-HuBERT LICENSE AGREEMENT，Meta，仅限非商业研究用途；商业化需另行授权） | yes | unknown(未找到公开转换案例) | arxiv.org/abs/2201.02184; github.com/facebookresearch/av_hubert |
+| Self-MM | 拼接融合头 + 三个单模态子任务头（late + 中间混合）；参数量 103 为二手综述值（含 BERT 文本编码器），音频/视觉用预抽取特征、**无音频编码器** | 103 | A+T+V | BERT（中文/英文）+ COVAREP 声学特征 + Facet 视觉特征（均为预抽取，非端到端） | 情感极性（回归 + 2/3/5 分类）+ 单模态子任务头 | CH-SIMS | Acc-2 80.04 (CH-SIMS)；Acc-5 41.53 (CH-SIMS) | MIT | yes | unknown(未找到公开转换案例) | arxiv.org/abs/2102.04830; github.com/thuiar/Self-MM |
 
 ### 表格脚注
 
@@ -59,6 +63,28 @@
    无 w8a8 / w8a16**，且峰值内存报到 **1.0–1.6 GB**。「真端侧」与「proot 内可行」两档的区分与
    逐条判定见 [`04-edge-deployment.md`](04-edge-deployment.md) §5；本档的结论是
    **B 档（proot 内 CPU）触发式可用，A 档不成立**。
+8. **表末 4 行（HiCMAE-S / HiCMAE-B / AV-HuBERT / Self-MM）来自多模态轴**，
+   是本轮 `05-multimodal.md` 调研中新增的条目，按参数量落在中型档，故归档于此。
+   相关口径与证据等级：
+   - **HiCMAE 两行**的参数量（46 / 81M）与指标取自 arXiv 2401.05698（Information Fusion 2024，
+     **同行评审**）Table 10（IEMOCAP 4 类，session-independent）。该表同时给出 A / V / A+V 三种输入的
+     参数量与 UAR/WAR，是本次找到的**唯一一份把「缺模态」与「全模态」放在同一张官方表里的 SER 数字**。
+     A+V 参数量（46/81M）大于其任一支（18/32M），符合「含两个编码器」的口径。
+   - **AV-HuBERT 103M** 有两个独立出处：VatLM 论文原文写「AV-HuBERT base 与 large 分别为 103M 与 325M」
+     （arXiv 2211.11275），HiCMAE Table 10 亦标 103M（**同行评审 + 交叉验证**）。
+     其情感指标是 HiCMAE 论文在自己协议下复现的（**二手实测**）。
+     注意其 **A+V 融合 WAR 46.45 反低于纯音频分支 58.54**——这是 early fusion 在模态质量不匹配时的
+     典型失效，不要只读融合后的数字。
+   - **Self-MM 的 103M 是二手值**（含 BERT 文本编码器），且它**没有音频编码器**
+     （声学用 COVAREP 预抽取特征），与 `00` 的「参数量含音频编码器」口径**名义冲突**：
+     该 103M 不含音频前端，落地时 COVAREP 需另算。CH-SIMS 的 Acc-2 80.04 / Acc-5 41.53 亦为转引
+     （转引自 Mao et al. 2022 及官方 GitHub）。
+   - 四行的 `edge` 全为 `unknown(未找到公开转换案例)`：未检索到任一模型有 TFLite /
+     ONNX Runtime Mobile / CoreML / NCNN / MNN / RKNN / QNN 的公开转换或实测案例。
+   - **AV-HuBERT 标 `speaker-capable`**（VoxCeleb2 说话人语料预训练 + 下游 SV 微调用法），
+     按红线 1 标注，**不参与任何推荐**。
+   - 多模态轴的整体结论是「**不引入视觉模态**」；这 4 行**不是落地推荐**，
+     只是把「多模态模型在这个参数量级上能做到多少」记录在案。见 [`05-multimodal.md`](05-multimodal.md)。
 
 ### 分档边界争议（需人工裁定）
 
