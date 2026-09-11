@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>全天候录音（Always-On Recording）全景调研 · laos</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2230; --line:#2a3140;
+    --fg:#e6edf3; --dim:#9aa7b8; --cyan:#39d0d8; --orange:#f0883e;
+    --red:#f85149; --green:#3fb950; --purple:#bc8cff; --yellow:#e3b341;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+       font-size:15px;line-height:1.7}
+  a{color:var(--cyan);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .layout{display:flex;max-width:1560px;margin:0 auto}
+  /* ---------- side nav ---------- */
+  nav{position:sticky;top:0;height:100vh;width:238px;flex:0 0 238px;overflow-y:auto;
+      border-right:1px solid var(--line);padding:22px 14px;background:#0b0f15}
+  nav h4{margin:0 0 12px;font-size:13px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase}
+  nav a{display:block;padding:6px 10px;margin:2px 0;border-radius:6px;color:var(--dim);font-size:13.5px}
+  nav a:hover{background:var(--panel2);color:var(--fg);text-decoration:none}
+  nav a.sub{padding-left:24px;font-size:12.5px}
+  main{flex:1;min-width:0;padding:34px 40px 90px}
+  /* ---------- header ---------- */
+  header{border-bottom:1px solid var(--line);padding-bottom:26px;margin-bottom:34px}
+  h1{font-size:31px;margin:0 0 10px;letter-spacing:-.01em}
+  h1 span{color:var(--cyan)}
+  .meta{color:var(--dim);font-size:13px}
+  .lead{font-size:16px;color:#c9d5e3;border-left:3px solid var(--cyan);
+        padding:12px 16px;background:var(--panel);border-radius:0 8px 8px 0;margin:22px 0}
+  /* ---------- cards / kpi ---------- */
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:14px;margin:24px 0 8px}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .kpi b{display:block;font-size:26px;color:var(--cyan);line-height:1.25}
+  .kpi small{color:var(--dim);font-size:12.5px}
+  .kpi.warn b{color:var(--red)} .kpi.ok b{color:var(--green)} .kpi.amber b{color:var(--orange)}
+  /* ---------- sections ---------- */
+  section{margin:52px 0;scroll-margin-top:14px}
+  h2{font-size:22px;margin:0 0 6px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+  h2 .num{color:var(--cyan);margin-right:10px;font-variant-numeric:tabular-nums}
+  h3{font-size:16.5px;margin:30px 0 10px;color:var(--orange)}
+  p{margin:12px 0}
+  ul{margin:10px 0;padding-left:22px} li{margin:5px 0}
+  code{background:#1b2230;padding:1px 6px;border-radius:4px;font-size:13px;color:var(--purple)}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:18px 0}
+  .note{color:var(--dim);font-size:13px}
+  /* ---------- tables ---------- */
+  .tw{overflow-x:auto;border:1px solid var(--line);border-radius:10px;margin:16px 0}
+  table{border-collapse:collapse;width:100%;min-width:720px;font-size:13.5px}
+  th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  th{background:#131a24;color:var(--dim);font-weight:600;white-space:nowrap;position:sticky;top:0}
+  tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:#141b26}
+  .dead{color:var(--red)} .alive{color:var(--green)} .maybe{color:var(--yellow)}
+  .tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:11.5px;
+       border:1px solid var(--line);color:var(--dim);white-space:nowrap}
+  .tag.c{color:var(--cyan);border-color:#1d4b50} .tag.g{color:var(--green);border-color:#1d4a26}
+  .tag.r{color:var(--red);border-color:#4d2220} .tag.o{color:var(--orange);border-color:#4d351d}
+  /* ---------- svg ---------- */
+  svg{display:block;max-width:100%;height:auto}
+  .fig{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;margin:18px 0}
+  .fig .cap{color:var(--dim);font-size:12.5px;margin-top:10px}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;color:var(--dim);font-size:12.5px;margin-top:10px}
+  .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px}
+  /* ---------- risk matrix ---------- */
+  .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:18px 0}
+  .cell{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .cell.hi{border-color:#4d2220} .cell.mid{border-color:#4d3f1d} .cell.lo{border-color:#1d4a26}
+  .cell b{display:block;margin-bottom:6px}
+  .cell .lvl{font-size:12px;font-weight:600}
+  .hi .lvl{color:var(--red)} .mid .lvl{color:var(--yellow)} .lo .lvl{color:var(--green)}
+  footer{border-top:1px solid var(--line);margin-top:60px;padding-top:20px;color:var(--dim);font-size:13px}
+  @media(max-width:960px){nav{display:none}main{padding:24px 18px 60px}}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav>
+  <h4>目录</h4>
+  <a href="#top">概览</a>
+  <a href="#taxonomy">1 · 分类学</a>
+  <a href="#products">2 · 商业产品</a>
+  <a href="#oss" class="sub">2b · 开源栈</a>
+  <a href="#papers">3 · 关键论文</a>
+  <a href="#power">4 · 功耗量级</a>
+  <a href="#privacy">5 · 隐私合规</a>
+  <a href="#fail">6 · 失败案例</a>
+  <a href="#laos">7 · 对 laos 的启示</a>
+  <a href="#ref">8 · 参考来源</a>
+</nav>
+
+<main>
+<header id="top">
+  <h1>全天候录音（<span>Always-On Recording</span>）全景调研</h1>
+  <div class="meta">调研时间 2026-09-11 ｜ 交付物：单文件 HTML，零外部依赖 ｜ 姊妹篇：
+    <a href="../research/always-on-recording/2026-09-landscape.md">收敛版 Markdown</a> ·
+    <a href="../research/always-on-recording/academic-papers.md">学术线</a> ·
+    <a href="../research/always-on-recording/hardware-power.md">硬件与功耗</a> ·
+    <a href="../research/always-on-recording/social-acceptance.md">社会接受度</a>
+  </div>
+
+  <div class="lead">
+    业界已经完成一次洗牌，结论收敛得比想象中更一致：<b>纯"常开被动录音 + 云端转写"被系统性证伪</b>；
+    活下来的产品全部是"克制版常开"——麦克风硬件层可以常开，但<b>软件层只在触发后才编码、转写、存储</b>；
+    蒸馏尽量端侧；原始音频短期留存或即焚。
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><b>16</b><small>商业产品盘点（含已死者）</small></div>
+    <div class="kpi warn"><b>2 / 2</b><small>纯常开被动产品，全部已死或停售</small></div>
+    <div class="kpi ok"><b>34</b><small>可直接复用的开源项目</small></div>
+    <div class="kpi"><b>21</b><small>关键论文（六个方向）</small></div>
+    <div class="kpi amber"><b>5 mW</b><small>laos ADSP 常驻目标 ≈ 0.62% 电量/天</small></div>
+    <div class="kpi warn"><b>400–1000 mW</b><small>跑通用 Linux 的机器空闲功耗（proot 现状）</small></div>
+  </div>
+</header>
+
+<!-- ============ 1 taxonomy ============ -->
+<section id="taxonomy">
+  <h2><span class="num">01</span>分类学：四段漏斗 + 三条判据</h2>
+  <p>业界所有分歧都发生在同一条链的四个环节上。本文用这四个字段描述任何产品 / 项目：</p>
+
+  <div class="fig">
+    <svg viewBox="0 0 900 330" role="img" aria-label="全天候录音四段漏斗图">
+      <defs>
+        <linearGradient id="g1" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#1d4b50"/><stop offset="1" stop-color="#0f2f33"/>
+        </linearGradient>
+        <linearGradient id="g2" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#4d351d"/><stop offset="1" stop-color="#33230f"/>
+        </linearGradient>
+        <linearGradient id="g3" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#4a2a52"/><stop offset="1" stop-color="#2c1832"/>
+        </linearGradient>
+        <linearGradient id="g4" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#1d4a26"/><stop offset="1" stop-color="#0f2b16"/>
+        </linearGradient>
+      </defs>
+      <!-- ① -->
+      <polygon points="60,20 840,20 790,88 110,88" fill="url(#g1)" stroke="#39d0d8"/>
+      <text x="450" y="48" text-anchor="middle" fill="#e6edf3" font-size="15" font-weight="600">① 常驻检测 always-on sensing</text>
+      <text x="450" y="70" text-anchor="middle" fill="#9aa7b8" font-size="12.5">麦克风常开 · 只有 VAD/唤醒词/声学事件判定 · 功耗 nW–mW 级</text>
+      <text x="884" y="58" fill="#39d0d8" font-size="12">100% 音频流</text>
+      <!-- ② -->
+      <polygon points="110,98 790,98 735,166 165,166" fill="url(#g2)" stroke="#f0883e"/>
+      <text x="450" y="126" text-anchor="middle" fill="#e6edf3" font-size="15" font-weight="600">② 触发捕获 capture</text>
+      <text x="450" y="148" text-anchor="middle" fill="#9aa7b8" font-size="12.5">只留有声段 · Opus 压缩落盘 · 静音帧零存储零算力</text>
+      <text x="884" y="136" fill="#f0883e" font-size="12">7.2 MB/h @16kbps</text>
+      <!-- ③ -->
+      <polygon points="165,176 735,176 680,244 220,244" fill="url(#g3)" stroke="#bc8cff"/>
+      <text x="450" y="204" text-anchor="middle" fill="#e6edf3" font-size="15" font-weight="600">③ 蒸馏 distillation</text>
+      <text x="450" y="226" text-anchor="middle" fill="#9aa7b8" font-size="12.5">转写 / 说话人 / 情感 / 声学事件 · 端侧优先 · 百 mW–W 级，只能突发</text>
+      <text x="884" y="214" fill="#bc8cff" font-size="12">~0.05 MB/h</text>
+      <!-- ④ -->
+      <polygon points="220,254 680,254 625,322 275,322" fill="url(#g4)" stroke="#3fb950"/>
+      <text x="450" y="282" text-anchor="middle" fill="#e6edf3" font-size="15" font-weight="600">④ 留存与消费 retention &amp; use</text>
+      <text x="450" y="304" text-anchor="middle" fill="#9aa7b8" font-size="12.5">原始音频 6 h 即焚 · 文本 + 向量长期入记忆 · Agent 可检索</text>
+      <text x="884" y="292" fill="#3fb950" font-size="12">合规成本集中段</text>
+      <!-- arrows -->
+      <g stroke="#2a3140" stroke-width="1.5">
+        <line x1="60" y1="54" x2="884" y2="54" stroke-dasharray="3 5"/>
+      </g>
+      <text x="60" y="14" fill="#9aa7b8" font-size="12">输入：24/7 环境声音</text>
+    </svg>
+    <div class="cap">图 1：四段漏斗。业界收敛点在于——<b>漏斗必须存在，而且第一段的功耗决定了整个能力是否成立</b>。</div>
+  </div>
+
+  <div class="tw"><table>
+    <thead><tr><th>判据</th><th>取值</th><th>为什么重要</th></tr></thead>
+    <tbody>
+      <tr><td><code>always_on</code></td><td>常开录音 / VAD 门控 / 唤醒词 / 声学事件 / 手动触发</td><td>决定 ① 段功耗与社会接受度</td></tr>
+      <tr><td><code>processing</code></td><td>端侧 / 云 / 混合（写明哪段在哪）</td><td>决定成本结构与隐私卖点是否自洽</td></tr>
+      <tr><td><code>retention</code></td><td>永久云存 / 短期云存 / 本地即焚 / 仅留文本 / 仅留事件</td><td>决定 ④ 段合规风险，也是用户信任的第一感知点</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ 2 products ============ -->
+<section id="products">
+  <h2><span class="num">02</span>商业产品全景（16 个）</h2>
+  <p>16 个产品里 <code>always_on = 常开被动</code> 的只有 2 个，而且<b>两个都死了</b>。这是本调研最硬的一条行业事实。</p>
+
+  <div class="tw"><table>
+    <thead><tr><th>产品</th><th>形态</th><th>触发</th><th>处理位置</th><th>留存</th><th>2026-09 现状</th></tr></thead>
+    <tbody>
+      <tr><td>Rewind.ai</td><td>桌面 App</td><td>常开后台</td><td>早期纯端侧</td><td>本地</td><td class="dead">已停服（并入 Meta）</td></tr>
+      <tr><td>Limitless Pendant</td><td>胸针</td><td class="dead">常开被动</td><td class="dead">纯云</td><td>云端留存</td><td class="dead">停售（并入 Meta）</td></tr>
+      <tr><td>Omi</td><td>项链</td><td>24h+ 连续</td><td>混合，可自托管</td><td>用户自定</td><td class="alive">活跃 · 全开源</td></tr>
+      <tr><td>Plaud Note / NotePin</td><td>录音卡 / 胸针</td><td>物理按键</td><td>云 + 64GB 本地</td><td>本地为主</td><td class="alive">活跃</td></tr>
+      <tr><td>Bee</td><td>腕带</td><td>按键 + LED</td><td>实时转写</td><td>不存原始音频</td><td class="maybe">被 Amazon 收购</td></tr>
+      <tr><td>Meta Ray-Ban</td><td>眼镜</td><td>唤醒词常开</td><td>唤醒端侧 / 查询上云</td><td>云端</td><td class="alive">活跃 · LED 防篡改强制</td></tr>
+      <tr><td>Humane AI Pin</td><td>别针</td><td>按住激活</td><td class="dead">纯云</td><td>云端</td><td class="dead">已关停变砖</td></tr>
+      <tr><td>Apple（iPhone / Watch）</td><td>手机 / 手表</td><td>手动 + 对话感知</td><td>端侧 + PCC</td><td>端侧</td><td class="alive">活跃</td></tr>
+      <tr><td>Google Pixel Recorder</td><td>手机 App</td><td>手动</td><td class="alive">端侧 Gemini Nano</td><td>端侧</td><td class="alive">活跃</td></tr>
+      <tr><td>Samsung Galaxy</td><td>手机 App</td><td>手动 / 通话一键</td><td>端侧（宣称）</td><td>端侧</td><td class="alive">活跃</td></tr>
+      <tr><td>科大讯飞 SR / 听见</td><td>录音笔</td><td>按键</td><td>混合（云端 + 离线）</td><td>本地 + 云</td><td class="alive">活跃</td></tr>
+      <tr><td>华为 FreeBuds Pro 5</td><td>TWS 耳机</td><td>按键 / 通话自动</td><td>鸿蒙混合</td><td>端侧</td><td class="alive">活跃</td></tr>
+      <tr><td>小米（眼镜 2 / 耳夹）</td><td>眼镜 + 耳机</td><td>长按 / 按键</td><td>云端转写</td><td>云</td><td class="alive">活跃 · 录音亮灯提醒</td></tr>
+      <tr><td>有道 OpenPods / X8</td><td>AI 耳机</td><td>一键</td><td>云订阅</td><td>云</td><td class="alive">活跃</td></tr>
+      <tr><td>安克 soundcore Work</td><td>磁吸卡片</td><td>按键</td><td>豆包云 + 飞书</td><td>云</td><td class="alive">活跃</td></tr>
+      <tr><td>腾讯会议"录音笔"</td><td>会议 App</td><td>会议内手动</td><td>云端实时</td><td>留存本地</td><td class="alive">活跃</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>产品定位矩阵</h3>
+  <div class="fig">
+    <svg viewBox="0 0 900 520" role="img" aria-label="产品定位矩阵">
+      <rect x="70" y="40" width="740" height="420" fill="#101720" stroke="#2a3140"/>
+      <!-- grid -->
+      <g stroke="#1c2430">
+        <line x1="255" y1="40" x2="255" y2="460"/><line x1="440" y1="40" x2="440" y2="460"/>
+        <line x1="625" y1="40" x2="625" y2="460"/>
+        <line x1="70" y1="180" x2="810" y2="180"/><line x1="70" y1="320" x2="810" y2="320"/>
+      </g>
+      <!-- axes labels -->
+      <text x="440" y="498" text-anchor="middle" fill="#9aa7b8" font-size="13">处理位置：端侧 ←→ 云端</text>
+      <text x="26" y="250" text-anchor="middle" fill="#9aa7b8" font-size="13" transform="rotate(-90 26 250)">留存：仅事件 ←→ 全量留存</text>
+      <text x="78" y="58" fill="#6e7d90" font-size="11.5">仅事件</text>
+      <text x="78" y="452" fill="#6e7d90" font-size="11.5">全量留存</text>
+      <text x="78" y="34" fill="#6e7d90" font-size="11.5">端侧</text>
+      <text x="786" y="34" fill="#6e7d90" font-size="11.5">云端</text>
+      <!-- points -->
+      <g font-size="12">
+        <circle cx="700" cy="400" r="8" fill="#f85149"/><text x="714" y="405" fill="#f85149">Limitless（已停售）</text>
+        <circle cx="560" cy="385" r="8" fill="#f85149"/><text x="574" y="390" fill="#f85149">Rewind（已停服）</text>
+        <circle cx="740" cy="300" r="8" fill="#f85149"/><text x="754" y="305" fill="#f85149">Humane AI Pin（变砖）</text>
+        <circle cx="355" cy="315" r="8" fill="#3fb950"/><text x="369" y="320" fill="#3fb950">Omi（可自托管）</text>
+        <circle cx="510" cy="215" r="8" fill="#3fb950"/><text x="524" y="220" fill="#3fb950">Plaud</text>
+        <circle cx="605" cy="120" r="8" fill="#3fb950"/><text x="619" y="125" fill="#3fb950">Bee（不存原始音频）</text>
+        <circle cx="540" cy="200" r="8" fill="#3fb950"/><text x="412" y="240" fill="#3fb950">Meta Ray-Ban</text>
+        <circle cx="120" cy="180" r="8" fill="#3fb950"/><text x="134" y="185" fill="#3fb950">Pixel Recorder</text>
+        <circle cx="165" cy="160" r="8" fill="#3fb950"/><text x="134" y="145" fill="#3fb950">Apple</text>
+        <circle cx="100" cy="355" r="8" fill="#3fb950"/><text x="114" y="360" fill="#3fb950">screenpipe（开源）</text>
+        <circle cx="88" cy="148" r="11" fill="#39d0d8" stroke="#0d1117" stroke-width="2"/>
+        <text x="106" y="108" fill="#39d0d8" font-weight="700" font-size="14">laos：端侧 + 仅事件/文本 + 6h 即焚</text>
+      </g>
+    </svg>
+    <div class="legend">
+      <span><i style="background:#f85149"></i>已死 / 停售</span>
+      <span><i style="background:#3fb950"></i>在售</span>
+      <span><i style="background:#39d0d8"></i>laos 目标位</span>
+    </div>
+    <div class="cap">图 2：三个死掉的产品全部落在<b>右上象限（云端 + 全量留存）</b>；laos 落在左下角，与 screenpipe 同侧但更极端（原始音频即焚）。</div>
+  </div>
+</section>
+
+<!-- ============ 2b oss ============ -->
+<section id="oss">
+  <h2><span class="num">02b</span>开源栈分层图（34 个项目）</h2>
+  <div class="fig">
+    <svg viewBox="0 0 900 400" role="img" aria-label="开源栈分层图">
+      <g font-size="13">
+        <!-- L1 -->
+        <rect x="30" y="20" width="840" height="80" rx="8" fill="#132029" stroke="#39d0d8"/>
+        <text x="46" y="44" fill="#39d0d8" font-size="13.5" font-weight="600">① 常驻检测</text>
+        <text x="46" y="66" fill="#c9d5e3">Silero VAD（MIT）· WebRTC VAD（BSD-3）· openWakeWord（Apache-2.0）· Porcupine（SDK 开源/模型付费）</text>
+        <text x="46" y="86" fill="#9aa7b8" font-size="12">SpeexDSP（AEC+NS+AGC+VAD）· RNNoise（BSD-3）· Mycroft Precise（冻结）· Snowboy（2020 关停，勿用）</text>
+        <!-- L2 -->
+        <rect x="30" y="110" width="840" height="80" rx="8" fill="#241a10" stroke="#f0883e"/>
+        <text x="46" y="134" fill="#f0883e" font-size="13.5" font-weight="600">② 触发捕获</text>
+        <text x="46" y="156" fill="#c9d5e3">Opus（BSD-3 + 专利免费，16 kbps = 7.2 MB/h）· esp-sr（WakeNet/MultiNet）</text>
+        <text x="46" y="176" fill="#9aa7b8" font-size="12">硬件：OpenGlass（ESP32-S3）· Brilliant Halo（硬件级 AAD 唤醒）· AudioMoth（占空比调度范本）</text>
+        <!-- L3 -->
+        <rect x="30" y="200" width="840" height="80" rx="8" fill="#1e1526" stroke="#bc8cff"/>
+        <text x="46" y="224" fill="#bc8cff" font-size="13.5" font-weight="600">③ 蒸馏</text>
+        <text x="46" y="246" fill="#c9d5e3">sherpa-onnx（一站式：ASR+VAD+diarization）· FunASR（中文 + 原生 MCP）· SenseVoice（ASR+情感+事件，laos 在用）</text>
+        <text x="46" y="266" fill="#9aa7b8" font-size="12">whisper_streaming（LocalAgreement）· faster-whisper · Vosk · whisper.cpp · pyannote-audio · NeMo</text>
+        <!-- L4 -->
+        <rect x="30" y="290" width="840" height="80" rx="8" fill="#132015" stroke="#3fb950"/>
+        <text x="46" y="314" fill="#3fb950" font-size="13.5" font-weight="600">④ 留存与消费</text>
+        <text x="46" y="336" fill="#c9d5e3">screenpipe（SQLite + 向量，最接近 laos）· BasedHardware/Omi（硬件+固件+后端全栈）· mem0（Agent 记忆层）</text>
+        <text x="46" y="356" fill="#9aa7b8" font-size="12">LocalRecorder（hour→day→week 分层摘要）· infinite-recall · OpenVoiceOS · Wyoming Satellite（deprecated）</text>
+      </g>
+    </svg>
+    <div class="cap">图 3：开源侧<b>管道已完整</b>——laos 不需要自研任何一层，只需按许可证与端侧约束选型（Apache-2.0 / MIT / BSD-3 优先）。</div>
+  </div>
+</section>
+
+<!-- ============ 3 papers ============ -->
+<section id="papers">
+  <h2><span class="num">03</span>关键论文（21 篇，六个方向）</h2>
+  <div class="tw"><table>
+    <thead><tr><th>方向</th><th>代表论文与关键数字</th><th>对 laos 的关系</th></tr></thead>
+    <tbody>
+      <tr><td>① 低功耗 always-on</td><td>VAD ASIC <b>47 nW</b>；AAD 门控 KWS <b>0.36–0.8 µW</b>；KWS SoC 0.51 µW；端到端 SLU 8.62 µW；含麦克风整机 <b>63 µW</b>；TinyChirp 少写 90%、续航 ×4</td><td>① 段的理论地板与"端上筛选"的量化背书</td></tr>
+      <tr><td>② 可穿戴长期录音</td><td>EgoLog（超基线 12%/15%）· Ego4D（情景记忆基准）· Ego-Exo4D（7-mic 阵列）</td><td>记忆检索评测口径与声源定位基准</td></tr>
+      <tr><td>③ 声学事件与场景</td><td>DCASE 2024 Task 4（best PSDS 0.604）· CLAP · AudioCLIP（零样本 69.4% vs 微调 97.15%）· FSD50K · PaSST</td><td>"家庭常驻麦克风该检测什么"的年度考卷与跨模态检索方案</td></tr>
+      <tr><td>④ 真实场景说话人日志</td><td>DIHARD III 真实域 DER <b>35–45%</b>；VoxConverse DER 4–8%；AISHELL-4 / AliMeeting（中文双基准）；Streaming Sortformer 18.97%@1s</td><td>"谁在说话"只能做弱标签；必须标明评测集</td></tr>
+      <tr><td>⑤ 情感与 vocal biomarkers</td><td>emotion2vec · SenseVoice · 抑郁筛查 <b>71% 敏感度/特异度</b> · 8 周纵向稳定性 · 每日采样必要性</td><td>情绪必须做纵向差分；71% 意味 1/3 误报，禁止临床表述</td></tr>
+      <tr><td>⑥ 隐私与社会接受度</td><td>MeMic（N=168，"只录自己"显著提升接受度）· 178 人调查（同意是情境化的）· UCB 隐私控制论文（用户明确期待自动删除）</td><td>直接支持"可见指示 + 6h 即焚 + 情境化同意"</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">完整表格（方法 / 数据集 / 数字 / 链接）见 <a href="../research/always-on-recording/academic-papers.md">academic-papers.md</a>。</p>
+</section>
+
+<!-- ============ 4 power ============ -->
+<section id="power">
+  <h2><span class="num">04</span>功耗量级（对数刻度）</h2>
+  <p>电池基准：5000 mAh × 3.85 V = <b>19.25 Wh</b>。换算：<code>5 mW ≈ 0.62%/天</code>，<code>100 mW ≈ 12.5%/天</code>，<code>1 W</code> 则根本不成立。</p>
+
+  <div class="fig">
+    <svg viewBox="0 0 900 430" role="img" aria-label="功耗量级对数柱状图">
+      <g font-size="12.5">
+        <line x1="250" y1="20" x2="250" y2="400" stroke="#2a3140"/>
+        <g fill="#6e7d90" font-size="11">
+          <text x="250" y="414">1e-8</text><text x="336" y="414">1e-7</text><text x="422" y="414">1e-6</text>
+          <text x="508" y="414">1e-5</text><text x="594" y="414">1e-4</text><text x="680" y="414">1e-3</text>
+          <text x="766" y="414">1e-2</text><text x="852" y="414">1e-1</text>
+        </g>
+        <g stroke="#1c2430">
+          <line x1="336" y1="20" x2="336" y2="400"/><line x1="422" y1="20" x2="422" y2="400"/>
+          <line x1="508" y1="20" x2="508" y2="400"/><line x1="594" y1="20" x2="594" y2="400"/>
+          <line x1="680" y1="20" x2="680" y2="400"/><line x1="766" y1="20" x2="766" y2="400"/>
+          <line x1="852" y1="20" x2="852" y2="400"/>
+        </g>
+
+        <!-- bars: x0=250, width = frac*600 -->
+        <g>
+          <text x="242" y="45" text-anchor="end" fill="#c9d5e3">定制 ASIC VAD（47 nW）</text>
+          <rect x="250" y="32" width="44" height="16" fill="#3fb950"/>
+          <text x="300" y="45" fill="#6e7d90">学术 SOTA（不可与通用 DSP 直接比）</text>
+
+          <text x="242" y="79" text-anchor="end" fill="#c9d5e3">AAD 门控 KWS（0.36 µW）</text>
+          <rect x="250" y="66" width="104" height="16" fill="#3fb950"/>
+
+          <text x="242" y="113" text-anchor="end" fill="#c9d5e3">专用音频 NPU 常驻（140 µW）</text>
+          <rect x="250" y="100" width="277" height="16" fill="#39d0d8"/>
+          <text x="533" y="113" fill="#6e7d90">Syntiant NDP120，货架商品</text>
+
+          <text x="242" y="147" text-anchor="end" fill="#c9d5e3">手机传感中枢（&lt;1 mA ≈ 3.7 mW）</text>
+          <rect x="250" y="134" width="371" height="16" fill="#39d0d8"/>
+          <text x="627" y="147" fill="#6e7d90">高通官方口径</text>
+
+          <text x="242" y="181" text-anchor="end" fill="#e6edf3" font-weight="700">laos ADSP 目标（5 mW）</text>
+          <rect x="250" y="168" width="380" height="16" fill="#f0883e"/>
+          <text x="636" y="181" fill="#f0883e">≈ 0.62% 电量 / 天</text>
+
+          <text x="242" y="215" text-anchor="end" fill="#c9d5e3">端上实时分类不落盘（25 mW）</text>
+          <rect x="250" y="202" width="427" height="16" fill="#e3b341"/>
+
+          <text x="242" y="249" text-anchor="end" fill="#c9d5e3">AudioMoth 连续录音（≈62 mW）</text>
+          <rect x="250" y="236" width="452" height="16" fill="#e3b341"/>
+
+          <text x="242" y="283" text-anchor="end" fill="#c9d5e3">NPU 蒸馏突发（300 mW – 1.2 W）</text>
+          <rect x="250" y="270" width="539" height="16" fill="#f85149"/>
+
+          <text x="242" y="317" text-anchor="end" fill="#c9d5e3">手机 NPU 跑 LLM 实测（4.3–5 W）</text>
+          <rect x="250" y="304" width="575" height="16" fill="#f85149"/>
+
+          <text x="242" y="351" text-anchor="end" fill="#c9d5e3">proot/通用 Linux 空闲（400–1000 mW）</text>
+          <rect x="250" y="338" width="531" height="16" fill="#f85149"/>
+          <text x="787" y="351" fill="#f85149">laos 真机现状</text>
+        </g>
+        <text x="250" y="384" fill="#9aa7b8" font-size="12">横轴为对数刻度（W），每格一个数量级。</text>
+      </g>
+    </svg>
+    <div class="legend">
+      <span><i style="background:#3fb950"></i>定制 ASIC</span>
+      <span><i style="background:#39d0d8"></i>专用 NPU / 传感中枢</span>
+      <span><i style="background:#f0883e"></i>laos 目标</span>
+      <span><i style="background:#e3b341"></i>MCU 记录级</span>
+      <span><i style="background:#f85149"></i>AP / NPU 蒸馏与常醒</span>
+    </div>
+    <div class="cap">图 4：从 47 nW 到 5 W 跨 <b>5 个数量级</b>。laos 若继续跑在 proot 的通用 Linux 上，① 段就已在最右端——这是"必须做一次架构选择"的全部理由。</div>
+  </div>
+
+  <div class="tw"><table>
+    <thead><tr><th>漏斗段</th><th>定制 ASIC</th><th>专用 NPU</th><th>传感中枢 / aDSP</th><th>通用 MCU / AP（软件）</th></tr></thead>
+    <tbody>
+      <tr><td>① 常驻检测</td><td>47 nW – 1 µW</td><td>140 µW</td><td>&lt;1 mA（官方）</td><td>26–50 mW</td></tr>
+      <tr><td>② 触发捕获</td><td>—</td><td>—</td><td>未证实</td><td>SD 写入 17–70 mW；占空 9% → 整机 ≈5 mW</td></tr>
+      <tr><td>③ 蒸馏</td><td>8.62 µW</td><td>未证实</td><td>NPU 1–4 W；实测整机 4.3–5 W</td><td>CPU 1.2 W / GPU 0.9 W</td></tr>
+      <tr><td>④ 留存</td><td colspan="4">Opus 16 kbps = 7.2 MB/h · AAC 32 kbps = 14.4 MB/h · PCM = 115 MB/h —— 存储不是瓶颈，合规才是</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ 5 privacy ============ -->
+<section id="privacy">
+  <h2><span class="num">05</span>隐私合规 checklist + 风险矩阵</h2>
+
+  <div class="panel">
+    <h3 style="margin-top:0">最低合规集合（一页 checklist）</h3>
+    <ul>
+      <li><b>可见指示</b>：录音中必须有系统级可见信号（LED / 常驻通知 / 状态栏），且不可被软件关闭</li>
+      <li><b>显式触发</b>：默认不常录；常开需用户显式开启且可随时一键停止</li>
+      <li><b>全局禁录开关</b>：等价 laos 的 <code>LAOS_REC=0</code></li>
+      <li><b>默认短期留存 + 自动删除</b>：用户期待自动删除（UCB 实证），行业默认却是永久存储——最大的认知错位</li>
+      <li><b>分级留存</b>：原始即焚、文本长留、向量中留</li>
+      <li><b>审计可回放</b>：每次录音调用（无论成败）可查（<code>laosctl mic</code>）</li>
+      <li><b>旁观者（bystander）策略</b>：录音里有不在场的第三方说话人是常态，不确定归属就不打标签</li>
+      <li><b>中国法域单独同意</b>：声纹属敏感个人信息；不建声纹库</li>
+    </ul>
+  </div>
+
+  <h3>风险矩阵</h3>
+  <div class="grid3">
+    <div class="cell lo"><b>家庭 / 个人自录</b><span class="lvl">低风险</span><p class="note">同意链最短，但仍需可见指示与自动删除。laos 的默认场景。</p></div>
+    <div class="cell mid"><b>会议 / 课堂录音</b><span class="lvl">中风险</span><p class="note">需在开始时明确告知；多说话人归属错误率高（DIHARD III 真实域 DER 35–45%）。</p></div>
+    <div class="cell hi"><b>公共场所常开</b><span class="lvl">高风险</span><p class="note">旁观者无法给予同意；Friend 吊坠即因此被公众反噬。</p></div>
+    <div class="cell hi"><b>看护场景（被看护人无法同意）</b><span class="lvl">高风险 · 建议放弃</span><p class="note">同意能力缺失，持续录音难有合法基础。</p></div>
+    <div class="cell hi"><b>职场 / 员工监测</b><span class="lvl">高风险</span><p class="note">权力不对等使"同意"无效，多法域明确限制。</p></div>
+    <div class="cell hi"><b>秘密录音 / 隐蔽采集</b><span class="lvl">禁止</span><p class="note">无指示 = 直接违反最低合规集合第一条，也是所有争议事件的共同点。</p></div>
+  </div>
+  <p class="note">法律查证（中国民法典 1033 条 / PIPL / GDPR / 美国两方同意州）与社会接受度实证见 <a href="../research/always-on-recording/social-acceptance.md">social-acceptance.md</a>。</p>
+</section>
+
+<!-- ============ 6 fail ============ -->
+<section id="fail">
+  <h2><span class="num">06</span>失败案例复盘</h2>
+  <div class="tw"><table>
+    <thead><tr><th>案例</th><th>死因一句话</th><th>对 laos 的教训</th></tr></thead>
+    <tbody>
+      <tr><td class="dead">Humane AI Pin</td><td>纯云依赖 + 续航/散热失控，$699 在 11 个月内变砖</td><td>端侧优先不是卖点，是生存条件</td></tr>
+      <tr><td class="dead">Rewind → Limitless → Meta</td><td>"数据永不出设备" → 转向云 → 被广告公司收购，信任链断裂</td><td>一旦架构允许上云，商业压力必然把它推上云；"零云"必须写进内核约束而非文档承诺</td></tr>
+      <tr><td class="maybe">Microsoft Recall</td><td>默认开启 + 全量留存，隐私争议导致推迟与默认关闭</td><td>默认必须收紧；能力分级，最高级需人类一次性释放</td></tr>
+      <tr><td class="maybe">Friend 吊坠</td><td>营销把"录音"包装成"监控"，公众反噬</td><td>命名与营销措辞是产品风险面（统一用"听觉记忆"而非"监听/监控"）</td></tr>
+      <tr><td class="dead">Rabbit R1</td><td>工程能力不足以支撑演示承诺，信任崩塌</td><td>只宣称能在目标硬件上稳定跑出的能力</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ 7 laos ============ -->
+<section id="laos">
+  <h2><span class="num">07</span>对 laos 的反向映射</h2>
+
+  <h3>已做对、且业界稀缺（差异化卖点）</h3>
+  <ul>
+    <li><b>内核级能力阶梯</b> <code>mic.listen → mic.record → mic.transcribe → mic.always_on</code>（高层含低层、默认收紧）——开源世界里没有第二家把录音做成受内核闸门管控的系统资源</li>
+    <li><b>6 小时即焚 + 每次调用写审计 + <code>LAOS_REC=0</code> 全局禁录</b>——同时命中 UCB 实证与最低合规集合三条</li>
+    <li><b>驱动加载不启动录音线程</b>，录音只能被显式 syscall 拉起——规避 Recall 式"默认开启"的死法</li>
+    <li><b>端到端零云</b>：本地 VAD → 本地 SenseVoice → 本地记忆</li>
+    <li><b>听觉产物直接进入 Agent 消费层</b>（journal / diary / mood_report），业界只有时间线或检索问答，laos 是三合一</li>
+  </ul>
+
+  <h3>可以抄（落到具体模块）</h3>
+  <div class="tw"><table>
+    <thead><tr><th>laos 模块</th><th>抄谁</th><th>抄什么</th></tr></thead>
+    <tbody>
+      <tr><td><code>laos/vad.py</code></td><td>Silero VAD / WebRTC VAD</td><td>保持零依赖自研兜底，提供"外接 ONNX VAD"适配点（30 ms chunk &lt;1 ms CPU 是硬指标）</td></tr>
+      <tr><td><code>drivers/drv_rec.py</code></td><td>Opus + AudioMoth 占空比</td><td>16 kbps 默认（7.2 MB/h）；常开模式提供 duty-cycle 档（9% 占空 → 续航 ~12×）</td></tr>
+      <tr><td><code>drivers/drv_ear.py</code></td><td>whisper_streaming（LocalAgreement）</td><td><code>ear.stream</code> 的自适应分片策略</td></tr>
+      <tr><td><code>bin/journal.py</code></td><td>LocalRecorder 分层摘要</td><td>hour → day → week schema 对齐</td></tr>
+      <tr><td>记忆层</td><td>screenpipe SQLite schema + mem0</td><td><code>audio_transcriptions(timestamp, speaker, text, offset)</code> 字段级对齐</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>现有缺口</h3>
+  <div class="tw"><table>
+    <thead><tr><th>缺口</th><th>业界参照</th><th>判断</th></tr></thead>
+    <tbody>
+      <tr><td>说话人分离</td><td>DIHARD III 真实域 DER 35–45%</td><td><span class="tag r">真缺口</span> 只能做弱标签，必须按真实域 DER 设置信度阈值</td></tr>
+      <tr><td>声学事件检测（第二个小模型）</td><td>DCASE 2024 best PSDS 0.604</td><td><span class="tag o">建议做</span> 放在低功耗层做事件级检测，不落音频</td></tr>
+      <tr><td>情感标签粒度</td><td>emotion2vec / SenseVoice / 71% 筛查准确率</td><td><span class="tag o">要改</span> 必须纵向差分，禁止绝对分数与临床表述</td></tr>
+      <tr><td>长时记忆检索评测</td><td>Ego4D 情景记忆基准</td><td><span class="tag r">真缺口</span> 需自建"听觉记忆检索"评测集</td></tr>
+      <tr><td>可见指示（真机）</td><td>MeMic N=168 + Android 保活必需</td><td><span class="tag r">硬要求</span> 常驻通知 / 指示灯既是合规也是保活前提</td></tr>
+      <tr><td>常开（always_on）可用性</td><td>Android 14 后台 mic FGS 直接 SecurityException</td><td><span class="tag r">架构选择</span> proot 内不成立，需原生 App 走 aDSP</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="panel">
+    <h3 style="margin-top:0">建议路线：3 个月内能落地的 3 件事</h3>
+    <ol>
+      <li><b>能力阶梯 + 状态指示落地到真机控制面</b>（<code>MIC_CAP_LEVELS</code> / <code>mic_state</code> / <code>laosctl mic</code> + Android 常驻通知）——唯一同时解决合规、接受度与调试问题的动作。</li>
+      <li><b>存储与调度</b>：Opus + 配额 FIFO + 占空比档位（<code>rec.start(encoding=)</code> / <code>LAOS_REC_MAX_BYTES</code> / <code>mic.always_on_start(duty=)</code>），把"24/7"从口号变成可测量的 %/天。</li>
+      <li><b>蒸馏只加一件</b>：<code>ear.stream</code>（LocalAgreement）+ 情感改纵向差分；diarization 与声学事件标为实验特性，等 NPU 通路打通再上。</li>
+    </ol>
+    <p class="note" style="margin-bottom:0"><b>必须先做的一次架构选择</b>：继续 proot → 常驻成本数百 mW，<code>mic.always_on</code> 在手机上不成立；进 mW 档必须做原生 App 走 aDSP / Sensing Hub。</p>
+  </div>
+</section>
+
+<!-- ============ 8 ref ============ -->
+<section id="ref">
+  <h2><span class="num">08</span>参考来源</h2>
+  <ul>
+    <li><b>姊妹篇（事实底座）</b>：<a href="../research/always-on-recording/2026-09-landscape.md">收敛版 Markdown</a> · <a href="../research/always-on-recording/academic-papers.md">学术线</a> · <a href="../research/always-on-recording/hardware-power.md">硬件与功耗</a> · <a href="../research/always-on-recording/social-acceptance.md">社会接受度</a> · <a href="../research/always-on-recording-industry-2026-09.md">产品与开源</a></li>
+    <li><b>官方 / 厂商</b>：Qualcomm Snapdragon 888 AI PDF（Sensing Hub &lt;1 mA）· Infineon IM68D128B datasheet · TDK AAD 麦克风 · Syntiant NDP120 · Android 前台服务限制文档 · docs.omi.me · plaud.ai · rewind.ai</li>
+    <li><b>开源仓库</b>：sherpa-onnx · FunASR · SenseVoice · silero-vad · whisper_streaming · whisper.cpp · faster-whisper · vosk-api · screenpipe · BasedHardware/Omi · mem0 · openWakeWord · pyannote-audio · SpeexDSP · Opus · esp-sr</li>
+    <li><b>论文</b>：见 academic-papers.md「建议归档的论文」25 条 arXiv/DOI 直链</li>
+    <li><b>社区 / 二手（文中已标注）</b>：termux-app #2871 · Android 14 mic FGS 复盘 · Android 14 关屏休眠实测 · AudioMoth 社区功耗测量</li>
+  </ul>
+</section>
+
+<footer>
+  laos · 全天候录音全景调研 · 2026-09-11 ｜ 所有数字均标注来源，查不到的一律写 <code>未证实</code>；本文不替代法律意见。
+</footer>
+</main>
+</div>
+</body>
+</html>
