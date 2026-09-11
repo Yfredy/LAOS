@@ -16,6 +16,9 @@
   e. 指标 含带基准名的括号，如 "UAR 73.4 (IEMOCAP)"
   f. 单元格不得为 TBD / 待补 / TODO / ?
 
+只校验「表头与 12 列 schema 逐字一致」的数据表。以「模型」开头但列数明显偏少的对照表
+（如「模型 / 平台 / 实测时延」）会被跳过，不误报；列数接近 12 却对不上则报 schema 错误。
+
 退出码：0 = 全通过；1 = 有违规。
 """
 
@@ -29,6 +32,11 @@ from pathlib import Path
 COLUMNS = ["模型", "版本/权重", "参数量(M)", "模态", "预训练语料", "输出",
            "基准", "指标", "许可", "权重可得", "edge", "来源"]
 NCOL = len(COLUMNS)
+
+# 调研文档里会有别的表格也以「模型」开头（如「模型 / 平台 / 实测时延」的对照表），
+# 它们不归本校验器管。判据：列数少于此值就当作「另一张表」跳过，不报错。
+# 只有列数接近 12 却对不上的，才认为是 schema 表头写错了，需要报出来。
+MIN_SCHEMA_COLS = 10
 
 PLACEHOLDERS = {"tbd", "待补", "todo", "?"}
 NON_NEURAL = "n/a(非神经)"
@@ -72,8 +80,11 @@ def check_text(text: str, path: str = "<inline>") -> list[Violation]:
         cells = split_row(line)
 
         if not in_table:
-            # 只认以「模型」开头的数据表，其余表格（如数据集表）不归本校验器管
+            # 只认以「模型」开头、且列名与 schema 逐字一致的 12 列数据表。
+            # 列数明显少于 schema 的「模型」开头表格（如对照表、规则表）直接跳过，不误报。
             if cells and cells[0] == "模型":
+                if len(cells) < MIN_SCHEMA_COLS:
+                    continue
                 if [c for c in cells] != COLUMNS:
                     out.append(Violation(path, lineno, "schema",
                                          f"表头列与 schema 不一致：{cells}"))
@@ -174,6 +185,27 @@ def selftest() -> int:
         print("FAIL 非目标表格被误检：", other)
     else:
         print("ok   非目标表格（数据集表）未被误伤")
+
+    # 以「模型」开头但列数远少于 schema 的对照表也不应被误伤
+    other_model = check_text(
+        "| 模型 | 平台 / 计算单元 | 实测时延 |\n| --- | --- | --- |\n"
+        "| YAMNet | SD8 Elite NPU | 0.098 ms |\n", "selftest-other-model-table")
+    if other_model:
+        ok = False
+        print("FAIL 以「模型」开头的非 schema 对照表被误检：", other_model)
+    else:
+        print("ok   以「模型」开头的非 schema 对照表未被误伤")
+
+    # 列数接近 12 却对不上的，要报出来（防 schema 表头被打错）
+    typo = check_text(
+        "| 模型 | 版本/权重 | 参数量(M) | 模态 | 预训练语料 | 输出 | 基准 | 指标 "
+        "| 许可 | 权重可得 | 来源 |\n| --- | --- | --- | --- | --- | --- | --- | --- "
+        "| --- | --- | --- |\n", "selftest-schema-typo")
+    if not any(v.rule == "schema" for v in typo):
+        ok = False
+        print("FAIL schema 表头缺列未被检出")
+    else:
+        print("ok   schema 表头缺列（11 列）被检出")
 
     print("SELFTEST", "PASS" if ok else "FAIL")
     return 0 if ok else 1

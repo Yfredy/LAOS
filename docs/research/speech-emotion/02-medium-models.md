@@ -19,7 +19,7 @@
 | data2vec | `facebook/data2vec-audio-base-960h` | 93.75 | A | LibriSpeech-960 | 情感表征（下游线性头 4 类） | IEMOCAP | UA 54.19 (IEMOCAP) | Apache-2.0 | yes | yes: ONNX Runtime INT8 | arxiv.org/abs/2406.07162; huggingface.co/facebook/data2vec-audio-base-960h |
 | emotion2vec | `iic/emotion2vec_base`（base 变体，唯一有论文原始参数表的版本） | 93.79 | A | LibriSpeech-960 + Emo-262（纯英文） | 9 类情感 / 768 维表征 | IEMOCAP | WA 71.79 (IEMOCAP) | other（FunASR 模型开源协议 v1.1，需署名；官方声明"仅供学习参考"，商用条款不明确） | yes | unknown(未找到公开转换案例) | arxiv.org/abs/2312.15185; github.com/ddlBoJack/emotion2vec |
 | emotion2vec+ | `iic/emotion2vec_plus_base`（4788h 伪标注微调） | 93 | A | emotion2vec + 4788h 伪标注情感数据 | 9 类情感 / 768 维表征 | IEMOCAP | 56.3 (IEMOCAP，原文未标指标名，仅同表横向可比) | other（FunASR 模型开源协议 v1.1，同上） | yes | unknown(未找到公开转换案例) | arxiv.org/abs/2506.06820; huggingface.co/emotion2vec/emotion2vec_plus_base |
-| emotion2vec+ | `iic/emotion2vec_plus_large`（42526h 伪标注微调；官方标称 ~300M，实测约 164M，见下方核对） | 164 | A | emotion2vec + 42526h 伪标注情感数据 | 9 类情感 / 768 维表征 | IEMOCAP | 63.8 (IEMOCAP，原文未标指标名，仅同表横向可比) | other（FunASR 模型开源协议 v1.1，同上） | yes | unknown(未找到公开转换案例) | arxiv.org/abs/2506.06820; huggingface.co/emotion2vec/emotion2vec_plus_large |
+| emotion2vec+ | `iic/emotion2vec_plus_large`（42526h 伪标注微调；官方标称 ~300M，实测约 164M，见下方核对） | 164 | A | emotion2vec + 42526h 伪标注情感数据 | 9 类情感 / 768 维表征 | IEMOCAP | 63.8 (IEMOCAP，原文未标指标名，仅同表横向可比) | other（FunASR 模型开源协议 v1.1，同上） | yes | yes: ONNX（FunASR 官方导出，648,972,628 B，误差 6.20e-6；导出的是帧级特征，非情感标签） | arxiv.org/abs/2506.06820; huggingface.co/emotion2vec/emotion2vec_plus_large |
 | Chinese-HuBERT | `TencentGameMate/chinese-hubert-base` | 95 | A | WenetSpeech L（1 万小时中文） | 768 维表征（下游线性头） | MER2024 | WAF 72.67 (MER2024) | MIT | yes | unknown(未找到公开转换案例) | arxiv.org/abs/2408.10500; huggingface.co/TencentGameMate/chinese-hubert-base |
 | SenseVoice | `iic/SenseVoiceSmall`（SAN-M encoder-only + CTC） | 234 | A | 40 万小时+ 多语（含中文） | 7 类情感 + 转写 + 音频事件标签 | CASIA / MER2023 / IEMOCAP | WA 70 (CASIA); WA 68 (MER2023); WA 70 (IEMOCAP) | other（权重许可指向 FunASR 模型开源协议 v1.1；仓库代码 Apache-2.0） | yes | yes: ONNX Runtime INT8（sherpa-onnx 导出 ~228MB）/ GGUF Q8_0（llama.cpp ~254MB） | arxiv.org/abs/2407.04051; github.com/FunAudioLLM/SenseVoice |
 | wav2vec 2.0 | `wav2vec 2.0 Large`（316M 级，见下方「分档边界争议」） | 317.38 | A | LibriLight-60k | 情感表征（下游线性头 4 类） | IEMOCAP | WA 65.64 (IEMOCAP) | Apache-2.0 | yes | unknown(未找到公开转换案例) | arxiv.org/abs/2312.15185; github.com/pytorch/fairseq |
@@ -53,6 +53,12 @@
      （可查到的数字都混在双编码器或 ASR 评测里）。**删除**。
    - `MMS-300M`：权重许可为 CC-BY-NC 4.0（非商用）这一点可核验，但官方未给出精确参数量
      （"300M"为架构族名，实际为 wav2vec2-large 规模）。**删除**，其非商用属性在正文记录。
+7. **`edge = yes` 不等于能进端侧预算。** 95M 档 5 条的 `yes: ONNX Runtime INT8` 指的是
+   「ONNX 是官方唯一支持的导出后端（TFLite / CoreML 明确把该家族列在不支持清单）+ ORT 提供通用
+   INT8 PTQ」，**不代表有实测证据**：同构的 WavLM-Base-Plus 在 Qualcomm AI Hub 上**只有 float 档、
+   无 w8a8 / w8a16**，且峰值内存报到 **1.0–1.6 GB**。「真端侧」与「proot 内可行」两档的区分与
+   逐条判定见 [`04-edge-deployment.md`](04-edge-deployment.md) §5；本档的结论是
+   **B 档（proot 内 CPU）触发式可用，A 档不成立**。
 
 ### 分档边界争议（需人工裁定）
 
@@ -164,8 +170,11 @@ EmoBox（arXiv 2406.07162）Table 4（Whisper large-v3 行为 UA 73.54，此处�
   这是本次调研找到的唯一一条官方、成对、同设置的效率声明；
   它说明**架构（非自回归 encoder-only）比参数量更能决定延迟**。
 - 量化后体积（有公开转换案例的）：SenseVoice-Small **ONNX INT8 ≈ 228MB**、**GGUF Q8_0 ≈ 254MB**。
-  95M 档 SSL 编码器 INT8 后约 95MB 量级——这是中型档能进端侧的主要理由，
-  但**能不能真的跑到 aDSP/NPU 低功耗档，取决于 `04-edge-deployment.md` 的 proot 现状，不在本文判断**。
+  95M 档 SSL 编码器 INT8 后约 95MB 量级——这是**权重体积**层面中型档还能谈端侧的主要理由。
+  但**体积不是门槛**：[`04-edge-deployment.md`](04-edge-deployment.md) §2 与 §4 给出的结论是，
+  在 proot 现状下中型档只能走 CPU，而同构的 WavLM-Base-Plus 实测**峰值内存 1.0–1.6 GB**
+  （Qualcomm AI Hub 官方 profile，20 s 输入），且在 AI Hub 上**没有 w8a8 / w8a16 量化档**。
+  即：**B 档（proot 内 CPU）触发式可用，A 档（真端侧 / 低功耗）不成立。**
 
 ### 3.4 结论（一句话）
 

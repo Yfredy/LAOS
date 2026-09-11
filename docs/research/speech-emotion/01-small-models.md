@@ -10,14 +10,14 @@
 
 | 模型 | 版本/权重 | 参数量(M) | 模态 | 预训练语料 | 输出 | 基准 | 指标 | 许可 | 权重可得 | edge | 来源 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| YAMNet | tensorflow/models v1（AudioSet 权重） | 3.7 | A | AudioSet（521 类音频事件） | 521 类事件 logits / 1024-d embedding，非情感专用 | SERAB（9 数据集跨库平均）、IEMOCAP | Acc 56.1 (IEMOCAP 4类)，55.1 (SERAB 跨库平均) | Apache-2.0 | yes | yes: TFLite / QNN INT8（Qualcomm AI Hub 已给出 Snapdragon 部署档） | arxiv.org/abs/2110.04621 表1（3.7M）；arxiv.org/abs/2110.03414 表3（指标）；github.com/tensorflow/models |
+| YAMNet | tensorflow/models v1（AudioSet 权重） | 3.7 | A | AudioSet（521 类音频事件） | 521 类事件 logits / 1024-d embedding，非情感专用 | SERAB（9 数据集跨库平均）、IEMOCAP | Acc 56.1 (IEMOCAP 4类)，55.1 (SERAB 跨库平均) | Apache-2.0 | yes | yes: TFLite / ONNX / QNN，w8a8 + w8a16 档齐全（AI Hub 实测 0.096–0.699 ms） | arxiv.org/abs/2110.04621 表1（3.7M）；arxiv.org/abs/2110.03414 表3（指标）；github.com/tensorflow/models |
 | openSMILE ComParE_2016 + 线性分类器 | opensmile 3.0 / ComParE_2016 特征集（6,373 维） | n/a(非神经) | A | 无（纯信号处理特征，不需预训练语料） | 6,373 维声学特征，下游接线性 SVM | SERAB、IEMOCAP、MER2024 | Acc 62.1 (IEMOCAP 4类)，70.2 (SERAB 跨库平均)；WAF 39.68 (MER2024 中文，eGeMAPS 88 维版本) | 双许可：非商业/研究/教育免费，商业产品需另获授权 | yes | yes: 原生 C++ 库，无需量化，MCU 可直接运行 | github.com/audeering/opensmile；arxiv.org/abs/2110.03414 表3；arxiv.org/abs/2408.10500 |
 | TRILL | layer19 / Resnetish50（nonsemantic-speech-benchmark） | 24.5 | A | AudioSet 语音子集（自监督时序邻近） | 2048-d 帧级 embedding（layer19 为 12,288 维拼接） | SERAB、NOSS | Acc 57.7 (IEMOCAP 4类)，69.0 (SERAB 跨库平均)；55.4 (IEMOCAP, NOSS)，65.7 (CREMA-D, NOSS) | Apache-2.0 | yes | unknown(未找到公开转换案例) | arxiv.org/abs/2110.04621 表1；arxiv.org/abs/2110.03414 表3；github.com/google-research/google-research |
 | FRILL | frill/1（TF Hub；MobileNetV3 alpha=2.0 + GAP） | 10.1 | A | AudioSet 语音子集（约 90 万条），蒸馏自 TRILL | 2048-d 帧级 embedding | NOSS | Acc 70.9 (CREMA-D)，67.5 (SAVEE) | Apache-2.0 | yes | yes: TFLite fp32 38.5 MB / QAT INT8，Pixel 1 单次 8.5 ms | arxiv.org/abs/2011.04609；arxiv.org/abs/2110.04621 表1（10.1M） |
 | TRILLsson 1 | trillsson1（ResNetish，TF Hub） | 5.0 | A | 公开语料蒸馏自 CAP12（2 秒 log-mel 窗） | 1024-d utterance embedding | NOSS | Acc 68.5 (IEMOCAP)，81.3 (CREMA-D) | Apache-2.0 | yes | unknown(未找到公开转换案例) | arxiv.org/abs/2203.00236 表3 |
 | TRILLsson 2 | trillsson2（EfficientNetV2） | 8.1 | A | 公开语料蒸馏自 CAP12（2 秒 log-mel 窗） | 1024-d utterance embedding | NOSS | Acc 69.8 (IEMOCAP)，82.6 (CREMA-D) | Apache-2.0 | yes | unknown(未找到公开转换案例) | arxiv.org/abs/2203.00236 表3 |
 | TRILLsson 3 | trillsson3（EfficientNetV2） | 21.5 | A | 公开语料蒸馏自 CAP12（2 秒 log-mel 窗） | 1024-d utterance embedding | NOSS | Acc 70.3 (IEMOCAP)，83.2 (CREMA-D) | Apache-2.0 | yes | unknown(未找到公开转换案例) | arxiv.org/abs/2203.00236 表3 |
-| DistilHuBERT | ntu-spml/distilhubert（去掉预测头） | 23.49 | A | LibriSpeech 960h，蒸馏自 HuBERT Base（94.68M→23.49M，保留 25%） | 768-d 帧级隐层 | SUPERB ER、IEMOCAP LOSO、RAVDESS | Acc 63.02 (SUPERB ER / IEMOCAP 4类)；UAR 61.4 (IEMOCAP LOSO, INT8)；Acc 46.64 (RAVDESS 跨库) | Apache-2.0 | yes | yes: INT8 量化后 23 MB（arXiv 2512.23435 报告） | huggingface.co/ntu-spml/distilhubert；arxiv.org/abs/2110.01900 表1；arxiv.org/abs/2512.23435 |
+| DistilHuBERT | ntu-spml/distilhubert（去掉预测头） | 23.49 | A | LibriSpeech 960h，蒸馏自 HuBERT Base（94.68M→23.49M，保留 25%） | 768-d 帧级隐层 | SUPERB ER、IEMOCAP LOSO、RAVDESS | Acc 63.02 (SUPERB ER / IEMOCAP 4类)；UAR 61.4 (IEMOCAP LOSO, INT8)；Acc 46.64 (RAVDESS 跨库) | Apache-2.0 | yes | unknown(INT8 体积 23 MB 已核实，未检索到 runtime 与实测时延) | huggingface.co/ntu-spml/distilhubert；arxiv.org/abs/2110.01900 表1；arxiv.org/abs/2512.23435 |
 | modified CPC | s3prl upstream | 1.84 | A | LibriSpeech 960h | 256-d 帧级隐层 | SUPERB ER | Acc 60.96 (SUPERB ER / IEMOCAP 4类) | Apache-2.0（s3prl 主体；Facebook 著权文件为 CC-BY-NC） | yes | unknown(未找到公开转换案例) | arxiv.org/abs/2105.01051 表1、表2；github.com/s3prl/s3prl |
 | APC | s3prl upstream | 4.11 | A | LibriSpeech 960h | 512-d 帧级隐层 | SUPERB ER | Acc 59.33 (SUPERB ER / IEMOCAP 4类) | Apache-2.0（s3prl 主体；Facebook 著权文件为 CC-BY-NC） | yes | unknown(未找到公开转换案例) | arxiv.org/abs/2105.01051 表1、表2；github.com/s3prl/s3prl |
 | PASE+ | s3prl upstream | 7.83 | A | LibriSpeech 960h | 2,560-d 帧级隐层 | SUPERB ER | Acc 57.86 (SUPERB ER / IEMOCAP 4类) | Apache-2.0（s3prl 主体；Facebook 著权文件为 CC-BY-NC） | yes | unknown(未找到公开转换案例) | arxiv.org/abs/2105.01051 表1、表2；github.com/s3prl/s3prl |
@@ -32,6 +32,7 @@
 - SERAB（arXiv 2110.03414）报告的是 **test accuracy**，即 WAR（按样本数加权），**不是 UAR**；UM 是其 9 个数据集（英/法/德/希/意/波斯，6 种语言）准确率的等权平均。跨表比较时不要把 SERAB 的 Acc 和别处的 UAR 直接相减。
 - 同一模型在不同论文里的 IEMOCAP 数字不可直接横比：SUPERB ER 是冻结特征 + 线性头、4 类、官方划分；SERAB 的 IEM 也是 4 类但划分不同；NOSS 的 IEMOCAP 又是另一套划分。
 - ECAPA-TDNN 一栏标注 `speaker-capable`：它具备说话人确认能力，按红线一**不得进入任何推荐或结论**；此处仅作为"6M 量级编码器在 IEMOCAP 上能到多少"的参照。
+- `edge` 列只记**已核到的公开证据**，且按 `00-taxonomy-and-metrics.md` 的规矩，`yes` **必须点名 runtime**。「真端侧（原生 App / aDSP）」与「proot 内可行（CPU 推理）」两档的区分与逐条判定，见 [`04-edge-deployment.md`](04-edge-deployment.md) §5——本轮回填中 **DistilHuBERT 因"只报了 INT8 体积、未点名 runtime"被降级为 `unknown(...)`**，这是口径收紧，不是新增否定。
 - 涉及健康/情感状态的任何表述均为**非诊断**用途。
 
 **因缺少可靠来源而删除的候选（不写入表）**
