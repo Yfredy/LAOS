@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="31.4.2">
+  <diagram name="research-map" id="rmap1">
+    <mxGraphModel dx="1600" dy="900" grid="0" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1560" pageHeight="1420" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="全天候录音落地启示图 —— 语音模型调研（≈90 篇文献）→ laos 功能映射" style="text;html=1;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;fontColor=#1a1a2e;" vertex="1" parent="1">
+          <mxGeometry x="80" y="15" width="1400" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- 业界三大结论 -->
+        <mxCell id="ca" value="❌ 云常开 = 已死：Rewind/Limitless→Meta 停服 · Humane 变砖 · Bee→Amazon" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="70" width="453" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cb" value="✅ 端侧克制常开 = 转正：Apple Watch S12（15s 环形缓冲 · 端侧蒸馏 · 7 天删 · 不识别说话人）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="553" y="70" width="453" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cc" value="🎯 laos 差异化：零云 + 内核能力管控 + 6h 即焚 + 旁观者可见" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1026" y="70" width="454" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ① 常驻检测 -->
+        <mxCell id="r1" value="① 只留「有没有人声」一个比特 —— 原音频不落盘" style="rounded=1;html=1;fillColor=#fafafa;strokeColor=#CCCCCC;dashed=1;container=1;pointerEvents=0;verticalAlign=top;align=left;spacingLeft=12;spacingTop=2;fontSize=12;fontStyle=1;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="60" y="160" width="1500" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="chip1" value="① 常驻检测&#xa;µW–mW 级&#xa;P0 / P1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;" vertex="1" parent="r1">
+          <mxGeometry x="15" y="40" width="180" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="g11" value="PCEN+能量 VAD&#xa;vad.py use_pcen ✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="r1">
+          <mxGeometry x="215" y="60" width="225" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="g12" value="私有唤醒词&#xa;kws.py DTW（非声纹）✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="r1">
+          <mxGeometry x="460" y="60" width="225" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="g13" value="易混词负样本生成器&#xa;kws_confusables.py ✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="r1">
+          <mxGeometry x="705" y="60" width="225" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="b11" value="声学事件白名单：哭声/警报/门铃&#xa;YAMNet 级蒸馏 → /events（P1）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="r1">
+          <mxGeometry x="950" y="60" width="280" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="i11" value="DCASE'25 冠军 61.5%&#xa;122K 参数 / 29 MMACs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=9;" vertex="1" parent="r1">
+          <mxGeometry x="1245" y="42" width="235" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="i12" value="34.7µW KWS IC 功耗标尺&#xa;Apple S12 Sound Recognition" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=9;" vertex="1" parent="r1">
+          <mxGeometry x="1245" y="110" width="235" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ② 触发捕获 -->
+        <mxCell id="r2" value="② 只留有声段 —— 留存格式 = 压缩 × 模型表示" style="rounded=1;html=1;fillColor=#fafafa;strokeColor=#CCCCCC;dashed=1;container=1;pointerEvents=0;verticalAlign=top;align=left;spacingLeft=12;spacingTop=2;fontSize=12;fontStyle=1;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="60" y="385" width="1500" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="chip2" value="② 触发捕获&#xa;mW 级 · P0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" vertex="1" parent="r2">
+          <mxGeometry x="15" y="40" width="180" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="g21" value="VAD 成段落盘&#xa;rec.py 环形缓冲+pad ✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="r2">
+          <mxGeometry x="215" y="60" width="225" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="g22" value="µ-law 留存档 ~0.5×&#xa;audiostore.py（默认关）✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="r2">
+          <mxGeometry x="460" y="60" width="225" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="b21" value="SNAC token 留存&#xa;0.98kbps ≈ 0.4MB/h（可选依赖）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="r2">
+          <mxGeometry x="705" y="60" width="225" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="i21" value="Mimi 1.1kbps ≈ 0.5MB/h&#xa;留存格式 = LLM 输入表示" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=9;" vertex="1" parent="r2">
+          <mxGeometry x="1245" y="42" width="235" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="i22" value="Opus 16k ≈ 7.2MB/h&#xa;（零依赖质量锚点）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=9;" vertex="1" parent="r2">
+          <mxGeometry x="1245" y="110" width="235" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ③ 即时蒸馏 -->
+        <mxCell id="r3" value="③ 音频 → 文本 + 标签 —— 转写·情感·事件·说话人一次算清" style="rounded=1;html=1;fillColor=#fafafa;strokeColor=#CCCCCC;dashed=1;container=1;pointerEvents=0;verticalAlign=top;align=left;spacingLeft=12;spacingTop=2;fontSize=12;fontStyle=1;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="60" y="610" width="1500" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="chip3" value="③ 即时蒸馏&#xa;GPU/AP · P0/P1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" vertex="1" parent="r3">
+          <mxGeometry x="15" y="40" width="180" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="g31" value="SenseVoice 转写+情感+事件&#xa;70ms/10s（本机 GPU）✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="r3">
+          <mxGeometry x="215" y="60" width="225" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="g32" value="发音韵律评估&#xa;ear.assess（GOPT 插桩）✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="r3">
+          <mxGeometry x="460" y="60" width="225" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="b31" value="说话人分离·到达顺序&#xa;不建声纹库（法域合规）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="r3">
+          <mxGeometry x="705" y="60" width="225" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="b32" value="emotion2vec+ 9 类·周报&#xa;音频 LLM 充电档（P2）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="r3">
+          <mxGeometry x="950" y="60" width="280" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="i31" value="MER2025 基线 WAF 78.6&#xa;= SSL 特征 + 轻量头" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=9;" vertex="1" parent="r3">
+          <mxGeometry x="1245" y="42" width="235" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="i32" value="音频 LLM 零样本 SER&#xa;比肩微调（充电档）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=9;" vertex="1" parent="r3">
+          <mxGeometry x="1245" y="110" width="235" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ④ 留存与消费 -->
+        <mxCell id="r4" value="④ 音频 → 记忆 → 日记/周报 —— 越用越聪明" style="rounded=1;html=1;fillColor=#fafafa;strokeColor=#CCCCCC;dashed=1;container=1;pointerEvents=0;verticalAlign=top;align=left;spacingLeft=12;spacingTop=2;fontSize=12;fontStyle=1;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="60" y="835" width="1500" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="chip4" value="④ 留存与消费&#xa;6h 即焚&#xa;P0 / P2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="r4">
+          <mxGeometry x="15" y="40" width="180" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="g41" value="mem.recall&#xa;bigram 检索 ✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="r4">
+          <mxGeometry x="215" y="60" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="g42" value="diary 五章节&#xa;含「今天听到的」✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="r4">
+          <mxGeometry x="435" y="60" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="g43" value="mood_report&#xa;情绪堆积图 ✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="r4">
+          <mxGeometry x="655" y="60" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="g44" value="journal 标题 schema&#xa;（Apple 式三段）✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="r4">
+          <mxGeometry x="875" y="60" width="230" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="b41" value="TTS 回复 Kokoro-82M + AudioSeal 水印 ·&#xa;发音练习曲线纵向差分（P2）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="r4">
+          <mxGeometry x="1125" y="60" width="355" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- 合规红线带 -->
+        <mxCell id="comp" value="合规红线（2025 执法期）—— 功能定位约束" style="rounded=1;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;container=1;pointerEvents=0;verticalAlign=top;align=left;spacingLeft=12;spacingTop=2;fontSize=13;fontStyle=1;fontColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="60" y="1060" width="1500" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="cp1" value="EU AI Act（2025-02）：&#xa;职场/教育情绪识别禁止" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=10;" vertex="1" parent="comp">
+          <mxGeometry x="15" y="40" width="350" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cp2" value="PIPL：声纹=敏感个人信息&#xa;→ 到达顺序分离，不建声纹库" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=10;" vertex="1" parent="comp">
+          <mxGeometry x="385" y="40" width="350" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cp3" value="健康推断只做纵向差分&#xa;（71%/59% UAR）· 禁止诊断话术" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=10;" vertex="1" parent="comp">
+          <mxGeometry x="755" y="40" width="350" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cp4" value="可见性：常驻通知 + time: 窗&#xa;LAOS_REC=0 + event:mic 审计" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=10;" vertex="1" parent="comp">
+          <mxGeometry x="1125" y="40" width="355" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- 主干箭头 -->
+        <mxCell id="e12" value="只有人声过闸" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2.5;strokeColor=#b85450;fontSize=10;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="chip1" target="chip2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e23" value="压缩 / token 留存" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2.5;strokeColor=#d79b00;fontSize=10;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="chip2" target="chip3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e34" value="蒸馏为文本+标签" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2.5;strokeColor=#d6b656;fontSize=10;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="chip3" target="chip4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fb" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;strokeColor=#82b366;dashed=1;fontSize=10;fontStyle=1;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="chip4" target="chip1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="28" y="972" />
+              <mxPoint x="28" y="297" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 图例 -->
+        <mxCell id="lg1" value="" style="rounded=0;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="60" y="1210" width="28" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lgt1" value="已落地（隔离区 279 测试）" style="text;html=1;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="92" y="1210" width="180" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lg2" value="" style="rounded=0;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="290" y="1210" width="28" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lgt2" value="调研推荐 P0/P1" style="text;html=1;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="322" y="1210" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lg3" value="" style="rounded=0;html=1;fillColor=#f5f5f5;strokeColor=#999999;" vertex="1" parent="1">
+          <mxGeometry x="460" y="1210" width="28" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lgt3" value="业界参照（文献锚点）" style="text;html=1;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="492" y="1210" width="150" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lg4" value="" style="rounded=0;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="660" y="1210" width="28" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lgt4" value="红线 / 即焚" style="text;html=1;align=left;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="692" y="1210" width="90" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lgt5" value="绿虚线=越用越聪明反馈回路 · 来源：docs/research/ 全天候录音业界+四份模型地图（≈90 篇逐篇文献），依据详见各篇 §laos 映射" style="text;html=1;align=left;fontSize=10;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="800" y="1210" width="760" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
