@@ -10,12 +10,15 @@
   - 每段写审计（内核侧 event:"mic" 已有；本驱动返回文本含段信息）
   - 原音频即焚：rec.gc(keep_hours) 删超龄段（默认 LAOS_JOURNAL_KEEP_H=6h，
     由 journal 转写成功后触发）
+  - 存储三级压缩（Global Constraint 3）：默认 Opus 低码率落盘（缺依赖自动
+    降级 WAV），字节/段数双配额 FIFO 淘汰最旧段
 
 运行环境：conda python（sounddevice）；测试注入 fake input factory。
 """
 
 from __future__ import annotations
 
+import io
 import os
 import sys
 import threading
@@ -30,6 +33,19 @@ from laos.vad import StreamingVAD  # noqa: E402
 drv = MCPServer("drv_rec", version="0.1.0")
 
 SAMPLE_RATE = 16000
+# 存储配额默认值（模块顶部声明；实际值每次 syscall 读环境变量，测试可 mock.patch.dict）
+_MAX_BYTES_DEFAULT = 268435456     # 256MB ≈ Opus 24h（调研 §8.2 三级压缩）
+_MAX_SEGMENTS_DEFAULT = 10000      # 段数上限（防文件数爆炸）
+
+# soundfile 惰性探测：导入失败或 libsndfile 不支持 OPUS 写时置 False（落盘自动降级 WAV）。
+# 缺依赖必须静默降级，不得崩模块导入（Global Constraint 9）。
+try:
+    import soundfile as _sf
+    _SF_OK = bool(_sf.check_format("OGG", "OPUS"))
+except Exception:  # ImportError / 老版本无 check_format / libsndfile 损坏
+    _sf = None
+    _SF_OK = False
+
 _input_factory = None       # 测试注入：callable(samplerate, blocksize, dtype, callback) -> stream
 _output_dir: Path | None = None
 _stream = None
@@ -38,6 +54,8 @@ _recording = False
 _lock = threading.Lock()
 _seg_seq = 0
 _earliest_keep = time.time()
+_encoding = "auto"          # 本会话落盘编码："wav" | "opus" | "auto"（rec.start 参数）
+_evicted_total = 0          # 配额 FIFO 累计淘汰段数（rec.status 的 evicted）
 
 
 def set_input_factory(factory) -> None:
@@ -54,7 +72,7 @@ def set_output_dir(path: Path | None) -> None:
 
 def _reset() -> None:
     """测试隔离：停流清态。"""
-    global _stream, _vad, _recording, _seg_seq
+    global _stream, _vad, _recording, _seg_seq, _encoding
     if _stream is not None:
         try:
             _stream.stop()
@@ -65,12 +83,85 @@ def _reset() -> None:
     _vad = None
     _recording = False
     _seg_seq = 0
+    _encoding = "auto"
 
 
 def _journal_dir() -> Path:
     d = _output_dir or (Path("var") / "ear" / "journal")
     d.mkdir(parents=True, exist_ok=True)
     return d
+
+
+def _segment_ext(enc: str) -> str:
+    """实际编码名 → 段文件扩展名。"""
+    return ".opus" if enc == "opus" else ".wav"
+
+
+def encode_segment(wav_bytes: bytes, encoding: str = "auto") -> tuple[bytes, str]:
+    """WAV PCM 段 → 目标编码字节 + 实际编码名（"wav" | "opus"）。
+
+    encoding: "wav" | "opus" | "auto"。opus 用 soundfile 写 OGG/OPUS；
+    libsndfile 不支持 OPUS 或依赖缺失时静默降级 wav（绝不抛错——
+    存储层降级优于丢段）。auto = opus 优先。
+    """
+    if encoding == "wav":
+        return wav_bytes, "wav"
+    if _SF_OK:
+        try:
+            data, sr = _sf.read(io.BytesIO(wav_bytes), dtype="int16")
+            buf = io.BytesIO()
+            _sf.write(buf, data, sr, format="OGG", subtype="OPUS")
+            out = buf.getvalue()
+            if out:
+                return out, "opus"
+        except Exception:
+            pass  # 编码失败降级：存储层降级优于丢段
+    return wav_bytes, "wav"
+
+
+def _quota_limits() -> tuple[int, int]:
+    """每次调用读环境变量（测试可 mock.patch.dict 覆盖；默认值模块顶部声明）。"""
+    try:
+        max_bytes = int(os.environ.get("LAOS_REC_MAX_BYTES", _MAX_BYTES_DEFAULT))
+    except ValueError:
+        max_bytes = _MAX_BYTES_DEFAULT
+    try:
+        max_segments = int(os.environ.get("LAOS_REC_MAX_SEGMENTS", _MAX_SEGMENTS_DEFAULT))
+    except ValueError:
+        max_segments = _MAX_SEGMENTS_DEFAULT
+    return max_bytes, max_segments
+
+
+def _enforce_quota() -> int:
+    """存储配额 FIFO 淘汰：按 mtime 升序删最旧段，直到字节/段数都不超配额。
+
+    返回本次淘汰段数（rec.status 的 evicted 计数由模块级 _evicted_total 累计）。
+    """
+    global _evicted_total
+    max_bytes, max_segments = _quota_limits()
+    # (mtime, name) 排序：mtime 相同（同秒写多段）时按序号兜底，保证 FIFO 确定性
+    segs = sorted(_journal_dir().glob("rec-*.*"),
+                  key=lambda p: (p.stat().st_mtime, p.name))
+    evicted = 0
+    while segs:
+        total = sum(p.stat().st_size for p in segs)
+        if total <= max_bytes and len(segs) <= max_segments:
+            break
+        victim = segs.pop(0)
+        try:
+            victim.unlink(missing_ok=True)
+        except OSError:
+            pass  # 删不掉也计入淘汰，避免死循环
+        evicted += 1
+    _evicted_total += evicted
+    return evicted
+
+
+def _effective_encoding() -> str:
+    """rec.status 展示用实际编码：auto/opus 视 OPUS 可用性解析。"""
+    if _encoding == "wav":
+        return "wav"
+    return "opus" if _SF_OK else "wav"
 
 
 def _real_factory(samplerate, blocksize, dtype, callback):
@@ -83,17 +174,21 @@ def _real_factory(samplerate, blocksize, dtype, callback):
     "rec.start",
     "开始 VAD 触发式录音（只有有声段落盘；LAOS_REC=0 时禁录）",
     {"type": "object",
-     "properties": {"threshold_dbfs": {"type": "number", "default": -35.0}},
+     "properties": {"threshold_dbfs": {"type": "number", "default": -35.0},
+                    "encoding": {"type": "string",
+                                 "enum": ["auto", "wav", "opus"],
+                                 "default": "auto"}},
      "required": []},
 )
-def rec_start(threshold_dbfs: float = -35.0) -> str:
-    global _stream, _vad, _recording
+def rec_start(threshold_dbfs: float = -35.0, encoding: str = "auto") -> str:
+    global _stream, _vad, _recording, _encoding
     if os.environ.get("LAOS_REC", "1") == "0":
         raise PermissionError("EACCES: recording disabled (LAOS_REC=0)")
     with _lock:
         if _recording:
             return "OK already recording"
         _vad = StreamingVAD(SAMPLE_RATE, threshold_dbfs=threshold_dbfs)
+        _encoding = encoding if encoding in ("wav", "opus", "auto") else "auto"
         factory = _input_factory or _real_factory
 
         def on_audio(data, frames, t, status):
@@ -107,10 +202,13 @@ def rec_start(threshold_dbfs: float = -35.0) -> str:
 
 
 def _save_segment(start_ms: int, wav: bytes) -> Path:
+    """落一段：按会话编码写盘（Opus 优先，缺依赖自动降级 WAV），写完执行配额淘汰。"""
     global _seg_seq
     _seg_seq += 1
-    path = _journal_dir() / f"rec-{_seg_seq:04d}-{int(time.time())}.wav"
-    path.write_bytes(wav)
+    out, enc = encode_segment(wav, _encoding)
+    path = _journal_dir() / f"rec-{_seg_seq:04d}-{int(time.time())}{_segment_ext(enc)}"
+    path.write_bytes(out)
+    _enforce_quota()
     return path
 
 
@@ -142,7 +240,7 @@ def rec_stop() -> str:
 )
 def rec_segments(since_ts: float = 0) -> str:
     rows = []
-    for p in sorted(_journal_dir().glob("rec-*.wav")):
+    for p in sorted(_journal_dir().glob("rec-*.*")):  # .wav 与 .opus 段都列出
         if p.stat().st_mtime > since_ts:
             rows.append(f"{p.name} {p.stat().st_size}B")
     return "\n".join(rows) or "(no segments)"
@@ -159,7 +257,7 @@ def rec_gc(keep_hours: float | None = None) -> str:
     h = float(keep_hours)
     cutoff = time.time() - h * 3600
     removed = 0
-    for p in _journal_dir().glob("rec-*.wav"):
+    for p in _journal_dir().glob("rec-*.*"):  # .wav 与 .opus 段都清
         if p.stat().st_mtime < cutoff:
             p.unlink(missing_ok=True)
             removed += 1
@@ -169,9 +267,11 @@ def rec_gc(keep_hours: float | None = None) -> str:
 @drv.tool("rec.status", "录音会话状态", {"type": "object", "properties": {}})
 def rec_status() -> str:
     keep = os.environ.get("LAOS_JOURNAL_KEEP_H", "6")
-    segs = len(list(_journal_dir().glob("rec-*.wav"))) if not _output_dir else \
-        len(list(_journal_dir().glob("rec-*.wav")))
-    return f"recording={_recording} segments={segs} keep_hours={keep}"
+    segs = sorted(_journal_dir().glob("rec-*.*"))
+    total = sum(p.stat().st_size for p in segs)
+    return (f"recording={_recording} segments={len(segs)} keep_hours={keep} "
+            f"encoding={_effective_encoding()} evicted={_evicted_total} "
+            f"bytes={total}")
 
 
 if __name__ == "__main__":
