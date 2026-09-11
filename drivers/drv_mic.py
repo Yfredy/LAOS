@@ -56,45 +56,21 @@ _recording = False  # mic.record 同步录音进行中
 
 
 # --------------------------------------------------------------------------
-# 纯函数：静音分段（无任何设备/重依赖，测试直测）
+# 纯函数：静音分段 —— 委托 laos.vad（统一实现，批式/流式一致）
 # --------------------------------------------------------------------------
 def split_on_silence(samples: list[int], sr: int, threshold_db: float = -40,
                      min_silence_ms: int = 300) -> list[tuple[int, int]]:
-    """按能量分段：dBFS 低于 threshold_db 连续 >= min_silence_ms 即边界。
+    """按能量分段（drv_mic 兼容签名）：无声段边界由连续 min_silence_ms 静音决定。
 
-    返回有声区间 [(start, end), ...]（采样下标，end 不含）。10ms 帧算
-    RMS → dBFS；首尾有声区也各自成段（尾部段延伸到 len(samples)）。
+    语义与 laos.vad.split_segments 一致——本函数是它的薄包装：
+    pad=0、min_speech=0（本驱动不分段时长过滤，由调用方决定）。
     """
-    n = len(samples)
-    if n == 0:
-        return []
-    win = max(1, sr // 100)  # 10ms 分析帧
-    min_silence = max(1, sr * min_silence_ms // 1000)
-
-    segments: list[tuple[int, int]] = []
-    start: int | None = None        # 当前有声段起点
-    silence_at: int | None = None   # 连续静音起点（None = 不在静音中）
-    for pos in range(0, n - win + 1, win):
-        chunk = samples[pos:pos + win]
-        acc = 0
-        for v in chunk:
-            acc += v * v
-        rms = math.sqrt(acc / len(chunk))
-        db = 20.0 * math.log10(rms / FULL_SCALE) if rms > 0 else -999.0
-        if db >= threshold_db:  # 有声
-            if start is None:
-                start = pos
-            silence_at = None
-        elif start is not None:  # 有声段中的静音
-            if silence_at is None:
-                silence_at = pos
-            if pos + win - silence_at >= min_silence:
-                segments.append((start, silence_at))
-                start = None
-                silence_at = None
-    if start is not None:  # 尾部未闭合的有声区
-        segments.append((start, n))
-    return segments
+    from laos.vad import split_segments
+    return split_segments(samples, sr,
+                          threshold_dbfs=threshold_db,
+                          min_speech_ms=1,
+                          min_silence_ms=min_silence_ms,
+                          pad_ms=0)
 
 
 # --------------------------------------------------------------------------
