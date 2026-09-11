@@ -121,3 +121,14 @@ Folder: docs/research/papers/*.pdf
 117. 2608.30177v1.pdf
 118. 2609.00275v1.pdf
 119. 2609.01035v1.pdf
+
+------------------------------------------------------------
+Always-on audio related (supplementary, downloaded 2026-09-11)
+  120. 2604.11182v2.pdf  — 连续 Lifelog 场景下的记忆能力评测（LifeDialBench：EgoMem/LifeMem，ACL 2026 Findings）
+  121. 2601.02391v1.pdf  — WearVox：面向可穿戴设备的自我中心多通道语音助手基准
+  122. 2505.23822v3.pdf  — 语音作为多模态数字表型：基于 LLM 的多任务心理健康预测
+  123. 2508.03583v2.pdf  — OpenLifelogQA：开放式多模态 Lifelog 问答数据集
+  124. 2403.10549v1.pdf  — 低功耗极边缘嵌入式系统上关键词识别的端侧域学习（IEEE AICAS 2024）
+  125. 2208.02765v1.pdf  — 低功耗边缘微控制器上关键词识别系统的剪枝与量化方法评估（DCASE 2022 Workshop）
+  126. 1911.03843v1.pdf  — 从工作场景自我中心录音刻画动态变化的声学场景（ICASSP 2020）
+  127. 2011.06739v3.pdf  — 基于倒置声道变量的广义膨胀 CNN 抑郁检测模型（Interspeech 2021 投稿）

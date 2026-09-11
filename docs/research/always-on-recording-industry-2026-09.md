@@ -449,9 +449,82 @@ Opus 官方规格：RFC 6716，6–64 kbps，算法延迟约 25ms（20ms 帧）�
 
 ---
 
-## 6. 隐私与合规
+## 6. 学术论文前沿（arXiv 补采）
 
-### 6.1 录音同意法律框架（分法域）
+> 既有 119 篇调研语料（Agent/LLM-OS 方向）经索引证实 0 篇音频相关（见 [papers_index.md](papers_index.md)），
+> 本节为 2026-09-11 按 9 组查询全新采集的结果（另加 4 组补充查询补齐"记忆留存消费/声学事件"维度，见 §6.2）。
+> 8 篇 PDF 已按既有命名规约存入 [papers/](papers/)，登记于 [papers/MANIFEST.txt](papers/MANIFEST.txt) 编号 120–127。
+
+### 6.1 按漏斗分段归类
+
+四段漏斗：①常驻低耗检测 → ②触发式捕获 → ③即时蒸馏（ASR/情感）→ ④原音频即焚+结构化记忆。
+
+**① 常驻低耗检测**（对应 laos `laos/vad.py` 常驻层）
+
+- **On-Device Domain Learning for Keyword Spotting on Low-Power Extreme Edge Embedded Systems**（IEEE AICAS 2024，[arXiv:2403.10549](https://arxiv.org/abs/2403.10549)）
+  - 研究问题：常开 KWS 在真实噪声下精度衰减，能否完全在设备端现场自适应恢复？
+  - 与 laos 的关系：漏斗①——端侧域适应只需 <10 kB 内存、806 mJ / 14 s 即可在电池设备完成，证明在 `vad.py` 之上加"可自我校准的 KWS 二级门控"处于功耗预算内。
+- **Keyword Spotting System and Evaluation of Pruning and Quantization Methods on Low-power Edge Microcontrollers**（DCASE 2022 Workshop 投稿，[arXiv:2208.02765](https://arxiv.org/abs/2208.02765)）
+  - 研究问题：KWS 的剪枝/量化方法在 Cortex-M 微控制器上的真实加速收益如何？
+  - 与 laos 的关系：漏斗①——实测 37 ms/决策；**结构化剪枝在 MCU 上远优于非结构化**（稀疏权重难以加速），量化 + SIMD 才有收益，为常驻检测层的模型压缩路线给出工程结论。
+
+**② 触发式捕获**（对应 laos `drivers/drv_rec.py`）
+
+- **WearVox: An Egocentric Multichannel Voice Assistant Benchmark for Wearables**（arXiv 预印本 2025-12，[arXiv:2601.02391](https://arxiv.org/abs/2601.02391)）
+  - 研究问题：AI 眼镜等可穿戴场景下，语音助手如何在运动噪声、快速微交互与背景对话中分辨"设备指向语音"？
+  - 与 laos 的关系：漏斗②——3,842 条多通道自我中心录音显示语音 LLM 准确率仅 29–59%，多通道输入显著提升 Side-Talk Rejection；`drv_rec.py` 触发捕获必须假设"戴着设备≠在对它说话"，该基准可直接用于评测。
+
+**③ 即时蒸馏（ASR / 情感）**（对应 laos `drivers/drv_ear.py`）
+
+- **Speech as a Multimodal Digital Phenotype for Multi-Task LLM-based Mental Health Prediction**（arXiv 预印本 2025（v3），[arXiv:2505.23822](https://arxiv.org/abs/2505.23822)）
+  - 研究问题：把语音当作"数字表型"，能否同时预测抑郁、自杀意念与睡眠障碍？
+  - 与 laos 的关系：漏斗③——转写文本 + 声学 landmark + vocal biomarker 三模态 + 纵向多任务建模达 70.8% 平衡准确率，优于一切单模态/单任务/非纵向方法；`drv_ear` 的 SenseVoice 情感输出应做纵向差分而非绝对分判定。
+- **Generalized Dilated CNN Models for Depression Detection Using Inverted Vocal Tract Variables**（Interspeech 2021 投稿，[arXiv:2011.06739](https://arxiv.org/abs/2011.06739)）
+  - 研究问题：基于声道变量的 vocal biomarker 能否跨语料库泛化地检测抑郁？
+  - 与 laos 的关系：漏斗③——跨语料评估相对提升约 10%，说明声学健康特征有真信号；但它属**敏感生物特征**，印证 laos 按 §7（隐私与合规）默认不落盘声纹/生物标记物、只留临时情感标签的设计。
+
+**声学事件 / 环境场景**（laos 差异化方向：SenseVoice AED 通道）
+
+- **Characterizing dynamically varying acoustic scenes from egocentric audio recordings in workplace setting**（ICASSP 2020 投稿，[arXiv:1911.03843](https://arxiv.org/abs/1911.03843)）
+  - 研究问题：能否从可穿戴音频徽章的长时自我中心录音中刻画动态变化的声学场景？
+  - 与 laos 的关系：漏斗③/④——医院真实佩戴数据 + TDNN 段级建模，证明"声学场景序列与用户职业性质相关"，为 laos 给记忆条目打"环境/场景"标签提供学理依据。
+
+**④ 留存消费：原音频即焚 + 结构化记忆**（对应 laos `mem.recall`）
+
+- **Evaluating Memory Capability in Continuous Lifelog Scenario**（ACL 2026 Findings，[arXiv:2604.11182](https://arxiv.org/abs/2604.11182)）
+  - 研究问题：可穿戴设备连续 lifelog 环境对话时，现有记忆系统的真实能力如何？
+  - 与 laos 的关系：漏斗④——LifeDialBench（EgoMem/LifeMem）在线（时间因果）评测发现**复杂记忆系统竟输给简单 RAG 基线**，元凶是过度设计与有损压缩；`mem.recall` 应保留高保真转写文本、慎做激进结构化，评测须防时间泄漏。
+- **OpenLifelogQA: An Open-Ended Multi-Modal Lifelog Question-Answering Dataset**（SoICT 2025，[arXiv:2508.03583](https://arxiv.org/abs/2508.03583)）
+  - 研究问题：18 个月多模态 lifelog 数据能否支撑开放式问答与记忆增强？
+  - 与 laos 的关系：漏斗④——14,187 组 QA 给出"个人记忆问答"的评测口径；其语料以图像/位置为主、连续音频对话稀缺，反证 laos 以音频为主的 lifelog QA 基线在学界尚属空白。
+
+### 6.2 检索记录
+
+检索端点 `export.arxiv.org/api/query`（Atom），sortBy=relevance，每组取相关性 top5，2023 年以后优先。
+
+| # | 查询 | 命中 | 采纳 |
+|---|---|---|---|
+| 1 | `all:"audio lifelogging"` | 0 | 0（低命中） |
+| 2 | `all:"acoustic lifelog"` | 0 | 0（低命中） |
+| 3 | `all:"wearable memory aid"` | 0 | 0（低命中） |
+| 4 | `ti:"memory prosthesis"` | 0 | 0（低命中） |
+| 5 | `all:"always-on" AND all:"keyword spotting"` | 22 | 2（2403.10549、2208.02765） |
+| 6 | `all:"vocal biomarkers" AND all:"depression"` | 2 | 2（2505.23822、2011.06739） |
+| 7 | `all:"egocentric audio"` | 12 | 2（2601.02391、1911.03843） |
+| 8 | `all:"duty-cycled" AND all:"acoustic"` | 13 | 0（top5 全为日震学/电机/超声驱动，无一相关） |
+| 9 | `all:"on-device speech recognition" AND all:"survey"` | 1 | 0（唯一命中为汽车 UI 综述，无关） |
+| 补充 | `all:"lifelogging"` | 62 | 1（2508.03583） |
+| 补充 | `all:"lifelog" AND all:"audio"` | 4 | 1（2604.11182） |
+| 补充 | `all:"acoustic scene" AND all:"earable"` | 0 | 0（低命中） |
+| 补充 | `all:"continual" AND all:"audio" AND all:"privacy"` | 51 | 0（命中以 deepfake 检测/联邦学习为主，无一相关） |
+
+说明：①查询 1–4 在 arXiv 全字段短语匹配下 0 命中，如实记录、不硬凑；②查询 8/9 命中数虽高但无一相关；③主查询仅凑得 6 篇强相关，为覆盖漏斗④（记忆留存消费）这一 laos 核心差异段，追加 4 组补充查询、采纳其中 2 篇（2508.03583、2604.11182）；④采纳 8 篇中 5 篇为 2023 年以后工作（2604.11182、2601.02391、2505.23822、2508.03583、2403.10549），3 篇较早文献（2208.02765、2011.06739、1911.03843）分别为查询 5/6/7 的最相关命中，作为对应漏斗段的基线证据保留。
+
+---
+
+## 7. 隐私与合规
+
+### 7.1 录音同意法律框架（分法域）
 
 #### 美国：一方同意 vs 全体同意
 
@@ -492,7 +565,7 @@ Opus 官方规格：RFC 6716，6–64 kbps，算法延迟约 25ms（20ms 帧）�
 | 欧盟 | 须合法依据+告知+最小化 | GDPR Art.5/6 | 7×24 录路人极难满足目的限定与最小化 |
 | 中国 | 私密活动不得窃听；声音=个人信息、声纹=敏感信息 | 民法典 §1033/1034；个保法 §13 | 对特定人持续录制/私密空间录制高风险 |
 
-### 6.2 产品的隐私回应机制
+### 7.2 产品的隐私回应机制
 
 | 机制 | 代表产品做法 | 来源 |
 |---|---|---|
@@ -502,7 +575,7 @@ Opus 官方规格：RFC 6716，6–64 kbps，算法延迟约 25ms（20ms 帧）�
 | **敏感内容/PII 处理** | 端侧工具提供"上云前可选脱敏"；企业级产品宣称 ISO 27001/SOC2/HIPAA/GDPR 合规；音频脱敏（姓名/账号/卡号 masked）是单独工程领域 | https://redactor.ai/blog/how-to-redact-audio-recordings |
 | **告知与同意** | Apple 通话录音自动告知对方；产品通用做法：App 内权限提示、录制状态灯；行业尚无统一"beep 音"标准 | https://www.advertise.co.uk/?q=node%2F222312 |
 
-### 6.3 全天候录音的隐私争议事件
+### 7.3 全天候录音的隐私争议事件
 
 - **Meta Ray-Ban 肯尼亚外包标注事件**：瑞典媒体调查曝光，"Hey Meta"拍摄的视频图像被发往肯尼亚内罗毕外包公司 Sama，人工审核员标注训练 AI，内容含浴室/更衣室片段甚至裸露与银行卡信息。🔶第三方/媒体声称
 - **Meta "NameTag"人脸识别代码**：2026-06 Malwarebytes 在 Meta companion app（装机量 5000 万+）中发现未启用的人脸识别代码（SCRFD 检测+KPSAligner 对齐+SFace 生物特征嵌入）。🔶第三方/媒体声称
@@ -514,15 +587,15 @@ Opus 官方规格：RFC 6716，6–64 kbps，算法延迟约 25ms（20ms 帧）�
 
 ---
 
-## 7. 2024–2026 趋势
+## 8. 2024–2026 趋势
 
-### 7.1 从云转写走向端侧记忆 Agent
+### 8.1 从云转写走向端侧记忆 Agent
 
 驱动因素：①NPU/DSP 普及使 1B 级模型可端侧实时（WhisperKit、AMD Ryzen AI、Apple Neural Engine）；②量化/蒸馏把 ASR 压到几十 MB、1.58-bit（EdgeSLU/Edge-ASR 论文）；③隐私监管与用户不信任云录音；④LLM 端侧化让"记忆"无需往返云。
 
 架构正从"录音→云转写→云摘要"变为"本地低码率录音→本地/半本地转写→本地向量记忆→按需云 LLM 增强"。
 
-### 7.2 AI 硬件爆发期与形态演变
+### 8.2 AI 硬件爆发期与形态演变
 
 - 2023–2024"AI 吊坠"命题：屏外、麦克风+LLM 做对话记忆。Humane AI Pin（$240M 融资）、Rabbit R1、Limitless Pendant（$99，Sam Altman 背书）同期登场。
 - **洗牌**：2025-02 Humane 资产售 HP 后变砖；2025-07 **Amazon 收购 Bee**（团队并入 Devices & Services，独立消费品牌路线图停摆）；2025-12 **Meta 收购 Limitless**并入 Reality Labs，吊坠停售——平台型公司（HP、Amazon、Meta）批量吸收独立 AI 硬件初创，独立"常听可穿戴"作为独立品类已基本消亡。
@@ -531,7 +604,7 @@ Opus 官方规格：RFC 6716，6–64 kbps，算法延迟约 25ms（20ms 帧）�
 
 来源：https://sacra.com/research/why-meta-bought-limitless/ ；https://news.cctv.com/2026/01/30/ARTIwl6eMHPEIPj7YRixZnlB260130.shtml ；https://www.c114pro.com/terminal/181641.html
 
-### 7.3 "环境智能"（Ambient Intelligence）愿景与现实
+### 8.3 "环境智能"（Ambient Intelligence）愿景与现实
 
 - **愿景**：常开传感器（麦、摄像头、IMU）+ 端侧 AI 持续理解环境，设备"无需唤醒即在场"（Meta 的"personal superintelligence"叙事）。
 - **现实约束**：①续航——持续流式 ASR 把 100h 待机压到 12–14h；②隐私——bystander 无感知录制引发 LED 强制、外包标注丑闻、人脸识别代码曝光；③云依赖风险——Humane 变砖证明端云耦合的脆弱性；④监管——GDPR 目的限定/数据最小化与"什么都录"的根本冲突。
@@ -539,11 +612,11 @@ Opus 官方规格：RFC 6716，6–64 kbps，算法延迟约 25ms（20ms 帧）�
 
 ---
 
-## 8. 对 laos 的启示
+## 9. 对 laos 的启示
 
 laos 已有音频子系统：`drivers/mic`（麦克风）、`drivers/ear`（ASR 双通道）、`drivers/rec`（听觉日志）、VAD、`drivers/audio`（人声分离+AEC）。以下是基于业界调研的具体启示。
 
-### 8.1 供电预算：不要假设"全程流式上云"可行
+### 9.1 供电预算：不要假设"全程流式上云"可行
 
 业界实测证明：常开 ASR 处理是耗电大头。Limitless 标称 100h 待机，开启持续转写后仅 12–14h。laos 如果运行在电池供电设备上，**必须采用"本地低码率录音 + 事后批量转写"而非"全程流式上云"**。
 
@@ -553,7 +626,7 @@ laos 已有音频子系统：`drivers/mic`（麦克风）、`drivers/ear`（ASR 
 - 高精度异步通道在充电/连 WiFi 时批量处理本地缓冲（buffer-and-burst）
 - 参考 Apple Watch Live Rewind 的"环形缓冲+事件触发"架构：持续保留最近 N 秒音频，用户双击/事件触发时才转写
 
-### 8.2 VAD 门控录音：常开的正确姿势是"不常开"
+### 9.2 VAD 门控录音：常开的正确姿势是"不常开"
 
 业界存活路径证明：纯常开（always-on passive）几乎全部倒下。正确做法是 **VAD 门控 + 事件驱动**——麦克风硬件层常开（低功耗 AON），但软件层只在检测到语音时才编码/转写/存储。
 
@@ -563,7 +636,7 @@ laos 已有音频子系统：`drivers/mic`（麦克风）、`drivers/ear`（ASR 
 - 如果需要唤醒词交互，加 openWakeWord 做第二级触发器（纯 Python，可直接挂 MCP）
 - 这与 laos 的"能力表强制"理念一致：VAD 门控本质是一种"资源预算门控"——没有语音就不消耗 ASR/存储/网络预算
 
-### 8.3 存储配额：用 Opus + 文本 + 向量的三级压缩
+### 9.3 存储配额：用 Opus + 文本 + 向量的三级压缩
 
 数据量估算（12h 活跃录音）：PCM 1.38GB → Opus 130MB → 转写文本 0.5MB → 向量 <1MB。**转写文本比原始音频小 200×以上**，这是存储配额设计的核心依据。
 
@@ -574,7 +647,7 @@ laos 已有音频子系统：`drivers/mic`（麦克风）、`drivers/ear`（ASR 
 - 直接抄 screenpipe 的 SQLite schema：`audio_transcriptions` 表（timestamp、speaker、text、offset）+ 元数据（说话人、App/地点）
 - 分层摘要：参考 LocalRecorder 的 hour→day→week 分层摘要，用 LLM 对转写文本做压缩，进一步降低长期存储
 
-### 8.4 隐私能力模型：把"录音"做成受权限管控的系统资源
+### 9.4 隐私能力模型：把"录音"做成受权限管控的系统资源
 
 业界隐私争议证明：bystander 无感知录制是全天候录音最大的社会接受度障碍。laos 作为 AgentOS，应把"录音能力"做成**受能力表强制管控的系统资源**，而非 agent 可随意调用的普通工具。
 
@@ -589,7 +662,7 @@ laos 已有音频子系统：`drivers/mic`（麦克风）、`drivers/ear`（ASR 
 - **端侧优先**：默认纯端侧处理（sherpa-onnx / FunASR），上云转写需单独授权且应支持上云前脱敏（PII redaction）
 - **不录音他人口音声纹**：中国法语境下声纹属敏感个人信息，laos 默认不应提取/存储说话人声纹，说话人识别用临时 diarization（speaker_1/speaker_2）而非声纹注册
 
-### 8.5 端侧 ASR 选型：sherpa-onnx 是一站式首选
+### 9.5 端侧 ASR 选型：sherpa-onnx 是一站式首选
 
 laos 的 `drivers/ear` 是双通道设计（流式近实时 + 高精度异步），与业界最佳实践完全对应。
 
@@ -599,7 +672,7 @@ laos 的 `drivers/ear` 是双通道设计（流式近实时 + 高精度异步）
 - **伪流式策略**：抄 **whisper_streaming** 的 LocalAgreement（self-adaptive latency）——不要固定 1s 分片，根据语音复杂度自适应
 - **不建议**：openai/whisper 原版（慢，30s 块非流式）、Coqui STT（停更）
 
-### 8.6 常开麦克风作为受权限管控的系统资源：总结
+### 9.6 常开麦克风作为受权限管控的系统资源：总结
 
 把以上五条合起来，laos 的"全天候录音"能力模型应是：
 
@@ -624,7 +697,7 @@ laos 的 `drivers/ear` 是双通道设计（流式近实时 + 高精度异步）
 
 ---
 
-## 9. 参考来源
+## 10. 参考来源
 
 ### 消费产品
 - Rewind/Limitless：https://rewind.ai/what-happened-to-rewind/ ；https://limitless.ai/ ；https://9to5mac.com/2025/12/05/rewind-limitless-meta-acquisition/ ；https://screenpipe.com/blog/rewind-ai-alternative-2026
