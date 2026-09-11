@@ -65,3 +65,29 @@ python -m unittest tests.test_journal tests.test_diary tests.test_scope -v   # �
 | `tests/test_scope.py` | +`TestTimeWindowScope` 5 用例（窗内/窗外/跨零点/无前缀不误伤/非 mic 不受限） |
 
 隐私红线未动：录音仍必须显式 syscall 触发、`LAOS_REC=0` 全局禁录、每次调用（含时间窗拒绝）写审计。
+
+
+## 第二批增量（语音模型前沿落地，2026-09-12）
+
+依据 [docs/research/2026-09-12-speech-model-frontiers.md](../docs/research/2026-09-12-speech-model-frontiers.md) §7：
+
+| 模块 | 功能 | 业界依据 |
+|---|---|---|
+| `laos/vad.py` | **PCEN 前端**（`use_pcen=True`）：能量归一化，大小声同一门限 | EdgeSpot(ICASSP'26)/FusionVAD(Interspeech'25) |
+| `laos/kws.py` | **私有唤醒词**：包络 DTW 模板匹配（enroll→match/best），模板纯 JSON 可删 | few-shot KWS 路线（EdgeSpot） |
+| `scripts/kws_confusables.py` | **易混词负样本生成器**（声母/韵母替换，确定性零依赖） | LLM-Synth4KWS(Interspeech'25) |
+| `laos/audiostore.py` | **编解码留存档**（`journal(archive=...)`）：即焚前留 µ-law 压缩副本（~0.5×）；SNAC 神经编解码为可选依赖 | Mimi/SNAC 低码率 codec（默认关，见下红线） |
+| `laos/pronunciation.py` + `ear.assess` | **发音韵律评估**：流利度/节奏两维零依赖；音素准确度留 GOPT 后端插桩 | GOPT+speechocean762 四维口径 |
+| `laos/kernel.py`（既有） | `task_scope=["time:HH:MM-HH:MM"]` mic 时间窗 | Apple Siri Recap 时间/地点调度 |
+
+测试：`python -m unittest discover -s tests`（261 → **277 项**）。
+
+## 合规红线（功能设计约束，执法期已到）
+
+全天候录音 + 听觉推断功能的定位边界，来源见 [业界调研·社会接受度篇](../docs/research/always-on-recording/social-acceptance.md) 与 [前沿地图 §5.6](../docs/research/2026-09-12-speech-model-frontiers.md)：
+
+1. **EU AI Act（2025-02-02 生效）**：禁止在**工作场所与教育机构**用生物识别数据推断情绪（医疗/安全目的窄豁免，罚款至全球营业额 7%）。→ laos 的情绪/压力功能必须定位为"用户自主健康监测"，禁止以"员工/学生监控"名义部署；依赖环境不得默认在工作/教学设备常开。
+2. **中国 PIPL + GB/T 41807 + 2025 新国标**：**声纹 = 敏感个人信息**，需单独同意，禁止诱导/欺骗采集。→ laos 不建长期声纹库；说话人功能用"到达顺序"（Streaming Sortformer 式）或会话内临时锚定；唤醒词模板只存能量包络（JSON，不含可重建语音）。
+3. **健康推断的表述红线**：语音筛查类能力公开上限≈敏感度 71%（抑郁）/59% UAR（MCI）——**只能输出纵向差分提示（"与自己比"），禁止临床/诊断话术**；呼吸/咳嗽类到达筛查级（COPD F1 0.84），不构成诊断。
+4. **留存档开启即担责**：`audiostore` 留存的是可重建音频——默认关闭；开启的用户须自行设定档期清理，且对外分享前应走匿名化（VoicePrivacy 协议）。
+5. **可见性**：常驻录音必须有系统级可见状态（时间窗 + `LAOS_REC=0` 总开关 + `event:"mic"` 审计 + 真机常驻通知）——旁观者知情是 Apple 尚未做到、laos 的差异化承诺。

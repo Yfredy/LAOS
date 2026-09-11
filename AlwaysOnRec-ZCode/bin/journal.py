@@ -37,7 +37,8 @@ def _title_of(text: str, limit: int = 20) -> str:
 
 
 def run_pipeline(journal_dir: Path, memory, *, transcribe=None,
-                 gc_keep_hours: float | None = None) -> dict:
+                 gc_keep_hours: float | None = None,
+                 archive=None) -> dict:
     """转写目录内所有分段并入记忆库。返回 {"ok": [...], "errors": [...]}。
 
     语义：转写成功的段落 mem.remember(kind="journal", tags=[emotion])；
@@ -63,6 +64,9 @@ def run_pipeline(journal_dir: Path, memory, *, transcribe=None,
         # 三段 schema：# 标题 首行，正文行带时间戳前缀（Apple Siri Recap 式）
         text = f"# {title}\n[{hour_min}] {body}" if title else f"[{hour_min}] {body}"
         memory.remember(kind="journal", text=text, tags=[emotion])
+        if archive is not None:
+            # 留存档（默认关）：即焚前留压缩副本，磁盘占用降一个数量级
+            archive.store(wav.name, wav.read_bytes())
         ok.append({"wav": wav.name, "title": title,
                    "text": body, "emotions": item.get("emotions", [])})
 

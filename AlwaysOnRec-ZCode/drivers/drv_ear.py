@@ -31,6 +31,8 @@ import os
 import re
 import sys
 import threading
+import wave
+import struct
 import time
 import urllib.error
 import urllib.request
@@ -176,6 +178,30 @@ def _server_reachable(server: str) -> bool:
         except Exception:
             continue
     return False
+
+
+@drv.tool(
+    "ear.assess",
+    "发音韵律评估（零依赖档：流利度/节奏两维；音素准确度需 GOPT 后端）",
+    {"type": "object",
+     "properties": {"wav": {"type": "string", "description": "WAV 文件路径"},
+                    "expected_text": {"type": "string"}},
+     "required": ["wav"]},
+)
+def ear_assess(wav: str, expected_text: str = "") -> str:
+    import json as _json
+    from laos.pronunciation import assess
+    path = Path(wav)
+    if not path.exists():
+        return _json.dumps({"error": f"ENOENT: {wav}"}, ensure_ascii=False)
+    with wave.open(str(path), "rb") as w:
+        sr = w.getframerate()
+        raw = w.readframes(w.getnframes())
+    n = len(raw) // 2
+    samples = list(struct.unpack(f"<{n}h", raw))
+    result = assess(samples, sr,
+                    expected_text=expected_text or None)
+    return _json.dumps(result, ensure_ascii=False)
 
 
 @drv.tool(
