@@ -5,6 +5,7 @@
 > - 学术论文线（六个方向 + 定量锚点）：[academic-papers.md](academic-papers.md)
 > - 硬件与功耗 + 平台约束：[hardware-power.md](hardware-power.md)
 > - 社会接受度 + 争议事件：[social-acceptance.md](social-acceptance.md)
+> - **垂直应用（B端四赛道）+ Apple S12 音频智能专题 + 文章语料**：[2026-09-11-verticals-apple-articles.md](2026-09-11-verticals-apple-articles.md)
 >
 > 记法：✅ 官方源已查证 ｜ 🔶 第三方/媒体声称 ｜ `未证实` 查不到可核验来源。
 
@@ -55,7 +56,7 @@
 | Bee | 腕带 | 按键 + LED | 实时转写 | **不存原始音频** | 摘要 | **被 Amazon 收购**（2025-07） | 见 industry §3.1 |
 | Meta Ray-Ban（含 Display） | 眼镜 | 唤醒词常开 | 唤醒端侧 / 查询上云 | 云端 | 字幕/问答 | 活跃；LED 防篡改强制 | 见 social-acceptance ④ |
 | Humane AI Pin | 别针 | 按住激活 | **纯云** | 云端 | 问答 | **已关停变砖**，HP 收 IP | 见 social-acceptance ③-1 |
-| Apple（iPhone/Watch/AirPods） | 手机/手表 | 手动 + 对话感知 | 端侧 + PCC | 端侧 | 转写/回放（Live Rewind） | 活跃 | 见 industry §3.1 |
+| Apple（iPhone/Watch/AirPods） | 手机/手表 | **Watch S12 起：Siri Recap 全天环境聆听（opt-in，按时间/地点计划）** | **端侧**（S11 安全隔离区，原始音频不落盘）+ PCC | **摘要 7 天自动删**；E2E 加密同步；不识别说话人 | 转写/纪要/声音事件 | 活跃（2026-09-10 发布音频智能，[增量篇 §3](2026-09-11-verticals-apple-articles.md)） | 见 industry §3.1 ｜ 增量篇 §3 |
 | Google Pixel Recorder | 手机 App | 手动 | **端侧 Gemini Nano** | 端侧 | 转写/摘要 | 活跃 | 见 industry §3.1 |
 | Samsung Galaxy | 手机 App | 手动/通话一键 | 端侧（宣称） | 端侧 | 转写 | 活跃 | 见 industry §3.2 |
 | 科大讯飞 SR 系列 / 听见 | 录音笔 | 按键 | **混合**（云端+SR702 离线） | 本地+云 | 实时转写 | 活跃 | 见 industry §3.2 |
@@ -66,6 +67,7 @@
 | 腾讯会议"录音笔" | 会议 App | 会议内手动 | 云端实时 | 留存本地 | 转写/纪要 | 活跃 | 见 industry §3.2 |
 
 **读表结论**：16 个产品里 `always_on=常开被动` 的只有 **2 个**（Rewind、Limitless），且**两个都死了**；剩下的 14 个全是按键 / 唤醒词 / 通话触发。这是本调研最硬的一条行业事实。
+> ⚠️ **2026-09-10 修正**：Apple Watch Series 12「音频智能」成为第三个常开被动玩家——**端侧环形缓冲 + 7 天即焚 + opt-in 的"克制版常开"**，且活着。结论应修正为：**死的是"云常开 + 永久留存"，端侧克制常开刚被消费级巨头转正**（逐项对照见[增量篇 §3](2026-09-11-verticals-apple-articles.md)）。
 
 ---
 
@@ -118,7 +120,7 @@
 
 | 项目 | 许可证 | 关键数字 | laos 可复用性 | 来源 |
 |---|---|---|---|---|
-| screenpipe | MIT | 24/7 屏幕+音频，本地 SQLite + mp4 + OCR + Whisper + diarization；~20k⭐ | **极高**（laos `drivers/rec` + 记忆层最接近的参照） | [GitHub](https://github.com/screenpipe/screenpipe) |
+| screenpipe | ⚠️ **source-available**（早期 MIT，已改；YC S26） | 24/7 屏幕+音频，本地 SQLite + mp4 + OCR + Whisper + diarization；~20k⭐ | **极高**（laos `drivers/rec` + 记忆层最接近的参照；商用需重读许可） | [GitHub](https://github.com/screenpipe/screenpipe) |
 | BasedHardware/Omi | 开源（含硬件） | 24h+ 连续录音，BLE 流式到手机，15k⭐ | **高**（硬件+固件+后端全栈） | [GitHub](https://github.com/BasedHardware/Omi) |
 | mem0 | Apache-2.0 | Agent 记忆层（user/session/agent 三级） | 中（记忆抽取/检索） | [GitHub](https://github.com/mem0ai/mem0) |
 | LocalRecorder | 开源 | Whisper + **分层摘要 hour→day→week** + Markdown | 中（laos `journal.py` 同构） | 见 industry §4.2 |
