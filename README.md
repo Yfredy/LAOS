@@ -42,6 +42,8 @@ laos/bin/         ★ 用户入口：laosd(引导demo) / laosweb(实时面板+�
 laos/scripts/     termux_matrix(Android降级矩阵实测) / flasep_gpu_bench(GPU基准)
 laos/tests/       253 项回归测试（真录音/真 ASR 用例实测通过）
 laos/docs/        论文调研 / 真机 runbook / 面板教程 / 完整项目介绍(PROJECT_OVERVIEW.md)
+laos/docs/research/  调研库：全天候录音业界(6篇) / SER·AED·AGC·说话人·编解码·健康声学模型地图 / 40+篇arXiv论文库
+laos/AlwaysOnRec-ZCode/ 隔离实现区：全天候录音前沿增量（独立可跑，279 项测试）
 ```
 
 > 📖 **新访客请先读 [docs/PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md)**——完整的"是什么/为什么/每个文件干什么"总览。
@@ -375,3 +377,44 @@ laos/
 | `LAOS_ASR_CHANNEL` | `funasr` | `ear.transcribe` 通道：`funasr`（本机 SenseVoice，需 conda python + 模型）或 `server`（HTTP，零依赖） |
 | `LAOS_ASR_SERVER` | `http://127.0.0.1:8000` | `server` 通道的 ASR 服务端点（POST /v1/transcribe，multipart 上传 wav） |
 | `LAOS_SENSEVOICE_MODEL` / `LAOS_SENSEVOICE_VAD` | 本机模型目录 | funasr 通道的 SenseVoice 模型与 fsmn-vad 路径 |
+
+---
+
+## 十、增量工作与调研索引（2026-09）
+
+### 10.1 调研内容（docs/research/，逐篇文献级跟踪）
+
+| 文档 | 内容 | 关键结论 |
+|---|---|---|
+| [docs/research/always-on-recording/2026-09-landscape.md](docs/research/always-on-recording/2026-09-landscape.md) | 全天候录音收敛版（16 产品/34 开源/21 论文/功耗表/合规清单） | 云常开已被系统性证伪；**端侧克制常开**（VAD 门控+即焚）是唯一活路 |
+| 同目录 2026-09-11-verticals-apple-articles.md | B 端四赛道（会议/医疗/销售/无障碍）+ **Apple Watch S12 音频智能专题** + 文章语料 | Apple S12 逐项验证 laos 四段漏斗（15s 环形缓冲/端侧蒸馏/7 天即焚/不识别说话人）；旁观者可见性是 laos 差异化 |
+| 同目录 academic-papers / hardware-power / social-acceptance | 学术六方向、硬件功耗（µW 级锚点）、11 起争议事件时间线 | 功耗预算：常驻检测 µW 级、蒸馏只能短时突发 |
+| [docs/research/2026-09-11-ser-model-landscape.md](docs/research/2026-09-11-ser-model-landscape.md) | 语音情感模型五分类 + 2024-26 逐篇文献跟踪（17 篇） | MER2025 基线 WAF 78.6=SSL 特征+轻量头（验证 laos 路线）；Interspeech'25 自然条件挑战=情绪差分对标口径 |
+| [docs/research/2026-09-11-aed-agc-model-landscape.md](docs/research/2026-09-11-aed-agc-model-landscape.md) | 音频事件识别 + 自动增益五分类 + 文献跟踪（32 篇） | DCASE 2025 冠军 61.5% @122K 参数/29 MMACs（蒸馏范式）；AGC 主要是经典 DSP，ML 化刚起步（SE-AGCNet） |
+| [docs/research/2026-09-12-speech-model-frontiers.md](docs/research/2026-09-12-speech-model-frontiers.md) | 其余全部语音信号领域（说话人/前端触发/编解码/TTS/副语言学健康）51 篇 | 到达顺序说话人分离=不建声纹库的"谁的日记"；Mimi 1.1kbps=0.5MB/h 留存档；EU AI Act/PIPL 功能红线 |
+
+### 10.2 工作内容（AlwaysOnRec-ZCode 隔离实现区，全部 TDD）
+
+主代码零改动；实现细节见 [AlwaysOnRec-ZCode/README.md](AlwaysOnRec-ZCode/README.md)。
+
+| 增量 | 落点 | 对应调研 |
+|---|---|---|
+| journal 记忆条目升级"标题+正文"schema；diary 渲染标题 | `bin/journal.py` `bin/diary.py` | Apple Siri Recap 三段式 |
+| `task_scope` 新增 `time:HH:MM-HH:MM` 时间窗（mic.* 专用，跨零点，fail-closed） | `laos/kernel.py` | Siri Recap 时间/地点调度 |
+| **PCEN 前端**（`use_pcen=True`）：能量归一化，低 28dB 语音与正常音量分段一致 | `laos/vad.py` | EdgeSpot/FusionVAD |
+| **私有唤醒词**：包络 DTW 模板（enroll→match/best，模板=纯 JSON 非声纹） | `laos/kws.py` | EdgeSpot few-shot KWS |
+| **易混词负样本生成器**（声母/韵母替换，确定性零依赖） | `scripts/kws_confusables.py` | LLM-Synth4KWS |
+| **编解码留存档**（µ-law ~0.5×，默认关；SNAC 可选依赖） | `laos/audiostore.py` + `journal(archive=)` | Mimi/SNAC 低码率 codec |
+| **发音韵律评估**：流利度/节奏两维零依赖 + `ear.assess` 工具（GOPT 后端插桩） | `laos/pronunciation.py` `drivers/drv_ear.py` | GOPT+speechocean762 |
+| **架构图**：九层全貌 + 四段漏斗高亮（docs/images/，修复 4 处重叠） | `docs/images/` | — |
+
+测试规模：主库 253 项 + 隔离区 279 项（= 261 基线 + 18 前沿增量 + 上一批 title/time）。
+
+### 10.3 修订内容（实现过程中修掉的问题）
+
+- **架构图 4 处重叠**：审计流边竖穿红框容器与黄框、"强制隔离"标签压 ADSP 框、HTTP 标签压 seccomp 框、容器标题被子盒遮盖（三条边改道空白通道 + 标题钉顶）
+- **StreamingVAD 关闭段时清空 pad 历史**——再触发回扣不足 10 帧 pad，起点与批式不对齐（原始代码即有的缺陷，PCEN 上升沿滞后使其显形）；修复后流式/批量起点严格对齐
+- **DTW 唤醒词对"脉冲数不同"的词距离过小**（0.073<0.35 误命中）——包络静音修剪 + 峰数差异惩罚
+- **screenpipe 许可证修正**：MIT → source-available（YC S26），引用需注明
+- **收敛版结论修正**："常开被动=死" → "云常开=死，端侧克制常开刚被 Apple S12 转正"
+- **GTCRN/CED 参数口径修正**：GTCRN 仓库实测 48.2K/33 MMACs（论文 23.7K/39.6）；CED balanced 49.0 mAP（~52.2 为不同协议口径）
