@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>语音情感识别（SER）模型全景 · laos</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2230; --line:#2a3140;
+    --fg:#e6edf3; --dim:#9aa7b8; --cyan:#39d0d8; --orange:#f0883e;
+    --red:#f85149; --green:#3fb950; --purple:#bc8cff; --yellow:#e3b341;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+       font-size:15px;line-height:1.7}
+  a{color:var(--cyan);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .layout{display:flex;max-width:1560px;margin:0 auto}
+  nav{position:sticky;top:0;height:100vh;width:238px;flex:0 0 238px;overflow-y:auto;
+      border-right:1px solid var(--line);padding:22px 14px;background:#0b0f15}
+  nav h4{margin:0 0 12px;font-size:13px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase}
+  nav a{display:block;padding:6px 10px;margin:2px 0;border-radius:6px;color:var(--dim);font-size:13.5px}
+  nav a:hover{background:var(--panel2);color:var(--fg);text-decoration:none}
+  nav a.sub{padding-left:24px;font-size:12.5px}
+  main{flex:1;min-width:0;padding:34px 40px 90px}
+  header{border-bottom:1px solid var(--line);padding-bottom:26px;margin-bottom:34px}
+  h1{font-size:31px;margin:0 0 10px;letter-spacing:-.01em}
+  h1 span{color:var(--cyan)}
+  .meta{color:var(--dim);font-size:13px}
+  .lead{font-size:16px;color:#c9d5e3;border-left:3px solid var(--cyan);
+        padding:12px 16px;background:var(--panel);border-radius:0 8px 8px 0;margin:22px 0}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:14px;margin:24px 0 8px}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .kpi b{display:block;font-size:26px;color:var(--cyan);line-height:1.25}
+  .kpi small{color:var(--dim);font-size:12.5px}
+  .kpi.warn b{color:var(--red)} .kpi.ok b{color:var(--green)} .kpi.amber b{color:var(--orange)}
+  section{margin:52px 0;scroll-margin-top:14px}
+  h2{font-size:22px;margin:0 0 6px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+  h2 .num{color:var(--cyan);margin-right:10px;font-variant-numeric:tabular-nums}
+  h3{font-size:16.5px;margin:30px 0 10px;color:var(--orange)}
+  h3 .tg{font-size:13px;color:var(--dim);font-weight:400;margin-left:8px}
+  p{margin:12px 0}
+  ul{margin:10px 0;padding-left:22px} li{margin:5px 0}
+  code{background:#1b2230;padding:1px 6px;border-radius:4px;font-size:13px;color:var(--purple)}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:18px 0}
+  .note{color:var(--dim);font-size:13px}
+  .tw{overflow-x:auto;border:1px solid var(--line);border-radius:10px;margin:16px 0}
+  table{border-collapse:collapse;width:100%;min-width:720px;font-size:13.5px}
+  th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  th{background:#131a24;color:var(--dim);font-weight:600;white-space:nowrap;position:sticky;top:0}
+  tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:#141b26}
+  .dead{color:var(--red)} .alive{color:var(--green)} .maybe{color:var(--yellow)}
+  .tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:11.5px;
+       border:1px solid var(--line);color:var(--dim);white-space:nowrap}
+  .tag.c{color:var(--cyan);border-color:#1d4b50} .tag.g{color:var(--green);border-color:#1d4a26}
+  .tag.r{color:var(--red);border-color:#4d2220} .tag.o{color:var(--orange);border-color:#4d351d}
+  svg{display:block;max-width:100%;height:auto}
+  .fig{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;margin:18px 0}
+  .fig .cap{color:var(--dim);font-size:12.5px;margin-top:10px}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;color:var(--dim);font-size:12.5px;margin-top:10px}
+  .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px}
+  pre.tree{background:#0b0f15;border:1px solid var(--line);border-radius:10px;padding:16px 18px;
+           overflow-x:auto;font-size:12.5px;line-height:1.6;color:#c9d5e3;
+           font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace}
+  pre.tree b{color:var(--green)} pre.tree u{color:var(--red);text-decoration:none}
+  .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:18px 0}
+  .cell{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .cell.hi{border-color:#4d2220} .cell.mid{border-color:#4d3f1d} .cell.lo{border-color:#1d4a26}
+  .cell b{display:block;margin-bottom:6px}
+  .cell .lvl{font-size:12px;font-weight:600}
+  .hi .lvl{color:var(--red)} .mid .lvl{color:var(--yellow)} .lo .lvl{color:var(--green)}
+  footer{border-top:1px solid var(--line);margin-top:60px;padding-top:20px;color:var(--dim);font-size:13px}
+  @media(max-width:960px){nav{display:none}main{padding:24px 18px 60px}}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav>
+  <h4>目录</h4>
+  <a href="#top">概览</a>
+  <a href="#matrix">1 · 3×2 交叉矩阵</a>
+  <a href="#tiers">2 · 三档参数/延迟</a>
+  <a href="#scenario">3 · 按场景推荐</a>
+  <a href="#tree">4 · 选型决策树</a>
+  <a href="#datasets">5 · 多模态数据集</a>
+  <a href="#runtime">6 · 端侧 runtime</a>
+  <a href="#records" class="sub">6b · 46 条记录</a>
+  <a href="#task8">7 · 与落地的关系</a>
+  <a href="#ref">8 · 参考与红线</a>
+</nav>
+
+<main>
+<header id="top">
+  <h1>语音情感识别（<span>SER</span>）模型全景调研</h1>
+  <div class="meta">调研时间 2026-09-12 ｜ 单文件 HTML，零外部依赖 ｜ 口径来源：
+    <code>00-taxonomy-and-metrics.md</code> ｜ 收敛版：
+    <a href="research/speech-emotion/2026-09-landscape.md">2026-09-landscape.md</a>
+  </div>
+
+  <div class="lead">
+    规模（小 / 中 / 大）是<b>互斥分档</b>，<b>edge</b>（端侧可部署）与<b>multimodal</b>（推理时输入通道）是两条跨切标记。
+    46 条记录交叉后的结论是：<b>中型档是唯一的主力档位</b>；46 条中<b>没有任何一条</b>满足 laos 的常驻功耗预算（≤25 mW）；
+    而「大型档普遍是多模态」这个印象在裁定 3 之后<b>不成立</b>——大型档多数是端到端纯音频 LLM。
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><b>46</b><small>机器校验通过的记录总数</small></div>
+    <div class="kpi ok"><b>11</b><small>edge = yes（点名 runtime）</small></div>
+    <div class="kpi warn"><b>10</b><small>edge = no（需服务端 GPU）</small></div>
+    <div class="kpi amber"><b>25</b><small>edge = unknown（无公开证据，非 TBD）</small></div>
+    <div class="kpi"><b>11</b><small>多模态（含 T 或 V），其中 A+T+V 仅 4 条</small></div>
+    <div class="kpi warn"><b>0</b><small>满足常驻 ≤25 mW 预算的记录</small></div>
+  </div>
+</header>
+
+<!-- ============ 1 matrix ============ -->
+<section id="matrix">
+  <h2><span class="num">01</span>3×2 交叉矩阵：规模档 × {edge, multimodal}</h2>
+  <p>两列各自是对 46 条的<b>完整划分</b>（不是两个子集），同一条记录会同时出现在左右两列。
+     分档左闭右开：小型 <code>[0,30M)</code>、中型 <code>[30M,500M)</code>、大型 <code>[500M,+∞)</code>——
+     所以 30M 归中型、500M 归大型，316M 的 wav2vec2/HuBERT/WavLM-large 全在<b>中型</b>。</p>
+
+  <div class="fig">
+    <svg viewBox="0 0 940 622" role="img" aria-label="规模档与 edge、multimodal 的 3×2 交叉矩阵">
+      <!-- 列标题 -->
+      <rect x="112" y="0" width="412" height="40" rx="8" fill="#131a24" stroke="#2a3140"/>
+      <text x="318" y="26" text-anchor="middle" fill="#e6edf3" font-size="14.5" font-weight="600">edge 轴 · 端侧可部署</text>
+      <rect x="532" y="0" width="408" height="40" rx="8" fill="#131a24" stroke="#2a3140"/>
+      <text x="736" y="26" text-anchor="middle" fill="#e6edf3" font-size="14.5" font-weight="600">multimodal 轴 · 输入通道 ≥2</text>
+
+      <!-- ===== 行 1 小型 ===== -->
+      <rect x="0" y="48" width="104" height="180" rx="8" fill="#0f2f33" stroke="#39d0d8"/>
+      <text x="52" y="86" text-anchor="middle" fill="#39d0d8" font-size="15" font-weight="700">小型</text>
+      <text x="52" y="106" text-anchor="middle" fill="#9aa7b8" font-size="11">&lt; 30M</text>
+      <text x="52" y="126" text-anchor="middle" fill="#e6edf3" font-size="12">17 条</text>
+
+      <rect x="112" y="48" width="412" height="180" rx="8" fill="#161b22" stroke="#2a3140"/>
+      <text x="126" y="70" fill="#39d0d8" font-size="13.5" font-weight="700">yes 4 · no 0 · unknown 13</text>
+      <text x="126" y="90" fill="#9aa7b8" font-size="11.5">代表：YAMNet 3.7M（TFLite/ONNX/QNN，w8a8+w8a16）</text>
+      <text x="140" y="107" fill="#c9d5e3" font-size="11.5">FRILL 10.1M（INT8，Pixel 1 8.5 ms／次）</text>
+      <text x="140" y="124" fill="#c9d5e3" font-size="11.5">openSMILE（非神经 C++）；Moonshine-tiny 27M</text>
+      <text x="126" y="145" fill="#9aa7b8" font-size="11.5">典型 UAR：本格无可引用区间（17 条中仅 DistilHuBERT</text>
+      <text x="140" y="162" fill="#e3b341" font-size="11.5">UAR 61.4 (IEMOCAP LOSO, INT8)，且它属 unknown</text>
+      <text x="126" y="183" fill="#9aa7b8" font-size="11.5">延迟 / 内存：YAMNet 0.096–0.699 ms，峰值内存 0–37 MB</text>
+      <text x="140" y="200" fill="#c9d5e3" font-size="11.5">ESP32-S3 RTF ≈0.52，arena ≈1.2 MB</text>
+      <text x="140" y="217" fill="#f85149" font-size="11.5">0 条满足常驻 ≤25 mW；情感精度与工程余量直接冲突</text>
+
+      <rect x="532" y="48" width="408" height="180" rx="8" fill="#161b22" stroke="#2a3140"/>
+      <text x="546" y="70" fill="#39d0d8" font-size="13.5" font-weight="700">多模态 1 · 纯 A 16</text>
+      <text x="546" y="90" fill="#9aa7b8" font-size="11.5">代表：HiCMAE-T 20M（A+V，cross-attention MHCA）</text>
+      <text x="546" y="111" fill="#9aa7b8" font-size="11.5">典型 UAR：</text>
+      <text x="618" y="111" fill="#e3b341" font-size="11.5">UAR 66.85 (IEMOCAP)</text>
+      <text x="546" y="128" fill="#c9d5e3" font-size="11.5">其纯音频分支 8M WAR 62.70 (IEMOCAP)</text>
+      <text x="546" y="149" fill="#9aa7b8" font-size="11.5">延迟 / 内存：无任何工程数字（edge = unknown）</text>
+      <text x="546" y="170" fill="#f85149" font-size="11.5">A+T 0 条、A+T+V 0 条：小型档全部纯声学</text>
+      <text x="546" y="187" fill="#c9d5e3" font-size="11.5">→ 反讽 / 讽刺依赖语义，不在本档射程内</text>
+      <text x="546" y="208" fill="#3fb950" font-size="11.5">唯一一份把缺模态与全模态放同一张官方表的数字</text>
+
+      <!-- ===== 行 2 中型 ===== -->
+      <rect x="0" y="236" width="104" height="180" rx="8" fill="#33230f" stroke="#f0883e"/>
+      <text x="52" y="274" text-anchor="middle" fill="#f0883e" font-size="15" font-weight="700">中型</text>
+      <text x="52" y="294" text-anchor="middle" fill="#9aa7b8" font-size="11">30M–500M</text>
+      <text x="52" y="314" text-anchor="middle" fill="#e6edf3" font-size="12">18 条</text>
+
+      <rect x="112" y="236" width="412" height="180" rx="8" fill="#161b22" stroke="#2a3140"/>
+      <text x="126" y="258" fill="#f0883e" font-size="13.5" font-weight="700">yes 7 · no 0 · unknown 11</text>
+      <text x="126" y="278" fill="#9aa7b8" font-size="11.5">代表：SenseVoice-Small 234M（ONNX INT8 228–229 MB）</text>
+      <text x="140" y="295" fill="#c9d5e3" font-size="11.5">95M 档 5 条；emotion2vec_plus_large 164M（ONNX）</text>
+      <text x="126" y="316" fill="#9aa7b8" font-size="11.5">典型 UAR：</text>
+      <text x="196" y="316" fill="#e3b341" font-size="11.5">UA 54.19–69.47 (IEMOCAP, EmoBox)</text>
+      <text x="140" y="333" fill="#c9d5e3" font-size="11.5">95M 档 54.19–63.87；316M 档 67.42–69.47</text>
+      <text x="126" y="354" fill="#9aa7b8" font-size="11.5">延迟 / 内存：WavLM-base+ NPU 129.22 ms／20 s，但</text>
+      <text x="140" y="371" fill="#f85149" font-size="11.5">峰值内存 1057–1597 MB；CPU 1421 ms</text>
+      <text x="140" y="388" fill="#c9d5e3" font-size="11.5">→ 时延不是门槛，内存才是；B 档触发式可用，A 档不成立</text>
+      <text x="140" y="405" fill="#3fb950" font-size="11.5">SenseVoice-Small 10 s ≈70 ms（RTF ≈7×10⁻³）</text>
+
+      <rect x="532" y="236" width="408" height="180" rx="8" fill="#161b22" stroke="#2a3140"/>
+      <text x="546" y="258" fill="#f0883e" font-size="13.5" font-weight="700">多模态 4 · 纯 A 14</text>
+      <text x="546" y="278" fill="#9aa7b8" font-size="11.5">代表：HiCMAE-B 81M；AV-HuBERT Base 103M（early fusion）</text>
+      <text x="546" y="295" fill="#c9d5e3" font-size="11.5">Self-MM 103M（A+T+V，无音频编码器，COVAREP）</text>
+      <text x="546" y="316" fill="#9aa7b8" font-size="11.5">典型 UAR：</text>
+      <text x="618" y="316" fill="#e3b341" font-size="11.5">67.46 / 68.21 (IEMOCAP)</text>
+      <text x="546" y="333" fill="#c9d5e3" font-size="11.5">HiCMAE 表 10 协议，与 EmoBox 划分不同，不可相减</text>
+      <text x="546" y="354" fill="#f85149" font-size="11.5">AV-HuBERT A+V 融合 WAR 46.45 &lt; 纯音频分支 58.54</text>
+      <text x="546" y="371" fill="#c9d5e3" font-size="11.5">→ early fusion 在模态质量不匹配时反成拖累</text>
+      <text x="546" y="392" fill="#9aa7b8" font-size="11.5">延迟 / 内存：4 条 edge 全 unknown，无工程数字</text>
+      <text x="546" y="409" fill="#f85149" font-size="11.5">全是视觉路线，按 05 的立场「不引入视觉」→ 不进候选</text>
+
+      <!-- ===== 行 3 大型 ===== -->
+      <rect x="0" y="424" width="104" height="180" rx="8" fill="#2c1832" stroke="#bc8cff"/>
+      <text x="52" y="462" text-anchor="middle" fill="#bc8cff" font-size="15" font-weight="700">大型</text>
+      <text x="52" y="482" text-anchor="middle" fill="#9aa7b8" font-size="11">&gt; 500M</text>
+      <text x="52" y="502" text-anchor="middle" fill="#e6edf3" font-size="12">11 条</text>
+
+      <rect x="112" y="424" width="412" height="180" rx="8" fill="#161b22" stroke="#2a3140"/>
+      <text x="126" y="446" fill="#bc8cff" font-size="13.5" font-weight="700">yes 0 · no 10 · unknown 1</text>
+      <text x="126" y="466" fill="#9aa7b8" font-size="11.5">代表：Qwen2-Audio-7B 8B；SenseVoice-Large 1587M</text>
+      <text x="140" y="483" fill="#c9d5e3" font-size="11.5">（权重未公开发布）；WavLLM 7550M</text>
+      <text x="126" y="504" fill="#9aa7b8" font-size="11.5">典型 UAR：仅 R3 两段式报 UA</text>
+      <text x="336" y="504" fill="#e3b341" font-size="11.5">64.67 (IEMOCAP, LoRA)</text>
+      <text x="140" y="521" fill="#c9d5e3" font-size="11.5">／49.72（零样本）／52.27（13B 零样本）</text>
+      <text x="126" y="542" fill="#9aa7b8" font-size="11.5">延迟 / 内存：SenseVoice-Large RTF 0.110（10 s→1623 ms）</text>
+      <text x="140" y="559" fill="#f85149" font-size="11.5">为同架构 Small 的约 23 倍；BF16 权重 15–21 GB</text>
+      <text x="140" y="576" fill="#c9d5e3" font-size="11.5">7B 级语音大模型的端侧实测未检索到</text>
+      <text x="140" y="593" fill="#f85149" font-size="11.5">0 条可进端侧，只能服务端 GPU、批量</text>
+
+      <rect x="532" y="424" width="408" height="180" rx="8" fill="#161b22" stroke="#2a3140"/>
+      <text x="546" y="446" fill="#bc8cff" font-size="13.5" font-weight="700">多模态 6 · 纯 A 5　★ A+T+V 仅 3 条</text>
+      <text x="546" y="466" fill="#9aa7b8" font-size="11.5">代表：Emotion-LLaMA F1 90.36 (MER2023)；</text>
+      <text x="560" y="483" fill="#c9d5e3" font-size="11.5">Qwen2.5-Omni-7B ACC 18.65（随机基线 25.0，低于随机）</text>
+      <text x="546" y="504" fill="#9aa7b8" font-size="11.5">典型 UAR：</text>
+      <text x="618" y="504" fill="#e3b341" font-size="11.5">UA 49.72–64.67 (IEMOCAP)</text>
+      <text x="546" y="521" fill="#c9d5e3" font-size="11.5">R3 两段式；其余报 ACC / WF1 / F1，不可换算</text>
+      <text x="546" y="542" fill="#9aa7b8" font-size="11.5">延迟 / 内存：Qwen2.5-Omni BF16 ≈21 GB；</text>
+      <text x="560" y="559" fill="#c9d5e3" font-size="11.5">两段式要同时驻留 ASR 与 LLM，延迟 = 转写 + 生成</text>
+      <text x="546" y="580" fill="#f85149" font-size="11.5">幻觉：FP Ratio 0.44（Omni）～0.71（Emotion-LLaMA）</text>
+      <text x="546" y="597" fill="#c9d5e3" font-size="11.5">→ 大量中性音频上会产出虚假情绪标签</text>
+    </svg>
+    <div class="cap">
+      交叉矩阵。同一条记录会同时出现在左右两列（两列各自是完整划分）。
+      裁定 3 之后，大型档多数记 <code>A</code>（端到端 Audio-LLM），「大型档普遍多模态」不成立。
+    </div>
+    <div class="legend">
+      <span><i style="background:#39d0d8"></i>小型 &lt;30M · 17 条</span>
+      <span><i style="background:#f0883e"></i>中型 30M–500M · 18 条</span>
+      <span><i style="background:#bc8cff"></i>大型 &gt;500M · 11 条</span>
+      <span><i style="background:#e3b341"></i>UAR / UA 数字</span>
+      <span><i style="background:#f85149"></i>否决项或硬约束</span>
+      <span><i style="background:#3fb950"></i>可用结论</span>
+    </div>
+  </div>
+
+  <h3>edge 三值计数 <span class="tg">unknown 是合法值，不等于 no，也不并入 no</span></h3>
+  <div class="tw"><table>
+    <thead><tr><th>档</th><th>记录数</th><th>yes: &lt;runtime&gt;</th><th>no</th><th>unknown(未找到公开转换案例)</th></tr></thead>
+    <tbody>
+      <tr><td>小型</td><td>17</td><td class="alive">4</td><td>0</td><td class="maybe">13</td></tr>
+      <tr><td>中型</td><td>18</td><td class="alive">7</td><td>0</td><td class="maybe">11</td></tr>
+      <tr><td>大型</td><td>11</td><td>0</td><td class="dead">10</td><td class="maybe">1（Phi-4-multimodal）</td></tr>
+      <tr><td><b>合计</b></td><td><b>46</b></td><td class="alive"><b>11（23.9%）</b></td><td class="dead"><b>10（21.7%）</b></td><td class="maybe"><b>25（54.3%）</b></td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">unknown 占一半以上——「能不能端侧」这个问题，一半以上的模型<b>没有公开证据</b>。
+     其中 DistilHuBERT 是特例：INT8 体积 23 MB 已核实，但<b>未点名 runtime</b>，按「yes 必须带 runtime」降级为 unknown。</p>
+
+  <h3>模态分布 <span class="tg">裁定 3：模态列记推理时的输入通道</span></h3>
+  <div class="tw"><table>
+    <thead><tr><th>档</th><th>记录数</th><th>A</th><th>A+T</th><th>A+V</th><th>A+T+V</th><th>多模态合计</th></tr></thead>
+    <tbody>
+      <tr><td>小型</td><td>17</td><td>16</td><td>0</td><td>1</td><td>0</td><td><b>1</b></td></tr>
+      <tr><td>中型</td><td>18</td><td>14</td><td>0</td><td>3</td><td>1</td><td><b>4</b></td></tr>
+      <tr><td>大型</td><td>11</td><td>5</td><td>3</td><td>0</td><td>3</td><td><b>6</b></td></tr>
+      <tr><td><b>合计</b></td><td><b>46</b></td><td><b>35</b></td><td><b>3</b></td><td><b>4</b></td><td><b>4</b></td><td><b>11（23.9%）</b></td></tr>
+    </tbody>
+  </table></div>
+  <div class="panel">
+    <b class="maybe">留痕（不改 03，待裁）</b>：<code>03-large-models.md</code> 主表里 SALMONN-7B / SALMONN-13B 的模态列仍记
+    <code>A+T</code>，与 <code>05-multimodal.md</code> §8 的 <code>A（见裁定 3）</code> 不一致。本页按裁定 3 记
+    <code>A</code>。若按 03 表内字面值，大型档为 A 3 / A+T 5 / A+T+V 3、多模态合计 8。
+    <b>这一处差异不影响「真 A+T+V 只剩 3 条」这条结论。</b>
+  </div>
+</section>
+
+<!-- ============ 2 tiers ============ -->
+<section id="tiers">
+  <h2><span class="num">02</span>三档参数量 / 延迟对比</h2>
+  <p class="note">跨平台不可比：每行都带平台与计算单元，<b>不同行的数字不许相减、不许算倍数</b>。
+     RTF = 时延 ÷ 输入时长。</p>
+  <div class="tw"><table>
+    <thead><tr><th>档</th><th>模型（参数量）</th><th>平台 / 计算单元</th><th>运行时·精度</th><th>实测时延</th><th>RTF</th><th>峰值内存</th><th>权重体积</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tag c">小型</span></td><td>YAMNet (3.7M)</td><td>SD8 Elite Gen 5 · NPU</td><td>LiteRT + QNN HTP，fp16</td><td>98.0 µs（0.96 s 输入）</td><td>1.0×10⁻⁴</td><td>0–23 MB</td><td>int8 ≈4.0 MB</td></tr>
+      <tr><td><span class="tag c">小型</span></td><td>YAMNet (3.7M)</td><td>骁龙 7 Gen 4 · CPU</td><td>ONNX，w8a8</td><td>0.615 ms</td><td>6.4×10⁻⁴</td><td>0–7 MB</td><td>—</td></tr>
+      <tr><td><span class="tag c">小型</span></td><td>YAMNet (3.7M)</td><td>ESP32-S3 @240 MHz</td><td>TFLite Micro，全整数 INT8</td><td>≈500 ms / patch</td><td>≈0.52</td><td>arena ≈1.2 MB</td><td>—</td></tr>
+      <tr><td><span class="tag c">小型</span></td><td>FRILL (10.1M)</td><td>Pixel 1</td><td>TFLite（fp32 38.5 MB / QAT INT8）</td><td>8.5 ms / 次</td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td><span class="tag c">小型</span></td><td>DistilHuBERT (23.49M)</td><td>—</td><td>ONNX INT8</td><td class="dead">未检索到</td><td>—</td><td>—</td><td>23 MB（INT8）</td></tr>
+      <tr><td><span class="tag o">中型</span></td><td>WavLM-base+ (95.1M)</td><td>SD8 Elite Gen 5 · NPU</td><td>QNN_DLC，float</td><td>129.22 ms（20 s）</td><td>6.5×10⁻³</td><td class="dead">0–1144 MB</td><td>363 MB（fp32）</td></tr>
+      <tr><td><span class="tag o">中型</span></td><td>WavLM-base+ (95.1M)</td><td>SD8 Gen 3 · NPU</td><td>ONNX，float</td><td>251.325 ms（20 s）</td><td>1.26×10⁻²</td><td class="dead">1–1413 MB</td><td>—</td></tr>
+      <tr><td><span class="tag o">中型</span></td><td>WavLM-base+ (95.1M)</td><td>SD8 Gen 3 · CPU</td><td>TFLite，float</td><td>1421.172 ms（20 s）</td><td>7.1×10⁻²</td><td class="dead">117–1306 MB</td><td>—</td></tr>
+      <tr><td><span class="tag o">中型</span></td><td>WavLM-base+ (95.1M)</td><td>SA7255P ADP · CPU</td><td>TFLite，float</td><td>2.85 s（10 s）</td><td>2.85×10⁻¹</td><td>125–908 MB</td><td>—</td></tr>
+      <tr><td><span class="tag o">中型</span></td><td>SenseVoice-Small (234M)</td><td>未标注（官方图）</td><td>非自回归端到端</td><td class="alive">≈70 ms（10 s）</td><td>≈7×10⁻³</td><td>未报</td><td>ONNX INT8 228–229 MB / GGUF Q8_0 254 MB</td></tr>
+      <tr><td><span class="tag o">中型</span></td><td>wav2vec2-base (93M)</td><td>RPi 4B 4 核 · CPU</td><td>PyTorch 动态量化</td><td>—</td><td>RTF 0.98</td><td>未报</td><td>207 MB（量化）</td></tr>
+      <tr><td><span class="tag r">大型</span></td><td>SenseVoice-Large (1587M)</td><td>—</td><td>非自回归</td><td class="dead">10 s → 1623 ms</td><td>0.110</td><td>未报</td><td class="dead">权重未公开发布</td></tr>
+      <tr><td><span class="tag r">大型</span></td><td>Whisper-Large-V3-Turbo (809M，ASR 参照)</td><td>SD8 Elite Gen 5 · NPU</td><td>QNN float（encoder）</td><td>378.435 ms（30 s）</td><td>1.26×10⁻²</td><td>59–68 MB</td><td>—</td></tr>
+      <tr><td><span class="tag r">大型</span></td><td>7B 级语音大模型</td><td>端侧</td><td>—</td><td class="dead">未检索到端侧实测</td><td>—</td><td>—</td><td>BF16 15–21 GB</td></tr>
+    </tbody>
+  </table></div>
+  <p>两条会改变选型的读法：<b>① 中型档的门槛不是时延而是内存</b>——WavLM-base+ 在 NPU 上 251 ms 就跑完 20 s 音频
+     （比实时快 80 倍），但峰值内存上限报到 1413 MB；<b>② 掉到 CPU 就立刻不是实时</b>——同一模型从 NPU 换到
+     TFLite/CPU，时延 251 ms → 1421 ms，而 proot 里拿不到 NPU，这条就是默认路径。</p>
+</section>
+
+<!-- ============ 3 scenario ============ -->
+<section id="scenario">
+  <h2><span class="num">03</span>按场景推荐</h2>
+  <div class="tw"><table>
+    <thead><tr><th>场景</th><th>约束（判据）</th><th>推荐档位</th><th>推荐模型 / 通道</th><th>关键数字</th><th>不推荐什么，为什么</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>① 常驻低功耗</b><br><span class="note">漏斗①</span></td>
+        <td>无触发也要醒着；<br>功耗预算 ≤ 25 mW<br>（≈3%/天）</td>
+        <td><b>不落在 46 条内</b><br>A 档真端侧 +<br>极小型（&lt;1M 量级）</td>
+        <td>TIM-Net int8<br>（34,671 参数 / 0.4 MB；<br>蒸馏版 ~174 KB .eaix）<br>→ QNN aDSP / LPAI</td>
+        <td class="dead">46 条中 <b>0 条</b>满足常驻预算；<br>未检索到任何「端侧声学 SER &lt;100 mW 常驻」实测；<br>Edge TPU 上 1.8 MB 的 INT8 情绪模型<br>连续推理都是 <b>2.5 W</b></td>
+        <td>❌ proot 内常驻（400–1000 mW，贵 2–3 个数量级）<br>❌ YAMNet / openSMILE 做常驻情感<br>（SERAB 跨库 Acc 55.1；MER2024 WAF 39.68）</td>
+      </tr>
+      <tr>
+        <td><b>② 近实时日记</b><br><span class="note">漏斗③</span></td>
+        <td>触发后运行；<br>RTF ≤ 0.1（10 s ≤1 s）；<br><b>必须离线</b></td>
+        <td><b>中型档 · B 档</b><br>（proot 内 CPU）</td>
+        <td class="alive"><b>sherpa-onnx 1.13.8<br>+ SenseVoice-Small int8</b><br>（234M）<br>一次前向出 文本/语种/情感/事件</td>
+        <td>ONNX INT8 <b>228–229 MB</b>；<br>10 s ≈<b>70 ms</b>（RTF ≈7×10⁻³）；<br>社区 RTF 0.1–0.3；<br>WA <b>70 (CASIA)</b> / <b>68 (MER2023)</b> / <b>70 (IEMOCAP)</b></td>
+        <td>❌ funasr 通道（需 torch，GB 级内存 + 数秒加载，<br>唯一 RTF 证据来自 PC）<br>❌ 95M SSL 编码器（峰值内存 1057–1597 MB）<br>❌ 云 API（违反隐私前提）</td>
+      </tr>
+      <tr>
+        <td><b>③ 事后批量分析</b><br><span class="note">漏斗④ / 回顾</span></td>
+        <td>非实时；充电 + Wi-Fi；<br>用户<b>显式授权</b></td>
+        <td><b>中型档批量</b>为默认；<br><b>大型档</b>仅在需要<br>细粒度描述时启用</td>
+        <td>默认 SenseVoice-Small 批量；<br>需细粒度时 <b>Qwen2-Audio-7B</b><br>（8B，Apache-2.0，权重可得）</td>
+        <td>SenseVoice-Large RTF 0.110（10 s→1623 ms），<br>为 Small 的约 <b>23 倍</b>；<br>Qwen2-Audio-7B ACC 54.0 (IEMOCAP)、BF16 ≈16 GB；<br>限线程数更省电：RPi 4 核→1 核 <b>2.9 W→1.1 W</b></td>
+        <td>❌ 云 API（GPT-4o-audio / Gemini）：<br>等于把 24 h 连续录音上传第三方<br>❌ 两段式 Cascade / R3（提示词措辞敏感，改一词掉约 3 点）<br>❌ SenseVoice-Large（权重未发布，权重可得 = no）</td>
+      </tr>
+    </tbody>
+  </table></div>
+
+  <div class="grid3">
+    <div class="cell mid">
+      <b>中文场景 · 提醒一</b>
+      <span class="lvl">不要选 emotion2vec</span>
+      <p class="note">英文 IEMOCAP WA 71.79，但 MER2024 中文只有 <b>WAF 56.08</b>，被同为 95M 的 HuBERT-base
+        （<b>69.26</b>）甩开约 13 点——预训练语料 Emo-262 是纯英文。中文侧优先
+        <b>Chinese-HuBERT（MER2024 WAF 72.67，MIT）</b> 或 <b>HuBERT-base（69.26）</b>。</p>
+    </div>
+    <div class="cell lo">
+      <b>中文场景 · 提醒二</b>
+      <span class="lvl">量化停在 INT8</span>
+      <p class="note">INT8 在 SER 上有同行评审的「无损」证据（<b>0.88 → 0.88</b>）；INT4 在音频任务上有崩溃证据
+        （Conformer WER <b>15.94 → 38.49</b>），且 SER 的 INT4 数据完全空白。SenseVoice-Small 的
+        Q8_0（254 MB）是官方背书「精度保持一致」的档位。</p>
+    </div>
+    <div class="cell hi">
+      <b>全档通杀的硬约束</b>
+      <span class="lvl">功耗：0 条达标</span>
+      <p class="note">情感识别的推理功耗落在阶梯第 4–5 级（通用 MCU/AP 26–50 mW ~ 手机 NPU 1–4 W），
+        具体位置由「跑什么核」和「跑多频繁」共同决定，<b>与模型大小弱相关</b>。
+        laos 常驻预算 &lt;5 mW（LPI）/ &lt;50 mW（Active）——<b>只能靠触发，不能靠选模型解决</b>。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4 decision tree ============ -->
+<section id="tree">
+  <h2><span class="num">04</span>选型决策树</h2>
+  <p>输入是<b>部署约束</b>（能不能出端、有没有 NPU、要不要实时、允不允许联网），输出是<b>档位 + 具体模型</b>。每一步都有判据，判据里带数字的即阈值。</p>
+  <pre class="tree">
+起点：laos 情绪通道选型（46 条记录 / 3 档 × 2 标记）
+│
+├─ Q1 · 这个通道要不要「无触发也醒着」的常驻？
+│     判据：功耗预算是否必须 ≤ 25 mW（≈3%/天）
+│     ├─ 否 → 跳到 Q4（触发后运行）
+│     └─ 是 → Q2
+│
+├─ Q2 · 能不能出端？（原生 Android App + aDSP/LPAI 授权）
+│     判据：是否有高通授权 + 厂商签名。未授信进程走 fastrpc attach 音频 PD
+│           直接返回 -EACCES；第三方 App 能自由使用的只有 HTP（瓦级）
+│     ├─ 不能（proot Ubuntu / Termux）→ 判定<u>【常驻否决】</u> → 转 Q4
+│     │     理由：任何醒着的 proot 进程 400–1000 mW，比 aDSP 贵 2–3 个数量级
+│     └─ 能 → Q3
+│
+├─ Q3 · 出端之后拿到的是哪种计算单元？
+│     判据：aDSP / Sensing Hub（官方 &lt;1 mA，mW 档） vs HTP / NPU（1–4 W，瓦档）
+│     ├─ aDSP / LPAI → <b>✅【A 档 · 真端侧 · 极小型】</b>
+│     │     模型：TIM-Net int8（34,671 参数 / 0.4 MB；蒸馏版 ~174 KB .eaix）
+│     │     ⚠ 46 条记录中 0 条有 A 档实测；本条来自 laos 既有原型，
+│     │       且无 on-device RTF / 功耗实测（唯一 ≈6 ms 是 CPU 后端推算）
+│     └─ 只有 HTP → 判定<u>【常驻仍否决】</u>（1–4 W）→ 转 Q4 触发式
+│
+├─ Q4 ·（触发后运行）要不要实时 / 近实时？
+│     判据：RTF ≤ 0.1（10 s 音频 ≤ 1 s）且端到端在数百 ms 内返回
+│     ├─ 是（漏斗③）→ Q5
+│     └─ 否（批量 / 事后）→ Q7
+│
+├─ Q5 · 允不允许联网（出端上云）？
+│     判据：laos 是边缘优先、可离线系统；联网 = 把 24 h 连续录音上传第三方
+│     ├─ 允许 → 本分支结果不变：云 API 路线被隐私红线一票否决，仍落到 Q6
+│     └─ 不允许（默认）→ Q6
+│
+├─ Q6 · 运行时形态：一体化前向，还是「声学编码器 + 自接分类头」？
+│     判据：漏斗③ 本来就跑 ASR —— laos 的真实位置是 A+T 档，不是 A 档
+│     ├─ 一体化（推荐）→ <b>✅【中型档 · B 档 proot CPU】</b>
+│     │     模型：sherpa-onnx + SenseVoice-Small int8（234M）
+│     │     判据数字：ONNX INT8 228–229 MB；10 s ≈70 ms（RTF ≈7×10⁻³）
+│     │               一次前向出 文本 / 语种 / 情感 / 事件
+│     │               WA 70 (CASIA)、68 (MER2023)、70 (IEMOCAP)
+│     │     不选 funasr：需 torch（GB 级内存 + 数秒加载），唯一 RTF 证据来自 PC
+│     └─ 编码器 + 自接头（备选）→ 【中型档 · 95M 档】
+│           模型：Chinese-HuBERT（95M，MIT，MER2024 WAF 72.67）+ 自接分类头
+│           ⚠ edge = unknown：无官方端侧导出、无 proot 实测
+│           ⚠ 同构的 WavLM-base+ 实测峰值内存 1057–1597 MB，内存先崩
+│           ⚠ 中文上选 emotion2vec 是反向：MER2024 WAF 56.08 vs HuBERT-base 69.26
+│
+└─ Q7 ·（批量）需要细粒度情感描述吗？
+      判据：粗分类中型档就够；只有「细粒度 / 上下文依赖」这一档大模型才是质变
+            （但质变是「从不能做到勉强能做」，MER-FG 最好也只有 Avg 46.86）
+      ├─ 不需要 → <b>✅【中型档 · 批量】</b>SenseVoice-Small，充电 / Wi-Fi 时批量跑
+      └─ 需要 → <b>✅【大型档 · 服务端 GPU】</b>Qwen2-Audio-7B（8B，Apache-2.0，权重可得）
+                ⚠ 必须加「中性优先 / 低置信度即丢弃」闸门：
+                   EmotionHallucer FP Ratio 0.44–0.71；
+                   中性音频被误标的假阳率未检索到公开评测，不给数字
+                ⚠ SenseVoice-Large（1587M，CASIA WA 95.0）权重未发布，不可用
+</pre>
+
+  <h3>判据速查 <span class="tg">一步一阈值</span></h3>
+  <div class="tw"><table>
+    <thead><tr><th>步骤</th><th>判据</th><th>阈值 / 判据数字</th><th>通过走</th><th>不通过走</th></tr></thead>
+    <tbody>
+      <tr><td>Q1</td><td>是否常驻</td><td>预算 ≤ 25 mW</td><td>Q2</td><td>Q4</td></tr>
+      <tr><td>Q2</td><td>能否出端</td><td>有 aDSP/LPAI 授权（不是 root，是签名授权）</td><td>Q3</td><td>Q4（常驻否决）</td></tr>
+      <tr><td>Q3</td><td>计算单元类别</td><td>aDSP &lt;1 mA（mW 档） vs HTP 1–4 W</td><td>A 档 TIM-Net</td><td>Q4（常驻否决）</td></tr>
+      <tr><td>Q4</td><td>是否近实时</td><td>RTF ≤ 0.1</td><td>Q5</td><td>Q7</td></tr>
+      <tr><td>Q5</td><td>能否联网</td><td>隐私红线：24 h 录音不得上传第三方</td><td>结果不变 → Q6</td><td>Q6</td></tr>
+      <tr><td>Q6</td><td>是否复用 ASR 前向</td><td>laos 已在 A+T 档，T 的边际成本为零</td><td>一体化 SenseVoice-Small</td><td>编码器 + 自接头（Chinese-HuBERT）</td></tr>
+      <tr><td>Q7</td><td>是否要细粒度</td><td>粗分类 = 4–9 类标签；细粒度 = 自由文本描述</td><td>大型档 Qwen2-Audio-7B</td><td>中型档批量</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ 5 datasets ============ -->
+<section id="datasets">
+  <h2><span class="num">05</span>多模态数据集</h2>
+  <p class="note">字母码：<code>A</code> = 音频、<code>T</code> = 文本、<code>V</code> = 视觉。
+     红线 3 要求中文场景至少覆盖两个基准——本文已覆盖 <b>MER2023 / MER2024 / MER2025 / M3ED / CH-SIMS / CHEAVD</b> 六个。</p>
+  <div class="tw"><table>
+    <thead><tr><th>数据集</th><th>语言</th><th>模态</th><th>规模</th><th>标注体系</th><th>许可 / 获取方式</th></tr></thead>
+    <tbody>
+      <tr><td><b>MER2023</b></td><td>zh</td><td>A+V+T</td><td>Train&amp;Val 3,373 段；MER-MULTI 411；MER-NOISE 412；MER-SEMI 834 标注 + 73,148 无标注</td><td>6 类 + valence</td><td class="dead">签 EULA，仅限学术研究 → 不可商用</td></tr>
+      <tr><td><b>MER2024</b></td><td>zh</td><td>A+V+T</td><td>5,030 标注 + 115,595 无标注；MER-OV 322 段</td><td>6 类；MER-OV 开放词表</td><td class="dead">签 EULA + 邮件审批，仅限学术 → 不可商用</td></tr>
+      <tr><td><b>MER2025</b></td><td>zh</td><td>A+V+T</td><td>7,369 标注 + 124,802 无标注；MER-SEMI 测试集 2,026 段</td><td>6 类；MER-FG 无标签空间限制</td><td class="dead">HF 提交 EULA 获批；Academic use only → 不可商用</td></tr>
+      <tr><td><b>M3ED</b></td><td>zh</td><td>A+V+T</td><td>990 段 / 9,082 轮 / 24,449 句（56 部中文电视剧）</td><td>多标签 7 类，句级</td><td class="maybe">公开，但原始视频因版权未发布；仓库无 LICENSE → 许可未明确</td></tr>
+      <tr><td><b>CHEAVD / 2.0</b></td><td>zh</td><td>A+V</td><td>2.0：7,030 段 / 474 分钟 / 527 位说话人</td><td>初版 26 类；2.0 取前 8 类</td><td class="dead">需向 ChineseLDC 申请，第三方称实际需付费、渠道不明</td></tr>
+      <tr><td><b>CH-SIMS</b>（含 v2）</td><td>zh</td><td>A+V+T</td><td>v1：2,281 片段；v2：14,563（4,402 有监督）</td><td>维度 [-1,1]，<b>有独立单模态标注</b></td><td class="maybe">公开直链无 EULA；原始视频源自影视剧 → 商用有版权风险</td></tr>
+      <tr><td><b>IEMOCAP</b></td><td>en</td><td>A+V+T</td><td>5 session / 10 说话人 / ≈12 小时</td><td>6 类 + V-A-D</td><td class="dead">USC SAIL 协议第 3 条明确禁商用</td></tr>
+      <tr><td><b>MELD</b></td><td>en</td><td>A+V+T</td><td>1,433 段对话 / 13,708 句</td><td>7 类 + sentiment 3 类</td><td class="maybe">公开直链（GPLv3 仓库）；源自《老友记》→ 版权风险</td></tr>
+      <tr><td><b>CMU-MOSEI</b></td><td>en</td><td>A+V+T</td><td>22,856 句 / 3,228 视频 / 1,000 说话人</td><td>sentiment [-3,+3] + 6 类</td><td class="maybe">SDK 公开下载，数据本体许可未明确（镜像标注互相冲突）</td></tr>
+      <tr><td><b>CMU-MOSI</b></td><td>en</td><td>A+V+T</td><td>2,199 句 / 98 说话人</td><td>sentiment [-3,+3]</td><td class="maybe">同 MOSEI，许可未明确</td></tr>
+      <tr><td><b>Aff-Wild2</b></td><td>多语</td><td>A+V</td><td>564 视频 / ≈2.8M 帧 / 554 受试者</td><td>逐帧 V-A + 7 类表情 + 12 AU</td><td class="dead">EULA + 邮件（≈14 天）；明确不得商用</td></tr>
+      <tr><td><b>MEAD</b></td><td>en</td><td>A+V</td><td>60 位演员 / 8 类 × 3 档强度 / 7 机位</td><td>8 类 × 3 强度</td><td class="maybe">公开直链；代码 MIT，数据页无许可文本</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>加视觉到底值多少点 <span class="tg">★ 决策列是 Δ(A+T → A+V+T)，不是 Δ(A → A+V)</span></h3>
+  <div class="tw"><table>
+    <thead><tr><th>基准（子集 / 协议）</th><th>指标</th><th>A</th><th>T</th><th>V</th><th>A+T</th><th>A+V</th><th>A+V+T</th><th>★ Δ(A+T→A+V+T)</th></tr></thead>
+    <tbody>
+      <tr><td><b>MER2025 · MER-SEMI</b></td><td>WAF</td><td>72.27</td><td>53.78</td><td>60.50</td><td>73.64</td><td>77.10</td><td>78.63</td><td class="maybe"><b>+4.99</b></td></tr>
+      <tr><td><b>MER2024 · MER-SEMI</b></td><td>WAF</td><td>83.42</td><td>56.63</td><td>63.27</td><td>84.06</td><td>84.07</td><td>86.73</td><td class="maybe"><b>+2.67</b></td></tr>
+      <tr><td><b>MER2024 · MER-NOISE</b></td><td>WAF</td><td>73.21</td><td>52.01</td><td>60.04</td><td>74.74</td><td>78.14</td><td>79.62</td><td class="maybe"><b>+4.88</b></td></tr>
+      <tr><td><b>IEMOCAP</b></td><td>WA</td><td>67.34</td><td>74.80</td><td>57.31</td><td>78.93</td><td>68.75</td><td>80.47</td><td class="maybe"><b>+1.54</b></td></tr>
+      <tr><td><b>CMU-MOSEI</b></td><td>Acc-2</td><td>69.04</td><td>84.36</td><td>68.69</td><td>86.47</td><td>72.03</td><td>88.10</td><td class="maybe"><b>+1.63</b></td></tr>
+      <tr><td><b>CMU-MOSI</b></td><td>Acc-2</td><td>60.01</td><td>84.70</td><td>61.43</td><td>86.71</td><td>63.35</td><td>88.32</td><td class="maybe"><b>+1.61</b></td></tr>
+    </tbody>
+  </table></div>
+  <p><b>结论</b>：laos 已在 A+T 档，加视觉的全部收益是 <b>+1.5 ~ +5.0 点</b>，换来的却是 3 条法律否决项
+     （个保法 §26 目的限定、人脸 = 敏感个人信息需单独同意、专门行政法规罚则）+ 2 个数量级的功耗
+     （摄像头 605–1210 mW vs 麦克风 33 mW）+ 与「原数据即焚」的架构互斥。
+     <span class="dead">不成比例 —— 不引入视觉模态，且是「默认永久不做」。</span></p>
+</section>
+
+<!-- ============ 6 runtime ============ -->
+<section id="runtime">
+  <h2><span class="num">06</span>端侧推理 runtime 对比</h2>
+  <p class="note">关键差别在「Transformer / 注意力编码器友好度」：wav2vec2 / HuBERT / WavLM 这一族在
+     TFLite 与 CoreML 的官方导出器里被<b>明确列入不支持清单</b>，ONNX 是它们唯一被支持的后端。</p>
+  <div class="tw"><table>
+    <thead><tr><th>Runtime</th><th>主要平台</th><th>官方导出工具链（步数）</th><th>精度支持</th><th>Transformer / 注意力友好度</th><th>与 laos 的相关性</th></tr></thead>
+    <tbody>
+      <tr><td><b>TensorFlow Lite / LiteRT</b></td><td>Android / iOS</td><td>Keras→SavedModel→Converter（2 步）；torch 侧需 optimum 或 onnx2tf（3–4 步）</td><td>fp16 / int8 动态 / int8 全整 / int4（实验）</td><td class="dead">差：wav2vec2/HuBERT 官方导出器明确不支持（GroupNorm + 广播）</td><td>中：Android 原生默认栈，但 SER 模型进不去</td></tr>
+      <tr><td><b>TFLite Micro</b></td><td>MCU（Cortex-M / ESP32）</td><td>同上 + xxd 转 C 数组 + 固定 tensor_arena（3–4 步）</td><td>int8 为主</td><td class="dead">极差：算子子集极小，无动态分配</td><td>低（但给出「模型体积下限」的硬参照）</td></tr>
+      <tr><td><b>ONNX Runtime Mobile</b></td><td>Android / iOS / 嵌入式 Linux</td><td>torch→ONNX→convert_onnx_models_to_ort（3–4 步）</td><td>fp32 / fp16 / int8 动态静态 / int4(RTN)</td><td class="maybe">中：算子最全，是注意力模型唯一「基本能跑通」的通用栈</td><td class="alive"><b>高：proot 档首选；也是 QNN EP 的宿主</b></td></tr>
+      <tr><td><b>CoreML</b></td><td>Apple（ANE / GPU / CPU）</td><td>coremltools.convert（2 步）+ 量化 API</td><td>fp16 / int8 线性 / 4–8 bit palettization</td><td class="dead">差：Wav2Vec2 / HuBERT / WavLM / Data2Vec / UniSpeech 全在不支持清单</td><td>低（laos 目标是 Android）</td></tr>
+      <tr><td><b>NCNN</b></td><td>ARM CPU / Vulkan GPU</td><td>torch→pnnx→ncnn（2 步）；量化再 +3 步</td><td>fp32 / fp16 / int8（KL / ACIQ / EQ）</td><td class="maybe">中偏低：<code>F.layer_norm</code> 支持，但 onnx2ncnn 路径报 LayerNormalization not supported</td><td>中：无 NPU 时的 ARM CPU 高性价比选择</td></tr>
+      <tr><td><b>MNN</b></td><td>ARM CPU / Vulkan / OpenCL；可挂 QNN、CoreML</td><td>MNNConvert -f ONNX --quantize INT8（1–2 步）</td><td>fp32 / fp16 / int8 / int4（MNN-Transformer）</td><td class="maybe">中：有专门的 MNN-Transformer 量化通道</td><td>中：若走国产 NPU 或需要「一个 runtime 多后端」</td></tr>
+      <tr><td><b>RKNN</b></td><td>Rockchip NPU（RK3566/3576/3588）</td><td>config→load_onnx→build→export（4 步）；混合量化再 +2 步</td><td>int8（w8a8 / w8a16）/ fp16 / 混合</td><td class="maybe">中：官方点名 Transformer Attention 是混合量化里应保持 fp16 的敏感层</td><td>低（非骁龙）；但 sherpa-onnx 支持它，可作交叉验证</td></tr>
+      <tr><td><b>QNN / QAIRT</b></td><td><b>骁龙 HTP / aDSP LPAI / GPU / CPU</b></td><td>ONNX→qnn-onnx-converter→quantization-checker→context-binary（4–5 步）；或 ORT + QNN EP（3 步）</td><td>fp32 / fp16 / <b>int8（w8a8、w8a16）</b> / int4 权重 / 混合</td><td class="dead">中偏低：Gelu/LayerNorm 在支持列表里，但 HTP 图形准备阶段会挂；<b>不支持动态 shape、不支持 Loop/If</b></td><td class="alive"><b>最高：laos 现状就是它（QAIRT 2.47 + 骁龙 8 Elite）</b></td></tr>
+      <tr><td><b>sherpa-onnx</b><span class="note">（封装层，非独立 runtime）</span></td><td>CPU + 可选 NPU 后端</td><td>复用 ONNX 生态；官方 aarch64 / android wheel，无需编译</td><td>fp32 / int8 动态量化</td><td>同 ONNX Runtime</td><td class="alive"><b>最高（漏斗③）：SenseVoice 官方导出 895 MB → int8 229 MB（−75%）；SHERPA_ONNX_ENABLE_QNN / _RKNN / _AXERA 等开关齐全</b></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>proot 现状：两档必须分开读 <span class="tg">「端侧可行」不是布尔值</span></h3>
+  <div class="tw"><table>
+    <thead><tr><th>维度</th><th>A 档 · 真端侧（原生 App / aDSP / Sensing Hub）</th><th>B 档 · proot 内（CPU 推理）</th></tr></thead>
+    <tbody>
+      <tr><td>功耗档位</td><td>Sensing Hub 官方 &lt;1 mA；但第三方 App 只能到 HTP：<b>1–4 W</b>（整机实测 4.3–5 W）</td><td class="dead"><b>400–1000 mW</b>（通用 Linux 设备空闲档）</td></tr>
+      <tr><td>折算耗电</td><td>mW 档 ≈ 0.62%/天（5 mW）；HTP 档 ≈ 不可能常驻</td><td class="dead">25%/天（200 mW）起</td></tr>
+      <tr><td>谁能用</td><td>aDSP/LPAI 需高通授权 + 厂商签名；HTP 普通 App 可用</td><td>任何人，<code>pip install</code> 即可</td></tr>
+      <tr><td>当下真能跑的组合</td><td class="alive"><b>TIM-Net int8（0.4 MB）→ 骁龙 8 Elite aDSP/LPAI → TimnetLpaiApp + JNI</b>（已跑通闭环，无 on-device RTF/功耗实测）</td><td class="alive"><b>sherpa-onnx + SenseVoice-small int8 → proot Ubuntu aarch64 CPU</b>；社区 RTF 0.1–0.3</td></tr>
+      <tr><td>适用场景</td><td>漏斗①常驻检测（<b>只有拿到 aDSP 授权才成立</b>）；漏斗③加速推理</td><td>漏斗③（触发后短时）+ 漏斗④批量转写</td></tr>
+      <tr><td>绝不能用于</td><td>—</td><td class="dead"><b>漏斗①常驻检测</b>：任何醒着的 proot 进程都在 400 mW 量级</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ 6b records ============ -->
+<section id="records">
+  <h2><span class="num">06b</span>46 条记录完整清单</h2>
+  <p class="note">与 <code>01/02/03-*.md</code> 同源，全部通过 <code>scripts/check_ser_table.py</code> 校验。
+     指标均带基准数据集名，<b>不同基准不可直接比较</b>。</p>
+
+  <h3>小型档 &lt; 30M <span class="tg">17 条 · edge yes 4 / no 0 / unknown 13</span></h3>
+  <div class="tw"><table>
+    <thead><tr><th>模型</th><th>参数量(M)</th><th>模态</th><th>edge</th><th>基准</th><th>指标</th><th>许可</th></tr></thead>
+    <tbody>
+<tr><td>YAMNet</td><td>3.7</td><td>A</td><td><span class="tag g">yes</span></td><td>SERAB（9 数据集跨库平均）、IEMOCAP</td><td>Acc 56.1 (IEMOCAP 4类)，55.1 (SERAB 跨库平均)</td><td>Apache-2.0</td></tr>
+<tr><td>openSMILE ComParE_2016 + 线性分类器</td><td>n/a(非神经)</td><td>A</td><td><span class="tag g">yes</span></td><td>SERAB、IEMOCAP、MER2024</td><td>Acc 62.1 (IEMOCAP 4类)，70.2 (SERAB 跨库平均)；WAF 39.68 (MER2024 中文，eGeMAPS 88 维版本)</td><td>双许可：非商业/研究/教育免费，商业产品需另获授权</td></tr>
+<tr><td>TRILL</td><td>24.5</td><td>A</td><td><span class="tag o">unknown</span></td><td>SERAB、NOSS</td><td>Acc 57.7 (IEMOCAP 4类)，69.0 (SERAB 跨库平均)；55.4 (IEMOCAP, NOSS)，65.7 (CREMA-D, NOSS)</td><td>Apache-2.0</td></tr>
+<tr><td>FRILL</td><td>10.1</td><td>A</td><td><span class="tag g">yes</span></td><td>NOSS</td><td>Acc 70.9 (CREMA-D)，67.5 (SAVEE)</td><td>Apache-2.0</td></tr>
+<tr><td>TRILLsson 1</td><td>5.0</td><td>A</td><td><span class="tag o">unknown</span></td><td>NOSS</td><td>Acc 68.5 (IEMOCAP)，81.3 (CREMA-D)</td><td>Apache-2.0</td></tr>
+<tr><td>TRILLsson 2</td><td>8.1</td><td>A</td><td><span class="tag o">unknown</span></td><td>NOSS</td><td>Acc 69.8 (IEMOCAP)，82.6 (CREMA-D)</td><td>Apache-2.0</td></tr>
+<tr><td>TRILLsson 3</td><td>21.5</td><td>A</td><td><span class="tag o">unknown</span></td><td>NOSS</td><td>Acc 70.3 (IEMOCAP)，83.2 (CREMA-D)</td><td>Apache-2.0</td></tr>
+<tr><td>DistilHuBERT</td><td>23.49</td><td>A</td><td><span class="tag o">unknown</span></td><td>SUPERB ER、IEMOCAP LOSO、RAVDESS</td><td>Acc 63.02 (SUPERB ER / IEMOCAP 4类)；UAR 61.4 (IEMOCAP LOSO, INT8)；Acc 46.64 (RAVDESS 跨库)</td><td>Apache-2.0</td></tr>
+<tr><td>modified CPC</td><td>1.84</td><td>A</td><td><span class="tag o">unknown</span></td><td>SUPERB ER</td><td>Acc 60.96 (SUPERB ER / IEMOCAP 4类)</td><td>Apache-2.0（s3prl 主体；Facebook 著权文件为 CC-BY-NC）</td></tr>
+<tr><td>APC</td><td>4.11</td><td>A</td><td><span class="tag o">unknown</span></td><td>SUPERB ER</td><td>Acc 59.33 (SUPERB ER / IEMOCAP 4类)</td><td>Apache-2.0（s3prl 主体；Facebook 著权文件为 CC-BY-NC）</td></tr>
+<tr><td>PASE+</td><td>7.83</td><td>A</td><td><span class="tag o">unknown</span></td><td>SUPERB ER</td><td>Acc 57.86 (SUPERB ER / IEMOCAP 4类)</td><td>Apache-2.0（s3prl 主体；Facebook 著权文件为 CC-BY-NC）</td></tr>
+<tr><td>NPC</td><td>19.38</td><td>A</td><td><span class="tag o">unknown</span></td><td>SUPERB ER</td><td>Acc 59.08 (SUPERB ER / IEMOCAP 4类)</td><td>Apache-2.0（s3prl 主体；Facebook 著权文件为 CC-BY-NC）</td></tr>
+<tr><td>TERA</td><td>21.33</td><td>A</td><td><span class="tag o">unknown</span></td><td>SUPERB ER</td><td>Acc 56.27 (SUPERB ER / IEMOCAP 4类)</td><td>Apache-2.0（s3prl 主体；Facebook 著权文件为 CC-BY-NC）</td></tr>
+<tr><td>BYOL-A (2048-d)</td><td>6.33</td><td>A</td><td><span class="tag o">unknown</span></td><td>SERAB</td><td>Acc 62.8 (IEMOCAP 4类)，72.8 (SERAB 跨库平均)</td><td>仅限论文评测用途（官方 LICENSE 声明）</td></tr>
+<tr><td>ECAPA-TDNN (C=512)</td><td>6.2</td><td>A</td><td><span class="tag o">unknown</span></td><td>VoxCeleb1（说话人）、IEMOCAP（情感）</td><td>EER 1.01 (VoxCeleb1)；Acc 65.7 (IEMOCAP, SpeechBrain recipe)</td><td>Apache-2.0（SpeechBrain）</td></tr>
+<tr><td>HiCMAE-T</td><td>20</td><td>A+V</td><td><span class="tag o">unknown</span></td><td>IEMOCAP</td><td>UAR 66.85 (IEMOCAP)；WAR 62.70 (IEMOCAP 仅音频分支 8M)</td><td>MIT</td></tr>
+<tr><td>Moonshine-tiny</td><td>27</td><td>A</td><td><span class="tag g">yes</span></td><td>LibriSpeech</td><td>WER 4.55 (LibriSpeech test-clean)，11.68 (LibriSpeech other)</td><td>MIT</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>中型档 30M–500M <span class="tg">18 条 · edge yes 7 / no 0 / unknown 11</span></h3>
+  <div class="tw"><table>
+    <thead><tr><th>模型</th><th>参数量(M)</th><th>模态</th><th>edge</th><th>基准</th><th>指标</th><th>许可</th></tr></thead>
+    <tbody>
+<tr><td>wav2vec 2.0</td><td>95.04</td><td>A</td><td><span class="tag g">yes</span></td><td>IEMOCAP</td><td>UA 58.27 (IEMOCAP)</td><td>Apache-2.0</td></tr>
+<tr><td>HuBERT</td><td>94.68</td><td>A</td><td><span class="tag g">yes</span></td><td>IEMOCAP</td><td>UA 63.87 (IEMOCAP)</td><td>Apache-2.0</td></tr>
+<tr><td>WavLM</td><td>94.70</td><td>A</td><td><span class="tag g">yes</span></td><td>IEMOCAP (SUPERB ER)</td><td>ACC 68.65 (IEMOCAP)</td><td>other（microsoft/UniSpeech LICENSE，非 SPDX，内容类 CC BY-SA 3.0；商用需法务确认）</td></tr>
+<tr><td>UniSpeech-SAT</td><td>94.68</td><td>A</td><td><span class="tag g">yes</span></td><td>IEMOCAP (SUPERB ER)</td><td>ACC 66.04 (IEMOCAP)</td><td>other（microsoft/UniSpeech LICENSE，非 SPDX，内容类 CC BY-SA 3.0；商用需法务确认）</td></tr>
+<tr><td>UniSpeech-SAT</td><td>316.61</td><td>A</td><td><span class="tag o">unknown</span></td><td>IEMOCAP (SUPERB ER)</td><td>ACC 70.68 (IEMOCAP)</td><td>other（microsoft/UniSpeech LICENSE，非 SPDX）</td></tr>
+<tr><td>data2vec</td><td>93.75</td><td>A</td><td><span class="tag g">yes</span></td><td>IEMOCAP</td><td>UA 54.19 (IEMOCAP)</td><td>Apache-2.0</td></tr>
+<tr><td>emotion2vec</td><td>93.79</td><td>A</td><td><span class="tag o">unknown</span></td><td>IEMOCAP</td><td>WA 71.79 (IEMOCAP)</td><td>other（FunASR 模型开源协议 v1.1，需署名；官方声明"仅供学习参考"，商用条款不明确）</td></tr>
+<tr><td>emotion2vec+</td><td>93</td><td>A</td><td><span class="tag o">unknown</span></td><td>IEMOCAP</td><td>56.3 (IEMOCAP，原文未标指标名，仅同表横向可比)</td><td>other（FunASR 模型开源协议 v1.1，同上）</td></tr>
+<tr><td>emotion2vec+</td><td>164</td><td>A</td><td><span class="tag g">yes</span></td><td>IEMOCAP</td><td>63.8 (IEMOCAP，原文未标指标名，仅同表横向可比)</td><td>other（FunASR 模型开源协议 v1.1，同上）</td></tr>
+<tr><td>Chinese-HuBERT</td><td>95</td><td>A</td><td><span class="tag o">unknown</span></td><td>MER2024</td><td>WAF 72.67 (MER2024)</td><td>MIT</td></tr>
+<tr><td>SenseVoice</td><td>234</td><td>A</td><td><span class="tag g">yes</span></td><td>CASIA / MER2023 / IEMOCAP</td><td>WA 70 (CASIA); WA 68 (MER2023); WA 70 (IEMOCAP)</td><td>other（权重许可指向 FunASR 模型开源协议 v1.1；仓库代码 Apache-2.0）</td></tr>
+<tr><td>wav2vec 2.0</td><td>317.38</td><td>A</td><td><span class="tag o">unknown</span></td><td>IEMOCAP</td><td>WA 65.64 (IEMOCAP)</td><td>Apache-2.0</td></tr>
+<tr><td>HuBERT</td><td>316.61</td><td>A</td><td><span class="tag o">unknown</span></td><td>IEMOCAP</td><td>UA 67.42 (IEMOCAP)</td><td>Apache-2.0</td></tr>
+<tr><td>WavLM</td><td>316.62</td><td>A</td><td><span class="tag o">unknown</span></td><td>IEMOCAP</td><td>UA 69.47 (IEMOCAP)</td><td>other（microsoft/UniSpeech LICENSE，非 SPDX）</td></tr>
+<tr><td>HiCMAE-S</td><td>46</td><td>A+V</td><td><span class="tag o">unknown</span></td><td>IEMOCAP</td><td>UAR 67.46 (IEMOCAP)；WAR 64.06 (IEMOCAP 仅音频分支 18M)</td><td>MIT</td></tr>
+<tr><td>HiCMAE-B</td><td>81</td><td>A+V</td><td><span class="tag o">unknown</span></td><td>IEMOCAP</td><td>UAR 68.21 (IEMOCAP)；WAR 65.23 (IEMOCAP 仅音频分支 32M)</td><td>MIT</td></tr>
+<tr><td>AV-HuBERT（Base）</td><td>103</td><td>A+V</td><td><span class="tag o">unknown</span></td><td>IEMOCAP</td><td>WAR 58.54 (IEMOCAP 仅音频分支 90M)；WAR 46.45 (IEMOCAP A+V 融合)</td><td>other（AV-HuBERT LICENSE AGREEMENT，Meta，仅限非商业研究用途；商业化需另行授权）</td></tr>
+<tr><td>Self-MM</td><td>103</td><td>A+T+V</td><td><span class="tag o">unknown</span></td><td>CH-SIMS</td><td>Acc-2 80.04 (CH-SIMS)；Acc-5 41.53 (CH-SIMS)</td><td>MIT</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>大型档 &gt; 500M <span class="tg">11 条 · edge yes 0 / no 10 / unknown 1</span></h3>
+  <div class="tw"><table>
+    <thead><tr><th>模型</th><th>参数量(M)</th><th>模态</th><th>edge</th><th>基准</th><th>指标</th><th>许可</th></tr></thead>
+    <tbody>
+<tr><td>Qwen2-Audio-7B</td><td>8000</td><td>A</td><td><span class="tag r">no</span></td><td>IEMOCAP, AIR-Bench</td><td>ACC 54.0 (IEMOCAP)；AIR-Bench Speech 69.7 (AIR-Bench)</td><td>Apache-2.0</td></tr>
+<tr><td>Qwen2.5-Omni-7B</td><td>10700</td><td>A+T+V</td><td><span class="tag r">no</span></td><td>EmotionHallucer</td><td>ACC 18.65 (EmotionHallucer 全量，随机基线 25.0)；ACC 25.44 (EmotionHallucer NoAudio 子集)</td><td>Apache-2.0</td></tr>
+<tr><td>SALMONN-7B</td><td>7000</td><td>A+T</td><td><span class="tag r">no</span></td><td>IEMOCAP</td><td>WF1 75.8 (IEMOCAP-4)</td><td>Apache-2.0</td></tr>
+<tr><td>SALMONN-13B</td><td>13000</td><td>A+T</td><td><span class="tag r">no</span></td><td>IEMOCAP</td><td>WF1 72.9 (IEMOCAP-4)</td><td>Apache-2.0</td></tr>
+<tr><td>SenseVoice-Large</td><td>1587</td><td>A</td><td><span class="tag r">no</span></td><td>CASIA</td><td>WA 95.0 (CASIA)；WA 69.0 (MER2023)</td><td>MIT（FunAudioLLM/SenseVoice 代码）；Large 权重未发布</td></tr>
+<tr><td>Emotion-LLaMA</td><td>7000</td><td>A+T+V</td><td><span class="tag r">no</span></td><td>MER2023</td><td>F1 90.36 (MER2023)</td><td>Apache-2.0（HF 模型卡）；MER2023 数据仅限研究用途</td></tr>
+<tr><td>WavLLM</td><td>7550</td><td>A</td><td><span class="tag r">no</span></td><td>IEMOCAP</td><td>ACC 59.8 (IEMOCAP)</td><td>MIT（SpeechT5 仓库 LICENSE）；基座 LLaMA-2-7B-chat 另受 LLaMA-2 社区许可约束</td></tr>
+<tr><td>Phi-4-multimodal-instruct</td><td>5600</td><td>A+T+V</td><td><span class="tag o">unknown</span></td><td>IEMOCAP</td><td>ACC 41.0 (IEMOCAP)</td><td>MIT</td></tr>
+<tr><td>Cascade（Whisper + Llama-3）</td><td>9550</td><td>A+T</td><td><span class="tag r">no</span></td><td>IEMOCAP, MELD</td><td>ACC 46.7 (IEMOCAP)；ACC 36.8 (MELD-ER)</td><td>Whisper MIT；Llama-3 社区许可</td></tr>
+<tr><td>R3 流水线（7B）</td><td>8550</td><td>A+T</td><td><span class="tag r">no</span></td><td>IEMOCAP</td><td>UA 64.67 (IEMOCAP，LoRA 指令微调)；UA 49.72 (IEMOCAP，零样本)</td><td>Whisper MIT；LLaMA-2 社区许可</td></tr>
+<tr><td>R3 流水线（13B）</td><td>14550</td><td>A+T</td><td><span class="tag r">no</span></td><td>IEMOCAP</td><td>UA 52.27 (IEMOCAP，零样本)</td><td>Whisper MIT；LLaMA-2 社区许可</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">注：SALMONN 两行在 <code>03-large-models.md</code> 主表内仍记 <code>A+T</code>；
+     按 <code>00</code> 裁定 3（端到端 Audio-LLM 记 <code>A</code>）应为 <code>A</code>，
+     <code>05-multimodal.md</code> §8 亦记 <code>A</code>。此处<b>照抄 03 主表</b>并留痕，未单方面修改。</p>
+</section>
+
+<!-- ============ 7 task8 ============ -->
+<section id="task8">
+  <h2><span class="num">07</span>与 Task 8 落地的关系</h2>
+  <div class="panel">
+    <ul>
+      <li><b>候选通道已定：<code>sherpa-onnx</code> 优于 <code>funasr</code></b>（<code>04</code> §8）。
+          sherpa-onnx 有官方 <code>manylinux2014_aarch64</code> 与 <code>android_arm64-v8a</code> wheel、
+          不依赖 torch、<b>一个前向同时产出文本 / 语种 / 情感 / 事件</b>；而 funasr 路径要装 torch
+          （GB 级内存、数秒加载），且唯一 RTF 证据来自 PC。这条把决策树 Q6 的「一体化」分支钉死了。</li>
+      <li><b>laos 的真实位置是 <code>A+T</code> 档</b>（漏斗③ 已有 ASR），不是 <code>A</code> 档。
+          按 <code>05</code> §6.2，从 A+T 再加视觉的增量只有 <b>+1.5 ~ +5.0 点</b>
+          （IEMOCAP +1.54 / CMU-MOSEI +1.63 / MER2024-SEMI +2.67 / MER2024-NOISE +4.88 / MER2025 +4.99），
+          换来的是 3 条法律否决项 + 2 个数量级的功耗 + 与「原数据即焚」的架构互斥。</li>
+      <li><b>这两条如何约束选型</b>：它们把问题从「挑一个 SER 模型」改写成
+          「<b>挑一条能复用 ASR 前向的通道</b>」。于是 46 条里的 11 条多模态记录全部退化为<b>排除项</b>，
+          选型空间压到 <code>A</code> / <code>A+T</code> 两类，而 A+T 里真正可用的只有
+          「一次前向出文本 + 情感」的一体化形态——答案因此收窄到
+          <b>中型档 SenseVoice-Small（sherpa-onnx）</b>。</li>
+      <li><b>留给 Task 8 的两件事</b>（本页不动代码）：① 通道命名建议取 <code>sherpa</code>
+          （由 runtime 名 + 本文结论导出，非凭空命名），最终以 Task 8 为准；
+          ② 新通道与既有 <code>classify_mood()</code>（只输出高唤醒 / 平稳 / 低唤醒 / 短促）的职责边界，
+          由 Task 8 在 <code>06-adoption.md</code> 里划定。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 8 ref ============ -->
+<section id="ref">
+  <h2><span class="num">08</span>参考与红线</h2>
+  <h3>源文件</h3>
+  <ul>
+    <li>口径与 6 条裁定：<code>docs/research/speech-emotion/00-taxonomy-and-metrics.md</code></li>
+    <li>规模轴：<code>01-small-models.md</code>（17 条）/ <code>02-medium-models.md</code>（18 条）/ <code>03-large-models.md</code>（11 条）</li>
+    <li>端侧轴：<code>04-edge-deployment.md</code>（proot 两档、8 个 runtime、实测速度/内存/功耗/量化）</li>
+    <li>多模态轴：<code>05-multimodal.md</code>（不引入视觉模态的论证、数据集、融合方式）</li>
+    <li>收敛版：<code>docs/research/speech-emotion/2026-09-landscape.md</code></li>
+    <li>校验器：<code>scripts/check_ser_table.py</code>（12 列 schema、来源、许可、指标带基准名、占位符）</li>
+  </ul>
+
+  <h3>红线自检</h3>
+  <div class="grid3">
+    <div class="cell lo">
+      <b>不存声纹</b><span class="lvl">合规</span>
+      <p class="note">ECAPA-TDNN、WavLM、UniSpeech-SAT、AV-HuBERT、SALMONN、WavLLM 已标
+        <code>speaker-capable</code>，<b>未出现在任何推荐分支</b>。推荐的 SenseVoice-Small 不产出说话人嵌入。</p>
+    </div>
+    <div class="cell lo">
+      <b>情绪标签非临床</b><span class="lvl">合规</span>
+      <p class="note">所有指标均为情绪分类 / 表征指标，<b>非诊断</b>。健康方向上限（抑郁语音检测敏感度与特异度均约 71%）
+        已在 <code>00</code> 记录，未进入任何结论。</p>
+    </div>
+    <div class="cell mid">
+      <b>不编造</b><span class="lvl">已声明的空白</span>
+      <p class="note">UAR 缺数字的格写「本格无可引用区间」；延迟/内存缺的写「未检索到」；
+        中性音频假阳率、SER 的 INT4 数据、7B 级语音大模型的端侧实测、MLPerf 的 SER 能耗基准
+        —— <b>全部明确写「未检索到 / 不存在」，不给估算</b>。</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  调研时间 2026-09-12 ｜ 46 条记录 ｜ 三档 × 2 标记 ｜ 单文件 HTML，零外部依赖 ｜
+  口径以 <code>00-taxonomy-and-metrics.md</code> 为准 ｜ laos · 语音情感识别（SER）模型调研
+</footer>
+</main>
+</div>
+</body>
+</html>
