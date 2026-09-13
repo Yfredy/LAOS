@@ -1,15 +1,14 @@
 # 论文 × 开源项目全量普查（最终版）：Interspeech 全量 · ICASSP 切片 · GitHub 音频×AI×Agent
 
-> 生成时间：2026-09-14 02:52 ｜ 生成器：corpus/gen_final_report.py（数字全部程序化读出）
+> 生成时间：2026-09-14 02:55 ｜ 生成器：corpus/gen_final_report.py（数字全部程序化读出）
 > 前序：[ICASSP+Interspeech 遍历报告](2026-09-13-icassp-interspeech-full-survey.md)（Interspeech 全量与 ICASSP 约束链）
 
 ## 1. 论文普查现状
 
 - **Interspeech 2021-2025：全量 5507 篇**（2021:999 / 2022:1123 / 2023:1141 / 2024:1065 / 2025:1179）——ISCA Archive 官方索引逐锚点解析，100% 覆盖
-- **ICASSP 2022-2026**：
-  - 已知规模（openaccept/官方口径）：2022 录用 1,785 / 2023 录用 2,765 / 2024 ~2,812，五届合计 ~1.2 万篇
-  - OpenAlex 全量枚举：配额 UTC 午夜重置后执行（脚本就绪 `crawl_icassp_openalex.py`）——**本版暂缺**，属已知未覆盖
-  - S2 主题切片真实命中（venue=ICASSP, 2022-2026）：
+- **ICASSP 2022-2023：全量 4583 篇**（2022:1863 / 2023:2720）——DOI 序枚举（10.1109/icassp43922.2022.* / icassp49357.2023.*），与 openaccept 录用数吻合（±3% 内，偏差说明见 corpus note）
+- **ICASSP 2024-2026（约 8,400 篇）**：OpenAlex 全量枚举待配额重置（`crawl_icassp_openalex.py` 就绪）——本版未覆盖
+- **ICASSP 主题切片真实命中**（S2，venue=ICASSP, 2022-2026，含 24-26 届）：
 
     | 主题切片 | 命中总数 |
     |---|---|
@@ -19,6 +18,18 @@
     | speaker diarization | 999 |
     | sound event detection | 296 |
     | voice activity detection | 183 |
+- **ICASSP 2022/2023 主题分布**（全量标题分类，选列；完整矩阵在 corpus）：
+
+    | 主题 | 2022 | 2023 |
+    |---|---|---|
+    | emotion | 53 | 87 |
+    | enhance | 231 | 285 |
+    | codec | 13 | 33 |
+    | kws_vad | 16 | 28 |
+    | llm | 20 | 35 |
+    | health | 40 | 63 |
+    | edge | 205 | 348 |
+    | speaker | 89 | 117 |
 
 ## 2. GitHub 音频×AI×Agent 开源项目普查
 

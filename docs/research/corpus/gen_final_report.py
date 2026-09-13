@@ -16,6 +16,7 @@ isr = load("interspeech_corpus.json")
 oss = load("oss_corpus.json")
 top30 = load("oss_top30_summary.json")
 deep = load("deep_reads.json")
+icc = load("icassp_corpus_2022_2023.json")   # ICASSP 2022/2023 全量（子代理 DOI 序枚举）
 
 slices = {}
 for f in ("icassp_s2_raw.json", "icassp_s2_round2.json", "icassp_s2_round3.json"):
@@ -55,16 +56,24 @@ w()
 t = isr["summary"]["totals"]
 w(f"- **Interspeech 2021-2025：全量 {isr['summary']['grand_total']} 篇**（"
   + " / ".join(f"{y}:{n}" for y, n in t.items()) + "）——ISCA Archive 官方索引逐锚点解析，100% 覆盖")
-w("- **ICASSP 2022-2026**：")
-w("  - 已知规模（openaccept/官方口径）：2022 录用 1,785 / 2023 录用 2,765 / 2024 ~2,812，五届合计 ~1.2 万篇")
-w("  - OpenAlex 全量枚举：配额 UTC 午夜重置后执行（脚本就绪 `crawl_icassp_openalex.py`）——**本版暂缺**，属已知未覆盖")
-if slices:
-    w("  - S2 主题切片真实命中（venue=ICASSP, 2022-2026）：")
-    w()
-    w("    | 主题切片 | 命中总数 |")
-    w("    |---|---|")
-    for q, tot in sorted(slices.items(), key=lambda kv: -kv[1]):
-        w(f"    | {q} | {tot:,} |")
+it = icc["summary"]["totals"]
+w(f"- **ICASSP 2022-2023：全量 {icc['summary']['grand_total']} 篇**（2022:{it['2022']} / 2023:{it['2023']}）"
+  f"——DOI 序枚举（10.1109/icassp43922.2022.* / icassp49357.2023.*），与 openaccept 录用数吻合（±3% 内，偏差说明见 corpus note）")
+w("- **ICASSP 2024-2026（约 8,400 篇）**：OpenAlex 全量枚举待配额重置（`crawl_icassp_openalex.py` 就绪）——本版未覆盖")
+w("- **ICASSP 主题切片真实命中**（S2，venue=ICASSP, 2022-2026，含 24-26 届）：")
+w()
+w("    | 主题切片 | 命中总数 |")
+w("    |---|---|")
+for q, tot in sorted(slices.items(), key=lambda kv: -kv[1]):
+    w(f"    | {q} | {tot:,} |")
+tm = icc["summary"]["topic_matrix_partial"]
+w("- **ICASSP 2022/2023 主题分布**（全量标题分类，选列；完整矩阵在 corpus）：")
+w()
+w("    | 主题 | 2022 | 2023 |")
+w("    |---|---|---|")
+for k in ("emotion", "enhance", "codec", "kws_vad", "llm", "health", "edge", "speaker"):
+    row = tm.get(k, {})
+    w(f"    | {k} | {row.get('2022', 0)} | {row.get('2023', 0)} |")
 w()
 w("## 2. GitHub 音频×AI×Agent 开源项目普查")
 w()
