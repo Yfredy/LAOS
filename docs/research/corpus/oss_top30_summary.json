@@ -1,0 +1,412 @@
+[
+ {
+  "full_name": "modelscope/FunASR",
+  "stars": 20306,
+  "description": "Open-source speech recognition toolkit for training, inference, streaming ASR, VAD, punctuation, speaker diarization pipelines, and OpenAI-compatible/MCP serving.",
+  "language": "Python",
+  "url": "https://github.com/modelscope/FunASR",
+  "slices": [
+   "audio",
+   "asr",
+   "diarization",
+   "audio-llm",
+   "voice-agent"
+  ],
+  "laos_relevance": 9,
+  "readme": "fetched"
+ },
+ {
+  "full_name": "soniqo/speech-core",
+  "stars": 83,
+  "description": "On-device VAD / streaming STT / TTS / diarization in C++17 (ONNX + LiteRT) with a voice-agent pipeline. Linux, Windows, Android.",
+  "language": "C++",
+  "url": "https://github.com/soniqo/speech-core",
+  "slices": [
+   "diarization",
+   "enhancement"
+  ],
+  "laos_relevance": 8,
+  "readme": "fetched"
+ },
+ {
+  "full_name": "lenML/Speech-AI-Forge",
+  "stars": 1419,
+  "description": "🍦 Speech-AI-Forge is a project developed around TTS generation model, implementing an API Server and a Gradio-based WebUI.",
+  "language": "Python",
+  "url": "https://github.com/lenML/Speech-AI-Forge",
+  "slices": [
+   "tts"
+  ],
+  "laos_relevance": 7,
+  "readme": "fetched"
+ },
+ {
+  "full_name": "soniqo/speech-swift",
+  "stars": 1175,
+  "description": "AI speech toolkit for Apple Silicon — ASR, TTS, speech-to-speech, VAD, and diarization powered by MLX and CoreML",
+  "language": "Swift",
+  "url": "https://github.com/soniqo/speech-swift",
+  "slices": [
+   "asr",
+   "tts",
+   "diarization",
+   "enhancement",
+   "audio-llm",
+   "voice-agent"
+  ],
+  "laos_relevance": 7,
+  "readme": "fetched"
+ },
+ {
+  "full_name": "double22a/speech_dataset",
+  "stars": 468,
+  "description": "The dataset of Speech Recognition",
+  "language": null,
+  "url": "https://github.com/double22a/speech_dataset",
+  "slices": [
+   "audio",
+   "speech",
+   "asr",
+   "tts",
+   "enhancement"
+  ],
+  "laos_relevance": 7,
+  "readme": "fetched"
+ },
+ {
+  "full_name": "kigner/audio.cpp-webui",
+  "stars": 356,
+  "description": "audio.cpp with a full-task WebUI - pure C++ audio-model inference engine powered by ggml. TTS, ASR/STT, VAD, voice conversion, speaker diarization, music generation. No Python dependency.",
+  "language": "C++",
+  "url": "https://github.com/kigner/audio.cpp-webui",
+  "slices": [
+   "audio",
+   "asr",
+   "tts",
+   "diarization"
+  ],
+  "laos_relevance": 7,
+  "readme": "fetched"
+ },
+ {
+  "full_name": "OpenBMB/UltraEval-Audio",
+  "stars": 324,
+  "description": "Your faithful, impartial partner for audio evaluation — know yourself, know your rivals. 真实评测，知己知彼。A unified benchmark framework for ASR/TTS/Audio Codec/audio LLM evaluation",
+  "language": "Python",
+  "url": "https://github.com/OpenBMB/UltraEval-Audio",
+  "slices": [
+   "asr",
+   "tts"
+  ],
+  "laos_relevance": 7,
+  "readme": "fetched"
+ },
+ {
+  "full_name": "Ali-hey-0/audio-ai-field-guide",
+  "stars": 165,
+  "description": "A mental-model-first field guide to Audio AI — from raw waveforms to production voice systems. Covers ASR, TTS, audio classification, Transformer architectures (CTC/Seq2Seq), fine-tuning, and real-wor",
+  "language": null,
+  "url": "https://github.com/Ali-hey-0/audio-ai-field-guide",
+  "slices": [
+   "asr",
+   "tts",
+   "diarization",
+   "voice-assistant"
+  ],
+  "laos_relevance": 7,
+  "readme": "fetched"
+ },
+ {
+  "full_name": "soniqo/speech-android",
+  "stars": 152,
+  "description": "On-device speech SDK for Android — ASR, TTS, VAD, and noise cancellation powered by ONNX Runtime with Qualcomm NNAPI acceleration",
+  "language": "Kotlin",
+  "url": "https://github.com/soniqo/speech-android",
+  "slices": [
+   "asr",
+   "tts",
+   "enhancement"
+  ],
+  "laos_relevance": 7,
+  "readme": "fetched"
+ },
+ {
+  "full_name": "VoiceBlender/voiceblender",
+  "stars": 116,
+  "description": "A programmable Voice AI platform: SIP and WebRTC call control, multi-party mixing, recording, TTS/STT, and pluggable AI agents (ElevenLabs, VAPI, Pipecat, Deepgram) — all driven through a REST API, we",
+  "language": "Go",
+  "url": "https://github.com/VoiceBlender/voiceblender",
+  "slices": [
+   "asr",
+   "tts"
+  ],
+  "laos_relevance": 7,
+  "readme": "fetched"
+ },
+ {
+  "full_name": "speechbrain/speechbrain",
+  "stars": 11819,
+  "description": "A PyTorch-based Speech Toolkit",
+  "language": "Python",
+  "url": "https://github.com/speechbrain/speechbrain",
+  "slices": [
+   "audio",
+   "asr",
+   "diarization",
+   "enhancement",
+   "audio-processing",
+   "audio-llm"
+  ],
+  "laos_relevance": 6,
+  "readme": "rate-limited（搜索元数据代替）"
+ },
+ {
+  "full_name": "QwenAudio/SenseVoice",
+  "stars": 9299,
+  "description": "Open-source SenseVoiceSmall model for Mandarin, Cantonese, English, Japanese, and Korean ASR, language ID, emotion recognition, and audio event detection.",
+  "language": "C",
+  "url": "https://github.com/QwenAudio/SenseVoice",
+  "slices": [
+   "asr",
+   "audio-llm"
+  ],
+  "laos_relevance": 6,
+  "readme": "rate-limited（搜索元数据代替）"
+ },
+ {
+  "full_name": "FluidInference/FluidAudio",
+  "stars": 2759,
+  "description": "Frontier CoreML audio models in your apps — text-to-speech, speech-to-text, voice activity detection, and speaker diarization. In Swift, powered by SOTA open source. ",
+  "language": "Swift",
+  "url": "https://github.com/FluidInference/FluidAudio",
+  "slices": [
+   "audio",
+   "diarization",
+   "audio-llm",
+   "voice-agent"
+  ],
+  "laos_relevance": 6,
+  "readme": "rate-limited（搜索元数据代替）"
+ },
+ {
+  "full_name": "0xShug0/audio.cpp",
+  "stars": 2664,
+  "description": "An all-in-one, pure C++ inference engine for audio models, powered by ggml. Supports TTS, STT, VAD, voice conversion, music generation, and more, with highly optimized performance. No Python dependenc",
+  "language": "C++",
+  "url": "https://github.com/0xShug0/audio.cpp",
+  "slices": [
+   "audio",
+   "tts",
+   "audio-llm"
+  ],
+  "laos_relevance": 6,
+  "readme": "rate-limited（搜索元数据代替）"
+ },
+ {
+  "full_name": "meizhong986/WhisperJAV",
+  "stars": 2236,
+  "description": "ASR/STT subtitle generator. Uses Qwen3-ASR, local LLM, Whisper, TEN-VAD. Noise-robust for JAV",
+  "language": "Python",
+  "url": "https://github.com/meizhong986/WhisperJAV",
+  "slices": [
+   "audio-llm"
+  ],
+  "laos_relevance": 6,
+  "readme": "rate-limited（搜索元数据代替）"
+ },
+ {
+  "full_name": "QwenAudio/Fun-ASR",
+  "stars": 1535,
+  "description": "Fun-ASR speech recognition models, with native Hugging Face Transformers support for Fun-ASR-Nano and separate FunASR, vLLM and llama.cpp deployment paths.",
+  "language": "C",
+  "url": "https://github.com/QwenAudio/Fun-ASR",
+  "slices": [
+   "asr",
+   "diarization",
+   "audio-llm"
+  ],
+  "laos_relevance": 6,
+  "readme": "rate-limited（搜索元数据代替）"
+ },
+ {
+  "full_name": "ictnlp/StreamSpeech",
+  "stars": 1289,
+  "description": "StreamSpeech is an “All in One” seamless model for offline and simultaneous speech recognition, speech translation and speech synthesis.",
+  "language": "Python",
+  "url": "https://github.com/ictnlp/StreamSpeech",
+  "slices": [
+   "speech",
+   "asr",
+   "tts",
+   "enhancement",
+   "audio-processing",
+   "voice-agent"
+  ],
+  "laos_relevance": 6,
+  "readme": "rate-limited（搜索元数据代替）"
+ },
+ {
+  "full_name": "stepfun-ai/Step-Audio-EditX",
+  "stars": 975,
+  "description": "A powerful 3B-parameter, LLM-based Reinforcement Learning audio edit model excels at editing emotion, speaking style, and paralinguistics, and features robust zero-shot text-to-speech",
+  "language": "Python",
+  "url": "https://github.com/stepfun-ai/Step-Audio-EditX",
+  "slices": [
+   "tts",
+   "audio-llm"
+  ],
+  "laos_relevance": 6,
+  "readme": "rate-limited（搜索元数据代替）"
+ },
+ {
+  "full_name": "FireRedTeam/FireRedASR2S",
+  "stars": 678,
+  "description": "A SOTA Industrial-Grade All-in-One ASR system with ASR, VAD, LID, and Punc modules. FireRedASR2 supports Chinese (Mandarin, 20+ dialects/accents), English, code-switching, and both speech and singing ",
+  "language": "Python",
+  "url": "https://github.com/FireRedTeam/FireRedASR2S",
+  "slices": [
+   "asr"
+  ],
+  "laos_relevance": 6,
+  "readme": "rate-limited（搜索元数据代替）"
+ },
+ {
+  "full_name": "TheDeathDragon/LiveTranslate",
+  "stars": 650,
+  "description": "Real-time audio translation, captures system audio + mic, runs ASR (Whisper/SenseVoice),   translates via LLM API with streaming display. Perfect for VTubers, livestreamers, and watching foreign conte",
+  "language": "Python",
+  "url": "https://github.com/TheDeathDragon/LiveTranslate",
+  "slices": [
+   "asr"
+  ],
+  "laos_relevance": 6,
+  "readme": "rate-limited（搜索元数据代替）"
+ },
+ {
+  "full_name": "shashikg/WhisperS2T",
+  "stars": 578,
+  "description": "An Optimized Speech-to-Text Pipeline for the Whisper Model Supporting Multiple Inference Engine",
+  "language": "Jupyter Notebook",
+  "url": "https://github.com/shashikg/WhisperS2T",
+  "slices": [
+   "asr"
+  ],
+  "laos_relevance": 6,
+  "readme": "rate-limited（搜索元数据代替）"
+ },
+ {
+  "full_name": "izwi-ai/izwi",
+  "stars": 384,
+  "description": "Voice AI runtime. Local first transcription, speaker diarization, TTS, and voice cloning with an OpenAI compatible API.",
+  "language": "Rust",
+  "url": "https://github.com/izwi-ai/izwi",
+  "slices": [
+   "tts",
+   "diarization"
+  ],
+  "laos_relevance": 6,
+  "readme": "rate-limited（搜索元数据代替）"
+ },
+ {
+  "full_name": "mahimairaja/voiceai",
+  "stars": 324,
+  "description": "Set of 📝 with 🔗 to help those building Voice AI agents 🎙️🤖",
+  "language": null,
+  "url": "https://github.com/mahimairaja/voiceai",
+  "slices": [
+   "asr",
+   "tts",
+   "voice-assistant"
+  ],
+  "laos_relevance": 6,
+  "readme": "rate-limited（搜索元数据代替）"
+ },
+ {
+  "full_name": "mbzuai-oryx/LLMVoX",
+  "stars": 311,
+  "description": "LLMVoX: Autoregressive Streaming Text-to-Speech Model for Any LLM",
+  "language": "Python",
+  "url": "https://github.com/mbzuai-oryx/LLMVoX",
+  "slices": [
+   "audio",
+   "tts",
+   "voice-assistant"
+  ],
+  "laos_relevance": 6,
+  "readme": "rate-limited（搜索元数据代替）"
+ },
+ {
+  "full_name": "asiff00/On-Device-Speech-to-Speech-Conversational-AI",
+  "stars": 257,
+  "description": "This is an on-CPU real-time conversational system for two-way speech communication with AI models, utilizing a continuous streaming architecture for fluid conversations with immediate responses and na",
+  "language": "Python",
+  "url": "https://github.com/asiff00/On-Device-Speech-to-Speech-Conversational-AI",
+  "slices": [
+   "tts",
+   "voice-assistant"
+  ],
+  "laos_relevance": 6,
+  "readme": "rate-limited（搜索元数据代替）"
+ },
+ {
+  "full_name": "gpustack/vox-box",
+  "stars": 217,
+  "description": "A text-to-speech and speech-to-text server compatible with the OpenAI API, supporting Whisper, FunASR, Bark, and CosyVoice backends.",
+  "language": "Python",
+  "url": "https://github.com/gpustack/vox-box",
+  "slices": [
+   "tts"
+  ],
+  "laos_relevance": 6,
+  "readme": "rate-limited（搜索元数据代替）"
+ },
+ {
+  "full_name": "EveningStudy/asmr-dubber",
+  "stars": 185,
+  "description": "音视频字幕及配音工具：支持 ASR（语音识别）、台本导入、AI 翻译、双语字幕、音色克隆、TTS（语音合成）与混音以得到双语音频。",
+  "language": "Python",
+  "url": "https://github.com/EveningStudy/asmr-dubber",
+  "slices": [
+   "asr",
+   "tts"
+  ],
+  "laos_relevance": 6,
+  "readme": "rate-limited（搜索元数据代替）"
+ },
+ {
+  "full_name": "VideotronicMaker/LM-Studio-Voice-Conversation",
+  "stars": 144,
+  "description": "Python app for LM Studio-enhanced voice conversations with local LLMs. Uses Whisper for speech-to-text and offers a privacy-focused, accessible interface.",
+  "language": "Python",
+  "url": "https://github.com/VideotronicMaker/LM-Studio-Voice-Conversation",
+  "slices": [
+   "tts"
+  ],
+  "laos_relevance": 6,
+  "readme": "rate-limited（搜索元数据代替）"
+ },
+ {
+  "full_name": "lgy1027/matrix-live-diarizer",
+  "stars": 134,
+  "description": "Local-first meeting transcription — audio & transcripts never leave your machine. Live captions + upload diarization + voice matching.",
+  "language": "Python",
+  "url": "https://github.com/lgy1027/matrix-live-diarizer",
+  "slices": [
+   "diarization"
+  ],
+  "laos_relevance": 6,
+  "readme": "rate-limited（搜索元数据代替）"
+ },
+ {
+  "full_name": "Etherll/Timbre",
+  "stars": 23,
+  "description": "Extract a target speaker’s clean, non-overlapped speech from multi-speaker audio and export word-safe LJSpeech-style TTS datasets.",
+  "language": "Python",
+  "url": "https://github.com/Etherll/Timbre",
+  "slices": [
+   "diarization"
+  ],
+  "laos_relevance": 6,
+  "readme": "rate-limited（搜索元数据代替）"
+ }
+]
