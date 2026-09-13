@@ -1,0 +1,92 @@
+{
+ "2021": {
+  "total": 999,
+  "stats": {
+   "emotion": 46,
+   "speaker": 140,
+   "diariz": 43,
+   "enhance": 84,
+   "codec": 3,
+   "kws_vad": 21,
+   "tts": 76,
+   "event": 21,
+   "ssl": 44,
+   "edge": 86,
+   "llm": 20,
+   "health": 49
+  },
+  "relevant_count": 510
+ },
+ "2022": {
+  "total": 1123,
+  "stats": {
+   "emotion": 61,
+   "speaker": 147,
+   "diariz": 50,
+   "enhance": 107,
+   "codec": 7,
+   "kws_vad": 32,
+   "tts": 93,
+   "event": 18,
+   "ssl": 83,
+   "edge": 104,
+   "llm": 23,
+   "health": 37
+  },
+  "relevant_count": 598
+ },
+ "2023": {
+  "total": 1141,
+  "stats": {
+   "emotion": 86,
+   "speaker": 124,
+   "diariz": 43,
+   "enhance": 107,
+   "codec": 7,
+   "kws_vad": 23,
+   "tts": 83,
+   "event": 13,
+   "ssl": 87,
+   "edge": 140,
+   "llm": 20,
+   "health": 51
+  },
+  "relevant_count": 599
+ },
+ "2024": {
+  "total": 1065,
+  "stats": {
+   "emotion": 66,
+   "speaker": 132,
+   "diariz": 49,
+   "enhance": 133,
+   "codec": 26,
+   "kws_vad": 20,
+   "tts": 94,
+   "event": 10,
+   "ssl": 81,
+   "edge": 118,
+   "llm": 71,
+   "health": 55
+  },
+  "relevant_count": 625
+ },
+ "2025": {
+  "total": 1179,
+  "stats": {
+   "emotion": 86,
+   "speaker": 128,
+   "diariz": 42,
+   "enhance": 135,
+   "codec": 42,
+   "kws_vad": 17,
+   "tts": 74,
+   "event": 6,
+   "ssl": 55,
+   "edge": 119,
+   "llm": 77,
+   "health": 81
+  },
+  "relevant_count": 659
+ }
+}

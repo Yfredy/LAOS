@@ -1,0 +1,155 @@
+{
+ "interspeech": [
+  {
+   "y": 2021,
+   "t": "SUPERB: Speech Processing Universal PERformance Benchmark",
+   "a": "Yang et al.",
+   "u": "https://www.isca-archive.org/interspeech_2021/yang21c_interspeech.pdf",
+   "note": "SSL 冻结底座+轻头跨任务评测；laos 架构的系统证据"
+  },
+  {
+   "y": 2021,
+   "t": "XLSR: Unsupervised Cross-Lingual Representation Learning for ASR",
+   "a": "Conneau et al.",
+   "u": "https://www.isca-archive.org/interspeech_2021/conneau21_interspeech.pdf",
+   "note": "跨语言 wav2vec2.0；CommonVoice 音素错误率 -72%"
+  },
+  {
+   "y": 2021,
+   "t": "ECAPA-TDNN Embeddings for Speaker Diarization",
+   "a": "Dawalatabad et al.",
+   "u": "https://www.isca-archive.org/interspeech_2021/dawalatabad21_interspeech.pdf",
+   "note": "SV 嵌入迁移到 diarization；AMI 超 SOTA"
+  },
+  {
+   "y": 2021,
+   "t": "UnivNet: neural vocoder",
+   "a": "Jang et al.",
+   "u": "https://www.isca-archive.org/interspeech_2021/jang21_interspeech.pdf",
+   "note": "多分辨率谱判别器实时声码器"
+  },
+  {
+   "y": 2021,
+   "t": "Diff-TTS",
+   "a": "Jeong et al.",
+   "u": "https://www.isca-archive.org/interspeech_2021/jeong21_interspeech.pdf",
+   "note": "非自回归扩散 TTS，28x 实时"
+  },
+  {
+   "y": 2021,
+   "t": "Emotion Recognition from Speech Using wav2vec 2.0 Embeddings",
+   "a": "Pepino et al.",
+   "u": "https://www.isca-archive.org/interspeech_2021/pepino21_interspeech.pdf",
+   "note": "SSL 特征+浅层网络做 SER 的早期标杆"
+  },
+  {
+   "y": 2021,
+   "t": "Efficient Streaming Non-Recurrent On-Device E2E Model",
+   "a": "Sainath et al. (Google)",
+   "u": "https://www.isca-archive.org/interspeech_2021/sainath21_interspeech.pdf",
+   "note": "端侧流式 ASR，模型小 318 倍"
+  },
+  {
+   "y": 2021,
+   "t": "DCCRN+",
+   "a": "Lv et al.",
+   "u": "https://www.isca-archive.org/interspeech_2021/lv21_interspeech.pdf",
+   "note": "子带化复数 TF-LSTM 增强；DNS'21 挑战赛优胜"
+  },
+  {
+   "y": 2021,
+   "t": "Keyword Transformer (KWT)",
+   "a": "Berg et al.",
+   "u": "https://www.isca-archive.org/interspeech_2021/berg21_interspeech.pdf",
+   "note": "纯注意力 KWS；Speech Commands 98.6%"
+  },
+  {
+   "y": 2022,
+   "t": "XLS-R",
+   "a": "Babu et al. (Meta)",
+   "u": "https://www.isca-archive.org/interspeech_2022/babu22_interspeech.pdf",
+   "note": "2B 参数/50 万小时/128 语种跨语言 SSL"
+  },
+  {
+   "y": 2022,
+   "t": "JETS",
+   "a": "Lim et al.",
+   "u": "https://www.isca-archive.org/interspeech_2022/lim22_interspeech.pdf",
+   "note": "声学+声码器端到端联合 TTS"
+  },
+  {
+   "y": 2022,
+   "t": "TRILLsson",
+   "a": "Shor et al. (Google)",
+   "u": "https://www.isca-archive.org/interspeech_2022/shor22_interspeech.pdf",
+   "note": "蒸馏副语言表征：<15% 体积保持 96% 精度，情感任务 4% 体积反超——laos 端侧情感的直接依据"
+  },
+  {
+   "y": 2022,
+   "t": "Fast Grad-TTS",
+   "a": "Vovk et al.",
+   "u": "https://www.isca-archive.org/interspeech_2022/vovk22_interspeech.pdf",
+   "note": "CPU RTF 0.15 的扩散 TTS"
+  },
+  {
+   "y": 2022,
+   "t": "On-demand compute reduction with stochastic wav2vec 2.0",
+   "a": "Vyas et al. (Meta)",
+   "u": "https://www.isca-archive.org/interspeech_2022/vyas22_interspeech.pdf",
+   "note": "同一模型按需调算力（laos 充电/常驻分档的模型层思路）"
+  },
+  {
+   "y": 2022,
+   "t": "LightHuBERT",
+   "a": "Wang et al.",
+   "u": "https://www.isca-archive.org/interspeech_2022/wang22t_interspeech.pdf",
+   "note": "Once-for-all 超网蒸馏 HuBERT；KWS/意图/ASV 3.5x 压缩"
+  }
+ ],
+ "icassp_arxiv_verified": [
+  {
+   "y": 2022,
+   "t": "MM-DFN: Multimodal Dynamic Fusion Network for Emotion Recognition in Conversations",
+   "a": "Dou Hu et al.",
+   "u": "https://arxiv.org/abs/2203.02385",
+   "note": "c=274（本语料最高被引 ICASSP SER）；图动态融合多模态"
+  },
+  {
+   "y": 2022,
+   "t": "Speech Emotion Recognition with Co-Attention Based Multi-Level Acoustic Information",
+   "a": "Heqing Zou et al.",
+   "u": "https://arxiv.org/abs/2203.15326",
+   "note": "c=181；MFCC+谱+wav2vec2 共注意力，IEMOCAP"
+  },
+  {
+   "y": 2022,
+   "t": "Speech Emotion Recognition Using Self-Supervised Features",
+   "a": "Morais et al. (Intel)",
+   "u": "https://arxiv.org/abs/2202.03896",
+   "note": "c=173；上游 SSL+下游轻头的模块化范式，纯语音逼近多模态 SOTA"
+  },
+  {
+   "y": 2023,
+   "t": "Audio Deepfake Detection With Self-Supervised WavLM and Multi-Fusion Attentive Classifier",
+   "a": "(点路径)",
+   "u": "https://arxiv.org/abs/2312.08089",
+   "note": "c=115；SSL 底座转向深伪检测"
+  },
+  {
+   "y": 2022,
+   "t": "Target-Speaker VAD Via Sequence-to-Sequence Pretraining",
+   "a": "(ts-VAD 线)",
+   "u": "https://arxiv.org/abs/2210.16127",
+   "note": "c=50；个性化 VAD=laos『只听主人』的技术源"
+  }
+ ],
+ "interspeech_2026": [
+  {
+   "y": 2026,
+   "t": "UniSE: A Unified Framework for Decoder-Only Autoregressive LM-Based Speech Enhancement",
+   "a": "Haoyin Yan et al. (Alibaba Qwen)",
+   "u": "https://arxiv.org/abs/2510.20441",
+   "note": "✅arXiv 核实 Interspeech 2026：decoder-only LM 统一 SR/TSE/SS + 渐进式 RL；微信文口径 263.9M 参数/DNS OVRL 3.64 🔶；TSE 模式=『只提取主人』的最新业界实现"
+  }
+ ]
+}
