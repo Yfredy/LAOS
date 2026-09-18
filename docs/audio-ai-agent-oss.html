@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>音频 / AI / Agent 开源星标全景 · laos</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2230; --line:#2a3140;
+    --fg:#e6edf3; --dim:#9aa7b8; --cyan:#39d0d8; --orange:#f0883e;
+    --red:#f85149; --green:#3fb950; --purple:#bc8cff; --yellow:#e3b341;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+       font-size:15px;line-height:1.7}
+  a{color:var(--cyan);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .layout{display:flex;max-width:1560px;margin:0 auto}
+  nav{position:sticky;top:0;height:100vh;width:238px;flex:0 0 238px;overflow-y:auto;
+      border-right:1px solid var(--line);padding:22px 14px;background:#0b0f15}
+  nav h4{margin:0 0 12px;font-size:13px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase}
+  nav a{display:block;padding:6px 10px;margin:2px 0;border-radius:6px;color:var(--dim);font-size:13.5px}
+  nav a:hover{background:var(--panel2);color:var(--fg);text-decoration:none}
+  main{flex:1;min-width:0;padding:34px 40px 90px}
+  header{border-bottom:1px solid var(--line);padding-bottom:26px;margin-bottom:34px}
+  h1{font-size:31px;margin:0 0 10px;letter-spacing:-.01em}
+  h1 span{color:var(--cyan)}
+  .meta{color:var(--dim);font-size:13px}
+  .lead{font-size:16px;color:#c9d5e3;border-left:3px solid var(--cyan);
+        padding:12px 16px;background:var(--panel);border-radius:0 8px 8px 0;margin:22px 0}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:14px;margin:24px 0 8px}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .kpi b{display:block;font-size:26px;color:var(--cyan);line-height:1.25}
+  .kpi small{color:var(--dim);font-size:12.5px}
+  .kpi.warn b{color:var(--red)} .kpi.ok b{color:var(--green)} .kpi.amber b{color:var(--orange)}
+  section{margin:52px 0;scroll-margin-top:14px}
+  h2{font-size:22px;margin:0 0 6px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+  h2 .num{color:var(--cyan);margin-right:10px;font-variant-numeric:tabular-nums}
+  h3{font-size:16.5px;margin:30px 0 10px;color:var(--orange)}
+  p{margin:12px 0}
+  ul{margin:10px 0;padding-left:22px} li{margin:5px 0}
+  code{background:#1b2230;padding:1px 6px;border-radius:4px;font-size:13px;color:var(--purple)}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:18px 0}
+  .note{color:var(--dim);font-size:13px}
+  .tw{overflow-x:auto;border:1px solid var(--line);border-radius:10px;margin:16px 0}
+  table{border-collapse:collapse;width:100%;min-width:720px;font-size:13.5px}
+  th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  th{background:#131a24;color:var(--dim);font-weight:600;white-space:nowrap;position:sticky;top:0}
+  tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:#141b26}
+  .dead{color:var(--red)} .alive{color:var(--green)} .maybe{color:var(--yellow)}
+  .tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:11.5px;
+       border:1px solid var(--line);color:var(--dim);white-space:nowrap}
+  .tag.c{color:var(--cyan);border-color:#1d4b50} .tag.g{color:var(--green);border-color:#1d4a26}
+  .tag.r{color:var(--red);border-color:#4d2220} .tag.o{color:var(--orange);border-color:#4d351d}
+  svg{display:block;max-width:100%;height:auto}
+  .fig{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;margin:18px 0}
+  .fig .cap{color:var(--dim);font-size:12.5px;margin-top:10px}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;color:var(--dim);font-size:12.5px;margin-top:10px}
+  .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px}
+  footer{border-top:1px solid var(--line);margin-top:60px;padding-top:20px;color:var(--dim);font-size:13px}
+  @media(max-width:960px){nav{display:none}main{padding:24px 18px 60px}}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav>
+  <h4>目录</h4>
+  <a href="#top">概览</a>
+  <a href="#methods">1 · 方法与限额</a>
+  <a href="#charts">2 · 全景图表</a>
+  <a href="#top40">3 · 总榜 Top 40</a>
+  <a href="#cat">4 · 分类榜</a>
+  <a href="#laos">5 · laos core 清单</a>
+  <a href="#avoid">6 · 不推荐清单</a>
+  <a href="#limits">7 · 局限与复核</a>
+</nav>
+<main>
+<header id="top">
+  <h1>音频 / AI / Agent 开源<span>星标全景</span></h1>
+  <div class="meta">抓取日期 2026-09-14 ｜ GitHub Search API 未认证快照 ｜ 数据源：repos_classified.jsonl（3724 条）｜ 零外部依赖单文件</div>
+  <div class="lead">
+    遍历 <b>3724</b> 个音频 / 语音 AI / 语音·多模态 Agent 方向高星开源项目，覆盖 <b>15</b> 个功能类别；
+    真正能进 laos 四段漏斗的 <b>core 仅 132 个（3.5%）</b>。
+  </div>
+  <div class="kpis">
+    <div class="kpi"><b>3,724</b><small>干净仓库总数</small></div>
+    <div class="kpi"><b>15</b><small>功能类别（可多标签）</small></div>
+    <div class="kpi ok"><b>132</b><small>core 可直接落地</small></div>
+    <div class="kpi amber"><b>2,864</b><small>ref 参考/借鉴</small></div>
+    <div class="kpi warn"><b>728</b><small>unrelated 无关</small></div>
+    <div class="kpi warn"><b>75%</b><small>许可字段缺失（2,801 条）</small></div>
+  </div>
+</header>
+<section id="methods">
+  <h2><span class="num">01</span>方法与限额说明</h2>
+  <ul>
+    <li>GitHub Search API（<code>search/repositories</code>）未认证：<b>search 10 次/分钟</b>，每请求 sleep 7；core 60 次/小时常为 0 → 只用 search 端点不补字段。</li>
+    <li>单 query 上限 <b>1000 条</b>，按 stars 降序取 top。</li>
+    <li>统一 <code>fork:false</code>，落盘后剔除 <code>archived:true</code>。</li>
+    <li>去噪（Task 2）：8 个 <code>topic:</code> 切片 100% 相关复用；两裸关键词切片相关率仅 20%/16%，剔除 1376 条噪声后用引号短语补抓找回真相关项目。干净语料 <b>2153 + 1571 = 3724</b>。</li>
+    <li>抓取时间 <code>2026-09-14</code> 落盘；star 为快照，可能过时。</li>
+  </ul>
+</section>
+<section id="charts">
+  <h2><span class="num">02</span>全景图表</h2>
+  <div class="fig">
+    <div style="font-weight:600;margin-bottom:8px">laos_fit 三档分布</div>
+<svg viewBox="0 0 900 120" role="img" aria-label="laos_fit 分布">
+<rect x="20.0" y="40" width="30.5" height="46" fill="#3fb950"/>
+<text x="35.2" y="68.0" text-anchor="middle" fill="#0d1117" font-size="13" font-weight="600">core 132</text>
+<rect x="50.5" y="40" width="661.4" height="46" fill="#f0883e"/>
+<text x="381.2" y="68.0" text-anchor="middle" fill="#0d1117" font-size="13" font-weight="600">ref 2864</text>
+<rect x="711.9" y="40" width="168.1" height="46" fill="#9aa7b8"/>
+<text x="795.9" y="68.0" text-anchor="middle" fill="#0d1117" font-size="13" font-weight="600">unrelated 728</text>
+</svg>
+    <div class="legend"><span><i style="background:#3fb950"></i>core 可直接落地</span><span><i style="background:#f0883e"></i>ref 参考/借鉴</span><span><i style="background:#9aa7b8"></i>unrelated 无关</span></div>
+  </div>
+  <div class="fig">
+    <div style="font-weight:600;margin-bottom:8px">类别分布（按条数）</div>
+<svg viewBox="0 0 1040 320" role="img" aria-label="类别分布">
+<rect x="70" y="30.0" width="46" height="250.0" fill="#39d0d8" rx="3"/>
+<text x="93.0" y="24.0" text-anchor="middle" fill="#e6edf3" font-size="12">1,206</text>
+<text x="93.0" y="296" text-anchor="end" fill="#9aa7b8" font-size="11" transform="rotate(35 93.0 296)">asr</text>
+<rect x="134" y="106.49253731343285" width="46" height="173.50746268656715" fill="#f0883e" rx="3"/>
+<text x="157.0" y="100.49253731343285" text-anchor="middle" fill="#e6edf3" font-size="12">837</text>
+<text x="157.0" y="296" text-anchor="end" fill="#9aa7b8" font-size="11" transform="rotate(35 157.0 296)">tts</text>
+<rect x="198" y="135.72139303482587" width="46" height="144.27860696517413" fill="#bc8cff" rx="3"/>
+<text x="221.0" y="129.72139303482587" text-anchor="middle" fill="#e6edf3" font-size="12">696</text>
+<text x="221.0" y="296" text-anchor="end" fill="#9aa7b8" font-size="11" transform="rotate(35 221.0 296)">agent</text>
+<rect x="262" y="168.05970149253733" width="46" height="111.94029850746269" fill="#3fb950" rx="3"/>
+<text x="285.0" y="162.05970149253733" text-anchor="middle" fill="#e6edf3" font-size="12">540</text>
+<text x="285.0" y="296" text-anchor="end" fill="#9aa7b8" font-size="11" transform="rotate(35 285.0 296)">ml-framework</text>
+<rect x="326" y="203.92205638474294" width="46" height="76.07794361525706" fill="#e3b341" rx="3"/>
+<text x="349.0" y="197.92205638474294" text-anchor="middle" fill="#e6edf3" font-size="12">367</text>
+<text x="349.0" y="296" text-anchor="end" fill="#9aa7b8" font-size="11" transform="rotate(35 349.0 296)">kws-vad</text>
+<rect x="390" y="217.18905472636817" width="46" height="62.810945273631845" fill="#f85149" rx="3"/>
+<text x="413.0" y="211.18905472636817" text-anchor="middle" fill="#e6edf3" font-size="12">303</text>
+<text x="413.0" y="296" text-anchor="end" fill="#9aa7b8" font-size="11" transform="rotate(35 413.0 296)">dsp-lib</text>
+<rect x="454" y="244.75953565505804" width="46" height="35.240464344941955" fill="#7ee787" rx="3"/>
+<text x="477.0" y="238.75953565505804" text-anchor="middle" fill="#e6edf3" font-size="12">170</text>
+<text x="477.0" y="296" text-anchor="end" fill="#9aa7b8" font-size="11" transform="rotate(35 477.0 296)">enhance</text>
+<rect x="518" y="246.62520729684908" width="46" height="33.374792703150916" fill="#79c0ff" rx="3"/>
+<text x="541.0" y="240.62520729684908" text-anchor="middle" fill="#e6edf3" font-size="12">161</text>
+<text x="541.0" y="296" text-anchor="end" fill="#9aa7b8" font-size="11" transform="rotate(35 541.0 296)">serving</text>
+<rect x="582" y="248.69817578772802" width="46" height="31.301824212271978" fill="#d2a8ff" rx="3"/>
+<text x="605.0" y="242.69817578772802" text-anchor="middle" fill="#e6edf3" font-size="12">151</text>
+<text x="605.0" y="296" text-anchor="end" fill="#9aa7b8" font-size="11" transform="rotate(35 605.0 296)">dataset</text>
+<rect x="646" y="253.88059701492537" width="46" height="26.119402985074625" fill="#ffa657" rx="3"/>
+<text x="669.0" y="247.88059701492537" text-anchor="middle" fill="#e6edf3" font-size="12">126</text>
+<text x="669.0" y="296" text-anchor="end" fill="#9aa7b8" font-size="11" transform="rotate(35 669.0 296)">agent-llm</text>
+<rect x="710" y="255.12437810945272" width="46" height="24.875621890547265" fill="#56d4dd" rx="3"/>
+<text x="733.0" y="249.12437810945272" text-anchor="middle" fill="#e6edf3" font-size="12">120</text>
+<text x="733.0" y="296" text-anchor="end" fill="#9aa7b8" font-size="11" transform="rotate(35 733.0 296)">music</text>
+<rect x="774" y="255.5389718076285" width="46" height="24.461028192371476" fill="#f778ba" rx="3"/>
+<text x="797.0" y="249.5389718076285" text-anchor="middle" fill="#e6edf3" font-size="12">118</text>
+<text x="797.0" y="296" text-anchor="end" fill="#9aa7b8" font-size="11" transform="rotate(35 797.0 296)">audio-llm</text>
+<rect x="838" y="267.76948590381426" width="46" height="12.230514096185738" fill="#a5d6ff" rx="3"/>
+<text x="861.0" y="261.76948590381426" text-anchor="middle" fill="#e6edf3" font-size="12">59</text>
+<text x="861.0" y="296" text-anchor="end" fill="#9aa7b8" font-size="11" transform="rotate(35 861.0 296)">speaker</text>
+<rect x="902" y="268.18407960199005" width="46" height="11.81592039800995" fill="#ff7b72" rx="3"/>
+<text x="925.0" y="262.18407960199005" text-anchor="middle" fill="#e6edf3" font-size="12">57</text>
+<text x="925.0" y="296" text-anchor="end" fill="#9aa7b8" font-size="11" transform="rotate(35 925.0 296)">codec</text>
+<rect x="966" y="270.0497512437811" width="46" height="9.950248756218905" fill="#3fb9c9" rx="3"/>
+<text x="989.0" y="264.0497512437811" text-anchor="middle" fill="#e6edf3" font-size="12">48</text>
+<text x="989.0" y="296" text-anchor="end" fill="#9aa7b8" font-size="11" transform="rotate(35 989.0 296)">aed</text>
+<line x1="60" y1="280" x2="1030" y2="280" stroke="#2a3140"/>
+</svg>
+  </div>
+  <div class="fig">
+    <div style="font-weight:600;margin-bottom:8px">star 分档分布</div>
+<svg viewBox="0 0 520 260" role="img" aria-label="star 分档">
+<rect x="70" y="207.2539184952978" width="70" height="12.746081504702195" fill="#39d0d8" rx="3"/>
+<text x="105.0" y="201.2539184952978" text-anchor="middle" fill="#e6edf3" font-size="12">107</text>
+<text x="105.0" y="236" text-anchor="end" fill="#9aa7b8" font-size="11" transform="rotate(35 105.0 236)">≥10000</text>
+<rect x="180" y="141.85579937304075" width="70" height="78.14420062695925" fill="#3fb950" rx="3"/>
+<text x="215.0" y="135.85579937304075" text-anchor="middle" fill="#e6edf3" font-size="12">656</text>
+<text x="215.0" y="236" text-anchor="end" fill="#9aa7b8" font-size="11" transform="rotate(35 215.0 236)">1000–9999</text>
+<rect x="290" y="30.0" width="70" height="190.0" fill="#f0883e" rx="3"/>
+<text x="325.0" y="24.0" text-anchor="middle" fill="#e6edf3" font-size="12">1,595</text>
+<text x="325.0" y="236" text-anchor="end" fill="#9aa7b8" font-size="11" transform="rotate(35 325.0 236)">100–999</text>
+<rect x="400" y="57.278996865203766" width="70" height="162.72100313479623" fill="#bc8cff" rx="3"/>
+<text x="435.0" y="51.278996865203766" text-anchor="middle" fill="#e6edf3" font-size="12">1,366</text>
+<text x="435.0" y="236" text-anchor="end" fill="#9aa7b8" font-size="11" transform="rotate(35 435.0 236)">&lt;100</text>
+<line x1="60" y1="220" x2="510" y2="220" stroke="#2a3140"/>
+</svg>
+  </div>
+  <div class="fig">
+    <div style="font-weight:600;margin-bottom:8px">类别 × 星档 热力矩阵（单元格数字 = 仓库数）</div>
+<svg viewBox="0 0 660 460" role="img" aria-label="类别×星档热力矩阵">
+<text x="185.0" y="28" text-anchor="middle" fill="#9aa7b8" font-size="12">≥10000</text>
+<text x="315.0" y="28" text-anchor="middle" fill="#9aa7b8" font-size="12">1000–9999</text>
+<text x="445.0" y="28" text-anchor="middle" fill="#9aa7b8" font-size="12">100–999</text>
+<text x="575.0" y="28" text-anchor="middle" fill="#9aa7b8" font-size="12"><100</text>
+<text x="112" y="57.0" text-anchor="end" fill="#e6edf3" font-size="11.5">asr</text>
+<rect x="121" y="41" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="185.0" y="57.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">31</text>
+<rect x="251" y="41" width="128" height="24" fill="#39d0d8" fill-opacity="0.32" stroke="#2a3140"/>
+<text x="315.0" y="57.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">187</text>
+<rect x="381" y="41" width="128" height="24" fill="#39d0d8" fill-opacity="0.92" stroke="#2a3140"/>
+<text x="445.0" y="57.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">542</text>
+<rect x="511" y="41" width="128" height="24" fill="#39d0d8" fill-opacity="0.76" stroke="#2a3140"/>
+<text x="575.0" y="57.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">446</text>
+<text x="112" y="83.0" text-anchor="end" fill="#e6edf3" font-size="11.5">tts</text>
+<rect x="121" y="67" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="185.0" y="83.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">42</text>
+<rect x="251" y="67" width="128" height="24" fill="#39d0d8" fill-opacity="0.28" stroke="#2a3140"/>
+<text x="315.0" y="83.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">167</text>
+<rect x="381" y="67" width="128" height="24" fill="#39d0d8" fill-opacity="0.82" stroke="#2a3140"/>
+<text x="445.0" y="83.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">485</text>
+<rect x="511" y="67" width="128" height="24" fill="#39d0d8" fill-opacity="0.24" stroke="#2a3140"/>
+<text x="575.0" y="83.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">143</text>
+<text x="112" y="109.0" text-anchor="end" fill="#e6edf3" font-size="11.5">agent</text>
+<rect x="121" y="93" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="185.0" y="109.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">20</text>
+<rect x="251" y="93" width="128" height="24" fill="#39d0d8" fill-opacity="0.15" stroke="#2a3140"/>
+<text x="315.0" y="109.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">89</text>
+<rect x="381" y="93" width="128" height="24" fill="#39d0d8" fill-opacity="0.39" stroke="#2a3140"/>
+<text x="445.0" y="109.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">231</text>
+<rect x="511" y="93" width="128" height="24" fill="#39d0d8" fill-opacity="0.60" stroke="#2a3140"/>
+<text x="575.0" y="109.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">356</text>
+<text x="112" y="135.0" text-anchor="end" fill="#e6edf3" font-size="11.5">ml-framework</text>
+<rect x="121" y="119" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="185.0" y="135.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">22</text>
+<rect x="251" y="119" width="128" height="24" fill="#39d0d8" fill-opacity="0.15" stroke="#2a3140"/>
+<text x="315.0" y="135.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">88</text>
+<rect x="381" y="119" width="128" height="24" fill="#39d0d8" fill-opacity="0.40" stroke="#2a3140"/>
+<text x="445.0" y="135.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">236</text>
+<rect x="511" y="119" width="128" height="24" fill="#39d0d8" fill-opacity="0.33" stroke="#2a3140"/>
+<text x="575.0" y="135.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">194</text>
+<text x="112" y="161.0" text-anchor="end" fill="#e6edf3" font-size="11.5">kws-vad</text>
+<rect x="121" y="145" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="185.0" y="161.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">4</text>
+<rect x="251" y="145" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="315.0" y="161.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">12</text>
+<rect x="381" y="145" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="445.0" y="161.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">68</text>
+<rect x="511" y="145" width="128" height="24" fill="#39d0d8" fill-opacity="0.48" stroke="#2a3140"/>
+<text x="575.0" y="161.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">283</text>
+<text x="112" y="187.0" text-anchor="end" fill="#e6edf3" font-size="11.5">dsp-lib</text>
+<rect x="121" y="171" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="185.0" y="187.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">13</text>
+<rect x="251" y="171" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="315.0" y="187.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">65</text>
+<rect x="381" y="171" width="128" height="24" fill="#39d0d8" fill-opacity="0.21" stroke="#2a3140"/>
+<text x="445.0" y="187.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">125</text>
+<rect x="511" y="171" width="128" height="24" fill="#39d0d8" fill-opacity="0.17" stroke="#2a3140"/>
+<text x="575.0" y="187.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">100</text>
+<text x="112" y="213.0" text-anchor="end" fill="#e6edf3" font-size="11.5">enhance</text>
+<rect x="121" y="197" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="185.0" y="213.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">4</text>
+<rect x="251" y="197" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="315.0" y="213.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">17</text>
+<rect x="381" y="197" width="128" height="24" fill="#39d0d8" fill-opacity="0.16" stroke="#2a3140"/>
+<text x="445.0" y="213.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">96</text>
+<rect x="511" y="197" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="575.0" y="213.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">53</text>
+<text x="112" y="239.0" text-anchor="end" fill="#e6edf3" font-size="11.5">serving</text>
+<rect x="121" y="223" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="185.0" y="239.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">8</text>
+<rect x="251" y="223" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="315.0" y="239.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">22</text>
+<rect x="381" y="223" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="445.0" y="239.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">49</text>
+<rect x="511" y="223" width="128" height="24" fill="#39d0d8" fill-opacity="0.14" stroke="#2a3140"/>
+<text x="575.0" y="239.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">82</text>
+<text x="112" y="265.0" text-anchor="end" fill="#e6edf3" font-size="11.5">dataset</text>
+<rect x="121" y="249" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="185.0" y="265.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">3</text>
+<rect x="251" y="249" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="315.0" y="265.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">7</text>
+<rect x="381" y="249" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="445.0" y="265.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">45</text>
+<rect x="511" y="249" width="128" height="24" fill="#39d0d8" fill-opacity="0.16" stroke="#2a3140"/>
+<text x="575.0" y="265.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">96</text>
+<text x="112" y="291.0" text-anchor="end" fill="#e6edf3" font-size="11.5">agent-llm</text>
+<rect x="121" y="275" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="185.0" y="291.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">7</text>
+<rect x="251" y="275" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="315.0" y="291.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">22</text>
+<rect x="381" y="275" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="445.0" y="291.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">45</text>
+<rect x="511" y="275" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="575.0" y="291.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">52</text>
+<text x="112" y="317.0" text-anchor="end" fill="#e6edf3" font-size="11.5">music</text>
+<rect x="121" y="301" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="185.0" y="317.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">4</text>
+<rect x="251" y="301" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="315.0" y="317.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">45</text>
+<rect x="381" y="301" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="445.0" y="317.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">62</text>
+<rect x="511" y="301" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="575.0" y="317.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">9</text>
+<text x="112" y="343.0" text-anchor="end" fill="#e6edf3" font-size="11.5">audio-llm</text>
+<rect x="121" y="327" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="185.0" y="343.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">3</text>
+<rect x="251" y="327" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="315.0" y="343.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">27</text>
+<rect x="381" y="327" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="445.0" y="343.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">35</text>
+<rect x="511" y="327" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="575.0" y="343.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">53</text>
+<text x="112" y="369.0" text-anchor="end" fill="#e6edf3" font-size="11.5">speaker</text>
+<rect x="121" y="353" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="185.0" y="369.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">5</text>
+<rect x="251" y="353" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="315.0" y="369.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">8</text>
+<rect x="381" y="353" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="445.0" y="369.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">16</text>
+<rect x="511" y="353" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="575.0" y="369.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">30</text>
+<text x="112" y="395.0" text-anchor="end" fill="#e6edf3" font-size="11.5">codec</text>
+<rect x="121" y="379" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="185.0" y="395.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">2</text>
+<rect x="251" y="379" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="315.0" y="395.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">16</text>
+<rect x="381" y="379" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="445.0" y="395.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">30</text>
+<rect x="511" y="379" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="575.0" y="395.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">9</text>
+<text x="112" y="421.0" text-anchor="end" fill="#e6edf3" font-size="11.5">aed</text>
+<rect x="121" y="405" width="128" height="24" fill="#161b22" stroke="#2a3140"/>
+<text x="185.0" y="421.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">0</text>
+<rect x="251" y="405" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="315.0" y="421.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">1</text>
+<rect x="381" y="405" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="445.0" y="421.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">12</text>
+<rect x="511" y="405" width="128" height="24" fill="#39d0d8" fill-opacity="0.12" stroke="#2a3140"/>
+<text x="575.0" y="421.0" text-anchor="middle" fill="#e6edf3" font-size="10.5">35</text>
+</svg>
+    <div class="cap">共 3724 条；行=15 个类别，列=star 分档。颜色越亮代表该格仓库越多。注意 kws-vad / aed / dataset 大量集中在低星档，而 codec / music / dsp-lib 中位星更高。</div>
+  </div>
+  <div class="fig">
+    <div style="font-weight:600;margin-bottom:8px">总榜 Top 40 star 条形图</div>
+<svg viewBox="0 0 920 920" role="img" aria-label="总榜 Top40">
+<text x="10" y="24" fill="#9aa7b8" font-size="12">huggingface/transformers</text>
+<rect x="300" y="12" width="590.0" height="15" fill="#39d0d8" rx="3"/>
+<text x="900.0" y="24" fill="#e6edf3" font-size="11.5">165,390</text>
+<text x="10" y="46" fill="#9aa7b8" font-size="12">harry0703/MoneyPrinterTurbo</text>
+<rect x="300" y="34" width="439.3" height="15" fill="#39d0d8" rx="3"/>
+<text x="749.3" y="46" fill="#e6edf3" font-size="11.5">123,134</text>
+<text x="10" y="68" fill="#9aa7b8" font-size="12">unslothai/unsloth</text>
+<rect x="300" y="56" width="271.5" height="15" fill="#39d0d8" rx="3"/>
+<text x="581.5" y="68" fill="#e6edf3" font-size="11.5">76,104</text>
+<text x="10" y="90" fill="#9aa7b8" font-size="12">FFmpeg/FFmpeg</text>
+<rect x="300" y="78" width="229.0" height="15" fill="#39d0d8" rx="3"/>
+<text x="539.0" y="90" fill="#e6edf3" font-size="11.5">64,181</text>
+<text x="10" y="112" fill="#9aa7b8" font-size="12">RVC-Boss/GPT-SoVITS</text>
+<rect x="300" y="100" width="220.4" height="15" fill="#39d0d8" rx="3"/>
+<text x="530.4" y="112" fill="#e6edf3" font-size="11.5">61,770</text>
+<text x="10" y="134" fill="#9aa7b8" font-size="12">CorentinJ/Real-Time-Voice-Cloning</text>
+<rect x="300" y="122" width="214.5" height="15" fill="#39d0d8" rx="3"/>
+<text x="524.5" y="134" fill="#e6edf3" font-size="11.5">60,131</text>
+<text x="10" y="156" fill="#9aa7b8" font-size="12">calesthio/OpenMontage</text>
+<rect x="300" y="144" width="207.8" height="15" fill="#39d0d8" rx="3"/>
+<text x="517.8" y="156" fill="#e6edf3" font-size="11.5">58,248</text>
+<text x="10" y="178" fill="#9aa7b8" font-size="12">microsoft/VibeVoice</text>
+<rect x="300" y="166" width="193.5" height="15" fill="#39d0d8" rx="3"/>
+<text x="503.5" y="178" fill="#e6edf3" font-size="11.5">54,243</text>
+<text x="10" y="200" fill="#9aa7b8" font-size="12">hugohe3/ppt-master</text>
+<rect x="300" y="188" width="192.9" height="15" fill="#39d0d8" rx="3"/>
+<text x="502.9" y="200" fill="#e6edf3" font-size="11.5">54,074</text>
+<text x="10" y="222" fill="#9aa7b8" font-size="12">ggml-org/whisper.cpp</text>
+<rect x="300" y="210" width="191.4" height="15" fill="#39d0d8" rx="3"/>
+<text x="501.4" y="222" fill="#e6edf3" font-size="11.5">53,646</text>
+<text x="10" y="244" fill="#9aa7b8" font-size="12">jamiepine/voicebox</text>
+<rect x="300" y="232" width="189.5" height="15" fill="#39d0d8" rx="3"/>
+<text x="499.5" y="244" fill="#e6edf3" font-size="11.5">53,113</text>
+<text x="10" y="266" fill="#9aa7b8" font-size="12">moeru-ai/airi</text>
+<rect x="300" y="254" width="175.2" height="15" fill="#39d0d8" rx="3"/>
+<text x="485.2" y="266" fill="#e6edf3" font-size="11.5">49,110</text>
+<text x="10" y="288" fill="#9aa7b8" font-size="12">mudler/LocalAI</text>
+<rect x="300" y="276" width="175.1" height="15" fill="#39d0d8" rx="3"/>
+<text x="485.1" y="288" fill="#e6edf3" font-size="11.5">49,094</text>
+<text x="10" y="310" fill="#9aa7b8" font-size="12">coqui-ai/TTS</text>
+<rect x="300" y="298" width="164.1" height="15" fill="#39d0d8" rx="3"/>
+<text x="474.1" y="310" fill="#e6edf3" font-size="11.5">46,006</text>
+<text x="10" y="332" fill="#9aa7b8" font-size="12">2noise/ChatTTS</text>
+<rect x="300" y="320" width="142.1" height="15" fill="#39d0d8" rx="3"/>
+<text x="452.1" y="332" fill="#e6edf3" font-size="11.5">39,833</text>
+<text x="10" y="354" fill="#9aa7b8" font-size="12">myshell-ai/OpenVoice</text>
+<rect x="300" y="342" width="133.8" height="15" fill="#39d0d8" rx="3"/>
+<text x="443.8" y="354" fill="#e6edf3" font-size="11.5">37,512</text>
+<text x="10" y="376" fill="#9aa7b8" font-size="12">OpenBMB/VoxCPM</text>
+<rect x="300" y="364" width="132.2" height="15" fill="#39d0d8" rx="3"/>
+<text x="442.2" y="376" fill="#e6edf3" font-size="11.5">37,053</text>
+<text x="10" y="398" fill="#9aa7b8" font-size="12">mpv-player/mpv</text>
+<rect x="300" y="386" width="131.9" height="15" fill="#39d0d8" rx="3"/>
+<text x="441.9" y="398" fill="#e6edf3" font-size="11.5">36,965</text>
+<text x="10" y="420" fill="#9aa7b8" font-size="12">google-ai-edge/mediapipe</text>
+<rect x="300" y="408" width="131.7" height="15" fill="#39d0d8" rx="3"/>
+<text x="441.7" y="420" fill="#e6edf3" font-size="11.5">36,930</text>
+<text x="10" y="442" fill="#9aa7b8" font-size="12">babysor/MockingBird</text>
+<rect x="300" y="430" width="131.7" height="15" fill="#39d0d8" rx="3"/>
+<text x="441.7" y="442" fill="#e6edf3" font-size="11.5">36,910</text>
+<text x="10" y="464" fill="#9aa7b8" font-size="12">fishaudio/fish-speech</text>
+<rect x="300" y="452" width="116.5" height="15" fill="#39d0d8" rx="3"/>
+<text x="426.5" y="464" fill="#e6edf3" font-size="11.5">32,671</text>
+<text x="10" y="486" fill="#9aa7b8" font-size="12">ossrs/srs</text>
+<rect x="300" y="474" width="104.3" height="15" fill="#39d0d8" rx="3"/>
+<text x="414.3" y="486" fill="#e6edf3" font-size="11.5">29,238</text>
+<text x="10" y="508" fill="#9aa7b8" font-size="12">deezer/spleeter</text>
+<rect x="300" y="496" width="101.5" height="15" fill="#39d0d8" rx="3"/>
+<text x="411.5" y="508" fill="#e6edf3" font-size="11.5">28,442</text>
+<text x="10" y="530" fill="#9aa7b8" font-size="12">svc-develop-team/so-vits-svc</text>
+<rect x="300" y="518" width="100.3" height="15" fill="#39d0d8" rx="3"/>
+<text x="410.3" y="530" fill="#e6edf3" font-size="11.5">28,110</text>
+<text x="10" y="552" fill="#9aa7b8" font-size="12">ATH-MaaS/Pixelle-Video</text>
+<rect x="300" y="540" width="100.2" height="15" fill="#39d0d8" rx="3"/>
+<text x="410.2" y="552" fill="#e6edf3" font-size="11.5">28,076</text>
+<text x="10" y="574" fill="#9aa7b8" font-size="12">mastra-ai/mastra</text>
+<rect x="300" y="562" width="99.9" height="15" fill="#39d0d8" rx="3"/>
+<text x="409.9" y="574" fill="#e6edf3" font-size="11.5">28,001</text>
+<text x="10" y="596" fill="#9aa7b8" font-size="12">Fosowl/agenticSeek</text>
+<rect x="300" y="584" width="97.0" height="15" fill="#39d0d8" rx="3"/>
+<text x="407.0" y="596" fill="#e6edf3" font-size="11.5">27,202</text>
+<text x="10" y="618" fill="#9aa7b8" font-size="12">Igglybuff/awesome-piracy</text>
+<rect x="300" y="606" width="96.0" height="15" fill="#39d0d8" rx="3"/>
+<text x="406.0" y="618" fill="#e6edf3" font-size="11.5">26,915</text>
+<text x="10" y="640" fill="#9aa7b8" font-size="12">mozilla/DeepSpeech</text>
+<rect x="300" y="628" width="95.5" height="15" fill="#39d0d8" rx="3"/>
+<text x="405.5" y="640" fill="#e6edf3" font-size="11.5">26,776</text>
+<text x="10" y="662" fill="#9aa7b8" font-size="12">resemble-ai/chatterbox</text>
+<rect x="300" y="650" width="94.2" height="15" fill="#39d0d8" rx="3"/>
+<text x="404.2" y="662" fill="#e6edf3" font-size="11.5">26,403</text>
+<text x="10" y="684" fill="#9aa7b8" font-size="12">Anjok07/ultimatevocalremovergui</text>
+<rect x="300" y="672" width="93.5" height="15" fill="#39d0d8" rx="3"/>
+<text x="403.5" y="684" fill="#e6edf3" font-size="11.5">26,219</text>
+<text x="10" y="706" fill="#9aa7b8" font-size="12">debpalash/VoiceStudio</text>
+<rect x="300" y="694" width="93.2" height="15" fill="#39d0d8" rx="3"/>
+<text x="403.2" y="706" fill="#e6edf3" font-size="11.5">26,113</text>
+<text x="10" y="728" fill="#9aa7b8" font-size="12">mozilla-ai/llamafile</text>
+<rect x="300" y="716" width="92.6" height="15" fill="#39d0d8" rx="3"/>
+<text x="402.6" y="728" fill="#e6edf3" font-size="11.5">25,960</text>
+<text x="10" y="750" fill="#9aa7b8" font-size="12">SYSTRAN/faster-whisper</text>
+<rect x="300" y="738" width="90.5" height="15" fill="#39d0d8" rx="3"/>
+<text x="400.5" y="750" fill="#e6edf3" font-size="11.5">25,376</text>
+<text x="10" y="772" fill="#9aa7b8" font-size="12">goldfire/howler.js</text>
+<rect x="300" y="760" width="90.4" height="15" fill="#39d0d8" rx="3"/>
+<text x="400.4" y="772" fill="#e6edf3" font-size="11.5">25,342</text>
+<text x="10" y="794" fill="#9aa7b8" font-size="12">readest/readest</text>
+<rect x="300" y="782" width="86.7" height="15" fill="#39d0d8" rx="3"/>
+<text x="396.7" y="794" fill="#e6edf3" font-size="11.5">24,307</text>
+<text x="10" y="816" fill="#9aa7b8" font-size="12">m-bain/whisperX</text>
+<rect x="300" y="804" width="85.7" height="15" fill="#39d0d8" rx="3"/>
+<text x="395.7" y="816" fill="#e6edf3" font-size="11.5">24,018</text>
+<text x="10" y="838" fill="#9aa7b8" font-size="12">processing/p5.js</text>
+<rect x="300" y="826" width="85.6" height="15" fill="#39d0d8" rx="3"/>
+<text x="395.6" y="838" fill="#e6edf3" font-size="11.5">23,987</text>
+<text x="10" y="860" fill="#9aa7b8" font-size="12">index-tts/index-tts</text>
+<rect x="300" y="848" width="85.4" height="15" fill="#39d0d8" rx="3"/>
+<text x="395.4" y="860" fill="#e6edf3" font-size="11.5">23,935</text>
+<text x="10" y="882" fill="#9aa7b8" font-size="12">slopus/happy</text>
+<rect x="300" y="870" width="84.8" height="15" fill="#39d0d8" rx="3"/>
+<text x="394.8" y="882" fill="#e6edf3" font-size="11.5">23,771</text>
+</svg>
+  </div>
+</section>
+<section id="top40">
+  <h2><span class="num">03</span>总榜 Top 40（star 降序）</h2>
+  <div class="tw"><table>
+    <thead><tr><th>#</th><th>star</th><th>仓库</th><th>语言</th><th>许可</th><th>一句话用途</th></tr></thead>
+    <tbody>
+    <tr><td>1</td><td>165,390</td><td><code>huggingface/transformers</code></td><td>Python</td><td>-</td><td>🤗 Transformers: the model-definition framework for state-of…</td></tr>
+    <tr><td>2</td><td>123,134</td><td><code>harry0703/MoneyPrinterTurbo</code></td><td>Python</td><td>-</td><td>利用 AI 大模型和自动化工作流，根据主题或关键词一键生成高清短视频。Generate HD short videos…</td></tr>
+    <tr><td>3</td><td>76,104</td><td><code>unslothai/unsloth</code></td><td>Python</td><td>-</td><td>Local UI to run and train LLMs and diffusion models. Suppor…</td></tr>
+    <tr><td>4</td><td>64,181</td><td><code>FFmpeg/FFmpeg</code></td><td>C</td><td>-</td><td>Mirror of https://git.ffmpeg.org/ffmpeg.git</td></tr>
+    <tr><td>5</td><td>61,770</td><td><code>RVC-Boss/GPT-SoVITS</code></td><td>Python</td><td>-</td><td>1 min voice data can also be used to train a good TTS model…</td></tr>
+    <tr><td>6</td><td>60,131</td><td><code>CorentinJ/Real-Time-Voice-Cloning</code></td><td>Python</td><td>-</td><td>Clone a voice in 5 seconds to generate arbitrary speech in …</td></tr>
+    <tr><td>7</td><td>58,248</td><td><code>calesthio/OpenMontage</code></td><td>Python</td><td>-</td><td>World&#x27;s first open-source, agentic video production system.…</td></tr>
+    <tr><td>8</td><td>54,243</td><td><code>microsoft/VibeVoice</code></td><td>Python</td><td>-</td><td>Open-Source Frontier Voice AI</td></tr>
+    <tr><td>9</td><td>54,074</td><td><code>hugohe3/ppt-master</code></td><td>Python</td><td>-</td><td>AI turns documents or topics into real, native PowerPoint d…</td></tr>
+    <tr><td>10</td><td>53,646</td><td><code>ggml-org/whisper.cpp</code></td><td>C++</td><td>-</td><td>Port of OpenAI&#x27;s Whisper model in C/C++</td></tr>
+    <tr><td>11</td><td>53,113</td><td><code>jamiepine/voicebox</code></td><td>TypeScript</td><td>-</td><td>The open-source AI voice studio. Clone, dictate, create.</td></tr>
+    <tr><td>12</td><td>49,110</td><td><code>moeru-ai/airi</code></td><td>TypeScript</td><td>-</td><td>💖🧸 Self hosted, you-owned Grok Companion, a container of so…</td></tr>
+    <tr><td>13</td><td>49,094</td><td><code>mudler/LocalAI</code></td><td>Go</td><td>-</td><td>LocalAI is the open-source AI engine. Run any model - LLMs,…</td></tr>
+    <tr><td>14</td><td>46,006</td><td><code>coqui-ai/TTS</code></td><td>Python</td><td>-</td><td>🐸💬 - a deep learning toolkit for Text-to-Speech, battle-tes…</td></tr>
+    <tr><td>15</td><td>39,833</td><td><code>2noise/ChatTTS</code></td><td>Python</td><td>-</td><td>A generative speech model for daily dialogue.</td></tr>
+    <tr><td>16</td><td>37,512</td><td><code>myshell-ai/OpenVoice</code></td><td>Python</td><td>-</td><td>Instant voice cloning by MIT and MyShell. Audio foundation …</td></tr>
+    <tr><td>17</td><td>37,053</td><td><code>OpenBMB/VoxCPM</code></td><td>Python</td><td>-</td><td>VoxCPM2: Tokenizer-Free TTS for Multilingual Speech Generat…</td></tr>
+    <tr><td>18</td><td>36,965</td><td><code>mpv-player/mpv</code></td><td>C</td><td>-</td><td>🎥 Command line media player</td></tr>
+    <tr><td>19</td><td>36,930</td><td><code>google-ai-edge/mediapipe</code></td><td>C++</td><td>-</td><td>Cross-platform, customizable ML solutions for live and stre…</td></tr>
+    <tr><td>20</td><td>36,910</td><td><code>babysor/MockingBird</code></td><td>Python</td><td>-</td><td>🚀Clone a voice in 5 seconds to generate arbitrary speech in…</td></tr>
+    <tr><td>21</td><td>32,671</td><td><code>fishaudio/fish-speech</code></td><td>Python</td><td>-</td><td>SOTA Open Source TTS</td></tr>
+    <tr><td>22</td><td>29,238</td><td><code>ossrs/srs</code></td><td>C++</td><td>-</td><td>SRS is a simple, high-performance, AI-driven real-time medi…</td></tr>
+    <tr><td>23</td><td>28,442</td><td><code>deezer/spleeter</code></td><td>Python</td><td>-</td><td>Deezer source separation library including pretrained model…</td></tr>
+    <tr><td>24</td><td>28,110</td><td><code>svc-develop-team/so-vits-svc</code></td><td>Python</td><td>-</td><td>SoftVC VITS Singing Voice Conversion</td></tr>
+    <tr><td>25</td><td>28,076</td><td><code>ATH-MaaS/Pixelle-Video</code></td><td>Python</td><td>-</td><td>🚀 AI 全自动短视频引擎 | AI Fully Automated Short Video Engine</td></tr>
+    <tr><td>26</td><td>28,001</td><td><code>mastra-ai/mastra</code></td><td>TypeScript</td><td>-</td><td>Mastra is the modern TypeScript framework for AI-powered ap…</td></tr>
+    <tr><td>27</td><td>27,202</td><td><code>Fosowl/agenticSeek</code></td><td>Python</td><td>-</td><td>Fully Local Manus AI. No APIs, No $200 monthly bills. Enjoy…</td></tr>
+    <tr><td>28</td><td>26,915</td><td><code>Igglybuff/awesome-piracy</code></td><td>HTML</td><td>-</td><td>A curated list of awesome warez and piracy links</td></tr>
+    <tr><td>29</td><td>26,776</td><td><code>mozilla/DeepSpeech</code></td><td>C++</td><td>-</td><td>DeepSpeech is an open source embedded (offline, on-device) …</td></tr>
+    <tr><td>30</td><td>26,403</td><td><code>resemble-ai/chatterbox</code></td><td>Python</td><td>-</td><td>SoTA open-source TTS</td></tr>
+    <tr><td>31</td><td>26,219</td><td><code>Anjok07/ultimatevocalremovergui</code></td><td>Python</td><td>-</td><td>GUI for a Vocal Remover that uses Deep Neural Networks.</td></tr>
+    <tr><td>32</td><td>26,113</td><td><code>debpalash/VoiceStudio</code></td><td>Python</td><td>-</td><td>VoiceStudio is the open-source, fully-local ElevenLabs alte…</td></tr>
+    <tr><td>33</td><td>25,960</td><td><code>mozilla-ai/llamafile</code></td><td>C++</td><td>-</td><td>Distribute and run LLMs with a single file.</td></tr>
+    <tr><td>34</td><td>25,376</td><td><code>SYSTRAN/faster-whisper</code></td><td>Python</td><td>-</td><td>Faster Whisper transcription with CTranslate2</td></tr>
+    <tr><td>35</td><td>25,342</td><td><code>goldfire/howler.js</code></td><td>JavaScript</td><td>-</td><td>Javascript audio library for the modern web.</td></tr>
+    <tr><td>36</td><td>24,307</td><td><code>readest/readest</code></td><td>TypeScript</td><td>-</td><td>Readest is a modern, feature-rich ebook reader designed for…</td></tr>
+    <tr><td>37</td><td>24,018</td><td><code>m-bain/whisperX</code></td><td>Python</td><td>-</td><td>WhisperX:  Automatic Speech Recognition with Word-level Tim…</td></tr>
+    <tr><td>38</td><td>23,987</td><td><code>processing/p5.js</code></td><td>JavaScript</td><td>LGPL-2.1</td><td>p5.js is a client-side JS platform that empowers artists, d…</td></tr>
+    <tr><td>39</td><td>23,935</td><td><code>index-tts/index-tts</code></td><td>Python</td><td>-</td><td>An Industrial-Level Controllable and Efficient Zero-Shot Te…</td></tr>
+    <tr><td>40</td><td>23,771</td><td><code>slopus/happy</code></td><td>TypeScript</td><td>-</td><td>Mobile and Web client for Codex and Claude Code, with realt…</td></tr>
+    </tbody></table></div>
+</section>
+<section id="cat">
+  <h2><span class="num">04</span>分类榜（15 类，各 Top 12）</h2>
+  <p class="note">实际统计得到 <b>15</b> 个类别标签（非背景简报所述「14 类」）：多出 <code>ml-framework</code>（540 条）与 <code>agent-llm</code>（126 条）。下表以真实 15 类为准。</p>
+  <h3>asr（1206 个，中位 162★）</h3>
+  <div class="tw"><table>
+    <thead><tr><th>star</th><th>仓库</th><th>许可</th><th>一句话用途</th></tr></thead>
+    <tbody>
+    <tr><td>165,390</td><td><code>huggingface/transformers</code></td><td>-</td><td>🤗 Transformers: the model-definition framework for stat…</td></tr>
+    <tr><td>53,646</td><td><code>ggml-org/whisper.cpp</code></td><td>-</td><td>Port of OpenAI&#x27;s Whisper model in C/C++</td></tr>
+    <tr><td>53,113</td><td><code>jamiepine/voicebox</code></td><td>-</td><td>The open-source AI voice studio. Clone, dictate, create.</td></tr>
+    <tr><td>26,776</td><td><code>mozilla/DeepSpeech</code></td><td>-</td><td>DeepSpeech is an open source embedded (offline, on-devi…</td></tr>
+    <tr><td>26,113</td><td><code>debpalash/VoiceStudio</code></td><td>-</td><td>VoiceStudio is the open-source, fully-local ElevenLabs …</td></tr>
+    <tr><td>25,960</td><td><code>mozilla-ai/llamafile</code></td><td>-</td><td>Distribute and run LLMs with a single file.</td></tr>
+    <tr><td>25,376</td><td><code>SYSTRAN/faster-whisper</code></td><td>-</td><td>Faster Whisper transcription with CTranslate2</td></tr>
+    <tr><td>24,018</td><td><code>m-bain/whisperX</code></td><td>-</td><td>WhisperX:  Automatic Speech Recognition with Word-level…</td></tr>
+    <tr><td>21,557</td><td><code>screenpipe/screenpipe</code></td><td>-</td><td>YC (S26) | Open Computer History | Record your screen c…</td></tr>
+    <tr><td>20,306</td><td><code>modelscope/FunASR</code></td><td>-</td><td>Open-source speech recognition toolkit for training, in…</td></tr>
+    <tr><td>19,434</td><td><code>pot-app/pot-desktop</code></td><td>-</td><td>🌈一个跨平台的划词翻译和OCR软件 | A cross-platform software for text …</td></tr>
+    <tr><td>18,997</td><td><code>jianchang512/pyvideotrans</code></td><td>-</td><td>Translate the video from one language to another and em…</td></tr>
+    </tbody></table></div>
+  <h3>tts（837 个，中位 295★）</h3>
+  <div class="tw"><table>
+    <thead><tr><th>star</th><th>仓库</th><th>许可</th><th>一句话用途</th></tr></thead>
+    <tbody>
+    <tr><td>123,134</td><td><code>harry0703/MoneyPrinterTurbo</code></td><td>-</td><td>利用 AI 大模型和自动化工作流，根据主题或关键词一键生成高清短视频。Generate HD short vi…</td></tr>
+    <tr><td>76,104</td><td><code>unslothai/unsloth</code></td><td>-</td><td>Local UI to run and train LLMs and diffusion models. Su…</td></tr>
+    <tr><td>61,770</td><td><code>RVC-Boss/GPT-SoVITS</code></td><td>-</td><td>1 min voice data can also be used to train a good TTS m…</td></tr>
+    <tr><td>60,131</td><td><code>CorentinJ/Real-Time-Voice-Cloning</code></td><td>-</td><td>Clone a voice in 5 seconds to generate arbitrary speech…</td></tr>
+    <tr><td>58,248</td><td><code>calesthio/OpenMontage</code></td><td>-</td><td>World&#x27;s first open-source, agentic video production sys…</td></tr>
+    <tr><td>54,243</td><td><code>microsoft/VibeVoice</code></td><td>-</td><td>Open-Source Frontier Voice AI</td></tr>
+    <tr><td>53,113</td><td><code>jamiepine/voicebox</code></td><td>-</td><td>The open-source AI voice studio. Clone, dictate, create.</td></tr>
+    <tr><td>49,094</td><td><code>mudler/LocalAI</code></td><td>-</td><td>LocalAI is the open-source AI engine. Run any model - L…</td></tr>
+    <tr><td>46,006</td><td><code>coqui-ai/TTS</code></td><td>-</td><td>🐸💬 - a deep learning toolkit for Text-to-Speech, battle…</td></tr>
+    <tr><td>39,833</td><td><code>2noise/ChatTTS</code></td><td>-</td><td>A generative speech model for daily dialogue.</td></tr>
+    <tr><td>37,512</td><td><code>myshell-ai/OpenVoice</code></td><td>-</td><td>Instant voice cloning by MIT and MyShell. Audio foundat…</td></tr>
+    <tr><td>37,053</td><td><code>OpenBMB/VoxCPM</code></td><td>-</td><td>VoxCPM2: Tokenizer-Free TTS for Multilingual Speech Gen…</td></tr>
+    </tbody></table></div>
+  <h3>agent（696 个，中位 83★）</h3>
+  <div class="tw"><table>
+    <thead><tr><th>star</th><th>仓库</th><th>许可</th><th>一句话用途</th></tr></thead>
+    <tbody>
+    <tr><td>76,104</td><td><code>unslothai/unsloth</code></td><td>-</td><td>Local UI to run and train LLMs and diffusion models. Su…</td></tr>
+    <tr><td>58,248</td><td><code>calesthio/OpenMontage</code></td><td>-</td><td>World&#x27;s first open-source, agentic video production sys…</td></tr>
+    <tr><td>54,074</td><td><code>hugohe3/ppt-master</code></td><td>-</td><td>AI turns documents or topics into real, native PowerPoi…</td></tr>
+    <tr><td>49,110</td><td><code>moeru-ai/airi</code></td><td>-</td><td>💖🧸 Self hosted, you-owned Grok Companion, a container o…</td></tr>
+    <tr><td>39,833</td><td><code>2noise/ChatTTS</code></td><td>-</td><td>A generative speech model for daily dialogue.</td></tr>
+    <tr><td>27,202</td><td><code>Fosowl/agenticSeek</code></td><td>-</td><td>Fully Local Manus AI. No APIs, No $200 monthly bills. E…</td></tr>
+    <tr><td>23,771</td><td><code>slopus/happy</code></td><td>-</td><td>Mobile and Web client for Codex and Claude Code, with r…</td></tr>
+    <tr><td>21,557</td><td><code>screenpipe/screenpipe</code></td><td>-</td><td>YC (S26) | Open Computer History | Record your screen c…</td></tr>
+    <tr><td>21,324</td><td><code>RasaHQ/rasa</code></td><td>-</td><td>💬   Open source machine learning framework to automate …</td></tr>
+    <tr><td>20,976</td><td><code>w-okada/voice-changer</code></td><td>NOASSERTION</td><td>リアルタイムボイスチェンジャー Realtime Voice Changer</td></tr>
+    <tr><td>19,902</td><td><code>pydantic/pydantic-ai</code></td><td>-</td><td>How Python does AI. Agents, realtime voice, image gener…</td></tr>
+    <tr><td>17,507</td><td><code>leon-ai/leon</code></td><td>-</td><td>🧠 Leon is your open-source personal assistant.</td></tr>
+    </tbody></table></div>
+  <h3>ml-framework（540 个，中位 191★）</h3>
+  <div class="tw"><table>
+    <thead><tr><th>star</th><th>仓库</th><th>许可</th><th>一句话用途</th></tr></thead>
+    <tbody>
+    <tr><td>165,390</td><td><code>huggingface/transformers</code></td><td>-</td><td>🤗 Transformers: the model-definition framework for stat…</td></tr>
+    <tr><td>60,131</td><td><code>CorentinJ/Real-Time-Voice-Cloning</code></td><td>-</td><td>Clone a voice in 5 seconds to generate arbitrary speech…</td></tr>
+    <tr><td>46,006</td><td><code>coqui-ai/TTS</code></td><td>-</td><td>🐸💬 - a deep learning toolkit for Text-to-Speech, battle…</td></tr>
+    <tr><td>37,053</td><td><code>OpenBMB/VoxCPM</code></td><td>-</td><td>VoxCPM2: Tokenizer-Free TTS for Multilingual Speech Gen…</td></tr>
+    <tr><td>36,910</td><td><code>babysor/MockingBird</code></td><td>-</td><td>🚀Clone a voice in 5 seconds to generate arbitrary speec…</td></tr>
+    <tr><td>28,442</td><td><code>deezer/spleeter</code></td><td>-</td><td>Deezer source separation library including pretrained m…</td></tr>
+    <tr><td>28,110</td><td><code>svc-develop-team/so-vits-svc</code></td><td>-</td><td>SoftVC VITS Singing Voice Conversion</td></tr>
+    <tr><td>26,776</td><td><code>mozilla/DeepSpeech</code></td><td>-</td><td>DeepSpeech is an open source embedded (offline, on-devi…</td></tr>
+    <tr><td>26,219</td><td><code>Anjok07/ultimatevocalremovergui</code></td><td>-</td><td>GUI for a Vocal Remover that uses Deep Neural Networks.</td></tr>
+    <tr><td>26,113</td><td><code>debpalash/VoiceStudio</code></td><td>-</td><td>VoiceStudio is the open-source, fully-local ElevenLabs …</td></tr>
+    <tr><td>21,967</td><td><code>huggingface/datasets</code></td><td>-</td><td>🤗 The largest hub of ready-to-use datasets for AI model…</td></tr>
+    <tr><td>20,306</td><td><code>modelscope/FunASR</code></td><td>-</td><td>Open-source speech recognition toolkit for training, in…</td></tr>
+    </tbody></table></div>
+  <h3>kws-vad（367 个，中位 15★）</h3>
+  <div class="tw"><table>
+    <thead><tr><th>star</th><th>仓库</th><th>许可</th><th>一句话用途</th></tr></thead>
+    <tbody>
+    <tr><td>20,306</td><td><code>modelscope/FunASR</code></td><td>-</td><td>Open-source speech recognition toolkit for training, in…</td></tr>
+    <tr><td>14,747</td><td><code>k2-fsa/sherpa-onnx</code></td><td>-</td><td>Speech-to-text, text-to-speech, speaker diarization, sp…</td></tr>
+    <tr><td>10,205</td><td><code>snakers4/silero-vad</code></td><td>-</td><td>Silero VAD: pre-trained enterprise-grade Voice Activity…</td></tr>
+    <tr><td>10,127</td><td><code>KoljaB/RealtimeSTT</code></td><td>MIT</td><td>A robust, efficient, low-latency speech-to-text library…</td></tr>
+    <tr><td>7,870</td><td><code>smacke/ffsubsync</code></td><td>-</td><td>Automagically synchronize subtitles with video.</td></tr>
+    <tr><td>4,935</td><td><code>Picovoice/porcupine</code></td><td>-</td><td>On-device wake word detection powered by deep learning</td></tr>
+    <tr><td>4,342</td><td><code>cmusphinx/pocketsphinx</code></td><td>-</td><td>A small speech recognizer</td></tr>
+    <tr><td>2,759</td><td><code>FluidInference/FluidAudio</code></td><td>-</td><td>Frontier CoreML audio models in your apps — text-to-spe…</td></tr>
+    <tr><td>2,664</td><td><code>0xShug0/audio.cpp</code></td><td>-</td><td>An all-in-one, pure C++ inference engine for audio mode…</td></tr>
+    <tr><td>2,264</td><td><code>TEN-framework/ten-vad</code></td><td>-</td><td>Voice Activity Detector (VAD) : low-latency, high-perfo…</td></tr>
+    <tr><td>2,236</td><td><code>meizhong986/WhisperJAV</code></td><td>-</td><td>ASR/STT subtitle generator. Uses Qwen3-ASR, local LLM, …</td></tr>
+    <tr><td>1,783</td><td><code>k2-fsa/sherpa-ncnn</code></td><td>-</td><td>Real-time speech recognition and voice activity detecti…</td></tr>
+    </tbody></table></div>
+  <h3>dsp-lib（303 个，中位 339★）</h3>
+  <div class="tw"><table>
+    <thead><tr><th>star</th><th>仓库</th><th>许可</th><th>一句话用途</th></tr></thead>
+    <tbody>
+    <tr><td>123,134</td><td><code>harry0703/MoneyPrinterTurbo</code></td><td>-</td><td>利用 AI 大模型和自动化工作流，根据主题或关键词一键生成高清短视频。Generate HD short vi…</td></tr>
+    <tr><td>64,181</td><td><code>FFmpeg/FFmpeg</code></td><td>-</td><td>Mirror of https://git.ffmpeg.org/ffmpeg.git</td></tr>
+    <tr><td>58,248</td><td><code>calesthio/OpenMontage</code></td><td>-</td><td>World&#x27;s first open-source, agentic video production sys…</td></tr>
+    <tr><td>39,833</td><td><code>2noise/ChatTTS</code></td><td>-</td><td>A generative speech model for daily dialogue.</td></tr>
+    <tr><td>36,965</td><td><code>mpv-player/mpv</code></td><td>-</td><td>🎥 Command line media player</td></tr>
+    <tr><td>29,238</td><td><code>ossrs/srs</code></td><td>-</td><td>SRS is a simple, high-performance, AI-driven real-time …</td></tr>
+    <tr><td>25,342</td><td><code>goldfire/howler.js</code></td><td>-</td><td>Javascript audio library for the modern web.</td></tr>
+    <tr><td>20,887</td><td><code>livekit/livekit</code></td><td>-</td><td>End-to-end realtime stack for connecting humans and AI</td></tr>
+    <tr><td>18,688</td><td><code>alyssaxuu/screenity</code></td><td>-</td><td>The free and privacy-friendly screen recorder with no l…</td></tr>
+    <tr><td>17,801</td><td><code>ffmpegwasm/ffmpeg.wasm</code></td><td>-</td><td>FFmpeg for browser, powered by WebAssembly</td></tr>
+    <tr><td>16,775</td><td><code>pion/webrtc</code></td><td>-</td><td>Pure Go implementation of the WebRTC API</td></tr>
+    <tr><td>16,327</td><td><code>leandromoreira/digital_video_introduction</code></td><td>-</td><td>A hands-on introduction to video technology: image, vid…</td></tr>
+    </tbody></table></div>
+  <h3>enhance（170 个，中位 177★）</h3>
+  <div class="tw"><table>
+    <thead><tr><th>star</th><th>仓库</th><th>许可</th><th>一句话用途</th></tr></thead>
+    <tbody>
+    <tr><td>28,442</td><td><code>deezer/spleeter</code></td><td>-</td><td>Deezer source separation library including pretrained m…</td></tr>
+    <tr><td>26,219</td><td><code>Anjok07/ultimatevocalremovergui</code></td><td>-</td><td>GUI for a Vocal Remover that uses Deep Neural Networks.</td></tr>
+    <tr><td>14,747</td><td><code>k2-fsa/sherpa-onnx</code></td><td>-</td><td>Speech-to-text, text-to-speech, speaker diarization, sp…</td></tr>
+    <tr><td>11,819</td><td><code>speechbrain/speechbrain</code></td><td>-</td><td>A PyTorch-based Speech Toolkit</td></tr>
+    <tr><td>9,955</td><td><code>espnet/espnet</code></td><td>-</td><td>End-to-End Speech Processing Toolkit</td></tr>
+    <tr><td>7,930</td><td><code>adithya-s-k/omniparse</code></td><td>-</td><td>Ingest, parse, and optimize any data format ➡️ from doc…</td></tr>
+    <tr><td>5,834</td><td><code>xiph/rnnoise</code></td><td>-</td><td>Recurrent neural network for audio noise reduction</td></tr>
+    <tr><td>4,703</td><td><code>Rikorose/DeepFilterNet</code></td><td>-</td><td>Noise supression using deep filtering</td></tr>
+    <tr><td>4,484</td><td><code>modelscope/ClearerVoice-Studio</code></td><td>-</td><td>An AI-Powered Speech Processing Toolkit and Open Source…</td></tr>
+    <tr><td>3,165</td><td><code>stemrollerapp/stemroller</code></td><td>-</td><td>Isolate vocals, drums, bass, and other instrumental ste…</td></tr>
+    <tr><td>2,584</td><td><code>asteroid-team/asteroid</code></td><td>-</td><td>The PyTorch-based audio source separation toolkit for r…</td></tr>
+    <tr><td>2,422</td><td><code>resemble-ai/resemble-enhance</code></td><td>-</td><td>AI powered speech denoising and enhancement</td></tr>
+    </tbody></table></div>
+  <h3>serving（161 个，中位 90★）</h3>
+  <div class="tw"><table>
+    <thead><tr><th>star</th><th>仓库</th><th>许可</th><th>一句话用途</th></tr></thead>
+    <tbody>
+    <tr><td>36,930</td><td><code>google-ai-edge/mediapipe</code></td><td>-</td><td>Cross-platform, customizable ML solutions for live and …</td></tr>
+    <tr><td>23,597</td><td><code>QwenAudio/CosyVoice</code></td><td>-</td><td>Multi-lingual large voice generation model, providing i…</td></tr>
+    <tr><td>20,306</td><td><code>modelscope/FunASR</code></td><td>-</td><td>Open-source speech recognition toolkit for training, in…</td></tr>
+    <tr><td>14,844</td><td><code>NVIDIA/DeepLearningExamples</code></td><td>-</td><td>State-of-the-Art Deep Learning scripts organized by mod…</td></tr>
+    <tr><td>14,747</td><td><code>k2-fsa/sherpa-onnx</code></td><td>-</td><td>Speech-to-text, text-to-speech, speaker diarization, sp…</td></tr>
+    <tr><td>13,775</td><td><code>supertone-oss-archive/supertonic</code></td><td>-</td><td>Lightning-Fast, On-Device, Multilingual TTS — running n…</td></tr>
+    <tr><td>10,842</td><td><code>openvinotoolkit/openvino</code></td><td>-</td><td>OpenVINO™ is an open source toolkit for optimizing and …</td></tr>
+    <tr><td>10,205</td><td><code>snakers4/silero-vad</code></td><td>-</td><td>Silero VAD: pre-trained enterprise-grade Voice Activity…</td></tr>
+    <tr><td>9,566</td><td><code>xorbitsai/inference</code></td><td>-</td><td>Swap GPT for any LLM by changing a single line of code.…</td></tr>
+    <tr><td>6,261</td><td><code>PaddlePaddle/PaddleX</code></td><td>-</td><td>All-in-One Development Tool based on PaddlePaddle</td></tr>
+    <tr><td>6,008</td><td><code>cactus-compute/cactus</code></td><td>-</td><td>Quantization, kernels, runtime and inference engine for…</td></tr>
+    <tr><td>5,759</td><td><code>NVIDIA/DALI</code></td><td>-</td><td>A GPU-accelerated library containing highly optimized b…</td></tr>
+    </tbody></table></div>
+  <h3>dataset（151 个，中位 31★）</h3>
+  <div class="tw"><table>
+    <thead><tr><th>star</th><th>仓库</th><th>许可</th><th>一句话用途</th></tr></thead>
+    <tbody>
+    <tr><td>21,967</td><td><code>huggingface/datasets</code></td><td>-</td><td>🤗 The largest hub of ready-to-use datasets for AI model…</td></tr>
+    <tr><td>10,171</td><td><code>mozilla/TTS</code></td><td>-</td><td>:robot: :speech_balloon: Deep learning for Text to Spee…</td></tr>
+    <tr><td>10,001</td><td><code>yzhao062/pyod</code></td><td>-</td><td>A Python library for anomaly detection across tabular, …</td></tr>
+    <tr><td>4,402</td><td><code>EvolvingLMMs-Lab/lmms-eval</code></td><td>-</td><td>One-for-All Multimodal Evaluation Toolkit Across Text, …</td></tr>
+    <tr><td>3,130</td><td><code>zzw922cn/awesome-speech-recognition-speech-synthesis-papers</code></td><td>-</td><td>Automatic Speech Recognition (ASR), Speaker Verificatio…</td></tr>
+    <tr><td>2,832</td><td><code>zzw922cn/Automatic_Speech_Recognition</code></td><td>-</td><td>End-to-end Automatic Speech Recognition for Madarian an…</td></tr>
+    <tr><td>2,426</td><td><code>alan-ai/alan-sdk-web</code></td><td>-</td><td>The Self-Coding System for Your App — Alan AI SDK for W…</td></tr>
+    <tr><td>2,227</td><td><code>jim-schwoebel/voice_datasets</code></td><td>-</td><td>🔊 A comprehensive list of open-source datasets for voic…</td></tr>
+    <tr><td>1,867</td><td><code>karolpiczak/ESC-50</code></td><td>-</td><td>ESC-50: Dataset for Environmental Sound Classification</td></tr>
+    <tr><td>1,113</td><td><code>xid32/SoundMind</code></td><td>MIT</td><td>We introduce the Audio Logical Reasoning (ALR) dataset,…</td></tr>
+    <tr><td>867</td><td><code>jtkim-kaist/VAD</code></td><td>-</td><td>Voice activity detection (VAD) toolkit including DNN, b…</td></tr>
+    <tr><td>729</td><td><code>thorstenMueller/Thorsten-Voice</code></td><td>-</td><td>Thorsten-Voice: A free to use, offline working, high qu…</td></tr>
+    </tbody></table></div>
+  <h3>agent-llm（126 个，中位 203★）</h3>
+  <div class="tw"><table>
+    <thead><tr><th>star</th><th>仓库</th><th>许可</th><th>一句话用途</th></tr></thead>
+    <tbody>
+    <tr><td>76,104</td><td><code>unslothai/unsloth</code></td><td>-</td><td>Local UI to run and train LLMs and diffusion models. Su…</td></tr>
+    <tr><td>39,833</td><td><code>2noise/ChatTTS</code></td><td>-</td><td>A generative speech model for daily dialogue.</td></tr>
+    <tr><td>27,202</td><td><code>Fosowl/agenticSeek</code></td><td>-</td><td>Fully Local Manus AI. No APIs, No $200 monthly bills. E…</td></tr>
+    <tr><td>21,557</td><td><code>screenpipe/screenpipe</code></td><td>-</td><td>YC (S26) | Open Computer History | Record your screen c…</td></tr>
+    <tr><td>19,902</td><td><code>pydantic/pydantic-ai</code></td><td>-</td><td>How Python does AI. Agents, realtime voice, image gener…</td></tr>
+    <tr><td>13,724</td><td><code>Open-LLM-VTuber/Open-LLM-VTuber</code></td><td>-</td><td>Talk to any LLM with hands-free voice interaction, voic…</td></tr>
+    <tr><td>10,606</td><td><code>VoltAgent/voltagent</code></td><td>-</td><td>AI Agent Engineering Platform built on an Open Source T…</td></tr>
+    <tr><td>8,801</td><td><code>fishaudio/Bert-VITS2</code></td><td>-</td><td>vits2 backbone with multilingual-bert</td></tr>
+    <tr><td>6,336</td><td><code>canopyai/Orpheus-TTS</code></td><td>-</td><td>Towards Human-Sounding Speech</td></tr>
+    <tr><td>4,095</td><td><code>OpenMOSS/MOSS-TTS</code></td><td>-</td><td>An open-source model family for long-form speech, dialo…</td></tr>
+    <tr><td>3,772</td><td><code>PeterH0323/Streamer-Sales</code></td><td>-</td><td>Streamer-Sales 销冠 —— 卖货主播 LLM 大模型🛒🎁，一个能够根据给定的商品特点从激发用户购…</td></tr>
+    <tr><td>3,754</td><td><code>aiming-lab/SimpleMem</code></td><td>-</td><td>SimpleMem: Efficient Lifelong Memory for LLM Agents — T…</td></tr>
+    </tbody></table></div>
+  <h3>music（120 个，中位 600★）</h3>
+  <div class="tw"><table>
+    <thead><tr><th>star</th><th>仓库</th><th>许可</th><th>一句话用途</th></tr></thead>
+    <tbody>
+    <tr><td>28,110</td><td><code>svc-develop-team/so-vits-svc</code></td><td>-</td><td>SoftVC VITS Singing Voice Conversion</td></tr>
+    <tr><td>12,678</td><td><code>ace-step/ACE-Step-1.5</code></td><td>-</td><td>The most powerful local music generation model that out…</td></tr>
+    <tr><td>11,459</td><td><code>AudioKit/AudioKit</code></td><td>-</td><td>Audio synthesis, processing, &amp; analysis platform for iO…</td></tr>
+    <tr><td>10,288</td><td><code>open-mmlab/Amphion</code></td><td>MIT</td><td>Amphion (/æmˈfaɪən/) is a toolkit for Audio, Music, and…</td></tr>
+    <tr><td>9,955</td><td><code>espnet/espnet</code></td><td>-</td><td>End-to-End Speech Processing Toolkit</td></tr>
+    <tr><td>7,141</td><td><code>mixxxdj/mixxx</code></td><td>-</td><td>Mixxx is Free DJ software that gives you everything you…</td></tr>
+    <tr><td>5,601</td><td><code>cgzirim/seek-tune</code></td><td>-</td><td>An implementation of Shazam&#x27;s song recognition algorith…</td></tr>
+    <tr><td>5,564</td><td><code>spotify/basic-pitch</code></td><td>-</td><td>A lightweight yet powerful audio-to-MIDI converter with…</td></tr>
+    <tr><td>5,280</td><td><code>Ardour/ardour</code></td><td>-</td><td>Mirror of Ardour Source Code</td></tr>
+    <tr><td>4,872</td><td><code>fspecii/ace-step-ui</code></td><td>-</td><td>🎵 The Ultimate Open Source Suno Alternative - Professio…</td></tr>
+    <tr><td>4,859</td><td><code>MoonInTheRiver/DiffSinger</code></td><td>-</td><td>DiffSinger: Singing Voice Synthesis via Shallow Diffusi…</td></tr>
+    <tr><td>4,824</td><td><code>ace-step/ACE-Step</code></td><td>-</td><td>ACE-Step: A Step Towards Music Generation Foundation Mo…</td></tr>
+    </tbody></table></div>
+  <h3>audio-llm（118 个，中位 153★）</h3>
+  <div class="tw"><table>
+    <thead><tr><th>star</th><th>仓库</th><th>许可</th><th>一句话用途</th></tr></thead>
+    <tbody>
+    <tr><td>39,833</td><td><code>2noise/ChatTTS</code></td><td>-</td><td>A generative speech model for daily dialogue.</td></tr>
+    <tr><td>12,683</td><td><code>PaddlePaddle/PaddleSpeech</code></td><td>-</td><td>Easy-to-use Speech Toolkit including Self-Supervised Le…</td></tr>
+    <tr><td>10,169</td><td><code>AIGC-Audio/AudioGPT</code></td><td>-</td><td>AudioGPT: Understanding and Generating Speech, Music, S…</td></tr>
+    <tr><td>8,801</td><td><code>fishaudio/Bert-VITS2</code></td><td>-</td><td>vits2 backbone with multilingual-bert</td></tr>
+    <tr><td>7,879</td><td><code>Blaizzy/mlx-audio</code></td><td>-</td><td>A text-to-speech (TTS), speech-to-text (STT) and speech…</td></tr>
+    <tr><td>6,336</td><td><code>canopyai/Orpheus-TTS</code></td><td>-</td><td>Towards Human-Sounding Speech</td></tr>
+    <tr><td>4,337</td><td><code>jitsi/jitsi</code></td><td>-</td><td>Jitsi is an audio/video and chat communicator that supp…</td></tr>
+    <tr><td>4,274</td><td><code>collabora/WhisperLive</code></td><td>-</td><td>A nearly-live implementation of OpenAI&#x27;s Whisper.</td></tr>
+    <tr><td>4,095</td><td><code>OpenMOSS/MOSS-TTS</code></td><td>-</td><td>An open-source model family for long-form speech, dialo…</td></tr>
+    <tr><td>4,010</td><td><code>QwenLM/Qwen3-Omni</code></td><td>-</td><td>Qwen3-omni is a natively end-to-end, omni-modal LLM dev…</td></tr>
+    <tr><td>3,692</td><td><code>SakiRinn/LiveCaptions-Translator</code></td><td>-</td><td>Lightweight and powerful real-time audio/speech transla…</td></tr>
+    <tr><td>3,576</td><td><code>gpt-omni/mini-omni</code></td><td>-</td><td>open-source multimodal large language model that can he…</td></tr>
+    </tbody></table></div>
+  <h3>speaker（59 个，中位 95★）</h3>
+  <div class="tw"><table>
+    <thead><tr><th>star</th><th>仓库</th><th>许可</th><th>一句话用途</th></tr></thead>
+    <tbody>
+    <tr><td>20,306</td><td><code>modelscope/FunASR</code></td><td>-</td><td>Open-source speech recognition toolkit for training, in…</td></tr>
+    <tr><td>14,747</td><td><code>k2-fsa/sherpa-onnx</code></td><td>-</td><td>Speech-to-text, text-to-speech, speaker diarization, sp…</td></tr>
+    <tr><td>12,683</td><td><code>PaddlePaddle/PaddleSpeech</code></td><td>-</td><td>Easy-to-use Speech Toolkit including Self-Supervised Le…</td></tr>
+    <tr><td>11,030</td><td><code>QuentinFuxa/WhisperLiveKit</code></td><td>-</td><td>Real-time, local speech-to-text with streaming ASR, spe…</td></tr>
+    <tr><td>10,544</td><td><code>pyannote/pyannote-audio</code></td><td>-</td><td>Neural building blocks for speaker diarization: speech …</td></tr>
+    <tr><td>5,644</td><td><code>MahmoudAshraf97/whisper-diarization</code></td><td>-</td><td>Automatic Speech Recognition with Speaker Diarization b…</td></tr>
+    <tr><td>3,134</td><td><code>modelscope/3D-Speaker</code></td><td>-</td><td>A Repository for Single- and Multi-modal Speaker Verifi…</td></tr>
+    <tr><td>3,130</td><td><code>zzw922cn/awesome-speech-recognition-speech-synthesis-papers</code></td><td>-</td><td>Automatic Speech Recognition (ASR), Speaker Verificatio…</td></tr>
+    <tr><td>2,759</td><td><code>FluidInference/FluidAudio</code></td><td>-</td><td>Frontier CoreML audio models in your apps — text-to-spe…</td></tr>
+    <tr><td>1,958</td><td><code>OpenMOSS/MOSS-Transcribe-Diarize</code></td><td>-</td><td>A 0.9B model for long-form transcription in 50+ languag…</td></tr>
+    <tr><td>1,899</td><td><code>wq2012/awesome-diarization</code></td><td>-</td><td>A curated list of awesome Speaker Diarization papers, l…</td></tr>
+    <tr><td>1,588</td><td><code>google/uis-rnn</code></td><td>-</td><td>This is the library for the Unbounded Interleaved-State…</td></tr>
+    </tbody></table></div>
+  <h3>codec（57 个，中位 501★）</h3>
+  <div class="tw"><table>
+    <thead><tr><th>star</th><th>仓库</th><th>许可</th><th>一句话用途</th></tr></thead>
+    <tbody>
+    <tr><td>29,238</td><td><code>ossrs/srs</code></td><td>-</td><td>SRS is a simple, high-performance, AI-driven real-time …</td></tr>
+    <tr><td>16,327</td><td><code>leandromoreira/digital_video_introduction</code></td><td>-</td><td>A hands-on introduction to video technology: image, vid…</td></tr>
+    <tr><td>4,958</td><td><code>Anil-matcha/AI-Youtube-Shorts-Generator</code></td><td>-</td><td>Open-source alternative to Opus Clip, Vidyo.ai, Klap &amp; …</td></tr>
+    <tr><td>3,754</td><td><code>aiming-lab/SimpleMem</code></td><td>-</td><td>SimpleMem: Efficient Lifelong Memory for LLM Agents — T…</td></tr>
+    <tr><td>3,315</td><td><code>xiph/opus</code></td><td>-</td><td>Modern audio compression for the internet.</td></tr>
+    <tr><td>2,501</td><td><code>axiomatic-systems/Bento4</code></td><td>-</td><td>Full-featured MP4 format, MPEG DASH, HLS, CMAF SDK and …</td></tr>
+    <tr><td>2,414</td><td><code>xiph/flac</code></td><td>-</td><td>Free Lossless Audio Codec</td></tr>
+    <tr><td>2,253</td><td><code>vgmstream/vgmstream</code></td><td>-</td><td>vgmstream - A library for playback of various streamed …</td></tr>
+    <tr><td>1,961</td><td><code>enzo1982/freac</code></td><td>-</td><td>The fre:ac audio converter project</td></tr>
+    <tr><td>1,950</td><td><code>lieff/minimp3</code></td><td>-</td><td>Minimalistic MP3 decoder single header library</td></tr>
+    <tr><td>1,857</td><td><code>descriptinc/descript-audio-codec</code></td><td>-</td><td>State-of-the-art audio codec with 90x compression facto…</td></tr>
+    <tr><td>1,569</td><td><code>eibols/ffmpeg_batch</code></td><td>-</td><td>FFmpeg Batch AV Converter</td></tr>
+    </tbody></table></div>
+  <h3>aed（48 个，中位 14★）</h3>
+  <div class="tw"><table>
+    <thead><tr><th>star</th><th>仓库</th><th>许可</th><th>一句话用途</th></tr></thead>
+    <tbody>
+    <tr><td>9,299</td><td><code>QwenAudio/SenseVoice</code></td><td>-</td><td>Open-source SenseVoiceSmall model for Mandarin, Cantone…</td></tr>
+    <tr><td>586</td><td><code>seth814/Audio-Classification</code></td><td>MIT</td><td>Code for YouTube series: Deep Learning for Audio Classi…</td></tr>
+    <tr><td>528</td><td><code>FireRedTeam/FireRedVAD</code></td><td>Apache-2.0</td><td>A SOTA Industrial-Grade Voice Activity Detection &amp; Audi…</td></tr>
+    <tr><td>519</td><td><code>towhee-io/examples</code></td><td>Apache-2.0</td><td>Analyze the unstructured data with Towhee, such as reve…</td></tr>
+    <tr><td>508</td><td><code>gkonovalov/android-vad</code></td><td>-</td><td>Android Voice Activity Detection (VAD) library. Support…</td></tr>
+    <tr><td>313</td><td><code>lRomul/argus-freesound</code></td><td>-</td><td>Kaggle | 1st place solution for Freesound Audio Tagging…</td></tr>
+    <tr><td>277</td><td><code>m3hrdadfi/soxan</code></td><td>-</td><td>Wav2Vec for speech recognition, classification, and aud…</td></tr>
+    <tr><td>165</td><td><code>Ali-hey-0/audio-ai-field-guide</code></td><td>-</td><td>A mental-model-first field guide to Audio AI — from raw…</td></tr>
+    <tr><td>151</td><td><code>YuanGongND/psla</code></td><td>BSD-3-Clause</td><td>Code for the TASLP paper &quot;PSLA: Improving Audio Tagging…</td></tr>
+    <tr><td>137</td><td><code>micah5/pyAudioClassification</code></td><td>MIT</td><td>🎶 dead simple audio classification</td></tr>
+    <tr><td>131</td><td><code>luuil/Tensorflow-Audio-Classification</code></td><td>Apache-2.0</td><td>Audio classification with VGGish as feature extractor i…</td></tr>
+    <tr><td>107</td><td><code>CVxTz/audio_classification</code></td><td>MIT</td><td>CNN 1D vs 2D audio classification</td></tr>
+    </tbody></table></div>
+</section>
+<section id="laos">
+  <h2><span class="num">05</span>laos 适配结论（core 落地清单）</h2>
+  <p>共 <b>132</b> 个 <code>laos_fit=core</code>。漏斗落点取自分类器写入的 <code>laos_stage</code> 字段；端侧可行性（C1）以命中 on-device 信号为判据（core 判定已通过），功耗档位见 SER 04 §8；许可（C3）见第 7 节缺失说明。</p>
+  <div class="panel">
+    <div style="font-weight:600;margin-bottom:8px">漏斗落点分布（core 组件去重计数，可落多段）</div>
+    <p style="margin:4px 0"><span class="tag g">①常驻检测</span> 42 个组件</p>
+    <p style="margin:4px 0"><span class="tag g">②触发捕获</span> 25 个组件</p>
+    <p style="margin:4px 0"><span class="tag g">③即时蒸馏</span> 117 个组件</p>
+    <p style="margin:4px 0"><span class="tag g">④原音频即焚</span> 0 个组件</p>
+  </div>
+  <div class="tw"><table>
+    <thead><tr><th>star</th><th>仓库</th><th>类别</th><th>漏斗落点</th><th>许可</th></tr></thead>
+    <tbody>
+    <tr><td>64,181</td><td><code>FFmpeg/FFmpeg</code></td><td>dsp-lib</td><td>①②采集与能量门(录音/读取/预处理)</td><td>-</td></tr>
+    <tr><td>53,646</td><td><code>ggml-org/whisper.cpp</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>26,776</td><td><code>mozilla/DeepSpeech</code></td><td>asr,ml-framework</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>20,306</td><td><code>modelscope/FunASR</code></td><td>asr,kws-vad,speaker,serving,ml-framework</td><td>③即时蒸馏(ASR 转写写记忆) / ①常驻检测(VAD/唤醒词能量门)</td><td>-</td></tr>
+    <tr><td>15,126</td><td><code>alphacep/vosk-api</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>14,747</td><td><code>k2-fsa/sherpa-onnx</code></td><td>asr,tts,enhance,kws-vad,speaker,serving</td><td>③即时蒸馏(ASR 转写写记忆) / ③即时蒸馏(降噪/分离前置) / ①常驻检测(VAD/唤醒词能量门)</td><td>-</td></tr>
+    <tr><td>12,800</td><td><code>abus-aikorea/voice-pro</code></td><td>asr,tts,dsp-lib</td><td>③即时蒸馏(ASR 转写写记忆) / ①②采集与能量门(录音/读取/预处理)</td><td>-</td></tr>
+    <tr><td>12,683</td><td><code>PaddlePaddle/PaddleSpeech</code></td><td>asr,tts,audio-llm,speaker</td><td>③即时蒸馏(ASR 转写写记忆) / ③即时蒸馏(多模态理解/结构化)</td><td>-</td></tr>
+    <tr><td>11,030</td><td><code>QuentinFuxa/WhisperLiveKit</code></td><td>asr,speaker,ml-framework</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>10,205</td><td><code>snakers4/silero-vad</code></td><td>asr,kws-vad,serving,ml-framework</td><td>③即时蒸馏(ASR 转写写记忆) / ①常驻检测(VAD/唤醒词能量门)</td><td>-</td></tr>
+    <tr><td>10,127</td><td><code>KoljaB/RealtimeSTT</code></td><td>asr,kws-vad</td><td>③即时蒸馏(ASR 转写写记忆) / ①常驻检测(VAD/唤醒词能量门)</td><td>MIT</td></tr>
+    <tr><td>9,299</td><td><code>QwenAudio/SenseVoice</code></td><td>asr,aed,ml-framework</td><td>③即时蒸馏(ASR 转写写记忆) / ③即时蒸馏(声音事件/场景理解)</td><td>-</td></tr>
+    <tr><td>6,300</td><td><code>modelscope/FunClip</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>6,099</td><td><code>snakers4/silero-models</code></td><td>asr,tts,ml-framework</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>6,008</td><td><code>cactus-compute/cactus</code></td><td>asr,serving</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>5,834</td><td><code>xiph/rnnoise</code></td><td>enhance</td><td>③即时蒸馏(降噪/分离前置)</td><td>-</td></tr>
+    <tr><td>5,632</td><td><code>xiangyuecn/Recorder</code></td><td>asr,dsp-lib</td><td>③即时蒸馏(ASR 转写写记忆) / ①②采集与能量门(录音/读取/预处理)</td><td>-</td></tr>
+    <tr><td>4,623</td><td><code>gradio-app/fastrtc</code></td><td>asr,tts</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>4,342</td><td><code>cmusphinx/pocketsphinx</code></td><td>asr,kws-vad</td><td>③即时蒸馏(ASR 转写写记忆) / ①常驻检测(VAD/唤醒词能量门)</td><td>-</td></tr>
+    <tr><td>4,122</td><td><code>umlx5h/LLPlayer</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>3,692</td><td><code>SakiRinn/LiveCaptions-Translator</code></td><td>asr,audio-llm</td><td>③即时蒸馏(ASR 转写写记忆) / ③即时蒸馏(多模态理解/结构化)</td><td>-</td></tr>
+    <tr><td>3,671</td><td><code>ufal/whisper_streaming</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>3,576</td><td><code>gpt-omni/mini-omni</code></td><td>audio-llm,agent</td><td>③即时蒸馏(多模态理解/结构化)</td><td>-</td></tr>
+    <tr><td>3,125</td><td><code>AutoArk/GPA</code></td><td>asr,tts</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>3,086</td><td><code>off-grid-ai/OGAM</code></td><td>asr,ml-framework</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>2,565</td><td><code>QwenAudio/qwen-audio-agent</code></td><td>asr,tts,agent,serving</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>2,536</td><td><code>VITA-MLLM/VITA</code></td><td>audio-llm,agent-llm</td><td>③即时蒸馏(多模态理解/结构化)</td><td>-</td></tr>
+    <tr><td>2,381</td><td><code>pschatzmann/arduino-audio-tools</code></td><td>dsp-lib</td><td>①②采集与能量门(录音/读取/预处理)</td><td>-</td></tr>
+    <tr><td>2,364</td><td><code>filoe/cscore</code></td><td>dsp-lib</td><td>①②采集与能量门(录音/读取/预处理)</td><td>-</td></tr>
+    <tr><td>2,264</td><td><code>TEN-framework/ten-vad</code></td><td>asr,kws-vad,agent</td><td>③即时蒸馏(ASR 转写写记忆) / ①常驻检测(VAD/唤醒词能量门)</td><td>-</td></tr>
+    <tr><td>2,024</td><td><code>juanmc2005/diart</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>1,914</td><td><code>handy-computer/transcribe.cpp</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>1,913</td><td><code>krzemienski/awesome-video</code></td><td>dsp-lib</td><td>①②采集与能量门(录音/读取/预处理)</td><td>-</td></tr>
+    <tr><td>1,783</td><td><code>k2-fsa/sherpa-ncnn</code></td><td>asr,kws-vad</td><td>③即时蒸馏(ASR 转写写记忆) / ①常驻检测(VAD/唤醒词能量门)</td><td>-</td></tr>
+    <tr><td>1,765</td><td><code>wwbin2017/bailing</code></td><td>asr,tts,agent,agent-llm</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>1,747</td><td><code>antirez/voxtral.c</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>1,606</td><td><code>royshil/obs-localvocal</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>1,535</td><td><code>QwenAudio/Fun-ASR</code></td><td>asr,enhance,serving,ml-framework</td><td>③即时蒸馏(ASR 转写写记忆) / ③即时蒸馏(降噪/分离前置)</td><td>-</td></tr>
+    <tr><td>1,475</td><td><code>silverstein/minutes</code></td><td>asr,agent</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>1,474</td><td><code>DicioTeam/dicio-android</code></td><td>asr,tts,kws-vad,agent</td><td>③即时蒸馏(ASR 转写写记忆) / ①常驻检测(VAD/唤醒词能量门)</td><td>-</td></tr>
+    <tr><td>1,365</td><td><code>elevenyellow/handcrafted-persona-engine</code></td><td>asr,tts,agent</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>1,361</td><td><code>mbailey/voicemode</code></td><td>asr,tts</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>1,318</td><td><code>HG-ha/MTools</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>1,306</td><td><code>Henry-23/VideoChat</code></td><td>asr,tts</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>1,289</td><td><code>ictnlp/StreamSpeech</code></td><td>asr,tts,audio-llm,enhance</td><td>③即时蒸馏(ASR 转写写记忆) / ③即时蒸馏(多模态理解/结构化) / ③即时蒸馏(降噪/分离前置)</td><td>-</td></tr>
+    <tr><td>1,253</td><td><code>roc-streaming/roc-toolkit</code></td><td>dsp-lib</td><td>①②采集与能量门(录音/读取/预处理)</td><td>-</td></tr>
+    <tr><td>1,174</td><td><code>sgl-project/sglang-omni</code></td><td>asr,tts,audio-llm,serving,ml-framework</td><td>③即时蒸馏(ASR 转写写记忆) / ③即时蒸馏(多模态理解/结构化)</td><td>-</td></tr>
+    <tr><td>1,116</td><td><code>ardha27/AI-Waifu-Vtuber</code></td><td>asr,tts</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>1,107</td><td><code>nobodywho-ooo/nobodywho</code></td><td>asr,tts</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>1,094</td><td><code>alumae/kaldi-gstreamer-server</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>1,057</td><td><code>introlab/odas</code></td><td>enhance</td><td>③即时蒸馏(降噪/分离前置)</td><td>MIT</td></tr>
+    <tr><td>1,051</td><td><code>MattMoony/figaro</code></td><td>dsp-lib</td><td>①②采集与能量门(录音/读取/预处理)</td><td>-</td></tr>
+    <tr><td>1,010</td><td><code>TensorSpeech/TensorFlowASR</code></td><td>asr,ml-framework</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>988</td><td><code>k2-fsa/sherpa</code></td><td>asr,ml-framework</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>964</td><td><code>MycroftAI/mycroft-precise</code></td><td>asr,kws-vad</td><td>③即时蒸馏(ASR 转写写记忆) / ①常驻检测(VAD/唤醒词能量门)</td><td>-</td></tr>
+    <tr><td>869</td><td><code>yeyupiaoling/PPASR</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>823</td><td><code>VocaHQ/vocalinux</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>820</td><td><code>TrevorS/voxtral-mini-realtime-rs</code></td><td>asr,tts</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>814</td><td><code>AlphaAvatar/AlphaAvatar</code></td><td>audio-llm,agent,agent-llm</td><td>③即时蒸馏(多模态理解/结构化)</td><td>-</td></tr>
+    <tr><td>805</td><td><code>lobehub/lobe-tts</code></td><td>asr,tts</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>802</td><td><code>mybigday/whisper.rn</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>763</td><td><code>fluxions-ai/vui</code></td><td>asr,tts,audio-llm,agent,dsp-lib,ml-framework</td><td>③即时蒸馏(ASR 转写写记忆) / ③即时蒸馏(多模态理解/结构化) / ①②采集与能量门(录音/读取/预处理)</td><td>-</td></tr>
+    <tr><td>755</td><td><code>amanvirparhar/chaplin</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>751</td><td><code>Macoron/whisper.unity</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>746</td><td><code>soupslurpr/Transcribro</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>742</td><td><code>breizhn/DTLN</code></td><td>enhance,dsp-lib,ml-framework</td><td>③即时蒸馏(降噪/分离前置) / ①②采集与能量门(录音/读取/预处理)</td><td>-</td></tr>
+    <tr><td>739</td><td><code>Xiaobin-Rong/gtcrn</code></td><td>enhance</td><td>③即时蒸馏(降噪/分离前置)</td><td>-</td></tr>
+    <tr><td>726</td><td><code>rapidaai/voice-ai</code></td><td>asr,tts,kws-vad,agent</td><td>③即时蒸馏(ASR 转写写记忆) / ①常驻检测(VAD/唤醒词能量门)</td><td>NOASSERTION</td></tr>
+    <tr><td>721</td><td><code>omeryusufyagci/fast-music-remover</code></td><td>enhance,dsp-lib</td><td>③即时蒸馏(降噪/分离前置) / ①②采集与能量门(录音/读取/预处理)</td><td>-</td></tr>
+    <tr><td>705</td><td><code>GRVYDEV/S.A.T.U.R.D.A.Y</code></td><td>asr,codec,dsp-lib</td><td>③即时蒸馏(ASR 转写写记忆) / ①②采集与能量门(录音/读取/预处理)</td><td>-</td></tr>
+    <tr><td>689</td><td><code>vilassn/whisper_android</code></td><td>asr,tts,ml-framework</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>680</td><td><code>iceychris/LibreASR</code></td><td>asr,ml-framework</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>650</td><td><code>TheDeathDragon/LiveTranslate</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>636</td><td><code>woheller69/whisperIME</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>627</td><td><code>CrispStrobe/CrispASR</code></td><td>asr,tts,serving</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>614</td><td><code>reriiasu/speech-to-text</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>613</td><td><code>Audio-WestlakeU/FullSubNet</code></td><td>enhance,ml-framework</td><td>③即时蒸馏(降噪/分离前置)</td><td>-</td></tr>
+    <tr><td>608</td><td><code>dpirch/libfvad</code></td><td>kws-vad,dsp-lib</td><td>①常驻检测(VAD/唤醒词能量门) / ①②采集与能量门(录音/读取/预处理)</td><td>BSD-3-Clause</td></tr>
+    <tr><td>600</td><td><code>calebj0seph/spectro</code></td><td>dsp-lib</td><td>①②采集与能量门(录音/读取/预处理)</td><td>-</td></tr>
+    <tr><td>595</td><td><code>hirofumi0810/neural_sp</code></td><td>asr,ml-framework</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>541</td><td><code>opendilab/CleanS2S</code></td><td>asr,agent</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>528</td><td><code>ccoreilly/vosk-browser</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>528</td><td><code>FireRedTeam/FireRedVAD</code></td><td>aed,kws-vad,dsp-lib</td><td>③即时蒸馏(声音事件/场景理解) / ①常驻检测(VAD/唤醒词能量门) / ①②采集与能量门(录音/读取/预处理)</td><td>Apache-2.0</td></tr>
+    <tr><td>508</td><td><code>gkonovalov/android-vad</code></td><td>aed,kws-vad,dsp-lib</td><td>③即时蒸馏(声音事件/场景理解) / ①常驻检测(VAD/唤醒词能量门) / ①②采集与能量门(录音/读取/预处理)</td><td>-</td></tr>
+    <tr><td>505</td><td><code>alphacep/vosk</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>463</td><td><code>hcmlab/vadnet</code></td><td>kws-vad</td><td>①常驻检测(VAD/唤醒词能量门)</td><td>LGPL-3.0</td></tr>
+    <tr><td>460</td><td><code>YeJe-cpu/talk-to-fengge</code></td><td>asr,tts</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>450</td><td><code>Demfier/multimodal-speech-emotion-recognition</code></td><td>asr,dsp-lib,dataset,ml-framework</td><td>③即时蒸馏(ASR 转写写记忆) / ①②采集与能量门(录音/读取/预处理)</td><td>MIT</td></tr>
+    <tr><td>446</td><td><code>AndraxDev/speak-gpt</code></td><td>asr,agent</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>444</td><td><code>Boof2015/astra</code></td><td>dsp-lib</td><td>①②采集与能量门(录音/读取/预处理)</td><td>-</td></tr>
+    <tr><td>436</td><td><code>Ikaros-521/RealtimeSTT_LLM_TTS</code></td><td>asr,tts</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>425</td><td><code>xifan2333/fcitx5-vinput</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>413</td><td><code>cyberofficial/Synthalingua</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>409</td><td><code>alphacep/awesome-russian-speech</code></td><td>asr,tts</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>393</td><td><code>altunenes/parakeet-rs</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>383</td><td><code>kstonekuan/tambourine-voice</code></td><td>asr,dsp-lib</td><td>③即时蒸馏(ASR 转写写记忆) / ①②采集与能量门(录音/读取/预处理)</td><td>AGPL-3.0</td></tr>
+    <tr><td>380</td><td><code>oliverguhr/wav2vec2-live</code></td><td>asr,dsp-lib</td><td>③即时蒸馏(ASR 转写写记忆) / ①②采集与能量门(录音/读取/预处理)</td><td>-</td></tr>
+    <tr><td>379</td><td><code>mailong25/self-supervised-speech-recognition</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>376</td><td><code>istupakov/onnx-asr</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>373</td><td><code>bambocher/pocketsphinx-python</code></td><td>asr,kws-vad</td><td>③即时蒸馏(ASR 转写写记忆) / ①常驻检测(VAD/唤醒词能量门)</td><td>-</td></tr>
+    <tr><td>369</td><td><code>jzi040941/PercepNet</code></td><td>enhance,ml-framework</td><td>③即时蒸馏(降噪/分离前置)</td><td>-</td></tr>
+    <tr><td>367</td><td><code>smixs/agent-second-brain</code></td><td>kws-vad,agent,agent-llm</td><td>①常驻检测(VAD/唤醒词能量门)</td><td>-</td></tr>
+    <tr><td>350</td><td><code>haoxiangsnr/A-Convolutional-Recurrent-Neural-Network-for-Real-Time-Speech-Enhancement</code></td><td>enhance,ml-framework</td><td>③即时蒸馏(降噪/分离前置)</td><td>-</td></tr>
+    <tr><td>346</td><td><code>estebanstifli/LocalText2Voice</code></td><td>tts,dsp-lib</td><td>①②采集与能量门(录音/读取/预处理)</td><td>-</td></tr>
+    <tr><td>341</td><td><code>Renovamen/Speech-and-Text</code></td><td>asr,tts,kws-vad</td><td>③即时蒸馏(ASR 转写写记忆) / ①常驻检测(VAD/唤醒词能量门)</td><td>-</td></tr>
+    <tr><td>341</td><td><code>oboroge0/hayamimi</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>339</td><td><code>deeeed/audiolab</code></td><td>dsp-lib</td><td>①②采集与能量门(录音/读取/预处理)</td><td>-</td></tr>
+    <tr><td>328</td><td><code>seanwood/gcc-nmf</code></td><td>enhance</td><td>③即时蒸馏(降噪/分离前置)</td><td>-</td></tr>
+    <tr><td>324</td><td><code>mahimairaja/voiceai</code></td><td>asr,tts,agent,dsp-lib,agent-llm</td><td>③即时蒸馏(ASR 转写写记忆) / ①②采集与能量门(录音/读取/预处理)</td><td>-</td></tr>
+    <tr><td>317</td><td><code>jishengpeng/WavChat</code></td><td>audio-llm,codec</td><td>③即时蒸馏(多模态理解/结构化)</td><td>-</td></tr>
+    <tr><td>315</td><td><code>sayksii/Aria</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>314</td><td><code>thewh1teagle/sherpa-rs</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>313</td><td><code>lRomul/argus-freesound</code></td><td>aed,ml-framework</td><td>③即时蒸馏(声音事件/场景理解)</td><td>-</td></tr>
+    <tr><td>304</td><td><code>Frikallo/parakeet.cpp</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>302</td><td><code>gtreshchev/RuntimeSpeechRecognizer</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>296</td><td><code>kouhxp/yapsnap</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>295</td><td><code>narcotic-sh/senko</code></td><td>kws-vad,speaker</td><td>①常驻检测(VAD/唤醒词能量门)</td><td>-</td></tr>
+    <tr><td>293</td><td><code>lucianodato/speech-denoiser</code></td><td>enhance</td><td>③即时蒸馏(降噪/分离前置)</td><td>-</td></tr>
+    <tr><td>278</td><td><code>devnen/Kitten-TTS-Server</code></td><td>tts,enhance,ml-framework</td><td>③即时蒸馏(降噪/分离前置)</td><td>-</td></tr>
+    <tr><td>277</td><td><code>m3hrdadfi/soxan</code></td><td>asr,aed</td><td>③即时蒸馏(ASR 转写写记忆) / ③即时蒸馏(声音事件/场景理解)</td><td>-</td></tr>
+    <tr><td>275</td><td><code>voicekit-team/T-one</code></td><td>asr,serving</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>268</td><td><code>QuintinShaw/openasr</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>267</td><td><code>ASR-project/Multilingual-PR</code></td><td>asr,ml-framework</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>257</td><td><code>asiff00/On-Device-Speech-to-Speech-Conversational-AI</code></td><td>asr,tts,kws-vad,agent</td><td>③即时蒸馏(ASR 转写写记忆) / ①常驻检测(VAD/唤醒词能量门)</td><td>-</td></tr>
+    <tr><td>252</td><td><code>whitphx/streamlit-stt-app</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>251</td><td><code>HKAllThingsLink/streaming-asr</code></td><td>asr,kws-vad,dsp-lib</td><td>③即时蒸馏(ASR 转写写记忆) / ①常驻检测(VAD/唤醒词能量门) / ①②采集与能量门(录音/读取/预处理)</td><td>MIT</td></tr>
+    <tr><td>248</td><td><code>XiaoMi/kaldi-onnx</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>233</td><td><code>hyperconnect/TC-ResNet</code></td><td>kws-vad</td><td>①常驻检测(VAD/唤醒词能量门)</td><td>Apache-2.0</td></tr>
+    <tr><td>228</td><td><code>pszemraj/vid2cleantxt</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>217</td><td><code>Kaljurand/dictate.js</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>211</td><td><code>ChetanXpro/nodejs-whisper</code></td><td>asr</td><td>③即时蒸馏(ASR 转写写记忆)</td><td>-</td></tr>
+    <tr><td>206</td><td><code>streamcoreai/streamcore-server</code></td><td>asr,tts,agent,dsp-lib</td><td>③即时蒸馏(ASR 转写写记忆) / ①②采集与能量门(录音/读取/预处理)</td><td>-</td></tr>
+    </tbody></table></div>
+  <h3>与既有选型的冲突 / 替代（节选）</h3>
+  <ul>
+    <li><code>k2-fsa/sherpa-onnx</code> 优于 <code>modelscope/FunASR</code> 作端侧 ASR 运行时（ONNX 在 proot aarch64 更稳、体积更小，SER 04 §8）。</li>
+    <li><code>snakers4/silero-vad</code> / <code>sherpa-onnx</code> 的 VAD 是 ①常驻检测首选，纯 CPU、毫秒级、可常驻。</li>
+    <li><code>ggml-org/whisper.cpp</code> 是 ③即时蒸馏 ASR 主选；<code>alphacep/vosk-api</code> 提供离线多语种备选。</li>
+    <li><code>xiph/rnnoise</code> / <code>breizhn/DTLN</code> / <code>Audio-WestlakeU/FullSubNet</code> 等降噪作 ③前置。</li>
+  </ul>
+</section>
+<section id="avoid">
+  <h2><span class="num">06</span>明确不推荐清单（高星但不适配）</h2>
+  <p>下列 star 很高但<strong>不应直接作为 laos 组件</strong>——范围外（只听不说）、缺端侧信号、或属云/媒体服务器/编排层。避免「star 高就该用」误判。</p>
+  <div class="tw"><table>
+    <thead><tr><th>star</th><th>仓库</th><th>类别</th><th>不推荐理由</th></tr></thead>
+    <tbody>
+    <tr><td>165,390</td><td><code>huggingface/transformers</code></td><td>asr,ml-framework</td><td>funnel-cat:asr / no-on-device-signal(C1?)</td></tr>
+    <tr><td>123,134</td><td><code>harry0703/MoneyPrinterTurbo</code></td><td>tts,dsp-lib</td><td>funnel-cat:dsp-lib / no-on-device-signal(C1?)</td></tr>
+    <tr><td>76,104</td><td><code>unslothai/unsloth</code></td><td>tts,agent,agent-llm</td><td>out-of-scope(laos只听不说/不生成音乐)</td></tr>
+    <tr><td>61,770</td><td><code>RVC-Boss/GPT-SoVITS</code></td><td>tts</td><td>out-of-scope(laos只听不说/不生成音乐)</td></tr>
+    <tr><td>60,131</td><td><code>CorentinJ/Real-Time-Voice-Cloning</code></td><td>tts,ml-framework</td><td>out-of-scope(laos只听不说/不生成音乐)</td></tr>
+    <tr><td>58,248</td><td><code>calesthio/OpenMontage</code></td><td>tts,agent,dsp-lib</td><td>vision/multimodal-agent(not-audio-pipeline)</td></tr>
+    <tr><td>54,243</td><td><code>microsoft/VibeVoice</code></td><td>tts</td><td>out-of-scope(laos只听不说/不生成音乐)</td></tr>
+    <tr><td>54,074</td><td><code>hugohe3/ppt-master</code></td><td>agent</td><td>orchestration/eval-not-funnel-component</td></tr>
+    <tr><td>53,113</td><td><code>jamiepine/voicebox</code></td><td>asr,tts</td><td>funnel-cat:asr / needs-gpu(C1✗)</td></tr>
+    <tr><td>49,110</td><td><code>moeru-ai/airi</code></td><td>agent</td><td>orchestration/eval-not-funnel-component</td></tr>
+    <tr><td>49,094</td><td><code>mudler/LocalAI</code></td><td>tts</td><td>out-of-scope(laos只听不说/不生成音乐)</td></tr>
+    <tr><td>46,006</td><td><code>coqui-ai/TTS</code></td><td>tts,ml-framework</td><td>out-of-scope(laos只听不说/不生成音乐)</td></tr>
+    <tr><td>39,833</td><td><code>2noise/ChatTTS</code></td><td>tts,audio-llm,agent,dsp-lib,agent-llm</td><td>funnel-cat:dsp-lib / no-on-device-signal(C1?)</td></tr>
+    <tr><td>37,512</td><td><code>myshell-ai/OpenVoice</code></td><td>tts</td><td>out-of-scope(laos只听不说/不生成音乐)</td></tr>
+    <tr><td>37,053</td><td><code>OpenBMB/VoxCPM</code></td><td>tts,ml-framework</td><td>out-of-scope(laos只听不说/不生成音乐)</td></tr>
+    <tr><td>36,965</td><td><code>mpv-player/mpv</code></td><td>dsp-lib</td><td>funnel-cat:dsp-lib / no-on-device-signal(C1?)</td></tr>
+    <tr><td>36,930</td><td><code>google-ai-edge/mediapipe</code></td><td>serving</td><td>orchestration/eval-not-funnel-component</td></tr>
+    <tr><td>36,910</td><td><code>babysor/MockingBird</code></td><td>tts,ml-framework</td><td>out-of-scope(laos只听不说/不生成音乐)</td></tr>
+    <tr><td>32,671</td><td><code>fishaudio/fish-speech</code></td><td>tts</td><td>out-of-scope(laos只听不说/不生成音乐)</td></tr>
+    <tr><td>29,238</td><td><code>ossrs/srs</code></td><td>codec,dsp-lib</td><td>media-server/transport-infra(not-on-device)</td></tr>
+    <tr><td>28,442</td><td><code>deezer/spleeter</code></td><td>enhance,ml-framework</td><td>funnel-cat:enhance / no-on-device-signal(C1?)</td></tr>
+    <tr><td>28,110</td><td><code>svc-develop-team/so-vits-svc</code></td><td>music,ml-framework</td><td>out-of-scope(laos不做音乐/music-transcription)</td></tr>
+    <tr><td>28,076</td><td><code>ATH-MaaS/Pixelle-Video</code></td><td>tts</td><td>out-of-scope(laos只听不说/不生成音乐)</td></tr>
+    <tr><td>28,001</td><td><code>mastra-ai/mastra</code></td><td>tts</td><td>out-of-scope(laos只听不说/不生成音乐)</td></tr>
+    <tr><td>27,202</td><td><code>Fosowl/agenticSeek</code></td><td>agent,agent-llm</td><td>orchestration/eval-not-funnel-component</td></tr>
+    </tbody></table></div>
+  <ul>
+    <li><b>音乐/TTS 生成类</b>（so-vits-svc / GPT-SoVITS / Coqui TTS / fish-speech）：laos 只听不说，范围外。</li>
+    <li><b>巨型框架/编排</b>（transformers / unsloth / mastra / agenticSeek）：缺 on-device 信号或属 agent 编排层。</li>
+    <li><b>媒体服务器/传输</b>（ossrs/srs）：基础设施，非端侧组件。</li>
+    <li><b>unrelated 泄漏</b>（awesome-piracy / audacity / seamless_communication）：补抓噪声复核残留。</li>
+  </ul>
+</section>
+<section id="limits">
+  <h2><span class="num">07</span>局限与需人工复核</h2>
+  <p>如实保留 Task 3 执行者标注的「需人工复核」项，未做粉饰：</p>
+  <ul>
+    <li><b>speaker 类「隐私红线」是策略性一律降级</b>——未区分「纯 diarization 分割（可借鉴）」与「声纹注册（碰红线 C5）」。仅做流式分割者应人工复核后上调为 core 候选。</li>
+    <li><b>端侧可行性（C1）靠关键词近似判定</b>，未在 proot aarch64 实测跑通；silero / sherpa-onnx / whisper.cpp 经 SER 04 §8 论证可行，其余需实测。</li>
+    <li><b>许可字段 2801/3724（75.2%）缺失</b>，core 仅排除云 API wrapper，未逐条核 SPDX，不替代法律意见。</li>
+    <li><b>少数 speech-foundation 大模型</b>（如 <code>facebookresearch/seamless_communication</code>）因描述措辞未被关键词命中，误分 unrelated。</li>
+  </ul>
+  <p class="note">通用局限：star 数为抓取时刻快照（时变）；类别依赖作者自填 topics+description，存在标签噪声；判定仅基于元数据，未读源码。</p>
+</section>
+<footer>
+  数据源 repos_classified.jsonl（3724 条）｜ 抓取 2026-09-14 ｜ 由 scripts/build_oss_report.py 从真实字段生成，markdown 与 HTML 数字同源一致。
+</footer>
+</main>
+</div>
+</body>
+</html>

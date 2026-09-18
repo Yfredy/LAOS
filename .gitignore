@@ -6,3 +6,10 @@ fsroot/
 .superpowers/
 .zcode/
 .venv-audio/
+
+# always-on recording sandbox
+AlwaysOnRec-DB/
+
+# crawl temps / tool dirs
+_s2_crawl/
+.workbuddy/
