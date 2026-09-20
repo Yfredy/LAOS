@@ -22,6 +22,7 @@ from dataclasses import asdict, dataclass, field, replace
 from pathlib import Path
 from typing import Any, Callable
 
+from . import judge
 from .branch import BranchTable
 from .mcp import MCPClient, ToolSpec
 from .memory import MemoryStore
@@ -168,6 +169,13 @@ class AgentKernel:
             reserve=int(os.environ.get("LAOS_RISK_RESERVE", "1")),
         )
         self.confirm = confirm or self._cli_confirm
+        # Jev 机器预审（System-One 快问快答，opt-in）：LAOS_JEV_BACKEND=
+        # none（默认）时不构造任何后端、self.judge=None，确认横幅行为
+        # 逐字节不变；显式选择 rule/cloud/local 才接 Task 2 的判断器
+        if os.environ.get("LAOS_JEV_BACKEND", "none").strip().lower() != "none":
+            self.judge = judge.select()
+        else:
+            self.judge = None
         # MCP Tasks（2026-07-28）：task 路径轮询 tasks/result 的总超时
         self.task_timeout = float(os.environ.get("LAOS_TASK_TIMEOUT", "30"))
         self.boot_at = time.time()
@@ -444,11 +452,18 @@ class AgentKernel:
             if pcb.risk_cap is not None and pcb.stats["risk"] + cost > pcb.risk_cap:
                 return self._deny(pcb, tool, args, started,
                                   "EACCES: agent risk cap exceeded")
-            if spec.risk == "high" and not self.confirm(
-                {"tool": tool, "args": args, "risk": spec.risk}
-            ):
-                return self._deny(pcb, tool, args, started,
-                                  "EACCES: irreversible operation requires confirmation")
+            if spec.risk == "high":
+                # Jev 机器预审（opt-in）：人类确认横幅先给判断器看一眼。
+                # none/未启用时返回 "ask"，confirm 流程逐字节不变
+                prejudge = self._jev_prejudge(pcb, tool, args, started)
+                if prejudge == "deny":
+                    return self._deny(pcb, tool, args, started,
+                                      "EDENIED: denied by jev prejudge")
+                if prejudge != "bypass" and not self.confirm(
+                    {"tool": tool, "args": args, "risk": spec.risk}
+                ):
+                    return self._deny(pcb, tool, args, started,
+                                      "EACCES: irreversible operation requires confirmation")
             self.risk.charge(pcb.pid, tool, cost)
             pcb.stats["risk"] += cost
             self.audit.write(
@@ -543,6 +558,55 @@ class AgentKernel:
                     d["remaining"] -= 1
                 return True
         return False
+
+    # -- Jev 机器预审：确认横幅的 System-One 快问快答（opt-in）-------------
+    JEV_AUTOGATE_MIN_DEFAULT = 0.95
+
+    def _jev_prejudge(self, pcb: PCB, tool: str, args: dict,
+                      started: float) -> str:
+        """risk=high 确认横幅的机器预审：先问判断器，再决定问不问人。
+
+        仅当显式选择后端（self.judge 非 None，即 LAOS_JEV_BACKEND != none）
+        且设置了 LAOS_JEV_AUTOGATE 或 LAOS_JEV_PREVIEW 时介入；每次预审
+        写一条 event:"jev" 审计（放行与拒绝双路径，仿 event:"mic" 红线）。
+        返回三态：
+
+            "deny"    机器否决 → 调用方 _deny（EDENIED），不再惊动人类
+            "bypass"  allow 且置信 ≥ LAOS_JEV_AUTOGATE_MIN 且 AUTOGATE=1
+                      → 跳过人类 confirm 直接放行（风险记账照常）
+            "ask"     回落人类确认（低置信 / 仅预览 / 后端故障 fail-safe）
+        """
+        autogate = bool(os.environ.get("LAOS_JEV_AUTOGATE"))
+        if self.judge is None or not (autogate or os.environ.get("LAOS_JEV_PREVIEW")):
+            return "ask"
+        try:
+            result = self.judge.noul(
+                "内核高风险 syscall 确认横幅预审",
+                f"允许执行 {tool} {args} 吗？agent={pcb.name}",
+            )
+        except Exception:
+            # fail-safe：判断后端故障（网络/缺 key 等）不炸内核链路，
+            # 回落人类确认；审计仍留痕（verdict="error"）
+            self.audit.write(
+                {"t": time.time(), "event": "jev", "pid": pcb.pid,
+                 "tool": tool, "verdict": "error", "confidence": 0.0,
+                 "autogate": autogate}
+            )
+            return "ask"
+        self.audit.write(
+            {"t": time.time(), "event": "jev", "pid": pcb.pid, "tool": tool,
+             "verdict": result.verdict,
+             "confidence": round(result.confidence, 3),
+             "autogate": autogate}
+        )
+        if result.verdict == "deny":
+            return "deny"
+        min_conf = float(os.environ.get(
+            "LAOS_JEV_AUTOGATE_MIN", self.JEV_AUTOGATE_MIN_DEFAULT))
+        if (autogate and result.verdict == "allow"
+                and result.confidence >= min_conf):
+            return "bypass"
+        return "ask"
 
     # -- 内建实现（内核直供，不经 MCP 驱动）--------------------------------
     MAILBOX_MAX = 16
