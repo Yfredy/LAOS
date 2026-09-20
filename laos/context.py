@@ -26,6 +26,12 @@ def approx_tokens(text: str) -> int:
     return int(cjk / 1.5 + (len(text) - cjk) / 4) + 1
 
 
+# Jev 压缩预审（Task 4，opt-in）：judge 非 None 时对候选 victims（最老 1/3）
+# 逐条发问——allow（=可安全丢弃）进 victims；deny（=不可丢）移出 victims
+# 保留在窗口内
+COMPACT_JUDGE_QUESTION = "此消息可安全丢弃（信息已概括或属临时过程）吗？"
+
+
 @dataclass
 class Message:
     role: str  # system | user | assistant | tool
@@ -64,13 +70,18 @@ class ContextManager:
         max_tokens: int = 4000,
         swap_dir: Path | None = None,
         summarizer: Callable[[list[Message]], str] | None = None,
+        judge: Any | None = None,
     ):
         self.max_tokens = max_tokens
         self.swap_dir = swap_dir
         self.summarizer = summarizer or self._default_summarizer
+        self.judge = judge  # Jev 判断后端（opt-in，None = 零改动）
         self.stats = ContextStats()
         self._summary: str = ""
         self._window: list[Message] = []
+        # 压缩跳过计数：候选 victims 全被 judge 判"不可丢"时跳过本轮压缩，
+        # 连续两轮全跳过后强制按原逻辑压一次（防死循环，见 _compact_if_needed）
+        self._compaction_skips = 0
         # 观察簿：path -> 读时内容摘要（Stale Context 检测，HKU/AgenticOS'26）
         self._observations: dict[str, str] = {}
         self._stale: set[str] = set()
@@ -116,7 +127,33 @@ class ContextManager:
     def _compact_if_needed(self) -> None:
         while self.window_tokens > self.max_tokens and len(self._window) > 2:
             victim_count = max(1, len(self._window) // 3)
-            victims, self._window = self._window[:victim_count], self._window[victim_count:]
+            head, rest = self._window[:victim_count], self._window[victim_count:]
+            if self.judge is None:
+                victims, self._window = head, rest
+            else:
+                # Jev 分支：只改"谁进 victims"——deny（=不可丢）的条目移出
+                # victims 并保留在窗口内（相对顺序不变），其余照常压缩
+                victims: list[Message] = []
+                kept: list[Message] = []
+                for msg in head:
+                    if self.judge.noul(
+                            msg.content, COMPACT_JUDGE_QUESTION).verdict == "deny":
+                        kept.append(msg)
+                    else:
+                        victims.append(msg)
+                if victims:
+                    self._compaction_skips = 0
+                    self._window = kept + rest
+                elif self._compaction_skips >= 2:
+                    # 防死循环：候选连续两轮全"不可丢"（窗口持续超限又压不
+                    # 动），第三轮强制按原逻辑压缩一次——窗口涨爆比丢一条
+                    # 受保护消息更不可接受
+                    self._compaction_skips = 0
+                    victims, self._window = head, rest
+                else:
+                    # 本轮跳过压缩：消息全部保留，等下一条消息进来再试
+                    self._compaction_skips += 1
+                    break
             self._swap_out(victims)
             self._summary = self.summarizer(victims + [Message("system", self._summary)])
             self.stats.compactions += 1

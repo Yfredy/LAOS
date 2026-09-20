@@ -29,9 +29,15 @@ import os
 import threading
 import time
 from pathlib import Path
+from typing import Any
 
 SECONDS_PER_DAY = 86400
 RECENCY_HALF_LIFE_DAYS = 14.0  # 0.3 ** (days / 14)
+
+# Jev 入库预审（Task 4，opt-in）：remember(judge=...) 传入判断后端时先问
+# 一句——deny（不值得长期记住或涉隐私）拒绝入库返回 None；审计留在调用方
+# （memory 层只管收与拒，不写审计）
+REMEMBER_JUDGE_QUESTION = "值得长期记住且无隐私风险吗？"
 
 
 def bigram_jaccard(a: str, b: str) -> float:
@@ -97,7 +103,13 @@ class MemoryStore:
         return max((r["id"] for r in self._records), default=0) + 1
 
     # -- 记忆操作 ----------------------------------------------------------
-    def remember(self, kind: str, text: str, tags: list[str] | None = None) -> dict:
+    def remember(self, kind: str, text: str, tags: list[str] | None = None,
+                 judge: Any | None = None) -> dict | None:
+        if judge is not None:
+            # Jev 入库预审：deny = 不可入库。判断放锁外（云端后端可能慢，
+            # 不占写锁）；不传 judge（默认）时此分支整体不存在，行为不变
+            if judge.noul(str(text), REMEMBER_JUDGE_QUESTION).verdict == "deny":
+                return None
         with self._lock:  # id 的读改写必须原子，否则并发 remember 铸重复 id
             rec = {"id": self._next_id, "ts": time.time(), "kind": str(kind),
                    "text": str(text), "tags": [str(t) for t in (tags or [])]}
