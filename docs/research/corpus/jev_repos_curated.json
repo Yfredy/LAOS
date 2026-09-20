@@ -16,6 +16,14 @@
   "language": "TypeScript"
  },
  {
+  "full_name": "NandhaKishorM/laya",
+  "stars": 2904,
+  "description": "Non-autoregressive decision model answering choice/score/noul questions with RLCD-trained calibrated probabilities in a single ~35 ms forward pass; published on PyPI and Hugging Face.",
+  "url": "https://github.com/NandhaKishorM/laya",
+  "pushed_at": "2026-09-20",
+  "language": "Python"
+ },
+ {
   "full_name": "TheoLeeCJ/SemIf",
   "stars": 2282,
   "description": "Semantic ifs from open models, on a 3090 at home. Independent; not affiliated with Jev or TypeSafe.",
@@ -40,12 +48,28 @@
   "language": "Python"
  },
  {
+  "full_name": "mizorewww/laya-mlx",
+  "stars": 1113,
+  "description": "Native MLX runtime for Laya typed decision models — 7-14 ms short decisions on M3 Max. No text generation, PyTorch, or cloud API.",
+  "url": "https://github.com/mizorewww/laya-mlx",
+  "pushed_at": "2026-09-19",
+  "language": "Python"
+ },
+ {
   "full_name": "vinnylarouge/jevlike",
   "stars": 1054,
   "description": "",
   "url": "https://github.com/vinnylarouge/jevlike",
   "pushed_at": "2026-09-16",
   "language": "Python"
+ },
+ {
+  "full_name": "typesafe-ai/skills",
+  "stars": 1022,
+  "description": "OFFICIAL: installable agent skills package (npx skills add typesafe-ai/skills) teaching agents the Jev workflow.",
+  "url": "https://github.com/typesafe-ai/skills",
+  "pushed_at": "2026-09-12",
+  "language": null
  },
  {
   "full_name": "jaredpalmer/kev",
@@ -238,5 +262,285 @@
   "url": "https://github.com/kerpopule/hermes-jev-skills",
   "pushed_at": "2026-09-20",
   "language": "Python"
+ },
+ {
+  "full_name": "coldteadotai/abide",
+  "stars": 191,
+  "description": "Make your coding agent abide by all your project rules",
+  "url": "https://github.com/coldteadotai/abide",
+  "pushed_at": "2026-09-20",
+  "language": "TypeScript"
+ },
+ {
+  "full_name": "jkudish/jev-browser",
+  "stars": 179,
+  "description": "Browser use using Typesafe's Jev model",
+  "url": "https://github.com/jkudish/jev-browser",
+  "pushed_at": "2026-09-19",
+  "language": "TypeScript"
+ },
+ {
+  "full_name": "tamaratran/jev-pruner",
+  "stars": 123,
+  "description": "Claude Code plugin: trim long Bash output with TypeSafe Jev before the model sees it",
+  "url": "https://github.com/tamaratran/jev-pruner",
+  "pushed_at": "2026-09-20",
+  "language": "TypeScript"
+ },
+ {
+  "full_name": "wfzyx/von",
+  "stars": 117,
+  "description": "The open-source System One decision model. Sub-15ms, non-autoregressive, local drop-in alternative to TypeSafe Jev.",
+  "url": "https://github.com/wfzyx/von",
+  "pushed_at": "2026-09-20",
+  "language": "Python"
+ },
+ {
+  "full_name": "y0usaf/pi-jev",
+  "stars": 112,
+  "description": "TypeSafe Jev as a decision layer for the Pi coding agent: a measured tool-call gate plus jev_ask for typed, calibrated answers",
+  "url": "https://github.com/y0usaf/pi-jev",
+  "pushed_at": "2026-09-19",
+  "language": "TypeScript"
+ },
+ {
+  "full_name": "zhengxuyu/litjev",
+  "stars": 28,
+  "description": "Turn any off-the-shelf LLM into a Jev-like decision layer",
+  "url": "https://github.com/zhengxuyu/litjev",
+  "pushed_at": "2026-09-18",
+  "language": "Python"
+ },
+ {
+  "full_name": "zeredy879/minojev",
+  "stars": 25,
+  "description": "Decisions, not tokens: minojev reads calibrated, typed probability distributions straight from hidden states in one forward pass — zero output tokens, fully reproducible",
+  "url": "https://github.com/zeredy879/minojev",
+  "pushed_at": "2026-09-20",
+  "language": "Python"
+ },
+ {
+  "full_name": "compozy/yoshi",
+  "stars": 19,
+  "description": "Context-pruning proxy for Claude Code and Codex: Jev judges which history is still needed, measured not claimed.",
+  "url": "https://github.com/compozy/yoshi",
+  "pushed_at": "2026-09-18",
+  "language": "TypeScript"
+ },
+ {
+  "full_name": "shiftynick/jev-axi",
+  "stars": 17,
+  "description": "Agent-ergonomic CLI for TypeSafe's Jev: fast calibrated judgments (pick, rate, check, rank, triage, guard) from the shell",
+  "url": "https://github.com/shiftynick/jev-axi",
+  "pushed_at": "2026-09-19",
+  "language": "TypeScript"
+ },
+ {
+  "full_name": "luantak/is-malicious",
+  "stars": 16,
+  "description": "A codebase scanner that helps you not run malicous code",
+  "url": "https://github.com/luantak/is-malicious",
+  "pushed_at": "2026-09-18",
+  "language": "TypeScript"
+ },
+ {
+  "full_name": "leepokai/jev-guard",
+  "stars": 12,
+  "description": "Auto mode for every coding agent, built on Jev: risk-scores every tool call with session context (deny / ask / allow), flags prompt injection in results.",
+  "url": "https://github.com/leepokai/jev-guard",
+  "pushed_at": "2026-09-17",
+  "language": "JavaScript"
+ },
+ {
+  "full_name": "anpicasso/hermes-jev-approvals",
+  "stars": 9,
+  "description": "TypeSafe Jev as the reviewer for Hermes Agent smart command approvals. 8.7x faster, 4.4x fewer prompts, measured on 153 real commands.",
+  "url": "https://github.com/anpicasso/hermes-jev-approvals",
+  "pushed_at": "2026-09-20",
+  "language": "Python"
+ },
+ {
+  "full_name": "Silbercue/public-browser",
+  "stars": 9,
+  "description": "Lets Claude Code and Cursor drive Chrome on your real profile: -30% tokens, -25% cost. Direct CDP, a11y-tree refs.",
+  "url": "https://github.com/Silbercue/public-browser",
+  "pushed_at": "2026-09-18",
+  "language": "TypeScript"
+ },
+ {
+  "full_name": "abhixhek/jevcal",
+  "stars": 8,
+  "description": "Stop guessing confidence thresholds: calibrate, threshold, and drift-check typed decision models (TypeSafe Jev) against an LLM teacher.",
+  "url": "https://github.com/abhixhek/jevcal",
+  "pushed_at": "2026-09-18",
+  "language": "Python"
+ },
+ {
+  "full_name": "kylemclaren/jevql",
+  "stars": 7,
+  "description": "Semantic SQL for Postgres, powered by Jev",
+  "url": "https://github.com/kylemclaren/jevql",
+  "pushed_at": "2026-09-19",
+  "language": "Go"
+ },
+ {
+  "full_name": "forvela/jev-agent-browser",
+  "stars": 6,
+  "description": "Fast, bounded browser agents powered by Jev and agent-browser — typed actions, research, classification, and safe orchestration.",
+  "url": "https://github.com/forvela/jev-agent-browser",
+  "pushed_at": "2026-09-19",
+  "language": "JavaScript"
+ },
+ {
+  "full_name": "frostney/clean-code-review",
+  "stars": 6,
+  "description": "Every code file in a pull request, judged against Uncle Bob's Clean Code by TypeSafe's Jev, then reviewed by Luna. Built on eve and Next.js.",
+  "url": "https://github.com/frostney/clean-code-review",
+  "pushed_at": "2026-09-19",
+  "language": "TypeScript"
+ },
+ {
+  "full_name": "agent-labs-dev/fastbrowse",
+  "stars": 5,
+  "description": "A fast browser agent: Jev picks each action from what is on the page, an LLM reads and plans, and every claim in an answer cites a quote from the page.",
+  "url": "https://github.com/agent-labs-dev/fastbrowse",
+  "pushed_at": "2026-09-20",
+  "language": "Python"
+ },
+ {
+  "full_name": "scienthoon/luce",
+  "stars": 4,
+  "description": "Luce: a recipe for calibrated decision models — a sentence about your task in, a small model that answers typed questions with honest probabilities out (LoRA + decision head on Qwen3-4B-Base, trains on 12 GB).",
+  "url": "https://github.com/scienthoon/luce",
+  "pushed_at": "2026-09-20",
+  "language": "Python"
+ },
+ {
+  "full_name": "hotchpotch/jev-reranker",
+  "stars": 4,
+  "description": "Jev-powered relevance filtering and reranking for RAG in Python.",
+  "url": "https://github.com/hotchpotch/jev-reranker",
+  "pushed_at": "2026-09-19",
+  "language": "Python"
+ },
+ {
+  "full_name": "WiktorB2004/llama-index-jev",
+  "stars": 3,
+  "description": "LlamaIndex reranker + router powered by TypeSafe Jev — typed scores/choices, cheaper than LLM-as-judge.",
+  "url": "https://github.com/WiktorB2004/llama-index-jev",
+  "pushed_at": "2026-09-18",
+  "language": "Python"
+ },
+ {
+  "full_name": "jesset/pi-verdict",
+  "stars": 3,
+  "description": "Pi permission gate: Jev answers one Choice (allow/ask/deny) per gray-zone tool call; deterministic rules settle clear cases, errors/timeouts deny.",
+  "url": "https://github.com/jesset/pi-verdict",
+  "pushed_at": "2026-09-19",
+  "language": "TypeScript"
+ },
+ {
+  "full_name": "scienthoon/jev-ood-calibration",
+  "stars": 3,
+  "description": "Independent calibration test of TypeSafe's Jev on 900 unseen rule-generated support tickets plus 3 public benchmarks: Choice/Score overconfident, Boolean underconfident.",
+  "url": "https://github.com/scienthoon/jev-ood-calibration",
+  "pushed_at": "2026-09-19",
+  "language": "Python"
+ },
+ {
+  "full_name": "leonaaardob/fast-dev-compaction",
+  "stars": 3,
+  "description": "Codex plugin: verbatim Jev-guided context restoration around session compaction. Port of tamaratran/fast-jev-compaction to Codex lifecycle hooks.",
+  "url": "https://github.com/leonaaardob/fast-dev-compaction",
+  "pushed_at": "2026-09-19",
+  "language": "TypeScript"
+ },
+ {
+  "full_name": "FFatTiger/new-api-plugin-typesafe",
+  "stars": 2,
+  "description": "TypeSafe AI System One (Jev) task plugin for QuantumNous/new-api — native /v1/systemone, synchronous evaluation, token billing",
+  "url": "https://github.com/FFatTiger/new-api-plugin-typesafe",
+  "pushed_at": "2026-09-18",
+  "language": "JavaScript"
+ },
+ {
+  "full_name": "CodeAlive-AI/mastra-jev-moderation",
+  "stars": 2,
+  "description": "Input moderation for Mastra agents on TypeSafe Jev: blocked 9/9 hostile and 0/49 real messages at ~0.4 s median, fail-open behind deadline + circuit breaker.",
+  "url": "https://github.com/CodeAlive-AI/mastra-jev-moderation",
+  "pushed_at": "2026-09-18",
+  "language": "TypeScript"
+ },
+ {
+  "full_name": "shinpr/jev-reranker",
+  "stars": 1,
+  "description": "Rerank, filter, and compress JSON search results with TypeSafe AI's Jev.",
+  "url": "https://github.com/shinpr/jev-reranker",
+  "pushed_at": "2026-09-20",
+  "language": "Rust"
+ },
+ {
+  "full_name": "AkashPriyadarshii/jev-scout",
+  "stars": 1,
+  "description": "Zero-hallucination open-source repo and crate scout powered by TypeSafe AI Jev System One scoring",
+  "url": "https://github.com/AkashPriyadarshii/jev-scout",
+  "pushed_at": "2026-09-20",
+  "language": "Rust"
+ },
+ {
+  "full_name": "YehuiTang0316/jev-nlgrep",
+  "stars": 1,
+  "description": "Search code and text by meaning with natural-language grep, powered by Jev.",
+  "url": "https://github.com/YehuiTang0316/jev-nlgrep",
+  "pushed_at": "2026-09-20",
+  "language": "TypeScript"
+ },
+ {
+  "full_name": "mgaitan/sqlite-jev",
+  "stars": 1,
+  "description": "Batched natural-language judgments for SQLite, powered by TypeSafe Jev",
+  "url": "https://github.com/mgaitan/sqlite-jev",
+  "pushed_at": "2026-09-18",
+  "language": "C"
+ },
+ {
+  "full_name": "david-cermak/jevlike-esp32",
+  "stars": 1,
+  "description": "Jevlike edge router on ESP32",
+  "url": "https://github.com/david-cermak/jevlike-esp32",
+  "pushed_at": "2026-09-18",
+  "language": "Python"
+ },
+ {
+  "full_name": "edgardcham/huncho",
+  "stars": 1,
+  "description": "Decisions as code on System One models: typed questions, thresholds with hysteresis, nested decisions, journal, calibration",
+  "url": "https://github.com/edgardcham/huncho",
+  "pushed_at": "2026-09-20",
+  "language": "TypeScript"
+ },
+ {
+  "full_name": "noplan-inc/limpet",
+  "stars": 1,
+  "description": "A Stop hook that stops your coding agent from stopping too early. Plain-language rules, judged by jev.",
+  "url": "https://github.com/noplan-inc/limpet",
+  "pushed_at": "2026-09-17",
+  "language": "Python"
+ },
+ {
+  "full_name": "yodablocks/jev-orderby-bench",
+  "stars": 0,
+  "description": "Does ORDER BY over a Jev probability put rows in a defensible order? Independent ranking/calibration/invariant measurements; passes on 20NG topics, fails 4/6 conditions on Amazon ESCI.",
+  "url": "https://github.com/yodablocks/jev-orderby-bench",
+  "pushed_at": "2026-09-20",
+  "language": "Python"
+ },
+ {
+  "full_name": "shitianfang/wakegate",
+  "stars": 0,
+  "description": "Ask Jev whether a sleeping agent's wakeup is worth a full LLM turn before you resume it. A fail-open wake gate for long-running agents.",
+  "url": "https://github.com/shitianfang/wakegate",
+  "pushed_at": "2026-09-18",
+  "language": "TypeScript"
  }
 ]
