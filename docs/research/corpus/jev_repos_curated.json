@@ -1,0 +1,242 @@
+[
+ {
+  "full_name": "browser-use/jev-ultrafast",
+  "stars": 11074,
+  "description": "i. am. speed.",
+  "url": "https://github.com/browser-use/jev-ultrafast",
+  "pushed_at": "2026-09-18",
+  "language": "Python"
+ },
+ {
+  "full_name": "tamaratran/fast-jev-compaction",
+  "stars": 4873,
+  "description": "Claude Code plugin that replaces the compaction summary with Jev decisions: every tool call and result is scored in one fast request, stale ones are dropped or truncated, everything kept stays verbatim.",
+  "url": "https://github.com/tamaratran/fast-jev-compaction",
+  "pushed_at": "2026-09-18",
+  "language": "TypeScript"
+ },
+ {
+  "full_name": "TheoLeeCJ/SemIf",
+  "stars": 2282,
+  "description": "Semantic ifs from open models, on a 3090 at home. Independent; not affiliated with Jev or TypeSafe.",
+  "url": "https://github.com/TheoLeeCJ/SemIf",
+  "pushed_at": "2026-09-19",
+  "language": "Python"
+ },
+ {
+  "full_name": "jarrodwatts/jev-trader",
+  "stars": 1453,
+  "description": "One AI trade decision every Monad block. Jev on Kuru MON-USDC.",
+  "url": "https://github.com/jarrodwatts/jev-trader",
+  "pushed_at": "2026-09-17",
+  "language": "TypeScript"
+ },
+ {
+  "full_name": "TianyuCodings/NanoJev",
+  "stars": 1305,
+  "description": "A nano replica of Jev: parallel decisions, dynamic candidates, and an end-to-end training pipeline.",
+  "url": "https://github.com/TianyuCodings/NanoJev",
+  "pushed_at": "2026-09-20",
+  "language": "Python"
+ },
+ {
+  "full_name": "vinnylarouge/jevlike",
+  "stars": 1054,
+  "description": "",
+  "url": "https://github.com/vinnylarouge/jevlike",
+  "pushed_at": "2026-09-16",
+  "language": "Python"
+ },
+ {
+  "full_name": "jaredpalmer/kev",
+  "stars": 801,
+  "description": "tiny Jev-like model built on top of Qwen2.5-0.5B you can train and run on your MacBook",
+  "url": "https://github.com/jaredpalmer/kev",
+  "pushed_at": "2026-09-20",
+  "language": "Python"
+ },
+ {
+  "full_name": "yibie/awesome-jev",
+  "stars": 541,
+  "description": "A curated list of public projects, integrations, and discussions built on Jev — TypeSafe AI's System One model for typed decisions.",
+  "url": "https://github.com/yibie/awesome-jev",
+  "pushed_at": "2026-09-20",
+  "language": "Python"
+ },
+ {
+  "full_name": "v-modal/awesome-jev-tools",
+  "stars": 510,
+  "description": "A curated list of tools  built for Jev — TypeSafe AI's System One model for typed decisions.",
+  "url": "https://github.com/v-modal/awesome-jev-tools",
+  "pushed_at": "2026-09-19",
+  "language": null
+ },
+ {
+  "full_name": "pulseaiclub/phi",
+  "stars": 466,
+  "description": "a coding agent, rpc plugin, sub-agents, hashline edits, and mcp",
+  "url": "https://github.com/pulseaiclub/phi",
+  "pushed_at": "2026-09-20",
+  "language": "Go"
+ },
+ {
+  "full_name": "Sac-Y/Jev-cu",
+  "stars": 447,
+  "description": "",
+  "url": "https://github.com/Sac-Y/Jev-cu",
+  "pushed_at": "2026-09-18",
+  "language": "JavaScript"
+ },
+ {
+  "full_name": "thruwire/foreman",
+  "stars": 422,
+  "description": "Software factory foreman based on TypeSafe's Jev model",
+  "url": "https://github.com/thruwire/foreman",
+  "pushed_at": "2026-09-20",
+  "language": "Python"
+ },
+ {
+  "full_name": "devagrawal09/jev-review",
+  "stars": 396,
+  "description": "A staged code-review workflow and local dashboard built with TypeSafe Jev.",
+  "url": "https://github.com/devagrawal09/jev-review",
+  "pushed_at": "2026-09-17",
+  "language": "TypeScript"
+ },
+ {
+  "full_name": "AbdelStark/awesome-typesafe",
+  "stars": 381,
+  "description": "A curated list of official resources and community projects for TypeSafe, System One models, and Jev.",
+  "url": "https://github.com/AbdelStark/awesome-typesafe",
+  "pushed_at": "2026-09-20",
+  "language": "CSS"
+ },
+ {
+  "full_name": "featherless-ai/simple-jev",
+  "stars": 371,
+  "description": "Turn any open model into a classifier/jev endpoint",
+  "url": "https://github.com/featherless-ai/simple-jev",
+  "pushed_at": "2026-09-20",
+  "language": "Python"
+ },
+ {
+  "full_name": "dabit3/jev-experiments",
+  "stars": 328,
+  "description": "",
+  "url": "https://github.com/dabit3/jev-experiments",
+  "pushed_at": "2026-09-20",
+  "language": "TypeScript"
+ },
+ {
+  "full_name": "fhshaik/typesafe-mario",
+  "stars": 295,
+  "description": "A TypeSafe/Jev agent that plays Super Mario Bros. from structured emulator state.",
+  "url": "https://github.com/fhshaik/typesafe-mario",
+  "pushed_at": "2026-09-16",
+  "language": "Python"
+ },
+ {
+  "full_name": "kyotofin/tax-doc-classifier",
+  "stars": 290,
+  "description": "Tax document page classifier built on Jev decisions. 100% strict accuracy across 261 IRS forms, ~$0.001 per page.",
+  "url": "https://github.com/kyotofin/tax-doc-classifier",
+  "pushed_at": "2026-09-20",
+  "language": "TypeScript"
+ },
+ {
+  "full_name": "superagents-lab/jev-search",
+  "stars": 284,
+  "description": "Search the web with TypeSafe's Jev: source selection, query understanding and relevance ranking. Built with Search1API.",
+  "url": "https://github.com/superagents-lab/jev-search",
+  "pushed_at": "2026-09-20",
+  "language": "TypeScript"
+ },
+ {
+  "full_name": "droidrun/mobile-jev",
+  "stars": 264,
+  "description": "",
+  "url": "https://github.com/droidrun/mobile-jev",
+  "pushed_at": "2026-09-17",
+  "language": "JavaScript"
+ },
+ {
+  "full_name": "cobanov/awesome-jev",
+  "stars": 247,
+  "description": "A curated, source-backed list of projects built with Jev, TypeSafe AI's System One model for typed decisions.",
+  "url": "https://github.com/cobanov/awesome-jev",
+  "pushed_at": "2026-09-20",
+  "language": null
+ },
+ {
+  "full_name": "gargpratyush/jev-router",
+  "stars": 244,
+  "description": "Route to the cheapest model in claude code for your task using jev-router",
+  "url": "https://github.com/gargpratyush/jev-router",
+  "pushed_at": "2026-09-19",
+  "language": "JavaScript"
+ },
+ {
+  "full_name": "wy-coliney/jev-browser-use",
+  "stars": 240,
+  "description": "5–10x faster browser operations: Jev clicks, Codex thinks and verifies. Built at EZCollegeApp.",
+  "url": "https://github.com/wy-coliney/jev-browser-use",
+  "pushed_at": "2026-09-19",
+  "language": "JavaScript"
+ },
+ {
+  "full_name": "realZachi/pg-jev",
+  "stars": 236,
+  "description": "Ask your Postgres tables questions in plain language. A PostgreSQL extension powered by TypeSafe's Jev.",
+  "url": "https://github.com/realZachi/pg-jev",
+  "pushed_at": "2026-09-18",
+  "language": "Shell"
+ },
+ {
+  "full_name": "sutro-sh/jev-align",
+  "stars": 223,
+  "description": "Build calibrated AI classifiers from human feedback using Jev and GEPA.",
+  "url": "https://github.com/sutro-sh/jev-align",
+  "pushed_at": "2026-09-19",
+  "language": "Python"
+ },
+ {
+  "full_name": "rokbenko/quackd",
+  "stars": 218,
+  "description": "One CLI for all your robots. Connect them, command them, and let them work together, each with an LLM for a brain, Jev for cheaper steps. Microduck, Open Duck Mini, LeRobot, XLeRobot, AlohaMini, ToddlerBot or any ROS base. Claude, OpenAI, Gemini, Grok, or local via Ollama or vLLM. Simulator, .duck safety contracts, MCP, memory between runs, flocks.",
+  "url": "https://github.com/rokbenko/quackd",
+  "pushed_at": "2026-09-19",
+  "language": "Python"
+ },
+ {
+  "full_name": "ekzhang/openjev-sglang",
+  "stars": 213,
+  "description": "Jev-compatible API endpoint based on open models (prefill-only)",
+  "url": "https://github.com/ekzhang/openjev-sglang",
+  "pushed_at": "2026-09-18",
+  "language": "Python"
+ },
+ {
+  "full_name": "kitze/skillbox",
+  "stars": 213,
+  "description": "Self-hosted, versioned skills library for AI agents. MCP, scoped clients, and optional Jev recommendations.",
+  "url": "https://github.com/kitze/skillbox",
+  "pushed_at": "2026-09-19",
+  "language": "TypeScript"
+ },
+ {
+  "full_name": "logicrw/awesome-jev-projects",
+  "stars": 200,
+  "description": "Awesome Jev: source-backed open-source ecosystem radar, plain-language project discovery, and automatic GitHub sync",
+  "url": "https://github.com/logicrw/awesome-jev-projects",
+  "pushed_at": "2026-09-20",
+  "language": "JavaScript"
+ },
+ {
+  "full_name": "kerpopule/hermes-jev-skills",
+  "stars": 196,
+  "description": "Jev-powered model routing, memory, compaction, skill selection, computer and browser use for Hermes agents (also Claude Code and Codex)",
+  "url": "https://github.com/kerpopule/hermes-jev-skills",
+  "pushed_at": "2026-09-20",
+  "language": "Python"
+ }
+]
