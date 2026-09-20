@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jev 决策模型全景调研 · laos</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2230; --line:#2a3140;
+    --fg:#e6edf3; --dim:#9aa7b8; --cyan:#39d0d8; --orange:#f0883e;
+    --red:#f85149; --green:#3fb950; --purple:#bc8cff; --yellow:#e3b341;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+       font-size:15px;line-height:1.7}
+  a{color:var(--cyan);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .layout{display:flex;max-width:1560px;margin:0 auto}
+  nav{position:sticky;top:0;height:100vh;width:238px;flex:0 0 238px;overflow-y:auto;
+      border-right:1px solid var(--line);padding:22px 14px;background:#0b0f15}
+  nav h4{margin:0 0 12px;font-size:13px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase}
+  nav a{display:block;padding:6px 10px;margin:2px 0;border-radius:6px;color:var(--dim);font-size:13.5px}
+  nav a:hover{background:var(--panel2);color:var(--fg);text-decoration:none}
+  nav a.sub{padding-left:24px;font-size:12.5px}
+  main{flex:1;min-width:0;padding:34px 40px 90px}
+  header{border-bottom:1px solid var(--line);padding-bottom:26px;margin-bottom:34px}
+  h1{font-size:31px;margin:0 0 10px;letter-spacing:-.01em}
+  h1 span{color:var(--cyan)}
+  .meta{color:var(--dim);font-size:13px}
+  .lead{font-size:16px;color:#c9d5e3;border-left:3px solid var(--cyan);
+        padding:12px 16px;background:var(--panel);border-radius:0 8px 8px 0;margin:22px 0}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:14px;margin:24px 0 8px}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .kpi b{display:block;font-size:26px;color:var(--cyan);line-height:1.25}
+  .kpi small{color:var(--dim);font-size:12.5px}
+  .kpi.warn b{color:var(--red)} .kpi.ok b{color:var(--green)} .kpi.amber b{color:var(--orange)}
+  section{margin:52px 0;scroll-margin-top:14px}
+  h2{font-size:22px;margin:0 0 6px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+  h2 .num{color:var(--cyan);margin-right:10px;font-variant-numeric:tabular-nums}
+  h3{font-size:16.5px;margin:30px 0 10px;color:var(--orange)}
+  p{margin:12px 0}
+  ul{margin:10px 0;padding-left:22px} li{margin:5px 0}
+  code{background:#1b2230;padding:1px 6px;border-radius:4px;font-size:13px;color:var(--purple)}
+  pre{background:#10161f;border:1px solid var(--line);border-radius:10px;padding:16px 18px;
+      overflow-x:auto;font-size:12.5px;line-height:1.6;margin:14px 0}
+  pre code{background:none;padding:0;color:#c9d5e3;font-size:12.5px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:18px 0}
+  .note{color:var(--dim);font-size:13px}
+  .tw{overflow-x:auto;border:1px solid var(--line);border-radius:10px;margin:16px 0}
+  table{border-collapse:collapse;width:100%;min-width:720px;font-size:13.5px}
+  th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  th{background:#131a24;color:var(--dim);font-weight:600;white-space:nowrap;position:sticky;top:0}
+  tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:#141b26}
+  .dead{color:var(--red)} .alive{color:var(--green)} .maybe{color:var(--yellow)}
+  .tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:11.5px;
+       border:1px solid var(--line);color:var(--dim);white-space:nowrap}
+  .tag.c{color:var(--cyan);border-color:#1d4b50} .tag.g{color:var(--green);border-color:#1d4a26}
+  .tag.r{color:var(--red);border-color:#4d2220} .tag.o{color:var(--orange);border-color:#4d351d}
+  svg{display:block;max-width:100%;height:auto}
+  .fig{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;margin:18px 0}
+  .fig .cap{color:var(--dim);font-size:12.5px;margin-top:10px}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;color:var(--dim);font-size:12.5px;margin-top:10px}
+  .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px}
+  .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:18px 0}
+  .cell{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .cell.hi{border-color:#4d2220} .cell.mid{border-color:#4d3f1d} .cell.lo{border-color:#1d4a26}
+  .cell b{display:block;margin-bottom:6px}
+  .cell .lvl{font-size:12px;font-weight:600}
+  .hi .lvl{color:var(--red)} .mid .lvl{color:var(--yellow)} .lo .lvl{color:var(--green)}
+  .warnbox{background:#1d1416;border:1px solid #4d2220;border-radius:10px;padding:16px 20px;margin:18px 0}
+  .warnbox b{color:var(--red)}
+  footer{border-top:1px solid var(--line);margin-top:60px;padding-top:20px;color:var(--dim);font-size:13px}
+  @media(max-width:960px){nav{display:none}main{padding:24px 18px 60px}}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav>
+  <h4>目录</h4>
+  <a href="#top">概览</a>
+  <a href="#essence">1 · 技术实质</a>
+  <a href="#credibility">2 · 官方数字可信度</a>
+  <a href="#ecosystem">3 · 生态全景 778</a>
+  <a href="#repro" class="sub">3b · 复现 vs 借用</a>
+  <a href="#ondevice">4 · 端侧实测</a>
+  <a href="#placement">5 · laos 落点</a>
+  <a href="#funnel" class="sub">5b · 四段漏斗图</a>
+  <a href="#notworth">6 · 不值得做</a>
+  <a href="#parallel">7 · 并行实现线</a>
+  <a href="#rulings">8 · 口径裁定</a>
+  <a href="#ref">9 · 参考来源</a>
+</nav>
+
+<main>
+<header id="top">
+  <h1>Jev 决策模型<span>全景调研</span></h1>
+  <div class="meta">2026-09-21 · TypeSafe System One · 778 条生态普查 + 本机端侧实测 · laos 常驻音频 Agent</div>
+  <div class="lead">
+    <b>值得在 laos 用，但只值得用在离线路径上</b>——不是「接入一个更聪明的判定器」，而是把 11 处硬阈值换成带校准度的打分，且必须共享单一常驻 session。
+    漏斗①常驻每帧调用被否决（0.5–1.5 W 附加）；官方云端 API 不可用（闭源、未向中国大陆开放）。
+  </div>
+</header>
+
+<div class="kpis">
+  <div class="kpi"><b>778</b><small>生态仓库（1443 原始 → 剔除 665 噪声）</small></div>
+  <div class="kpi amber"><b>90%</b><small>项目不足 100 star（新生生态）</small></div>
+  <div class="kpi warn"><b>2</b><small>laos_fit = core（严格判定）</small></div>
+  <div class="kpi ok"><b>157.5 ms</b><small>edgejev 实测 median（3 题批量）</small></div>
+  <div class="kpi warn"><b>×10</b><small>README 宣称 15.6 ms 被否证</small></div>
+  <div class="kpi"><b>11</b><small>laos 判定点（逐个核对源码）</small></div>
+</div>
+
+<section id="essence">
+<h2><span class="num">1</span>技术实质</h2>
+
+<h3>System One：不生成文本的决策模型</h3>
+<p>TypeSafe AI 的 <b>System One</b>（对标 Kahneman 快慢分工中的「快系统」）。transformer-based，但<b>不生成文本</b>——非自回归 + 并行采样器。训练方法 <b>RLCD</b>（Reinforcement Learning for Calibrated Decisions，对标 RLHF）。</p>
+<p><b>与「小 LLM」的本质区别不是参数量，而是输出空间在推理前就被定义。</b> LLM 从整个词表采样；Jev 从调用方给定的候选集里选。</p>
+
+<h3>三个原语</h3>
+<div class="fig">
+<svg viewBox="0 0 760 300" role="img" aria-label="Jev 三个原语示意图">
+  <text x="16" y="26" fill="#e6edf3" font-size="15" font-weight="600">一次请求 · 三原语并行且隔离求值（加题几乎不增延迟）</text>
+
+  <rect x="16" y="46" width="728" height="46" rx="8" fill="#1c2230" stroke="#2a3140"/>
+  <text x="32" y="75" fill="#9aa7b8" font-size="13">state（上下文）</text>
+  <rect x="150" y="56" width="576" height="26" rx="5" fill="#131a24" stroke="#2a3140"/>
+  <text x="164" y="74" fill="#c9d5e3" font-size="12">"用户说：这笔账单我被重复扣费了两次，我要退款"</text>
+
+  <line x1="380" y1="92" x2="380" y2="112" stroke="#2a3140" stroke-width="2"/>
+  <line x1="140" y1="112" x2="620" y2="112" stroke="#2a3140" stroke-width="2"/>
+  <line x1="140" y1="112" x2="140" y2="132" stroke="#2a3140" stroke-width="2"/>
+  <line x1="380" y1="112" x2="380" y2="132" stroke="#2a3140" stroke-width="2"/>
+  <line x1="620" y1="112" x2="620" y2="132" stroke="#2a3140" stroke-width="2"/>
+
+  <rect x="16" y="132" width="224" height="146" rx="10" fill="#161b22" stroke="#1d4b50"/>
+  <rect x="16" y="132" width="224" height="32" rx="10" fill="#12313a"/>
+  <text x="32" y="154" fill="#39d0d8" font-size="14" font-weight="600">Choice</text>
+  <text x="228" y="154" fill="#9aa7b8" font-size="11.5" text-anchor="end">≤255 选项</text>
+  <text x="32" y="182" fill="#e6edf3" font-size="12.5">从 N 个选项里选一个</text>
+  <text x="32" y="206" fill="#9aa7b8" font-size="12">→ choice</text>
+  <text x="32" y="226" fill="#9aa7b8" font-size="12">→ probabilities</text>
+  <text x="32" y="246" fill="#9aa7b8" font-size="12">→ confidence</text>
+  <text x="32" y="266" fill="#bc8cff" font-size="11.5">分类 · 路由</text>
+
+  <rect x="268" y="132" width="224" height="146" rx="10" fill="#161b22" stroke="#4d351d"/>
+  <rect x="268" y="132" width="224" height="32" rx="10" fill="#3a2a12"/>
+  <text x="284" y="154" fill="#f0883e" font-size="14" font-weight="600">Score</text>
+  <text x="480" y="154" fill="#9aa7b8" font-size="11.5" text-anchor="end">等级间可落</text>
+  <text x="284" y="182" fill="#e6edf3" font-size="12.5">打几分（带 legend）</text>
+  <text x="284" y="206" fill="#9aa7b8" font-size="12">→ score</text>
+  <text x="284" y="226" fill="#9aa7b8" font-size="12">→ legend</text>
+  <text x="284" y="246" fill="#9aa7b8" font-size="12">→ probabilities + confidence</text>
+  <text x="284" y="266" fill="#bc8cff" font-size="11.5">重要度 · 风险度</text>
+
+  <rect x="520" y="132" width="224" height="146" rx="10" fill="#161b22" stroke="#4d2220"/>
+  <rect x="520" y="132" width="224" height="32" rx="10" fill="#3a1512"/>
+  <text x="536" y="154" fill="#f85149" font-size="14" font-weight="600">Noul</text>
+  <text x="732" y="154" fill="#9aa7b8" font-size="11.5" text-anchor="end">是非</text>
+  <text x="536" y="182" fill="#e6edf3" font-size="12.5">0–1 概率</text>
+  <text x="536" y="206" fill="#9aa7b8" font-size="12">→ noul</text>
+  <text x="536" y="226" fill="#f85149" font-size="12">✗ 无独立 confidence</text>
+  <text x="536" y="246" fill="#9aa7b8" font-size="12">（不得自行补该字段）</text>
+  <text x="536" y="266" fill="#bc8cff" font-size="11.5">闸门 · 过滤</text>
+</svg>
+<div class="cap">裁定 J6：<code>Noul</code> 无独立 confidence，laos 落点不得自行补该字段。</div>
+</div>
+
+<h3>confidence 的语义（最容易讲错的一点）</h3>
+<p><b>confidence 来自概率分布形状，不是胜出选项的概率。</b></p>
+<div class="panel">
+<p>官方示例：billing 拿到 <b class="maybe">0.84</b>（最高），但 confidence 只有 <b class="dead">0.596</b>——因为 technical 仍占 0.159，分布不够"尖"。</p>
+<div class="tw"><table>
+<thead><tr><th>置信档</th><th>处置</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><span class="tag g">高</span></td><td>自动执行</td><td>分布足够尖</td></tr>
+<tr><td><span class="tag o">中</span></td><td>入复核队列</td><td>次优选项仍有分量</td></tr>
+<tr><td><span class="tag r">低</span></td><td>转人工</td><td>阈值按错判代价缩放</td></tr>
+</tbody></table></div>
+</div>
+
+<h3>请求 / 响应形状</h3>
+<pre><code>POST https://api.typesafe.ai/v1/systemone
+{
+  "state": "用户说：这笔账单我被重复扣费了两次，我要退款",
+  "model": "system-one",
+  "questions": [
+    {"id": "dept",  "mode": "choice", "question": "应该转给哪个部门？",
+     "options": ["billing", "technical", "sales"]},
+    {"id": "urg",   "mode": "score",   "question": "紧急程度？", "levels": 5},
+    {"id": "human", "mode": "noul",    "question": "需要人工介入吗？"}
+  ]
+}
+
+--- answers ---
+[
+ {"id":"dept",  "choice":"billing", "probabilities":{"billing":0.84,"technical":0.159,...},
+  "confidence":0.596},                       ← 不是 0.84
+ {"id":"urg",   "score":4, "legend":["很低","低","中","高","很高"], "confidence":0.71},
+ {"id":"human", "noul":0.23}                 ← 无 confidence
+]</code></pre>
+</section>
+
+<section id="credibility">
+<h2><span class="num">2</span>官方数字的可信度分级</h2>
+<p><b>官方数字全部是厂商自测，与第三方实测差距一个数量级。</b></p>
+<div class="tw"><table>
+<thead><tr><th>官方宣称</th><th>第三方实测</th><th>判定</th></tr></thead>
+<tbody>
+<tr><td>端到端 70–500 ms</td><td>—</td><td><span class="tag o">官方自测</span></td></tr>
+<tr><td>$0.042 / 1M input tokens，output 免费</td><td>—</td><td><span class="tag o">官方自测</span></td></tr>
+<tr><td><b>193.6× 更快</b></td><td>—</td><td><span class="tag o">官方自测</span> 参照系 GPT-6 Astra / Fable 5.1 平均</td></tr>
+<tr><td><b>444.6× 更便宜</b></td><td>—</td><td><span class="tag o">官方自测</span> 同上</td></tr>
+<tr><td>—</td><td><b>20–24% 提升</b></td><td><span class="tag c">第三方</span> AGI Hunt 汇总复现</td></tr>
+<tr><td>0% 结构化输出错误</td><td>—</td><td><span class="tag r">schema 保证，非实测</span> 答案仍可能错</td></tr>
+</tbody></table></div>
+
+<h3>为什么官方 API 不能作为 laos 运行时依赖</h3>
+<div class="grid3">
+  <div class="cell hi"><b>闭源、无权重</b><span class="lvl">无法自托管 / 无法审计</span></div>
+  <div class="cell hi"><b>无自托管选项</b><span class="lvl">违反本地优先架构</span></div>
+  <div class="cell hi"><b>未向中国大陆开放</b><span class="lvl">央广网 2026-09-20 报道 APUS 复现时明确提及</span></div>
+  <div class="cell mid"><b>配额不可控</b><span class="lvl">常驻场景调用量不可预测</span></div>
+</div>
+</section>
+
+<section id="ecosystem">
+<h2><span class="num">3</span>生态全景（778 条）</h2>
+<p>原始 <b>1443</b> → 字面判据 1399 → <b>精度判据 778</b>（剔除 <b>665</b>）。</p>
+<p class="note">去噪是必需的：Jev 是两周内新词，裸词检索混入 <code>jevil</code> / <code>Jevons</code> / <code>jevent</code> / <code>JEVAN-BINDU-ANDROID</code>。被剔除例子：<code>KRLW890/jevil-simulator</code>、<code>grabbou/jevil</code>、<code>killme2008/jevent</code>。</p>
+
+<h3>分类分布（8 类）</h3>
+<div class="fig">
+<svg viewBox="0 0 760 330" role="img" aria-label="生态分类分布条形图">
+  <text x="16" y="22" fill="#e6edf3" font-size="14" font-weight="600">类别条数（对数色阶：条越长越多）</text>
+  <line x1="120" y1="36" x2="120" y2="300" stroke="#2a3140" stroke-width="1"/>
+  <line x1="120" y1="300" x2="740" y2="300" stroke="#2a3140" stroke-width="1"/>
+
+  <text x="112" y="55" fill="#9aa7b8" font-size="12.5" text-anchor="end">应用</text>
+  <rect x="120" y="44" width="620" height="18" rx="3" fill="#39d0d8"/>
+  <text x="748" y="58" fill="#e6edf3" font-size="12.5">344</text>
+
+  <text x="112" y="85" fill="#9aa7b8" font-size="12.5" text-anchor="end">工具</text>
+  <rect x="120" y="74" width="362" height="18" rx="3" fill="#39d0d8" opacity="0.82"/>
+  <text x="490" y="88" fill="#e6edf3" font-size="12.5">201</text>
+
+  <text x="112" y="115" fill="#9aa7b8" font-size="12.5" text-anchor="end">客户端</text>
+  <rect x="120" y="104" width="184" height="18" rx="3" fill="#39d0d8" opacity="0.68"/>
+  <text x="312" y="118" fill="#e6edf3" font-size="12.5">102</text>
+
+  <text x="112" y="145" fill="#9aa7b8" font-size="12.5" text-anchor="end">复现 ★</text>
+  <rect x="120" y="134" width="76" height="18" rx="3" fill="#3fb950"/>
+  <text x="204" y="148" fill="#e6edf3" font-size="12.5">42</text>
+
+  <text x="112" y="175" fill="#9aa7b8" font-size="12.5" text-anchor="end">评测</text>
+  <rect x="120" y="164" width="74" height="18" rx="3" fill="#bc8cff" opacity="0.7"/>
+  <text x="202" y="178" fill="#e6edf3" font-size="12.5">41</text>
+
+  <text x="112" y="205" fill="#9aa7b8" font-size="12.5" text-anchor="end">清单</text>
+  <rect x="120" y="194" width="65" height="18" rx="3" fill="#e3b341" opacity="0.7"/>
+  <text x="193" y="208" fill="#e6edf3" font-size="12.5">36</text>
+
+  <text x="112" y="235" fill="#9aa7b8" font-size="12.5" text-anchor="end">复现(单token) ★</text>
+  <rect x="120" y="224" width="14" height="18" rx="3" fill="#f0883e"/>
+  <text x="142" y="238" fill="#e6edf3" font-size="12.5">8</text>
+
+  <text x="112" y="265" fill="#9aa7b8" font-size="12.5" text-anchor="end">官方</text>
+  <rect x="120" y="254" width="7" height="18" rx="3" fill="#f85149"/>
+  <text x="135" y="268" fill="#e6edf3" font-size="12.5">4</text>
+
+  <rect x="120" y="286" width="11" height="11" rx="2" fill="#3fb950"/>
+  <text x="139" y="296" fill="#9aa7b8" font-size="11.5">★ = 本次调研的关键区分（见 3b）</text>
+</svg>
+<div class="cap">star 中位数：应用 2 / 工具 7 / 客户端 2 / 复现 2 / 评测 2 / 清单 12 / 复现(单token) 2 / 官方 185。</div>
+</div>
+
+<h3>规模现实：90% 不足 100 star</h3>
+<div class="fig">
+<svg viewBox="0 0 760 130" role="img" aria-label="star 分布">
+  <text x="16" y="20" fill="#e6edf3" font-size="14" font-weight="600">star 分布（n=778）</text>
+  <rect x="16" y="34" width="4" height="56" rx="2" fill="#39d0d8"/>
+  <text x="28" y="52" fill="#e6edf3" font-size="13">2</text><text x="28" y="70" fill="#9aa7b8" font-size="11.5">≥10000</text>
+  <rect x="100" y="46" width="16" height="44" rx="2" fill="#39d0d8" opacity="0.85"/>
+  <text x="124" y="64" fill="#e6edf3" font-size="13">8</text><text x="124" y="82" fill="#9aa7b8" font-size="11.5">1000–9999</text>
+  <rect x="200" y="58" width="136" height="32" rx="2" fill="#39d0d8" opacity="0.6"/>
+  <text x="344" y="76" fill="#e6edf3" font-size="13">68</text><text x="344" y="94" fill="#9aa7b8" font-size="11.5">100–999</text>
+  <rect x="420" y="24" width="320" height="66" rx="2" fill="#f0883e" opacity="0.55"/>
+  <text x="430" y="58" fill="#e6edf3" font-size="17" font-weight="600">700</text>
+  <text x="430" y="78" fill="#9aa7b8" font-size="12">＜100 star（90.0%）</text>
+  <text x="16" y="118" fill="#9aa7b8" font-size="11.5">这是两周内爆发的小项目集合，不是成熟生态。laos_fit=core 只有 2 条，严格度是有意为之。</text>
+</svg>
+</div>
+
+<h3>Top 项目</h3>
+<div class="tw"><table>
+<thead><tr><th>项目</th><th>star</th><th>类别</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>OpenByteInc/QuantDinger</td><td>11810</td><td>应用</td><td>开源 AI 交易 OS</td></tr>
+<tr><td>browser-use/jev-ultrafast</td><td>11101</td><td>客户端</td><td>i. am. speed.</td></tr>
+<tr><td>tamaratran/fast-jev-compaction</td><td>4878</td><td>应用</td><td>Claude Code 压缩插件</td></tr>
+<tr><td>killop/anything_about_game</td><td>4110</td><td>清单</td><td><span class="maybe">边界项：游戏资源清单，带 jev topic 但实质无关</span></td></tr>
+<tr><td>TheoLeeCJ/SemIf</td><td>2286</td><td>复现</td><td>Semantic ifs from open models（3090 本地）</td></tr>
+<tr><td>jarrodwatts/jev-trader</td><td>1455</td><td>应用</td><td>每个 Monad 区块一次交易决策</td></tr>
+<tr><td>TianyuCodings/NanoJev</td><td>1309</td><td>复现</td><td>nano replica：并行决策</td></tr>
+<tr><td>mizorewww/laya-mlx</td><td>1114</td><td>复现</td><td>MLX 原生运行时</td></tr>
+<tr><td>vinnylarouge/jevlike</td><td>1055</td><td>工具</td><td>—</td></tr>
+<tr><td>typesafe-ai/skills</td><td>1022</td><td>官方</td><td>Agent skills for System One</td></tr>
+<tr><td>bespokelabsai/nimble</td><td>944</td><td>复现</td><td>Local typed decisions</td></tr>
+<tr><td>jaredpalmer/kev</td><td>805</td><td>复现</td><td>Qwen2.5-0.5B 上的 tiny Jev</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="repro">
+<h2><span class="num">3b</span>关键裁定：复现 ≠ 借用范式</h2>
+<div class="warnbox">
+<b>不区分这两类，会得出「端侧跑 Jev 只要 15 ms」的错结论。</b>
+</div>
+<div class="tw"><table>
+<thead><tr><th></th><th>复现（42 条）</th><th>复现(单token打分)（8 条）</th></tr></thead>
+<tbody>
+<tr><td><b>做法</b></td><td>重新训练出非自回归决策头</td><td>借用现成 LM 的<b>首个 token logits</b></td></tr>
+<tr><td><b>代表</b></td><td>wfzyx/von、openJev-verdict-2.0、jaredpalmer/kev、NanoJev</td><td>simple-jev、LLM2Jev、fast-browser-use</td></tr>
+<tr><td><b>需要训练</b></td><td class="alive">是</td><td class="dead">否</td></tr>
+<tr><td><b>延迟构成</b></td><td>单次 forward pass</td><td>生成式，受生成长度影响</td></tr>
+<tr><td><b>校准性</b></td><td class="alive">训练目标即校准</td><td class="dead">未经校准训练，概率不可信</td></tr>
+</tbody></table></div>
+
+<h3>「语音 + 常驻」先例（与 laos 最贴近）</h3>
+<p>778 条里找到 <b>11 条</b>，全部是 0–146★ 的小项目：</p>
+<ul>
+<li><code>moritzkremb/jev-voice-browser</code>(146★) · <code>kevinbadi/jev-voice</code>(37★，local whisper.cpp + one Jev call)</li>
+<li><code>chasemc67/Jevis</code>(1★) —— <b>Jev-filtered always-on speech input harness：mic → STT → Jev → text</b></li>
+<li><code>sgaabdu4/capture</code>(2★，Private Mac voice diary) · 其余 6 条 0–2★</li>
+</ul>
+<p><b>这条路有人走过，没人做成。</b> laos 有现成的四段漏斗，这正是可以补的位置——但也意味着没有成熟方案可抄。</p>
+</section>
+
+<section id="ondevice">
+<h2><span class="num">4</span>端侧可行性（实测，非 README）</h2>
+
+<div class="grid3">
+  <div class="cell lo"><b>yzfly/edgejev — 跑通</b><span class="lvl">ONNX int8 · 运行时不依赖 torch</span></div>
+  <div class="cell hi"><b>wfzyx/von — 否决</b><span class="lvl">torch + 1.5 GB 权重，手机装不下</span></div>
+  <div class="cell hi"><b>laya-rust — 否决</b><span class="lvl">需 cargo 编译，峰值 RAM 2.4 GB</span></div>
+</div>
+
+<h3>edgejev 实测数字（本机 x86，AMD Zen 3）</h3>
+<div class="tw"><table>
+<thead><tr><th>指标</th><th>实测值</th><th>备注</th></tr></thead>
+<tbody>
+<tr><td>首次加载</td><td><b class="dead">2144 ms</b></td><td>加载 324 MB ONNX + 初始化会话；<b>不能频繁启停</b></td></tr>
+<tr><td>median 延迟</td><td><b class="alive">157.5 ms</b></td><td>3 题齐发，单 forward pass（单题约 80–130 ms）</td></tr>
+<tr><td>p95 延迟</td><td>233.1 ms</td><td>同上</td></tr>
+<tr><td>峰值 RSS</td><td><b>494.8 MB</b></td><td>含 324 MB 模型驻留</td></tr>
+<tr><td>模型目录</td><td>358.9 MB</td><td>model.onnx 324.5 MB + tokenizer 34.4 MB</td></tr>
+</tbody></table></div>
+
+<div class="warnbox">
+<b>README 宣称的 15.6 ms 被否证 —— 实测慢约 10×</b><br>
+<span class="note">✅ 模型体积 324 MB 一致　✅ 运行时无 torch 一致　❌ 延迟不一致</span><br>
+<span class="note">15.6 ms 是在 <b>4 vCPU Intel Xeon Cascade Lake（AVX512-VNNI）</b> 上测的硬件特例；本机 <b>AMD Zen 3 无 AVX512-VNNI</b>，int8 只能走 AVX2。裁定 J7：README 的 15.6 ms 不得在落点代价中引用。</span>
+</div>
+
+<h3>外推到 proot aarch64（量级估计，无可靠系数）</h3>
+<div class="fig">
+<svg viewBox="0 0 760 200" role="img" aria-label="功耗对照">
+  <text x="16" y="22" fill="#e6edf3" font-size="14" font-weight="600">两种用法，两个量级</text>
+
+  <rect x="16" y="40" width="352" height="132" rx="10" fill="#12200f" stroke="#1d4a26"/>
+  <text x="34" y="66" fill="#3fb950" font-size="14" font-weight="600">✓ 离线 / 二级确认</text>
+  <text x="34" y="92" fill="#e6edf3" font-size="12.5">每天数百–数千次，单批 157.5 ms</text>
+  <text x="34" y="118" fill="#3fb950" font-size="22" font-weight="600">常摊 4.6 mW</text>
+  <text x="34" y="142" fill="#9aa7b8" font-size="12">相对通用 Linux 空闲 400–1000 mW → 可忽略</text>
+  <text x="34" y="162" fill="#9aa7b8" font-size="12">两级结构（边界段二次确认）：0.1–0.2 mW</text>
+
+  <rect x="392" y="40" width="352" height="132" rx="10" fill="#1d1416" stroke="#4d2220"/>
+  <text x="410" y="66" fill="#f85149" font-size="14" font-weight="600">✗ 常驻每帧调用（1 次/秒）</text>
+  <text x="410" y="92" fill="#e6edf3" font-size="12.5">持续占用，且常驻 495 MB RSS</text>
+  <text x="410" y="118" fill="#f85149" font-size="22" font-weight="600">0.5–1.5 W 附加</text>
+  <text x="410" y="142" fill="#9aa7b8" font-size="12">≈ 手机 NPU 持续档 1–4 W 的一半 → 不可承受</text>
+  <text x="410" y="162" fill="#f85149" font-size="12">判定：否决，不进当前落地</text>
+</svg>
+<div class="cap">假设：aarch64 上 onnxruntime int8 走 SDOT（优于 x86 AVX2），但手机 Cortex-A 核心更弱、核数更少 → 净延迟不确定。<b>x86 → aarch64 没有可靠换算系数</b>，以上只是量级估计。</div>
+</div>
+
+<p><b>一句话结论</b>：端侧现在能跑 <code>yzfly/edgejev</code>（ONNX int8，359 MB，onnxruntime，无 torch），但延迟比 README 慢约 10×，且须先在构建机用 torch 跑 <code>edgejev build</code> 才能拿到权重——<b>只够漏斗③蒸馏，不够漏斗①常驻</b>。</p>
+</section>
+
+<section id="placement">
+<h2><span class="num">5</span>laos 落点</h2>
+
+<h3>11 个判定点（逐个核对源码确认）</h3>
+<div class="tw"><table>
+<thead><tr><th>位置</th><th>当前判定</th><th>类型</th></tr></thead>
+<tbody>
+<tr><td><code>laos/vad.py:43/107</code></td><td>固定能量阈值 <code>-35.0</code></td><td>硬阈值</td></tr>
+<tr><td><code>drivers/drv_mic.py:61/183</code></td><td>固定能量阈值 <code>-40.0</code></td><td>硬阈值</td></tr>
+<tr><td><code>laos/memory.py:35</code></td><td><code>bigram_jaccard</code></td><td>朴素相似度</td></tr>
+<tr><td><code>laos/memory.py:120</code></td><td><code>jaccard*0.7 + tag*0.2 + recency*0.1</code></td><td>三硬权重</td></tr>
+<tr><td><code>laos/memory.py:43</code></td><td><code>RECENCY_HALF_LIFE_DAYS = 14.0</code></td><td>硬阈值</td></tr>
+<tr><td><code>laos/risk.py:40/48</code></td><td><code>remaining &gt; reserve</code></td><td>布尔硬规则</td></tr>
+<tr><td><code>laos/context.py:127/162/174</code></td><td>按 token 窗口换出</td><td>硬阈值</td></tr>
+<tr><td><code>laos/skills.py:48</code></td><td>走 <code>memory.recall</code></td><td>朴素相似度</td></tr>
+<tr><td><code>laos/brain.py:220</code></td><td>单一 brain，无路由</td><td>空缺</td></tr>
+<tr><td><code>drivers/drv_ear.py:191</code></td><td>固定 ASR 通道</td><td>固定</td></tr>
+<tr><td><code>laos/scheduler.py:41/86</code></td><td>优先级 + token 预算</td><td>规则调度</td></tr>
+</tbody></table></div>
+<p class="note">偏差 A：<code>memory.remember</code>(106-112) 与 <code>context._compact_if_needed</code>(131-156) <b>已存在 opt-in <code>judge.noul</code> 钩子</b>——来自并行实现线（提交 <code>c685f32</code>），不是本调研写的。</p>
+
+<h3>落地顺序 P0–P4</h3>
+<div class="tw"><table>
+<thead><tr><th>优先级</th><th>落点</th><th>原语</th><th>理由</th></tr></thead>
+<tbody>
+<tr><td><span class="tag g">P0</span></td><td>上下文压缩(8) + 记忆召回精排(4)</td><td>Noul / Score</td><td>均<b>离线非实时</b>，不碰常驻每帧路径；157.5 ms/批、每天数百次 → 常摊 <b>4.6 mW</b>；压缩钩子骨架已就位，<b>落地成本最低</b></td></tr>
+<tr><td><span class="tag c">P1</span></td><td>蒸馏重要度(2) + 记忆类别路由(3)</td><td>Score / Choice</td><td>漏斗③蒸馏后触发（非每帧）；共享同一常驻 session，加题不增延迟</td></tr>
+<tr><td><span class="tag c">P2</span></td><td>不可逆操作闸门(6)</td><td>Score + confidence</td><td>价值最高（防烧预算），但 <code>charge</code> 按尝试计费且 kill 不退款 → 阈值须严调</td></tr>
+<tr><td><span class="tag o">P3</span></td><td>记忆半衰期分档(5) + 技能路由(7)</td><td>Score / Choice</td><td>半衰期需重构 <code>recall</code> 的 <code>recency</code> 项（中改动）</td></tr>
+<tr><td><span class="tag o">P4</span></td><td>Brain 路由(9)</td><td>Choice</td><td>改动最大、收益边际</td></tr>
+<tr><td><span class="tag r">否决</span></td><td>漏斗①常驻(1)</td><td>Noul（两级）</td><td>纯每帧调用<b>不可行</b>（0.5–1.5 W）；两级结构可行但属实时触发路径，须先在 proot aarch64 实测功耗后评估</td></tr>
+</tbody></table></div>
+<p class="note">映射分布：<code>Choice</code> × 3（类别路由 / 技能路由 / Brain 路由）· <code>Score</code> × 4（重要度 / 召回精排 / 半衰期 / 不可逆闸门）· <code>Noul</code> × 2（触发 / 压缩）。</p>
+</section>
+
+<section id="funnel">
+<h2><span class="num">5b</span>laos 四段漏斗落点图</h2>
+<div class="fig">
+<svg viewBox="0 0 760 300" role="img" aria-label="laos 四段漏斗与 Jev 落点">
+  <text x="16" y="22" fill="#e6edf3" font-size="14" font-weight="600">四段漏斗 · Jev 落点（红=否决，绿=落地，橙=后期）</text>
+
+  <rect x="16" y="40" width="170" height="96" rx="10" fill="#1d1416" stroke="#4d2220"/>
+  <text x="30" y="62" fill="#f85149" font-size="13" font-weight="600">① 常驻检测</text>
+  <text x="30" y="82" fill="#9aa7b8" font-size="11.5">VAD 能量门 · 不落盘</text>
+  <text x="30" y="104" fill="#f85149" font-size="12">✗ Noul 每帧 — 否决</text>
+  <text x="30" y="122" fill="#9aa7b8" font-size="11.5">0.5–1.5 W 附加</text>
+
+  <rect x="204" y="40" width="170" height="96" rx="10" fill="#161b22" stroke="#2a3140"/>
+  <text x="218" y="62" fill="#9aa7b8" font-size="13" font-weight="600">② 触发捕获</text>
+  <text x="218" y="82" fill="#9aa7b8" font-size="11.5">检测到声音后录</text>
+  <text x="218" y="104" fill="#9aa7b8" font-size="12">两级结构（备选）</text>
+  <text x="218" y="122" fill="#9aa7b8" font-size="11.5">能量门先过 + 边界段确认</text>
+
+  <rect x="392" y="40" width="170" height="96" rx="10" fill="#12200f" stroke="#1d4a26"/>
+  <text x="406" y="62" fill="#3fb950" font-size="13" font-weight="600">③ 即时蒸馏</text>
+  <text x="406" y="82" fill="#9aa7b8" font-size="11.5">ASR + 情绪 → 入记忆</text>
+  <text x="406" y="104" fill="#3fb950" font-size="12">✓ P1 Score + Choice</text>
+  <text x="406" y="122" fill="#9aa7b8" font-size="11.5">重要度 / 类别路由</text>
+
+  <rect x="580" y="40" width="164" height="96" rx="10" fill="#161b22" stroke="#2a3140"/>
+  <text x="594" y="62" fill="#9aa7b8" font-size="13" font-weight="600">④ 原音频即焚</text>
+  <text x="594" y="82" fill="#9aa7b8" font-size="11.5">TTL 删原始音频</text>
+  <text x="594" y="104" fill="#9aa7b8" font-size="12">（无判定点）</text>
+
+  <line x1="186" y1="88" x2="204" y2="88" stroke="#2a3140" stroke-width="2"/>
+  <line x1="374" y1="88" x2="392" y2="88" stroke="#2a3140" stroke-width="2"/>
+  <line x1="562" y1="88" x2="580" y2="88" stroke="#2a3140" stroke-width="2"/>
+
+  <rect x="16" y="156" width="728" height="52" rx="10" fill="#12200f" stroke="#1d4a26"/>
+  <text x="32" y="178" fill="#3fb950" font-size="13" font-weight="600">P0 · 上下文压缩（Noul）+ 记忆召回精排（Score）</text>
+  <text x="32" y="198" fill="#9aa7b8" font-size="12">离线非实时 · 复用单一常驻 session · 常摊 4.6 mW · 压缩钩子骨架已就位（c685f32）</text>
+
+  <rect x="16" y="220" width="728" height="52" rx="10" fill="#1d1416" stroke="#4d2220"/>
+  <text x="32" y="242" fill="#f85149" font-size="13" font-weight="600">架构前提：所有落点必须共享单一常驻 session</text>
+  <text x="32" y="262" fill="#9aa7b8" font-size="12">首载 2144 ms + 常驻 ~495 MB → N 个实例线性放大 RAM，手机上直接 OOM。多题可一次 system_one 齐发，加题几乎不增延迟。</text>
+</svg>
+</div>
+</section>
+
+<section id="notworth">
+<h2><span class="num">6</span>不值得做的部分</h2>
+<div class="grid3">
+  <div class="cell hi"><b>官方云端 API 进运行时</b><span class="lvl">闭源 / 未开放中国大陆 / 违反本地优先</span></div>
+  <div class="cell hi"><b>为 laos 自训练决策头</b><span class="lvl">成本收益不匹配（复现类已有 42 条）</span></div>
+  <div class="cell hi"><b>用 Jev 替代 ASR 或情绪模型</b><span class="lvl">Jev 不生成文本，不是生成模型的替代品</span></div>
+  <div class="cell hi"><b>漏斗①每帧无条件调用</b><span class="lvl">功耗否决（0.5–1.5 W 附加）</span></div>
+  <div class="cell mid"><b>每判定点独立启停实例</b><span class="lvl">首载 2144 ms + 495 MB × N → OOM</span></div>
+</div>
+<p>最后一条是<b>前面所有落点的架构前提</b>：所有 Jev 落点必须以<b>单一常驻 session</b> 服务。</p>
+</section>
+
+<section id="parallel">
+<h2><span class="num">7</span>与并行实现线的关系</h2>
+<p>调研进行的同时，另一路工作在同一个仓库里推进，<b>并已把 Jev 实现进 laos 代码</b>。这不是冲突而是互补——但有<b>一处接口不匹配</b>必须点名。</p>
+
+<h3>并行线已完成</h3>
+<div class="tw"><table>
+<thead><tr><th>提交</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td><code>3399dbc</code></td><td><code>plans/2026-09-18-jev-system-one-layer.md</code></td></tr>
+<tr><td><code>be08c72</code></td><td><code>2026-09-18-jev-landscape.md</code>（239 行）+ 扩充 curated 语料</td></tr>
+<tr><td><code>509189a</code></td><td><b>laos/judge.py（333 行）+ tests/test_judge.py</b></td></tr>
+<tr><td><code>a65932a</code></td><td>laos/kernel.py 高危 syscall prejudge 闸门（opt-in）</td></tr>
+<tr><td><code>c685f32</code></td><td>laos/memory.py / context.py 记忆入库与压缩预审（opt-in）</td></tr>
+</tbody></table></div>
+<p><code>laos/judge.py</code> 四个后端：<code>RuleBackend</code>（规则兜底）/ <code>CloudBackend</code>（TypeSafe API）/ <b><code>LocalBackend</code></b>（<code>LAOS_JEV_ENDPOINT</code>）/ <code>SafeJudge</code>（异常降级）。</p>
+
+<h3>✅ 值得肯定：默认不走云端</h3>
+<pre><code>def select() -> JudgeBackend:
+    want = os.environ.get("LAOS_JEV_BACKEND", "none").strip().lower()
+    if want == "cloud":  return CloudBackend()
+    if want == "local":  return LocalBackend()
+    return RuleBackend()   # none | rule | 未知值 → 零依赖兜底</code></pre>
+<p>默认 <code>none → RuleBackend()</code>，<b>零依赖、零网络</b>；云端必须显式设环境变量才启用。这与「中国大陆未开放 + 本地优先」的硬约束<b>不冲突</b>。<code>SafeJudge</code> 也在异常时 fail-open 回落既有行为。</p>
+
+<div class="warnbox">
+<b>⚠ 必须点名：LocalBackend 与实测唯一的端侧候选接口不匹配</b><br><br>
+<span class="note">LocalBackend 是 <b>OpenAI 兼容 HTTP 端点</b>：<code>{endpoint}/v1/chat/completions</code>，把整体载荷 JSON.stringify 成 user 消息，再从生成结果里解析 <code>{"verdict":..., "confidence":...}</code>。</span><br><br>
+<span class="note">而本次实测<b>唯一跑通</b>的 <code>yzfly/edgejev</code> 是 <b>进程内 ONNX 直推</b>（<code>system_one(questions)</code> → 单次 forward pass），<b>不是 HTTP 服务</b>。</span><br><br>
+<b>三个后果：</b>
+<ul>
+<li>要接 edgejev，须先写一个 OpenAI 兼容的 HTTP shim，额外工程量 + 引入常驻 HTTP 服务。</li>
+<li><b>更本质</b>：走 chat completions = 从生成结果解析 JSON verdict，这是 §3b 里<b>「复现(单token打分)」那一类的形态</b>，不是真非自回归决策头 → <b>延迟是生成式绑定的，拿不到实测的 157.5 ms</b>。</li>
+<li>LocalBackend docstring 写的是「NanoJev/simple-jev」——这两个<b>没有一个被本次实测验证过端侧可跑</b>。</li>
+</ul>
+<b>建议</b>：若要真正吃到 edgejev 的 157.5 ms，应新增一个 <code>OnnxBackend</code>（进程内直推），而不是把它塞进 LocalBackend 的 HTTP 契约里。
+</div>
+
+<h3>本次调研的增量</h3>
+<div class="tw"><table>
+<thead><tr><th>维度</th><th>并行线（09-18）</th><th>本次（09-21）</th></tr></thead>
+<tbody>
+<tr><td>生态规模</td><td>~20–68 条（curated）</td><td><b>778 条</b>（全量抓取 + 去噪，含判据）</td></tr>
+<tr><td>端侧可行性</td><td>未实测</td><td><b>实测</b> 157.5 ms / 495 MB / 359 MB，<b>并否证 README 15.6 ms</b></td></tr>
+<tr><td>判定点映射</td><td>4 个集成点</td><td><b>11 个判定点</b>（逐个核对源码行号）+ P0–P4</td></tr>
+<tr><td>落点代价</td><td>未量化</td><td><b>量化</b>（常摊 4.6 mW vs 常驻 0.5–1.5 W 否决）</td></tr>
+<tr><td>架构前提</td><td>未讨论</td><td><b>单一常驻 session</b>（N×495 MB 会 OOM）</td></tr>
+</tbody></table></div>
+<p><b>核心增量是「端侧实测数字」与「判定点映射」</b>——正是并行线实现时缺的判据。反过来，并行线已把骨架写进代码，本次的落点设计可直接挂上去。</p>
+</section>
+
+<section id="rulings">
+<h2><span class="num">8</span>口径裁定记录</h2>
+<div class="tw"><table>
+<thead><tr><th>编号</th><th>裁定</th></tr></thead>
+<tbody>
+<tr><td><b>J1</b></td><td><code>table_lint.check_text</code> 把 schema 触发列硬编码为「模型」，Jev 表以「项目」开头会被<b>静默跳过、零校验</b>。已用触发列可变副本，<b>未改 table_lint.py</b></td></tr>
+<tr><td><b>J2</b></td><td>通用规则 <code>params</code>/<code>metric</code> 依赖的列在 Jev schema 中不存在，天然 inert；selftest 据此对齐「九类」</td></tr>
+<tr><td><b>J3</b></td><td><b>「真复现」vs「借单 token logits 打分」必须在 <code>类别</code> 列区分</b>，否则得出「端侧只要 15 ms」的错结论</td></tr>
+<tr><td><b>J4</b></td><td><code>Violation</code> 实际签名是四参 <code>(path, line, rule, detail)</code>，计划骨架三参为笔误</td></tr>
+<tr><td><b>J5</b></td><td>判定点映射表列数 ≠ 12，校验器自动跳过（<code>MIN_SCHEMA_COLS</code> 保护）</td></tr>
+<tr><td><b>J6</b></td><td><b><code>Noul</code> 无独立 confidence</b>，laos 落点不得自行补该字段</td></tr>
+<tr><td><b>J7</b></td><td>凡延迟/内存/功耗一律引实测；<b>README 的 15.6 ms 已否证（慢 10×），禁用</b></td></tr>
+<tr><td><b>J8</b></td><td>字面保留词 <code>typesafe</code>/<code>decision model</code> 过宽（混入 trpc/TanStack/http4k），改用精度判据；原口径审计副本保留</td></tr>
+</tbody></table></div>
+
+<h3>未核实清单</h3>
+<ul>
+<li><code>verify_state=仅README</code>：<b>740 / 778（95.1%）</b>——仅读 README，未读代码、未跑</li>
+<li><code>verify_state=未核实</code>：38 条</li>
+<li><code>laya-rust</code>（core 之一）<b>仍待实测</b>；<code>edgejev</code> 已实测</li>
+<li>外推 aarch64 数字<b>无量级保证</b>，x86→arm 无可靠换算系数</li>
+<li>复现类低星长尾被 <code>verdict</code>/<code>typed decision model</code> 子串误命中（如 <code>OpenJEVis</code> 是 Java 能源项目），已标注需人工复核</li>
+<li>官方 70–500 ms / 193.6× / 444.6× 全部 <code>官方自测</code>，无第三方验证</li>
+</ul>
+</section>
+
+<section id="ref">
+<h2><span class="num">9</span>参考来源</h2>
+<ul>
+<li><b>口径与校验</b>：<code>docs/research/jev/00-taxonomy-and-metrics.md</code>、<code>scripts/check_jev_table.py</code></li>
+<li><b>生态抓取</b>：<code>repos_raw.jsonl</code>(778)、<code>fetch_summary.md</code>、<code>noise_dropped.jsonl</code>、<code>repos_raw_broad.jsonl</code></li>
+<li><b>分类</b>：<code>scripts/classify_jev.py</code>、<code>repos_classified.jsonl</code>、<code>01/02/03-*.md</code></li>
+<li><b>端侧实测</b>：<code>scripts/bench_jev_local.py</code>、<code>04-ondevice-benchmark.md</code></li>
+<li><b>落点设计</b>：<code>05-laos-placement.md</code></li>
+<li><b>并行实现线</b>：<code>laos/judge.py</code>、<code>laos/kernel.py</code>、<code>laos/memory.py</code>、<code>laos/context.py</code>、<code>docs/research/2026-09-18-jev-landscape.md</code></li>
+<li><b>计划</b>：<code>docs/superpowers/plans/2026-09-21-jev-decision-model-survey.md</code></li>
+</ul>
+</section>
+
+<footer>
+Jev 决策模型全景调研 · laos 常驻音频 Agent 原型 · 2026-09-21<br>
+所有 star 数来自 GitHub Search API 真实抓取；所有延迟/内存数字来自本机实测（AMD Zen 3，onnxruntime CPU EP，int8）。
+</footer>
+</main>
+</div>
+</body>
+</html>
