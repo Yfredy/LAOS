@@ -139,6 +139,24 @@ class TestJevGate(unittest.TestCase):
         self.assertEqual(jev[0]["verdict"], "deny")
         self.assertFalse(jev[0]["autogate"])
 
+    def test_autogate_zero_string_does_not_bypass(self):
+        # ⑤ 遗留 A：LAOS_JEV_AUTOGATE="0" 必须解析为关——旧
+        #    bool(os.environ.get(...)) 是"存在即真"，设 0 反而开启。
+        #    PREVIEW=1 让预审照跑，但高置信 allow 也不得机器代拍
+        os.environ["LAOS_JEV_PREVIEW"] = "1"
+        os.environ["LAOS_JEV_AUTOGATE"] = "0"
+        fake = FakeJudge("allow", 0.97)
+        self.kernel.judge = fake
+        res = self._exec("echo jev-zero")
+        self.assertFalse(res.ok)
+        self.assertIn("EACCES", res.error)
+        self.assertEqual(len(self.confirm_calls), 1,
+                         "=0 时不许机器代拍，必须回落人类 confirm")
+        self.assertEqual(len(fake.calls), 1, "预览模式预审照常执行")
+        jev = self._jev_records()
+        self.assertEqual(len(jev), 1)
+        self.assertFalse(jev[0]["autogate"], "审计里 autogate 必须为 False")
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

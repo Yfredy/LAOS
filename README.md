@@ -422,3 +422,34 @@ laos/
 - **screenpipe 许可证修正**：MIT → source-available（YC S26），引用需注明
 - **收敛版结论修正**："常开被动=死" → "云常开=死，端侧克制常开刚被 Apple S12 转正"
 - **GTCRN/CED 参数口径修正**：GTCRN 仓库实测 48.2K/33 MMACs（论文 23.7K/39.6）；CED balanced 49.0 mAP（~52.2 为不同协议口径）
+
+---
+
+## 十一、Jev 判断层（System-One 快问快答，opt-in）
+
+Brain 的快问快答通道（`laos/judge.py`）：给定 (context, question)，按三种判断型返回 `JudgeResult(verdict, confidence, raw)`。后端由 `LAOS_JEV_BACKEND` 选择：`none`（默认，零改动）| `rule`（零依赖关键词兜底）| `cloud`（TypeSafe System-One API，HTTP 走 curl 子进程）| `local`（OpenAI 兼容端点）；未知值兜底 `rule` 不炸链路。
+
+| 判断型 | 语义 | verdict 词表 | laos 落点 |
+|---|---|---|---|
+| noul | 是非判断（可行/不可行） | `allow` / `deny` | 确认横幅机器预审、记忆入库过滤、压缩丢弃预审、技能沉淀质量闸 |
+| choice | 多选一 | 所选选项文本 | 后端契约已备（消费点待接） |
+| score | 分级判断 | `level_0`..`level_{N-1}` | 后端契约已备（消费点待接） |
+
+### 环境变量
+
+| 变量 | 默认 | 说明 |
+|---|---|---|
+| `LAOS_JEV_BACKEND` | `none` | `none`/`rule`/`cloud`/`local`；cloud 用 `LAOS_JEV_API_KEY`（可选 `LAOS_JEV_BASE_URL`），local 用 `LAOS_JEV_ENDPOINT` |
+| `LAOS_JEV_API_KEY` | — | cloud 后端鉴权；缺 key 时调用 fail-loud（被装配层 SafeJudge fail-open 兜住，见下） |
+| `LAOS_JEV_ENDPOINT` | — | local 后端的 OpenAI 兼容端点（如 NanoJev/simple-jev） |
+| `LAOS_JEV_AUTOGATE` | `0` | `1/true/yes`（大小写不敏感）时：allow 且置信 ≥ 门槛的高风险 syscall 跳过人类 confirm 直接放行（风险记账照常）；设 `0` 即是关 |
+| `LAOS_JEV_AUTOGATE_MIN` | `0.95` | autogate 机器代拍的置信门槛 |
+| `LAOS_JEV_MEM` | `0` | `1` 时 `mem.remember` 入库先问"值得长期记住且无隐私风险吗？"，deny 不落库（syscall 回 EDENIED） |
+| `LAOS_JEV_COMPACT` | `0` | `1` 时上下文压缩对最老 1/3 候选逐条问"可安全丢弃吗"，deny 保留在窗口；候选全保连跳两轮后强制压一次（防死循环） |
+| `LAOS_JEV_SKILL` | `0` | `1` 时技能沉淀先问"此任务轨迹确实达成了目标吗？"，deny 不沉淀（成功不能只听模型自称） |
+
+**PREVIEW 也拦截的语义**：`LAOS_JEV_PREVIEW=1`（只预审不代拍）下，`deny` 仍是机器终审——直接 EDENIED，不再惊动人类；`allow` 则一律回落人类 confirm，除非 `LAOS_JEV_AUTOGATE=1` 且置信 ≥ `LAOS_JEV_AUTOGATE_MIN`。即：预览模式省不掉人，但拦得住机器认为危险的操作。每次预审写一条 `event:"jev"` 审计（放行/拒绝/后端故障三路径，仿 `event:"mic"` 红线）。
+
+**装配与降级**：`bin/laosd.py` 在 `BACKEND != none` 时构造后端并用 `SafeJudge` 包裹再注入 kernel/memory/context/skills 四个消费点——后端抛异常（缺 key、网络故障、响应不合契约）时 fail-open 到 `JudgeResult("allow", 0.0, {"error": …})`，即回落"无 judge"的既有行为，链路不炸。
+
+**局限**：`judge.py` 的 `_post_curl` 无法区分 HTTP 429（限流）与坏 JSON——curl 退出码 0 时只做整体 `json.loads`，429 的 HTML/文本错误页与真正坏响应都表现为同一个"响应不是合法 JSON"的 `JudgeError`，装配层也就无法据此做差异化重试/熔断，只能由 `SafeJudge` 一刀切 fail-open（待后续把 HTTP 状态码带进错误信息再细分）。

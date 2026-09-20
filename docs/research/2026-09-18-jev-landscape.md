@@ -152,7 +152,7 @@ Authorization: Bearer $TYPESAFE_API_KEY
 
 ### 2.6 复刻与微调（§3 详述，此处仅列全谱系）
 
-开源复刻已形成 **0.5M–35M 参数全谱系**：laya (2,904★, ~35ms)、laya-mlx (1,113★, Apple Silicon 7–14ms)、NanoJev (1,305★, 0.6B)、kev (801★, MacBook 可训)、von (117★, 395M, <15ms)、litjev (28★, 免训练)、minojev (547k 参数, CPU 从零训练)、CUA-S1-FORMS (706k 参数, 表单专项 99.7% vs Jev 83.6% ⚠)、jevlike-esp32 (MCU 边缘)、openjev-sglang (213★)、SemIf (2,282★)、simple-jev (371★)。
+开源复刻已形成 **0.6B–395M 参数全谱系**：laya (2,904★, ~35ms)、laya-mlx (1,113★, Apple Silicon 7–14ms)、NanoJev (1,305★, 0.6B)、kev (801★, MacBook 可训)、von (117★, 395M, <15ms)、litjev (28★, 免训练)、minojev (547k 参数, CPU 从零训练)、CUA-S1-FORMS (706k 参数, 表单专项 99.7% vs Jev 83.6% ⚠)、jevlike-esp32 (MCU 边缘)、openjev-sglang (213★)、SemIf (2,282★)、simple-jev (371★)。
 
 ### 2.7 模型路由（Jev 判"该谁干"）
 
@@ -161,7 +161,7 @@ jev-router (244★, Claude Code 最便宜可用模型路由)、prismhq/jev-route
 ### 2.8 规模信号
 
 - awesome-jev 单列表 245+ 条、13 类；另一导航站（0xLogicrw）收录 287 个项目 ◐。
-- GoSailGlobal 统计 19 个开源项目合计 >6,800★（发布后 3 天）🔶；本报告 curated 68 条合计 ≈3.3 万★（含 jev-ultrafast 1.1 万）。
+- GoSailGlobal 统计 19 个开源项目合计 >6,800★（发布后 3 天）🔶；本报告 curated 68 条合计 ≈3.6 万★（含 jev-ultrafast 1.1 万）。
 - 判读：**浏览器动作 > 安全闸 > 路由 > 压缩** 是采用密度递减序；"通用 LLM 替换"类（写作、闲聊）没人做——印证 Jev 只吃"类型化决策"这口饭。
 
 ---

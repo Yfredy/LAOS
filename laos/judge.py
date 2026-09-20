@@ -40,6 +40,8 @@ __all__ = [
     "JudgeResult",
     "LocalBackend",
     "RuleBackend",
+    "SafeJudge",
+    "env_flag",
     "select",
 ]
 
@@ -47,6 +49,16 @@ DEFAULT_CLOUD_BASE_URL = "https://api.typesafe.ai/v1"
 DEFAULT_TIMEOUT = 10.0
 DENY_CONFIDENCE = 0.99
 DENY_WORDS: tuple[str, ...] = ("危险", "删除全部", "格式化", "rm -rf", "泄露隐私")
+
+# Jev 开关的"真"值表（遗留 A 裁决）：只有显式 1/true/yes（大小写不敏感）
+# 算开——bool(os.environ.get(...)) 的"存在即真"会让 LAOS_JEV_AUTOGATE=0
+# 反而开启闸门
+_TRUTHY = ("1", "true", "yes")
+
+
+def env_flag(key: str) -> bool:
+    """读一个 Jev 开关环境变量：仅 1/true/yes（大小写不敏感）为真。"""
+    return os.environ.get(key, "").strip().lower() in _TRUTHY
 
 
 class JudgeError(RuntimeError):
@@ -271,6 +283,41 @@ class LocalBackend(JudgeBackend):
 
 
 # ---------------------------------------------------------------- 工厂
+
+
+class SafeJudge(JudgeBackend):
+    """安全代理（遗留 B，装配层用）：后端抛异常时 fail-open 到 allow 0.0。
+
+    Cloud/Local 后端每次调用都可能抛 JudgeError（缺 key、网络故障、响应
+    不合契约）。kernel 的预审自带 try/except，但 memory/context/skills
+    等消费路径没有——bin/laosd.py 装配时用本类包裹后端再注入：异常一律
+    转 JudgeResult("allow", 0.0, {"error": ...})，即回落"无 judge"的既有
+    行为（记忆照常入库、压缩照常丢、技能照常沉淀、预审回落人类确认）。
+    """
+
+    def __init__(self, backend: JudgeBackend) -> None:
+        self.backend = backend
+        self.name = f"safe({getattr(backend, 'name', 'base')})"
+
+    def _guard(self, call, *args, **kwargs) -> JudgeResult:
+        try:
+            return call(*args, **kwargs)
+        except Exception as exc:  # noqa: BLE001 —— 任何后端故障都 fail-open
+            return JudgeResult("allow", 0.0,
+                               {"error": str(exc), "backend": self.name})
+
+    def noul(self, context: str, question: str) -> JudgeResult:
+        return self._guard(self.backend.noul, context, question)
+
+    def choice(self, context: str, question: str,
+               options: list[str]) -> JudgeResult:
+        return self._guard(self.backend.choice, context, question,
+                           list(options))
+
+    def score(self, context: str, question: str,
+              levels: int = 5) -> JudgeResult:
+        return self._guard(self.backend.score, context, question,
+                           int(levels))
 
 
 def select() -> JudgeBackend:

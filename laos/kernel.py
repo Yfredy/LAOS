@@ -576,8 +576,9 @@ class AgentKernel:
                       → 跳过人类 confirm 直接放行（风险记账照常）
             "ask"     回落人类确认（低置信 / 仅预览 / 后端故障 fail-safe）
         """
-        autogate = bool(os.environ.get("LAOS_JEV_AUTOGATE"))
-        if self.judge is None or not (autogate or os.environ.get("LAOS_JEV_PREVIEW")):
+        autogate = judge.env_flag("LAOS_JEV_AUTOGATE")
+        if self.judge is None or not (autogate
+                                      or judge.env_flag("LAOS_JEV_PREVIEW")):
             return "ask"
         try:
             result = self.judge.noul(
@@ -672,6 +673,15 @@ class AgentKernel:
         rec = self.memory.remember(
             str(args["kind"]), str(args["text"]),
             tags=[str(t) for t in args.get("tags", [])])
+        if rec is None:
+            # Jev 入库预审拒绝（装配层给 memory 注入 judge 时可能返回
+            # None，Task 5 装配代理 JevGatedMemory）：对 agent 诚实回
+            # EDENIED 并留审计，而不是在 rec["id"] 上炸 TypeError
+            self.audit.write({"t": time.time(), "event": "memory",
+                              "op": "remember", "pid": pcb.pid,
+                              "kind": str(args["kind"]), "denied": True})
+            return CallResult.fail(
+                "EDENIED: memory intake denied by jev prejudge")
         self.audit.write({"t": time.time(), "event": "memory", "op": "remember",
                           "pid": pcb.pid, "id": rec["id"], "kind": rec["kind"]})
         return CallResult.ok_text(f"OK remembered #{rec['id']}")

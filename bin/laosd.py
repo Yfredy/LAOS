@@ -27,10 +27,14 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
+from laos import judge as jev  # noqa: E402
 from laos.agent import Agent, run_agents  # noqa: E402
 from laos.brain import OpenAIChatBrain, ScriptedBrain  # noqa: E402
 from laos.context import ContextManager  # noqa: E402
+from laos.judge import SafeJudge, env_flag  # noqa: E402
 from laos.kernel import AgentKernel  # noqa: E402
+from laos.memory import REMEMBER_JUDGE_QUESTION  # noqa: E402
+from laos.skills import SKILL_JUDGE_QUESTION  # noqa: E402
 
 WORKDIR = Path(os.environ.get("LAOS_WORKDIR", REPO / "var"))
 DRIVERS = REPO / "drivers"
@@ -43,6 +47,88 @@ def hr(title: str = "") -> None:
         print(f"\n{BAR}\n  {title}\n{BAR}")
     else:
         print(BAR)
+
+
+# --------------------------------------------------------------------------
+# Jev 判断层装配（Task 5）------------------------------------------------
+#
+# LAOS_JEV_BACKEND=none（默认）时零改动：不构造后端、kernel/memory/context
+# /skills 四个消费点保持现状。显式选择 rule/cloud/local 时，构造后端并用
+# SafeJudge 包裹（遗留 B：后端每次调用都可能抛 JudgeError——缺 key、网络
+# 故障、响应不合契约——kernel 自身有 try/except 兜，但 memory/context/
+# skills 路径没有；SafeJudge 把异常 fail-open 成
+# JudgeResult("allow", 0.0, {"error": ...})，即回落"无 judge"的既有行为），
+# 再按三个独立开关（默认全 0 关）注入三处消费：
+#
+#     消费点          开关                问句
+#     kernel.judge    LAOS_JEV_AUTOGATE /  确认横幅机器预审（Task 3；
+#                     LAOS_JEV_PREVIEW     deny 终审，高置信 allow 代拍）
+#     kernel.memory   LAOS_JEV_MEM         "值得长期记住且无隐私风险吗？"
+#                                          （kind=="skill" 的沉淀改走
+#                                          LAOS_JEV_SKILL 的闸，见代理）
+#     ContextManager  LAOS_JEV_COMPACT     "此消息可安全丢弃…吗？"
+#     （技能沉淀）     LAOS_JEV_SKILL       "此任务轨迹确实达成了目标吗？"
+
+
+class JevGatedMemory:
+    """MemoryStore 装配代理：按条目类型把 judge 接到存储边界。
+
+    kernel 的 mem.* syscall 与 agent.py 的 SkillStore 沉淀都经
+    kernel.memory.remember 落库，代理在这里拦，两边零改动：
+
+        kind == "skill"  走 skill_judge（LAOS_JEV_SKILL=1），问
+                         SKILL_JUDGE_QUESTION——轨迹没达成目标不沉淀
+        其余 kind         走 mem_judge（LAOS_JEV_MEM=1），问
+                         REMEMBER_JUDGE_QUESTION——不值得记/涉隐私不入库
+
+    deny → 返回 None 不落库（调用方 None-safe：SkillStore 天然吞 None，
+    kernel mem.remember 对 None 回 EDENIED 并留审计）；未注入的闸不启用，
+    allow（含 SafeJudge fail-open）原样转发。recall/forget/stats 透传。
+    """
+
+    def __init__(self, store, mem_judge=None, skill_judge=None):
+        self.store = store
+        self.mem_judge = mem_judge
+        self.skill_judge = skill_judge
+
+    def remember(self, kind, text, tags=None, judge=None):
+        kind = str(kind)
+        is_skill = kind == "skill"
+        gate = self.skill_judge if is_skill else self.mem_judge
+        if gate is not None:
+            question = (SKILL_JUDGE_QUESTION if is_skill
+                        else REMEMBER_JUDGE_QUESTION)
+            if gate.noul(str(text), question).verdict == "deny":
+                return None
+        return self.store.remember(kind, text, tags=tags, judge=judge)
+
+    def recall(self, query, k=5):
+        return self.store.recall(query, k=k)
+
+    def forget(self, mid):
+        return self.store.forget(mid)
+
+    def stats(self):
+        return self.store.stats()
+
+
+def wire_judge(kernel: AgentKernel):
+    """按 LAOS_JEV_BACKEND 构造判断层并注入各消费点（Task 5 装配）。
+
+    返回 SafeJudge 包裹后的后端供 ContextManager(judge=) 注入压缩闸；
+    BACKEND=none（默认）返回 None 且 kernel 零改动。
+    """
+    if os.environ.get("LAOS_JEV_BACKEND", "none").strip().lower() == "none":
+        return None
+    safe = SafeJudge(jev.select())
+    kernel.judge = safe  # ① 确认横幅预审（AUTOGATE/PREVIEW 开关在 kernel）
+    mem_judge = safe if env_flag("LAOS_JEV_MEM") else None
+    skill_judge = safe if env_flag("LAOS_JEV_SKILL") else None
+    if mem_judge is not None or skill_judge is not None:
+        # ② 入库/沉淀闸：代理在存储边界拦，mem.* 与 SkillStore 零改动
+        kernel.memory = JevGatedMemory(kernel.memory, mem_judge=mem_judge,
+                                       skill_judge=skill_judge)
+    return safe  # ③ 压缩闸由 demo 的 new_agent 按 LAOS_JEV_COMPACT 注入
 
 
 # --------------------------------------------------------------------------
@@ -88,11 +174,13 @@ def seed_main_branch(kernel: AgentKernel) -> None:
 
 
 # --------------------------------------------------------------------------
-async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
+async def demo(kernel: AgentKernel, use_real: bool, task: str | None,
+               jev_judge=None) -> None:
     hr("1. 内核启动 / 驱动加载")
     st = kernel.status()
     print(f"  隔离能力   : {st['isolation']}")
     print(f"  驱动数量   : {st['drivers']}")
+    print(f"  Jev 判断层 : {jev_judge.name if jev_judge else '未启用（LAOS_JEV_BACKEND=none）'}")
     print(f"  系统调用表 : {st['syscalls']} 条 -> {', '.join(kernel.syscalls())}")
     for m in kernel.lsmod():
         print(f"    [{m['driver']:>4}] pid={m['pid']:<6} tools={m['tools']}")
@@ -120,6 +208,8 @@ async def demo(kernel: AgentKernel, use_real: bool, task: str | None) -> None:
             system_prompt=system_prompt,
             max_tokens=int(os.environ.get("LAOS_CTX_TOKENS", "2000")),
             swap_dir=WORKDIR / "swap",
+            # Jev 压缩丢弃预审（LAOS_JEV_COMPACT=1 时启用，其余 None 零改动）
+            judge=jev_judge if env_flag("LAOS_JEV_COMPACT") else None,
         )
         pcb = kernel.spawn(
             name=name,
@@ -334,8 +424,9 @@ def main() -> int:
     workdir = Path(args.workdir)
     kernel = boot_kernel(workdir)
     seed_main_branch(kernel)
+    jev_judge = wire_judge(kernel)  # Jev 判断层装配（BACKEND=none 时零改动）
     try:
-        asyncio.run(demo(kernel, args.real, args.task))
+        asyncio.run(demo(kernel, args.real, args.task, jev_judge))
     finally:
         kernel.shutdown()
         print(f"\n{BAR}\n  laosd 已关闭\n{BAR}")

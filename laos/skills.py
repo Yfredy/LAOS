@@ -11,6 +11,13 @@ MemoryStore（kind="skill"）。新任务到来时按任务文本检索相似技
 
 from __future__ import annotations
 
+from typing import Any
+
+# Jev 沉淀预审（Task 5，opt-in）：record(judge=...) 传入判断后端时先问
+# 一句——deny（= 轨迹没达成目标，成功只是"模型自称"）拒绝沉淀返回 None；
+# 审计留在调用方（skills 层只管收与拒，不写审计）
+SKILL_JUDGE_QUESTION = "此任务轨迹确实达成了目标吗？"
+
 
 def digest_trace(trace: list[dict]) -> str:
     """工具调用序列签名：`tool1(arg键集)→tool2(arg键集)`，跳过非 syscall 条目。"""
@@ -29,14 +36,29 @@ class SkillStore:
     def __init__(self, memory):
         self.memory = memory
 
-    def learn_from_result(self, result, task: str) -> dict | None:
-        """成功任务 → 沉淀为技能；失败/被拒/单步任务不学（噪声不是经验）。"""
+    def record(self, result, task: str,
+               judge: Any | None = None) -> dict | None:
+        """沉淀入口（Task 5 Produces 名）：带 Jev 质量闸的 learn_from_result。"""
+        return self.learn_from_result(result, task, judge=judge)
+
+    def learn_from_result(self, result, task: str,
+                          judge: Any | None = None) -> dict | None:
+        """成功任务 → 沉淀为技能；失败/被拒/单步任务不学（噪声不是经验）。
+
+        judge 非 None 时（Task 5，opt-in）在既有门控之后、落库之前先问
+        noul(task, SKILL_JUDGE_QUESTION)：deny（= 轨迹没达成目标，成功只是
+        "模型自称"）→ 不沉淀返回 None；不传 judge（默认）时此分支不存在，
+        行为与现状一致。judge 放便宜门控之后——云端后端可能慢，不白问。
+        """
         if not getattr(result, "ok", False):
             return None
         if getattr(result, "denied", 0):
             return None
         if getattr(result, "syscalls", 0) < 2:
             return None  # 单步调用没有"序列"可言
+        if judge is not None:
+            if judge.noul(str(task), SKILL_JUDGE_QUESTION).verdict == "deny":
+                return None
         signature = digest_trace(result.trace)
         answer = (getattr(result, "answer", "") or "")[:100]
         return self.memory.remember(

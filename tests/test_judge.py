@@ -25,6 +25,8 @@ from laos.judge import (  # noqa: E402
     JudgeResult,
     LocalBackend,
     RuleBackend,
+    SafeJudge,
+    env_flag,
     select,
 )
 
@@ -169,6 +171,71 @@ class TestLocalBackend(unittest.TestCase):
         self.assertEqual(
             json.loads(r.raw["choices"][0]["message"]["content"])["verdict"],
             "deny")
+
+
+class TestSafeJudge(unittest.TestCase):
+    """安全代理（遗留 B）：后端健康时透传，故障时 fail-open 到 allow 0.0。"""
+
+    class _Ok(JudgeBackend):
+        name = "ok"
+
+        def noul(self, context, question):
+            return JudgeResult("deny", 0.9, {"src": "noul"})
+
+        def choice(self, context, question, options):
+            return JudgeResult(options[0], 1.0)
+
+        def score(self, context, question, levels=5):
+            return JudgeResult("level_1", 0.5)
+
+    class _Boom(JudgeBackend):
+        name = "boom"
+
+        def noul(self, context, question):
+            raise JudgeError("缺少 TypeSafe API key")
+
+        def choice(self, context, question, options):
+            raise JudgeError("网络超时")
+
+        def score(self, context, question, levels=5):
+            raise RuntimeError("非 JudgeError 的异常也必须兜住")
+
+    def test_passthrough_when_backend_healthy(self):
+        safe = SafeJudge(self._Ok())
+        r = safe.noul("ctx", "q")
+        self.assertEqual((r.verdict, r.confidence), ("deny", 0.9))
+        self.assertEqual(safe.choice("ctx", "q", ["甲", "乙"]).verdict, "甲")
+        self.assertEqual(safe.score("ctx", "q", levels=3).verdict, "level_1")
+        self.assertIn("ok", safe.name)
+
+    def test_fails_open_on_any_backend_error(self):
+        # 三判型任一异常（含非 JudgeError）→ allow 0.0，raw 带上错误供审计
+        safe = SafeJudge(self._Boom())
+        for call in (lambda: safe.noul("ctx", "q"),
+                     lambda: safe.choice("ctx", "q", ["甲"]),
+                     lambda: safe.score("ctx", "q")):
+            with self.subTest(call=call):
+                r = call()
+                self.assertEqual(r.verdict, "allow")
+                self.assertEqual(r.confidence, 0.0)
+                self.assertIn("error", r.raw)
+                self.assertIn("boom", r.raw["backend"])
+        self.assertIn("boom", safe.name)
+
+
+class TestEnvFlag(unittest.TestCase):
+    """Jev 开关值解析（遗留 A 裁决）：仅 1/true/yes 为真，0/false/no 是关。"""
+
+    def test_truthy_values_only(self):
+        for value in ("1", "true", "TRUE", "Yes", " yes "):
+            with mock.patch.dict(os.environ, {"LAOS_JEV_X": value}):
+                self.assertTrue(env_flag("LAOS_JEV_X"), value)
+        for value in ("0", "false", "no", "off", "", "  "):
+            with mock.patch.dict(os.environ, {"LAOS_JEV_X": value}):
+                self.assertFalse(env_flag("LAOS_JEV_X"), value)
+        with mock.patch.dict(os.environ):
+            os.environ.pop("LAOS_JEV_X", None)
+            self.assertFalse(env_flag("LAOS_JEV_X"))
 
 
 if __name__ == "__main__":
