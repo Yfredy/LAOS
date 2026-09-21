@@ -100,7 +100,8 @@ class JevGatedMemory:
                         else REMEMBER_JUDGE_QUESTION)
             if gate.noul(str(text), question).verdict == "deny":
                 return None
-        return self.store.remember(kind, text, tags=tags, judge=judge)
+        # 闸归本代理所有：不向内层转发 judge，避免代理闸+内层闸双问
+        return self.store.remember(kind, text, tags=tags, judge=None)
 
     def recall(self, query, k=5):
         return self.store.recall(query, k=k)

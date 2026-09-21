@@ -11,7 +11,7 @@
 python bin/laosd.py                    # 跑完整 demo（脚本化大脑，无需 API key）
 python bin/laosd.py --real             # 有 OPENAI_API_KEY 时用真 LLM
 python bin/laosweb.py                  # 启动内核 + Web 交互面板 (http://127.0.0.1:8800)
-python -m unittest discover -s tests   # 253 项回归测试
+python -m unittest discover -s tests   # 288 项回归测试
 ```
 
 ---
@@ -40,7 +40,7 @@ laos/drivers/     ★ 设备驱动（14 个 MCP Server 子进程）：fs / proc 
 laos/bin/         ★ 用户入口：laosd(引导demo) / laosweb(实时面板+操控) / laosctl(审计回放) /
                     diary(日记) / journal(录音转写) / mood_report(情绪周报)
 laos/scripts/     termux_matrix(Android降级矩阵实测) / flasep_gpu_bench(GPU基准)
-laos/tests/       253 项回归测试（真录音/真 ASR 用例实测通过）
+laos/tests/       288 项回归测试（真录音/真 ASR 用例实测通过）
 laos/docs/        论文调研 / 真机 runbook / 面板教程 / 完整项目介绍(PROJECT_OVERVIEW.md)
 laos/docs/research/  调研库：全天候录音业界(6篇) / SER·AED·AGC·说话人·编解码·健康声学模型地图 / 40+篇arXiv论文库
 laos/AlwaysOnRec-ZCode/ 隔离实现区：全天候录音前沿增量（独立可跑，279 项测试）
@@ -349,7 +349,7 @@ laos/
     journal.py    录音蒸馏管线：批量转写 → mem.remember(kind=journal) → rec_gc 即焚（第③④段）
     mood_report.py 情绪周报：journal 情感标签按天聚合 → 字符堆积图
   tests/
-    test_*.py     253 项回归测试（laos / ipc / scope / seccomp / cow / profiling / npu / sandbox / enforcement / memory / diary 等 24 个文件）
+    test_*.py     288 项回归测试（laos / ipc / scope / seccomp / cow / profiling / npu / sandbox / enforcement / memory / diary 等 24 个文件）
   var/            运行期产物：audit.jsonl / memory.jsonl / branches/ / diary/ / ear/ / swap/
 ```
 
@@ -412,7 +412,7 @@ laos/
 | **发音韵律评估**：流利度/节奏两维零依赖 + `ear.assess` 工具（GOPT 后端插桩） | `laos/pronunciation.py` `drivers/drv_ear.py` | GOPT+speechocean762 |
 | **架构图**：九层全貌 + 四段漏斗高亮（docs/images/，修复 4 处重叠） | `docs/images/` | — |
 
-测试规模：主库 253 项 + 隔离区 279 项（= 261 基线 + 18 前沿增量 + 上一批 title/time）。
+测试规模：主库 288 项（253 基线 + 35 Jev 判断层）+ 隔离区 279 项。
 
 ### 10.3 修订内容（实现过程中修掉的问题）
 
