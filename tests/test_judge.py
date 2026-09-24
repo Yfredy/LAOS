@@ -18,6 +18,7 @@ from unittest import mock
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
+from laos.context import COMPACT_JUDGE_QUESTION  # noqa: E402
 from laos.judge import (  # noqa: E402
     CloudBackend,
     JudgeBackend,
@@ -29,6 +30,9 @@ from laos.judge import (  # noqa: E402
     env_flag,
     select,
 )
+from laos.kernel import PREJUDGE_JUDGE_QUESTION  # noqa: E402
+from laos.memory import REMEMBER_JUDGE_QUESTION  # noqa: E402
+from laos.skills import SKILL_JUDGE_QUESTION  # noqa: E402
 
 _DENY_WORDS = ("危险", "删除全部", "格式化", "rm -rf", "泄露隐私")
 
@@ -236,6 +240,44 @@ class TestEnvFlag(unittest.TestCase):
         with mock.patch.dict(os.environ):
             os.environ.pop("LAOS_JEV_X", None)
             self.assertFalse(env_flag("LAOS_JEV_X"))
+
+
+class TestJudgeQuestionCriteria(unittest.TestCase):
+    """四闸问句的 criteria 式结构（Task 3）：单字符串内"指示段\\n判据段"。
+
+    判据段必须与各 gate 的 deny 方向一致——方向写反会直接毁掉闸门：
+    memory deny=不入库 / compact deny=不可丢弃 / skill deny=不沉淀 /
+    prejudge deny=拒绝执行。全文与消费点的一致性由
+    test_calibrate_judge 的 import 契约及各消费测试的关键词钉守住，
+    此处只钉结构与方向。
+    """
+
+    # 常量 → (allow 方向关键词, deny 方向关键词)
+    DIRECTIONS = {
+        REMEMBER_JUDGE_QUESTION: ("allow，可入库", "deny，不入库"),
+        COMPACT_JUDGE_QUESTION: ("allow，可丢弃", "deny，不可丢弃"),
+        SKILL_JUDGE_QUESTION: ("allow，可沉淀", "deny，不沉淀"),
+        PREJUDGE_JUDGE_QUESTION: ("allow，放行", "deny，拒绝执行"),
+    }
+
+    def test_four_questions_carry_two_part_criteria(self):
+        for question, (allow_kw, deny_kw) in self.DIRECTIONS.items():
+            with self.subTest(head=question[:12]):
+                self.assertIsInstance(question, str)
+                self.assertIn("\n", question)        # 两段式：指示段 + 判据段
+                self.assertIn("判“是”", question)    # 判据结构关键词（是）
+                self.assertIn("；判“否”", question)  # 正反判据以分号衔接（否）
+                self.assertIn(allow_kw, question)    # allow 方向的语义后果
+                self.assertIn(deny_kw, question)     # deny 方向的语义后果
+        # prejudge 是模板常量：保留 {tool}/{args}/{agent} 注入位（判据文本
+        # 不得引入额外花括号，否则 .format 渲染炸内核链路）
+        for placeholder in ("{tool}", "{args}", "{agent}"):
+            self.assertIn(placeholder, PREJUDGE_JUDGE_QUESTION)
+        rendered = PREJUDGE_JUDGE_QUESTION.format(
+            tool="proc.exec", args={"cmdline": "echo"}, agent="jev")
+        for placeholder in ("{tool}", "{args}", "{agent}"):
+            self.assertNotIn(placeholder, rendered)  # 无未渲染占位符
+        self.assertTrue(rendered.startswith("允许执行 proc.exec"))
 
 
 if __name__ == "__main__":

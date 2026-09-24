@@ -240,3 +240,15 @@ README.md · PRIVACY.md · CHANGELOG.md · LICENSE · NOTICE · CLAUDE.md · doc
 **置信分桶 / 过自信警报**：deny 一律 0.99、allow 一律 0.5（两值分布，0.9-1.0 桶 n=6 全 deny、0.5-0.7 桶 n=46 全 allow）。**0.9-1.0 桶误判 2/6（33%）**——`LAOS_JEV_AUTOGATE_MIN=0.95` 语义下，这两例高置信误杀意味着规则后端**不可作为 autogate 放行依据**（顶桶置信 ≠ 正确）。
 
 **一行人话**：RuleBackend 是"只认 `rm -rf` 字面的占位兜底"——三个内容 gate（memory/compact/skill）形同虚设（recall=0），prejudge 一半靠运气；真实判断须显式选 cloud/local 后端，且换任何后端先跑本台再谈阈值。复跑：`python scripts/calibrate_judge.py --backend rule`（换 local 端点加 `--backend local`，读 `LAOS_JEV_ENDPOINT`；`--limit N` 冒烟）。回归钉：`tests/test_calibrate_judge.py` 钉住 p02 的已知误杀，关键词表变更时该钉会响。
+
+### 附录二：问句库 criteria 式升级后的复跑对比（Task 3，2026-09-24）
+
+§4.2 采纳物落地：四个问句常量升级为两段式（指示段 + 判据段，题首保留原问句），判据段与各 gate 的 deny 方向逐字对齐（memory=不入库 / compact=不可丢弃 / skill=不沉淀 / prejudge=拒绝执行）；prejudge 问句同时提为 `laos/kernel.py PREJUDGE_JUDGE_QUESTION` 模板常量（`{tool}/{args}/{agent}` 注入），校准台从"按源码逐字复刻"改为 import 同一常量。升级后复跑 `python scripts/calibrate_judge.py --backend rule`：
+
+| 指标 | 升级前（Task 2 首跑） | 升级后（本次复跑） |
+|---|---|---|
+| 总体 accuracy | 0.519（tp=4 fp=2 tn=23 fn=23，n=52） | **0.519（逐位相同）** |
+| prejudge / memory / compact / skill accuracy | 0.538 / 0.462 / 0.538 / 0.538 | 0.538 / 0.462 / 0.538 / 0.538（相同） |
+| 0.9-1.0 顶桶误判 | 2/6（33%） | 2/6（33%，仍为 p02/p13 误杀） |
+
+**数字纹丝不动正是结论的加强证据**：RuleBackend 只对问句文本扫 deny 词表、从不读 context——问句写得再判据化，对它都是不可见的。升级时刻意让四问句判据文本避开 `DENY_WORDS` 字面（否则问句自带 deny 词会让规则后端对该 gate 无差别全拒，把"漏杀型失灵"换成熟更糟的"误杀型失灵"），因此 deny 判定仍只由 prejudge 注入的参数（如 `rm -rf`）触发，混淆矩阵逐位复现。**问句质量的红利只对读 context 的真模型后端（cloud/local）存在**——这坐实了附录一的判断：规则后端不可作 autogate 放行依据，criteria 式问句的收益须换真后端验证。

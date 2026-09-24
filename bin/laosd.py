@@ -60,14 +60,20 @@ def hr(title: str = "") -> None:
 # JudgeResult("allow", 0.0, {"error": ...})，即回落"无 judge"的既有行为），
 # 再按三个独立开关（默认全 0 关）注入三处消费：
 #
-#     消费点          开关                问句
-#     kernel.judge    LAOS_JEV_AUTOGATE /  确认横幅机器预审（Task 3；
-#                     LAOS_JEV_PREVIEW     deny 终审，高置信 allow 代拍）
-#     kernel.memory   LAOS_JEV_MEM         "值得长期记住且无隐私风险吗？"
-#                                          （kind=="skill" 的沉淀改走
-#                                          LAOS_JEV_SKILL 的闸，见代理）
-#     ContextManager  LAOS_JEV_COMPACT     "此消息可安全丢弃…吗？"
-#     （技能沉淀）     LAOS_JEV_SKILL       "此任务轨迹确实达成了目标吗？"
+#     消费点          开关                问句（Task 3 起为 criteria 式两段：
+#                                         指示段 + 判据段，题首保留原问句）
+#     kernel.judge    LAOS_JEV_AUTOGATE /  PREJUDGE_JUDGE_QUESTION（Task 3；
+#                     LAOS_JEV_PREVIEW     deny=拒绝执行终审，高置信 allow 代拍）
+#     kernel.memory   LAOS_JEV_MEM         REMEMBER_JUDGE_QUESTION（题首
+#                                          "值得长期记住且无隐私风险吗？"，
+#                                          deny=不入库；kind=="skill" 的沉淀
+#                                          改走 LAOS_JEV_SKILL 的闸，见代理）
+#     ContextManager  LAOS_JEV_COMPACT     COMPACT_JUDGE_QUESTION（题首
+#                                          "此消息可安全丢弃…吗？"，
+#                                          deny=不可丢弃）
+#     （技能沉淀）     LAOS_JEV_SKILL       SKILL_JUDGE_QUESTION（题首
+#                                          "此任务轨迹确实达成了目标吗？"，
+#                                          deny=不沉淀）
 
 
 class JevGatedMemory:

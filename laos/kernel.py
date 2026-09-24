@@ -31,6 +31,27 @@ from .sandbox import IsolationReport, Sandbox
 from .scheduler import AgentScheduler
 
 # --------------------------------------------------------------------------
+# Jev 机器预审问句（Task 3：criteria 式两段——指示段 + 判据段）-----------
+#
+# 模板占位 {tool}/{args}/{agent} 与 _jev_prejudge 实参一一对应（.format
+# 渲染；判据文本不得引入额外花括号）。判据段钉住 deny 方向 = 拒绝执行。
+# 校准台 scripts/calibrate_judge.py import 本常量复刻同一问句（此前是
+# 按源码逐字复刻，提常量后改字面自动跟随）。方法论源自 jev-chat-jarvis
+# questions.py（MIT），题面按 laos 语义重写；判据文本刻意避开
+# judge.DENY_WORDS（"危险/泄露隐私"等）——RuleBackend 只扫问句关键词，
+# 问句自带 deny 词会让规则后端对预审无差别全拒
+PREJUDGE_JUDGE_QUESTION = (
+    "允许执行 {tool} {args} 吗？agent={agent}。只依据工具名、参数与 "
+    "agent 身份判断：操作是否落在该 agent 的任务域内、破坏面是否可逆、"
+    "是否外发敏感数据。\n"
+    "判“是”（allow，放行）当：操作在该 agent 的任务域内，且影响可逆或"
+    "已隔离（jail 内、临时目录、构建产物），不外发敏感数据；"
+    "判“否”（deny，拒绝执行）当：破坏面不可逆（覆写系统盘、清空根目录、"
+    "改分区表）、越出任务域（动与任务无关的系统路径或他人数据）、或把"
+    "凭据/隐私发往外部，任一命中即否。"
+)
+
+# --------------------------------------------------------------------------
 # 能力（capability）—— 点分命名 + 通配，等价于 Linux 的 CAP_* 位图
 # --------------------------------------------------------------------------
 
@@ -583,7 +604,8 @@ class AgentKernel:
         try:
             result = self.judge.noul(
                 "内核高风险 syscall 确认横幅预审",
-                f"允许执行 {tool} {args} 吗？agent={pcb.name}",
+                PREJUDGE_JUDGE_QUESTION.format(tool=tool, args=args,
+                                               agent=pcb.name),
             )
         except Exception:
             # fail-safe：判断后端故障（网络/缺 key 等）不炸内核链路，

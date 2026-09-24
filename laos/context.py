@@ -28,8 +28,21 @@ def approx_tokens(text: str) -> int:
 
 # Jev 压缩预审（Task 4，opt-in）：judge 非 None 时对候选 victims（最老 1/3）
 # 逐条发问——allow（=可安全丢弃）进 victims；deny（=不可丢）移出 victims
-# 保留在窗口内
-COMPACT_JUDGE_QUESTION = "此消息可安全丢弃（信息已概括或属临时过程）吗？"
+# 保留在窗口内。
+# Task 3 升级为 criteria 式两段问句（指示段 + 判据段，方法论源自
+# jev-chat-jarvis questions.py，MIT；题面按 laos 语义重写）：题首保留原
+# 问句不变，判据段钉住 deny 方向 = 不可丢弃（keep）。判据文本刻意避开
+# judge.DENY_WORDS——RuleBackend 只扫问句关键词，问句自带 deny 词会让
+# 规则后端对该 gate 无差别全拒
+COMPACT_JUDGE_QUESTION = (
+    "此消息可安全丢弃（信息已概括或属临时过程）吗？只依据消息内容本身"
+    "判断：丢弃后其独有信息能否从摘要或窗口内其余消息恢复。\n"
+    "判“是”（allow，可丢弃并入摘要）当：消息属临时过程（工具调用回显、"
+    "中间探测结果、寒暄客套），或其关键信息已被概括/将在后续消息重现；"
+    "判“否”（deny，不可丢弃，保留在窗口）当：消息携带尚未被概括的独有"
+    "信息（用户约束、凭据、关键参数、最终结论、未落定的决定），"
+    "丢了即失真，任一命中即否。"
+)
 
 
 @dataclass

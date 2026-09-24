@@ -3,8 +3,8 @@
 
 judge= 不传（默认）时 learn_from_result 行为与现状一致（用例③钉住）；
 显式传入判断后端后，record(...) 先问一句
-noul(task, "此任务轨迹确实达成了目标吗？")——deny（= 轨迹没达成目标）
-不沉淀返回 None，技能库不新增。
+noul(task, 题首"此任务轨迹确实达成了目标吗？"+判据段，criteria 式)
+——deny（= 轨迹没达成目标）不沉淀返回 None，技能库不新增。
 
 装配层（bin/laosd.py）：JevGatedMemory 代理把 judge 按条目类型接到
 存储边界（kind=="skill" 走 LAOS_JEV_SKILL 的沉淀闸，其余 kind 走
@@ -84,8 +84,13 @@ class TestSkillJevGate(unittest.TestCase):
         self.assertIsNone(rec)
         self.assertEqual(self.memory.stats()["total"], 0)
         self.assertFalse(self.memory.path.exists(), "deny 时不得落盘")
-        self.assertEqual(fake.calls,
-                         [("确保 hosts 有记录", SKILL_JUDGE_QUESTION)])
+        # 问句钉关键词不钉全文（全文由 test_calibrate_judge 的 import
+        # 契约钉）：context 精确 + 题首 10 字 + 判据结构 + deny 方向
+        context, question = fake.calls[0]
+        self.assertEqual(context, "确保 hosts 有记录")
+        self.assertTrue(question.startswith(SKILL_JUDGE_QUESTION[:10]))
+        self.assertIn("；判“否”", question)
+        self.assertIn("deny，不沉淀", question)
 
     def test_judge_allow_distills(self):
         # ② allow → 新增一条 skill（record 与 learn_from_result 同一入口语义）
@@ -95,9 +100,10 @@ class TestSkillJevGate(unittest.TestCase):
         self.assertIsNotNone(rec)
         self.assertEqual(rec["kind"], "skill")
         self.assertEqual(self.memory.stats()["total"], 1)
-        self.assertEqual(fake.calls,
-                         [("确保 hosts 里有 myapp.local 记录",
-                           SKILL_JUDGE_QUESTION)])
+        context, question = fake.calls[0]
+        self.assertEqual(context, "确保 hosts 里有 myapp.local 记录")
+        self.assertTrue(question.startswith(SKILL_JUDGE_QUESTION[:10]))
+        self.assertIn("deny，不沉淀", question)
 
     def test_without_judge_unchanged(self):
         # ③ 不传 judge → 与现状一致：既有门控照旧、无条件入库返回 dict
@@ -171,7 +177,10 @@ class TestLaosdWiring(unittest.TestCase):
         self.assertIsNone(proxy.remember("skill", "任务 ⇒ done"))
         self.assertIsNotNone(proxy.remember("fact", "普通事实"))
         self.assertEqual(store.stats()["by_kind"], {"fact": 1})
-        self.assertEqual(fake.calls, [("任务 ⇒ done", SKILL_JUDGE_QUESTION)])
+        context, question = fake.calls[0]
+        self.assertEqual(context, "任务 ⇒ done")
+        self.assertTrue(question.startswith(SKILL_JUDGE_QUESTION[:10]))
+        self.assertIn("deny，不沉淀", question)
         # recall/stats 透传
         self.assertEqual(proxy.stats()["total"], 1)
 

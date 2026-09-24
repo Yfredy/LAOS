@@ -19,6 +19,7 @@ sys.path.insert(0, str(REPO))
 
 from laos.context import COMPACT_JUDGE_QUESTION  # noqa: E402
 from laos.judge import JudgeResult, RuleBackend  # noqa: E402
+from laos.kernel import PREJUDGE_JUDGE_QUESTION  # noqa: E402
 from laos.memory import REMEMBER_JUDGE_QUESTION  # noqa: E402
 from laos.skills import SKILL_JUDGE_QUESTION  # noqa: E402
 from scripts.calibrate_judge import (  # noqa: E402
@@ -95,18 +96,26 @@ class TestRunCases(unittest.TestCase):
         self.assertTrue(got["p01"]["expect_deny"])
 
     def test_uses_real_gate_questions(self):
-        """四个 gate 的问句必须来自 laos 真实常量（prejudge 复刻 kernel 模板）。"""
+        """四个 gate 的问句必须来自 laos 真实常量（prejudge=kernel 模板渲染）。"""
         fake = FakeBackend(_mini_results())
         run_cases(_mini_cases(), fake)
         by_gate: dict[str, tuple[str, str]] = {}
         for case, (context, question) in zip(_mini_cases(), fake.calls):
             by_gate.setdefault(case["gate"], (context, question))  # 取各 gate 首例
-        # prejudge：kernel._jev_prejudge 的形态（常量 context + 模板问句）
+        # prejudge：与内核逐字一致——同一常量 PREJUDGE_JUDGE_QUESTION 以
+        # .format 渲染（标注例 context 充任 {tool}，{args} 留空）
         ctx, q = by_gate["prejudge"]
         self.assertEqual(ctx, PREJUDGE_CONTEXT)
         self.assertTrue(q.startswith("允许执行 "))
         self.assertIn("proc.exec rm -rf / --no-preserve-root", q)
-        self.assertTrue(q.endswith("agent=calibrate"))
+        self.assertIn("agent=calibrate", q)
+        self.assertIn("；判“否”", q)
+        for case, (context, question) in zip(_mini_cases(), fake.calls):
+            if case["gate"] == "prejudge":
+                self.assertEqual(
+                    question,
+                    PREJUDGE_JUDGE_QUESTION.format(tool=case["context"],
+                                                   args="", agent="calibrate"))
         # 其余三问：context=标注文本，question=模块导出常量
         self.assertEqual(by_gate["memory"],
                          ("用户偏好中文回复", REMEMBER_JUDGE_QUESTION))

@@ -3,10 +3,11 @@
 
 judge= 不传（默认）时行为与现状一致（用例③⑤钉住）；显式传入判断后端后：
 
-- MemoryStore.remember(judge=)：noul("值得长期记住且无隐私风险吗？") 为
-  deny → 拒绝入库返回 None（审计留在调用方）
+- MemoryStore.remember(judge=)：noul(题首"值得长期记住且无隐私风险吗？"+
+  判据段，criteria 式) 为 deny → 拒绝入库返回 None（审计留在调用方）
 - ContextManager(judge=)：压缩时对候选 victims（最老 1/3）逐条
-  noul("此消息可安全丢弃（信息已概括或属临时过程）吗？")——deny（=不可丢）
+  noul(题首"此消息可安全丢弃（信息已概括或属临时过程）吗？"+判据段)
+  ——deny（=不可丢）
   的消息移出 victims 保留在窗口内；候选全被保则跳过本轮压缩，连续两轮
   全跳过后强制按原逻辑压缩一次（防死循环）
 
@@ -65,8 +66,13 @@ class TestMemoryJevFilter(unittest.TestCase):
         self.assertIsNone(res)
         self.assertEqual(self.store.stats()["total"], 0)
         self.assertFalse(self.store.path.exists(), "deny 时不得落盘")
-        self.assertEqual(fake.calls,
-                         [("用户的身份证号", REMEMBER_JUDGE_QUESTION)])
+        # 问句钉关键词不钉全文（全文由 test_calibrate_judge 的 import
+        # 契约钉）：题首 10 字 + 判据结构 + deny 方向（deny=不入库）
+        context, question = fake.calls[0]
+        self.assertEqual(context, "用户的身份证号")
+        self.assertTrue(question.startswith(REMEMBER_JUDGE_QUESTION[:10]))
+        self.assertIn("；判“否”", question)
+        self.assertIn("deny，不入库", question)
 
     def test_remember_judge_allow_stores(self):
         # ② allow → 正常入库：返回 rec、total+1、持久化照常
@@ -102,9 +108,13 @@ class TestContextJevCompaction(unittest.TestCase):
         self.assertEqual(contents, [_blob(f"m-{i}") for i in (1, 3, 4, 5, 6)])
         self.assertEqual(ctx.stats.compactions, 1)
         self.assertIn(_blob("m-2")[:160], ctx._summary)  # 摘要截断到 160 字符
-        self.assertEqual(fake.calls,
-                         [(_blob("m-1"), COMPACT_JUDGE_QUESTION),
-                          (_blob("m-2"), COMPACT_JUDGE_QUESTION)])
+        # 问句钉关键词不钉全文：context 精确 + 题首 10 字 + deny 方向
+        self.assertEqual([c for c, _ in fake.calls],
+                         [_blob("m-1"), _blob("m-2")])
+        for _, question in fake.calls:
+            self.assertTrue(question.startswith(COMPACT_JUDGE_QUESTION[:10]))
+            self.assertIn("；判“否”", question)
+            self.assertIn("deny，不可丢弃", question)
 
     def test_compaction_without_judge_oldest_third(self):
         # ⑤ 默认无 judge → 压缩仍按最老 1/3（既有行为钉住）

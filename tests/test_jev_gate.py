@@ -91,6 +91,16 @@ class TestJevGate(unittest.TestCase):
         self.assertTrue(res.ok, res.error or res.text)
         self.assertEqual(self.confirm_calls, [], "不得惊动人类 confirm")
         self.assertEqual(len(fake.calls), 1, "预审恰好一次")
+        # 预审问句钉关键词不钉全文（criteria 式两段，全文由
+        # test_calibrate_judge 的 import 契约与 test_judge 的结构例钉）：
+        # 固定 context + 工具/参数/agent 注入 + 判据结构 + deny 方向
+        pctx, pquestion = fake.calls[0]
+        self.assertEqual(pctx, "内核高风险 syscall 确认横幅预审")
+        self.assertTrue(pquestion.startswith("允许执行 proc.exec"))
+        self.assertIn("'cmdline'", pquestion)
+        self.assertIn("agent=jev", pquestion)
+        self.assertIn("；判“否”", pquestion)
+        self.assertIn("deny，拒绝执行", pquestion)
         jev = self._jev_records()
         self.assertEqual(len(jev), 1)
         self.assertEqual(jev[0]["pid"], self.pcb.pid)

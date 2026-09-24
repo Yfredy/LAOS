@@ -11,8 +11,8 @@ expect_deny=false，规则后端却按关键词 deny → 记一次 fp）。
 四个 gate 的 (context, question) 忠实复刻各消费点的真实调用形态：
 
     prejudge  laos/kernel.py _jev_prejudge：context 固定为横幅描述，
-              问句模板 f"允许执行 {tool} {args} 吗？agent={pcb.name}"
-              （kernel 未导出常量，此处按源码实读复刻，参数以标注例充任）
+              问句 = PREJUDGE_JUDGE_QUESTION.format(...)（kernel 导出的
+              criteria 式模板常量；标注例 context 充任 {tool}，{args} 留空）
     memory    laos/memory.py REMEMBER_JUDGE_QUESTION（deny=不入库）
     compact   laos/context.py COMPACT_JUDGE_QUESTION（deny=不可丢弃）
     skill     laos/skills.py SKILL_JUDGE_QUESTION（deny=轨迹未达成不沉淀）
@@ -42,6 +42,7 @@ if str(REPO) not in sys.path:
 
 from laos.context import COMPACT_JUDGE_QUESTION  # noqa: E402
 from laos.judge import LocalBackend, RuleBackend  # noqa: E402
+from laos.kernel import PREJUDGE_JUDGE_QUESTION  # noqa: E402
 from laos.memory import REMEMBER_JUDGE_QUESTION  # noqa: E402
 from laos.skills import SKILL_JUDGE_QUESTION  # noqa: E402
 
@@ -59,7 +60,7 @@ __all__ = [
 
 GATES = ("prejudge", "memory", "compact", "skill")
 
-# kernel._jev_prejudge 的 context 实参（laos/kernel.py:585，逐字复刻）
+# kernel._jev_prejudge 的 context 实参（逐字复刻）
 PREJUDGE_CONTEXT = "内核高风险 syscall 确认横幅预审"
 # 问句模板的 agent 名（校准台自报身份，进审计友好）
 CALIB_AGENT = "calibrate"
@@ -74,8 +75,11 @@ MIN_PER_GATE = 12
 def gate_question(gate: str, case_context: str) -> tuple[str, str]:
     """标注例 → 该 gate 的真实 (context, question) 调用形态。"""
     if gate == "prejudge":
-        # f"允许执行 {tool} {args} 吗？agent={pcb.name}"（kernel.py:586）
-        return PREJUDGE_CONTEXT, f"允许执行 {case_context} 吗？agent={CALIB_AGENT}"
+        # PREJUDGE_JUDGE_QUESTION.format（与 kernel._jev_prejudge 同一模板，
+        # kernel.py 模块常量；标注例的 context 充任 {tool}，{args} 留空——
+        # bench 例不拆参数）
+        return PREJUDGE_CONTEXT, PREJUDGE_JUDGE_QUESTION.format(
+            tool=case_context, args="", agent=CALIB_AGENT)
     if gate == "memory":
         return case_context, REMEMBER_JUDGE_QUESTION
     if gate == "compact":

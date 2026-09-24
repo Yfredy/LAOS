@@ -15,8 +15,20 @@ from typing import Any
 
 # Jev 沉淀预审（Task 5，opt-in）：record(judge=...) 传入判断后端时先问
 # 一句——deny（= 轨迹没达成目标，成功只是"模型自称"）拒绝沉淀返回 None；
-# 审计留在调用方（skills 层只管收与拒，不写审计）
-SKILL_JUDGE_QUESTION = "此任务轨迹确实达成了目标吗？"
+# 审计留在调用方（skills 层只管收与拒，不写审计）。
+# Task 3 升级为 criteria 式两段问句（指示段 + 判据段，方法论源自
+# jev-chat-jarvis questions.py，MIT；题面按 laos 语义重写）：题首保留原
+# 问句不变，判据段钉住 deny 方向 = 不沉淀。判据文本刻意避开
+# judge.DENY_WORDS——RuleBackend 只扫问句关键词，问句自带 deny 词会让
+# 规则后端对该 gate 无差别全拒
+SKILL_JUDGE_QUESTION = (
+    "此任务轨迹确实达成了目标吗？依据任务描述与轨迹证据判断：工具调用"
+    "是否真的完成了任务目标，而非仅凭模型自称成功。\n"
+    "判“是”（allow，可沉淀为技能）当：轨迹有可核验的完成证据（结果 ok、"
+    "产出物已写入、验证性调用通过），且解法对同类任务可复用；"
+    "判“否”（deny，不沉淀）当：目标未达成、成功只是模型断言而无证据、"
+    "调用被拒或中途放弃、或属无复用价值的一次性操作，任一命中即否。"
+)
 
 
 def digest_trace(trace: list[dict]) -> str:

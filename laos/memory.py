@@ -36,8 +36,22 @@ RECENCY_HALF_LIFE_DAYS = 14.0  # 0.3 ** (days / 14)
 
 # Jev 入库预审（Task 4，opt-in）：remember(judge=...) 传入判断后端时先问
 # 一句——deny（不值得长期记住或涉隐私）拒绝入库返回 None；审计留在调用方
-# （memory 层只管收与拒，不写审计）
-REMEMBER_JUDGE_QUESTION = "值得长期记住且无隐私风险吗？"
+# （memory 层只管收与拒，不写审计）。
+# Task 3 升级为 criteria 式两段问句（指示段 + 判据段，方法论源自
+# jev-chat-jarvis questions.py，MIT；题面按 laos 语义重写）：题首保留原
+# 问句不变，判据段钉住 deny 方向 = 不入库。注意判据文本刻意避开
+# judge.DENY_WORDS（"危险/泄露隐私"等）——RuleBackend 只扫问句关键词，
+# 问句自带 deny 词会让规则后端对该 gate 无差别全拒
+REMEMBER_JUDGE_QUESTION = (
+    "值得长期记住且无隐私风险吗？只依据待记文本本身判断：它是跨会话"
+    "仍成立的稳定信息还是本轮临时过程，以及其中是否含个人敏感数据。\n"
+    "判“是”（allow，可入库）当：文本表达长期有效的用户偏好、事实结论"
+    "或经验教训（如“用户偏好中文回复”“该仓库用 unittest 跑测试”），"
+    "且不含任何个人敏感数据；判“否”（deny，不入库）当：文本只是临时"
+    "过程细节（中间步骤、试错记录、一次性待办），或含个人敏感数据"
+    "（密钥、token、身份证号、住址、私钥内容、聊天记录原文），"
+    "任一命中即否。"
+)
 
 
 def bigram_jaccard(a: str, b: str) -> float:
