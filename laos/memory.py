@@ -208,7 +208,10 @@ class MemoryStore:
                 if missing:
                     problems.append(f"① 第 {lineno} 行缺必含字段 {'/'.join(missing)}")
                 if "id" in rec:
-                    if rec["id"] in seen:
+                    if isinstance(rec["id"], (list, dict)):
+                        # 不可哈希 id 会让 `in seen` 抛 TypeError 带崩整个自检
+                        problems.append(f"① 第 {lineno} 行 id 非标量: {rec['id']!r}")
+                    elif rec["id"] in seen:
                         problems.append(
                             f"② 第 {lineno} 行与第 {seen[rec['id']]} 行 id 重复: {rec['id']!r}")
                     else:
@@ -226,6 +229,10 @@ class MemoryStore:
            层（YAGNI）
         ④ recall 空 query 不炸且不捞出零相关条目
         ⑤ 自检写入的临时条目用后即删（finally forget，内存与磁盘都复原）
+
+        注意副作用：结尾的原子重写（与 forget 同一重写路径）会把检出的
+        不可解析/缺字段/非标量 id 坏行从文件中移除——对真实数据跑之前
+        先备份。
 
         模式参考 jev-chat-jarvis KbSelfCheck.kt（MIT，
         github.com/jev-chat/jev-chat-jarvis）。

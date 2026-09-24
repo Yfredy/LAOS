@@ -154,6 +154,16 @@ class TestSelfCheck(unittest.TestCase):
         self.assertTrue(any("不可解析" in f for f in failures), failures)
         self.assertTrue(any("缺必含字段" in f for f in failures), failures)
 
+    def test_check1_tolerates_non_scalar_id(self):
+        """① 不可哈希 id 健壮性：文件含 {"id": ["x"]} 合法 JSON 行时，
+        扫描不得抛 TypeError 带崩整个自检——记为失败项（id 非标量）继续扫。"""
+        self.store.remember("fact", "x")
+        with self.store.path.open("a", encoding="utf-8") as fh:
+            fh.write(json.dumps({"id": ["x"], "kind": "fact", "text": "y",
+                                 "ts": 0.0}, ensure_ascii=False) + "\n")
+        failures = self.store.self_check()
+        self.assertTrue(any("id 非标量" in f for f in failures), failures)
+
     def test_check2_detects_duplicate_id(self):
         """② 重复 id 检测能力：注入与既有条目同 id 的合法行必须被抓到。"""
         rec = self.store.remember("fact", "x")
@@ -228,6 +238,11 @@ class TestLaosctlSelfcheck(unittest.TestCase):
             proc = self._run("--file", str(p))
             self.assertEqual(proc.returncode, 1, proc.stdout + proc.stderr)
             self.assertIn("不可解析", proc.stdout)
+            # 显式 --file：先向 stderr 打坏行丢弃副作用警告（建议备份）
+            self.assertIn("warning", proc.stderr)
+            self.assertIn("备份", proc.stderr)
+            # 失败输出注明检出的坏行已被本次运行移除（结尾原子重写）
+            self.assertIn("已被本次运行移除", proc.stdout)
 
 
 if __name__ == "__main__":
