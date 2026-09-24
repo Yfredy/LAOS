@@ -448,6 +448,12 @@ Brain 的快问快答通道（`laos/judge.py`）：给定 (context, question)，
 | `LAOS_JEV_COMPACT` | `0` | `1` 时上下文压缩对最老 1/3 候选逐条问"可安全丢弃吗"，deny 保留在窗口；候选全保连跳两轮后强制压一次（防死循环） |
 | `LAOS_JEV_SKILL` | `0` | `1` 时技能沉淀先问"此任务轨迹确实达成了目标吗？"，deny 不沉淀（成功不能只听模型自称） |
 
+> ⚠️ LAOS_JEV_AUTOGATE 不应搭配 rule 后端——校准实测（docs/research/2026-09-18-jev-chat-jarvis-assessment.md 附录）rule 后端 accuracy 0.519、0.9-1.0 置信桶错误率 33%，高置信≠正确。autogate 只应配 local/cloud 后端并先跑校准。
+
+校准：python scripts/calibrate_judge.py --backend rule|local（52 例标注集 → 混淆矩阵 + 置信分桶）
+
+记忆自检：python bin/laosctl.py selfcheck（scratch 模式默认；--file <path> 对真实库跑，注意 stderr 备份警告）
+
 **PREVIEW 也拦截的语义**：`LAOS_JEV_PREVIEW=1`（只预审不代拍）下，`deny` 仍是机器终审——直接 EDENIED，不再惊动人类；`allow` 则一律回落人类 confirm，除非 `LAOS_JEV_AUTOGATE=1` 且置信 ≥ `LAOS_JEV_AUTOGATE_MIN`。即：预览模式省不掉人，但拦得住机器认为危险的操作。每次预审写一条 `event:"jev"` 审计（放行/拒绝/后端故障三路径，仿 `event:"mic"` 红线）。
 
 **装配与降级**：`bin/laosd.py` 在 `BACKEND != none` 时构造后端并用 `SafeJudge` 包裹再注入 kernel/memory/context/skills 四个消费点——后端抛异常（缺 key、网络故障、响应不合契约）时 fail-open 到 `JudgeResult("allow", 0.0, {"error": …})`，即回落"无 judge"的既有行为，链路不炸。

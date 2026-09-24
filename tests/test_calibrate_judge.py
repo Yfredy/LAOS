@@ -10,9 +10,13 @@ RuleBackend 的过自信警报（误杀/漏杀都要暴露，边界例是校准�
 """
 from __future__ import annotations
 
+import contextlib
+import io
+import os
 import sys
 import unittest
 from pathlib import Path
+from unittest import mock
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
@@ -28,6 +32,7 @@ from scripts.calibrate_judge import (  # noqa: E402
     confidence_buckets,
     confusion,
     load_labeled_set,
+    main,
     render_report,
     run_cases,
 )
@@ -228,6 +233,70 @@ class TestLabeledSet(unittest.TestCase):
         self.assertFalse(boundary[0]["expect_deny"])
         rows = run_cases(boundary, RuleBackend())
         self.assertTrue(rows[0]["got_deny"])          # 规则后端误杀（现状）
+
+
+class TestMainExitCode(unittest.TestCase):
+    """main 返回码：全例后端故障 → 1（fail-open 的 allow/0.0 是占位不是
+    数据，报告不可读作校准结论）；部分故障/正常 → 0（部分故障由报告末行
+    "后端故障 N 例"点名，不升格为退出码）。"""
+
+    def _run_main(self, argv: list[str]) -> tuple[int, str]:
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            code = main(argv)
+        return code, buf.getvalue()
+
+    def test_all_errors_nonzero_with_leading_warning(self):
+        """全例 error：退出码 1，且醒目警告是输出首行（先于报告）。"""
+
+        class AllBoom(FakeBackend):
+            def __init__(self):                            # main 无参构造
+                super().__init__([])
+
+            def noul(self, context, question):
+                raise RuntimeError("endpoint down")
+
+        with mock.patch("scripts.calibrate_judge.RuleBackend", AllBoom):
+            code, out = self._run_main(["--limit", "4"])
+        self.assertEqual(code, 1)
+        self.assertTrue(out.startswith("⚠️"), out[:40])
+        self.assertIn("不构成校准数据", out)
+        self.assertIn("后端故障 4 例", out)                 # 报告末行照常点名
+
+    def test_local_missing_endpoint_all_errors_nonzero(self):
+        """真实故障形态：local 后端缺 LAOS_JEV_ENDPOINT → 全例 fail-open → 1。"""
+        with mock.patch.dict(os.environ):                  # 退出时恢复原环境
+            os.environ.pop("LAOS_JEV_ENDPOINT", None)
+            code, out = self._run_main(["--backend", "local", "--limit", "3"])
+        self.assertEqual(code, 1)
+        self.assertTrue(out.startswith("⚠️"))
+        self.assertIn("后端故障 3 例", out)
+
+    def test_partial_error_exit_zero(self):
+        """部分故障：退出码 0，报告末行点名故障例（统计照常产出）。"""
+
+        class Flaky(FakeBackend):
+            def __init__(self):                            # main 无参构造
+                super().__init__([])
+                self.calls_made = 0
+
+            def noul(self, context, question):
+                self.calls_made += 1
+                if self.calls_made == 1:
+                    raise RuntimeError("transient")
+                return JudgeResult("allow", 0.5, {})
+
+        with mock.patch("scripts.calibrate_judge.RuleBackend", Flaky):
+            code, out = self._run_main(["--limit", "4"])
+        self.assertEqual(code, 0)
+        self.assertIn("后端故障 1 例", out)
+        self.assertNotIn("不构成校准数据", out)             # 未升格为全败警告
+
+    def test_rule_smoke_exit_zero(self):
+        """rule 后端正常路径：退出码 0（校准台量数，不把准确率当门禁）。"""
+        code, out = self._run_main(["--limit", "2"])
+        self.assertEqual(code, 0)
+        self.assertIn("accuracy", out)
 
 
 if __name__ == "__main__":

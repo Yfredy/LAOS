@@ -22,10 +22,12 @@ CLI：
     python scripts/calibrate_judge.py [--backend rule|local] [--limit N]
 
     rule   零依赖关键词兜底（默认，LAOS_JEV_BACKEND 的同名后端）
-    local  OpenAI 兼容端点（读 LAOS_JEV_ENDPOINT，缺端点 fail-loud）
+    local  OpenAI 兼容端点（读 LAOS_JEV_ENDPOINT；缺端点/网络故障逐例
+           fail-open 记 allow 0.0 并标 error 键，全例失败时退出码 1）
 
 输出：终端人读报告（render_report）——总体/各 gate 混淆 + 置信分桶 +
-过自信警报点名。退出码 0（校准台量数，不把准确率当门禁——阈值另议）。
+过自信警报点名。退出码 0（校准台量数，不把准确率当门禁——阈值另议）；
+唯一非零路径 = 全例后端故障（fail-open 记的 allow/0.0 不构成校准数据）。
 
     python -m unittest tests.test_calibrate_judge -v
 """
@@ -255,10 +257,17 @@ def main(argv: list[str] | None = None) -> int:
     if args.limit is not None:
         cases = cases[:max(int(args.limit), 0)]
     rows = run_cases(cases, backend)
+    # 全例后端故障 = 本轮没有一条真实判断（fail-open 的 allow/0.0 是占位
+    # 不是数据），报告不可读作校准结论——首行打醒目警告并退出码 1；部分
+    # 故障照常退出 0（报告末行已点名"后端故障 N 例"）
+    all_errored = bool(rows) and all("error" in row for row in rows)
+    if all_errored:
+        print(f"⚠️ 全部 {len(rows)} 例后端故障——fail-open 记的 allow/0.0 "
+              f"不构成校准数据，本次报告无效（检查端点/key/网络后重跑），退出码 1")
     print(render_report(rows))
     print(f"\nbackend={backend.name}  cases={len(cases)}  "
           f"fixture={FIXTURE.relative_to(REPO)}")
-    return 0
+    return 1 if all_errored else 0
 
 
 if __name__ == "__main__":

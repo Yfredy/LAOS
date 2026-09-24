@@ -252,23 +252,28 @@ class TestJudgeQuestionCriteria(unittest.TestCase):
     此处只钉结构与方向。
     """
 
-    # 常量 → (allow 方向关键词, deny 方向关键词)
+    # 常量 → (allow 邻接判据, deny 邻接判据)——方向词必须紧跟所属分支：
+    # “是”后括注 allow 语义后果、“否”后括注 deny 语义后果。独立子串断言
+    # 漏掉方向词漂移（如 allow 词漂进“否”分支时旧四断言仍全绿），
+    # 邻接钉 + 分号衔接钉保证正反判据各自成段不互换
     DIRECTIONS = {
-        REMEMBER_JUDGE_QUESTION: ("allow，可入库", "deny，不入库"),
-        COMPACT_JUDGE_QUESTION: ("allow，可丢弃", "deny，不可丢弃"),
-        SKILL_JUDGE_QUESTION: ("allow，可沉淀", "deny，不沉淀"),
-        PREJUDGE_JUDGE_QUESTION: ("allow，放行", "deny，拒绝执行"),
+        REMEMBER_JUDGE_QUESTION: ("判“是”（allow，可入库）",
+                                  "；判“否”（deny，不入库）"),
+        COMPACT_JUDGE_QUESTION: ("判“是”（allow，可丢弃并入摘要）",
+                                 "；判“否”（deny，不可丢弃，保留在窗口）"),
+        SKILL_JUDGE_QUESTION: ("判“是”（allow，可沉淀为技能）",
+                               "；判“否”（deny，不沉淀）"),
+        PREJUDGE_JUDGE_QUESTION: ("判“是”（allow，放行）",
+                                  "；判“否”（deny，拒绝执行）"),
     }
 
     def test_four_questions_carry_two_part_criteria(self):
-        for question, (allow_kw, deny_kw) in self.DIRECTIONS.items():
+        for question, (allow_adj, deny_adj) in self.DIRECTIONS.items():
             with self.subTest(head=question[:12]):
                 self.assertIsInstance(question, str)
                 self.assertIn("\n", question)        # 两段式：指示段 + 判据段
-                self.assertIn("判“是”", question)    # 判据结构关键词（是）
-                self.assertIn("；判“否”", question)  # 正反判据以分号衔接（否）
-                self.assertIn(allow_kw, question)    # allow 方向的语义后果
-                self.assertIn(deny_kw, question)     # deny 方向的语义后果
+                self.assertIn(allow_adj, question)   # “是”分支邻接 allow 后果
+                self.assertIn(deny_adj, question)    # 分号衔接“否”分支，邻接 deny 后果
         # prejudge 是模板常量：保留 {tool}/{args}/{agent} 注入位（判据文本
         # 不得引入额外花括号，否则 .format 渲染炸内核链路）
         for placeholder in ("{tool}", "{args}", "{agent}"):
