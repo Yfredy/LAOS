@@ -10,6 +10,7 @@ laosd 的内核状态在内存里，laosctl 通过持久化的审计日志做回
     python bin/laosctl.py prof                  # eBPF 采集的真实 syscall 分布
     python bin/laosctl.py budget                # 车队风险账本回放（Irreversibility Budget 2.0）
     python bin/laosctl.py spans                 # AgentProf 语义剖析回放
+    python bin/laosctl.py selfcheck             # memory 存储自检（scratch store，不碰 var/memory.jsonl）
 """
 
 from __future__ import annotations
@@ -160,15 +161,46 @@ def cmd_prof(records: list[dict], args) -> None:
         print(f"{name:<44}{n:>10}")
 
 
+def cmd_selfcheck(args) -> int:
+    """MemoryStore 自检：scratch store 上写临时条目→验证五项→finally 删光。
+
+    五项 = ①JSONL 完整性（每行可解析且必含 id/kind/text/ts）②重复 id
+    ③全/半角括号 recall 健壮性 ④recall 空 query 不炸 ⑤临时条目清理。
+    模式参考 jev-chat-jarvis KbSelfCheck.kt（MIT,
+    github.com/jev-chat/jev-chat-jarvis）。
+
+    默认在 tempfile scratch store 上跑，不碰用户 var/memory.jsonl；
+    显式 --file <memory.jsonl> 则对该 store 跑（自检会短暂注入坏行验证
+    检测能力，结束时走原子重写清理——坏行随之被丢弃）。"""
+    import tempfile
+
+    from laos.memory import MemoryStore
+
+    if args.file == str(DEFAULT_AUDIT):  # 未显式指定 --file → scratch store
+        with tempfile.TemporaryDirectory() as td:
+            failures = MemoryStore(Path(td) / "memory.jsonl").self_check()
+    else:
+        failures = MemoryStore(Path(args.file)).self_check()
+    if failures:
+        print(f"memory 自检失败 {len(failures)} 项:")
+        for f in failures:
+            print(f"  ! {f}")
+        return 1
+    print("memory 自检通过（①JSONL 完整性 ②重复 id ③全/半角括号 ④空 query ⑤临时条目清理）")
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="laosctl —— Linux AgentOS 控制面")
     ap.add_argument("command", choices=["audit", "trace", "denied", "top", "ps", "prof",
-                                        "budget", "spans"])
+                                        "budget", "spans", "selfcheck"])
     ap.add_argument("--file", type=str, default=str(DEFAULT_AUDIT))
     ap.add_argument("--pid", type=int)
     ap.add_argument("--event", type=str)
     args = ap.parse_args()
 
+    if args.command == "selfcheck":
+        return cmd_selfcheck(args)  # 自检不读审计日志，走 scratch memory store
     records = load(Path(args.file))
     {"audit": cmd_audit, "trace": cmd_trace, "denied": cmd_denied,
      "top": cmd_top, "ps": cmd_ps, "prof": cmd_prof,

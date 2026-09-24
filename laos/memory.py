@@ -171,3 +171,123 @@ class MemoryStore:
             kind = rec.get("kind", "?")
             by_kind[kind] = by_kind.get(kind, 0) + 1
         return {"total": len(self._records), "by_kind": by_kind}
+
+    # -- 自检（Task 4）------------------------------------------------------
+    # 模式参考 jev-chat-jarvis KbSelfCheck.kt（MIT，
+    # github.com/jev-chat/jev-chat-jarvis）：自检打真库——写临时条目→验证
+    # 容易悄悄坏掉的路径→finally 删光；不是对既有数据的扫描（①②的检测
+    # 能力靠注入坏行验证，抓不到坏行的检查是绿泡泡）。
+    # laosctl selfcheck 在 tempfile scratch store 上跑（不碰用户
+    # var/memory.jsonl）；对既有 store 直接跑亦安全，但注意自检会短暂注入
+    # 坏行、结束时走 forget 的原子重写（坏行随之被丢弃——与 _load 静默
+    # 跳过半行的既定语义一致）。
+
+    def _scan_jsonl(self) -> list[str]:
+        """直接重读磁盘文件（绕开 _load 的静默跳过），报告完整性问题：
+        ① 行不可解析 / 非 JSON 对象 / 缺必含字段 id/kind/text/ts
+        ② 重复 id。内存 _records 看不到坏行（_load 已跳过），唯一现形处
+        就是这里。"""
+        problems: list[str] = []
+        seen: dict[Any, int] = {}
+        if not self.path.exists():
+            return problems
+        with self.path.open("r", encoding="utf-8") as fh:
+            for lineno, line in enumerate(fh, 1):
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    rec = json.loads(line)
+                except json.JSONDecodeError:
+                    problems.append(f"① 第 {lineno} 行不可解析为 JSON（崩溃残迹/半行）")
+                    continue
+                if not isinstance(rec, dict):
+                    problems.append(f"① 第 {lineno} 行不是 JSON 对象")
+                    continue
+                missing = [f for f in ("id", "kind", "text", "ts") if f not in rec]
+                if missing:
+                    problems.append(f"① 第 {lineno} 行缺必含字段 {'/'.join(missing)}")
+                if "id" in rec:
+                    if rec["id"] in seen:
+                        problems.append(
+                            f"② 第 {lineno} 行与第 {seen[rec['id']]} 行 id 重复: {rec['id']!r}")
+                    else:
+                        seen[rec["id"]] = lineno
+        return problems
+
+    def self_check(self) -> list[str]:
+        """自检流程检查，返回失败项清单（空 = 全过）。五项：
+
+        ① JSONL 每行可解析且必含 id/kind/text/ts（检测能力靠注入坏行验证）
+        ② 重复 id 检测（同上，注入重复行验证抓得到）
+        ③ 全/半角括号归一化健壮性：记 "测试群(12)" 与 "测试群（12）" 后
+           两种 query 都能同时命中——bigram 检索天然容错（共享 bigram
+           重叠，实测 Jaccard 3/9 > 0），此处钉住该事实，刻意不加归一化
+           层（YAGNI）
+        ④ recall 空 query 不炸且不捞出零相关条目
+        ⑤ 自检写入的临时条目用后即删（finally forget，内存与磁盘都复原）
+
+        模式参考 jev-chat-jarvis KbSelfCheck.kt（MIT，
+        github.com/jev-chat/jev-chat-jarvis）。
+        """
+        failures: list[str] = []
+        with self._lock:
+            base = self._scan_jsonl()  # 自检前既有的坏行先记下（含则报失败）
+        if base:
+            failures.append("①② 自检前文件已有完整性问题: " + "; ".join(base))
+        before = len(self._records)
+        a = self.remember("selfcheck", "测试群(12)")
+        b = self.remember("selfcheck", "测试群（12）")
+        try:
+            # ①② 检测能力：注入 截断半行/缺字段行/重复 id 行，必须全抓到，
+            # 随后用 _rewrite（写回 _records）撤回注入的裸行
+            with self._lock:
+                with self.path.open("a", encoding="utf-8") as fh:
+                    fh.write('{"id": 999, "kind": "selfcheck", "text"\n')
+                    fh.write(json.dumps(
+                        {"id": 1000, "kind": "selfcheck", "ts": 0.0},
+                        ensure_ascii=False) + "\n")
+                    fh.write(json.dumps(
+                        {"id": a["id"], "kind": "selfcheck", "text": "dup", "ts": 0.0},
+                        ensure_ascii=False) + "\n")
+                caught = [p for p in self._scan_jsonl() if p not in base]
+                self._rewrite()  # 撤回注入（原子重写）
+            if not any("不可解析" in p for p in caught):
+                failures.append(f"① 未检出不可解析行: {caught}")
+            if not any("缺必含字段" in p for p in caught):
+                failures.append(f"① 未检出缺字段行: {caught}")
+            if not any("id 重复" in p for p in caught):
+                failures.append(f"② 未检出重复 id 行: {caught}")
+            with self._lock:
+                residue = self._scan_jsonl()
+            if residue:
+                failures.append(f"①② 注入撤回后文件仍有完整性问题: {residue}")
+
+            # ③ 全/半角括号：两种 query 都得同时命中两条（bigram 天然容错）
+            want = {"测试群(12)", "测试群（12）"}
+            for query in ("测试群(12)", "测试群（12）"):
+                got = {r["text"] for r in self.recall(query, k=10)}
+                if not want <= got:
+                    failures.append(
+                        f"③ 全/半角括号 recall 未同时命中 query={query!r}: {sorted(got)}")
+
+            # ④ 空 query：不炸、零相关不捞（recency 不得单独构成召回）
+            try:
+                leaked = self.recall("", k=5)
+            except Exception as exc:
+                failures.append(f"④ recall 空 query 抛异常: {exc!r}")
+            else:
+                if leaked:
+                    failures.append(f"④ recall 空 query 应返回空列表: {leaked}")
+        finally:
+            # ⑤ 无论如何清理（KbSelfCheck 的 finally 删光模式），并核验复原
+            forgot = (self.forget(a["id"]), self.forget(b["id"]))
+            if not all(forgot):
+                failures.append(f"⑤ forget 自检临时条目失败: {forgot}")
+            if len(self._records) != before:
+                failures.append(
+                    f"⑤ 自检后内存条目数未复原: {before} -> {len(self._records)}")
+            on_disk = MemoryStore(self.path).stats()["total"]
+            if on_disk != before:
+                failures.append(f"⑤ 自检后磁盘条目数未复原: {before} -> {on_disk}")
+        return failures
