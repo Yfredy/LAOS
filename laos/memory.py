@@ -114,7 +114,11 @@ class MemoryStore:
 
     @property
     def _next_id(self) -> int:
-        return max((r["id"] for r in self._records), default=0) + 1
+        # 损坏库容错：_load 会载入缺 id/非整数 id 的合法 JSON 行，
+        # 只对整数 id 取最大——写入/自检路径不得被坏数据打死
+        ids = [r["id"] for r in self._records
+               if isinstance(r.get("id"), int)]
+        return max(ids, default=0) + 1
 
     # -- 记忆操作 ----------------------------------------------------------
     def remember(self, kind: str, text: str, tags: list[str] | None = None,
@@ -230,9 +234,10 @@ class MemoryStore:
         ④ recall 空 query 不炸且不捞出零相关条目
         ⑤ 自检写入的临时条目用后即删（finally forget，内存与磁盘都复原）
 
-        注意副作用：结尾的原子重写（与 forget 同一重写路径）会把检出的
-        不可解析/缺字段/非标量 id 坏行从文件中移除——对真实数据跑之前
-        先备份。
+        注意副作用：结尾的原子重写（与 forget 同一重写路径）会移除**不可
+        解析**的坏行；缺字段/重复 id/非标量 id 等其余问题行会被加载进
+        _records 并原样写回、**仍保留在文件中**（重跑自检仍会报）——对
+        真实数据跑之前先备份。
 
         模式参考 jev-chat-jarvis KbSelfCheck.kt（MIT，
         github.com/jev-chat/jev-chat-jarvis）。

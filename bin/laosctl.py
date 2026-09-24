@@ -172,7 +172,7 @@ def cmd_selfcheck(args) -> int:
     默认在 tempfile scratch store 上跑，不碰用户 var/memory.jsonl；
     显式 --file <memory.jsonl> 则对该 store 跑（先打 stderr 警告：自检
     会短暂注入坏行验证检测能力，结尾走原子重写清理——检出的既有坏行
-    随之被移除，建议先备份）。"""
+    移除——仅不可解析行会被移除，其余问题行保留，建议先备份）。"""
     import tempfile
 
     from laos.memory import MemoryStore
@@ -181,7 +181,7 @@ def cmd_selfcheck(args) -> int:
         with tempfile.TemporaryDirectory() as td:
             failures = MemoryStore(Path(td) / "memory.jsonl").self_check()
     else:
-        print(f"warning: selfcheck 结尾将原子重写并移除既有坏行，建议先备份 {args.file}",
+        print(f"warning: selfcheck 结尾将原子重写并移除不可解析的坏行（缺字段/重复 id 等问题行会保留），建议先备份 {args.file}",
               file=sys.stderr)
         failures = MemoryStore(Path(args.file)).self_check()
     if failures:
@@ -189,7 +189,8 @@ def cmd_selfcheck(args) -> int:
         for f in failures:
             print(f"  ! {f}")
         if any("自检前文件已有完整性问题" in f for f in failures):
-            print("  注意: 检出的坏行已被本次运行移除（结尾原子重写）")
+            print("  注意: 不可解析的坏行已被本次运行移除（结尾原子重写）；"
+                  "缺字段/重复 id/非标量 id 等其余问题行仍保留在文件中")
         return 1
     print("memory 自检通过（①JSONL 完整性 ②重复 id ③全/半角括号 ④空 query ⑤临时条目清理）")
     return 0

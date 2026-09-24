@@ -154,6 +154,19 @@ class TestSelfCheck(unittest.TestCase):
         self.assertTrue(any("不可解析" in f for f in failures), failures)
         self.assertTrue(any("缺必含字段" in f for f in failures), failures)
 
+    def test_selfcheck_survives_missing_id_line(self):
+        """活体验证发现的回归钉：文件含缺 id 行时 _next_id 不得 KeyError。
+
+        _load 会把缺 id 的合法 JSON 行载入 _records；self_check 在 ③ 写
+        临时条目时走 _next_id → 对缺 id 行取 r["id"] 即 KeyError。必须先
+        写文件再构造 store 才能复现（构造后追加不会进内存 _records）。"""
+        path = self.store.path
+        path.write_text(
+            '{"id": 1, "kind": "fact", "text": "好", "ts": 1.0}\n'
+            '{"kind": "fact", "text": "缺id", "ts": 2.0}\n', encoding="utf-8")
+        failures = MemoryStore(path).self_check()
+        self.assertTrue(any("缺必含字段" in f for f in failures), failures)
+
     def test_check1_tolerates_non_scalar_id(self):
         """① 不可哈希 id 健壮性：文件含 {"id": ["x"]} 合法 JSON 行时，
         扫描不得抛 TypeError 带崩整个自检——记为失败项（id 非标量）继续扫。"""
@@ -241,8 +254,9 @@ class TestLaosctlSelfcheck(unittest.TestCase):
             # 显式 --file：先向 stderr 打坏行丢弃副作用警告（建议备份）
             self.assertIn("warning", proc.stderr)
             self.assertIn("备份", proc.stderr)
-            # 失败输出注明检出的坏行已被本次运行移除（结尾原子重写）
-            self.assertIn("已被本次运行移除", proc.stdout)
+            # 失败输出精确注明：仅不可解析行被移除，其余问题行保留
+            self.assertIn("不可解析", proc.stdout)
+            self.assertIn("仍保留", proc.stdout)
 
 
 if __name__ == "__main__":
