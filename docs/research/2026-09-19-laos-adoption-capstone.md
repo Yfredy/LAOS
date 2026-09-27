@@ -1,7 +1,8 @@
 # laos 采纳总纲（Capstone）：全部调研资产 × laos 架构映射
 
 > 定位：[INDEX.md](INDEX.md) 所列 59 份调研资产的**采纳总账**——每条映射回答四问：来源｜可取之处｜laos 落点｜状态。
-> 状态记法：**●已落地**（附 git commit，查证命令见附录）/ **◐推荐 P0–P3** / **○不做**（附理由）。
+> 状态记法：**●已落地**（代码落地，附 git commit，查证命令见附录）/ **●已消化**（资产入库或口径写入文档，无代码落点）/ **◐推荐 P0–P3** / **○不做**（附理由）。
+> 三树布局：根 `laos/` 为主树；`AlwaysOnRec-ZCode/` 为隔离实现区（Apple 增量与 speech-frontier 批次，README §10.2）；`AlwaysOnRec-Trae/` 为并行会话工作区（能力阶梯/Opus 配额/环形缓冲批次）。涉及三树的落点均带路径前缀，commit 归属经 `git show --stat` 逐条核实（命令见附录）。
 > 纪律：量化结论全部抄自源文档原句（不造新数）；外部 URL 均出自源文档；本报告自身只做映射与裁决。
 
 ---
@@ -10,13 +11,13 @@
 
 | laos 模块 | 论文/学术 | OSS 生态 | 产品/业界 | 教训/合规 | 状态汇总 |
 |---|---|---|---|---|---|
-| `laos/vad.py` StreamingVAD＋PCEN | EdgeSpot/FusionVAD | Silero VAD 对照 | — | — | ●（7ffe672, bbf5f5e）｜◐外接 ONNX |
-| `laos/kws.py` 私有唤醒词 | EdgeSpot/LLM-Synth4KWS | openWakeWord 管线 | — | — | ●（bbf5f5e） |
-| `drv_rec`（②捕获＋Opus＋配额＋即焚） | AudioMoth 占空比 | Opus (RFC 6716) | Apple S12 环形缓冲 | UCB 自动删除实证 | ●（06ba582, 029a01a）｜◐duty 档 |
-| `laos/audiostore.py` 留存档 | Mimi/SNAC 低码率 codec | SNAC (MIT) | — | 即焚前最小留存 | ●（bbf5f5e） |
+| `laos/vad.py` StreamingVAD（根树）＋PCEN（ZCode 树） | EdgeSpot/FusionVAD | Silero VAD 对照 | — | — | ●（7ffe672, bbf5f5e）｜◐外接 ONNX |
+| `AlwaysOnRec-ZCode/laos/kws.py` 私有唤醒词 | EdgeSpot/LLM-Synth4KWS | openWakeWord 管线 | — | — | ●（bbf5f5e） |
+| `drv_rec`（②捕获＋Opus＋配额＋即焚；Opus 档在 Trae 树） | AudioMoth 占空比 | Opus (RFC 6716) | Apple S12 环形缓冲 | UCB 自动删除实证 | ●（06ba582, 029a01a）｜◐duty 档 |
+| `AlwaysOnRec-ZCode/laos/audiostore.py` 留存档 | Mimi/SNAC 低码率 codec | SNAC (MIT) | — | 即焚前最小留存 | ●（bbf5f5e） |
 | `drv_ear`（③蒸馏 ASR+情感） | SenseVoice/TIM-Net | SenseVoice/FunASR/sherpa-onnx | Apple S12 端侧蒸馏 | PIPL 声纹红线 | ●（fa47b39）｜◐diarization |
 | `bin/journal.py`＋`diary`/`mood_report`（④消费） | emotion2vec/EmoBox | LocalRecorder 分层摘要 | Apple 三段式 schema | 情感只做纵向差分 | ●（5fa34d2, 677616b）｜◐9 类精化 |
-| `laos/kernel.py` 能力阶梯＋task_scope | Agent libOS 权威上限 | — | — | NameTag 教训 | ●（885391c, 962d956） |
+| `laos/kernel.py` 能力阶梯（Trae 树）＋task_scope（根树） | Agent libOS 权威上限 | — | — | NameTag 教训 | ●（885391c, 962d956） |
 | `laos/risk.py` FleetLedger | Irreversibility Budget (MPI-SWS) | — | — | — | ●（9285448 等 4 commits） |
 | `laos/branch.py`+`cow.py` BranchContext | Fork-Explore-Commit (2602.08199) | BranchFS 对照 | — | — | ●（06edb3c, 713568b）｜○FUSE 远期 |
 | `laos/context.py` 窗口/摘要/观察簿 | Stale Context (HKU)/MemGPT | fast-jev-compaction 模式 | — | — | ●（06edb3c, ba74910） |
@@ -39,9 +40,9 @@
 | 来源 | 可取之处 | laos 落点 | 状态 |
 |---|---|---|---|
 | Silero VAD（MIT，[GitHub](https://github.com/snakers4/silero-vad)） | 模型 ~2MB、30ms chunk <1ms CPU、24/7 事实标准 | 自研零依赖 StreamingVAD 保持兜底（批量/流式 parity） | ●已落地（7ffe672）；外接 ONNX 通道 ◐P3 |
-| EdgeSpot（ICASSP 2026，[arXiv:2601.16316](https://arxiv.org/abs/2601.16316)） | 可训练 PCEN 前端（逐通道能量归一化，几十行） | `laos/vad.py` `use_pcen=True`：低 28dB 语音与正常音量分段一致 | ●已落地（bbf5f5e） |
+| EdgeSpot（ICASSP 2026，[arXiv:2601.16316](https://arxiv.org/abs/2601.16316)） | 可训练 PCEN 前端（逐通道能量归一化，几十行） | `AlwaysOnRec-ZCode/laos/vad.py` `use_pcen=True`：低 28dB 语音与正常音量分段一致 | ●已落地（bbf5f5e） |
 | FusionVAD（IS25，[arXiv:2506.01365](https://arxiv.org/abs/2506.01365)） | MFCC+SSL 特征**简单相加**即超交叉注意力 | PCEN 之外的噪声鲁棒第二台阶 | ◐推荐 P2 |
-| openWakeWord 管线＋LLM-Synth4KWS（[arXiv:2505.22995](https://arxiv.org/abs/2505.22995)） | 合成数据+易混词对比学习压误唤醒（AUC +3.7%、易混词 c-AUC +11.3%） | `laos/kws.py` 包络 DTW（模板=纯 JSON 非声纹）+`scripts/kws_confusables.py` 声母/韵母替换 | ●已落地（bbf5f5e） |
+| openWakeWord 管线＋LLM-Synth4KWS（[arXiv:2505.22995](https://arxiv.org/abs/2505.22995)） | 合成数据+易混词对比学习压误唤醒（AUC +3.7%、易混词 c-AUC +11.3%） | `AlwaysOnRec-ZCode/laos/kws.py` 包络 DTW（模板=纯 JSON 非声纹）+`AlwaysOnRec-ZCode/scripts/kws_confusables.py` 声母/韵母替换 | ●已落地（bbf5f5e） |
 | TIM-Net（ICASSP 2023，[GitHub](https://github.com/Jiaxin-Ye/TIM-Net_SER)） | ~0.1–0.5M 参数小型档精度之王；真机 34,671 参数/0.4MB，LPI <5mW 常驻 | App 内 ADSP LPAI 情感差分 → `/events` → `drv_events` | ●已落地（89b37ef 推理；drv_events 15c3186；闭环 dd753f7） |
 | 34.7µW KWS 专用 IC（MDPI Electronics 2023） | 待机 1.65µW / KWS 平均 34.7µW 功耗标尺 | 纯能量 VAD 应压个位数 µW 的预算口径（不实现硬件） | ○不做（硬件实现；仅作标尺参照，[hardware-power](always-on-recording/hardware-power.md)） |
 
@@ -49,11 +50,11 @@
 
 | 来源 | 可取之处 | laos 落点 | 状态 |
 |---|---|---|---|
-| Apple Watch S12 音频智能（[支持文档](https://support.apple.com/en-us/148354)） | 15s 环形缓冲=②触发捕获、7 天删=④即焚的消费者级验证 | journal 标题 schema + `time:` 调度窗 + 6h 即焚 | ●已落地（5fa34d2；即焚 3911790） |
-| mic 能力阶梯（laos 原创，业界无第二家） | `mic.listen→record→transcribe→always_on` 高层含低层、默认收紧 | `laos/kernel.py` 四级能力表 | ●已落地（885391c） |
-| Opus（RFC 6716，[xiph/opus](https://github.com/xiph/opus)） | 16 kbps = 7.2 MB/h 宽带近透明；帧长 2.5–60ms | `drv_rec` opus 编码（回退链）+ 存储配额 | ●已落地（06ba582） |
-| AudioMoth（[Open Acoustic Devices](https://www.openacousticdevices.info/)） | SD 写入 17–70 mW、睡眠 80 µW 的占空比调度范本（9% 占空→续航 ~12×） | 环形缓冲+rewind 已落；duty-cycle 档位待做 | ◐推荐 P2（`029a01a` 已落 always_on 环形缓冲与回放） |
-| Mimi/SNAC（[arXiv:2410.00037](https://arxiv.org/abs/2410.00037) / [arXiv:2410.14411](https://arxiv.org/abs/2410.14411)） | 1.1/0.98 kbps ≈ **0.5MB/小时**（PCM 115MB/h 的 1/233）；留存格式=模型表示合一 | `laos/audiostore.py` µ-law 档（默认关）+ SNAC 可选依赖；0.5MB/h×6h≈3MB/天 | ●已落地（bbf5f5e） |
+| Apple Watch S12 音频智能（[支持文档](https://support.apple.com/en-us/148354)） | 15s 环形缓冲=②触发捕获、7 天删=④即焚的消费者级验证 | journal 标题 schema + `time:` 调度窗（ZCode 树）+ 6h 即焚（根树） | ●已落地（5fa34d2；即焚 3911790） |
+| mic 能力阶梯（laos 原创，业界无第二家） | `mic.listen→record→transcribe→always_on` 高层含低层、默认收紧 | `AlwaysOnRec-Trae/laos/kernel.py` 四级能力表 | ●已落地（885391c） |
+| Opus（RFC 6716，[xiph/opus](https://github.com/xiph/opus)） | 16 kbps = 7.2 MB/h 宽带近透明；帧长 2.5–60ms | `AlwaysOnRec-Trae/drivers/drv_rec.py` opus 编码（回退链）+ 存储配额 | ●已落地（06ba582） |
+| AudioMoth（[Open Acoustic Devices](https://www.openacousticdevices.info/)） | SD 写入 17–70 mW、睡眠 80 µW 的占空比调度范本（9% 占空→续航 ~12×） | 环形缓冲+rewind 已落；duty-cycle 档位待做 | ◐推荐 P2（`029a01a` 已落 `AlwaysOnRec-Trae/drivers/drv_mic.py` always_on 环形缓冲与回放） |
+| Mimi/SNAC（[arXiv:2410.00037](https://arxiv.org/abs/2410.00037) / [arXiv:2410.14411](https://arxiv.org/abs/2410.14411)） | 1.1/0.98 kbps ≈ **0.5MB/小时**（PCM 115MB/h 的 1/233）；留存格式=模型表示合一 | `AlwaysOnRec-ZCode/laos/audiostore.py` µ-law 档（默认关）+ SNAC 可选依赖；0.5MB/h×6h≈3MB/天 | ●已落地（bbf5f5e；µ-law ~0.5× 档 ≈57MB/h（115MB/h×0.5 折算）已落地，0.5MB/h 为 SNAC 可选依赖目标） |
 
 ### B-③ 蒸馏（百 mW–W 级）
 
@@ -68,7 +69,7 @@
 | SE-AGCNet（IS26，[arXiv:2606.25959](https://arxiv.org/abs/2606.25959)） | 端到端联合 SE+LUFS 响度控制；"AGC 的 ML 化刚起步" | journal 前置响度归一的复现 baseline | ◐推荐 P2（先做纯 Python RMS-AGC ~20 行） |
 | TRILLsson（IS22，见 [双会议遍历](2026-09-13-icassp-interspeech-full-survey.md)） | 以 **<4% 体积在情感任务反超 wav2vec2.0** | 端侧情感兜底参照（零依赖哲学同款：蒸馏小底座+轻头） | ◐推荐 P2 |
 | emotion2vec_plus_large（[HF](https://huggingface.co/emotion2vec/emotion2vec_plus_large)） | ~300M、9 类细粒度、13 数据集 10 语言 | mood_report 9 类聚合可选通道（EMOTION_GLYPHS 扩表） | ◐推荐 P3 |
-| GOPT+speechocean762（[arXiv:2205.03432](https://arxiv.org/abs/2205.03432)） | 四维（准确/流利/完整/韵律）发音评分全开源基线 | `laos/pronunciation.py` 流利度/节奏两维 + `ear.assess`（GOPT 后端插桩） | ●已落地（bbf5f5e） |
+| GOPT+speechocean762（[arXiv:2205.03432](https://arxiv.org/abs/2205.03432)） | 四维（准确/流利/完整/韵律）发音评分全开源基线 | `AlwaysOnRec-ZCode/laos/pronunciation.py` 流利度/节奏两维 + `ear.assess`（GOPT 后端插桩，ZCode 树） | ●已落地（bbf5f5e） |
 | Kokoro-82M（[HF](https://huggingface.co/hexgrad/Kokoro-82M)） | 82M 仅解码器 TTS，端侧性价比之王（中文需 v1.1-zh） | 语音回复+AudioSeal 水印（[arXiv:2401.17264](https://arxiv.org/abs/2401.17264)） | ◐推荐 P2（laos 现只听不说，回复属新增面） |
 
 ### B-④ 留存与消费（合规成本集中段）
@@ -113,7 +114,7 @@
 | 校准台方法论（[jarvis 评估](2026-09-18-jev-chat-jarvis-assessment.md) §4.1，MIT+NOTICE 署名） | 52 例标注集→混淆矩阵+置信分桶+gates 退出码 | `scripts/calibrate_judge.py`；**rule 后端 accuracy 0.519、0.9-1.0 桶误判 33%** → autogate 禁配 rule | ●已落地（703d73c；警示写入 README，477af8c） |
 | criteria 式问句（jarvis §4.2） | instructions+判据双层、档位情景化、题目正交、反例前置 | 四问句常量两段式升级 + `kernel.py PREJUDGE_JUDGE_QUESTION` 模板 | ●已落地（c6f6509） |
 | 自检模式（jarvis §4.3 KbSelfCheck） | 真库冒烟+scratch 配置+finally 清理 | `bin/laosctl.py selfcheck`（JSONL 完整性+归一化+recall sanity） | ●已落地（c72e85d；修复 80be49b） |
-| A-B 实验纪律（jarvis §4.4） | 单一变量+基线格+全格记录 | laos 既有做法（VAD parity 等），吸收其验收文档形态 | ●已落地（评估报告留痕） |
+| A-B 实验纪律（jarvis §4.4） | 单一变量+基线格+全格记录 | laos 既有做法（流式/批量 VAD parity 即 A-B 同构），吸收其验收文档形态 | ●已落地（7ffe672 parity；评估报告留痕） |
 | 端侧复现谱系（NanoJev/simple-jev/edgejev，[实测](jev/04-ondevice-benchmark.md)） | edgejev ONNX int8 324.5MB、3 题批量 median **157.5ms**、峰值 RSS 495MB（README 15.6ms 被否证） | `LAOS_JEV_ENDPOINT` local 后端即接；**常驻每帧调用 0.5–1.5W 否决，离线档 4.6mW 可接受** | ●已落地（509189a local 后端）；端侧常驻 ○不做 |
 | 校准不对称警告（landscape §1.3） | Choice/Score 过信、Boolean 欠信；排序在分布外不可盲信（GoSail 重排反例） | 阈值按判型分调 + 中文 state 校准存疑待实测 | ◐推荐 P2（local/cloud 后端上线前跑校准台） |
 
@@ -130,8 +131,8 @@
 | mem0 三级记忆 | user/session/agent 分层与事实抽取 | 记忆分层对照（§B-④） | ◐推荐 P1 |
 | OpenVoiceOS（[GitHub](https://github.com/OpenVoiceOS/ovos-core)） | mic→VAD→wakeword→STT→intent→TTS 全链插件化 | laos 驱动已 MCP 化（更强的强制力层），插件化注册表可参照 | ○参照（不引入整栈） |
 | Abridge（Epic 首个 Pal，200+ 医疗系统）/ Dragon Copilot | B 端合规姿势：会话级可撤回同意+领域结构化产物（SOAP） | laos 对等物=diary 五章节/journal 情绪标签；确认横幅+常驻通知覆盖"每次会话级同意" | ○参照（不进医疗域） |
-| OSS 普查 3724 条（[景观报告](2026-09-14-audio-ai-agent-oss-landscape.md)） | core 132（3.5%）；漏斗落点 ①42/②25/③117/**④0** | ④即焚是策略而非第三方组件——laos 独有；许可缺失 75.2% 须逐条核 SPDX | ●已消化（选型终版入库） |
-| 双会议 19,792 篇语料（[全量普查](2026-09-14-papers-oss-full-survey.md)） | ICASSP 14,285 + Interspeech 5,507；edge/llm/health 主题增长 | `papers_unified.jsonl` 选型底座 | ●已消化（语料入库） |
+| OSS 普查 3724 条（[景观报告](2026-09-14-audio-ai-agent-oss-landscape.md)） | core 132（3.5%）；漏斗落点 ①42/②25/③117/**④0** | ④即焚是策略而非第三方组件——laos 独有；许可缺失 75.2% 须逐条核 SPDX | ●已消化（073a3c5，语料+报告+审计脚本入库；无代码落点） |
+| 双会议 19,792 篇语料（[全量普查](2026-09-14-papers-oss-full-survey.md)） | ICASSP 14,285 + Interspeech 5,507；edge/llm/health 主题增长 | `papers_unified.jsonl` 选型底座 | ●已消化（073a3c5 报告 + ba2d649 统一语料与校验器入库） |
 
 ---
 
@@ -143,7 +144,7 @@
 | GTCRN 33.0 MMACs/s | MCU/ADSP 可常驻的现实预算上界 | 常驻候选模型的第一道筛选 | ◐锚点（§B-③） |
 | 34.7µW KWS IC | 功耗标尺：纯能量 VAD 应压个位数 µW | `vad.py` 零依赖设计的目标口径 | ○不做硬件（§B-①） |
 | Termux 五项矩阵（mount ns/cgroup v2/driver_pid/swapon/bpftrace） | proot 架构边界的实测证明 | `termux_matrix.py` 探测脚本已写；真机五项未跑全 | ◐推荐 P1（脚本 4794580；README 中期 6） |
-| 功耗阶梯（[hardware-power](always-on-recording/hardware-power.md)） | ASIC 0.047–1µW → 音频 NPU 140µW → 传感枢纽 <1mA → AP 数百 mW（电池 19.25 Wh） | "proot 里 `mic.always_on` 不成立，必须原生 App 走 aDSP"的架构分界已写进 README §六 | ●已消化（口径入 README） |
+| 功耗阶梯（[hardware-power](always-on-recording/hardware-power.md)） | ASIC 0.047–1µW → 音频 NPU 140µW → 传感枢纽 <1mA → AP 数百 mW（电池 19.25 Wh） | "proot 里 `mic.always_on` 不成立，必须原生 App 走 aDSP"的架构分界已写进 README §六 | ●已消化（口径入 README §六业界对标段；数字出处即本行源文档 hardware-power 功耗阶梯表，无代码落点） |
 | Android 14 后台 mic FGS 限制 | 后台起 mic FGS 直接 SecurityException | 原生 App + 前台服务通知路线的依据 | ◐推荐 P0（与 §B-④ 可见指示同一项） |
 | sherpa-onnx ★14.7k（Apache-2.0） | ONNX 推理在 proot aarch64 上更稳、体积更小；一站式 ASR+VAD+diarization+降噪 | `LAOS_ASR_CHANNEL` 之外的可选第三通道 | ◐推荐 P2（diarization 落地时的运行时首选） |
 
@@ -175,21 +176,24 @@
 | # | 事项 | 优先级 | 来源数 | 工作量 | 依赖 | 状态 |
 |---|---|---|---|---|---|---|
 | 1 | Android 前台常驻通知+用户可见开关（真机可见指示） | **P0** | 3（收敛版 §9.4/增补篇 §3/README 中期5） | M | App | 未做 |
-| 2 | ADSP 白名单事件分类器（DCASE 蒸馏/YAMNet 裁剪→`/events`） | **P0** | 4（AED §4-5/收敛版 §9.3/增补篇 Sound Recognition/frontiers P2） | M | ADSP 第二 LPAI 岛调研 | 未做 |
+| 2 | ADSP 白名单事件分类器（DCASE 蒸馏/YAMNet 裁剪→`/events`） | P1 | 4（AED §4-5/收敛版 §9.3/增补篇 Sound Recognition/frontiers P2） | M | ADSP 第二 LPAI 岛调研 | 未做 |
 | 3 | 说话人弱标签（Streaming Sortformer 到达序，不建声纹库） | P1 | 3（frontiers P1/收敛版 §9.3/README 近期1） | L | PC 批处理；sherpa-onnx 通道 | 未做 |
 | 4 | `ear.stream` 流式 ASR（LocalAgreement） | P1 | 2（收敛版 §9.2/OSS core） | M | — | 未做 |
 | 5 | 记忆冷热分层（mem0/MemOS 式：热明文+冷摘要） | P1 | 2（README 近期2/§D mem0） | M | — | 未做 |
-| 6 | journal 先增强再转写评测（URGENT 蓝图 + SE 后 WER 必回归） | P1 | 2（AED §8.5/SER §6.2 NTU BIIC） | M | .venv-audio | 未做 |
-| 7 | Termux 五项真机矩阵跑通 | P1 | 2（README 中期6/hardware-power §7） | M | 真机 | 脚本已落（4794580） |
-| 8 | RMS-AGC 响度归一（journal 前置，纯 Python ~20 行） | P2 | 1（AED §4-5） | S | — | 未做 |
-| 9 | 占空比 duty 档（AudioMoth 范本，9% 占空→续航 ~12×） | P2 | 2（收敛版 §9.4/hardware-power） | S | App（029a01a 环形缓冲已落） | 部分落地 |
-| 10 | seccomp 白名单模式（按驱动画像） | P2 | 2（README §七/ANOLISA） | M | — | 未做 |
-| 11 | TTS 语音回复（Kokoro-82M）+ AudioSeal 水印 | P2 | 2（frontiers P2/OSS tts 类） | L | PC GPU | 未做 |
-| 12 | 信息流控制标签（Agent libOS 标签传播+Sink 注册） | P2 | 2（README §七 P1/agentos §5） | L | — | 未做 |
-| 13 | `fs.write /main` commit 时结算（延迟定价） | P2 | 1（README 中期7） | S | — | 未做 |
-| 14 | emotion2vec 9 类周报精化 + EmoBox 口径声明 | P3 | 1（SER §3-4） | S | .venv-audio | 未做 |
+| 6 | journal 前置增强+响度归一（URGENT 蓝图 + RMS-AGC 纯 Python ~20 行，SE 后 WER 必回归） | P1 | 3（AED §4-5/§8.5/SER §6.2） | M | .venv-audio | 未做 |
+| 7 | MCP Tasks/Elicitation 硬化（旧客户端挂起超时/task 线程运行时守卫/task 记录 GC） | P1 | 1（README 近期4） | S | — | 未做 |
+| 8 | Termux 五项真机矩阵跑通 | P1 | 2（README 中期6/hardware-power §7） | M | 真机 | 脚本已落（4794580） |
+| 9 | 技能库精化（SkillStore 参数相似度聚类，减误命中） | P2 | 1（README 近期3） | S | — | 未做 |
+| 10 | 占空比 duty 档（AudioMoth 范本，9% 占空→续航 ~12×） | P2 | 2（收敛版 §9.4/hardware-power） | S | App（029a01a 环形缓冲已落，Trae 树） | 部分落地 |
+| 11 | seccomp 白名单模式（按驱动画像） | P2 | 2（README §七 强制隔离行/ANOLISA） | M | — | 未做 |
+| 12 | 信息流控制标签（Agent libOS 标签传播+Sink 注册） | P2 | 1（[agentos-landscape](agentos-landscape-2026-08.md) §5 信息流控制行） | L | — | 未做 |
+| 13 | drv_screen 多轮真机验收（通知/短信/传感器/技能编排用例） | P2 | 1（README 中期8） | M | 真机 | 未做 |
+| 14 | `fs.write /main` commit 时结算（延迟定价） | P2 | 1（README 中期7） | S | — | 未做 |
 | 15 | 认知/压力纵向差分（TAUKADIAL 口径，只做"与自己比"） | P3 | 2（frontiers P3/academic §5） | L | 纵向数据积累 | 远期 |
-| — | **本会话已消化**：journal 标题 schema+`time:` 窗（5fa34d2）、PCEN/KWS/audiostore/pronunciation（bbf5f5e）、能力阶梯（885391c）、Opus+配额（06ba582）、FleetLedger（9285448 等）、观察簿（ba74910 等）、AgentProf（e88fb24 等）、Jev 四闸门+校准台（509189a→477af8c）、README 业界对照（2626ccc） | — | — | — | — | ●已落地 |
+| — | **本会话已消化**：journal 标题 schema+`time:` 窗（5fa34d2，ZCode 树）、PCEN/KWS/audiostore/pronunciation（bbf5f5e，ZCode 树）、能力阶梯（885391c）/Opus+配额（06ba582）/环形缓冲（029a01a）（Trae 树）、FleetLedger（9285448 等）、观察簿（ba74910 等）、AgentProf（e88fb24 等）、Jev 四闸门+校准台（509189a→477af8c）、README 业界对照（2626ccc） | — | — | — | — | ●已落地 |
+
+> **与 README §七 对账**：近期 4 项全收录（diarization→#3、记忆分层→#5、技能库精化→#9、MCP 硬化→#7）；中期 4 项全收录（前台通知→#1、Termux→#8、延迟定价→#14、drv_screen→#13）；远期 2 项（FUSE BranchFS/gVisor）已在 §C-1 缺口行裁决，不重复列表。原表 TTS 回复（Kokoro+AudioSeal）与 emotion2vec 9 类精化两行移出——单来源、非架构级，仅保留 §B 映射条目；RMS-AGC 并入 #6。
+> **优先级裁决（ADSP 事件，#2）**：§G 原标 P0 与 §A/§B 的 P1 不一致，现统一为 **P1**——任务书样例与 AED 篇 §4"优先级"节均定 P1，且其前置依赖（ADSP 能否暴露第二个通用 SED LPAI 岛，AED §5-3）未经真机验证，不满足 P0"无依赖立即可做"的标准；P0 仅保留真机可见通知。
 
 ---
 
@@ -210,4 +214,12 @@ git log --oneline --all -- laos/branch.py                    # 06edb3c（基线�
 git log --oneline --all | grep -iE "AlwaysOnRec|journal|vad" # 5fa34d2/bbf5f5e/029a01a/06ba582/885391c/7ffe672
 git log --oneline --all | grep -iE "drv_npu|qnn|device transport" # 89b37ef/dd753f7
 git log --oneline --all | grep -iE "judge|jev"                # 509189a/a65932a/c685f32/3a1564b/703d73c/c6f6509/c72e85d
+# 三树归属核实（路径前缀的依据）
+git show --stat --oneline 885391c | head -3    # 能力阶梯 → AlwaysOnRec-Trae/laos/kernel.py
+git show --stat --oneline 06ba582 | head -3    # Opus+配额 → AlwaysOnRec-Trae/drivers/drv_rec.py
+git show --stat --oneline 029a01a | head -3    # 环形缓冲 → AlwaysOnRec-Trae/drivers/drv_mic.py
+git show --stat --oneline 5fa34d2 | head -3    # 标题 schema+time: 窗 → AlwaysOnRec-ZCode/
+git show --stat --oneline bbf5f5e | head -3    # PCEN/KWS/audiostore/pronunciation → AlwaysOnRec-ZCode/laos/*
+git log --oneline -1 073a3c5                   # ●已消化锚：普查终版入库
+git log --oneline -1 ba2d649                   # ●已消化锚：19,792 篇统一语料+校验器
 ```
