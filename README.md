@@ -388,6 +388,8 @@ laos/
 
 ### 10.1 调研内容（docs/research/，逐篇文献级跟踪）
 
+> 📌 **总入口**：[laos 采纳总纲](docs/research/2026-09-19-laos-adoption-capstone.md)——全部调研按 laos 架构的逐项映射与裁决（来源→可取之处→落点→状态）。
+
 | 文档 | 内容 | 关键结论 |
 |---|---|---|
 | [docs/research/always-on-recording/2026-09-landscape.md](docs/research/always-on-recording/2026-09-landscape.md) | 全天候录音收敛版（16 产品/34 开源/21 论文/功耗表/合规清单） | 云常开已被系统性证伪；**端侧克制常开**（VAD 门控+即焚）是唯一活路 |

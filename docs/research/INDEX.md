@@ -3,6 +3,41 @@
 > laos 调研资产权威清单：每份文档一句话定位 + 关键数字（均抄自各文档自身原文，未凭文件名推断）。
 > 盘点日期：2026-09-27。共 59 份 .md（不含本文件，find 会数出 60）= 作者撰写的调研文档 42 份 + corpus/ 语料快照 17 份。
 
+## 导航：按问题找文档
+
+> 本节只给「最短阅读路径」；下面一～七节的清单表才是全量数据，按目录逐份查。
+
+**【总入口｜先读这份】全部调研到底采纳了什么、落到 laos 哪里？**
+
+- [2026-09-19-laos-adoption-capstone.md](2026-09-19-laos-adoption-capstone.md) — 59 份资产的采纳总账：每条回答「来源｜可取之处｜laos 落点｜状态（●已落地/●已消化/◐P0–P3/○不做）」。读完它再按指引下钻本清单，不必通读。
+
+**想做全天候录音（产品形态、功耗、合规怎么定）？**
+
+- [always-on-recording/2026-09-landscape.md](always-on-recording/2026-09-landscape.md) — 五条调研线（产品/学术/硬件/接受度/垂直）的收敛结论：常开被动产品全灭、端侧克制常开是唯一活路，四段漏斗的起点。
+- [always-on-recording/2026-09-11-verticals-apple-articles.md](always-on-recording/2026-09-11-verticals-apple-articles.md) — B 端四条垂直赛道 + Apple Watch S12「端侧克制常开」范式逐项对照（环形缓冲/端侧蒸馏/7 天即焚）。
+- [always-on-recording-industry-2026-09.md](always-on-recording-industry-2026-09.md) — 业界全景：形态×处理位置×触发方式×开源闭源图谱 + 法条清单 + 开源可抄管道（Silero VAD→sherpa-onnx→Opus→SQLite）。
+
+**想选听觉模型（SER / AED / AGC / 其余语音能力）？**
+
+- [2026-09-11-ser-model-landscape.md](2026-09-11-ser-model-landscape.md) — SER 选型地图：端侧/小/中/大/多模态五类全景，含参数量与延迟硬数字。
+- [2026-09-11-aed-agc-model-landscape.md](2026-09-11-aed-agc-model-landscape.md) — 听觉链路另两个能力的选型地图：AED 的 DCASE 低复杂度硬约束与 AGC 的 ML 化现状。
+- [2026-09-12-speech-model-frontiers.md](2026-09-12-speech-model-frontiers.md) — SER/AED/AGC 之外的六大语音领域（说话人/前端触发/编解码生成/副语言健康）51 篇逐篇跟踪。
+- [speech-emotion/2026-09-landscape.md](speech-emotion/2026-09-landscape.md) — SER 侧的交叉收敛篇：46 条记录只交叉不新增，选型前的最后一道核对。
+
+**想做 Agent 内核 / 判断层？**
+
+- [agentos-landscape-2026-08.md](agentos-landscape-2026-08.md) — 「AgentOS」八种含义与 L0–L3 强制力光谱，内核语义层设计的坐标系。
+- [2026-09-21-jev-decision-model-survey.md](2026-09-21-jev-decision-model-survey.md) — 判断层选型：Jev 三判型技术实质 + laos 11 处硬阈值映射 + 端侧实测真数字（不用 README 宣称值）。
+- [aios-deep-dive-2026-08.md](aios-deep-dive-2026-08.md) — AIOS 逐机制拆解与 laos 直接对比，内核该抄什么、缺什么。
+- [jev/05-laos-placement.md](jev/05-laos-placement.md) — 判断层落地清单：常驻每帧调用否决、离线档 4.6 mW 可接受等收益/代价逐条裁决。
+
+**想查某篇论文 / 某个开源项目的原始数据？**
+
+- [papers_index.md](papers_index.md) — `papers/` 论文 PDF 库自动索引（115 篇，arXiv 号+日期+标题表）。
+- [2026-09-14-papers-oss-full-survey.md](2026-09-14-papers-oss-full-survey.md) — 统一语料 19,792 篇的程序化总账（ICASSP+Interspeech 全量），每个数字可溯源。
+- [2026-09-14-audio-ai-agent-oss-landscape.md](2026-09-14-audio-ai-agent-oss-landscape.md) — 3,724 条 OSS 仓库的四段漏斗裁决表（core 132 / ref 2864 / unrelated 728），查项目适配结论看这份。
+- [corpus/（见第六节清单）](#六corpus-与数据语料数据文件只列规模) — 语料与爬虫本体：`papers_unified.jsonl`、各抓取脚本与 README 快照，回溯任何报告数字的最终出处。
+
 ## 一、主报告（根目录，18 份）
 
 | 文件 | 一句话定位 | 关键数字 / 规模（抄原句） |
@@ -56,7 +91,7 @@
 |---|---|---|
 | [oss/oss_fetch_summary.md](oss/oss_fetch_summary.md) | OSS 抓取摘要（去噪 + 引号短语补抓后） | "合并后总数：**3724 条**（去噪保留 2153 + 补抓新增 1571）"；补抓泄漏复核 1850/1850 命中音频域判据 |
 | [oss/oss_audit.md](oss/oss_audit.md) | OSS 语料审计与去噪报告（可解释相关性判据） | "总仓库数（去重）：3529"；剔除噪声共 1376 条（audio-llm/voice-agent 裸词切片） |
-| [oss/classification_system.md](oss/classification_system.md) | Task 3 分类体系与 laos 适配映射（规则可复现） | "分类体系（13 类，可多标签）"；源数据 `repos_raw.jsonl` 3724 条（注：终版报告分类数为 15 类） |
+| [oss/classification_system.md](oss/classification_system.md) | Task 3 分类体系与 laos 适配映射（规则可复现） | "分类体系（13 类，可多标签）"；源数据 `repos_raw.jsonl` 3724 条（注：终版报告分类数为 15 类，两处不一致时以终版报告 15 为准） |
 
 ## 五、Jev 调研支撑卷宗（jev/，7 份）
 
