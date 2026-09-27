@@ -1,7 +1,7 @@
 # docs/research 调研资产清单（INDEX）
 
 > laos 调研资产权威清单：每份文档一句话定位 + 关键数字（均抄自各文档自身原文，未凭文件名推断）。
-> 盘点日期：2026-09-27。共 57 份 .md（作者撰写的调研文档 42 份 + corpus/ 语料快照 15 份）。
+> 盘点日期：2026-09-27。共 59 份 .md（不含本文件，find 会数出 60）= 作者撰写的调研文档 42 份 + corpus/ 语料快照 17 份。
 
 ## 一、主报告（根目录，18 份）
 
@@ -85,15 +85,15 @@
 | `corpus/jev_repos.json` / `jev_repos_curated.json` | 160K 原始 / 20K 精选（报告口径 68 条） |
 | `corpus/*.py`（6 个） | 抓取与生成脚本：`crawl_icassp.py`、`crawl_icassp_openalex.py`、`crawl_icassp_s2.py`、`crawl_icassp_s2_round3.py`、`crawl_github_oss.py`、`gen_final_report.py` |
 
-**corpus/ 下 .md 语料快照（15 份，非作者撰写综述）**：
+**corpus/ 下 .md 语料快照（17 份 = 直属 7 份 + `oss_top30_readmes/` 10 份，非作者撰写综述）**：
 
 | 文件 | 内容 / 规模 |
 |---|---|
 | `corpus/appendix_interspeech_lists.md` | 自动生成的 Interspeech 相关论文全列表：codec 109 / kws_vad 113 / event 67 / emotion 321（截前 120）/ diariz 227 篇，647 行 |
 | `corpus/icassp_census_summary.md` | ICASSP 2022-2026 普查覆盖率表：96.0%–104.4%，0 异常 |
 | `corpus/is2026_status.md` | Interspeech 2026 上线探测：ISCA 存档 HTTP 404，"Interspeech 上限只能到 2025" |
-| `corpus/jev_readme_*.md`（4 份） | NanoJev / simple-jev / jevlike / awesome-jev 的 README 快照（151–381 行） |
-| `corpus/oss_top30_readmes/*.md`（11 份） | Top30 OSS 项目 README 快照（FunASR、Speech-AI-Forge、UltraEval-Audio 等，167–2003 行） |
+| `corpus/jev_readme_*.md`（4 份） | NanoJev / simple-jev / jevlike / awesome-jev 的 README 快照（132–381 行） |
+| `corpus/oss_top30_readmes/*.md`（10 份） | Top30 OSS 项目 README 快照（FunASR、Speech-AI-Forge、UltraEval-Audio 等，167–2003 行） |
 
 **兄弟数据目录**：`papers/`（论文 PDF 全文库，147 个 PDF + MANIFEST.txt，索引见 `papers_index.md`）；`oss/repos_raw.jsonl` 3724 行 / `repos_classified.jsonl` 3724 行 / `repos_fetched.jsonl` 1850 行 / `noise_dropped.jsonl` 1376 行。
 
