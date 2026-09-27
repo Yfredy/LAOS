@@ -1,9 +1,9 @@
 # laos 采纳总纲（Capstone）：全部调研资产 × laos 架构映射
 
 > 定位：[INDEX.md](INDEX.md) 所列 59 份调研资产的**采纳总账**——每条映射回答四问：来源｜可取之处｜laos 落点｜状态。
-> 状态记法：**●已落地**（代码落地，附 git commit，查证命令见附录）/ **●已消化**（资产入库或口径写入文档，无代码落点）/ **◐推荐 P0–P3** / **○不做**（附理由）。
+> 状态记法：**●已落地**（代码落地，附 git commit，查证命令见附录）/ **●已消化**（资产入库或口径写入文档，无代码落点）/ **◐推荐 P0–P3** / **○不做**（附理由）。◐/○ 后缀"参照"表示该条目仅作参照不引入（如 ◐参照），见 §D 各行括号理由。
 > 三树布局：根 `laos/` 为主树；`AlwaysOnRec-ZCode/` 为隔离实现区（Apple 增量与 speech-frontier 批次，README §10.2）；`AlwaysOnRec-Trae/` 为并行会话工作区（能力阶梯/Opus 配额/环形缓冲批次）。涉及三树的落点均带路径前缀，commit 归属经 `git show --stat` 逐条核实（命令见附录）。
-> 纪律：量化结论全部抄自源文档原句（不造新数）；外部 URL 均出自源文档；本报告自身只做映射与裁决。
+> 纪律：量化结论全部抄自源文档原句（不造新数）；外部 URL 均出自源文档；本报告自身只做映射与裁决。文中两处标"折算"的数字为源文档数字的量纲换算，非新测量。
 
 ---
 
@@ -54,7 +54,7 @@
 | mic 能力阶梯（laos 原创，业界无第二家） | `mic.listen→record→transcribe→always_on` 高层含低层、默认收紧 | `AlwaysOnRec-Trae/laos/kernel.py` 四级能力表 | ●已落地（885391c） |
 | Opus（RFC 6716，[xiph/opus](https://github.com/xiph/opus)） | 16 kbps = 7.2 MB/h 宽带近透明；帧长 2.5–60ms | `AlwaysOnRec-Trae/drivers/drv_rec.py` opus 编码（回退链）+ 存储配额 | ●已落地（06ba582） |
 | AudioMoth（[Open Acoustic Devices](https://www.openacousticdevices.info/)） | SD 写入 17–70 mW、睡眠 80 µW 的占空比调度范本（9% 占空→续航 ~12×） | 环形缓冲+rewind 已落；duty-cycle 档位待做 | ◐推荐 P2（`029a01a` 已落 `AlwaysOnRec-Trae/drivers/drv_mic.py` always_on 环形缓冲与回放） |
-| Mimi/SNAC（[arXiv:2410.00037](https://arxiv.org/abs/2410.00037) / [arXiv:2410.14411](https://arxiv.org/abs/2410.14411)） | 1.1/0.98 kbps ≈ **0.5MB/小时**（PCM 115MB/h 的 1/233）；留存格式=模型表示合一 | `AlwaysOnRec-ZCode/laos/audiostore.py` µ-law 档（默认关）+ SNAC 可选依赖；0.5MB/h×6h≈3MB/天 | ●已落地（bbf5f5e；µ-law ~0.5× 档 ≈57MB/h（115MB/h×0.5 折算）已落地，0.5MB/h 为 SNAC 可选依赖目标） |
+| Mimi/SNAC（[arXiv:2410.00037](https://arxiv.org/abs/2410.00037) / [arXiv:2410.14411](https://arxiv.org/abs/2410.14411)） | 1.1/0.98 kbps ≈ **0.5MB/小时**（PCM 115MB/h 的 1/233）；留存格式=模型表示合一 | `AlwaysOnRec-ZCode/laos/audiostore.py` µ-law 档（默认关）+ SNAC 可选依赖；0.5MB/h×6h≈3MB/天（折算） | ●已落地（bbf5f5e；µ-law ~0.5× 档 ≈57MB/h（115MB/h×0.5 折算）已落地，0.5MB/h 为 SNAC 可选依赖目标） |
 
 ### B-③ 蒸馏（百 mW–W 级）
 
