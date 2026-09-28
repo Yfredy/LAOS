@@ -540,10 +540,30 @@ CROSSREF_MAILTO = "laos-survey@example.com"
 CROSSREF_FROM_YEAR = 2021
 
 
-def crossref_query(venue_str: str, topic: str, *, journal: bool) -> str:
-    """Crossref 检索 URL：query=主题 + query.container-title=venue（相关性加权，
-    非硬过滤——crossref_papers 做客户端精确/别名过滤兜底）。"""
+VENUE_ISSN: dict[str, str] = {
+    # AAAI 正卷有 ISSN；相关性路线（container-title 提示/bibliographic/缩写+年份）
+    # 三种查询都被同名野鸡会淹没，唯独 ISSN 是精确过滤（2026-09-29 探测实证）
+    "AAAI": "2159-5399",
+}
+
+
+def crossref_query(venue_str: str, topic: str, *, journal: bool,
+                   issn: str | None = None) -> str:
+    """Crossref 检索 URL。默认 query=主题 + query.container-title=venue
+    （相关性加权，非硬过滤——container_matches 客户端兜底）；venue 有
+    ISSN 时走 filter=issn: 精确路线（不吃相关性排序，无需容器提示与
+    type 过滤——ISSN 已锁定会议录/期刊）。"""
     from urllib.parse import quote_plus
+    if issn:
+        filt = f"issn:{issn},from-pub-date:{CROSSREF_FROM_YEAR}-01-01"
+        return (
+            "https://api.crossref.org/works"
+            f"?query={quote_plus(topic)}"
+            f"&filter={filt}"
+            "&rows=100"
+            "&select=title,author,DOI,container-title,issued,is-referenced-by-count"
+            f"&mailto={CROSSREF_MAILTO}"
+        )
     doc_type = "type:journal-article" if journal else "type:proceedings-article"
     return (
         "https://api.crossref.org/works"
@@ -905,7 +925,8 @@ def run_wave(wave: str, venue_filter: str | None, limit_requests: int, dry_run: 
                         break
                     if backend == "crossref":
                         url = crossref_query(venue_str, topic,
-                                             journal=key in JOURNAL_KEYS)
+                                             journal=key in JOURNAL_KEYS,
+                                             issn=VENUE_ISSN.get(key))
                     else:
                         url = slice_query(venue_str, topic)
                     if dry_run:

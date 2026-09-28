@@ -475,3 +475,16 @@ class TestCrossrefBackend(unittest.TestCase):
                  "issued": {"date-parts": [[2024]]}}]}}
             self.assertEqual(crossref_papers(obj, "ACMMM"), [],
                              f"{container} 不得标为 ACMMM")
+
+    def test_crossref_issn_route(self):
+        """AAAI 解法：ISSN 精确过滤（filter=issn:）不吃相关性排序——
+        相关性路线下 AAAI 正卷被同名野鸡会淹没（2026-09-29 三轮探测实证）。"""
+        from scripts.crawl_multivenue import crossref_query, VENUE_ISSN
+        self.assertEqual(VENUE_ISSN.get("AAAI"), "2159-5399")
+        url = crossref_query("Proceedings of the AAAI Conference on Artificial Intelligence",
+                             "speech enhancement", journal=False,
+                             issn=VENUE_ISSN["AAAI"])
+        self.assertIn("filter=issn:2159-5399", url)
+        self.assertIn("from-pub-date:2021-01-01", url)
+        self.assertNotIn("query.container-title", url)  # ISSN 路线不再依赖容器提示
+        self.assertNotIn("type:proceedings-article", url)  # ISSN 本身已锁定会议录

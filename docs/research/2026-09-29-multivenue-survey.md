@@ -6,7 +6,7 @@
 
 ## 0. 一句话结论
 
-在既有双会议全量之上，按 laos 的 17+5 主题切片横向扩展了 **35 个顶会/期刊（28 个有产出，合计 9,308 条记录、去重后 6,447 篇）**。最重要的发现不是论文本身，而是**数据源的结构性地图**：哪些会的论文在哪个学术数据 API 里查得到——这决定了任何人复现或续作时的路线选择。
+在既有双会议全量之上，按 laos 的 17+5 主题切片横向扩展了 **35 个顶会/期刊（29 个有产出，合计 9,908 条记录）**。最重要的发现不是论文本身，而是**数据源的结构性地图**：哪些会的论文在哪个学术数据 API 里查得到——这决定了任何人复现或续作时的路线选择。
 
 ## 1. 数据源结构性地图（本次最大的方法论产出）
 
@@ -24,7 +24,7 @@
 |---|---|---|
 | **语音近邻** | TASLP **1,234**、ASRU **949**、SLT **923**、EURASIP **759**、WASPAA **421** | CHiME（主录不在 Crossref/OpenAlex 稳定 source） |
 | **NLP** | EMNLP **286**、ACL **249**、NAACL **180**、TACL **151**、CL **103**、COLING 4 | CoNLL（主题不相交：句法/语义为主） |
-| **ML** | NeurIPS **600**、IJCAI **434** | ICML/ICLR/JMLR（PMLR/OpenReview 无 Crossref DOI）、AAAI（Crossref 容器存在但本次查询未召回，待查） |
+| **ML** | NeurIPS **600**、AAAI **600**、IJCAI **434** | ICML/ICLR/JMLR（PMLR/OpenReview 无 Crossref DOI） |
 | **多媒体** | ACMMM **362**、TOMM **350**、ICME **344**、TMM **323**、MMSys 36、ICMR 28 | PCM（Springer LNCS 未召回） |
 | **CV** | ICCV **200**、TPAMI **199**、CVPR **185**、IJCV **99**（仅音视两主题） | ECCV（LNCS 未召回） |
 | **交叉** | KDD **319**、SIGIR **267**、WSDM 120、RecSys 119、WWW 64 | — |
@@ -62,5 +62,6 @@
 ## 5. 复现与续作
 
 - 全链脚本：`scripts/crawl_multivenue.py`（Crossref/OpenAlex 双后端、`--wave A|B`、幂等续爬、`--probe`/`--harvest`）+ `scripts/crawl_openalex_nlp.py`（NLP 会议专用）+ `scripts/check_multivenue.py`（校验）
-- 已知未覆盖（诚实清单）：AAAI 容器待查（Crossref 有 AAAI 录但本查询未召回）、PCM/ECCV（Springer LNCS 容器名待补）、CHiME（需手动年份 URL）、ICML/ICLR/JMLR/CoNLL（结构性，除非接 PMLR/OpenReview API）
+- 已知未覆盖（诚实清单，均经多路线探测定案）：PCM/ECCV（Springer LNCS 按卷注册 + OpenAlex 稀疏源 30/38 篇，双路线皆不通）、CHiME（主录无稳定 Crossref/OpenAlex 源）、ICML/ICLR/JMLR/CoNLL（结构性，除非接 PMLR/OpenReview API）
+- **AAAI 已解（2026-09-29 增补）**：`filter=issn:2159-5399` 精确路线绕开相关性排序（容器提示/bibliographic/缩写+年份三种相关性查询都被同名野鸡会淹没），600 条入库——教训：**有 ISSN 的会议录永远优先 ISSN 过滤**，Crossref 相关性排序对常见词会议名不可靠
 - 主题集：17 个（12 语音 + 5 agent/LLM 扩展），与双会议报告的 12 正则同源
