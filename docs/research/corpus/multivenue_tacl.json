@@ -1,0 +1,1281 @@
+{
+ "venue": "TACL",
+ "category": "nlp",
+ "canonical_venue_string": "Transactions of the Association for Computational Linguistics",
+ "wave": "A",
+ "generated_at": "2026-09-29 00:51:03",
+ "topics": [
+  "LLM agent tool use",
+  "agent memory",
+  "audio language model",
+  "multimodal agent",
+  "on-device inference",
+  "emotion recognition",
+  "paralinguistic",
+  "neural codec"
+ ],
+ "request_budget": {
+  "successful": 150,
+  "limit": 300,
+  "attempts": 8
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "LLM agent tool use": {
+   "total": 11837,
+   "kept": 19,
+   "papers": [
+    {
+     "title": "BP-LLM : Belief Propagation for Binary Feedback in Large Language Model Alignment",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.734",
+     "authors": "Jessica E. Liang"
+    },
+    {
+     "title": "From Belief Entrenchment to Robust Reasoning in LLM Agents",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.728",
+     "authors": "Jihwan Oh, Minchan Jeong, Jongwoo Ko, Se-Young Yun"
+    },
+    {
+     "title": "VoiceBench: Benchmarking LLM-Based Voice Assistants",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 11,
+     "doi": "10.1162/tacl.a.628",
+     "authors": "Yiming Chen, Xianghu Yue, Chen Zhang, Xiaoxue Gao, Robby T. Tan, Haizhou Li"
+    },
+    {
+     "title": "🧑‍🍳\n                    <i>Cooking Up Creativity</i>\n                    :\n                    Enhancing LLM Creativity through Structured Recombination",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.638",
+     "authors": "Moran Mizrahi, Chen Shani, Gabriel Stanovsky, Dan Jurafsky, Dafna Shahaf"
+    },
+    {
+     "title": "From Benchmarks to Skills: Low-Rank Factors for LLM Evaluation",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.745",
+     "authors": "Aviya Maimon, Amir David Nisan Cohen, Gal Vishne, Shauli Ravfogel, Reut Tsarfaty"
+    },
+    {
+     "title": "LLM Reading Tea Leaves: Automatically Evaluating Topic Models with Large Language Models",
+     "year": 2025,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 10,
+     "doi": "10.1162/tacl_a_00744",
+     "authors": "Xiaohao Yang, He Zhao, Dinh Phung, Wray Buntine, Lan Du"
+    },
+    {
+     "title": "Goal Alignment in LLM-Based User Simulators for Conversational AI",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.687",
+     "authors": "Shuhaib Mehri, Xiaocheng Yang, Takyoung Kim, Gokhan Tur, Shikib Mehri, Dilek Hakkani-Tür"
+    },
+    {
+     "title": "Value Drifts: Tracing Value Alignment During LLM Post-Training",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.790",
+     "authors": "Mehar Bhatia, Shravan Nayak, Gaurav Kamath, Marius Mosbach, Karolina Stańczak, Vered Shwartz"
+    },
+    {
+     "title": "State of What Art? A Call for Multi-Prompt LLM Evaluation",
+     "year": 2024,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 106,
+     "doi": "10.1162/tacl_a_00681",
+     "authors": "Moran Mizrahi, Guy Kaplan, Dan Malkin, Rotem Dror, Dafna Shahaf, Gabriel Stanovsky"
+    },
+    {
+     "title": "Frame Representation Hypothesis: Multi-Token LLM Interpretability and Concept-Guided Text Generation",
+     "year": 2025,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 2,
+     "doi": "10.1162/tacl.a.48",
+     "authors": "Pedro H. V. Valois, Lincon S. Souza, Erica K. Shimomoto, Kazuhiro Fukui"
+    },
+    {
+     "title": "IssueBench: Millions of Realistic Prompts for Measuring Issue Bias in LLM Writing Assistance",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 2,
+     "doi": "10.1162/tacl.a.626",
+     "authors": "Paul Röttger, Musashi Hinck, Valentin Hofmann, Kobi Hackenburg, Valentina Pyatkin, Faeze Brahman"
+    },
+    {
+     "title": "On the Limitations of Language-targeted Pruning: Investigating the Calibration Language Impact in Multilingual LLM Pruning",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.599",
+     "authors": "Simon Kurz, Jian-Jia Chen, Lucie Flek, Zhixue Zhao"
+    },
+    {
+     "title": "RepreGuard: Detecting LLM-Generated Text by Revealing Hidden\n                    Representation Patterns",
+     "year": 2025,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 1,
+     "doi": "10.1162/tacl.a.61",
+     "authors": "Xin Chen, Junchao Wu, Shu Yang, Runzhe Zhan, Zeyu Wu, Ziyang Luo"
+    },
+    {
+     "title": "Designing an Automatic Agent for Repeated Language–based Persuasion Games",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 3,
+     "doi": "10.1162/tacl_a_00462",
+     "authors": "Maya Raifer, Guy Rotman, Reut Apel, Moshe Tennenholtz, Roi Reichart"
+    },
+    {
+     "title": "In-N-Out: A Parameter-Level API Graph Dataset for Tool Agents",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.694",
+     "authors": "Seungkyu Lee, Nalim Kim, Yohan Jo"
+    },
+    {
+     "title": "Data Contamination Quiz: A Tool to Detect and Estimate Contamination in Large Language Models",
+     "year": 2025,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 11,
+     "doi": "10.1162/tacl.a.20",
+     "authors": "Shahriar Golchin, Mihai Surdeanu"
+    },
+    {
+     "title": "(Perhaps) Beyond Human Translation: Harnessing Multi-Agent Collaboration for Translating Ultra-Long Literary Texts",
+     "year": 2025,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 25,
+     "doi": "10.1162/tacl.a.25",
+     "authors": "Minghao Wu, Jiahao Xu, Yulin Yuan, Gholamreza Haffari, Longyue Wan, Weihua Luo"
+    },
+    {
+     "title": "Lost in the Middle: How Language Models Use Long Contexts",
+     "year": 2024,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 1391,
+     "doi": "10.1162/tacl_a_00638",
+     "authors": "Nelson F. Liu, Kevin Lin, John Hewitt, Ashwin Paranjape, Michele Bevilacqua, Fabio Petroni"
+    },
+    {
+     "title": "<i>Did Aristotle Use a Laptop?</i>\n                    A Question Answering Benchmark with Implicit Reasoning Strategies",
+     "year": 2021,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 202,
+     "doi": "10.1162/tacl_a_00370",
+     "authors": "Mor Geva, Daniel Khashabi, Elad Segal, Tushar Khot, Dan Roth, Jonathan Berant"
+    }
+   ]
+  },
+  "agent memory": {
+   "total": 7913,
+   "kept": 9,
+   "papers": [
+    {
+     "title": "Memory-Based Semantic Parsing",
+     "year": 2021,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 4,
+     "doi": "10.1162/tacl_a_00422",
+     "authors": "Parag Jain, Mirella Lapata"
+    },
+    {
+     "title": "Designing an Automatic Agent for Repeated Language–based Persuasion Games",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 3,
+     "doi": "10.1162/tacl_a_00462",
+     "authors": "Maya Raifer, Guy Rotman, Reut Apel, Moshe Tennenholtz, Roi Reichart"
+    },
+    {
+     "title": "Relational Memory-Augmented Language Models",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 14,
+     "doi": "10.1162/tacl_a_00476",
+     "authors": "Qi Liu, Dani Yogatama, Phil Blunsom"
+    },
+    {
+     "title": "MAKE: Memory-Associated Knowledge Editing",
+     "year": 2025,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.26",
+     "authors": "Seongsik Park, Sangmin Park, Jaieun Kim, Harksoo Kim"
+    },
+    {
+     "title": "A Survey on Memory-Efficient Fine-Tuning for Large Language Models",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.692",
+     "authors": "Yeachan Kim, Mingyu Lee, SangKeun Lee"
+    },
+    {
+     "title": "(Perhaps) Beyond Human Translation: Harnessing Multi-Agent Collaboration for Translating Ultra-Long Literary Texts",
+     "year": 2025,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 25,
+     "doi": "10.1162/tacl.a.25",
+     "authors": "Minghao Wu, Jiahao Xu, Yulin Yuan, Gholamreza Haffari, Longyue Wan, Weihua Luo"
+    },
+    {
+     "title": "Human-like Fleeting Memory Improves Language Learning but Impairs Reading Time Prediction in Transformer Language Models",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.688",
+     "authors": "Abishek Thamma, Micha Heilbron"
+    },
+    {
+     "title": "Augmenting Transformers with KNN-Based Composite Memory for Dialog",
+     "year": 2021,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 19,
+     "doi": "10.1162/tacl_a_00356",
+     "authors": "Angela Fan, Claire Gardent, Chloé Braud, Antoine Bordes"
+    },
+    {
+     "title": "PsyMem: Fine-grained Psychological Alignment and Explicit Memory\n                    Control for Advanced Role-Playing LLMs",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 1,
+     "doi": "10.1162/tacl.a.645",
+     "authors": "Xilong Cheng, Yunxiao Qin, Yuting Tan, Zhengnan Li, Ye Wang, Hongjiang Xiao"
+    }
+   ]
+  },
+  "audio language model": {
+   "total": 58289,
+   "kept": 78,
+   "papers": [
+    {
+     "title": "On Generative Spoken Language Modeling from Raw Audio",
+     "year": 2021,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 29,
+     "doi": "10.1162/tacl_a_00430",
+     "authors": "Kushal Lakhotia, Eugene Kharitonov, Wei-Ning Hsu, Yossi Adi, Adam Polyak, Benjamin Bolte"
+    },
+    {
+     "title": "Red Teaming Language Model Detectors with Language Models",
+     "year": 2024,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 24,
+     "doi": "10.1162/tacl_a_00639",
+     "authors": "Zhouxing Shi, Yihan Wang, Fan Yin, Xiangning Chen, Kai-Wei Chang, Cho-Jui Hsieh"
+    },
+    {
+     "title": "Accelerating Language Model Workflows with\n                    <scp>Prompt\n                        Choreography</scp>",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.643",
+     "authors": "TJ Bai, Jason Eisner"
+    },
+    {
+     "title": "SupraTok: Cross-Boundary Tokenization for Enhanced Language Model Performance",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.774",
+     "authors": "Andrei-Valentin Tănase, Elena Pelican"
+    },
+    {
+     "title": "BP-LLM : Belief Propagation for Binary Feedback in Large Language Model Alignment",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.734",
+     "authors": "Jessica E. Liang"
+    },
+    {
+     "title": "How Much Semantic Information is Available in Large Language Model Tokens?",
+     "year": 2025,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 4,
+     "doi": "10.1162/tacl_a_00747",
+     "authors": "David A. Haslett, Zhenguang G. Cai"
+    },
+    {
+     "title": "ActiveLLM: Large Language Model-Based Active Learning for Textual Few-Shot Scenarios",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 7,
+     "doi": "10.1162/tacl.a.63",
+     "authors": "Markus Bayer, Justin Lutz, Christian Reuter"
+    },
+    {
+     "title": "A Survey on Model Compression for Large Language\n                    Models",
+     "year": 2024,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 220,
+     "doi": "10.1162/tacl_a_00704",
+     "authors": "Xunyu Zhu, Jian Li, Yong Liu, Can Ma, Weiping Wang"
+    },
+    {
+     "title": "Characterizing Learning Curves During Language Model Pre-Training: Learning, Forgetting, and Stability",
+     "year": 2024,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 8,
+     "doi": "10.1162/tacl_a_00708",
+     "authors": "Tyler A. Chang, Zhuowen Tu, Benjamin K. Bergen"
+    },
+    {
+     "title": "Diverse AI Feedback For Large Language Model Alignment",
+     "year": 2025,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 3,
+     "doi": "10.1162/tacl_a_00746",
+     "authors": "Tianshu Yu, Ting-En Lin, Yuchuan Wu, Min Yang, Fei Huang, Yongbin Li"
+    },
+    {
+     "title": "Contextualized Evaluations: Judging Language Model Responses to Underspecified Queries",
+     "year": 2025,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 3,
+     "doi": "10.1162/tacl.a.24",
+     "authors": "Chaitanya Malaviya, Joseph Chee Chang, Dan Roth, Mohit Iyyer, Mark Yatskar, Kyle Lo"
+    },
+    {
+     "title": "OPAL: Ontology-Aware Pretrained Language Model for End-to-End Task-Oriented Dialogue",
+     "year": 2023,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 9,
+     "doi": "10.1162/tacl_a_00534",
+     "authors": "Zhi Chen, Yuncong Liu, Lu Chen, Su Zhu, Mengyue Wu, Kai Yu"
+    },
+    {
+     "title": "<scp>CONSPIR</scp>\n                    ED: A Dataset for Cognitive Traits of Conspiracy Theories and Large Language Model Safety",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.794",
+     "authors": "Luke Bates, Max Glockner, Preslav Nakov, Iryna Gurevych"
+    },
+    {
+     "title": "KEPLER: A Unified Model for Knowledge Embedding and Pre-trained Language Representation",
+     "year": 2021,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 442,
+     "doi": "10.1162/tacl_a_00360",
+     "authors": "Xiaozhi Wang, Tianyu Gao, Zhaocheng Zhu, Zhengyan Zhang, Zhiyuan Liu, Juanzi Li"
+    },
+    {
+     "title": "Adversarial Defense without\n                    <i>Adversarial Defense</i>\n                    : Enhancing Language Model Robustness via Instance-level Principal Component Removal",
+     "year": 2025,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 1,
+     "doi": "10.1162/tacl.a.43",
+     "authors": "Yang Wang, Chenghao Xiao, Yizhi Li, Stuart E. Middleton, Noura Al Moubayed, Chenghua Lin"
+    },
+    {
+     "title": "Investigating Critical Period Effects in Language Acquisition through Neural Language Models",
+     "year": 2025,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 7,
+     "doi": "10.1162/tacl_a_00725",
+     "authors": "Ionut Constantinescu, Tiago Pimentel, Ryan Cotterell, Alex Warstadt"
+    },
+    {
+     "title": "Human-like Fleeting Memory Improves Language Learning but Impairs Reading Time Prediction in Transformer Language Models",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.688",
+     "authors": "Abishek Thamma, Micha Heilbron"
+    },
+    {
+     "title": "Structural Persistence in Language Models: Priming as a Window into Abstract Language Representations",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 21,
+     "doi": "10.1162/tacl_a_00504",
+     "authors": "Arabella Sinclair, Jaap Jumelet, Willem Zuidema, Raquel Fernández"
+    },
+    {
+     "title": "Do Language Models Enjoy Their Own Stories? Prompting Large Language Models for Automatic Story Evaluation",
+     "year": 2024,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 23,
+     "doi": "10.1162/tacl_a_00689",
+     "authors": "Cyril Chhun, Fabian M. Suchanek, Chloé Clavel"
+    },
+    {
+     "title": "Understanding Epistemic Language with a Language-augmented Bayesian Theory of Mind",
+     "year": 2025,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl_a_00752",
+     "authors": "Lance Ying, Tan Zhi-Xuan, Lionel Wong, Vikash Mansinghka, Joshua B. Tenenbaum"
+    },
+    {
+     "title": "As Easy as Rocket Science: Assessing the Ability of Large Language Models to Interpret Negation in Figurative Language",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.781",
+     "authors": "Jasmine Owers, Edwin Simpson, Martha Lewis"
+    },
+    {
+     "title": "ORCA: Open-ended Response Correctness Assessment for Audio Question Answering",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.798",
+     "authors": "Šimon Sedláček, Sara Barahona, Cecilia Bolaños, Laura Herrera-Alarcón, Sathvik Udupa, Fernando López"
+    },
+    {
+     "title": "On the Limitations of Language-targeted Pruning: Investigating the Calibration Language Impact in Multilingual LLM Pruning",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.599",
+     "authors": "Simon Kurz, Jian-Jia Chen, Lucie Flek, Zhixue Zhao"
+    },
+    {
+     "title": "How Can We Know\n                    <i>When</i>\n                    Language Models Know? On the Calibration of Language Models for Question Answering",
+     "year": 2021,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 139,
+     "doi": "10.1162/tacl_a_00407",
+     "authors": "Zhengbao Jiang, Jun Araki, Haibo Ding, Graham Neubig"
+    },
+    {
+     "title": "<tt>L2CEval</tt>\n                    : Evaluating Language-to-Code Generation Capabilities of Large Language Models",
+     "year": 2024,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 19,
+     "doi": "10.1162/tacl_a_00705",
+     "authors": "Ansong Ni, Pengcheng Yin, Yilun Zhao, Martin Riddell, Troy Feng, Rui Shen"
+    },
+    {
+     "title": "Language Varieties of Italy: Technology Challenges and Opportunities",
+     "year": 2024,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 9,
+     "doi": "10.1162/tacl_a_00631",
+     "authors": "Alan Ramponi"
+    },
+    {
+     "title": "Relational Memory-Augmented Language Models",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 14,
+     "doi": "10.1162/tacl_a_00476",
+     "authors": "Qi Liu, Dani Yogatama, Phil Blunsom"
+    },
+    {
+     "title": "Word Acquisition in Neural Language Models",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 15,
+     "doi": "10.1162/tacl_a_00444",
+     "authors": "Tyler A. Chang, Benjamin K. Bergen"
+    },
+    {
+     "title": "Adaptive Semiparametric Language Models",
+     "year": 2021,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 19,
+     "doi": "10.1162/tacl_a_00371",
+     "authors": "Dani Yogatama, Cyprien de Masson d’Autume, Lingpeng Kong"
+    },
+    {
+     "title": "Understanding Benchmark Language Under Weakened Formal Semantics",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.789",
+     "authors": "Haoyang Chen, Kumiko Tanaka-Ishii"
+    },
+    {
+     "title": "MENLI: Robust Evaluation Metrics from Natural Language Inference",
+     "year": 2023,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 26,
+     "doi": "10.1162/tacl_a_00576",
+     "authors": "Yanran Chen, Steffen Eger"
+    },
+    {
+     "title": "Towards General Natural Language Understanding with Probabilistic\n                    Worldbuilding",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl_a_00463",
+     "authors": "Abulhair Saparov, Tom M. Mitchell"
+    },
+    {
+     "title": "Benchmarking Linguistic Diversity of Large Language Models",
+     "year": 2025,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 11,
+     "doi": "10.1162/tacl.a.47",
+     "authors": "Yanzhu Guo, Guokan Shang, Chloé Clavel"
+    },
+    {
+     "title": "Scope Ambiguities in Large Language Models",
+     "year": 2024,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 24,
+     "doi": "10.1162/tacl_a_00670",
+     "authors": "Gaurav Kamath, Sebastian Schuster, Sowmya Vajjala, Siva Reddy"
+    },
+    {
+     "title": "When Do Large Language Models Exhibit Unsolicited Deception?",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.786",
+     "authors": "Samuel M. Taylor, Benjamin K. Bergen"
+    },
+    {
+     "title": "Retrieval-Pretrained Transformer: Long-range Language Modeling with Self-retrieval",
+     "year": 2024,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 9,
+     "doi": "10.1162/tacl_a_00693",
+     "authors": "Ohad Rubin, Jonathan Berant"
+    },
+    {
+     "title": "Temporal Effects on Pre-trained Models for Language Processing Tasks",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 16,
+     "doi": "10.1162/tacl_a_00497",
+     "authors": "Oshin Agarwal, Ani Nenkova"
+    },
+    {
+     "title": "Investigating Adversarial Trigger Transfer in Large Language\n                    Models",
+     "year": 2025,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 1,
+     "doi": "10.1162/tacl.a.27",
+     "authors": "Nicholas Meade, Arkil Patel, Siva Reddy"
+    },
+    {
+     "title": "FoVer: First-Order Logic Verification for Natural Language Reasoning",
+     "year": 2025,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.41",
+     "authors": "Yu Pei, Yongping Du, Xingnan Jin"
+    },
+    {
+     "title": "FINCH: Prompt-guided Key-Value Cache Compression for Large Language Models",
+     "year": 2024,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 4,
+     "doi": "10.1162/tacl_a_00716",
+     "authors": "Giulio Corallo, Paolo Papotti"
+    },
+    {
+     "title": "Neural Event Semantics for Grounded Language Understanding",
+     "year": 2021,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 3,
+     "doi": "10.1162/tacl_a_00402",
+     "authors": "Shyamal Buch, Li Fei-Fei, Noah D. Goodman"
+    },
+    {
+     "title": "Introduction to Mathematical Language Processing: Informal Proofs, Word Problems, and Supporting Tasks",
+     "year": 2023,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 3,
+     "doi": "10.1162/tacl_a_00594",
+     "authors": "Jordan Meadows, André Freitas"
+    },
+    {
+     "title": "It’s not Rocket Science: Interpreting Figurative Language in Narratives",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 13,
+     "doi": "10.1162/tacl_a_00478",
+     "authors": "Tuhin Chakrabarty, Yejin Choi, Vered Shwartz"
+    },
+    {
+     "title": "Investigating Reasons for Disagreement in Natural Language Inference",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 18,
+     "doi": "10.1162/tacl_a_00523",
+     "authors": "Nan-Jiang Jiang, Marie-Catherine de Marneffe"
+    },
+    {
+     "title": "NoviCode: Generating Programs from Natural Language Utterances by Novices",
+     "year": 2024,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 2,
+     "doi": "10.1162/tacl_a_00694",
+     "authors": "Asaf Achi Mordechai, Yoav Goldberg, Reut Tsarfaty"
+    },
+    {
+     "title": "An End-to-End Contrastive Self-Supervised Learning Framework for Language Understanding",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 11,
+     "doi": "10.1162/tacl_a_00521",
+     "authors": "Hongchao Fang, Pengtao Xie"
+    },
+    {
+     "title": "From Robustness to Improved Generalization and Calibration in Pre-trained Language Models",
+     "year": 2025,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 2,
+     "doi": "10.1162/tacl_a_00739",
+     "authors": "Josip Jukić, Jan Šnajder"
+    },
+    {
+     "title": "Can Language Models Learn Typologically Implausible Languages?",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 2,
+     "doi": "10.1162/tacl.a.640",
+     "authors": "Tianyang Xu, Tatsuki Kuribayashi, Yohei Oseki, Ryan Cotterell, Alex Warstadt"
+    },
+    {
+     "title": "Preferences for Idiomatic Language are Acquired Slowly — and Forgotten Quickly: A Case Study on Swedish",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.727",
+     "authors": "Jenny Kunz"
+    },
+    {
+     "title": "Meta-Learning the Difference: Preparing Large Language Models for Efficient Adaptation",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 11,
+     "doi": "10.1162/tacl_a_00517",
+     "authors": "Zejiang Hou, Julian Salazar, George Polovets"
+    },
+    {
+     "title": "CAuSE: Decoding Multimodal Classifiers using Faithful Natural Language Explanation",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 1,
+     "doi": "10.1162/tacl.a.686",
+     "authors": "Dibyanayan Bandyopadhyay, Soham Bhattacharjee, Mohammed Hasanuzzaman, Asif Ekbal"
+    },
+    {
+     "title": "Ultra-fine Entity Typing with Indirect Supervision from Natural Language Inference",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 13,
+     "doi": "10.1162/tacl_a_00479",
+     "authors": "Bangzheng Li, Wenpeng Yin, Muhao Chen"
+    },
+    {
+     "title": "A Survey on Memory-Efficient Fine-Tuning for Large Language Models",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.692",
+     "authors": "Yeachan Kim, Mingyu Lee, SangKeun Lee"
+    },
+    {
+     "title": "Formal Language Recognition by Hard Attention Transformers: Perspectives from Circuit Complexity",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 20,
+     "doi": "10.1162/tacl_a_00490",
+     "authors": "Yiding Hao, Dana Angluin, Robert Frank"
+    },
+    {
+     "title": "Geographic Adaptation of Pretrained Language Models",
+     "year": 2024,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 10,
+     "doi": "10.1162/tacl_a_00652",
+     "authors": "Valentin Hofmann, Goran Glavaš, Nikola Ljubešić, Janet B. Pierrehumbert, Hinrich Schütze"
+    },
+    {
+     "title": "How Often Are Errors in Natural Language Reasoning Due to Paraphrastic Variability?",
+     "year": 2024,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 3,
+     "doi": "10.1162/tacl_a_00692",
+     "authors": "Neha Srikanth, Marine Carpuat, Rachel Rudinger"
+    },
+    {
+     "title": "Anthropomimetic Uncertainty: What Verbalized Uncertainty in Language Models is Missing",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 1,
+     "doi": "10.1162/tacl.a.739",
+     "authors": "Dennis Ulmer, Alexandra Lorson, Ivan Titov, Christian Hardmeier"
+    },
+    {
+     "title": "Large Language Models Are Human-Like Internally",
+     "year": 2025,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 7,
+     "doi": "10.1162/tacl.a.58",
+     "authors": "Tatsuki Kuribayashi, Yohei Oseki, Souhaib Ben Taieb, Kentaro Inui, Timothy Baldwin"
+    },
+    {
+     "title": "Investigating Hallucinations in Pruned Large Language Models for Abstractive Summarization",
+     "year": 2024,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 17,
+     "doi": "10.1162/tacl_a_00695",
+     "authors": "George Chrysostomou, Zhixue Zhao, Miles Williams, Nikolaos Aletras"
+    },
+    {
+     "title": "A Survey of Text Games for Reinforcement Learning Informed by Natural Language",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 13,
+     "doi": "10.1162/tacl_a_00495",
+     "authors": "Philip Osborne, Heido Nõmm, André Freitas"
+    },
+    {
+     "title": "Data Contamination Quiz: A Tool to Detect and Estimate Contamination in Large Language Models",
+     "year": 2025,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 11,
+     "doi": "10.1162/tacl.a.20",
+     "authors": "Shahriar Golchin, Mihai Surdeanu"
+    },
+    {
+     "title": "How Abstract Is Linguistic Generalization in Large Language Models? Experiments with Argument Structure",
+     "year": 2023,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 12,
+     "doi": "10.1162/tacl_a_00608",
+     "authors": "Michael Wilson, Jackson Petty, Robert Frank"
+    },
+    {
+     "title": "CURE: Cultural Value-based Reasoning for Enhancing the Cultural Adaptability of Large Language Models",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.795",
+     "authors": "Mirae Han, Harksoo Kim"
+    },
+    {
+     "title": "What Do You Mean? Exploring the Alleged Theory of Mind Abilities of Large Language Models",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.807",
+     "authors": "Agnese Lombardi, Alessandro Lenci"
+    },
+    {
+     "title": "Large Language Models Enable Few-Shot Clustering",
+     "year": 2024,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 64,
+     "doi": "10.1162/tacl_a_00648",
+     "authors": "Vijay Viswanathan, Kiril Gashteovski, Kiril Gashteovski, Carolin Lawrence, Tongshuang Wu, Graham Neubig"
+    },
+    {
+     "title": "Instructed to Bias: Instruction-Tuned Language Models Exhibit Emergent Cognitive Bias",
+     "year": 2024,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 8,
+     "doi": "10.1162/tacl_a_00673",
+     "authors": "Itay Itzhak, Gabriel Stanovsky, Nir Rosenfeld, Yonatan Belinkov"
+    },
+    {
+     "title": "Draw Me a Flower: Processing and Grounding Abstraction in Natural Language",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 2,
+     "doi": "10.1162/tacl_a_00522",
+     "authors": "Royi Lachmy, Valentina Pyatkin, Avshalom Manevich, Reut Tsarfaty"
+    },
+    {
+     "title": "Neuro-symbolic Natural Logic with Introspective Revision for Natural\n                    Language Inference",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 4,
+     "doi": "10.1162/tacl_a_00458",
+     "authors": "Yufei Feng, Xiaoyu Yang, Xiaodan Zhu, Michael Greenspan"
+    },
+    {
+     "title": "Transparency Helps Reveal When Language Models Learn Meaning",
+     "year": 2023,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 7,
+     "doi": "10.1162/tacl_a_00565",
+     "authors": "Zhaofeng Wu, William Merrill, Hao Peng, Iz Beltagy, Noah A. Smith"
+    },
+    {
+     "title": "Toward Robust RALMs: Revealing the Impact of Imperfect Retrieval on Retrieval-Augmented Language Models",
+     "year": 2024,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 5,
+     "doi": "10.1162/tacl_a_00724",
+     "authors": "Seong-Il Park, Jay-Yoon Lee"
+    },
+    {
+     "title": "Designing an Automatic Agent for Repeated Language–based Persuasion Games",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 3,
+     "doi": "10.1162/tacl_a_00462",
+     "authors": "Maya Raifer, Guy Rotman, Reut Apel, Moshe Tennenholtz, Roi Reichart"
+    },
+    {
+     "title": "Evaluating the Ripple Effects of Knowledge Editing in Language Models",
+     "year": 2024,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 39,
+     "doi": "10.1162/tacl_a_00644",
+     "authors": "Roi Cohen, Eden Biran, Ori Yoran, Amir Globerson, Mor Geva"
+    },
+    {
+     "title": "Do Vision and Language Models Share Concepts? A Vector Space Alignment Study",
+     "year": 2024,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 5,
+     "doi": "10.1162/tacl_a_00698",
+     "authors": "Jiaang Li, Yova Kementchedjhieva, Constanza Fierro, Anders Søgaard"
+    },
+    {
+     "title": "Benchmarking Large Language Models for News Summarization",
+     "year": 2024,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 349,
+     "doi": "10.1162/tacl_a_00632",
+     "authors": "Tianyi Zhang, Faisal Ladhak, Esin Durmus, Percy Liang, Kathleen McKeown, Tatsunori B. Hashimoto"
+    },
+    {
+     "title": "Morphology Matters: A Multilingual Language Modeling Analysis",
+     "year": 2021,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 13,
+     "doi": "10.1162/tacl_a_00365",
+     "authors": "Hyunji Hayley Park, Katherine J. Zhang, Coleman Haley, Kenneth Steimel, Han Liu, Lane Schwartz"
+    },
+    {
+     "title": "Automated Essay Scoring and Language Certification: Assessing Generalizability, Agreement and Validity for French",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.693",
+     "authors": "Rodrigo Wilkens, Rémi Cardon, Vincent Folny, Thomas François"
+    },
+    {
+     "title": "Reading Subtext: Evaluating Large Language Models on Short Story Summarization with Writers",
+     "year": 2024,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 18,
+     "doi": "10.1162/tacl_a_00702",
+     "authors": "Melanie Subbiah, Sean Zhang, Lydia B. Chilton, Kathleen McKeown"
+    },
+    {
+     "title": "Analyzing and Adapting Large Language Models for Few-Shot\n                    Multilingual NLU: Are We There Yet?",
+     "year": 2025,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 3,
+     "doi": "10.1162/tacl.a.33",
+     "authors": "Evgeniia Razumovskaia, Ivan Vulić, Anna Korhonen"
+    }
+   ]
+  },
+  "multimodal agent": {
+   "total": 7478,
+   "kept": 10,
+   "papers": [
+    {
+     "title": "MissModal: Increasing Robustness to Missing Modality in Multimodal\n                    Sentiment Analysis",
+     "year": 2023,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 68,
+     "doi": "10.1162/tacl_a_00628",
+     "authors": "Ronghao Lin, Haifeng Hu"
+    },
+    {
+     "title": "CAuSE: Decoding Multimodal Classifiers using Faithful Natural Language Explanation",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 1,
+     "doi": "10.1162/tacl.a.686",
+     "authors": "Dibyanayan Bandyopadhyay, Soham Bhattacharjee, Mohammed Hasanuzzaman, Asif Ekbal"
+    },
+    {
+     "title": "Word Representation Learning in Multimodal Pre-Trained Transformers: An Intrinsic Evaluation",
+     "year": 2021,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 5,
+     "doi": "10.1162/tacl_a_00443",
+     "authors": "Sandro Pezzelle, Ece Takmaz, Raquel Fernández"
+    },
+    {
+     "title": "Multimodal Pretraining Unmasked: A Meta-Analysis and a Unified Framework of Vision-and-Language BERTs",
+     "year": 2021,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 62,
+     "doi": "10.1162/tacl_a_00408",
+     "authors": "Emanuele Bugliarello, Ryan Cotterell, Naoaki Okazaki, Desmond Elliott"
+    },
+    {
+     "title": "Decoupling the Role of Data, Attention, and Losses in Multimodal Transformers",
+     "year": 2021,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 76,
+     "doi": "10.1162/tacl_a_00385",
+     "authors": "Lisa Anne Hendricks, John Mellor, Rosalia Schneider, Jean-Baptiste Alayrac, Aida Nematzadeh"
+    },
+    {
+     "title": "Common Objects Out of Context (COOCo): Investigating Multimodal Context and Semantic Scene Violations in Referential Communication",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.701",
+     "authors": "Filippo Merlo, Ece Takmaz, Wenkai Chen, Albert Gatt"
+    },
+    {
+     "title": "MERLIN: A Testbed for Multilingual Multimodal Entity Recognition and Linking",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 1,
+     "doi": "10.1162/tacl.a.633",
+     "authors": "Sathyanarayanan Ramamoorthy, Vishwa Shah, Simran Khanuja, Zaid Sheikh, Shan Jie, Ann Chia"
+    },
+    {
+     "title": "Designing an Automatic Agent for Repeated Language–based Persuasion Games",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 3,
+     "doi": "10.1162/tacl_a_00462",
+     "authors": "Maya Raifer, Guy Rotman, Reut Apel, Moshe Tennenholtz, Roi Reichart"
+    },
+    {
+     "title": "(Perhaps) Beyond Human Translation: Harnessing Multi-Agent Collaboration for Translating Ultra-Long Literary Texts",
+     "year": 2025,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 25,
+     "doi": "10.1162/tacl.a.25",
+     "authors": "Minghao Wu, Jiahao Xu, Yulin Yuan, Gholamreza Haffari, Longyue Wan, Weihua Luo"
+    },
+    {
+     "title": "Do Large Multimodal Models Solve Caption Generation for Scientific Figures? Lessons Learned from\n                    <scp>SciCap</scp>\n                    Challenge 2023",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.653",
+     "authors": "Ting-Yao ‘Edward’ Hsu, Yi-Li Hsu, Shaurya Rohatgi, Chieh-Yang Huang, Ho Yin Sam Ng, Ryan Rossi"
+    }
+   ]
+  },
+  "on-device inference": {
+   "total": 6300,
+   "kept": 7,
+   "papers": [
+    {
+     "title": "MENLI: Robust Evaluation Metrics from Natural Language Inference",
+     "year": 2023,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 26,
+     "doi": "10.1162/tacl_a_00576",
+     "authors": "Yanran Chen, Steffen Eger"
+    },
+    {
+     "title": "Investigating Reasons for Disagreement in Natural Language Inference",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 18,
+     "doi": "10.1162/tacl_a_00523",
+     "authors": "Nan-Jiang Jiang, Marie-Catherine de Marneffe"
+    },
+    {
+     "title": "Ultra-fine Entity Typing with Indirect Supervision from Natural Language Inference",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 13,
+     "doi": "10.1162/tacl_a_00479",
+     "authors": "Bangzheng Li, Wenpeng Yin, Muhao Chen"
+    },
+    {
+     "title": "Neuro-symbolic Natural Logic with Introspective Revision for Natural\n                    Language Inference",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 4,
+     "doi": "10.1162/tacl_a_00458",
+     "authors": "Yufei Feng, Xiaoyu Yang, Xiaodan Zhu, Michael Greenspan"
+    },
+    {
+     "title": "Diff-Explainer: Differentiable Convex Optimization for Explainable Multi-hop Inference",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 2,
+     "doi": "10.1162/tacl_a_00508",
+     "authors": "Mokanarangan Thayaparan, Marco Valentino, Deborah Ferreira, Julia Rozanova, André Freitas"
+    },
+    {
+     "title": "Causal Inference in Natural Language Processing: Estimation, Prediction, Interpretation and Beyond",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 138,
+     "doi": "10.1162/tacl_a_00511",
+     "authors": "Amir Feder, Katherine A. Keith, Emaad Manzoor, Reid Pryzant, Dhanya Sridhar, Zach Wood-Doughty"
+    },
+    {
+     "title": "CG-TTRL: Context-Guided Test-Time Reinforcement Learning for On-Device Large Language Models",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.783",
+     "authors": "Peyman Hosseini, Ondrej Bohdal, Taha Ceritli, Ignacio Castro, Matthew Purver, Mete Ozay"
+    }
+   ]
+  },
+  "emotion recognition": {
+   "total": 8721,
+   "kept": 10,
+   "papers": [
+    {
+     "title": "Learning More from Mixed Emotions: A Label Refinement Method for\n                    Emotion Recognition in Conversations",
+     "year": 2023,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 10,
+     "doi": "10.1162/tacl_a_00614",
+     "authors": "Jintao Wen, Geng Tu, Rui Li, Dazhi Jiang, Wenhua Zhu"
+    },
+    {
+     "title": "Modeling Emotion Dynamics in Song Lyrics with State Space Models",
+     "year": 2023,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 8,
+     "doi": "10.1162/tacl_a_00541",
+     "authors": "Yingjin Song, Daniel Beck"
+    },
+    {
+     "title": "Partially Supervised Named Entity Recognition via the Expected Entity Ratio Loss",
+     "year": 2021,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 3,
+     "doi": "10.1162/tacl_a_00429",
+     "authors": "Thomas Effland, Michael Collins"
+    },
+    {
+     "title": "Formal Language Recognition by Hard Attention Transformers: Perspectives from Circuit Complexity",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 20,
+     "doi": "10.1162/tacl_a_00490",
+     "authors": "Yiding Hao, Dana Angluin, Robert Frank"
+    },
+    {
+     "title": "Context-aware Adversarial Training for Name Regularity Bias in Named Entity Recognition",
+     "year": 2021,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 21,
+     "doi": "10.1162/tacl_a_00386",
+     "authors": "Abbas Ghaddar, Philippe Langlais, Ahmad Rashid, Mehdi Rezagholizadeh"
+    },
+    {
+     "title": "What Helps Transformers Recognize Conversational Structure? Importance of Context, Punctuation, and Labels in Dialog Act Recognition",
+     "year": 2021,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 8,
+     "doi": "10.1162/tacl_a_00420",
+     "authors": "Piotr Żelasko, Raghavendra Pappagari, Najim Dehak"
+    },
+    {
+     "title": "RELIC: Evaluating Complex Reasoning via the Recognition of Languages In-Context",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl.a.735",
+     "authors": "Jackson Petty, Michael Y. Hu, Wentao Wang, Shauli Ravfogel, William Merrill, Tal Linzen"
+    },
+    {
+     "title": "MERLIN: A Testbed for Multilingual Multimodal Entity Recognition and Linking",
+     "year": 2026,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 1,
+     "doi": "10.1162/tacl.a.633",
+     "authors": "Sathyanarayanan Ramamoorthy, Vishwa Shah, Simran Khanuja, Zaid Sheikh, Shan Jie, Ann Chia"
+    },
+    {
+     "title": "<i>T</i>\n          2\n          <i>-NER</i>: A <u>T</u>wo-Stage Span-Based Framework for Unified Named Entity Recognition with <u>T</u>emplates",
+     "year": 2023,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 22,
+     "doi": "10.1162/tacl_a_00602",
+     "authors": "Peixin Huang, Xiang Zhao, Minghao Hu, Zhen Tan, Weidong Xiao"
+    },
+    {
+     "title": "MasakhaNER: Named Entity Recognition for African Languages",
+     "year": 2021,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 79,
+     "doi": "10.1162/tacl_a_00416",
+     "authors": "David Ifeoluwa Adelani, Jade Abbott, Graham Neubig, Daniel D’souza, Julia Kreutzer, Constantine Lignos"
+    }
+   ]
+  },
+  "paralinguistic": {
+   "total": 11,
+   "kept": 0,
+   "papers": []
+  },
+  "neural codec": {
+   "total": 23985,
+   "kept": 18,
+   "papers": [
+    {
+     "title": "Unit Testing for Concepts in Neural Networks",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 7,
+     "doi": "10.1162/tacl_a_00514",
+     "authors": "Charles Lovering, Ellie Pavlick"
+    },
+    {
+     "title": "Word Acquisition in Neural Language Models",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 15,
+     "doi": "10.1162/tacl_a_00444",
+     "authors": "Tyler A. Chang, Benjamin K. Bergen"
+    },
+    {
+     "title": "Neural Modeling for Named Entities and Morphology (NEMO2)",
+     "year": 2021,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 10,
+     "doi": "10.1162/tacl_a_00404",
+     "authors": "Dan Bareket, Reut Tsarfaty"
+    },
+    {
+     "title": "On Decoding Strategies for Neural Text Generators",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 34,
+     "doi": "10.1162/tacl_a_00502",
+     "authors": "Gian Wiher, Clara Meister, Ryan Cotterell"
+    },
+    {
+     "title": "Revisiting Negation in Neural Machine Translation",
+     "year": 2021,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 4,
+     "doi": "10.1162/tacl_a_00395",
+     "authors": "Gongbo Tang, Philipp Rönchen, Rico Sennrich, Joakim Nivre"
+    },
+    {
+     "title": "Erasure of Unaligned Attributes from Neural Representations",
+     "year": 2023,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/tacl_a_00558",
+     "authors": "Shun Shao, Yftah Ziser, Shay B. Cohen"
+    },
+    {
+     "title": "Minimum Description Length Recurrent Neural Networks",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 10,
+     "doi": "10.1162/tacl_a_00489",
+     "authors": "Nur Lan, Michal Geyer, Emmanuel Chemla, Roni Katzir"
+    },
+    {
+     "title": "Neural Event Semantics for Grounded Language Understanding",
+     "year": 2021,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 3,
+     "doi": "10.1162/tacl_a_00402",
+     "authors": "Shyamal Buch, Li Fei-Fei, Noah D. Goodman"
+    },
+    {
+     "title": "Neural OCR Post-Hoc Correction of Historical Corpora",
+     "year": 2021,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 19,
+     "doi": "10.1162/tacl_a_00379",
+     "authors": "Lijun Lyu, Maria Koutraki, Martin Krickl, Besnik Fetahu"
+    },
+    {
+     "title": "Predicting Human Translation Difficulty with Neural Machine Translation",
+     "year": 2024,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 6,
+     "doi": "10.1162/tacl_a_00714",
+     "authors": "Zheng Wei Lim, Ekaterina Vylomova, Charles Kemp, Trevor Cohn"
+    },
+    {
+     "title": "Supervised Neural Topic Modeling with Label Alignment",
+     "year": 2025,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 6,
+     "doi": "10.1162/tacl_a_00738",
+     "authors": "Ruihao Chen, Hegang Chen, Yuyin Lu, Yanghui Rao, Chunjiang Zhu"
+    },
+    {
+     "title": "ABNIRML: Analyzing the Behavior of Neural IR Models",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 26,
+     "doi": "10.1162/tacl_a_00457",
+     "authors": "Sean MacAvaney, Sergey Feldman, Nazli Goharian, Doug Downey, Arman Cohan"
+    },
+    {
+     "title": "Investigating Critical Period Effects in Language Acquisition through Neural Language Models",
+     "year": 2025,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 7,
+     "doi": "10.1162/tacl_a_00725",
+     "authors": "Ionut Constantinescu, Tiago Pimentel, Ryan Cotterell, Alex Warstadt"
+    },
+    {
+     "title": "EDITOR: An Edit-Based Transformer with Repositioning for Neural Machine Translation with Soft Lexical Constraints",
+     "year": 2021,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 24,
+     "doi": "10.1162/tacl_a_00368",
+     "authors": "Weijia Xu, Marine Carpuat"
+    },
+    {
+     "title": "Instance-Based Neural Dependency Parsing",
+     "year": 2021,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 1,
+     "doi": "10.1162/tacl_a_00439",
+     "authors": "Hiroki Ouchi, Jun Suzuki, Sosuke Kobayashi, Sho Yokoi, Tatsuki Kuribayashi, Masashi Yoshikawa"
+    },
+    {
+     "title": "Understanding and Detecting Hallucinations in Neural Machine Translation via Model Introspection",
+     "year": 2023,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 40,
+     "doi": "10.1162/tacl_a_00563",
+     "authors": "Weijia Xu, Sweta Agrawal, Eleftheria Briakou, Marianna J. Martindale, Marine Carpuat"
+    },
+    {
+     "title": "High Quality Rather than High Model Probability: Minimum Bayes Risk Decoding with Neural Metrics",
+     "year": 2022,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 12,
+     "doi": "10.1162/tacl_a_00491",
+     "authors": "Markus Freitag, David Grangier, Qijun Tan, Bowen Liang"
+    },
+    {
+     "title": "Communication Drives the Emergence of Language Universals in Neural Agents: Evidence from the Word-order/Case-marking Trade-off",
+     "year": 2023,
+     "venue": "Transactions of the Association for Computational Linguistics",
+     "citationCount": 2,
+     "doi": "10.1162/tacl_a_00587",
+     "authors": "Yuchen Lian, Arianna Bisazza, Tessa Verhoef"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,66 @@
+{
+ "venue": "ACL",
+ "category": "nlp",
+ "canonical_venue_string": "Annual Meeting of the Association for Computational Linguistics",
+ "wave": "A",
+ "generated_at": "2026-09-29 00:49:12",
+ "topics": [
+  "LLM agent tool use",
+  "agent memory",
+  "audio language model",
+  "multimodal agent",
+  "on-device inference",
+  "emotion recognition",
+  "paralinguistic",
+  "neural codec"
+ ],
+ "request_budget": {
+  "successful": 110,
+  "limit": 300,
+  "attempts": 8
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "LLM agent tool use": {
+   "total": 6760,
+   "kept": 0,
+   "papers": []
+  },
+  "agent memory": {
+   "total": 2682,
+   "kept": 0,
+   "papers": []
+  },
+  "audio language model": {
+   "total": 23737,
+   "kept": 0,
+   "papers": []
+  },
+  "multimodal agent": {
+   "total": 3190,
+   "kept": 0,
+   "papers": []
+  },
+  "on-device inference": {
+   "total": 1864,
+   "kept": 0,
+   "papers": []
+  },
+  "emotion recognition": {
+   "total": 3124,
+   "kept": 0,
+   "papers": []
+  },
+  "paralinguistic": {
+   "total": 11,
+   "kept": 0,
+   "papers": []
+  },
+  "neural codec": {
+   "total": 4901,
+   "kept": 0,
+   "papers": []
+  }
+ }
+}

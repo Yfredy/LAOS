@@ -1,0 +1,896 @@
+{
+ "venue": "CL",
+ "category": "nlp",
+ "canonical_venue_string": "Computational Linguistics",
+ "wave": "A",
+ "generated_at": "2026-09-29 00:52:15",
+ "topics": [
+  "LLM agent tool use",
+  "agent memory",
+  "audio language model",
+  "multimodal agent",
+  "on-device inference",
+  "emotion recognition",
+  "paralinguistic",
+  "neural codec"
+ ],
+ "request_budget": {
+  "successful": 158,
+  "limit": 300,
+  "attempts": 8
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "LLM agent tool use": {
+   "total": 2905,
+   "kept": 8,
+   "papers": [
+    {
+     "title": "What is the Role of Small Models in the LLM Era: A Survey",
+     "year": 2026,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli.a.652",
+     "authors": "Lihu Chen, Gaël Varoquaux"
+    },
+    {
+     "title": "LLM-based NLG Evaluation: Current Status and Challenges",
+     "year": 2025,
+     "venue": "Computational Linguistics",
+     "citationCount": 88,
+     "doi": "10.1162/coli_a_00561",
+     "authors": "Mingqi Gao, Xinyu Hu, Xunjian Yin, Jie Ruan, Xiao Pu, Xiaojun Wan"
+    },
+    {
+     "title": "LLM-Assisted Data Augmentation for Chinese Dialogue-Level Dependency Parsing",
+     "year": 2024,
+     "venue": "Computational Linguistics",
+     "citationCount": 12,
+     "doi": "10.1162/coli_a_00515",
+     "authors": "Meishan Zhang, Gongyao Jiang, Shuang Liu, Jing Chen, Min Zhang"
+    },
+    {
+     "title": "A Survey on LLM-Generated Text Detection: Necessity, Methods, and Future Directions",
+     "year": 2025,
+     "venue": "Computational Linguistics",
+     "citationCount": 187,
+     "doi": "10.1162/coli_a_00549",
+     "authors": "Junchao Wu, Shu Yang, Runzhe Zhan, Yulin Yuan, Lidia Sam Chao, Derek Fai Wong"
+    },
+    {
+     "title": "Truth or Mirage? 🏝 Towards End-To-End Factuality Evaluation with LLM-O\n                    <scp>asis</scp>",
+     "year": 2026,
+     "venue": "Computational Linguistics",
+     "citationCount": 1,
+     "doi": "10.1162/coli.a.575",
+     "authors": "Alessandro Scirè, Andrei Stefan Bejgu, Simone Tedeschi, Karim Ghonim, Federico Martelli, Roberto Navigli"
+    },
+    {
+     "title": "Understanding Dialogue: Language Use and Social Interaction",
+     "year": 2021,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli_r_00411",
+     "authors": "Rachel Bawden"
+    },
+    {
+     "title": "Rethinking Data Use in Large Language Models",
+     "year": 2025,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli.a.573",
+     "authors": "Sewon Min, Hannaneh Hajishirzi, Luke Zettlemoyer"
+    },
+    {
+     "title": "Capturing Fine-Grained Regional Differences in Language Use through Voting Precinct Embeddings",
+     "year": 2023,
+     "venue": "Computational Linguistics",
+     "citationCount": 2,
+     "doi": "10.1162/coli_a_00487",
+     "authors": "Alex Rosenfeld, Lars Hinrichs"
+    }
+   ]
+  },
+  "agent memory": {
+   "total": 1287,
+   "kept": 0,
+   "papers": []
+  },
+  "audio language model": {
+   "total": 26686,
+   "kept": 75,
+   "papers": [
+    {
+     "title": "Anthropocentric Bias in Language Model Evaluation",
+     "year": 2026,
+     "venue": "Computational Linguistics",
+     "citationCount": 5,
+     "doi": "10.1162/coli.a.582",
+     "authors": "Raphaël Millière, Charles Rathkopf"
+    },
+    {
+     "title": "Language Model Behavior: A Comprehensive Survey",
+     "year": 2024,
+     "venue": "Computational Linguistics",
+     "citationCount": 86,
+     "doi": "10.1162/coli_a_00492",
+     "authors": "Tyler A. Chang, Benjamin K. Bergen"
+    },
+    {
+     "title": "CausaLM: Causal Model Explanation Through Counterfactual Language Models",
+     "year": 2021,
+     "venue": "Computational Linguistics",
+     "citationCount": 40,
+     "doi": "10.1162/coli_a_00404",
+     "authors": "Amir Feder, Nadav Oved, Uri Shalit, Roi Reichart"
+    },
+    {
+     "title": "LMLPA: Language Model Linguistic Personality Assessment",
+     "year": 2025,
+     "venue": "Computational Linguistics",
+     "citationCount": 5,
+     "doi": "10.1162/coli_a_00550",
+     "authors": "Jingyao Zheng, Xian Wang, Simo Hosio, Xiaoxian Xu, Lik-Hang Lee"
+    },
+    {
+     "title": "Large Language Model Instruction Following: A Survey of Progresses and Challenges",
+     "year": 2024,
+     "venue": "Computational Linguistics",
+     "citationCount": 41,
+     "doi": "10.1162/coli_a_00523",
+     "authors": "Renze Lou, Kai Zhang, Wenpeng Yin"
+    },
+    {
+     "title": "Can a Large Language Model Replace Humans at Rating Lexical Semantic\n                    Relations Strength?",
+     "year": 2026,
+     "venue": "Computational Linguistics",
+     "citationCount": 1,
+     "doi": "10.1162/coli.a.587",
+     "authors": "André Fernandes dos Santos, José Paulo Leal"
+    },
+    {
+     "title": "M\n                    <scp>ozila</scp>\n                    : Continual Event Detection Through the Lens of Multi-Objective Optimization and Language Model Head Preservation",
+     "year": 2026,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli.a.617",
+     "authors": "Nam Le Hai, Linh Ngo Van, Sang Dinh"
+    },
+    {
+     "title": "BLiMP-NL: A Corpus of Dutch Minimal Pairs and Acceptability Judgments for Language Model Evaluation",
+     "year": 2025,
+     "venue": "Computational Linguistics",
+     "citationCount": 3,
+     "doi": "10.1162/coli_a_00559",
+     "authors": "Michelle Suijkerbuijk, Zoë Prins, Marianne de Heer Kloots, Willem Zuidema, Stefan L. Frank"
+    },
+    {
+     "title": "Neural Data-to-Text Generation Based on Small Datasets: Comparing the Added Value of Two Semi-Supervised Learning Approaches on Top of a Large Language Model",
+     "year": 2023,
+     "venue": "Computational Linguistics",
+     "citationCount": 1,
+     "doi": "10.1162/coli_a_00484",
+     "authors": "Chris van der Lee, Thiago Castro Ferreira, Chris Emmery, Travis J. Wiltshire, Emiel Krahmer"
+    },
+    {
+     "title": "Large Language Models Are Biased Because They Are Large Language Models",
+     "year": 2025,
+     "venue": "Computational Linguistics",
+     "citationCount": 28,
+     "doi": "10.1162/coli_a_00558",
+     "authors": "Philip Resnik"
+    },
+    {
+     "title": "Do Multimodal Large Language Models and Humans Ground Language Similarly?",
+     "year": 2024,
+     "venue": "Computational Linguistics",
+     "citationCount": 7,
+     "doi": "10.1162/coli_a_00531",
+     "authors": "Cameron R. Jones, Benjamin Bergen, Sean Trott"
+    },
+    {
+     "title": "Natural Language Generation",
+     "year": 2026,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli.r.642",
+     "authors": "Emiel van Miltenburg, Emiel Krahmer"
+    },
+    {
+     "title": "Natural Language Processing and Computational Linguistics",
+     "year": 2021,
+     "venue": "Computational Linguistics",
+     "citationCount": 16,
+     "doi": "10.1162/coli_a_00420",
+     "authors": "Junichi Tsujii"
+    },
+    {
+     "title": "Explainable Natural Language Processing",
+     "year": 2022,
+     "venue": "Computational Linguistics",
+     "citationCount": 2,
+     "doi": "10.1162/coli_r_00460",
+     "authors": "George Chrysostomou"
+    },
+    {
+     "title": "Automatic Language Identification in Texts",
+     "year": 2025,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli_r_00521",
+     "authors": "Tom Lippincott"
+    },
+    {
+     "title": "Deep Learning for Natural Language Processing: A Gentle Introduction",
+     "year": 2026,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli.r.628",
+     "authors": "Aline Paes"
+    },
+    {
+     "title": "Cognitive Plausibility in Natural Language Processing",
+     "year": 2024,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli_r_00517",
+     "authors": "Yevgen Matusevych"
+    },
+    {
+     "title": "Understanding Dialogue: Language Use and Social Interaction",
+     "year": 2021,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli_r_00411",
+     "authors": "Rachel Bawden"
+    },
+    {
+     "title": "Do Language Models’ Words Refer?",
+     "year": 2024,
+     "venue": "Computational Linguistics",
+     "citationCount": 36,
+     "doi": "10.1162/coli_a_00522",
+     "authors": "Matthew Mandelkern, Tal Linzen"
+    },
+    {
+     "title": "Formal Basis of a Language Universal",
+     "year": 2021,
+     "venue": "Computational Linguistics",
+     "citationCount": 3,
+     "doi": "10.1162/coli_a_00394",
+     "authors": "Miloš Stanojević, Mark Steedman"
+    },
+    {
+     "title": "Language Embeddings Sometimes Contain Typological\n                    Generalizations",
+     "year": 2023,
+     "venue": "Computational Linguistics",
+     "citationCount": 6,
+     "doi": "10.1162/coli_a_00491",
+     "authors": "Robert Östling, Murathan Kurfalı"
+    },
+    {
+     "title": "On Natural Language Stringsets, Senses, and Generative Capacity",
+     "year": 2026,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli.a.21",
+     "authors": "Daniel Radzinski"
+    },
+    {
+     "title": "Erratum for “Formal Basis of a Language Universal”",
+     "year": 2022,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli_x_00432",
+     "authors": "Miloš Stanojević, Mark Steedman"
+    },
+    {
+     "title": "Language Models and Externalism: A Reply to Mandelkern and Linzen",
+     "year": 2025,
+     "venue": "Computational Linguistics",
+     "citationCount": 2,
+     "doi": "10.1162/coli_a_00551",
+     "authors": "Gary Ostertag"
+    },
+    {
+     "title": "Natural Language Processing RELIES on Linguistics",
+     "year": 2025,
+     "venue": "Computational Linguistics",
+     "citationCount": 3,
+     "doi": "10.1162/coli_a_00560",
+     "authors": "Juri Opitz, Shira Wein, Nathan Schneider"
+    },
+    {
+     "title": "Tokenization Changes Meaning in Large Language Models: Evidence from Chinese",
+     "year": 2025,
+     "venue": "Computational Linguistics",
+     "citationCount": 5,
+     "doi": "10.1162/coli_a_00557",
+     "authors": "David A. Haslett"
+    },
+    {
+     "title": "Rethinking Data Use in Large Language Models",
+     "year": 2025,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli.a.573",
+     "authors": "Sewon Min, Hannaneh Hajishirzi, Luke Zettlemoyer"
+    },
+    {
+     "title": "Dotless Arabic Text for Natural Language Processing",
+     "year": 2025,
+     "venue": "Computational Linguistics",
+     "citationCount": 1,
+     "doi": "10.1162/coli_a_00535",
+     "authors": "Maged S. Al-Shaibani, Irfan Ahmad"
+    },
+    {
+     "title": "Polysemy—Evidence from Linguistics, Behavioral Science, and Contextualized Language Models",
+     "year": 2024,
+     "venue": "Computational Linguistics",
+     "citationCount": 28,
+     "doi": "10.1162/coli_a_00500",
+     "authors": "Janosch Haber, Massimo Poesio"
+    },
+    {
+     "title": "Embeddings in Natural Language Processing: Theory and Advances in Vector Representations of Meaning",
+     "year": 2021,
+     "venue": "Computational Linguistics",
+     "citationCount": 5,
+     "doi": "10.1162/coli_r_00410",
+     "authors": "Marcos Garcia"
+    },
+    {
+     "title": "Socially Aware Language Technologies: Perspectives and Practices",
+     "year": 2025,
+     "venue": "Computational Linguistics",
+     "citationCount": 4,
+     "doi": "10.1162/coli_a_00556",
+     "authors": "Diyi Yang, Dirk Hovy, David Jurgens, Barbara Plank"
+    },
+    {
+     "title": "On the Referential Capacity of Language Models: An Internalist Rejoinder to Mandelkern &amp; Linzen",
+     "year": 2026,
+     "venue": "Computational Linguistics",
+     "citationCount": 1,
+     "doi": "10.1162/coli.a.601",
+     "authors": "Giosuè Baggio, Elliot Murphy"
+    },
+    {
+     "title": "Humans Learn Language from Situated Communicative Interactions. What about Machines?",
+     "year": 2024,
+     "venue": "Computational Linguistics",
+     "citationCount": 11,
+     "doi": "10.1162/coli_a_00534",
+     "authors": "Katrien Beuls, Paul Van Eecke"
+    },
+    {
+     "title": "Are Formal and Functional Linguistic Mechanisms Dissociated in Language Models?",
+     "year": 2026,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli.a.24",
+     "authors": "Michael Hanna, Yonatan Belinkov, Sandro Pezzelle"
+    },
+    {
+     "title": "Capturing Fine-Grained Regional Differences in Language Use through Voting Precinct Embeddings",
+     "year": 2023,
+     "venue": "Computational Linguistics",
+     "citationCount": 2,
+     "doi": "10.1162/coli_a_00487",
+     "authors": "Alex Rosenfeld, Lars Hinrichs"
+    },
+    {
+     "title": "Investigating Language Relationships in Multilingual Sentence Encoders Through the Lens of Linguistic Typology",
+     "year": 2022,
+     "venue": "Computational Linguistics",
+     "citationCount": 5,
+     "doi": "10.1162/coli_a_00444",
+     "authors": "Rochelle Choenni, Ekaterina Shutova"
+    },
+    {
+     "title": "<i>Natural Language Processing: A Machine Learning Perspective</i> by Yue Zhang and Zhiyang Teng",
+     "year": 2022,
+     "venue": "Computational Linguistics",
+     "citationCount": 4,
+     "doi": "10.1162/coli_r_00423",
+     "authors": "Julia Ive"
+    },
+    {
+     "title": "Analysis and Evaluation of Language Models for Word Sense\n                    Disambiguation",
+     "year": 2021,
+     "venue": "Computational Linguistics",
+     "citationCount": 33,
+     "doi": "10.1162/coli_a_00405",
+     "authors": "Daniel Loureiro, Kiamehr Rezaee, Mohammad Taher Pilehvar, Jose Camacho-Collados"
+    },
+    {
+     "title": "Novelty Detection: A Perspective from Natural Language Processing",
+     "year": 2022,
+     "venue": "Computational Linguistics",
+     "citationCount": 21,
+     "doi": "10.1162/coli_a_00429",
+     "authors": "Tirthankar Ghosal, Tanik Saikh, Tameesh Biswas, Asif Ekbal, Pushpak Bhattacharyya"
+    },
+    {
+     "title": "LLMs and Cultural Values: The Impact of Prompt Language and Explicit Cultural Framing",
+     "year": 2026,
+     "venue": "Computational Linguistics",
+     "citationCount": 7,
+     "doi": "10.1162/coli.a.583",
+     "authors": "Bram Bulté, Ayla Rigouts Terryn"
+    },
+    {
+     "title": "Gradual Modifications and Abrupt Replacements: Two Stochastic Lexical Ingredients of Language Evolution",
+     "year": 2023,
+     "venue": "Computational Linguistics",
+     "citationCount": 2,
+     "doi": "10.1162/coli_a_00471",
+     "authors": "Michele Pasquini, Maurizio Serva, Davide Vergni"
+    },
+    {
+     "title": "Can Language Models Handle Recursively Nested Grammatical Structures? A Case Study on Comparing Models and Humans",
+     "year": 2024,
+     "venue": "Computational Linguistics",
+     "citationCount": 22,
+     "doi": "10.1162/coli_a_00525",
+     "authors": "Andrew Lampinen"
+    },
+    {
+     "title": "Cross-Lingual Transfer with Language-Specific Subnetworks for Low-Resource Dependency Parsing",
+     "year": 2023,
+     "venue": "Computational Linguistics",
+     "citationCount": 10,
+     "doi": "10.1162/coli_a_00482",
+     "authors": "Rochelle Choenni, Dan Garrette, Ekaterina Shutova"
+    },
+    {
+     "title": "Improved <i>N</i>-Best Extraction with an Evaluation on Language Data",
+     "year": 2022,
+     "venue": "Computational Linguistics",
+     "citationCount": 1,
+     "doi": "10.1162/coli_a_00427",
+     "authors": "Johanna Björklund, Frank Drewes, Anna Jonsson"
+    },
+    {
+     "title": "Enhancing Lifelong Language Learning by Improving Pseudo-Sample\n                    Generation",
+     "year": 2022,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli_a_00449",
+     "authors": "Kasidis Kanwatchara, Thanapapas Horsuwan, Piyawat Lertvittayakumjorn, Boonserm Kijsirikul, Peerapon Vateekul"
+    },
+    {
+     "title": "Evaluation Framework for Highlight Explanations of Context Utilization in Language Models",
+     "year": 2026,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli.a.621",
+     "authors": "Jingyi Sun, Pepa Atanasova, Sagnik Ray Choudhury, Sekh Mainul Islam, Isabelle Augenstein"
+    },
+    {
+     "title": "Causal Adversarial Training for Improving Language Understanding and Robustness",
+     "year": 2026,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli.a.644",
+     "authors": "Bin Zhu, Yi Xie, Yanxia Feng, Fu Lee Wang, Haoran Xie, Yanghui Rao"
+    },
+    {
+     "title": "Meaning Beyond Lexicality: Capturing Pseudoword Definitions with Language Models",
+     "year": 2024,
+     "venue": "Computational Linguistics",
+     "citationCount": 10,
+     "doi": "10.1162/coli_a_00527",
+     "authors": "Andrea Gregor de Varda, Daniele Gatti, Marco Marelli, Fritz Günther"
+    },
+    {
+     "title": "Can Large Language Models Transform Computational Social\n                    Science?",
+     "year": 2024,
+     "venue": "Computational Linguistics",
+     "citationCount": 436,
+     "doi": "10.1162/coli_a_00502",
+     "authors": "Caleb Ziems, William Held, Omar Shaikh, Jiaao Chen, Zhehao Zhang, Diyi Yang"
+    },
+    {
+     "title": "Language Learning, Representation, and Processing in Humans and\n                    Machines: Introduction to the Special Issue",
+     "year": 2024,
+     "venue": "Computational Linguistics",
+     "citationCount": 3,
+     "doi": "10.1162/coli_e_00539",
+     "authors": "Marianna Apidianaki, Abdellah Fourtassi, Sebastian Padó"
+    },
+    {
+     "title": "UDapter: Typology-based Language Adapters for Multilingual Dependency Parsing and Sequence Labeling",
+     "year": 2022,
+     "venue": "Computational Linguistics",
+     "citationCount": 7,
+     "doi": "10.1162/coli_a_00443",
+     "authors": "Ahmet Üstün, Arianna Bisazza, Gosse Bouma, Gertjan van Noord"
+    },
+    {
+     "title": "From Form(s) to Meaning: Probing the Semantic Depths of Language Models Using Multisense Consistency",
+     "year": 2024,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli_a_00529",
+     "authors": "Xenia Ohmer, Elia Bruni, Dieuwke Hupke"
+    },
+    {
+     "title": "Exploring Temporal Sensitivity in the Brain Using Multi-timescale Language Models: An EEG Decoding Study",
+     "year": 2024,
+     "venue": "Computational Linguistics",
+     "citationCount": 5,
+     "doi": "10.1162/coli_a_00533",
+     "authors": "Sijie Ling, Alex Murphy, Alona Fyshe"
+    },
+    {
+     "title": "How Can We Effectively Expand the Vocabulary of LLMs with 0.01GB of Target Language Text?",
+     "year": 2026,
+     "venue": "Computational Linguistics",
+     "citationCount": 1,
+     "doi": "10.1162/coli.a.581",
+     "authors": "Atsuki Yamaguchi, Aline Villavicencio, Nikolaos Aletras"
+    },
+    {
+     "title": "Effective Approaches to Neural Query Language Identification",
+     "year": 2022,
+     "venue": "Computational Linguistics",
+     "citationCount": 1,
+     "doi": "10.1162/coli_a_00451",
+     "authors": "Xingzhang Ren, Baosong Yang, Dayiheng Liu, Haibo Zhang, Xiaoyu Lv, Liang Yao"
+    },
+    {
+     "title": "Analyzing Semantic Faithfulness of Language Models via Input Intervention on Question Answering",
+     "year": 2024,
+     "venue": "Computational Linguistics",
+     "citationCount": 3,
+     "doi": "10.1162/coli_a_00493",
+     "authors": "Akshay Chaturvedi, Swarnadeep Bhar, Soumadeep Saha, Utpal Garain, Nicholas Asher"
+    },
+    {
+     "title": "An Empirical Study on Reasoning and Generalization in Large Language Models",
+     "year": 2026,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli.a.619",
+     "authors": "Lu Xiang, Yang Zhao, Yaping Zhang, Zixuan Ren, Xingquan Zhang, Zhiyuan Chen"
+    },
+    {
+     "title": "A Novel Methodology for Enhancing Cross-language and Domain Adaptability in Temporal Expression Normalization",
+     "year": 2025,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli.a.12",
+     "authors": "Alejandro Sánchez de Castro, Lourdes Araujo, Juan Martinez-Romo"
+    },
+    {
+     "title": "Exceptions, Instantiations, and Overgeneralization: Insights into How Language Models Process Generics",
+     "year": 2024,
+     "venue": "Computational Linguistics",
+     "citationCount": 7,
+     "doi": "10.1162/coli_a_00530",
+     "authors": "Emily Allaway, Chandra Bhagavatula, Jena D. Hwang, Kathleen McKeown, Sarah-Jane Leslie"
+    },
+    {
+     "title": "Representational Equality in Cross-country Value Simulation: A Systematic Analysis of Large Language Models",
+     "year": 2026,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli.a.648",
+     "authors": "Xiaowen Jian, Xinyi Mou, Daisong Gong, Chen Qian, Huimin Chen, Maosong Sun"
+    },
+    {
+     "title": "<i>Statistical Significance Testing for Natural Language                         Processing</i>. By Rotem Dror, Lotem Peled-Cohen, Segev Shlomov, and Roi Reichart (Technion                     Israel Institute of Technology)). Morgan                     &amp; Claypool (Synthesis Lectures on Human Language                         Technologies, edited by Graeme Hirst, volume                     45), 2020, xx+98 pp; paperback, ISBN 978-1-68173-795-9, $49.95; ebook,                     ISBN 978-1-68173-796-6, $39.96; hardcover, $69.95;                     doi:10.2200/S00994ED1V01Y202002HLT045",
+     "year": 2021,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli_r_00388",
+     "authors": "Edwin D. Simpson"
+    },
+    {
+     "title": "Eliciting and Improving the Causal Reasoning Abilities of Large Language Models with Conditional Statements",
+     "year": 2025,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli_a_00548",
+     "authors": "Xiao Liu, Da Yin, Chen Zhang, Dongyan Zhao, Yansong Feng"
+    },
+    {
+     "title": "The Mechanism behind Understanding Anaphoric\n                    <i>One</i>\n                    and Noun Phrase Ellipsis: How Language Models Work",
+     "year": 2026,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli.a.626",
+     "authors": "Nayoun Kim, JinYeong Bak, Yunyan Duan, Ziying Li, Sanskriti, Kwangsu Kim"
+    },
+    {
+     "title": "Measuring Attribution in Natural Language Generation Models",
+     "year": 2023,
+     "venue": "Computational Linguistics",
+     "citationCount": 10,
+     "doi": "10.1162/coli_a_00490",
+     "authors": "Hannah Rashkin, Vitaly Nikolaev, Matthew Lamm, Lora Aroyo, Michael Collins, Dipanjan Das"
+    },
+    {
+     "title": "Measuring Attribution in Natural Language Generation Models",
+     "year": 2023,
+     "venue": "Computational Linguistics",
+     "citationCount": 59,
+     "doi": "10.1162/coli_a_00486",
+     "authors": "Hannah Rashkin, Vitaly Nikolaev, Matthew Lamm, Lora Aroyo, Michael Collins, Dipanjan Das"
+    },
+    {
+     "title": "Using Large Language Models in Formalizing Classical Linguistic Descriptions: A Case Study in Middle Indo-Aryan Sound Change",
+     "year": 2026,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli.a.650",
+     "authors": "V. S. D. S. Mahesh Akavarapu, Chinmay Dharurkar, Johannes Dellert, Arnab Bhattacharya, Gerhard Jäger"
+    },
+    {
+     "title": "Bias and Fairness in Large Language Models: A Survey",
+     "year": 2024,
+     "venue": "Computational Linguistics",
+     "citationCount": 691,
+     "doi": "10.1162/coli_a_00524",
+     "authors": "Isabel O. Gallegos, Ryan A. Rossi, Joe Barrow, Md Mehrab Tanjim, Sungchul Kim, Franck Dernoncourt"
+    },
+    {
+     "title": "Survey of Cultural Awareness in Language Models: Text and Beyond",
+     "year": 2025,
+     "venue": "Computational Linguistics",
+     "citationCount": 37,
+     "doi": "10.1162/coli.a.14",
+     "authors": "Siddhesh Pawar, Junyeong Park, Jiho Jin, Arnav Arora, Junho Myung, Srishti Yadav"
+    },
+    {
+     "title": "How Is a “Kitchen Chair” like a “Farm\n                    Horse”? Exploring the Representation of Noun-Noun Compound Semantics in\n                    Transformer-based Language Models",
+     "year": 2024,
+     "venue": "Computational Linguistics",
+     "citationCount": 4,
+     "doi": "10.1162/coli_a_00495",
+     "authors": "Mark Ormerod, Jesús Martínez del Rincón, Barry Devereux"
+    },
+    {
+     "title": "Towards Faithful Model Explanation in NLP: A Survey",
+     "year": 2024,
+     "venue": "Computational Linguistics",
+     "citationCount": 105,
+     "doi": "10.1162/coli_a_00511",
+     "authors": "Qing Lyu, Marianna Apidianaki, Chris Callison-Burch"
+    },
+    {
+     "title": "Dual Attention Model for Citation Recommendation with Analyses on Explainability of Attention Mechanisms and Qualitative Experiments",
+     "year": 2022,
+     "venue": "Computational Linguistics",
+     "citationCount": 5,
+     "doi": "10.1162/coli_a_00438",
+     "authors": "Yang Zhang, Qiang Ma"
+    },
+    {
+     "title": "Revise and Resubmit: An Intertextual Model of Text-based Collaboration in Peer Review",
+     "year": 2022,
+     "venue": "Computational Linguistics",
+     "citationCount": 8,
+     "doi": "10.1162/coli_a_00455",
+     "authors": "Ilia Kuznetsov, Jan Buchmann, Max Eichler, Iryna Gurevych"
+    },
+    {
+     "title": "Depth-Bounded Statistical PCFG Induction as a Model of Human Grammar Acquisition",
+     "year": 2021,
+     "venue": "Computational Linguistics",
+     "citationCount": 4,
+     "doi": "10.1162/coli_a_00399",
+     "authors": "Lifeng Jin, Lane Schwartz, Finale Doshi-Velez, Timothy Miller, William Schuler"
+    },
+    {
+     "title": "🧜Siren’s Song in the AI Ocean: A Survey on Hallucination in Large Language Models",
+     "year": 2025,
+     "venue": "Computational Linguistics",
+     "citationCount": 253,
+     "doi": "10.1162/coli.a.16",
+     "authors": "Yue Zhang, Yafu Li, Leyang Cui, Deng Cai, Lemao Liu, Tingchen Fu"
+    },
+    {
+     "title": "<i>Deep Learning Approaches to Text                         Production</i>. By Shashi Narayan and Claire Gardent (University                     of Edinburgh; CNRS/LORIA, Nancy). Morgan                     &amp; Claypool (Synthesis Lectures on Human Language                         Technologies, edited by Graeme Hirst, volume                     43), 2020, xxvi+175 pp; paperback, ISBN 978-1-68173-758-4, $79.95; ebook,                     ISBN 978-1-68173-759-1, $63.96; hardcover, ISBN 978-1-68173-760-7,                     $99.95; doi:10.2200/S00979ED1V01Y201912HLT044",
+     "year": 2021,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli_r_00389",
+     "authors": "Yue Zhang"
+    }
+   ]
+  },
+  "multimodal agent": {
+   "total": 1636,
+   "kept": 2,
+   "papers": [
+    {
+     "title": "Do Multimodal Large Language Models and Humans Ground Language Similarly?",
+     "year": 2024,
+     "venue": "Computational Linguistics",
+     "citationCount": 7,
+     "doi": "10.1162/coli_a_00531",
+     "authors": "Cameron R. Jones, Benjamin Bergen, Sean Trott"
+    },
+    {
+     "title": "Multimodal OXYmorons: A Comprehensive Introduction and Computational Analysis Using a Dataset of Oxymoronic Memes in Italian and Spanish",
+     "year": 2026,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli.a.586",
+     "authors": "Eliana Di Palma, Giulia Rizzi, Francesca Masini, Paolo Rosso, Elisabetta Fersini"
+    }
+   ]
+  },
+  "on-device inference": {
+   "total": 923,
+   "kept": 2,
+   "papers": [
+    {
+     "title": "Variational Deep Logic Network for Joint Inference of Entities and Relations",
+     "year": 2021,
+     "venue": "Computational Linguistics",
+     "citationCount": 4,
+     "doi": "10.1162/coli_a_00415",
+     "authors": "Wenya Wang, Sinno Jialin Pan"
+    },
+    {
+     "title": "A Survey of Test-time Compute: From Intuitive Inference to Deliberate Reasoning",
+     "year": 2026,
+     "venue": "Computational Linguistics",
+     "citationCount": 2,
+     "doi": "10.1162/coli.a.629",
+     "authors": "Yixin Ji, Juntao Li, Yang Xiang, Hai Ye, Kaixin Wu, Kai Yao"
+    }
+   ]
+  },
+  "emotion recognition": {
+   "total": 1997,
+   "kept": 3,
+   "papers": [
+    {
+     "title": "Ethics Sheet for Automatic Emotion Recognition and Sentiment Analysis",
+     "year": 2022,
+     "venue": "Computational Linguistics",
+     "citationCount": 88,
+     "doi": "10.1162/coli_a_00433",
+     "authors": "Saif M. Mohammad"
+    },
+    {
+     "title": "Perception of Phonological Assimilation by Neural Speech Recognition Models",
+     "year": 2024,
+     "venue": "Computational Linguistics",
+     "citationCount": 4,
+     "doi": "10.1162/coli_a_00526",
+     "authors": "Charlotte Pouw, Marianne de Heer Kloots, Afra Alishahi, Willem Zuidema"
+    },
+    {
+     "title": "Interpretability Analysis for Named Entity Recognition to Understand System Predictions and How They Can Improve",
+     "year": 2021,
+     "venue": "Computational Linguistics",
+     "citationCount": 20,
+     "doi": "10.1162/coli_a_00397",
+     "authors": "Oshin Agarwal, Yinfei Yang, Byron C. Wallace, Ani Nenkova"
+    }
+   ]
+  },
+  "paralinguistic": {
+   "total": 5,
+   "kept": 0,
+   "papers": []
+  },
+  "neural codec": {
+   "total": 5002,
+   "kept": 13,
+   "papers": [
+    {
+     "title": "Hierarchical Interpretation of Neural Text Classification",
+     "year": 2022,
+     "venue": "Computational Linguistics",
+     "citationCount": 13,
+     "doi": "10.1162/coli_a_00459",
+     "authors": "Hanqi Yan, Lin Gui, Yulan He"
+    },
+    {
+     "title": "Supervised and Unsupervised Neural Approaches to Text Readability",
+     "year": 2021,
+     "venue": "Computational Linguistics",
+     "citationCount": 79,
+     "doi": "10.1162/coli_a_00398",
+     "authors": "Matej Martinc, Senja Pollak, Marko Robnik-Šikonja"
+    },
+    {
+     "title": "Neural Semantic Parsing with Extremely Rich Symbolic Meaning Representations",
+     "year": 2025,
+     "venue": "Computational Linguistics",
+     "citationCount": 10,
+     "doi": "10.1162/coli_a_00542",
+     "authors": "Xiao Zhang, Gosse Bouma, Johan Bos"
+    },
+    {
+     "title": "Syntax Role for Neural Semantic Role Labeling",
+     "year": 2021,
+     "venue": "Computational Linguistics",
+     "citationCount": 9,
+     "doi": "10.1162/coli_a_00408",
+     "authors": "Zuchao Li, Hai Zhao, Shexia He, Jiaxun Cai"
+    },
+    {
+     "title": "Neural Embedding Allocation: Distributed Representations of Topic Models",
+     "year": 2022,
+     "venue": "Computational Linguistics",
+     "citationCount": 5,
+     "doi": "10.1162/coli_a_00457",
+     "authors": "Kamrun Naher Keya, Yannis Papanikolaou, James R. Foulds"
+    },
+    {
+     "title": "How to Evaluate Speech Translation with Source-Aware Neural MT Metrics",
+     "year": 2026,
+     "venue": "Computational Linguistics",
+     "citationCount": 0,
+     "doi": "10.1162/coli.a.627",
+     "authors": "Mauro Cettolo, Marco Gaido, Matteo Negri, Sara Papi, Luisa Bentivogli"
+    },
+    {
+     "title": "Sequence-Level Training for Non-Autoregressive Neural Machine Translation",
+     "year": 2021,
+     "venue": "Computational Linguistics",
+     "citationCount": 14,
+     "doi": "10.1162/coli_a_00421",
+     "authors": "Chenze Shao, Yang Feng, Jinchao Zhang, Fandong Meng, Jie Zhou"
+    },
+    {
+     "title": "Perception of Phonological Assimilation by Neural Speech Recognition Models",
+     "year": 2024,
+     "venue": "Computational Linguistics",
+     "citationCount": 4,
+     "doi": "10.1162/coli_a_00526",
+     "authors": "Charlotte Pouw, Marianne de Heer Kloots, Afra Alishahi, Willem Zuidema"
+    },
+    {
+     "title": "It Takes Two Flints to Make a Fire: Multitask Learning of Neural Relation and Explanation Classifiers",
+     "year": 2023,
+     "venue": "Computational Linguistics",
+     "citationCount": 3,
+     "doi": "10.1162/coli_a_00463",
+     "authors": "Zheng Tang, Mihai Surdeanu"
+    },
+    {
+     "title": "Effective Approaches to Neural Query Language Identification",
+     "year": 2022,
+     "venue": "Computational Linguistics",
+     "citationCount": 1,
+     "doi": "10.1162/coli_a_00451",
+     "authors": "Xingzhang Ren, Baosong Yang, Dayiheng Liu, Haibo Zhang, Xiaoyu Lv, Liang Yao"
+    },
+    {
+     "title": "Challenges of Neural Machine Translation for Short Texts",
+     "year": 2022,
+     "venue": "Computational Linguistics",
+     "citationCount": 25,
+     "doi": "10.1162/coli_a_00435",
+     "authors": "Yu Wan, Baosong Yang, Derek Fai Wong, Lidia Sam Chao, Liang Yao, Haibo Zhang"
+    },
+    {
+     "title": "Rethinking the Exploitation of Monolingual Data for Low-Resource\n                    Neural Machine Translation",
+     "year": 2024,
+     "venue": "Computational Linguistics",
+     "citationCount": 8,
+     "doi": "10.1162/coli_a_00496",
+     "authors": "Jianhui Pang, Baosong Yang*, Derek Fai Wong*, Yu Wan, Dayiheng Liu, Lidia Sam Chao"
+    },
+    {
+     "title": "Neural Data-to-Text Generation Based on Small Datasets: Comparing the Added Value of Two Semi-Supervised Learning Approaches on Top of a Large Language Model",
+     "year": 2023,
+     "venue": "Computational Linguistics",
+     "citationCount": 1,
+     "doi": "10.1162/coli_a_00484",
+     "authors": "Chris van der Lee, Thiago Castro Ferreira, Chris Emmery, Travis J. Wiltshire, Emiel Krahmer"
+    }
+   ]
+  }
+ }
+}

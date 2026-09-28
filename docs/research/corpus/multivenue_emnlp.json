@@ -1,0 +1,66 @@
+{
+ "venue": "EMNLP",
+ "category": "nlp",
+ "canonical_venue_string": "EMNLP",
+ "wave": "A",
+ "generated_at": "2026-09-29 00:49:33",
+ "topics": [
+  "LLM agent tool use",
+  "agent memory",
+  "audio language model",
+  "multimodal agent",
+  "on-device inference",
+  "emotion recognition",
+  "paralinguistic",
+  "neural codec"
+ ],
+ "request_budget": {
+  "successful": 118,
+  "limit": 300,
+  "attempts": 8
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "LLM agent tool use": {
+   "total": 336,
+   "kept": 0,
+   "papers": []
+  },
+  "agent memory": {
+   "total": 96,
+   "kept": 0,
+   "papers": []
+  },
+  "audio language model": {
+   "total": 1254,
+   "kept": 0,
+   "papers": []
+  },
+  "multimodal agent": {
+   "total": 228,
+   "kept": 0,
+   "papers": []
+  },
+  "on-device inference": {
+   "total": 64,
+   "kept": 0,
+   "papers": []
+  },
+  "emotion recognition": {
+   "total": 105,
+   "kept": 0,
+   "papers": []
+  },
+  "paralinguistic": {
+   "total": 1,
+   "kept": 0,
+   "papers": []
+  },
+  "neural codec": {
+   "total": 94,
+   "kept": 0,
+   "papers": []
+  }
+ }
+}

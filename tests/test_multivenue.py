@@ -315,7 +315,8 @@ class TestHarvest(unittest.TestCase):
                  mock.patch.object(crawl_multivenue, "s2_fetch", fake_fetch), \
                  mock.patch.object(crawl_multivenue, "Pacer"):
                 rc = crawl_multivenue.run_wave("A", None, limit_requests=1,
-                                               dry_run=False, wall_s=600)
+                                               dry_run=False, wall_s=600,
+                                               backend="s2")
                 self.assertEqual(rc, 0)
                 observed = crawl_multivenue._load_observed()
         self.assertEqual(observed.get("Some Neighbor Venue"), 2)
@@ -376,3 +377,69 @@ class TestRetryPacing(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestCrossrefBackend(unittest.TestCase):
+    """Crossref 后端（S2 未认证池死亡后的已裁决替代路线）。"""
+
+    def test_crossref_query_url_shape(self):
+        from scripts.crawl_multivenue import crossref_query
+        url = crossref_query("IEEE Spoken Language Technology Workshop",
+                             "speech enhancement", journal=False)
+        self.assertIn("api.crossref.org/works", url)
+        self.assertIn("query=speech+enhancement", url)
+        self.assertIn("type:proceedings-article", url)
+        self.assertIn("from-pub-date:2021-01-01", url)
+        self.assertNotIn("type:journal-article", url)
+        urlj = crossref_query("IEEE/ACM Transactions on Audio, Speech, and Language Processing",
+                              "speech enhancement", journal=True)
+        self.assertIn("type:journal-article", urlj)
+        self.assertNotIn("type:proceedings-article", urlj)
+
+    def test_crossref_items_to_papers_mapping_and_filter(self):
+        from scripts.crawl_multivenue import crossref_papers
+        obj = {"message": {"items": [
+            {"title": ["Good Paper"], "DOI": "10.1/x",
+             "container-title": ["IEEE Spoken Language Technology Workshop"],
+             "issued": {"date-parts": [[2023, 5]]},
+             "is-referenced-by-count": 7,
+             "author": [{"given": "A", "family": "B"}]},
+            {"title": ["Wrong Venue"], "DOI": "10.1/y",
+             "container-title": ["Some Other Conference"],
+             "issued": {"date-parts": [[2023]]}, "is-referenced-by-count": 1},
+            {"title": ["Too Old"], "DOI": "10.1/z",
+             "container-title": ["IEEE Spoken Language Technology Workshop"],
+             "issued": {"date-parts": [[2019]]}, "is-referenced-by-count": 1},
+        ]}}
+        papers = crossref_papers(obj, "SLT")
+        self.assertEqual(len(papers), 1)
+        p = papers[0]
+        self.assertEqual(p["title"], "Good Paper")
+        self.assertEqual(p["year"], 2023)
+        self.assertEqual(p["venue"], "IEEE Spoken Language Technology Workshop")
+        self.assertEqual(p["citationCount"], 7)
+        self.assertEqual(p["doi"], "10.1/x")
+        self.assertEqual(p["authors"], "A B")
+        self.assertNotIn("abstract", p)  # select 未取摘要则缺省不编造
+
+    def test_crossref_journal_alias_matches(self):
+        from scripts.crawl_multivenue import crossref_papers
+        obj = {"message": {"items": [
+            {"title": ["J"], "DOI": "10.1/j",
+             "container-title": ["IEEE/ACM Transactions on Audio, Speech, and Language Processing"],
+             "issued": {"date-parts": [[2022]]}},
+        ]}}
+        papers = crossref_papers(obj, "TASLP")
+        self.assertEqual(len(papers), 1)
+
+    def test_crossref_year_prefixed_container_matches(self):
+        """真实 Crossref container-title 常带年份前缀（如 '2024 IEEE ... (SLT)'）——
+        剥离前导年份后必须仍能命中别名集。"""
+        from scripts.crawl_multivenue import crossref_papers
+        obj = {"message": {"items": [
+            {"title": ["P"], "DOI": "10.1/p",
+             "container-title": ["2024 IEEE Spoken Language Technology Workshop (SLT)"],
+             "issued": {"date-parts": [[2024]]}},
+        ]}}
+        papers = crossref_papers(obj, "SLT")
+        self.assertEqual(len(papers), 1)

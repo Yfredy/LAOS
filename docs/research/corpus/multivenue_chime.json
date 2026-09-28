@@ -1,0 +1,120 @@
+{
+ "venue": "CHiME",
+ "category": "speech_adj",
+ "canonical_venue_string": "CHiME",
+ "wave": "A",
+ "generated_at": "2026-09-29 00:45:55",
+ "topics": [
+  "speech enhancement",
+  "speaker diarization",
+  "keyword spotting",
+  "neural codec",
+  "text to speech",
+  "sound event detection",
+  "self-supervised speech",
+  "streaming speech recognition",
+  "speech language model",
+  "paralinguistic",
+  "emotion recognition",
+  "voice activity detection",
+  "LLM agent tool use",
+  "agent memory",
+  "audio language model",
+  "multimodal agent",
+  "on-device inference"
+ ],
+ "request_budget": {
+  "successful": 68,
+  "limit": 300,
+  "attempts": 17
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "speech enhancement": {
+   "total": 47,
+   "kept": 0,
+   "papers": []
+  },
+  "speaker diarization": {
+   "total": 8,
+   "kept": 0,
+   "papers": []
+  },
+  "keyword spotting": {
+   "total": 0,
+   "kept": 0,
+   "papers": []
+  },
+  "neural codec": {
+   "total": 0,
+   "kept": 0,
+   "papers": []
+  },
+  "text to speech": {
+   "total": 47,
+   "kept": 0,
+   "papers": []
+  },
+  "sound event detection": {
+   "total": 1,
+   "kept": 0,
+   "papers": []
+  },
+  "self-supervised speech": {
+   "total": 47,
+   "kept": 0,
+   "papers": []
+  },
+  "streaming speech recognition": {
+   "total": 47,
+   "kept": 0,
+   "papers": []
+  },
+  "speech language model": {
+   "total": 47,
+   "kept": 0,
+   "papers": []
+  },
+  "paralinguistic": {
+   "total": 0,
+   "kept": 0,
+   "papers": []
+  },
+  "emotion recognition": {
+   "total": 15,
+   "kept": 0,
+   "papers": []
+  },
+  "voice activity detection": {
+   "total": 1,
+   "kept": 0,
+   "papers": []
+  },
+  "LLM agent tool use": {
+   "total": 0,
+   "kept": 0,
+   "papers": []
+  },
+  "agent memory": {
+   "total": 0,
+   "kept": 0,
+   "papers": []
+  },
+  "audio language model": {
+   "total": 2,
+   "kept": 0,
+   "papers": []
+  },
+  "multimodal agent": {
+   "total": 0,
+   "kept": 0,
+   "papers": []
+  },
+  "on-device inference": {
+   "total": 0,
+   "kept": 0,
+   "papers": []
+  }
+ }
+}

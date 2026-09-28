@@ -1,0 +1,3502 @@
+{
+ "venue": "WASPAA",
+ "category": "speech_adj",
+ "canonical_venue_string": "IEEE Workshop on Applications of Signal Processing to Audio and Acoustics",
+ "wave": "A",
+ "generated_at": "2026-09-29 00:45:19",
+ "topics": [
+  "speech enhancement",
+  "speaker diarization",
+  "keyword spotting",
+  "neural codec",
+  "text to speech",
+  "sound event detection",
+  "self-supervised speech",
+  "streaming speech recognition",
+  "speech language model",
+  "paralinguistic",
+  "emotion recognition",
+  "voice activity detection",
+  "LLM agent tool use",
+  "agent memory",
+  "audio language model",
+  "multimodal agent",
+  "on-device inference"
+ ],
+ "request_budget": {
+  "successful": 51,
+  "limit": 300,
+  "attempts": 17
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "speech enhancement": {
+   "total": 29482,
+   "kept": 54,
+   "papers": [
+    {
+     "title": "The Effect of Spoken Language on Speech Enhancement Using Self-Supervised Speech Representation Loss Functions",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa58266.2023.10248166",
+     "authors": "George Close, Thomas Hain, Stefan Goetze"
+    },
+    {
+     "title": "Flexible Multichannel Speech Enhancement for Noise-Robust Frontend",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa58266.2023.10248134",
+     "authors": "Ante Jukić, Jagadeesh Balam, Boris Ginsburg"
+    },
+    {
+     "title": "Distributed Asynchronous Device Speech Enhancement via Windowed Cross-Attention",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230972",
+     "authors": "Gene-Ping Yang, Sebastian Braun"
+    },
+    {
+     "title": "Robust One-step Speech Enhancement via Consistency Distillation",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa66052.2025.11230988",
+     "authors": "Liang Xu, Longfei Felix Yan, W. Bastiaan Kleijn"
+    },
+    {
+     "title": "Adaptive Slimming for Scalable and Efficient Speech Enhancement",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230950",
+     "authors": "Riccardo Miccini, Minje Kim, Clément Laroche, Luca Pezzarossa, Paris Smaragdis"
+    },
+    {
+     "title": "Zero-Shot Personalized Speech Enhancement Through Speaker-Informed Model Selection",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 9,
+     "doi": "10.1109/waspaa52581.2021.9632752",
+     "authors": "Aswin Sivaraman, Minje Kim"
+    },
+    {
+     "title": "Schrödinger Bridge Consistency Trajectory Models for Speech Enhancement",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11231011",
+     "authors": "Shuichiro Nishigori, Koichi Saito, Naoki Murata, Masato Hirano, Shusuke Takahashi, Yuki Mitsufuji"
+    },
+    {
+     "title": "Disentanglement Learning for Variational Autoencoders Applied to Audio-Visual Speech Enhancement",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 13,
+     "doi": "10.1109/waspaa52581.2021.9632676",
+     "authors": "Guillaume Carbajal, Julius Richter, Timo Gerkmann"
+    },
+    {
+     "title": "Separate But Together: Unsupervised Federated Learning for Speech Enhancement from Non-IID Data",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 12,
+     "doi": "10.1109/waspaa52581.2021.9632783",
+     "authors": "Efthymios Tzinis, Jonah Casebeer, Zhepei Wang, Paris Smaragdis"
+    },
+    {
+     "title": "HiFi-GAN-2: Studio-Quality Speech Enhancement via Generative Adversarial Networks Conditioned on Acoustic Features",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 53,
+     "doi": "10.1109/waspaa52581.2021.9632770",
+     "authors": "Jiaqi Su, Zeyu Jin, Adam Finkelstein"
+    },
+    {
+     "title": "Test-Time Adaptation Toward Personalized Speech Enhancement: Zero-Shot Learning with Knowledge Distillation",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 21,
+     "doi": "10.1109/waspaa52581.2021.9632771",
+     "authors": "Sunwoo Kim, Minje Kim"
+    },
+    {
+     "title": "Multichannel Subband-Fullband Gated Convolutional Recurrent Neural Network for Direction-Based Speech Enhancement with Head-Mounted Microphone Arrays",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa58266.2023.10248181",
+     "authors": "Benjamin Stahl, Alois Sontacchi"
+    },
+    {
+     "title": "Closing the Gap Between Time-Domain Multi-Channel Speech Enhancement on Real and Simulation Conditions",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 14,
+     "doi": "10.1109/waspaa52581.2021.9632720",
+     "authors": "Wangyou Zhang, Jing Shi, Chenda Li, Shinji Watanabe, Yanmin Qian"
+    },
+    {
+     "title": "Long-Context Modeling Networks for Monaural Speech Enhancement: A Comparative Study",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230983",
+     "authors": "Qiquan Zhang, Moran Chen, Zeyang Song, Hexin Liu, Xiangyu Zhang, Haizhou Li"
+    },
+    {
+     "title": "SEFGAN: Harvesting the Power of Normalizing Flows and GANs for Efficient High-Quality Speech Enhancement",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 6,
+     "doi": "10.1109/waspaa58266.2023.10248144",
+     "authors": "Martin Strauss, Nicola Pia, Nagashree K. S. Rao, Bernd Edler"
+    },
+    {
+     "title": "EffDiffSE: Efficient Diffusion-Based Frequency-Domain Speech Enhancement with Hybrid Discriminative and Generative DNNs",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11231015",
+     "authors": "Yihui Fu, Renzheng Shi, Marvin Sach, Wouter Tirry, Tim Fingscheidt"
+    },
+    {
+     "title": "Low Bit Rate Binaural Link for Improved Ultra Low-Latency Low-Complexity Multichannel Speech Enhancement in Hearing Aids",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 9,
+     "doi": "10.1109/waspaa58266.2023.10248154",
+     "authors": "Nils L. Westhausen, Bernd T. Meyer"
+    },
+    {
+     "title": "An Objective Evaluation of Hearing AIDS and DNN-Based Binaural Speech Enhancement in Complex Acoustic Scenes",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 6,
+     "doi": "10.1109/waspaa58266.2023.10248112",
+     "authors": "Enric Gusó, Joanna Luberadzka, Martí Baig, Umut Sayin, Xavier Serra"
+    },
+    {
+     "title": "DF-Conformer: Integrated Architecture of Conv-Tasnet and Conformer Using Linear Complexity Self-Attention for Speech Enhancement",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 33,
+     "doi": "10.1109/waspaa52581.2021.9632794",
+     "authors": "Yuma Koizumi, Shigeki Karita, Scott Wisdom, Hakan Erdogan, John R. Hershey, Llion Jones"
+    },
+    {
+     "title": "Unveiling the Best Practices for Applying Speech Foundation Models to Speech Intelligibility Prediction for Hearing-Impaired People",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 3,
+     "doi": "10.1109/waspaa66052.2025.11230944",
+     "authors": "Haoshuai Zhou, Boxuan Cao, Changgeng Mo, Linkai Li, Shan Xiang Wang"
+    },
+    {
+     "title": "Miipher: A Robust Speech Restoration Model Integrating Self-Supervised Speech and Text Representations",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 26,
+     "doi": "10.1109/waspaa58266.2023.10248089",
+     "authors": "Yuma Koizumi, Heiga Zen, Shigeki Karita, Yifan Ding, Kohei Yatabe, Nobuyuki Morioka"
+    },
+    {
+     "title": "Convolutive Prediction for Reverberant Speech Separation",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 10,
+     "doi": "10.1109/waspaa52581.2021.9632667",
+     "authors": "Zhong-Qiu Wang, Gordon Wichern, Jonathan Le Roux"
+    },
+    {
+     "title": "RADE: A Neural Codec for Transmitting Speech over HF Radio Channels",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230928",
+     "authors": "David Rowe, Jean-Marc Valin"
+    },
+    {
+     "title": "Quaternion Anti-Transfer Learning for Speech Emotion Recognition",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa58266.2023.10248082",
+     "authors": "Eric Guizzo, Tillman Weyde, Giacomo Tarroni, Danilo Comminiello"
+    },
+    {
+     "title": "Modeling Multi-Level Hearing Loss for Speech Intelligibility Prediction",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230956",
+     "authors": "Xiajie Zhou, Candy Olivia Mawalim, Masashi Unoki"
+    },
+    {
+     "title": "Analysis of XLS-R for Speech Quality Assessment",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 6,
+     "doi": "10.1109/waspaa58266.2023.10248049",
+     "authors": "Bastiaan Tamm, Rik Vandenberghe, Hugo Van Hamme"
+    },
+    {
+     "title": "A lightweight and robust method for blind wideband-to-fullband extension of speech",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230955",
+     "authors": "Jan Büthe, Jean-Marc Valin"
+    },
+    {
+     "title": "Speech Intelligibility of Mandarin- and German-Speaking Listeners in Challenging Conditions",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa52581.2021.9632765",
+     "authors": "Hongmei Hu, Stephan D. Ewert"
+    },
+    {
+     "title": "Slim-Tasnet: A Slimmable Neural Network for Speech Separation",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 9,
+     "doi": "10.1109/waspaa58266.2023.10248143",
+     "authors": "Mohamed Elminshawi, Srikanth Raj Chetupalli, Emanuël A. P. Habets"
+    },
+    {
+     "title": "Multi-Utterance Speech Separation and Association Trained on Short Segments",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230969",
+     "authors": "Yuzhu Wang, Archontis Politis, Konstantinos Drossos, Tuomas Virtanen"
+    },
+    {
+     "title": "Unsupervised Multi-channel Speech Dereverberation via Diffusion",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11231009",
+     "authors": "Yulun Wu, Zhongweiyang Xu, Jianchong Chen, Zhong-Qiu Wang, Romit Roy Choudhury"
+    },
+    {
+     "title": "Conditioned Wave-U-Net for Acoustic Matching of Speech in Shared XR Environments",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230991",
+     "authors": "Joanna Luberadzka, Enric Gusó, Umut Sayin"
+    },
+    {
+     "title": "Perceptual Quality Enhancement of Sound Field Synthesis Based on Combination of Pressure and Amplitude Matching",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248106",
+     "authors": "Keisuke Kimura, Shoichi Koyama, Hiroshi Saruwatari"
+    },
+    {
+     "title": "Robust Speech Activity Detection in the Presence of Singing Voice",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230931",
+     "authors": "Philipp Grundhuber, Mhd Modar Halimeh, Martin Strauß, Emanuël A. P. Habets"
+    },
+    {
+     "title": "UBGAN: Enhancing Coded Speech with Blind and Guided Bandwidth Extension",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230926",
+     "authors": "Kishan Gupta, Srikanth Korse, Andreas Brendel, Nicola Pia, Guillaume Fuchs"
+    },
+    {
+     "title": "Contrastive Representation Learning for Privacy-Preserving Fine-Tuning of Audio-Visual Speech Recognition",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230949",
+     "authors": "Luca Becker, Rainer Martin"
+    },
+    {
+     "title": "Lace: A Light-Weight, Causal Model for Enhancing Coded Speech Through Adaptive Convolutions",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 7,
+     "doi": "10.1109/waspaa58266.2023.10248150",
+     "authors": "Jan Büthe, Jean-Marc Valin, Ahmed Mustafa"
+    },
+    {
+     "title": "SIDIQ: Computational Quality Assessment of Enhanced Speech Based on Auditory Figure-Ground Segregation, Similarity, and Disturbance",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa52581.2021.9632786",
+     "authors": "Benjamin Stahl, Alois Sontacchi"
+    },
+    {
+     "title": "Filtered Noise Shaping for Time Domain Room Impulse Response Estimation from Reverberant Speech",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 39,
+     "doi": "10.1109/waspaa52581.2021.9632680",
+     "authors": "Christian J. Steinmetz, Vamsi Krishna Ithapu, Paul Calamia"
+    },
+    {
+     "title": "Masked Frequency Modeling for Improving Packet Loss Concealment in Speech Transmission Systems",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 7,
+     "doi": "10.1109/waspaa58266.2023.10248056",
+     "authors": "Da-Hee Yang, Donghyun Kim, Joon-Hyuk Chang"
+    },
+    {
+     "title": "SLMGAN: Exploiting Speech Language Model Representations for Unsupervised Zero-Shot Voice Conversion in GANs",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248117",
+     "authors": "Yinghao Aaron Li, Cong Han, Nima Mesgarani"
+    },
+    {
+     "title": "Mixed-Delay Distributed Beamforming for Own-Speech Separation in Hearing Devices with Wireless Remote Microphones",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248172",
+     "authors": "Ryan M. Corey"
+    },
+    {
+     "title": "JSQA: Speech Quality Assessment with Perceptually-Inspired Contrastive Pretraining Based on JND Audio Pairs",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230995",
+     "authors": "Junyi Fan, Donald Williamson"
+    },
+    {
+     "title": "AECSQI: Referenceless Acoustic Echo Cancellation Measures Using Speech Quality and Intelligibility Improvement",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248123",
+     "authors": "Jin Woo Lee, Hyeong-Seok Choi, Kyogu Lee"
+    },
+    {
+     "title": "Blind Room Parameter Estimation Using Multiple Multichannel Speech Recordings",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 18,
+     "doi": "10.1109/waspaa52581.2021.9632778",
+     "authors": "Prerak Srivastava, Antoine Deleforge, Emmanuel Vincent"
+    },
+    {
+     "title": "Assessing Segmental Impact for Objective Speech Quality Evaluation",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa52581.2021.9632785",
+     "authors": "Zhixing Liu, Yannan Wang, Gaoxiong Yi, Tao Yu, Fei Chen"
+    },
+    {
+     "title": "ReverbMiipher: Generative Speech Restoration meets Reverberation Characteristics Controllability",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230982",
+     "authors": "Wataru Nakata, Yuma Koizumi, Shigeki Karita, Robin Scheibler, Haruko Ishikawa, Adriana Guevara-Rukoz"
+    },
+    {
+     "title": "Single Channel Speech Presence Probability Estimation based on Hybrid Global-Local Information",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa58266.2023.10248067",
+     "authors": "Shuai Tao, Yang Xiang, Himavanth Reddy, Jesper Rindom Jensen, Mads Græsbøll Christensen"
+    },
+    {
+     "title": "Miipher-2: A Universal Speech Restoration Model for Million-Hour Scale Data Restoration",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 6,
+     "doi": "10.1109/waspaa66052.2025.11230923",
+     "authors": "Shigeki Karita, Yuma Koizumi, Heiga Zen, Haruko Ishikawa, Robin Scheibler, Michiel Bacchiani"
+    },
+    {
+     "title": "A Streamwise Gan Vocoder for Wideband Speech Coding at Very Low Bit Rate",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 19,
+     "doi": "10.1109/waspaa52581.2021.9632750",
+     "authors": "Ahmed Mustafa, Jan Buthe, Srikanth Korse, Kishan Gupta, Guillaume Fuchs, Nicola Pia"
+    },
+    {
+     "title": "Adaptive Sparse Linear Prediction in Fixed-Filter ANC Headphone Applications for Multi-Speaker Speech Reduction",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa58266.2023.10248065",
+     "authors": "Yurii Iotov, Sidsel Marie Nørholm, Valiantsin Belyi, Mads Græsbøll Christensen"
+    },
+    {
+     "title": "Microphone Occlusion Mitigation for Own-Voice Enhancement in Head-Worn Microphone Arrays Using Switching-Adaptive Beamforming",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230992",
+     "authors": "Wiebke Middelberg, Jung-Suk Lee, Saeed Bagheri Sereshki, Ali Aroudi, Vladimir Tourbabin, Daniel D. E. Wong"
+    },
+    {
+     "title": "Exploring the Integration of Speech Separation and Recognition with Self-Supervised Learning Representation",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 8,
+     "doi": "10.1109/waspaa58266.2023.10248096",
+     "authors": "Yoshiki Masuyama, Xuankai Chang, Wangyou Zhang, Samuele Cornell, Zhong-Qiu Wang, Nobutaka Ono"
+    },
+    {
+     "title": "Two Views, One Truth: Spectral and Self-Supervised Features Fusion for Robust Speech Deepfake Detection",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa66052.2025.11230938",
+     "authors": "Yassine El Kheir, Arnab Das, Enes Erdem Erdogan, Fabian Ritter-Guttierez, Tim Polzehl, Sebastian Möller"
+    }
+   ]
+  },
+  "speaker diarization": {
+   "total": 1740,
+   "kept": 7,
+   "papers": [
+    {
+     "title": "TGIF: Talker Group-Informed Familiarization of Target Speaker Extraction",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa66052.2025.11230957",
+     "authors": "Tsun-An Hsieh, Minje Kim"
+    },
+    {
+     "title": "Audio Inputs for Active Speaker Detection and Localization Via Microphone Array",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 3,
+     "doi": "10.1109/waspaa58266.2023.10248185",
+     "authors": "Davide Berghi, Philip J. B. Jackson"
+    },
+    {
+     "title": "Zero-Shot Personalized Speech Enhancement Through Speaker-Informed Model Selection",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 9,
+     "doi": "10.1109/waspaa52581.2021.9632752",
+     "authors": "Aswin Sivaraman, Minje Kim"
+    },
+    {
+     "title": "Single-Channel Speaker Distance Estimation in Reverberant Environments",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 7,
+     "doi": "10.1109/waspaa58266.2023.10248087",
+     "authors": "Michael Neri, Archontis Politis, Daniel Krause, Marco Carli, Tuomas Virtanen"
+    },
+    {
+     "title": "Directional Target Speaker Extraction under Noisy Underdetermined Conditions through Conditional Variational Autoencoder with Global Style Tokens",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248146",
+     "authors": "Rui Wang, Tomoki Toda"
+    },
+    {
+     "title": "Covariance Blocking and Whitening Method for Successive Relative Transfer Function Vector Estimation in Multi-Speaker Scenarios",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa58266.2023.10248149",
+     "authors": "Henri Gode, Simon Doclo"
+    },
+    {
+     "title": "Adaptive Sparse Linear Prediction in Fixed-Filter ANC Headphone Applications for Multi-Speaker Speech Reduction",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa58266.2023.10248065",
+     "authors": "Yurii Iotov, Sidsel Marie Nørholm, Valiantsin Belyi, Mads Græsbøll Christensen"
+    }
+   ]
+  },
+  "keyword spotting": {
+   "total": 647,
+   "kept": 1,
+   "papers": [
+    {
+     "title": "Towards on-Device Keyword Spotting using Low-Footprint Quaternion Neural Models",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa58266.2023.10248052",
+     "authors": "Aryan Chaudhary, Vinayak Abrol"
+    }
+   ]
+  },
+  "neural codec": {
+   "total": 44555,
+   "kept": 17,
+   "papers": [
+    {
+     "title": "RADE: A Neural Codec for Transmitting Speech over HF Radio Channels",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230928",
+     "authors": "David Rowe, Jean-Marc Valin"
+    },
+    {
+     "title": "Combolutional Neural Networks",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11231004",
+     "authors": "Cameron Churchwell, Minje Kim, Paris Smaragdis"
+    },
+    {
+     "title": "Neural Networks for Interference Reduction in Multi-Track Recordings",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa58266.2023.10248133",
+     "authors": "Rajesh R, Padmanabhan Rajan"
+    },
+    {
+     "title": "Towards on-Device Keyword Spotting using Low-Footprint Quaternion Neural Models",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa58266.2023.10248052",
+     "authors": "Aryan Chaudhary, Vinayak Abrol"
+    },
+    {
+     "title": "Neural Audio Decorrelation Using Generative Adversarial Networks",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa58266.2023.10248167",
+     "authors": "Carlotta Anemüller, Oliver Thiergart, Emanuël A. P. Habets"
+    },
+    {
+     "title": "Harp-Net: Hyper-Autoencoded Reconstruction Propagation for Scalable Neural Audio Coding",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 20,
+     "doi": "10.1109/waspaa52581.2021.9632723",
+     "authors": "Darius Petermann, Seungkwon Beack, Minje Kim"
+    },
+    {
+     "title": "Anomalous Sound Detection Using Attentive Neural Processes",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 17,
+     "doi": "10.1109/waspaa52581.2021.9632762",
+     "authors": "Gordon Wichern, Ankush Chakrabarty, Zhong-Qiu Wang, Jonathan Le Roux"
+    },
+    {
+     "title": "Rethinking Non-Negative Matrix Factorization with Implicit Neural Representations",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa66052.2025.11230958",
+     "authors": "Krishna Subramani, Paris Smaragdis, Takuya Higuchi, Mehrez Souden"
+    },
+    {
+     "title": "Physics-Informed Direction-Aware Neural Acoustic Fields",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa66052.2025.11230918",
+     "authors": "Yoshiki Masuyama, François G. Germain, Gordon Wichern, Christopher Ick, Jonathan Le Roux"
+    },
+    {
+     "title": "Fitting Auditory Filterbanks with Multiresolution Neural Networks",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 6,
+     "doi": "10.1109/waspaa58266.2023.10248131",
+     "authors": "Vincent Lostanlen, Daniel Haider, Han Han, Mathieu Lagrange, Peter Balazs, Martin Ehler"
+    },
+    {
+     "title": "Slim-Tasnet: A Slimmable Neural Network for Speech Separation",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 9,
+     "doi": "10.1109/waspaa58266.2023.10248143",
+     "authors": "Mohamed Elminshawi, Srikanth Raj Chetupalli, Emanuël A. P. Habets"
+    },
+    {
+     "title": "Histogram Layer Time Delay Neural Networks for Passive Sonar Classification",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 11,
+     "doi": "10.1109/waspaa58266.2023.10248102",
+     "authors": "Jarin Ritu, Ethan Barnes, Riley Martell, Alexandra Van Dine, Joshua Peeples"
+    },
+    {
+     "title": "Multichannel Subband-Fullband Gated Convolutional Recurrent Neural Network for Direction-Based Speech Enhancement with Head-Mounted Microphone Arrays",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa58266.2023.10248181",
+     "authors": "Benjamin Stahl, Alois Sontacchi"
+    },
+    {
+     "title": "Neural-network based interpolation of late reverberation in coupled spaces using the common slopes model",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa66052.2025.11230987",
+     "authors": "Orchisama Das, Gloria Dal Santo, Sebastian J. Schlecht, Zoran Cvetković"
+    },
+    {
+     "title": "Low-Rank Adaptation of Deep Prior Neural Networks For Room Impulse Response Reconstruction",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa66052.2025.11230985",
+     "authors": "Mirco Pezzoli, Federico Miotello, Shoichi Koyama, Fabio Antonacci"
+    },
+    {
+     "title": "Controlling the Parameterized Multi-channel Wiener Filter using a tiny neural network",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230930",
+     "authors": "Eric Grinstein, Ashutosh Pandey, Cole Li, Shanmukha Srinivas, Juan Azcarreta, Jacob Donley"
+    },
+    {
+     "title": "Perceptual Musical Similarity Metric Learning with Graph Neural Networks",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248151",
+     "authors": "Cyrus Vahidi, Shubhr Singh, Emmanouil Benetos, Huy Phan, Dan Stowell, György Fazekas"
+    }
+   ]
+  },
+  "text to speech": {
+   "total": 31107,
+   "kept": 59,
+   "papers": [
+    {
+     "title": "Miipher: A Robust Speech Restoration Model Integrating Self-Supervised Speech and Text Representations",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 26,
+     "doi": "10.1109/waspaa58266.2023.10248089",
+     "authors": "Yuma Koizumi, Heiga Zen, Shigeki Karita, Yifan Ding, Kohei Yatabe, Nobuyuki Morioka"
+    },
+    {
+     "title": "The Effect of Spoken Language on Speech Enhancement Using Self-Supervised Speech Representation Loss Functions",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa58266.2023.10248166",
+     "authors": "George Close, Thomas Hain, Stefan Goetze"
+    },
+    {
+     "title": "Unveiling the Best Practices for Applying Speech Foundation Models to Speech Intelligibility Prediction for Hearing-Impaired People",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 3,
+     "doi": "10.1109/waspaa66052.2025.11230944",
+     "authors": "Haoshuai Zhou, Boxuan Cao, Changgeng Mo, Linkai Li, Shan Xiang Wang"
+    },
+    {
+     "title": "Flexible Multichannel Speech Enhancement for Noise-Robust Frontend",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa58266.2023.10248134",
+     "authors": "Ante Jukić, Jagadeesh Balam, Boris Ginsburg"
+    },
+    {
+     "title": "Distributed Asynchronous Device Speech Enhancement via Windowed Cross-Attention",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230972",
+     "authors": "Gene-Ping Yang, Sebastian Braun"
+    },
+    {
+     "title": "Convolutive Prediction for Reverberant Speech Separation",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 10,
+     "doi": "10.1109/waspaa52581.2021.9632667",
+     "authors": "Zhong-Qiu Wang, Gordon Wichern, Jonathan Le Roux"
+    },
+    {
+     "title": "Sound event detection with audio-text models and heterogeneous temporal annotations",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230981",
+     "authors": "Manu Harju, Annamaria Mesaros"
+    },
+    {
+     "title": "Robust One-step Speech Enhancement via Consistency Distillation",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa66052.2025.11230988",
+     "authors": "Liang Xu, Longfei Felix Yan, W. Bastiaan Kleijn"
+    },
+    {
+     "title": "RADE: A Neural Codec for Transmitting Speech over HF Radio Channels",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230928",
+     "authors": "David Rowe, Jean-Marc Valin"
+    },
+    {
+     "title": "SynSonic: Augmenting Sound Event Detection through Text-to-Audio Diffusion ControlNet and Effective Sample Filtering",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230980",
+     "authors": "Jiarui Hai, Mounya Elhilali"
+    },
+    {
+     "title": "Quaternion Anti-Transfer Learning for Speech Emotion Recognition",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa58266.2023.10248082",
+     "authors": "Eric Guizzo, Tillman Weyde, Giacomo Tarroni, Danilo Comminiello"
+    },
+    {
+     "title": "Modeling Multi-Level Hearing Loss for Speech Intelligibility Prediction",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230956",
+     "authors": "Xiajie Zhou, Candy Olivia Mawalim, Masashi Unoki"
+    },
+    {
+     "title": "Analysis of XLS-R for Speech Quality Assessment",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 6,
+     "doi": "10.1109/waspaa58266.2023.10248049",
+     "authors": "Bastiaan Tamm, Rik Vandenberghe, Hugo Van Hamme"
+    },
+    {
+     "title": "Speech Intelligibility of Mandarin- and German-Speaking Listeners in Challenging Conditions",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa52581.2021.9632765",
+     "authors": "Hongmei Hu, Stephan D. Ewert"
+    },
+    {
+     "title": "Adaptive Slimming for Scalable and Efficient Speech Enhancement",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230950",
+     "authors": "Riccardo Miccini, Minje Kim, Clément Laroche, Luca Pezzarossa, Paris Smaragdis"
+    },
+    {
+     "title": "A lightweight and robust method for blind wideband-to-fullband extension of speech",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230955",
+     "authors": "Jan Büthe, Jean-Marc Valin"
+    },
+    {
+     "title": "Zero-Shot Personalized Speech Enhancement Through Speaker-Informed Model Selection",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 9,
+     "doi": "10.1109/waspaa52581.2021.9632752",
+     "authors": "Aswin Sivaraman, Minje Kim"
+    },
+    {
+     "title": "Slim-Tasnet: A Slimmable Neural Network for Speech Separation",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 9,
+     "doi": "10.1109/waspaa58266.2023.10248143",
+     "authors": "Mohamed Elminshawi, Srikanth Raj Chetupalli, Emanuël A. P. Habets"
+    },
+    {
+     "title": "Multi-Utterance Speech Separation and Association Trained on Short Segments",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230969",
+     "authors": "Yuzhu Wang, Archontis Politis, Konstantinos Drossos, Tuomas Virtanen"
+    },
+    {
+     "title": "Conditioned Wave-U-Net for Acoustic Matching of Speech in Shared XR Environments",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230991",
+     "authors": "Joanna Luberadzka, Enric Gusó, Umut Sayin"
+    },
+    {
+     "title": "Unsupervised Multi-channel Speech Dereverberation via Diffusion",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11231009",
+     "authors": "Yulun Wu, Zhongweiyang Xu, Jianchong Chen, Zhong-Qiu Wang, Romit Roy Choudhury"
+    },
+    {
+     "title": "Schrödinger Bridge Consistency Trajectory Models for Speech Enhancement",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11231011",
+     "authors": "Shuichiro Nishigori, Koichi Saito, Naoki Murata, Masato Hirano, Shusuke Takahashi, Yuki Mitsufuji"
+    },
+    {
+     "title": "Robust Speech Activity Detection in the Presence of Singing Voice",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230931",
+     "authors": "Philipp Grundhuber, Mhd Modar Halimeh, Martin Strauß, Emanuël A. P. Habets"
+    },
+    {
+     "title": "Diffused Responsibility: Analyzing the Energy Consumption of Generative Text-to-Audio Diffusion Models",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230979",
+     "authors": "Riccardo Passoni, Francesca Ronchini, Luca Comanducci, Romain Serizel, Fabio Antonacci"
+    },
+    {
+     "title": "UBGAN: Enhancing Coded Speech with Blind and Guided Bandwidth Extension",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230926",
+     "authors": "Kishan Gupta, Srikanth Korse, Andreas Brendel, Nicola Pia, Guillaume Fuchs"
+    },
+    {
+     "title": "Unsupervised Improvement of Audio-Text Cross-Modal Representations",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248180",
+     "authors": "Zhepei Wang, Cem Subakan, Krishna Subramani, Junkai Wu, Tiago Tavares, Fabio Ayres"
+    },
+    {
+     "title": "Contrastive Representation Learning for Privacy-Preserving Fine-Tuning of Audio-Visual Speech Recognition",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230949",
+     "authors": "Luca Becker, Rainer Martin"
+    },
+    {
+     "title": "Lace: A Light-Weight, Causal Model for Enhancing Coded Speech Through Adaptive Convolutions",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 7,
+     "doi": "10.1109/waspaa58266.2023.10248150",
+     "authors": "Jan Büthe, Jean-Marc Valin, Ahmed Mustafa"
+    },
+    {
+     "title": "SILA: Signal-to-Language Augmentation for Enhanced Control in Text-to-Audio Generation",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa66052.2025.11230964",
+     "authors": "Sonal Kumar, Prem Seetharaman, Justin Salamon, Dinesh Manocha, Oriol Nieto"
+    },
+    {
+     "title": "SIDIQ: Computational Quality Assessment of Enhanced Speech Based on Auditory Figure-Ground Segregation, Similarity, and Disturbance",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa52581.2021.9632786",
+     "authors": "Benjamin Stahl, Alois Sontacchi"
+    },
+    {
+     "title": "Disentanglement Learning for Variational Autoencoders Applied to Audio-Visual Speech Enhancement",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 13,
+     "doi": "10.1109/waspaa52581.2021.9632676",
+     "authors": "Guillaume Carbajal, Julius Richter, Timo Gerkmann"
+    },
+    {
+     "title": "Masked Frequency Modeling for Improving Packet Loss Concealment in Speech Transmission Systems",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 7,
+     "doi": "10.1109/waspaa58266.2023.10248056",
+     "authors": "Da-Hee Yang, Donghyun Kim, Joon-Hyuk Chang"
+    },
+    {
+     "title": "Mixed-Delay Distributed Beamforming for Own-Speech Separation in Hearing Devices with Wireless Remote Microphones",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248172",
+     "authors": "Ryan M. Corey"
+    },
+    {
+     "title": "Separate But Together: Unsupervised Federated Learning for Speech Enhancement from Non-IID Data",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 12,
+     "doi": "10.1109/waspaa52581.2021.9632783",
+     "authors": "Efthymios Tzinis, Jonah Casebeer, Zhepei Wang, Paris Smaragdis"
+    },
+    {
+     "title": "HiFi-GAN-2: Studio-Quality Speech Enhancement via Generative Adversarial Networks Conditioned on Acoustic Features",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 53,
+     "doi": "10.1109/waspaa52581.2021.9632770",
+     "authors": "Jiaqi Su, Zeyu Jin, Adam Finkelstein"
+    },
+    {
+     "title": "AECSQI: Referenceless Acoustic Echo Cancellation Measures Using Speech Quality and Intelligibility Improvement",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248123",
+     "authors": "Jin Woo Lee, Hyeong-Seok Choi, Kyogu Lee"
+    },
+    {
+     "title": "Filtered Noise Shaping for Time Domain Room Impulse Response Estimation from Reverberant Speech",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 39,
+     "doi": "10.1109/waspaa52581.2021.9632680",
+     "authors": "Christian J. Steinmetz, Vamsi Krishna Ithapu, Paul Calamia"
+    },
+    {
+     "title": "SLMGAN: Exploiting Speech Language Model Representations for Unsupervised Zero-Shot Voice Conversion in GANs",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248117",
+     "authors": "Yinghao Aaron Li, Cong Han, Nima Mesgarani"
+    },
+    {
+     "title": "Test-Time Adaptation Toward Personalized Speech Enhancement: Zero-Shot Learning with Knowledge Distillation",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 21,
+     "doi": "10.1109/waspaa52581.2021.9632771",
+     "authors": "Sunwoo Kim, Minje Kim"
+    },
+    {
+     "title": "JSQA: Speech Quality Assessment with Perceptually-Inspired Contrastive Pretraining Based on JND Audio Pairs",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230995",
+     "authors": "Junyi Fan, Donald Williamson"
+    },
+    {
+     "title": "Assessing Segmental Impact for Objective Speech Quality Evaluation",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa52581.2021.9632785",
+     "authors": "Zhixing Liu, Yannan Wang, Gaoxiong Yi, Tao Yu, Fei Chen"
+    },
+    {
+     "title": "Blind Room Parameter Estimation Using Multiple Multichannel Speech Recordings",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 18,
+     "doi": "10.1109/waspaa52581.2021.9632778",
+     "authors": "Prerak Srivastava, Antoine Deleforge, Emmanuel Vincent"
+    },
+    {
+     "title": "Multichannel Subband-Fullband Gated Convolutional Recurrent Neural Network for Direction-Based Speech Enhancement with Head-Mounted Microphone Arrays",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa58266.2023.10248181",
+     "authors": "Benjamin Stahl, Alois Sontacchi"
+    },
+    {
+     "title": "ReverbMiipher: Generative Speech Restoration meets Reverberation Characteristics Controllability",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230982",
+     "authors": "Wataru Nakata, Yuma Koizumi, Shigeki Karita, Robin Scheibler, Haruko Ishikawa, Adriana Guevara-Rukoz"
+    },
+    {
+     "title": "Closing the Gap Between Time-Domain Multi-Channel Speech Enhancement on Real and Simulation Conditions",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 14,
+     "doi": "10.1109/waspaa52581.2021.9632720",
+     "authors": "Wangyou Zhang, Jing Shi, Chenda Li, Shinji Watanabe, Yanmin Qian"
+    },
+    {
+     "title": "SEFGAN: Harvesting the Power of Normalizing Flows and GANs for Efficient High-Quality Speech Enhancement",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 6,
+     "doi": "10.1109/waspaa58266.2023.10248144",
+     "authors": "Martin Strauss, Nicola Pia, Nagashree K. S. Rao, Bernd Edler"
+    },
+    {
+     "title": "Single Channel Speech Presence Probability Estimation based on Hybrid Global-Local Information",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa58266.2023.10248067",
+     "authors": "Shuai Tao, Yang Xiang, Himavanth Reddy, Jesper Rindom Jensen, Mads Græsbøll Christensen"
+    },
+    {
+     "title": "Long-Context Modeling Networks for Monaural Speech Enhancement: A Comparative Study",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230983",
+     "authors": "Qiquan Zhang, Moran Chen, Zeyang Song, Hexin Liu, Xiangyu Zhang, Haizhou Li"
+    },
+    {
+     "title": "Miipher-2: A Universal Speech Restoration Model for Million-Hour Scale Data Restoration",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 6,
+     "doi": "10.1109/waspaa66052.2025.11230923",
+     "authors": "Shigeki Karita, Yuma Koizumi, Heiga Zen, Haruko Ishikawa, Robin Scheibler, Michiel Bacchiani"
+    },
+    {
+     "title": "A Streamwise Gan Vocoder for Wideband Speech Coding at Very Low Bit Rate",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 19,
+     "doi": "10.1109/waspaa52581.2021.9632750",
+     "authors": "Ahmed Mustafa, Jan Buthe, Srikanth Korse, Kishan Gupta, Guillaume Fuchs, Nicola Pia"
+    },
+    {
+     "title": "EffDiffSE: Efficient Diffusion-Based Frequency-Domain Speech Enhancement with Hybrid Discriminative and Generative DNNs",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11231015",
+     "authors": "Yihui Fu, Renzheng Shi, Marvin Sach, Wouter Tirry, Tim Fingscheidt"
+    },
+    {
+     "title": "Low Bit Rate Binaural Link for Improved Ultra Low-Latency Low-Complexity Multichannel Speech Enhancement in Hearing Aids",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 9,
+     "doi": "10.1109/waspaa58266.2023.10248154",
+     "authors": "Nils L. Westhausen, Bernd T. Meyer"
+    },
+    {
+     "title": "Adaptive Sparse Linear Prediction in Fixed-Filter ANC Headphone Applications for Multi-Speaker Speech Reduction",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa58266.2023.10248065",
+     "authors": "Yurii Iotov, Sidsel Marie Nørholm, Valiantsin Belyi, Mads Græsbøll Christensen"
+    },
+    {
+     "title": "CLIPSonic: Text-to-Audio Synthesis with Unlabeled Videos and Pretrained Language-Vision Models",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 18,
+     "doi": "10.1109/waspaa58266.2023.10248160",
+     "authors": "Hao-Wen Dong, Xiaoyu Liu, Jordi Pons, Gautam Bhattacharya, Santiago Pascual, Joan Serrà"
+    },
+    {
+     "title": "An Objective Evaluation of Hearing AIDS and DNN-Based Binaural Speech Enhancement in Complex Acoustic Scenes",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 6,
+     "doi": "10.1109/waspaa58266.2023.10248112",
+     "authors": "Enric Gusó, Joanna Luberadzka, Martí Baig, Umut Sayin, Xavier Serra"
+    },
+    {
+     "title": "Two Views, One Truth: Spectral and Self-Supervised Features Fusion for Robust Speech Deepfake Detection",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa66052.2025.11230938",
+     "authors": "Yassine El Kheir, Arnab Das, Enes Erdem Erdogan, Fabian Ritter-Guttierez, Tim Polzehl, Sebastian Möller"
+    },
+    {
+     "title": "Fast Text-to-Audio Generation with Adversarial Post-Training",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 3,
+     "doi": "10.1109/waspaa66052.2025.11230941",
+     "authors": "Zachary Novack, Zach Evans, Zack Zukowski, Josiah Taylor, CJ Carr, Julian Parker"
+    },
+    {
+     "title": "Exploring the Integration of Speech Separation and Recognition with Self-Supervised Learning Representation",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 8,
+     "doi": "10.1109/waspaa58266.2023.10248096",
+     "authors": "Yoshiki Masuyama, Xuankai Chang, Wangyou Zhang, Samuele Cornell, Zhong-Qiu Wang, Nobutaka Ono"
+    },
+    {
+     "title": "DF-Conformer: Integrated Architecture of Conv-Tasnet and Conformer Using Linear Complexity Self-Attention for Speech Enhancement",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 33,
+     "doi": "10.1109/waspaa52581.2021.9632794",
+     "authors": "Yuma Koizumi, Shigeki Karita, Scott Wisdom, Hakan Erdogan, John R. Hershey, Llion Jones"
+    }
+   ]
+  },
+  "sound event detection": {
+   "total": 68291,
+   "kept": 35,
+   "papers": [
+    {
+     "title": "FlexSED: Towards Open-Vocabulary Sound Event Detection",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230975",
+     "authors": "Jiarui Hai, Helin Wang, Weizhe Guo, Mounya Elhilali"
+    },
+    {
+     "title": "Sound Event Detection with Adaptive Frequency Selection",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 3,
+     "doi": "10.1109/waspaa52581.2021.9632798",
+     "authors": "Zhepei Wang, Jonah Casebeer, Adam Clemmitt, Efthymios Tzinis, Paris Smaragdis"
+    },
+    {
+     "title": "Sound event detection with audio-text models and heterogeneous temporal annotations",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230981",
+     "authors": "Manu Harju, Annamaria Mesaros"
+    },
+    {
+     "title": "Crowdsourcing Strong Labels for Sound Event Detection",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 5,
+     "doi": "10.1109/waspaa52581.2021.9632761",
+     "authors": "Irene Martin-Morato, Manu Harju, Annamaria Mesaros"
+    },
+    {
+     "title": "SynSonic: Augmenting Sound Event Detection through Text-to-Audio Diffusion ControlNet and Effective Sample Filtering",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230980",
+     "authors": "Jiarui Hai, Mounya Elhilali"
+    },
+    {
+     "title": "Physically Informed Spatial Regularization for Sound Event Localization and Detection",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230919",
+     "authors": "Haocheng Liu, Diego Di Carlo, Aditya Arie Nugraha, Kazuyoshi Yoshii, Gaël Richard, Mathieu Fontaine"
+    },
+    {
+     "title": "Identifying Actions for Sound Event Classification",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa52581.2021.9632782",
+     "authors": "Benjamin Elizalde, Radu Revutchi, Samarjit Das, Bhiksha Raj, Ian Lane, Laurie M. Heller"
+    },
+    {
+     "title": "Hyperbolic Unsupervised Anomalous Sound Detection",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa58266.2023.10248092",
+     "authors": "François G. Germain, Gordon Wichern, Jonathan Le Roux"
+    },
+    {
+     "title": "Anomalous Sound Detection Using Attentive Neural Processes",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 17,
+     "doi": "10.1109/waspaa52581.2021.9632762",
+     "authors": "Gordon Wichern, Ankush Chakrabarty, Zhong-Qiu Wang, Jonathan Le Roux"
+    },
+    {
+     "title": "Adaptive Generalized Cross-Entropy Loss for Sound Event Classification with Noisy Labels",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 3,
+     "doi": "10.1109/waspaa52581.2021.9632679",
+     "authors": "Jun Deng, Chunhui Gao, Qian Feng, Xinzhou Xu, Zhaopeng Chen"
+    },
+    {
+     "title": "2D Multizone Sound Field Synthesis with Interior-Exterior Ambisonics",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 5,
+     "doi": "10.1109/waspaa52581.2021.9632736",
+     "authors": "Takuma Okamoto"
+    },
+    {
+     "title": "SFC-L1: Sound Field Control With Least Absolute Deviation Regression",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230967",
+     "authors": "Takuma Okamoto"
+    },
+    {
+     "title": "Ambient-Aware Sound Field Translation Using Optimal Spatial Filtering",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa52581.2021.9632793",
+     "authors": "Maximilian Kentgens, Peter Jax"
+    },
+    {
+     "title": "Pretraining Respiratory Sound Representations using Metadata and Contrastive Learning",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 30,
+     "doi": "10.1109/waspaa58266.2023.10248130",
+     "authors": "Ilyass Moummad, Nicolas Farrugia"
+    },
+    {
+     "title": "Differentiable Tracking-Based Training of Deep Learning Sound Source Localizers",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 18,
+     "doi": "10.1109/waspaa52581.2021.9632773",
+     "authors": "Sharath Adavanne, Archontis Politis, Tuomas Virtanen"
+    },
+    {
+     "title": "Cross-Domain Semi-Supervised Audio Event Classification Using Contrastive Regularization",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa52581.2021.9632721",
+     "authors": "Donmoon Lee, Kyogu Lee"
+    },
+    {
+     "title": "2D Local Exterior Sound Field Reproduction Using an Addition Theorem Based on Circular Harmonic Expansion",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa52581.2021.9632727",
+     "authors": "Yi Ren, Yoichi Haneda"
+    },
+    {
+     "title": "Context-Aware Query Refinement for Target Sound Extraction: Handling Partially Matched Queries",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230946",
+     "authors": "Ryo Sato, Chiho Haruta, Nobuhiko Hiruma, Keisuke Imoto"
+    },
+    {
+     "title": "Weakly Supervised Source-Specific Sound Level Estimation in Noisy Soundscapes",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa52581.2021.9632767",
+     "authors": "Aurora Cramer, Mark Cartwright, Fatemeh Pishdadian, Juan Pablo Bello"
+    },
+    {
+     "title": "Kernel Interpolation of Incident Sound Field in Region Including Scattering Objects",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 5,
+     "doi": "10.1109/waspaa58266.2023.10248156",
+     "authors": "Shoichi Koyama, Masaki Nakada, Juliano G. C. Ribeiro, Hiroshi Saruwatari"
+    },
+    {
+     "title": "Perceptual Quality Enhancement of Sound Field Synthesis Based on Combination of Pressure and Amplitude Matching",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248106",
+     "authors": "Keisuke Kimura, Shoichi Koyama, Hiroshi Saruwatari"
+    },
+    {
+     "title": "Physics-Informed Transfer Learning for Data-Driven Sound Source Reconstruction in Near-Field Acoustic Holography",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa66052.2025.11231017",
+     "authors": "Xinmeng Luan, Mirco Pezzoli, Fabio Antonacci, Augusto Sarti"
+    },
+    {
+     "title": "Joint Direction and Proximity Classification of Overlapping Sound Events from Binaural Audio",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 8,
+     "doi": "10.1109/waspaa52581.2021.9632775",
+     "authors": "Daniel Aleksander Krause, Archontis Politis, Annamaria Mesaros"
+    },
+    {
+     "title": "Kernel ridge regression based sound field estimation using a rigid spherical microphone array",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 3,
+     "doi": "10.1109/waspaa66052.2025.11230952",
+     "authors": "Ryo Matsuda, Juliano G. C. Ribeiro, Hitoshi Akiyama, Jorge Trevino"
+    },
+    {
+     "title": "IS\n                    <sup>3</sup>\n                    : Generic Impulsive–Stationary Sound Separation in Acoustic Scenes using Deep Filtering",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230927",
+     "authors": "Clémentine Berger, Paraskevas Stamatiadis, Roland Badeau, Slim Essid"
+    },
+    {
+     "title": "Sound Source Distance Estimation in Diverse and Dynamic Acoustic Conditions",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 17,
+     "doi": "10.1109/waspaa58266.2023.10248194",
+     "authors": "Saksham Singh Kushwaha, Iran R. Roman, Magdalena Fuentes, Juan Pablo Bello"
+    },
+    {
+     "title": "A Polynomial Eigenvalue Decomposition Music Approach for Broadband Sound Source Localization",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 28,
+     "doi": "10.1109/waspaa52581.2021.9632789",
+     "authors": "Aidan O. T. Hogg, Vincent W. Neo, Stephan Weiss, Christine Evers, Patrick A. Naylor"
+    },
+    {
+     "title": "Mean-Square-Error-Based Secondary Source Placement in Sound Field Synthesis with Prior Information on Desired Field",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 5,
+     "doi": "10.1109/waspaa52581.2021.9632799",
+     "authors": "Keisuke Kimura, Shoichi Koyama, Natsuki Ueno, Hiroshi Saruwatari"
+    },
+    {
+     "title": "Kernel Learning for Sound Field Estimation with L1 and L2 Regularizations",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 17,
+     "doi": "10.1109/waspaa52581.2021.9632731",
+     "authors": "Ryosuke Horiuchi, Shoichi Koyama, Juliano G. C. Ribeiro, Natsuki Ueno, Hiroshi Saruwatari"
+    },
+    {
+     "title": "Source and Sensor Placement for Sound Field Control Based on Mean Square Error with Prior Spatial Covariance",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230947",
+     "authors": "Shihori Kozuka, Shoichi Koyama, Hiroaki Itou, Noriyoshi Kamado"
+    },
+    {
+     "title": "Bridging High-Quality Audio and Video Via Language for Sound Effects Retrieval from Visual Queries",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 5,
+     "doi": "10.1109/waspaa58266.2023.10248113",
+     "authors": "Julia Wilkins, Justin Salamon, Magdalena Fuentes, Juan Pablo Bello, Oriol Nieto"
+    },
+    {
+     "title": "Sparse, Efficient, and Semantic Mixture Invariant Training: Taming In-the-Wild Unsupervised Sound Separation",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 16,
+     "doi": "10.1109/waspaa52581.2021.9632714",
+     "authors": "Scott Wisdom, Aren Jansen, Ron J. Weiss, Hakan Erdogan, John R. Hershey"
+    },
+    {
+     "title": "Automatic Detection of Poor Tone Quality in Classical Guitar Playing Using Deep Anomaly Detection Method",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa58266.2023.10248058",
+     "authors": "Kenta Ogawa, Shun Sawada, Kouichi Katsurada, Hidehumi Ohmura"
+    },
+    {
+     "title": "Spherical Harmonic Decomposition of a Sound Field Based on Microphones Around the Circumference of a Human Head",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa52581.2021.9632751",
+     "authors": "Jens Ahrens, Hannes Helmholz, David Lou Alon, Sebastia V. Amengual Gari"
+    },
+    {
+     "title": "MESHRIR: A Dataset of Room Impulse Responses on Meshed Grid Points for Evaluating Sound Field Analysis and Synthesis Methods",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 38,
+     "doi": "10.1109/waspaa52581.2021.9632672",
+     "authors": "Shoichi Koyama, Tomoya Nishida, Keisuke Kimura, Takumi Abe, Natsuki Ueno, Jesper Brunnstrom"
+    }
+   ]
+  },
+  "self-supervised speech": {
+   "total": 38662,
+   "kept": 10,
+   "papers": [
+    {
+     "title": "The Effect of Spoken Language on Speech Enhancement Using Self-Supervised Speech Representation Loss Functions",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa58266.2023.10248166",
+     "authors": "George Close, Thomas Hain, Stefan Goetze"
+    },
+    {
+     "title": "Miipher: A Robust Speech Restoration Model Integrating Self-Supervised Speech and Text Representations",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 26,
+     "doi": "10.1109/waspaa58266.2023.10248089",
+     "authors": "Yuma Koizumi, Heiga Zen, Shigeki Karita, Yifan Ding, Kohei Yatabe, Nobuyuki Morioka"
+    },
+    {
+     "title": "Two Views, One Truth: Spectral and Self-Supervised Features Fusion for Robust Speech Deepfake Detection",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa66052.2025.11230938",
+     "authors": "Yassine El Kheir, Arnab Das, Enes Erdem Erdogan, Fabian Ritter-Guttierez, Tim Polzehl, Sebastian Möller"
+    },
+    {
+     "title": "Exploring the Integration of Speech Separation and Recognition with Self-Supervised Learning Representation",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 8,
+     "doi": "10.1109/waspaa58266.2023.10248096",
+     "authors": "Yoshiki Masuyama, Xuankai Chang, Wangyou Zhang, Samuele Cornell, Zhong-Qiu Wang, Nobutaka Ono"
+    },
+    {
+     "title": "Self-Supervised Representation Learning with a JEPA Framework for Multi-instrument Music Transcription",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230951",
+     "authors": "Mary Pilataki, Matthias Mauch, Simon Dixon"
+    },
+    {
+     "title": "Balancing Information Preservation and Disentanglement in Self-Supervised Music Representation Learning",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230932",
+     "authors": "Julia Wilkins, Sivan Ding, Magdalena Fuentes, Juan Pablo Bello"
+    },
+    {
+     "title": "Multi-Class-Token Transformer for Multitask Self-supervised Music Information Retrieval",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11231014",
+     "authors": "Yuexuan Kong, Vincent Lostanlen, Romain Hennequin, Mathieu Lagrange, Gabriel Meseguer-Brocal"
+    },
+    {
+     "title": "Latent Acoustic Mapping for Direction of Arrival Estimation: A Self-Supervised Approach",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa66052.2025.11231008",
+     "authors": "Adrian S. Roman, Iran R. Roman, Juan P. Bello"
+    },
+    {
+     "title": "Self-Supervised Learning from Automatically Separated Sound Scenes",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 5,
+     "doi": "10.1109/waspaa52581.2021.9632739",
+     "authors": "Eduardo Fonseca, Aren Jansen, Daniel P. W. Ellis, Scott Wisdom, Marco Tagliasacchi, John R. Hershey"
+    },
+    {
+     "title": "DF-Conformer: Integrated Architecture of Conv-Tasnet and Conformer Using Linear Complexity Self-Attention for Speech Enhancement",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 33,
+     "doi": "10.1109/waspaa52581.2021.9632794",
+     "authors": "Yuma Koizumi, Shigeki Karita, Scott Wisdom, Hakan Erdogan, John R. Hershey, Llion Jones"
+    }
+   ]
+  },
+  "streaming speech recognition": {
+   "total": 59323,
+   "kept": 52,
+   "papers": [
+    {
+     "title": "Quaternion Anti-Transfer Learning for Speech Emotion Recognition",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa58266.2023.10248082",
+     "authors": "Eric Guizzo, Tillman Weyde, Giacomo Tarroni, Danilo Comminiello"
+    },
+    {
+     "title": "Contrastive Representation Learning for Privacy-Preserving Fine-Tuning of Audio-Visual Speech Recognition",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230949",
+     "authors": "Luca Becker, Rainer Martin"
+    },
+    {
+     "title": "Exploring the Integration of Speech Separation and Recognition with Self-Supervised Learning Representation",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 8,
+     "doi": "10.1109/waspaa58266.2023.10248096",
+     "authors": "Yoshiki Masuyama, Xuankai Chang, Wangyou Zhang, Samuele Cornell, Zhong-Qiu Wang, Nobutaka Ono"
+    },
+    {
+     "title": "The Effect of Spoken Language on Speech Enhancement Using Self-Supervised Speech Representation Loss Functions",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa58266.2023.10248166",
+     "authors": "George Close, Thomas Hain, Stefan Goetze"
+    },
+    {
+     "title": "Unveiling the Best Practices for Applying Speech Foundation Models to Speech Intelligibility Prediction for Hearing-Impaired People",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 3,
+     "doi": "10.1109/waspaa66052.2025.11230944",
+     "authors": "Haoshuai Zhou, Boxuan Cao, Changgeng Mo, Linkai Li, Shan Xiang Wang"
+    },
+    {
+     "title": "Miipher: A Robust Speech Restoration Model Integrating Self-Supervised Speech and Text Representations",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 26,
+     "doi": "10.1109/waspaa58266.2023.10248089",
+     "authors": "Yuma Koizumi, Heiga Zen, Shigeki Karita, Yifan Ding, Kohei Yatabe, Nobuyuki Morioka"
+    },
+    {
+     "title": "Flexible Multichannel Speech Enhancement for Noise-Robust Frontend",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa58266.2023.10248134",
+     "authors": "Ante Jukić, Jagadeesh Balam, Boris Ginsburg"
+    },
+    {
+     "title": "Distributed Asynchronous Device Speech Enhancement via Windowed Cross-Attention",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230972",
+     "authors": "Gene-Ping Yang, Sebastian Braun"
+    },
+    {
+     "title": "Convolutive Prediction for Reverberant Speech Separation",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 10,
+     "doi": "10.1109/waspaa52581.2021.9632667",
+     "authors": "Zhong-Qiu Wang, Gordon Wichern, Jonathan Le Roux"
+    },
+    {
+     "title": "Robust One-step Speech Enhancement via Consistency Distillation",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa66052.2025.11230988",
+     "authors": "Liang Xu, Longfei Felix Yan, W. Bastiaan Kleijn"
+    },
+    {
+     "title": "RADE: A Neural Codec for Transmitting Speech over HF Radio Channels",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230928",
+     "authors": "David Rowe, Jean-Marc Valin"
+    },
+    {
+     "title": "Modeling Multi-Level Hearing Loss for Speech Intelligibility Prediction",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230956",
+     "authors": "Xiajie Zhou, Candy Olivia Mawalim, Masashi Unoki"
+    },
+    {
+     "title": "Analysis of XLS-R for Speech Quality Assessment",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 6,
+     "doi": "10.1109/waspaa58266.2023.10248049",
+     "authors": "Bastiaan Tamm, Rik Vandenberghe, Hugo Van Hamme"
+    },
+    {
+     "title": "Adaptive Slimming for Scalable and Efficient Speech Enhancement",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230950",
+     "authors": "Riccardo Miccini, Minje Kim, Clément Laroche, Luca Pezzarossa, Paris Smaragdis"
+    },
+    {
+     "title": "Speech Intelligibility of Mandarin- and German-Speaking Listeners in Challenging Conditions",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa52581.2021.9632765",
+     "authors": "Hongmei Hu, Stephan D. Ewert"
+    },
+    {
+     "title": "A lightweight and robust method for blind wideband-to-fullband extension of speech",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230955",
+     "authors": "Jan Büthe, Jean-Marc Valin"
+    },
+    {
+     "title": "Zero-Shot Personalized Speech Enhancement Through Speaker-Informed Model Selection",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 9,
+     "doi": "10.1109/waspaa52581.2021.9632752",
+     "authors": "Aswin Sivaraman, Minje Kim"
+    },
+    {
+     "title": "Slim-Tasnet: A Slimmable Neural Network for Speech Separation",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 9,
+     "doi": "10.1109/waspaa58266.2023.10248143",
+     "authors": "Mohamed Elminshawi, Srikanth Raj Chetupalli, Emanuël A. P. Habets"
+    },
+    {
+     "title": "Multi-Utterance Speech Separation and Association Trained on Short Segments",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230969",
+     "authors": "Yuzhu Wang, Archontis Politis, Konstantinos Drossos, Tuomas Virtanen"
+    },
+    {
+     "title": "Conditioned Wave-U-Net for Acoustic Matching of Speech in Shared XR Environments",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230991",
+     "authors": "Joanna Luberadzka, Enric Gusó, Umut Sayin"
+    },
+    {
+     "title": "Unsupervised Multi-channel Speech Dereverberation via Diffusion",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11231009",
+     "authors": "Yulun Wu, Zhongweiyang Xu, Jianchong Chen, Zhong-Qiu Wang, Romit Roy Choudhury"
+    },
+    {
+     "title": "Schrödinger Bridge Consistency Trajectory Models for Speech Enhancement",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11231011",
+     "authors": "Shuichiro Nishigori, Koichi Saito, Naoki Murata, Masato Hirano, Shusuke Takahashi, Yuki Mitsufuji"
+    },
+    {
+     "title": "Robust Speech Activity Detection in the Presence of Singing Voice",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230931",
+     "authors": "Philipp Grundhuber, Mhd Modar Halimeh, Martin Strauß, Emanuël A. P. Habets"
+    },
+    {
+     "title": "UBGAN: Enhancing Coded Speech with Blind and Guided Bandwidth Extension",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230926",
+     "authors": "Kishan Gupta, Srikanth Korse, Andreas Brendel, Nicola Pia, Guillaume Fuchs"
+    },
+    {
+     "title": "Lace: A Light-Weight, Causal Model for Enhancing Coded Speech Through Adaptive Convolutions",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 7,
+     "doi": "10.1109/waspaa58266.2023.10248150",
+     "authors": "Jan Büthe, Jean-Marc Valin, Ahmed Mustafa"
+    },
+    {
+     "title": "SIDIQ: Computational Quality Assessment of Enhanced Speech Based on Auditory Figure-Ground Segregation, Similarity, and Disturbance",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa52581.2021.9632786",
+     "authors": "Benjamin Stahl, Alois Sontacchi"
+    },
+    {
+     "title": "Disentanglement Learning for Variational Autoencoders Applied to Audio-Visual Speech Enhancement",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 13,
+     "doi": "10.1109/waspaa52581.2021.9632676",
+     "authors": "Guillaume Carbajal, Julius Richter, Timo Gerkmann"
+    },
+    {
+     "title": "Masked Frequency Modeling for Improving Packet Loss Concealment in Speech Transmission Systems",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 7,
+     "doi": "10.1109/waspaa58266.2023.10248056",
+     "authors": "Da-Hee Yang, Donghyun Kim, Joon-Hyuk Chang"
+    },
+    {
+     "title": "HiFi-GAN-2: Studio-Quality Speech Enhancement via Generative Adversarial Networks Conditioned on Acoustic Features",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 53,
+     "doi": "10.1109/waspaa52581.2021.9632770",
+     "authors": "Jiaqi Su, Zeyu Jin, Adam Finkelstein"
+    },
+    {
+     "title": "Separate But Together: Unsupervised Federated Learning for Speech Enhancement from Non-IID Data",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 12,
+     "doi": "10.1109/waspaa52581.2021.9632783",
+     "authors": "Efthymios Tzinis, Jonah Casebeer, Zhepei Wang, Paris Smaragdis"
+    },
+    {
+     "title": "Filtered Noise Shaping for Time Domain Room Impulse Response Estimation from Reverberant Speech",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 39,
+     "doi": "10.1109/waspaa52581.2021.9632680",
+     "authors": "Christian J. Steinmetz, Vamsi Krishna Ithapu, Paul Calamia"
+    },
+    {
+     "title": "Mixed-Delay Distributed Beamforming for Own-Speech Separation in Hearing Devices with Wireless Remote Microphones",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248172",
+     "authors": "Ryan M. Corey"
+    },
+    {
+     "title": "SLMGAN: Exploiting Speech Language Model Representations for Unsupervised Zero-Shot Voice Conversion in GANs",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248117",
+     "authors": "Yinghao Aaron Li, Cong Han, Nima Mesgarani"
+    },
+    {
+     "title": "Test-Time Adaptation Toward Personalized Speech Enhancement: Zero-Shot Learning with Knowledge Distillation",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 21,
+     "doi": "10.1109/waspaa52581.2021.9632771",
+     "authors": "Sunwoo Kim, Minje Kim"
+    },
+    {
+     "title": "JSQA: Speech Quality Assessment with Perceptually-Inspired Contrastive Pretraining Based on JND Audio Pairs",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230995",
+     "authors": "Junyi Fan, Donald Williamson"
+    },
+    {
+     "title": "AECSQI: Referenceless Acoustic Echo Cancellation Measures Using Speech Quality and Intelligibility Improvement",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248123",
+     "authors": "Jin Woo Lee, Hyeong-Seok Choi, Kyogu Lee"
+    },
+    {
+     "title": "Blind Room Parameter Estimation Using Multiple Multichannel Speech Recordings",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 18,
+     "doi": "10.1109/waspaa52581.2021.9632778",
+     "authors": "Prerak Srivastava, Antoine Deleforge, Emmanuel Vincent"
+    },
+    {
+     "title": "Assessing Segmental Impact for Objective Speech Quality Evaluation",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa52581.2021.9632785",
+     "authors": "Zhixing Liu, Yannan Wang, Gaoxiong Yi, Tao Yu, Fei Chen"
+    },
+    {
+     "title": "Multichannel Subband-Fullband Gated Convolutional Recurrent Neural Network for Direction-Based Speech Enhancement with Head-Mounted Microphone Arrays",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa58266.2023.10248181",
+     "authors": "Benjamin Stahl, Alois Sontacchi"
+    },
+    {
+     "title": "ReverbMiipher: Generative Speech Restoration meets Reverberation Characteristics Controllability",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230982",
+     "authors": "Wataru Nakata, Yuma Koizumi, Shigeki Karita, Robin Scheibler, Haruko Ishikawa, Adriana Guevara-Rukoz"
+    },
+    {
+     "title": "Closing the Gap Between Time-Domain Multi-Channel Speech Enhancement on Real and Simulation Conditions",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 14,
+     "doi": "10.1109/waspaa52581.2021.9632720",
+     "authors": "Wangyou Zhang, Jing Shi, Chenda Li, Shinji Watanabe, Yanmin Qian"
+    },
+    {
+     "title": "SEFGAN: Harvesting the Power of Normalizing Flows and GANs for Efficient High-Quality Speech Enhancement",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 6,
+     "doi": "10.1109/waspaa58266.2023.10248144",
+     "authors": "Martin Strauss, Nicola Pia, Nagashree K. S. Rao, Bernd Edler"
+    },
+    {
+     "title": "Single Channel Speech Presence Probability Estimation based on Hybrid Global-Local Information",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa58266.2023.10248067",
+     "authors": "Shuai Tao, Yang Xiang, Himavanth Reddy, Jesper Rindom Jensen, Mads Græsbøll Christensen"
+    },
+    {
+     "title": "Long-Context Modeling Networks for Monaural Speech Enhancement: A Comparative Study",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230983",
+     "authors": "Qiquan Zhang, Moran Chen, Zeyang Song, Hexin Liu, Xiangyu Zhang, Haizhou Li"
+    },
+    {
+     "title": "Miipher-2: A Universal Speech Restoration Model for Million-Hour Scale Data Restoration",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 6,
+     "doi": "10.1109/waspaa66052.2025.11230923",
+     "authors": "Shigeki Karita, Yuma Koizumi, Heiga Zen, Haruko Ishikawa, Robin Scheibler, Michiel Bacchiani"
+    },
+    {
+     "title": "A Streamwise Gan Vocoder for Wideband Speech Coding at Very Low Bit Rate",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 19,
+     "doi": "10.1109/waspaa52581.2021.9632750",
+     "authors": "Ahmed Mustafa, Jan Buthe, Srikanth Korse, Kishan Gupta, Guillaume Fuchs, Nicola Pia"
+    },
+    {
+     "title": "EffDiffSE: Efficient Diffusion-Based Frequency-Domain Speech Enhancement with Hybrid Discriminative and Generative DNNs",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11231015",
+     "authors": "Yihui Fu, Renzheng Shi, Marvin Sach, Wouter Tirry, Tim Fingscheidt"
+    },
+    {
+     "title": "Low Bit Rate Binaural Link for Improved Ultra Low-Latency Low-Complexity Multichannel Speech Enhancement in Hearing Aids",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 9,
+     "doi": "10.1109/waspaa58266.2023.10248154",
+     "authors": "Nils L. Westhausen, Bernd T. Meyer"
+    },
+    {
+     "title": "Adaptive Sparse Linear Prediction in Fixed-Filter ANC Headphone Applications for Multi-Speaker Speech Reduction",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa58266.2023.10248065",
+     "authors": "Yurii Iotov, Sidsel Marie Nørholm, Valiantsin Belyi, Mads Græsbøll Christensen"
+    },
+    {
+     "title": "An Objective Evaluation of Hearing AIDS and DNN-Based Binaural Speech Enhancement in Complex Acoustic Scenes",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 6,
+     "doi": "10.1109/waspaa58266.2023.10248112",
+     "authors": "Enric Gusó, Joanna Luberadzka, Martí Baig, Umut Sayin, Xavier Serra"
+    },
+    {
+     "title": "Two Views, One Truth: Spectral and Self-Supervised Features Fusion for Robust Speech Deepfake Detection",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa66052.2025.11230938",
+     "authors": "Yassine El Kheir, Arnab Das, Enes Erdem Erdogan, Fabian Ritter-Guttierez, Tim Polzehl, Sebastian Möller"
+    },
+    {
+     "title": "DF-Conformer: Integrated Architecture of Conv-Tasnet and Conformer Using Linear Complexity Self-Attention for Speech Enhancement",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 33,
+     "doi": "10.1109/waspaa52581.2021.9632794",
+     "authors": "Yuma Koizumi, Shigeki Karita, Scott Wisdom, Hakan Erdogan, John R. Hershey, Llion Jones"
+    }
+   ]
+  },
+  "speech language model": {
+   "total": 91571,
+   "kept": 55,
+   "papers": [
+    {
+     "title": "SLMGAN: Exploiting Speech Language Model Representations for Unsupervised Zero-Shot Voice Conversion in GANs",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248117",
+     "authors": "Yinghao Aaron Li, Cong Han, Nima Mesgarani"
+    },
+    {
+     "title": "The Effect of Spoken Language on Speech Enhancement Using Self-Supervised Speech Representation Loss Functions",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa58266.2023.10248166",
+     "authors": "George Close, Thomas Hain, Stefan Goetze"
+    },
+    {
+     "title": "Miipher: A Robust Speech Restoration Model Integrating Self-Supervised Speech and Text Representations",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 26,
+     "doi": "10.1109/waspaa58266.2023.10248089",
+     "authors": "Yuma Koizumi, Heiga Zen, Shigeki Karita, Yifan Ding, Kohei Yatabe, Nobuyuki Morioka"
+    },
+    {
+     "title": "Zero-Shot Personalized Speech Enhancement Through Speaker-Informed Model Selection",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 9,
+     "doi": "10.1109/waspaa52581.2021.9632752",
+     "authors": "Aswin Sivaraman, Minje Kim"
+    },
+    {
+     "title": "Lace: A Light-Weight, Causal Model for Enhancing Coded Speech Through Adaptive Convolutions",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 7,
+     "doi": "10.1109/waspaa58266.2023.10248150",
+     "authors": "Jan Büthe, Jean-Marc Valin, Ahmed Mustafa"
+    },
+    {
+     "title": "Miipher-2: A Universal Speech Restoration Model for Million-Hour Scale Data Restoration",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 6,
+     "doi": "10.1109/waspaa66052.2025.11230923",
+     "authors": "Shigeki Karita, Yuma Koizumi, Heiga Zen, Haruko Ishikawa, Robin Scheibler, Michiel Bacchiani"
+    },
+    {
+     "title": "Hybrid-Sep: Language-queried audio source separation via pre-trained Model Fusion and Adversarial Consistent Training",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11231013",
+     "authors": "Jianyuan Feng, Guangzheng Li, Yangfei Xu"
+    },
+    {
+     "title": "Unveiling the Best Practices for Applying Speech Foundation Models to Speech Intelligibility Prediction for Hearing-Impaired People",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 3,
+     "doi": "10.1109/waspaa66052.2025.11230944",
+     "authors": "Haoshuai Zhou, Boxuan Cao, Changgeng Mo, Linkai Li, Shan Xiang Wang"
+    },
+    {
+     "title": "Flexible Multichannel Speech Enhancement for Noise-Robust Frontend",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa58266.2023.10248134",
+     "authors": "Ante Jukić, Jagadeesh Balam, Boris Ginsburg"
+    },
+    {
+     "title": "Distributed Asynchronous Device Speech Enhancement via Windowed Cross-Attention",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230972",
+     "authors": "Gene-Ping Yang, Sebastian Braun"
+    },
+    {
+     "title": "Convolutive Prediction for Reverberant Speech Separation",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 10,
+     "doi": "10.1109/waspaa52581.2021.9632667",
+     "authors": "Zhong-Qiu Wang, Gordon Wichern, Jonathan Le Roux"
+    },
+    {
+     "title": "Can Large Language Models Predict Audio Effects Parameters from Natural Language?",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa66052.2025.11230953",
+     "authors": "Seungheon Doh, Junghyun Koo, Marco A. Martínez-Ramírez, Wei-Hsiang Liao, Juhan Nam, Yuki Mitsufuji"
+    },
+    {
+     "title": "Robust One-step Speech Enhancement via Consistency Distillation",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa66052.2025.11230988",
+     "authors": "Liang Xu, Longfei Felix Yan, W. Bastiaan Kleijn"
+    },
+    {
+     "title": "RADE: A Neural Codec for Transmitting Speech over HF Radio Channels",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230928",
+     "authors": "David Rowe, Jean-Marc Valin"
+    },
+    {
+     "title": "Quaternion Anti-Transfer Learning for Speech Emotion Recognition",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa58266.2023.10248082",
+     "authors": "Eric Guizzo, Tillman Weyde, Giacomo Tarroni, Danilo Comminiello"
+    },
+    {
+     "title": "Modeling Multi-Level Hearing Loss for Speech Intelligibility Prediction",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230956",
+     "authors": "Xiajie Zhou, Candy Olivia Mawalim, Masashi Unoki"
+    },
+    {
+     "title": "Analysis of XLS-R for Speech Quality Assessment",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 6,
+     "doi": "10.1109/waspaa58266.2023.10248049",
+     "authors": "Bastiaan Tamm, Rik Vandenberghe, Hugo Van Hamme"
+    },
+    {
+     "title": "Speech Intelligibility of Mandarin- and German-Speaking Listeners in Challenging Conditions",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa52581.2021.9632765",
+     "authors": "Hongmei Hu, Stephan D. Ewert"
+    },
+    {
+     "title": "Adaptive Slimming for Scalable and Efficient Speech Enhancement",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230950",
+     "authors": "Riccardo Miccini, Minje Kim, Clément Laroche, Luca Pezzarossa, Paris Smaragdis"
+    },
+    {
+     "title": "A lightweight and robust method for blind wideband-to-fullband extension of speech",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230955",
+     "authors": "Jan Büthe, Jean-Marc Valin"
+    },
+    {
+     "title": "Slim-Tasnet: A Slimmable Neural Network for Speech Separation",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 9,
+     "doi": "10.1109/waspaa58266.2023.10248143",
+     "authors": "Mohamed Elminshawi, Srikanth Raj Chetupalli, Emanuël A. P. Habets"
+    },
+    {
+     "title": "Multi-Utterance Speech Separation and Association Trained on Short Segments",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230969",
+     "authors": "Yuzhu Wang, Archontis Politis, Konstantinos Drossos, Tuomas Virtanen"
+    },
+    {
+     "title": "Conditioned Wave-U-Net for Acoustic Matching of Speech in Shared XR Environments",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230991",
+     "authors": "Joanna Luberadzka, Enric Gusó, Umut Sayin"
+    },
+    {
+     "title": "Unsupervised Multi-channel Speech Dereverberation via Diffusion",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11231009",
+     "authors": "Yulun Wu, Zhongweiyang Xu, Jianchong Chen, Zhong-Qiu Wang, Romit Roy Choudhury"
+    },
+    {
+     "title": "Schrödinger Bridge Consistency Trajectory Models for Speech Enhancement",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11231011",
+     "authors": "Shuichiro Nishigori, Koichi Saito, Naoki Murata, Masato Hirano, Shusuke Takahashi, Yuki Mitsufuji"
+    },
+    {
+     "title": "Robust Speech Activity Detection in the Presence of Singing Voice",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230931",
+     "authors": "Philipp Grundhuber, Mhd Modar Halimeh, Martin Strauß, Emanuël A. P. Habets"
+    },
+    {
+     "title": "Contrastive Representation Learning for Privacy-Preserving Fine-Tuning of Audio-Visual Speech Recognition",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230949",
+     "authors": "Luca Becker, Rainer Martin"
+    },
+    {
+     "title": "UBGAN: Enhancing Coded Speech with Blind and Guided Bandwidth Extension",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230926",
+     "authors": "Kishan Gupta, Srikanth Korse, Andreas Brendel, Nicola Pia, Guillaume Fuchs"
+    },
+    {
+     "title": "SIDIQ: Computational Quality Assessment of Enhanced Speech Based on Auditory Figure-Ground Segregation, Similarity, and Disturbance",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa52581.2021.9632786",
+     "authors": "Benjamin Stahl, Alois Sontacchi"
+    },
+    {
+     "title": "Disentanglement Learning for Variational Autoencoders Applied to Audio-Visual Speech Enhancement",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 13,
+     "doi": "10.1109/waspaa52581.2021.9632676",
+     "authors": "Guillaume Carbajal, Julius Richter, Timo Gerkmann"
+    },
+    {
+     "title": "Masked Frequency Modeling for Improving Packet Loss Concealment in Speech Transmission Systems",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 7,
+     "doi": "10.1109/waspaa58266.2023.10248056",
+     "authors": "Da-Hee Yang, Donghyun Kim, Joon-Hyuk Chang"
+    },
+    {
+     "title": "Mixed-Delay Distributed Beamforming for Own-Speech Separation in Hearing Devices with Wireless Remote Microphones",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248172",
+     "authors": "Ryan M. Corey"
+    },
+    {
+     "title": "Separate But Together: Unsupervised Federated Learning for Speech Enhancement from Non-IID Data",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 12,
+     "doi": "10.1109/waspaa52581.2021.9632783",
+     "authors": "Efthymios Tzinis, Jonah Casebeer, Zhepei Wang, Paris Smaragdis"
+    },
+    {
+     "title": "HiFi-GAN-2: Studio-Quality Speech Enhancement via Generative Adversarial Networks Conditioned on Acoustic Features",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 53,
+     "doi": "10.1109/waspaa52581.2021.9632770",
+     "authors": "Jiaqi Su, Zeyu Jin, Adam Finkelstein"
+    },
+    {
+     "title": "AECSQI: Referenceless Acoustic Echo Cancellation Measures Using Speech Quality and Intelligibility Improvement",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248123",
+     "authors": "Jin Woo Lee, Hyeong-Seok Choi, Kyogu Lee"
+    },
+    {
+     "title": "Filtered Noise Shaping for Time Domain Room Impulse Response Estimation from Reverberant Speech",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 39,
+     "doi": "10.1109/waspaa52581.2021.9632680",
+     "authors": "Christian J. Steinmetz, Vamsi Krishna Ithapu, Paul Calamia"
+    },
+    {
+     "title": "Test-Time Adaptation Toward Personalized Speech Enhancement: Zero-Shot Learning with Knowledge Distillation",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 21,
+     "doi": "10.1109/waspaa52581.2021.9632771",
+     "authors": "Sunwoo Kim, Minje Kim"
+    },
+    {
+     "title": "JSQA: Speech Quality Assessment with Perceptually-Inspired Contrastive Pretraining Based on JND Audio Pairs",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230995",
+     "authors": "Junyi Fan, Donald Williamson"
+    },
+    {
+     "title": "Assessing Segmental Impact for Objective Speech Quality Evaluation",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa52581.2021.9632785",
+     "authors": "Zhixing Liu, Yannan Wang, Gaoxiong Yi, Tao Yu, Fei Chen"
+    },
+    {
+     "title": "Blind Room Parameter Estimation Using Multiple Multichannel Speech Recordings",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 18,
+     "doi": "10.1109/waspaa52581.2021.9632778",
+     "authors": "Prerak Srivastava, Antoine Deleforge, Emmanuel Vincent"
+    },
+    {
+     "title": "Multichannel Subband-Fullband Gated Convolutional Recurrent Neural Network for Direction-Based Speech Enhancement with Head-Mounted Microphone Arrays",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa58266.2023.10248181",
+     "authors": "Benjamin Stahl, Alois Sontacchi"
+    },
+    {
+     "title": "ReverbMiipher: Generative Speech Restoration meets Reverberation Characteristics Controllability",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230982",
+     "authors": "Wataru Nakata, Yuma Koizumi, Shigeki Karita, Robin Scheibler, Haruko Ishikawa, Adriana Guevara-Rukoz"
+    },
+    {
+     "title": "Closing the Gap Between Time-Domain Multi-Channel Speech Enhancement on Real and Simulation Conditions",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 14,
+     "doi": "10.1109/waspaa52581.2021.9632720",
+     "authors": "Wangyou Zhang, Jing Shi, Chenda Li, Shinji Watanabe, Yanmin Qian"
+    },
+    {
+     "title": "Single Channel Speech Presence Probability Estimation based on Hybrid Global-Local Information",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa58266.2023.10248067",
+     "authors": "Shuai Tao, Yang Xiang, Himavanth Reddy, Jesper Rindom Jensen, Mads Græsbøll Christensen"
+    },
+    {
+     "title": "SEFGAN: Harvesting the Power of Normalizing Flows and GANs for Efficient High-Quality Speech Enhancement",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 6,
+     "doi": "10.1109/waspaa58266.2023.10248144",
+     "authors": "Martin Strauss, Nicola Pia, Nagashree K. S. Rao, Bernd Edler"
+    },
+    {
+     "title": "Long-Context Modeling Networks for Monaural Speech Enhancement: A Comparative Study",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230983",
+     "authors": "Qiquan Zhang, Moran Chen, Zeyang Song, Hexin Liu, Xiangyu Zhang, Haizhou Li"
+    },
+    {
+     "title": "A Streamwise Gan Vocoder for Wideband Speech Coding at Very Low Bit Rate",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 19,
+     "doi": "10.1109/waspaa52581.2021.9632750",
+     "authors": "Ahmed Mustafa, Jan Buthe, Srikanth Korse, Kishan Gupta, Guillaume Fuchs, Nicola Pia"
+    },
+    {
+     "title": "EffDiffSE: Efficient Diffusion-Based Frequency-Domain Speech Enhancement with Hybrid Discriminative and Generative DNNs",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11231015",
+     "authors": "Yihui Fu, Renzheng Shi, Marvin Sach, Wouter Tirry, Tim Fingscheidt"
+    },
+    {
+     "title": "Low Bit Rate Binaural Link for Improved Ultra Low-Latency Low-Complexity Multichannel Speech Enhancement in Hearing Aids",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 9,
+     "doi": "10.1109/waspaa58266.2023.10248154",
+     "authors": "Nils L. Westhausen, Bernd T. Meyer"
+    },
+    {
+     "title": "Adaptive Sparse Linear Prediction in Fixed-Filter ANC Headphone Applications for Multi-Speaker Speech Reduction",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa58266.2023.10248065",
+     "authors": "Yurii Iotov, Sidsel Marie Nørholm, Valiantsin Belyi, Mads Græsbøll Christensen"
+    },
+    {
+     "title": "An Objective Evaluation of Hearing AIDS and DNN-Based Binaural Speech Enhancement in Complex Acoustic Scenes",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 6,
+     "doi": "10.1109/waspaa58266.2023.10248112",
+     "authors": "Enric Gusó, Joanna Luberadzka, Martí Baig, Umut Sayin, Xavier Serra"
+    },
+    {
+     "title": "Exploring the Integration of Speech Separation and Recognition with Self-Supervised Learning Representation",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 8,
+     "doi": "10.1109/waspaa58266.2023.10248096",
+     "authors": "Yoshiki Masuyama, Xuankai Chang, Wangyou Zhang, Samuele Cornell, Zhong-Qiu Wang, Nobutaka Ono"
+    },
+    {
+     "title": "Two Views, One Truth: Spectral and Self-Supervised Features Fusion for Robust Speech Deepfake Detection",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa66052.2025.11230938",
+     "authors": "Yassine El Kheir, Arnab Das, Enes Erdem Erdogan, Fabian Ritter-Guttierez, Tim Polzehl, Sebastian Möller"
+    },
+    {
+     "title": "DF-Conformer: Integrated Architecture of Conv-Tasnet and Conformer Using Linear Complexity Self-Attention for Speech Enhancement",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 33,
+     "doi": "10.1109/waspaa52581.2021.9632794",
+     "authors": "Yuma Koizumi, Shigeki Karita, Scott Wisdom, Hakan Erdogan, John R. Hershey, Llion Jones"
+    },
+    {
+     "title": "TACOS: Temporally-aligned Audio CaptiOnS for Language-Audio Pretraining",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 3,
+     "doi": "10.1109/waspaa66052.2025.11230997",
+     "authors": "Paul Primus, Florian Schmid, Gerhard Widmer"
+    }
+   ]
+  },
+  "paralinguistic": {
+   "total": 20,
+   "kept": 0,
+   "papers": []
+  },
+  "emotion recognition": {
+   "total": 38525,
+   "kept": 4,
+   "papers": [
+    {
+     "title": "Quaternion Anti-Transfer Learning for Speech Emotion Recognition",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa58266.2023.10248082",
+     "authors": "Eric Guizzo, Tillman Weyde, Giacomo Tarroni, Danilo Comminiello"
+    },
+    {
+     "title": "Contrastive Representation Learning for Privacy-Preserving Fine-Tuning of Audio-Visual Speech Recognition",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230949",
+     "authors": "Luca Becker, Rainer Martin"
+    },
+    {
+     "title": "Exploring the Integration of Speech Separation and Recognition with Self-Supervised Learning Representation",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 8,
+     "doi": "10.1109/waspaa58266.2023.10248096",
+     "authors": "Yoshiki Masuyama, Xuankai Chang, Wangyou Zhang, Samuele Cornell, Zhong-Qiu Wang, Nobutaka Ono"
+    },
+    {
+     "title": "Bridging Ears and Eyes: Analyzing Audio and Visual Large Language Models to Humans in Visible Sound Recognition and Reducing Their Sensory Gap via Cross-Modal Distillation",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa66052.2025.11230922",
+     "authors": "Xilin Jiang, Junkai Wu, Vishal Choudhari, Nima Mesgarani"
+    }
+   ]
+  },
+  "voice activity detection": {
+   "total": 66772,
+   "kept": 21,
+   "papers": [
+    {
+     "title": "Robust Speech Activity Detection in the Presence of Singing Voice",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230931",
+     "authors": "Philipp Grundhuber, Mhd Modar Halimeh, Martin Strauß, Emanuël A. P. Habets"
+    },
+    {
+     "title": "Diff-Pitcher: Diffusion-Based Singing Voice Pitch Correction",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 5,
+     "doi": "10.1109/waspaa58266.2023.10248127",
+     "authors": "Jiarui Hai, Mounya Elhilali"
+    },
+    {
+     "title": "End-to-End Zero-Shot Voice Conversion Using a DDSP Vocoder",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 3,
+     "doi": "10.1109/waspaa52581.2021.9632754",
+     "authors": "Shahan Nercessian"
+    },
+    {
+     "title": "SLMGAN: Exploiting Speech Language Model Representations for Unsupervised Zero-Shot Voice Conversion in GANs",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248117",
+     "authors": "Yinghao Aaron Li, Cong Han, Nima Mesgarani"
+    },
+    {
+     "title": "VoxATtack: A Multimodal Attack on Voice Anonymization Systems",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230920",
+     "authors": "Ahmad Aloradi, Ünal Ege Gaznepoglu, Emanuël A. P. Habets, Daniel Tenbrinck"
+    },
+    {
+     "title": "Towards Reliable Objective Evaluation Metrics for Generative Singing Voice Separation Models",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa66052.2025.11230934",
+     "authors": "Paul A. Bereuter, Benjamin Stahl, Mark D. Plumbley, Alois Sontacchi"
+    },
+    {
+     "title": "DiTVC: One-Shot Voice Conversion via Diffusion Transformer with Environment and Speaking Rate Cloning",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230986",
+     "authors": "Yunyun Wang, Jiaqi Su, Adam Finkelstein, Rithesh Kumar, Ke Chen, Zeyu Jin"
+    },
+    {
+     "title": "Microphone Occlusion Mitigation for Own-Voice Enhancement in Head-Worn Microphone Arrays Using Switching-Adaptive Beamforming",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230992",
+     "authors": "Wiebke Middelberg, Jung-Suk Lee, Saeed Bagheri Sereshki, Ali Aroudi, Vladimir Tourbabin, Daniel D. E. Wong"
+    },
+    {
+     "title": "Automatic Detection of Poor Tone Quality in Classical Guitar Playing Using Deep Anomaly Detection Method",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa58266.2023.10248058",
+     "authors": "Kenta Ogawa, Shun Sawada, Kouichi Katsurada, Hidehumi Ohmura"
+    },
+    {
+     "title": "Hyperbolic Unsupervised Anomalous Sound Detection",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa58266.2023.10248092",
+     "authors": "François G. Germain, Gordon Wichern, Jonathan Le Roux"
+    },
+    {
+     "title": "FlexSED: Towards Open-Vocabulary Sound Event Detection",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230975",
+     "authors": "Jiarui Hai, Helin Wang, Weizhe Guo, Mounya Elhilali"
+    },
+    {
+     "title": "Excitation-Inhibition Cell Activity Patterns for Binaural Source Localisation",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa52581.2021.9632735",
+     "authors": "Hsuan-Yang Wang, Philip Nelson, Christine Evers"
+    },
+    {
+     "title": "Anomalous Sound Detection Using Attentive Neural Processes",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 17,
+     "doi": "10.1109/waspaa52581.2021.9632762",
+     "authors": "Gordon Wichern, Ankush Chakrabarty, Zhong-Qiu Wang, Jonathan Le Roux"
+    },
+    {
+     "title": "Sound Event Detection with Adaptive Frequency Selection",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 3,
+     "doi": "10.1109/waspaa52581.2021.9632798",
+     "authors": "Zhepei Wang, Jonah Casebeer, Adam Clemmitt, Efthymios Tzinis, Paris Smaragdis"
+    },
+    {
+     "title": "Sound event detection with audio-text models and heterogeneous temporal annotations",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230981",
+     "authors": "Manu Harju, Annamaria Mesaros"
+    },
+    {
+     "title": "Audio Inputs for Active Speaker Detection and Localization Via Microphone Array",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 3,
+     "doi": "10.1109/waspaa58266.2023.10248185",
+     "authors": "Davide Berghi, Philip J. B. Jackson"
+    },
+    {
+     "title": "SynSonic: Augmenting Sound Event Detection through Text-to-Audio Diffusion ControlNet and Effective Sample Filtering",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230980",
+     "authors": "Jiarui Hai, Mounya Elhilali"
+    },
+    {
+     "title": "Crowdsourcing Strong Labels for Sound Event Detection",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 5,
+     "doi": "10.1109/waspaa52581.2021.9632761",
+     "authors": "Irene Martin-Morato, Manu Harju, Annamaria Mesaros"
+    },
+    {
+     "title": "RUMAA: Repeat-Aware Unified Music Audio Analysis for Score-Performance Alignment, Transcription, and Mistake Detection",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230990",
+     "authors": "Sungkyun Chang, Simon Dixon, Emmanouil Benetos"
+    },
+    {
+     "title": "Physically Informed Spatial Regularization for Sound Event Localization and Detection",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230919",
+     "authors": "Haocheng Liu, Diego Di Carlo, Aditya Arie Nugraha, Kazuyoshi Yoshii, Gaël Richard, Mathieu Fontaine"
+    },
+    {
+     "title": "Two Views, One Truth: Spectral and Self-Supervised Features Fusion for Robust Speech Deepfake Detection",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa66052.2025.11230938",
+     "authors": "Yassine El Kheir, Arnab Das, Enes Erdem Erdogan, Fabian Ritter-Guttierez, Tim Polzehl, Sebastian Möller"
+    }
+   ]
+  },
+  "LLM agent tool use": {
+   "total": 18666,
+   "kept": 0,
+   "papers": []
+  },
+  "agent memory": {
+   "total": 13255,
+   "kept": 0,
+   "papers": []
+  },
+  "audio language model": {
+   "total": 75024,
+   "kept": 100,
+   "papers": [
+    {
+     "title": "Hybrid-Sep: Language-queried audio source separation via pre-trained Model Fusion and Adversarial Consistent Training",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11231013",
+     "authors": "Jianyuan Feng, Guangzheng Li, Yangfei Xu"
+    },
+    {
+     "title": "TACOS: Temporally-aligned Audio CaptiOnS for Language-Audio Pretraining",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 3,
+     "doi": "10.1109/waspaa66052.2025.11230997",
+     "authors": "Paul Primus, Florian Schmid, Gerhard Widmer"
+    },
+    {
+     "title": "Online incremental learning for audio classification using a pretrained audio model",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230989",
+     "authors": "Manjunath Mulimani, Annamaria Mesaros"
+    },
+    {
+     "title": "Can Large Language Models Predict Audio Effects Parameters from Natural Language?",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa66052.2025.11230953",
+     "authors": "Seungheon Doh, Junghyun Koo, Marco A. Martínez-Ramírez, Wei-Hsiang Liao, Juhan Nam, Yuki Mitsufuji"
+    },
+    {
+     "title": "SLMGAN: Exploiting Speech Language Model Representations for Unsupervised Zero-Shot Voice Conversion in GANs",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248117",
+     "authors": "Yinghao Aaron Li, Cong Han, Nima Mesgarani"
+    },
+    {
+     "title": "SILA: Signal-to-Language Augmentation for Enhanced Control in Text-to-Audio Generation",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa66052.2025.11230964",
+     "authors": "Sonal Kumar, Prem Seetharaman, Justin Salamon, Dinesh Manocha, Oriol Nieto"
+    },
+    {
+     "title": "Bridging High-Quality Audio and Video Via Language for Sound Effects Retrieval from Visual Queries",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 5,
+     "doi": "10.1109/waspaa58266.2023.10248113",
+     "authors": "Julia Wilkins, Justin Salamon, Magdalena Fuentes, Juan Pablo Bello, Oriol Nieto"
+    },
+    {
+     "title": "CLIPSonic: Text-to-Audio Synthesis with Unlabeled Videos and Pretrained Language-Vision Models",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 18,
+     "doi": "10.1109/waspaa58266.2023.10248160",
+     "authors": "Hao-Wen Dong, Xiaoyu Liu, Jordi Pons, Gautam Bhattacharya, Santiago Pascual, Joan Serrà"
+    },
+    {
+     "title": "Bridging Ears and Eyes: Analyzing Audio and Visual Large Language Models to Humans in Visible Sound Recognition and Reducing Their Sensory Gap via Cross-Modal Distillation",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa66052.2025.11230922",
+     "authors": "Xilin Jiang, Junkai Wu, Vishal Choudhari, Nima Mesgarani"
+    },
+    {
+     "title": "Stochastic Reverberation Model with a Frequency Dependent Attenuation",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa52581.2021.9632792",
+     "authors": "Achille Aknin, Roland Badeau"
+    },
+    {
+     "title": "A Differentiable Acoustic Guitar Model for String-Specific Polyphonic Synthesis",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa58266.2023.10248159",
+     "authors": "Andrew Wiggins, Youngmoo Kim"
+    },
+    {
+     "title": "Yet Another Generative Model for Room Impulse Response Estimation",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 15,
+     "doi": "10.1109/waspaa58266.2023.10248189",
+     "authors": "Sungho Lee, Hyeong-Seok Choi, Kyogu Lee"
+    },
+    {
+     "title": "The Effect of Spoken Language on Speech Enhancement Using Self-Supervised Speech Representation Loss Functions",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa58266.2023.10248166",
+     "authors": "George Close, Thomas Hain, Stefan Goetze"
+    },
+    {
+     "title": "A Differentiable Image Source Model for Room Acoustics Optimization",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa58266.2023.10248140",
+     "authors": "Bowen Zhi, Alisha Sharma, Dmitry N. Zotkin, Ramani Duraiswami"
+    },
+    {
+     "title": "Zero-Shot Personalized Speech Enhancement Through Speaker-Informed Model Selection",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 9,
+     "doi": "10.1109/waspaa52581.2021.9632752",
+     "authors": "Aswin Sivaraman, Minje Kim"
+    },
+    {
+     "title": "Extending Audio Masked Autoencoders toward Audio Restoration",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 7,
+     "doi": "10.1109/waspaa58266.2023.10248171",
+     "authors": "Zhi Zhong, Hao Shi, Masato Hirano, Kazuki Shimada, Kazuya Tateishi, Takashi Shibuya"
+    },
+    {
+     "title": "User-Guided One-Shot Deep Model Adaptation for Music Source Separation",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa52581.2021.9632717",
+     "authors": "Giorgia Cantisani, Alexey Ozerov, Slim Essid, Gael Richard"
+    },
+    {
+     "title": "Predicting Thresholds in an Auditory Overshoot Paradigm Using a Computational Subcortical Model with Efferent Feedback",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa58266.2023.10248059",
+     "authors": "Afagh Farhadi, Laurel H. Carney"
+    },
+    {
+     "title": "Point Cloud Audio Processing",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa52581.2021.9632668",
+     "authors": "Krishna Subramani, Paris Smaragdis"
+    },
+    {
+     "title": "Lace: A Light-Weight, Causal Model for Enhancing Coded Speech Through Adaptive Convolutions",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 7,
+     "doi": "10.1109/waspaa58266.2023.10248150",
+     "authors": "Jan Büthe, Jean-Marc Valin, Ahmed Mustafa"
+    },
+    {
+     "title": "Generating Separated Singing Vocals Using a Diffusion Model Conditioned on Music Mixtures",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230940",
+     "authors": "Genís Plaja-Roglans, Yun-Ning Hung, Xavier Serra, Igor Pereira"
+    },
+    {
+     "title": "Post-Training Quantization for Audio Diffusion Transformers",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230962",
+     "authors": "Tanmay Khandelwal, Magdalena Fuentes"
+    },
+    {
+     "title": "Neural-network based interpolation of late reverberation in coupled spaces using the common slopes model",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa66052.2025.11230987",
+     "authors": "Orchisama Das, Gloria Dal Santo, Sebastian J. Schlecht, Zoran Cvetković"
+    },
+    {
+     "title": "Miipher-2: A Universal Speech Restoration Model for Million-Hour Scale Data Restoration",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 6,
+     "doi": "10.1109/waspaa66052.2025.11230923",
+     "authors": "Shigeki Karita, Yuma Koizumi, Heiga Zen, Haruko Ishikawa, Robin Scheibler, Michiel Bacchiani"
+    },
+    {
+     "title": "Blind Room Acoustic Parameters Estimation Using Mobile Audio Transformer",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 11,
+     "doi": "10.1109/waspaa58266.2023.10248186",
+     "authors": "Shivam Saini, Jürgen Peissig"
+    },
+    {
+     "title": "Temporal Noise Shaping on MDCT Subband Signals for Transform Audio Coding",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa58266.2023.10248079",
+     "authors": "Richard Füg, Bernd Edler"
+    },
+    {
+     "title": "General Purpose Audio Effect Removal",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa58266.2023.10248157",
+     "authors": "Matthew Rice, Christian J. Steinmetz, George Fazekas, Joshua D. Reiss"
+    },
+    {
+     "title": "Cross-Domain Semi-Supervised Audio Event Classification Using Contrastive Regularization",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa52581.2021.9632721",
+     "authors": "Donmoon Lee, Kyogu Lee"
+    },
+    {
+     "title": "Neural Audio Decorrelation Using Generative Adversarial Networks",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa58266.2023.10248167",
+     "authors": "Carlotta Anemüller, Oliver Thiergart, Emanuël A. P. Habets"
+    },
+    {
+     "title": "An Improved Metric of Informational Masking for Perceptual Audio Quality Measurement",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248080",
+     "authors": "Pablo M. Delgado, Jürgen Herre"
+    },
+    {
+     "title": "Robust Audio Anti-Spoofing System Based on Low-Frequency Sub-Band Information",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 3,
+     "doi": "10.1109/waspaa58266.2023.10248132",
+     "authors": "Menglu Li, Xiao-Ping Zhang"
+    },
+    {
+     "title": "Learning to Upsample and Upmix Audio in the Latent Domain",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa66052.2025.11230977",
+     "authors": "Dimitrios Bralios, Paris Smaragdis, Jonah Casebeer"
+    },
+    {
+     "title": "Harp-Net: Hyper-Autoencoded Reconstruction Propagation for Scalable Neural Audio Coding",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 20,
+     "doi": "10.1109/waspaa52581.2021.9632723",
+     "authors": "Darius Petermann, Seungkwon Beack, Minje Kim"
+    },
+    {
+     "title": "Sound event detection with audio-text models and heterogeneous temporal annotations",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230981",
+     "authors": "Manu Harju, Annamaria Mesaros"
+    },
+    {
+     "title": "Audio Inputs for Active Speaker Detection and Localization Via Microphone Array",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 3,
+     "doi": "10.1109/waspaa58266.2023.10248185",
+     "authors": "Davide Berghi, Philip J. B. Jackson"
+    },
+    {
+     "title": "A Multi-Head Relevance Weighting Framework for Learning Raw Waveform Audio Representations",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa52581.2021.9632708",
+     "authors": "Debottam Dutta, Purvi Agrawal, Sriram Ganapathy"
+    },
+    {
+     "title": "SynSonic: Augmenting Sound Event Detection through Text-to-Audio Diffusion ControlNet and Effective Sample Filtering",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230980",
+     "authors": "Jiarui Hai, Mounya Elhilali"
+    },
+    {
+     "title": "Hybrid Noise Shaping for Audio Coding Using Perfectly Overlapped Window",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa58266.2023.10248116",
+     "authors": "Byeongho Jo, Seungkwon Beack"
+    },
+    {
+     "title": "Learn from Virtual Guitar: A Comparative Analysis of Automatic Guitar Transcription using Synthetic and Real Audio",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230954",
+     "authors": "Yuta Kusaka, Akira Maezawa"
+    },
+    {
+     "title": "Contrastive Representation Learning for Privacy-Preserving Fine-Tuning of Audio-Visual Speech Recognition",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230949",
+     "authors": "Luca Becker, Rainer Martin"
+    },
+    {
+     "title": "VQCPC-GAN: Variable-Length Adversarial Audio Synthesis Using Vector-Quantized Contrastive Predictive Coding",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 7,
+     "doi": "10.1109/waspaa52581.2021.9632757",
+     "authors": "Javier Nistal, Cyran Aouameur, Stefan Lattner, Gael Richard"
+    },
+    {
+     "title": "Internal Time Delay Calibration of Rigid Spherical Microphone Arrays for Multi-Perspective 6DoF Audio Recordings",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 3,
+     "doi": "10.1109/waspaa52581.2021.9632715",
+     "authors": "Ege Erdem, Orhun Olgun, Huseyin Hacihabiboglu"
+    },
+    {
+     "title": "Disentanglement Learning for Variational Autoencoders Applied to Audio-Visual Speech Enhancement",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 13,
+     "doi": "10.1109/waspaa52581.2021.9632676",
+     "authors": "Guillaume Carbajal, Julius Richter, Timo Gerkmann"
+    },
+    {
+     "title": "JSQA: Speech Quality Assessment with Perceptually-Inspired Contrastive Pretraining Based on JND Audio Pairs",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230995",
+     "authors": "Junyi Fan, Donald Williamson"
+    },
+    {
+     "title": "Learning Robust Spatial Representations from Binaural Audio through Feature Distillation",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230921",
+     "authors": "Holger Severin Bovbjerg, Jan Østergaard, Jesper Jensen, Shinji Watanabe, Zheng-Hua Tan"
+    },
+    {
+     "title": "Diffused Responsibility: Analyzing the Energy Consumption of Generative Text-to-Audio Diffusion Models",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230979",
+     "authors": "Riccardo Passoni, Francesca Ronchini, Luca Comanducci, Romain Serizel, Fabio Antonacci"
+    },
+    {
+     "title": "RUMAA: Repeat-Aware Unified Music Audio Analysis for Score-Performance Alignment, Transcription, and Mistake Detection",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230990",
+     "authors": "Sungkyun Chang, Simon Dixon, Emmanouil Benetos"
+    },
+    {
+     "title": "All-in-One Metrical and Functional Structure Analysis with Neighborhood Attentions on Demixed Audio",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 23,
+     "doi": "10.1109/waspaa58266.2023.10248148",
+     "authors": "Taejun Kim, Juhan Nam"
+    },
+    {
+     "title": "Joint Direction and Proximity Classification of Overlapping Sound Events from Binaural Audio",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 8,
+     "doi": "10.1109/waspaa52581.2021.9632775",
+     "authors": "Daniel Aleksander Krause, Archontis Politis, Annamaria Mesaros"
+    },
+    {
+     "title": "Optimal Region-of-Interest Beamforming for Audio Conferencing with Dual Perpendicular Sparse Circular Sectors",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11231016",
+     "authors": "Gal Itzhak, Simon Doclo, Israel Cohen"
+    },
+    {
+     "title": "Representation Learning for Audio Privacy Preservation Using Source Separation and Robust Adversarial Learning",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 7,
+     "doi": "10.1109/waspaa58266.2023.10248153",
+     "authors": "Diep Luong, Minh Tran, Shayan Gharib, Konstantinos Drossos, Tuomas Virtanen"
+    },
+    {
+     "title": "Unsupervised Improvement of Audio-Text Cross-Modal Representations",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248180",
+     "authors": "Zhepei Wang, Cem Subakan, Krishna Subramani, Junkai Wu, Tiago Tavares, Fabio Ayres"
+    },
+    {
+     "title": "Time-Domain Audio Source Separation Based on Gaussian Processes with Deep Kernel Learning",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa58266.2023.10248168",
+     "authors": "Aditya Arie Nugraha, Diego Di Carlo, Yoshiaki Bando, Mathieu Fontaine, Kazuyoshi Yoshii"
+    },
+    {
+     "title": "Who Calls The Shots? Rethinking Few-Shot Learning for Audio",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 21,
+     "doi": "10.1109/waspaa52581.2021.9632677",
+     "authors": "Yu Wang, Nicholas J. Bryan, Justin Salamon, Mark Cartwright, Juan Pablo Bello"
+    },
+    {
+     "title": "Miipher: A Robust Speech Restoration Model Integrating Self-Supervised Speech and Text Representations",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 26,
+     "doi": "10.1109/waspaa58266.2023.10248089",
+     "authors": "Yuma Koizumi, Heiga Zen, Shigeki Karita, Yifan Ding, Kohei Yatabe, Nobuyuki Morioka"
+    },
+    {
+     "title": "Compressing Audio CNNS with Graph Centrality Based Filter Pruning",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa58266.2023.10248103",
+     "authors": "James A King, Arshdeep Singh, Mark D. Plumbley"
+    },
+    {
+     "title": "Optimizing Higher-Order Directional Audio Coding with Adaptive Mixing and Energy Matching for Ambisonic Compression and Upmixing",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa58266.2023.10248179",
+     "authors": "Christoph Hold, Leo McCormack, Archontis Politis, Ville Pulkki"
+    },
+    {
+     "title": "DPLM: A Deep Perceptual Spatial-Audio Localization Metric",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 6,
+     "doi": "10.1109/waspaa52581.2021.9632781",
+     "authors": "Pranay Manocha, Anurag Kumar, Buye Xu, Anjali Menon, Israel D. Gebru, Vamsi K. Ithapu"
+    },
+    {
+     "title": "Learning Multi-Pitch Estimation from Weakly Aligned Score-Audio Pairs Using a Multi-Label CTC Loss",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 3,
+     "doi": "10.1109/waspaa52581.2021.9632740",
+     "authors": "Christof Weiss, Geoffroy Peeters"
+    },
+    {
+     "title": "OpenBEATs: A Fully Open-Source General-Purpose Audio Encoder",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 3,
+     "doi": "10.1109/waspaa66052.2025.11230965",
+     "authors": "Shikhar Bharadwaj, Samuele Cornell, Kwanghee Choi, Satoru Fukayama, Hye-Jin Shim, Soham Deshmukh"
+    },
+    {
+     "title": "SpecMaskFoley: Steering Pretrained Spectral Masked Generative Transformer Toward Synchronized Video-to-audio Synthesis via ControlNet",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa66052.2025.11230970",
+     "authors": "Zhi Zhong, Akira Takahashi, Shuyang Cui, Keisuke Toyama, Shusuke Takahashi, Yuki Mitsufuji"
+    },
+    {
+     "title": "Task-Specific Audio Coding for Machines: Machine-Learned Latent Features Are Codes for That Machine",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230960",
+     "authors": "Anastasia Kuznetsova, Inseon Jang, Wootaek Lim, Minje Kim"
+    },
+    {
+     "title": "Sponsors",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa52581.2021.9632712",
+     "authors": ""
+    },
+    {
+     "title": "Committee",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa52581.2021.9632718",
+     "authors": ""
+    },
+    {
+     "title": "Reviewers",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa52581.2021.9632734",
+     "authors": ""
+    },
+    {
+     "title": "[Blank page]",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa52581.2021.9632748",
+     "authors": ""
+    },
+    {
+     "title": "[Blank page]",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa52581.2021.9632725",
+     "authors": ""
+    },
+    {
+     "title": "[Blank page]",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa52581.2021.9632742",
+     "authors": ""
+    },
+    {
+     "title": "WASPAA 2025 Welcome",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230984",
+     "authors": ""
+    },
+    {
+     "title": "[Copyright notice]",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa52581.2021.9632728",
+     "authors": ""
+    },
+    {
+     "title": "Area Chairs",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa52581.2021.9632671",
+     "authors": ""
+    },
+    {
+     "title": "Program Glance",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa52581.2021.9632800",
+     "authors": ""
+    },
+    {
+     "title": "Fast Text-to-Audio Generation with Adversarial Post-Training",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 3,
+     "doi": "10.1109/waspaa66052.2025.11230941",
+     "authors": "Zachary Novack, Zach Evans, Zack Zukowski, Josiah Taylor, CJ Carr, Julian Parker"
+    },
+    {
+     "title": "WASPAA 2025 Technical Committee",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230945",
+     "authors": ""
+    },
+    {
+     "title": "WASPAA 2025 Cover Page",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230968",
+     "authors": ""
+    },
+    {
+     "title": "WASPAA 2023 Organizing Committee",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248136",
+     "authors": ""
+    },
+    {
+     "title": "WASPAA 2023 Cover Page",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248125",
+     "authors": ""
+    },
+    {
+     "title": "WASPAA 2025 Copyright Page",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230998",
+     "authors": ""
+    },
+    {
+     "title": "WASPAA 2025 Organizing Committee",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230994",
+     "authors": ""
+    },
+    {
+     "title": "WASPAA 2023 Technical Program Committee",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248175",
+     "authors": ""
+    },
+    {
+     "title": "WASPAA 2025 Technical Program and Schedule",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230961",
+     "authors": ""
+    },
+    {
+     "title": "WASPAA 2023 Program at a Glance",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248115",
+     "authors": ""
+    },
+    {
+     "title": "Combolutional Neural Networks",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11231004",
+     "authors": "Cameron Churchwell, Minje Kim, Paris Smaragdis"
+    },
+    {
+     "title": "Low Complexity Online Convolutional Beamforming",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa52581.2021.9632780",
+     "authors": "Sebastian Braun, Ivan Tashev"
+    },
+    {
+     "title": "Periodic Analysis of Nonlinear Virtual Analog Models",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa52581.2021.9632733",
+     "authors": "Francois G. Germain"
+    },
+    {
+     "title": "2D Multizone Sound Field Synthesis with Interior-Exterior Ambisonics",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 5,
+     "doi": "10.1109/waspaa52581.2021.9632736",
+     "authors": "Takuma Okamoto"
+    },
+    {
+     "title": "Diff-Pitcher: Diffusion-Based Singing Voice Pitch Correction",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 5,
+     "doi": "10.1109/waspaa58266.2023.10248127",
+     "authors": "Jiarui Hai, Mounya Elhilali"
+    },
+    {
+     "title": "Deep Adaptation Control for Stereophonic Acoustic Echo Cancellation",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa58266.2023.10248161",
+     "authors": "Amir Ivry, Israel Cohen, Baruch Berdugo"
+    },
+    {
+     "title": "Ambient-Aware Sound Field Translation Using Optimal Spatial Filtering",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 2,
+     "doi": "10.1109/waspaa52581.2021.9632793",
+     "authors": "Maximilian Kentgens, Peter Jax"
+    },
+    {
+     "title": "A Universal Deep Room Acoustics Estimator",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 9,
+     "doi": "10.1109/waspaa52581.2021.9632738",
+     "authors": "Paula Sánchez López, Paul Callens, Milos Cernak"
+    },
+    {
+     "title": "Differentiable Representation of Warping Based on Lie Group Theory",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248099",
+     "authors": "Atsushi Miyashita, Tomoki Toda"
+    },
+    {
+     "title": "End-to-End Zero-Shot Voice Conversion Using a DDSP Vocoder",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 3,
+     "doi": "10.1109/waspaa52581.2021.9632754",
+     "authors": "Shahan Nercessian"
+    },
+    {
+     "title": "SFC-L1: Sound Field Control With Least Absolute Deviation Regression",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230967",
+     "authors": "Takuma Okamoto"
+    },
+    {
+     "title": "Low-Complexity Individualized Noise Reduction for Real-Time Processing",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11231000",
+     "authors": "Chuan Wen, Sarah Verhulst"
+    },
+    {
+     "title": "Neural Networks for Interference Reduction in Multi-Track Recordings",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa58266.2023.10248133",
+     "authors": "Rajesh R, Padmanabhan Rajan"
+    },
+    {
+     "title": "Pretraining Respiratory Sound Representations using Metadata and Contrastive Learning",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 30,
+     "doi": "10.1109/waspaa58266.2023.10248130",
+     "authors": "Ilyass Moummad, Nicolas Farrugia"
+    },
+    {
+     "title": "Hyperbolic Unsupervised Anomalous Sound Detection",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 4,
+     "doi": "10.1109/waspaa58266.2023.10248092",
+     "authors": "François G. Germain, Gordon Wichern, Jonathan Le Roux"
+    },
+    {
+     "title": "Annotating Jazz Recordings Using Lead Sheet Alignment with Deep Chroma Features",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa58266.2023.10248107",
+     "authors": "Ivan Shanin, Simon Dixon"
+    },
+    {
+     "title": "Adversarial Auto-Encoding for Packet Loss Concealment",
+     "year": 2021,
+     "venue": "2021 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 25,
+     "doi": "10.1109/waspaa52581.2021.9632730",
+     "authors": "Santiago Pascual, Joan Serra, Jordi Pons"
+    },
+    {
+     "title": "Region-of-Interest Oriented Constant-Beamwidth Beamforming with Rectangular Arrays",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 12,
+     "doi": "10.1109/waspaa58266.2023.10248053",
+     "authors": "Gal Itzhak, Israel Cohen"
+    }
+   ]
+  },
+  "multimodal agent": {
+   "total": 13469,
+   "kept": 1,
+   "papers": [
+    {
+     "title": "VoxATtack: A Multimodal Attack on Voice Anonymization Systems",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230920",
+     "authors": "Ahmad Aloradi, Ünal Ege Gaznepoglu, Emanuël A. P. Habets, Daniel Tenbrinck"
+    }
+   ]
+  },
+  "on-device inference": {
+   "total": 11130,
+   "kept": 5,
+   "papers": [
+    {
+     "title": "Device-Centric Room Impulse Response Augmentation Evaluated on Room Geometry Inference",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11231005",
+     "authors": "Cagdas Tuna, Andreas Walther, Emanuël A. P. Habets"
+    },
+    {
+     "title": "Distributed Asynchronous Device Speech Enhancement via Windowed Cross-Attention",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 0,
+     "doi": "10.1109/waspaa66052.2025.11230972",
+     "authors": "Gene-Ping Yang, Sebastian Braun"
+    },
+    {
+     "title": "Towards on-Device Keyword Spotting using Low-Footprint Quaternion Neural Models",
+     "year": 2023,
+     "venue": "2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa58266.2023.10248052",
+     "authors": "Aryan Chaudhary, Vinayak Abrol"
+    },
+    {
+     "title": "Improving Inference-Time Optimisation for Vocal Effects Style Transfer with a Gaussian Prior",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11231006",
+     "authors": "Chin-Yun Yu, Marco A. Martínez-Ramírez, Junghyun Koo, Wei-Hsiang Liao, Yuki Mitsufuji, György Fazekas"
+    },
+    {
+     "title": "Beyond Architecture: The Critical Impact of Inference Overlap on Music Source Separation Benchmarks",
+     "year": 2025,
+     "venue": "2025 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)",
+     "citationCount": 1,
+     "doi": "10.1109/waspaa66052.2025.11230966",
+     "authors": "Harnick Khera, Johan Pauwels, Alan W. Archer-Boyd, Mark B. Sandler"
+    }
+   ]
+  }
+ }
+}

@@ -287,6 +287,9 @@ def venue_of(paper: dict) -> str | None:
 _PUNCT_RE = re.compile(r"[^\w\s]|_")
 
 
+_YEAR_PREFIX_RE = re.compile(r"^(19|20)\d{2}\s+")
+
+
 def _norm_venue(s: str) -> str:
     """venue 串规范化：casefold、标点/下划线 -> 空格、折叠连续空白。"""
     return " ".join(_PUNCT_RE.sub(" ", s.casefold()).split())
@@ -516,6 +519,102 @@ def _curl_json(url: str) -> dict | None:
     return d if isinstance(d.get("data"), list) else None
 
 
+# ---------------------------------------------------------------------------
+# Crossref 后端（默认）：S2 未认证池死亡（2026-09-29 实测逐请求 429）后的
+# 已裁决替代路线——本仓库 ICASSP 14,285 篇全量普查的同款引擎。
+# 限速宽松（polite 池 sleep 2s），无需 75s 纪律。
+# ---------------------------------------------------------------------------
+CROSSREF_GAP_S = 2.0
+CROSSREF_MAILTO = "laos-survey@example.com"
+CROSSREF_FROM_YEAR = 2021
+
+
+def crossref_query(venue_str: str, topic: str, *, journal: bool) -> str:
+    """Crossref 检索 URL：query=主题 + query.container-title=venue（相关性加权，
+    非硬过滤——crossref_papers 做客户端精确/别名过滤兜底）。"""
+    from urllib.parse import quote_plus
+    doc_type = "type:journal-article" if journal else "type:proceedings-article"
+    return (
+        "https://api.crossref.org/works"
+        f"?query={quote_plus(topic)}"
+        f"&query.container-title={quote_plus(venue_str)}"
+        f"&filter=from-pub-date:{CROSSREF_FROM_YEAR}-01-01,{doc_type}"
+        "&rows=100"
+        "&select=title,author,DOI,container-title,issued,is-referenced-by-count"
+        f"&mailto={CROSSREF_MAILTO}"
+    )
+
+
+def _venue_aliases(venue_key: str) -> set[str]:
+    """venue 短名 -> 规范化别名集（CANDIDATES ∪ 探测 resolved 串）。"""
+    strings_json = _load_strings()
+    resolved = strings_json.get("resolved") or {}
+    return {_norm_venue(s) for s in
+            list(CANDIDATES.get(venue_key, [])) + [resolved.get(venue_key, "")]}
+
+
+def crossref_papers(obj: dict, venue_key: str) -> list[dict]:
+    """Crossref message.items -> 统一 paper 形状（对齐 S2 路径的 kept 条目）。
+
+    客户端过滤：container-title[0] 必须（大小写/空白不敏感）匹配该 venue 的
+    别名集（_venue_aliases）；年份 >= CROSSREF_FROM_YEAR；title 非空。
+    """
+    items = (obj.get("message") or {}).get("items") or []
+    aliases = _venue_aliases(venue_key)
+    out: list[dict] = []
+    for it in items:
+        titles = it.get("title") or []
+        title = titles[0].strip() if titles else ""
+        containers = it.get("container-title") or []
+        container = containers[0].strip() if containers else ""
+        year = ((it.get("issued") or {}).get("date-parts") or [[None]])[0][0]
+        if not title or not container or not isinstance(year, int):
+            continue
+        if year < CROSSREF_FROM_YEAR:
+            continue
+        # Crossref 的 container-title 常带年份前缀（"2024 IEEE ... (SLT)"）——
+        # 剥离前导年份后再匹配别名集
+        c_norm = _norm_venue(container)
+        c_noyear = _norm_venue(_YEAR_PREFIX_RE.sub("", container))
+        if c_norm not in aliases and c_noyear not in aliases:
+            continue
+        authors = ", ".join(
+            f"{a.get('given', '')} {a.get('family', '')}".strip()
+            for a in (it.get("author") or [])[:6]
+        )
+        out.append({
+            "title": title,
+            "year": year,
+            "venue": container,
+            "citationCount": it.get("is-referenced-by-count", 0),
+            "doi": it.get("DOI", ""),
+            "authors": authors,
+        })
+    return out
+
+
+def crossref_fetch(url: str, counters: dict, pacer: Pacer) -> dict | None:
+    """Crossref 单次请求：失败退避 5/15/30s 重试至 3 次（polite 池远宽于 S2，
+    pacer 间距 2s）。返回 crossref 顶层 dict（含 message.items）。"""
+    for attempt, backoff in enumerate((5, 15, 30), start=1):
+        counters["attempts"] += 1
+        r = subprocess.run(
+            ["curl", "-s", "--max-time", str(CURL_TIMEOUT_S), url],
+            capture_output=True,
+        )
+        if r.returncode == 0 and r.stdout.strip().startswith(b"{"):
+            try:
+                d = json.loads(r.stdout.decode("utf-8", "replace"))
+                if "message" in d:
+                    return d
+            except json.JSONDecodeError:
+                pass
+        if attempt < 3:
+            print(f"[crossref miss] 退避 {backoff}s 重试 ({url[:80]})", flush=True)
+            time.sleep(backoff)
+    return None
+
+
 def s2_fetch(url: str, counters: dict, pacer: Pacer) -> dict | None:
     """单次请求；429/miss 重试一次，且重试前经 pacer.wait() 等满 75s 间距下限——
     任意两次 curl 间距 >= REQUEST_GAP_S（attempts 计 curl 次数；成功由调用方计预算）。"""
@@ -721,10 +820,16 @@ def run_probe(limit_requests: int, dry_run: bool, wall_s: float = PROBE_WALL_S,
 # ---------------------------------------------------------------------------
 # --wave：主题切片爬取（round-3 式耐心重扫）
 # ---------------------------------------------------------------------------
+JOURNAL_KEYS = frozenset({
+    "TASLP", "EURASIP", "TACL", "CL", "JMLR", "TPAMI", "IJCV", "TMM", "TOMM",
+})
+
+
 def run_wave(wave: str, venue_filter: str | None, limit_requests: int, dry_run: bool,
-             wall_s: float = WAVE_WALL_S) -> int:
+             wall_s: float = WAVE_WALL_S, backend: str = "crossref") -> int:
     budget = {"used": 0, "attempts": 0}  # used=成功响应数（预算口径）
-    pacer = Pacer(enabled=not dry_run)
+    pacer = (Pacer(gap_s=CROSSREF_GAP_S, enabled=not dry_run)
+             if backend == "crossref" else Pacer(enabled=not dry_run))
     t0 = time.time()
     names = _parse_venue_filter(venue_filter)
     observed = Counter(_load_observed())  # 机会式采集：venue 串 -> 计数（跨运行累加）
@@ -751,32 +856,54 @@ def run_wave(wave: str, venue_filter: str | None, limit_requests: int, dry_run: 
                     if stop:
                         truncated_by = stop
                         break
-                    url = slice_query(venue_str, topic)
+                    if backend == "crossref":
+                        url = crossref_query(venue_str, topic,
+                                             journal=key in JOURNAL_KEYS)
+                    else:
+                        url = slice_query(venue_str, topic)
                     if dry_run:
                         print(f"[DRY] {key} ({venue_str!r}) <- {topic!r}\n       {url}", flush=True)
                         continue
                     pacer.wait()
-                    d = s2_fetch(url, budget, pacer)
+                    if backend == "crossref":
+                        d = crossref_fetch(url, budget, pacer)
+                    else:
+                        d = s2_fetch(url, budget, pacer)
                     attempts_this_venue += 1
                     if d is None:
-                        queries[topic] = {"error": "429/miss after 1 retry (will re-sweep)"}
+                        queries[topic] = {"error": f"{backend} miss after retries"}
                         print(f"[FAIL] {key} | {topic}  ({_now()})", flush=True)
                         continue
                     budget["used"] += 1
                     progressed = True
-                    # 机会式采集：记录返回 paper 的真实 venue 串（含被拒的邻居串，
-                    # 它们揭示 S2 venue= 模糊过滤实际命中的规范串，喂给 --harvest）
-                    for p in d["data"]:
-                        pv = p.get("venue") if isinstance(p, dict) else None
-                        if isinstance(pv, str) and pv:
-                            observed[pv] += 1
-                    _write_observed(observed)
-                    kept = [p for p in d["data"] if venue_of(p)]
-                    queries[topic] = {
-                        "total": d.get("total", len(kept)),
-                        "kept": len(kept),
-                        "papers": kept,
-                    }
+                    if backend == "crossref":
+                        items = (d.get("message") or {}).get("items") or []
+                        for it in items:
+                            ct = (it.get("container-title") or [""])
+                            if ct and ct[0]:
+                                observed[ct[0]] += 1
+                        _write_observed(observed)
+                        kept = crossref_papers(d, key)
+                        queries[topic] = {
+                            "total": ((d.get("message") or {}).get("total-results")
+                                      or len(kept)),
+                            "kept": len(kept),
+                            "papers": kept,
+                        }
+                    else:
+                        # 机会式采集：记录返回 paper 的真实 venue 串（含被拒的邻居串，
+                        # 它们揭示 S2 venue= 模糊过滤实际命中的规范串，喂给 --harvest）
+                        for p in d["data"]:
+                            pv = p.get("venue") if isinstance(p, dict) else None
+                            if isinstance(pv, str) and pv:
+                                observed[pv] += 1
+                        _write_observed(observed)
+                        kept = [p for p in d["data"] if venue_of(p)]
+                        queries[topic] = {
+                            "total": d.get("total", len(kept)),
+                            "kept": len(kept),
+                            "papers": kept,
+                        }
                     pending.remove(topic)
                     print(
                         f"[OK] {key} | {topic}: total={queries[topic]['total']} "
@@ -848,6 +975,8 @@ def main(argv=None) -> int:
                          f"（计数 >= {HARVEST_MIN_COUNT} 且 VENUES 未精确收录）")
     ap.add_argument("--venue", metavar="NAME",
                     help="只处理指定 venue 短名/类别名（如 SLT、speech_adj），逗号分隔可多个")
+    ap.add_argument("--backend", choices=("crossref", "s2"), default="crossref",
+                    help="爬取后端：crossref（默认，S2 未认证池 429 死亡后的替代）|s2")
     ap.add_argument("--limit-requests", type=int, default=None, metavar="N",
                     help="成功响应预算上限（默认：--probe 为 40，--wave 为 90）")
     ap.add_argument("--deadline-minutes", type=int, default=None, metavar="M",
@@ -865,7 +994,8 @@ def main(argv=None) -> int:
         ap.error("需要 --wave A|B 或 --probe/--harvest 之一")
     limit = args.limit_requests if args.limit_requests is not None else 90
     wall = (args.deadline_minutes * 60) if args.deadline_minutes else WAVE_WALL_S
-    return run_wave(args.wave, args.venue, limit, args.dry_run, wall)
+    return run_wave(args.wave, args.venue, limit, args.dry_run, wall,
+                     backend=args.backend)
 
 
 if __name__ == "__main__":
