@@ -564,6 +564,35 @@ def _venue_aliases(venue_key: str) -> set[str]:
             list(CANDIDATES.get(venue_key, [])) + [resolved.get(venue_key, "")]}
 
 
+def container_matches(container: str, venue_key: str,
+                       aliases: set[str] | None = None) -> bool:
+    """容器名是否属于该 venue（爬虫与校验器共用的唯一判定口径）。
+
+    波 B 实测的容器变体全家桶：年份前缀（"2024 IEEE ... (SLT)"）、
+    尾缀缩写（"... (ICME)"）、Proceedings 前缀、序数前缀（"33rd ACM ..."）、
+    卷号尾（"... Systems 38"）——统一剥后先精确，再用长别名（>=12 字符）
+    双向子串兜底；_CROSSREF_EXCLUDE 排他防近邻误标（ICME "...Multimedia
+    and Expo" 与 ICMR "...Multimedia Retrieval" 都含 "International
+    Conference on Multimedia"）。
+    """
+    if aliases is None:
+        aliases = _venue_aliases(venue_key)
+    c = _YEAR_PREFIX_RE.sub("", container)
+    c = re.sub(r"\s*\([^)]{2,12}\)\s*$", "", c)
+    c = re.sub(r"^(in\s+)?proceedings\s+of(\s+the)?\s+", "", c,
+               flags=re.IGNORECASE)
+    c = re.sub(r"^\d{1,3}(st|nd|rd|th)\s+", "", c, flags=re.IGNORECASE)
+    c = re.sub(r"\s+\d{1,3}$", "", c)
+    n = _norm_venue(c)
+    n_raw = _norm_venue(container)
+    if any(e in n_raw or e in n
+           for e in _CROSSREF_EXCLUDE.get(venue_key, ())):
+        return False
+    if n in aliases or n_raw in aliases:
+        return True
+    return any(len(a) >= 12 and (a in n or n in a) for a in aliases)
+
+
 def crossref_papers(obj: dict, venue_key: str) -> list[dict]:
     """Crossref message.items -> 统一 paper 形状（对齐 S2 路径的 kept 条目）。
 
@@ -583,28 +612,7 @@ def crossref_papers(obj: dict, venue_key: str) -> list[dict]:
             continue
         if year < CROSSREF_FROM_YEAR:
             continue
-        # 波 B 实测的容器变体全家桶：年份前缀（"2024 IEEE ... (SLT)"）、
-        # 尾缀缩写（"... (ICME)"）、Proceedings 前缀、卷号尾（"... Systems 38"）
-        # ——统一剥后先精确，再用长别名（>=12 字符）双向子串兜底；
-        # _CROSSREF_EXCLUDE 排他防近邻误标（ICME "...Multimedia and Expo" 与
-        # ICMR "...Multimedia Retrieval" 都含 "International Conference on Multimedia"）
-        c = _YEAR_PREFIX_RE.sub("", container)
-        c = re.sub(r"\s*\([^)]{2,12}\)\s*$", "", c)
-        c = re.sub(r"^(in\s+)?proceedings\s+of(\s+the)?\s+", "", c,
-                   flags=re.IGNORECASE)
-        c = re.sub(r"\s+\d{1,3}$", "", c)
-        n = _norm_venue(c)
-        n_raw = _norm_venue(container)
-        if any(e in n_raw or e in n
-               for e in _CROSSREF_EXCLUDE.get(venue_key, ())):
-            continue
-        hit = n in aliases or n_raw in aliases
-        if not hit:
-            for a in aliases:
-                if len(a) >= 12 and (a in n or n in a):
-                    hit = True
-                    break
-        if not hit:
+        if not container_matches(container, venue_key, aliases):
             continue
         authors = ", ".join(
             f"{a.get('given', '')} {a.get('family', '')}".strip()

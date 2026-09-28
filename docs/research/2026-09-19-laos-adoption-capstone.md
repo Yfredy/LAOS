@@ -223,3 +223,5 @@ git show --stat --oneline bbf5f5e | head -3    # PCEN/KWS/audiostore/pronunciati
 git log --oneline -1 073a3c5                   # ●已消化锚：普查终版入库
 git log --oneline -1 ba2d649                   # ●已消化锚：19,792 篇统一语料+校验器
 ```
+
+> **语料更新（2026-09-29）**：§G 所依据的论文面已从双会议全量（19,792 篇）扩展至 35 个多领域顶会/期刊主题切片（9,308 条，[报告](2026-09-29-multivenue-survey.md)）——TASLP 列为听觉线持续跟踪的最高优先级单一 venue。
