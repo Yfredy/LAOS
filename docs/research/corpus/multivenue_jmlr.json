@@ -1,0 +1,54 @@
+{
+ "venue": "JMLR",
+ "category": "ml",
+ "canonical_venue_string": "Journal of Machine Learning Research",
+ "wave": "B",
+ "generated_at": "2026-09-29 01:09:38",
+ "topics": [
+  "LLM agent tool use",
+  "agent memory",
+  "audio language model",
+  "multimodal agent",
+  "on-device inference",
+  "self-supervised speech"
+ ],
+ "request_budget": {
+  "successful": 36,
+  "limit": 300,
+  "attempts": 6
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "LLM agent tool use": {
+   "total": 52677,
+   "kept": 0,
+   "papers": []
+  },
+  "agent memory": {
+   "total": 12855,
+   "kept": 0,
+   "papers": []
+  },
+  "audio language model": {
+   "total": 101592,
+   "kept": 0,
+   "papers": []
+  },
+  "multimodal agent": {
+   "total": 8555,
+   "kept": 0,
+   "papers": []
+  },
+  "on-device inference": {
+   "total": 5329,
+   "kept": 0,
+   "papers": []
+  },
+  "self-supervised speech": {
+   "total": 38100,
+   "kept": 0,
+   "papers": []
+  }
+ }
+}

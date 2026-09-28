@@ -1,0 +1,824 @@
+{
+ "venue": "IJCV",
+ "category": "cv",
+ "canonical_venue_string": "International Journal of Computer Vision",
+ "wave": "B",
+ "generated_at": "2026-09-29 01:12:52",
+ "topics": [
+  "audio-visual",
+  "audio language model"
+ ],
+ "request_budget": {
+  "successful": 101,
+  "limit": 300,
+  "attempts": 2
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "audio-visual": {
+   "total": 19888,
+   "kept": 44,
+   "papers": [
+    {
+     "title": "Audio-Visual Generation",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 0,
+     "doi": "10.1007/s11263-026-02859-3",
+     "authors": "Tae-Hyun Oh, Vicky Kalogeiton, Stavros Petridis, Sergey Tulyakov, Zhixiang Wang, Ming-Hsuan Yang"
+    },
+    {
+     "title": "Sample-efficient Audio-Visual Learning of Scene Acoustics",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 0,
+     "doi": "10.1007/s11263-026-02767-6",
+     "authors": "Arjun Somayazulu, Sagnik Majumder, Changan Chen, Ziad Al-Halah, Kristen Grauman"
+    },
+    {
+     "title": "Cosh-DiT: Co-Speech Gesture Video Synthesis via Hybrid Audio-Visual Diffusion Transformers",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 1,
+     "doi": "10.1007/s11263-026-02752-z",
+     "authors": "Yasheng Sun, Zhiliang Xu, Hang Zhou, Jiazhi Guan, Quanwei Yang, Kaisiyuan Wang"
+    },
+    {
+     "title": "Guiding Audio-Visual Question Answering with Collective Question Reasoning",
+     "year": 2025,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 5,
+     "doi": "10.1007/s11263-025-02510-7",
+     "authors": "Baoqi Pei, Yifei Huang, Guo Chen, Jilan Xu, Yali Wang, Limin Wang"
+    },
+    {
+     "title": "Audio-Visual Segmentation with Semantics",
+     "year": 2024,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 51,
+     "doi": "10.1007/s11263-024-02261-x",
+     "authors": "Jinxing Zhou, Xuyang Shen, Jianyuan Wang, Jiayi Zhang, Weixuan Sun, Jing Zhang"
+    },
+    {
+     "title": "CLIP-Powered TASS: Target-Aware Single-Stream Network for Audio-Visual Question Answering",
+     "year": 2024,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 9,
+     "doi": "10.1007/s11263-024-02289-z",
+     "authors": "Yuanyuan Jiang, Jianqin Yin"
+    },
+    {
+     "title": "Joint Learning of Audio–Visual Saliency Prediction and Sound Source Localization on Multi-face Videos",
+     "year": 2023,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 20,
+     "doi": "10.1007/s11263-023-01950-3",
+     "authors": "Minglang Qiao, Yufan Liu, Mai Xu, Xin Deng, Bing Li, Weiming Hu"
+    },
+    {
+     "title": "Advancing Weakly-Supervised Audio-Visual Video Parsing via Segment-Wise Pseudo Labeling",
+     "year": 2024,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 29,
+     "doi": "10.1007/s11263-024-02142-3",
+     "authors": "Jinxing Zhou, Dan Guo, Yiran Zhong, Meng Wang"
+    },
+    {
+     "title": "HarmoniDPO: Video-guided Audio Generation via Preference-Optimized Diffusion",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 1,
+     "doi": "10.1007/s11263-025-02636-8",
+     "authors": "Wenshuo Peng, Kaipeng Zhang"
+    },
+    {
+     "title": "Audio-Guided Video Scene Editing",
+     "year": 2025,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 0,
+     "doi": "10.1007/s11263-025-02640-y",
+     "authors": "Kaixin Shen, Ruijie Quan, Linchao Zhu, Dong Zheng, Jun Xiao, Yi Yang"
+    },
+    {
+     "title": "Visually-Guided Audio Spatialization in Video with Geometry-Aware Multi-task Learning",
+     "year": 2023,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 13,
+     "doi": "10.1007/s11263-023-01816-8",
+     "authors": "Rishabh Garg, Ruohan Gao, Kristen Grauman"
+    },
+    {
+     "title": "Video Object Segmentation-Aware Audio Generation",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 0,
+     "doi": "10.1007/s11263-026-02911-2",
+     "authors": "Ilpo Viertola, Vladimir Iashin, Esa Rahtu"
+    },
+    {
+     "title": "Learning Hierarchical Visual Transformation for Domain Generalizable Visual Matching and Recognition",
+     "year": 2024,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 34,
+     "doi": "10.1007/s11263-024-02106-7",
+     "authors": "Xun Yang, Tianyu Chang, Tianzhu Zhang, Shanshan Wang, Richang Hong, Meng Wang"
+    },
+    {
+     "title": "Towards Scene-Aware Video-to-Spatial Audio Generation",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 1,
+     "doi": "10.1007/s11263-025-02610-4",
+     "authors": "Jaeyeon Kim, Heeseung Yun, Gunhee Kim"
+    },
+    {
+     "title": "AI killed the Video Star. Audio-Driven Diffusion Model for Expressive Talking Head Generation",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 1,
+     "doi": "10.1007/s11263-026-02766-7",
+     "authors": "Baptiste Chopin, Tashvik Dhamija, Pranav Balaji, Yaohui Wang, Antitza Dantcheva"
+    },
+    {
+     "title": "Taming Data and Transformers for Audio Generation",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 6,
+     "doi": "10.1007/s11263-025-02632-y",
+     "authors": "Moayed Haji-Ali, Willi Menapace, Aliaksandr Siarohin, Guha Balakrishnan, Vicente Ordonez"
+    },
+    {
+     "title": "L-VOCAL: Language-based Video Colorization with Audio Alignment",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 1,
+     "doi": "10.1007/s11263-026-02798-z",
+     "authors": "Zheng Chang, Shuchen Weng, Huan Ouyang, Yuchen Hong, Lihan Lin, Si Li"
+    },
+    {
+     "title": "Designing Extremely Memory-Efficient CNNs for On-device Vision and Audio Tasks",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 0,
+     "doi": "10.1007/s11263-025-02688-w",
+     "authors": "Yoel Park, Jaewook Lee, Seulki Lee"
+    },
+    {
+     "title": "Sentimental Visual Captioning using Multimodal Transformer",
+     "year": 2023,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 21,
+     "doi": "10.1007/s11263-023-01752-7",
+     "authors": "Xinxiao Wu, Tong Li"
+    },
+    {
+     "title": "Distractor-Aware Memory-Based Visual Object Tracking",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 1,
+     "doi": "10.1007/s11263-026-02790-7",
+     "authors": "Jovana Videnović, Matej Kristan, Alan Lukežič"
+    },
+    {
+     "title": "Visual Attention Consistency for Human Attribute Recognition",
+     "year": 2022,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 24,
+     "doi": "10.1007/s11263-022-01591-y",
+     "authors": "Hao Guo, Xiaochuan Fan, Song Wang"
+    },
+    {
+     "title": "Renormalization for Initialization of Rolling Shutter Visual-Inertial Odometry",
+     "year": 2021,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 2,
+     "doi": "10.1007/s11263-021-01462-y",
+     "authors": "Branislav Micusik, Georgios Evangelidis"
+    },
+    {
+     "title": "A Comprehensive Benchmark for Evaluating Night-time Visual Object Tracking",
+     "year": 2025,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 0,
+     "doi": "10.1007/s11263-025-02661-7",
+     "authors": "Yu Liu, Arif Mahmood, Muhammad Haris Khan"
+    },
+    {
+     "title": "Symmetry-aware Neural Architecture for Embodied Visual Navigation",
+     "year": 2023,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 10,
+     "doi": "10.1007/s11263-023-01909-4",
+     "authors": "Shuang Liu, Masanori Suganuma, Takayuki Okatani"
+    },
+    {
+     "title": "A Survey on Long-Tailed Visual Recognition",
+     "year": 2022,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 151,
+     "doi": "10.1007/s11263-022-01622-8",
+     "authors": "Lu Yang, He Jiang, Qing Song, Jun Guo"
+    },
+    {
+     "title": "Class-Difficulty Based Methods for Long-Tailed Visual Recognition",
+     "year": 2022,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 37,
+     "doi": "10.1007/s11263-022-01643-3",
+     "authors": "Saptarshi Sinha, Hiroki Ohashi, Katsuyuki Nakamura"
+    },
+    {
+     "title": "Correction: A Comprehensive Benchmark for Evaluating Night-time Visual Object Tracking",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 0,
+     "doi": "10.1007/s11263-026-02808-0",
+     "authors": "Yu Liu, Arif Mahmood, Muhammad Haris Khan"
+    },
+    {
+     "title": "Unlock Pose Diversity: Accurate and Efficient Implicit Keypoint-based Spatiotemporal Diffusion for Audio-driven Talking Portrait",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 0,
+     "doi": "10.1007/s11263-025-02695-x",
+     "authors": "Chaolong Yang, Kai Yao, Yuyao Yan, Chenru Jiang, Weiguang Zhao, Jie Sun"
+    },
+    {
+     "title": "An Exploration of Embodied Visual Exploration",
+     "year": 2021,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 86,
+     "doi": "10.1007/s11263-021-01437-z",
+     "authors": "Santhosh K. Ramakrishnan, Dinesh Jayaraman, Kristen Grauman"
+    },
+    {
+     "title": "Learning to Collocate Visual-Linguistic Neural Modules for Image Captioning",
+     "year": 2022,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 10,
+     "doi": "10.1007/s11263-022-01692-8",
+     "authors": "Xu Yang, Hanwang Zhang, Chongyang Gao, Jianfei Cai"
+    },
+    {
+     "title": "Context-Aware Dynamic Actor-Critic for Multimodal Visual Reinforcement Learning",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 0,
+     "doi": "10.1007/s11263-026-02955-4",
+     "authors": "Yangru Huang, Peixi Peng, Yifan Zhao, Guangyao Chen, Yonghong Tian"
+    },
+    {
+     "title": "Weakly-Supervised Semantic Segmentation with Visual Words Learning and Hybrid Pooling",
+     "year": 2022,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 61,
+     "doi": "10.1007/s11263-022-01586-9",
+     "authors": "Lixiang Ru, Bo Du, Yibing Zhan, Chen Wu"
+    },
+    {
+     "title": "When Visual Privacy Protection Meets Multimodal Large Language Models",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 1,
+     "doi": "10.1007/s11263-026-02761-y",
+     "authors": "Xiaofei Hui, Qian Wu, Haoxuan Qu, Majid Mirmehdi, Hossein Rahmani, Jun Liu"
+    },
+    {
+     "title": "VL-Trojan: Multimodal Instruction Backdoor Attacks against Autoregressive Visual Language Models",
+     "year": 2025,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 20,
+     "doi": "10.1007/s11263-025-02368-9",
+     "authors": "Jiawei Liang, Siyuan Liang, Aishan Liu, Xiaochun Cao"
+    },
+    {
+     "title": "SeaFormer++: Squeeze-Enhanced Axial Transformer for Mobile Visual Recognition",
+     "year": 2025,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 51,
+     "doi": "10.1007/s11263-025-02345-2",
+     "authors": "Qiang Wan, Zilong Huang, Jiachen Lu, Gang Yu, Li Zhang"
+    },
+    {
+     "title": "Active Perception for Visual-Language Navigation",
+     "year": 2022,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 21,
+     "doi": "10.1007/s11263-022-01721-6",
+     "authors": "Hanqing Wang, Wenguan Wang, Wei Liang, Steven C. H. Hoi, Jianbing Shen, Luc Van Gool"
+    },
+    {
+     "title": "Evaluating Visual Properties via Robust HodgeRank",
+     "year": 2021,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 5,
+     "doi": "10.1007/s11263-021-01438-y",
+     "authors": "Qianqian Xu, Jiechao Xiong, Xiaochun Cao, Qingming Huang, Yuan Yao"
+    },
+    {
+     "title": "GLAD: Generative Language-Assisted Visual Tracking for Low-Semantic Templates",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 1,
+     "doi": "10.1007/s11263-026-02774-7",
+     "authors": "Xingyu Luo, Yidong Cai, Jie Liu, Jie Tang, Gangshan Wu, Limin Wang"
+    },
+    {
+     "title": "SoftHGNN: Soft Hypergraph Neural Networks for General Visual Recognition",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 4,
+     "doi": "10.1007/s11263-026-02841-z",
+     "authors": "Mengqi Lei, Yihong Wu, Siqi Li, Xinhu Zheng, Juan Wang, Shaoyi Du"
+    },
+    {
+     "title": "Uniformity Preserving Transfer for Visual Prompt Tuning under Long-tailed Distribution",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 1,
+     "doi": "10.1007/s11263-025-02712-z",
+     "authors": "Jiahao Chen, Hao Chen, Bin Qin, Jiangmeng Li, Jindong Wang, Bing Su"
+    },
+    {
+     "title": "Masked Channel Modeling for Bootstrapping Visual Pre-training",
+     "year": 2024,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 6,
+     "doi": "10.1007/s11263-024-02204-6",
+     "authors": "Yang Liu, Xinlong Wang, Muzhi Zhu, Yue Cao, Tiejun Huang, Chunhua Shen"
+    },
+    {
+     "title": "Object-Based Visual Camera Pose Estimation From Ellipsoidal Model and 3D-Aware Ellipse Prediction",
+     "year": 2022,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 18,
+     "doi": "10.1007/s11263-022-01585-w",
+     "authors": "Matthieu Zins, Gilles Simon, Marie-Odile Berger"
+    },
+    {
+     "title": "A Deep Learning Approach to Clustering Visual Arts",
+     "year": 2022,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 26,
+     "doi": "10.1007/s11263-022-01664-y",
+     "authors": "Giovanna Castellano, Gennaro Vessio"
+    },
+    {
+     "title": "Exploiting Class-agnostic Visual Prior for Few-shot Keypoint Detection",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 1,
+     "doi": "10.1007/s11263-025-02671-5",
+     "authors": "Changsheng Lu, Hao Zhu, Piotr Koniusz"
+    }
+   ]
+  },
+  "audio language model": {
+   "total": 123757,
+   "kept": 55,
+   "papers": [
+    {
+     "title": "L-VOCAL: Language-based Video Colorization with Audio Alignment",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 1,
+     "doi": "10.1007/s11263-026-02798-z",
+     "authors": "Zheng Chang, Shuchen Weng, Huan Ouyang, Yuchen Hong, Lihan Lin, Si Li"
+    },
+    {
+     "title": "AI killed the Video Star. Audio-Driven Diffusion Model for Expressive Talking Head Generation",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 1,
+     "doi": "10.1007/s11263-026-02766-7",
+     "authors": "Baptiste Chopin, Tashvik Dhamija, Pranav Balaji, Yaohui Wang, Antitza Dantcheva"
+    },
+    {
+     "title": "LLMFormer: Large Language Model for Open-Vocabulary Semantic Segmentation",
+     "year": 2024,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 101,
+     "doi": "10.1007/s11263-024-02171-y",
+     "authors": "Hengcan Shi, Son Duy Dao, Jianfei Cai"
+    },
+    {
+     "title": "Correction: Generalized Robot Vision-Language Model via Linguistic Foreground-Aware Contrast",
+     "year": 2025,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 0,
+     "doi": "10.1007/s11263-025-02383-w",
+     "authors": "Kangcheng Liu, Chaoqun Wang, Xiaodong Han, Yong-Jin Liu, Baoquan Chen"
+    },
+    {
+     "title": "EgoPlan-Bench2: A Benchmark for Multimodal Large Language Model Planning in Real-World Scenarios",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 2,
+     "doi": "10.1007/s11263-026-02826-y",
+     "authors": "Lu Qiu, Yi Chen, Yuying Ge, Yixiao Ge, Ying Shan, Xihui Liu"
+    },
+    {
+     "title": "HarmoniDPO: Video-guided Audio Generation via Preference-Optimized Diffusion",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 1,
+     "doi": "10.1007/s11263-025-02636-8",
+     "authors": "Wenshuo Peng, Kaipeng Zhang"
+    },
+    {
+     "title": "Kangaroo: A Powerful Video-Language Model Supporting Long-context Video Input",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 5,
+     "doi": "10.1007/s11263-025-02620-2",
+     "authors": "Jiajun Liu, Yibing Wang, Hanghang Ma, Xiaoping Wu, Xiaoqi Ma, Xiaoming Wei"
+    },
+    {
+     "title": "BehaVERT: A Transformer-Based Motion Language Model for Decoding Behavioral Semantics in Mice",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 1,
+     "doi": "10.1007/s11263-026-02834-y",
+     "authors": "Seung Jae Shin, Junesu Lee, Chang Ko, Daesoo Kim"
+    },
+    {
+     "title": "Visual Instruction Tuning towards General-Purpose Multimodal Large Language Model: A Survey",
+     "year": 2025,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 9,
+     "doi": "10.1007/s11263-025-02572-7",
+     "authors": "Jiaxing Huang, Jingyi Zhang, Kai Jiang, Han Qiu, Xiaoqin Zhang, Ling Shao"
+    },
+    {
+     "title": "Insect-Foundation: A Foundation Model and Large Multimodal Dataset for Vision-Language Insect Understanding",
+     "year": 2025,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 12,
+     "doi": "10.1007/s11263-025-02521-4",
+     "authors": "Thanh-Dat Truong, Hoang-Quan Nguyen, Xuan-Bac Nguyen, Ashley Dowling, Xin Li, Khoa Luu"
+    },
+    {
+     "title": "Audio-Guided Video Scene Editing",
+     "year": 2025,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 0,
+     "doi": "10.1007/s11263-025-02640-y",
+     "authors": "Kaixin Shen, Ruijie Quan, Linchao Zhu, Dong Zheng, Jun Xiao, Yi Yang"
+    },
+    {
+     "title": "Generalized Robot Vision-Language Model via Linguistic Foreground-Aware Contrast",
+     "year": 2025,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 1,
+     "doi": "10.1007/s11263-024-02340-z",
+     "authors": "Kangcheng Liu, Chaoqun Wang, Xiaodong Han, Yong-Jin Liu, Baoquan Chen"
+    },
+    {
+     "title": "Light-VQA+: A Video Quality Assessment Model for Exposure Correction with Vision-Language Guidance",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 0,
+     "doi": "10.1007/s11263-025-02706-x",
+     "authors": "Xunchu Zhou, Xiaohong Liu, Yunlong Dong, Tengchuan Kou, Yixuan Gao, Zicheng Zhang"
+    },
+    {
+     "title": "Audio-Visual Generation",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 0,
+     "doi": "10.1007/s11263-026-02859-3",
+     "authors": "Tae-Hyun Oh, Vicky Kalogeiton, Stavros Petridis, Sergey Tulyakov, Zhixiang Wang, Ming-Hsuan Yang"
+    },
+    {
+     "title": "Sample-efficient Audio-Visual Learning of Scene Acoustics",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 0,
+     "doi": "10.1007/s11263-026-02767-6",
+     "authors": "Arjun Somayazulu, Sagnik Majumder, Changan Chen, Ziad Al-Halah, Kristen Grauman"
+    },
+    {
+     "title": "Visually-Guided Audio Spatialization in Video with Geometry-Aware Multi-task Learning",
+     "year": 2023,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 13,
+     "doi": "10.1007/s11263-023-01816-8",
+     "authors": "Rishabh Garg, Ruohan Gao, Kristen Grauman"
+    },
+    {
+     "title": "Video Object Segmentation-Aware Audio Generation",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 0,
+     "doi": "10.1007/s11263-026-02911-2",
+     "authors": "Ilpo Viertola, Vladimir Iashin, Esa Rahtu"
+    },
+    {
+     "title": "Towards Scene-Aware Video-to-Spatial Audio Generation",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 1,
+     "doi": "10.1007/s11263-025-02610-4",
+     "authors": "Jaeyeon Kim, Heeseung Yun, Gunhee Kim"
+    },
+    {
+     "title": "Taming Data and Transformers for Audio Generation",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 6,
+     "doi": "10.1007/s11263-025-02632-y",
+     "authors": "Moayed Haji-Ali, Willi Menapace, Aliaksandr Siarohin, Guha Balakrishnan, Vicente Ordonez"
+    },
+    {
+     "title": "Plug-and-play Class-aware Knowledge Injection for Prompt Learning with Visual-Language Model",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 0,
+     "doi": "10.1007/s11263-026-02851-x",
+     "authors": "Junhui Yin, Nan Pu, Xinyu Zhang, Lingfeng Yang, Lin Wu, Xiaojie Wang"
+    },
+    {
+     "title": "Designing Extremely Memory-Efficient CNNs for On-device Vision and Audio Tasks",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 0,
+     "doi": "10.1007/s11263-025-02688-w",
+     "authors": "Yoel Park, Jaewook Lee, Seulki Lee"
+    },
+    {
+     "title": "Cosh-DiT: Co-Speech Gesture Video Synthesis via Hybrid Audio-Visual Diffusion Transformers",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 1,
+     "doi": "10.1007/s11263-026-02752-z",
+     "authors": "Yasheng Sun, Zhiliang Xu, Hang Zhou, Jiazhi Guan, Quanwei Yang, Kaisiyuan Wang"
+    },
+    {
+     "title": "Animal-CLIP: A Dual-Prompt Enhanced Vision-Language Model for Animal Action Recognition",
+     "year": 2025,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 7,
+     "doi": "10.1007/s11263-025-02408-4",
+     "authors": "Yinuo Jing, Kongming Liang, Ruxu Zhang, Hao Sun, Yongxiang Li, Zhongjiang He"
+    },
+    {
+     "title": "Guiding Audio-Visual Question Answering with Collective Question Reasoning",
+     "year": 2025,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 5,
+     "doi": "10.1007/s11263-025-02510-7",
+     "authors": "Baoqi Pei, Yifei Huang, Guo Chen, Jilan Xu, Yali Wang, Limin Wang"
+    },
+    {
+     "title": "Unlock Pose Diversity: Accurate and Efficient Implicit Keypoint-based Spatiotemporal Diffusion for Audio-driven Talking Portrait",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 0,
+     "doi": "10.1007/s11263-025-02695-x",
+     "authors": "Chaolong Yang, Kai Yao, Yuyao Yan, Chenru Jiang, Weiguang Zhao, Jie Sun"
+    },
+    {
+     "title": "Audio-Visual Segmentation with Semantics",
+     "year": 2024,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 51,
+     "doi": "10.1007/s11263-024-02261-x",
+     "authors": "Jinxing Zhou, Xuyang Shen, Jianyuan Wang, Jiayi Zhang, Weixuan Sun, Jing Zhang"
+    },
+    {
+     "title": "Multi-Text Guidance Is Important: Multi-Modality Image Fusion via Large Generative Vision-Language Model",
+     "year": 2025,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 48,
+     "doi": "10.1007/s11263-025-02409-3",
+     "authors": "Zeyu Wang, Libo Zhao, Jizheng Zhang, Rui Song, Haiyu Song, Jiana Meng"
+    },
+    {
+     "title": "Joint Learning of Audio–Visual Saliency Prediction and Sound Source Localization on Multi-face Videos",
+     "year": 2023,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 20,
+     "doi": "10.1007/s11263-023-01950-3",
+     "authors": "Minglang Qiao, Yufan Liu, Mai Xu, Xin Deng, Bing Li, Weiming Hu"
+    },
+    {
+     "title": "CLIP-Powered TASS: Target-Aware Single-Stream Network for Audio-Visual Question Answering",
+     "year": 2024,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 9,
+     "doi": "10.1007/s11263-024-02289-z",
+     "authors": "Yuanyuan Jiang, Jianqin Yin"
+    },
+    {
+     "title": "Advancing Weakly-Supervised Audio-Visual Video Parsing via Segment-Wise Pseudo Labeling",
+     "year": 2024,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 29,
+     "doi": "10.1007/s11263-024-02142-3",
+     "authors": "Jinxing Zhou, Dan Guo, Yiran Zhong, Meng Wang"
+    },
+    {
+     "title": "Real-Time Neural Radiance Talking Portrait Synthesis via Audio-Spatial Decomposition",
+     "year": 2025,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 37,
+     "doi": "10.1007/s11263-025-02481-9",
+     "authors": "Jiaxiang Tang, Kaisiyuan Wang, Hang Zhou, Xiaokang Chen, Dongliang He, Tianshu Hu"
+    },
+    {
+     "title": "Language-guided Recursive Spatiotemporal Graph Modeling for Video Summarization",
+     "year": 2025,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 1,
+     "doi": "10.1007/s11263-025-02577-2",
+     "authors": "Jungin Park, Jiyoung Lee, Kwanghoon Sohn"
+    },
+    {
+     "title": "Learning to Prompt for Vision-Language Models",
+     "year": 2022,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 3191,
+     "doi": "10.1007/s11263-022-01653-1",
+     "authors": "Kaiyang Zhou, Jingkang Yang, Chen Change Loy, Ziwei Liu"
+    },
+    {
+     "title": "Text2Scenes: Language-Guided Synthesis of Complex Indoor Scenes",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 1,
+     "doi": "10.1007/s11263-026-02854-8",
+     "authors": "Haowei Liu, Xintong Dong, Chuanyang Li, Zhouwang Yang, Yanzhi Song"
+    },
+    {
+     "title": "How Does Fine-Tuning Impact Out-of-Distribution Detection for Vision-Language Models?",
+     "year": 2023,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 30,
+     "doi": "10.1007/s11263-023-01895-7",
+     "authors": "Yifei Ming, Yixuan Li"
+    },
+    {
+     "title": "Task Bias in Contrastive Vision-Language Models",
+     "year": 2023,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 5,
+     "doi": "10.1007/s11263-023-01945-0",
+     "authors": "Sachit Menon, Ishaan Preetam Chandratreya, Carl Vondrick"
+    },
+    {
+     "title": "Source-Free Domain Adaptation with Vision-Language Prior",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 0,
+     "doi": "10.1007/s11263-026-03023-7",
+     "authors": "Song Tang, Yunxiang Bai, Wenxin Su, Mao Ye, Jianwei Zhang, Xiatian Zhu"
+    },
+    {
+     "title": "Language-Guided Hierarchical Fine-Grained Image Forgery Detection and Localization",
+     "year": 2024,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 29,
+     "doi": "10.1007/s11263-024-02255-9",
+     "authors": "Xiao Guo, Xiaohong Liu, Iacopo Masi, Xiaoming Liu"
+    },
+    {
+     "title": "Scaling Up Sign Spotting Through Sign Language Dictionaries",
+     "year": 2022,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 13,
+     "doi": "10.1007/s11263-022-01589-6",
+     "authors": "Gül Varol, Liliane Momeni, Samuel Albanie, Triantafyllos Afouras, Andrew Zisserman"
+    },
+    {
+     "title": "VLPrompt-PSG: Vision-Language Prompting for Panoptic Scene Graph Generation",
+     "year": 2025,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 2,
+     "doi": "10.1007/s11263-025-02564-7",
+     "authors": "Zijian Zhou, Holger Caesar, Qijun Chen, Miaojing Shi"
+    },
+    {
+     "title": "When Visual Privacy Protection Meets Multimodal Large Language Models",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 1,
+     "doi": "10.1007/s11263-026-02761-y",
+     "authors": "Xiaofei Hui, Qian Wu, Haoxuan Qu, Majid Mirmehdi, Hossein Rahmani, Jun Liu"
+    },
+    {
+     "title": "VL-Trojan: Multimodal Instruction Backdoor Attacks against Autoregressive Visual Language Models",
+     "year": 2025,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 20,
+     "doi": "10.1007/s11263-025-02368-9",
+     "authors": "Jiawei Liang, Siyuan Liang, Aishan Liu, Xiaochun Cao"
+    },
+    {
+     "title": "Active Perception for Visual-Language Navigation",
+     "year": 2022,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 21,
+     "doi": "10.1007/s11263-022-01721-6",
+     "authors": "Hanqing Wang, Wenguan Wang, Wei Liang, Steven C. H. Hoi, Jianbing Shen, Luc Van Gool"
+    },
+    {
+     "title": "Clothing Purification with Causality Meets Vision-Language Pretraining Models",
+     "year": 2025,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 6,
+     "doi": "10.1007/s11263-025-02548-7",
+     "authors": "Zhengwei Yang, Huilin Zhu, Nan Lei, Basura Fernando, Zheng Wang"
+    },
+    {
+     "title": "Contextual Object Detection with Multimodal Large Language Models",
+     "year": 2024,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 102,
+     "doi": "10.1007/s11263-024-02214-4",
+     "authors": "Yuhang Zang, Wei Li, Jun Han, Kaiyang Zhou, Chen Change Loy"
+    },
+    {
+     "title": "Perspectives and Prospects on Transformer Architecture for Cross-Modal Tasks with Language and Vision",
+     "year": 2022,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 45,
+     "doi": "10.1007/s11263-021-01547-8",
+     "authors": "Andrew Shin, Masato Ishii, Takuya Narihira"
+    },
+    {
+     "title": "MMRL++: Parameter-Efficient and Interaction-Aware Representation Learning for Vision-Language Models",
+     "year": 2025,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 2,
+     "doi": "10.1007/s11263-025-02586-1",
+     "authors": "Yuncheng Guo, Xiaodong Gu"
+    },
+    {
+     "title": "GLAD: Generative Language-Assisted Visual Tracking for Low-Semantic Templates",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 1,
+     "doi": "10.1007/s11263-026-02774-7",
+     "authors": "Xingyu Luo, Yidong Cai, Jie Liu, Jie Tang, Gangshan Wu, Limin Wang"
+    },
+    {
+     "title": "Positive-Augmented Contrastive Learning for Vision-and-Language Evaluation and Training",
+     "year": 2025,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 6,
+     "doi": "10.1007/s11263-025-02535-y",
+     "authors": "Sara Sarto, Nicholas Moratelli, Marcella Cornia, Lorenzo Baraldi, Rita Cucchiara"
+    },
+    {
+     "title": "CAT-TPT: Class-Agnostic Text-based Test-time Prompt Tuning for Vision-Language Models",
+     "year": 2025,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 0,
+     "doi": "10.1007/s11263-025-02508-1",
+     "authors": "Youjia Zhang, Huiling Liu, Youngeun Kim, Sungeun Hong"
+    },
+    {
+     "title": "A Closer Look at Conditional Prompt Tuning for Vision-Language Models",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 11,
+     "doi": "10.1007/s11263-026-02759-6",
+     "authors": "Ji Zhang, Shihan Wu, Lianli Gao, Jingkuan Song, Nicu Sebe, Heng Tao Shen"
+    },
+    {
+     "title": "Language-Aware Soft Prompting: Text-to-Text Optimization for Few- and Zero-Shot Adaptation of V &amp;L Models",
+     "year": 2023,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 11,
+     "doi": "10.1007/s11263-023-01904-9",
+     "authors": "Adrian Bulat, Georgios Tzimiropoulos"
+    },
+    {
+     "title": "Diverse Sign Language Translation",
+     "year": 2026,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 0,
+     "doi": "10.1007/s11263-026-02900-5",
+     "authors": "Xin Shen, Lei Shen, Shaozu Yuan, Heming Du, Haiyang Sun, Xin Yu"
+    },
+    {
+     "title": "StimuVAR: Spatiotemporal Stimuli-Aware Video Affective Reasoning with Multimodal Large Language Models",
+     "year": 2025,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 8,
+     "doi": "10.1007/s11263-025-02495-3",
+     "authors": "Yuxiang Guo, Faizan Siddiqui, Yang Zhao, Rama Chellappa, Shao-Yuan Lo"
+    },
+    {
+     "title": "Transferring Vision-Language Models for Visual Recognition: A Classifier Perspective",
+     "year": 2023,
+     "venue": "International Journal of Computer Vision",
+     "citationCount": 33,
+     "doi": "10.1007/s11263-023-01876-w",
+     "authors": "Wenhao Wu, Zhun Sun, Yuxin Song, Jingdong Wang, Wanli Ouyang"
+    }
+   ]
+  }
+ }
+}

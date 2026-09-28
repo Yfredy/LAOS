@@ -1,0 +1,2805 @@
+{
+ "venue": "ICME",
+ "category": "multimedia",
+ "canonical_venue_string": "IEEE International Conference on Multimedia and Expo",
+ "wave": "B",
+ "generated_at": "2026-09-29 01:18:48",
+ "topics": [
+  "multimodal agent",
+  "audio language model",
+  "sound event detection",
+  "neural codec",
+  "on-device inference"
+ ],
+ "request_budget": {
+  "successful": 38,
+  "limit": 300,
+  "attempts": 5
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "multimodal agent": {
+   "total": 29844,
+   "kept": 99,
+   "papers": [
+    {
+     "title": "A-MESS: Anchor-based Multimodal Embedding with Semantic Synchronization for Multimodal Intent Recognition",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 8,
+     "doi": "10.1109/icme59968.2025.11209824",
+     "authors": "Yaomin Shen, Xiaojian Lin, Wei Fan"
+    },
+    {
+     "title": "HMAI-BERT: Hierarchical Multimodal Alignment and Interaction Network-Enhanced BERT for Multimodal Sentiment Analysis",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 10,
+     "doi": "10.1109/icme52920.2022.9859747",
+     "authors": "Xianbing Zhao, Yixin Chen, Yiting Chen, Sicen Liu, Buzhou Tang"
+    },
+    {
+     "title": "Uncertainty-Debiased Multimodal Fusion: Learning Deterministic Joint Representation for Multimodal Sentiment Analysis",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 4,
+     "doi": "10.1109/icme57554.2024.10688376",
+     "authors": "Zixian Gao, Xun Jiang, Hua Chen, Yujie Li, Yang Yang, Xing Xu"
+    },
+    {
+     "title": "TriModal Enhanced Fusion Network: Advancing Multimodal Representation and Fusion for Enhanced Multimodal Intent Recognition",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11210194",
+     "authors": "Yixuan Wang, Kehan Wang, Huayu Zhang, Ming Fang, Shuhua Liu"
+    },
+    {
+     "title": "Dual-View Multimodal Interaction in Multimodal Sentiment Analysis",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 4,
+     "doi": "10.1109/icme57554.2024.10688078",
+     "authors": "Kang Zhu, Cunhang Fan, Jianhua Tao, Jun Xue, Heng Xie, Xuefei Liu"
+    },
+    {
+     "title": "Self-Relevance-Based Multimodal In-Context Learning for Multimodal Named Entity Recognition",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11209093",
+     "authors": "Zhi Zhang, Bing Xu, Muyun Yang, Hailong Cao, Conghui Zhu, Wenpeng Lu"
+    },
+    {
+     "title": "Correcting the Bias: Mitigating Multimodal Inconsistency Contrastive Learning for Multimodal Fake News Detection",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 12,
+     "doi": "10.1109/icme55011.2023.00486",
+     "authors": "Zhi Zeng, Mingmin Wu, Guodong Li, Xiang Li, Zhongqiang Huang, Ying Sha"
+    },
+    {
+     "title": "Unified-Modality Attention Network for Multimodal Sentiment Analysis",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11210163",
+     "authors": "Zuocheng Li, Lishuang Li"
+    },
+    {
+     "title": "Multi-scale Bottleneck Transformer for Weakly Supervised Multimodal Violence Detection",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 12,
+     "doi": "10.1109/icme57554.2024.10688202",
+     "authors": "Shengyang Sun, Xiaojin Gong"
+    },
+    {
+     "title": "PGDM: Multimodal Panoramic Image Generation with Diffusion Models",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme57554.2024.10687518",
+     "authors": "Depei Liu, Hongjie Fan, Junfei Liu"
+    },
+    {
+     "title": "Enhancing Multimodal Sentiment Recognition Based on Cross-Modal Contrastive Learning",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme57554.2024.10688113",
+     "authors": "Lichao Cui, Shanliang Yang"
+    },
+    {
+     "title": "MPN: Multimodal Parallel Network for Audio-Visual Event Localization",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 22,
+     "doi": "10.1109/icme51207.2021.9428373",
+     "authors": "Jiashuo Yu, Ying Cheng, Rui Feng"
+    },
+    {
+     "title": "Chain-of-Thought Prompting for Demographic Inference with Large Multimodal Models",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 4,
+     "doi": "10.1109/icme57554.2024.10687914",
+     "authors": "Yongsheng Yu, Jiebo Luo"
+    },
+    {
+     "title": "Multimodal Semantic Fusion for Zero-Shot Learning",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme57554.2024.10688093",
+     "authors": "Yan Feng, Tian Jiang, Yunqi Liu, Zijian Huang, Xiaohui Cui"
+    },
+    {
+     "title": "Multimodal-Semantic Context-Aware Graph Neural Network for Group Activity Recognition",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 6,
+     "doi": "10.1109/icme51207.2021.9428377",
+     "authors": "Tianshan Liu, Rui Zhao, Kin-Man Lam"
+    },
+    {
+     "title": "CLIP Guided Multimodal Prototype Learning for One-Shot Semantic Segmentation",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11210015",
+     "authors": "Yulei Jian, Lingma Sun, Xiaofeng Wang, Jin Tang"
+    },
+    {
+     "title": "BAMNet: A Brain Area Mapping-Based Multimodal Saliency Prediction Method",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209775",
+     "authors": "ShiBo Wang"
+    },
+    {
+     "title": "Incorporating Multimodal Cues for Advertorial Discovery",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme51207.2021.9428070",
+     "authors": "Lu Zhang, Jian Zhang, Jialie Shen, Jingsong Xu, Zhibin Li, Litao Yu"
+    },
+    {
+     "title": "Enhancing Large Multimodal Models with Adaptive Sparsity and KV Cache Compression",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209796",
+     "authors": "Te Zhang, Yuheng Li, Junxiang Wang, Lujun Li"
+    },
+    {
+     "title": "BEV-MMC: Bird’s-Eye-View-Based Multimodal Compression for Enhanced Visual Recognition",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209387",
+     "authors": "Zhiwei Dong, Ying Liu"
+    },
+    {
+     "title": "Utilizing BERT Intermediate Layers for Multimodal Sentiment Analysis",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 12,
+     "doi": "10.1109/icme52920.2022.9860014",
+     "authors": "Wenwen Zou, Jundi Ding, Chao Wang"
+    },
+    {
+     "title": "Multimodal Mixture of Low-Rank Experts for Sentiment Analysis and Emotion Recognition",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 3,
+     "doi": "10.1109/icme59968.2025.11210197",
+     "authors": "Shuo Zhang, Jinsong Zhang, Zhejun Zhang, Lei Li"
+    },
+    {
+     "title": "Human-MoE: Multimodal Full-Body Human Image Synthesis with Component-driven Mixture of Experts",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209284",
+     "authors": "Yu-Jiu Huang, I-Chen Lin"
+    },
+    {
+     "title": "Efficient Shared KVCache Attention Inference for Multimodal Large Language Models",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11210095",
+     "authors": "Shouxu Kuang, Limin Cheng, Yixin Chen, Hang Qin, Ling Li"
+    },
+    {
+     "title": "MDMU:Multimodal Dynamic Mamba UNet for Multimodal sentiment analysis",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209923",
+     "authors": "Weibin Li, Jiazheng Huang, Bohuan Xue, Wenhao Shao, Yijun Liu, Xiaoyu Tang"
+    },
+    {
+     "title": "Bilevel Relational Graph Representation Learning-based Multimodal Emotion Recognition in Conversation",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme57554.2024.10688301",
+     "authors": "Huan Zhao, Yi Ju, Yingxue Gao"
+    },
+    {
+     "title": "Modality-Specific Multimodal Global Enhanced Network for Text-Based Visual Question Answering",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 4,
+     "doi": "10.1109/icme52920.2022.9859865",
+     "authors": "Zhi Yang, Jun Xuan, Qing Liu, Aihua Mao"
+    },
+    {
+     "title": "Multimodal Representation Learning Techniques for Comprehensive Facial State Analysis",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11208908",
+     "authors": "Kaiwen Zheng, Xuri Ge, Junchen Fu, Jun Peng, Joemon M. Jose"
+    },
+    {
+     "title": "Multimodal Disentangled Representation for Recommendation",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 31,
+     "doi": "10.1109/icme51207.2021.9428193",
+     "authors": "Xin Wang, Hong Chen, Wenwu Zhu"
+    },
+    {
+     "title": "Dialogue Director: Bridging the Gap in Dialogue Visualization for Multimodal Storytelling",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11210229",
+     "authors": "Min Zhang, Zilin Wang, Liyan Chen, Kunhong Liu, Juncong Lin"
+    },
+    {
+     "title": "A Token-wise Graph-based Framework for Multimodal Named Entity Recognition",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 8,
+     "doi": "10.1109/icme55011.2023.00368",
+     "authors": "Zhengxuan Zhang, Weixing Mai, Haoliang Xiong, Chuhan Wu, Yun Xue"
+    },
+    {
+     "title": "Hierarchical Graph Learning Framework for Multimodal Conversational Emotion Recognition",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11210100",
+     "authors": "Jiandong Shi, Ming Li, Guoheng Huang, Siwei Zhou, Yongchun Gu, Zhanle Zhu"
+    },
+    {
+     "title": "ATD-AMSMamba: Improving Robustness of State Space Models for Multimodal Sentiment Analysis",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209183",
+     "authors": "Yahong Li, Zhanxun Dong, Zhou Fang, Lai Li"
+    },
+    {
+     "title": "FFNet-M: Feature Fusion Network with Masks for Multimodal Facial Expression Recognition",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 10,
+     "doi": "10.1109/icme51207.2021.9428100",
+     "authors": "Mingzhe Sui, Zhaoqing Zhu, Feng Zhao, Feng Wu"
+    },
+    {
+     "title": "Multimodal Image-Text Representation Learning for Sketch-Less Facial Image Retrieval",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 4,
+     "doi": "10.1109/icme57554.2024.10687657",
+     "authors": "Dawei Dai, Yingge Liu, Shiyu Fu, Guoyin Wang"
+    },
+    {
+     "title": "Multimodal Conversatioal Emotion Analysis with Robustness to Incomplete Modality Details",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11210029",
+     "authors": "Sidharth Anand, Chaitanya Sai Chandu Yendru, Sreyasee Das Bhattacharjee, Junsong Yuan"
+    },
+    {
+     "title": "Target-oriented Multimodal Sentiment Classification with Counterfactual-enhanced Debiasing",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209447",
+     "authors": "Zhiyue Liu, Fanrong Ma, Xin Ling"
+    },
+    {
+     "title": "An Aesthetic-Guided Multimodal Framework for Video Summarization",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme57554.2024.10687758",
+     "authors": "Jiehang Xie, Xuanbai Chen, Shao-Ping Lu"
+    },
+    {
+     "title": "A Multimodal Transformer for Live Streaming Highlight Prediction",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 8,
+     "doi": "10.1109/icme57554.2024.10687664",
+     "authors": "Jiaxin Deng, Shiyao Wang, Dong Shen, Liqin Zhao, Fan Yang, Guorui Zhou"
+    },
+    {
+     "title": "Controllable Expressive 3D Facial Animation via Diffusion in a Unified Multimodal Space",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11210071",
+     "authors": "Kangwei Liu, Junwu Liu, Xiaowei Yi, Jinlin Guo, Yun Cao"
+    },
+    {
+     "title": "PiCo: Jailbreaking Multimodal Large Language Models via Pictorial Code Contextualization",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11210045",
+     "authors": "Aofan Liu, Lulu Tang, Ting Pan, Yuguo Yin, Bin Wang, Ao Yang"
+    },
+    {
+     "title": "Multi-Stage Fusion for Event-based Multimodal Tracker",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10687995",
+     "authors": "Xinyu Zhang, Hefei Huang, Xu Jia, Wenyue Chen, Dong Wang, Shengming Li"
+    },
+    {
+     "title": "LiPlan: A Multimodal Dataset for Livable Urban Environment Layout Generation",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209955",
+     "authors": "Jianrong Wang, Shuyun Zhang, Ying Guo, Qi Li, Ju Zhang, Di Jin"
+    },
+    {
+     "title": "Multimodal Sentiment Analysis with Preferential Fusion and Distance-aware Contrastive Learning",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 27,
+     "doi": "10.1109/icme55011.2023.00237",
+     "authors": "Feipeng Ma, Yueyi Zhang, Xiaoyan Sun"
+    },
+    {
+     "title": "Beyond Multimodal Hallucinations: Enhancing LVLMs through Hallucination-Aware Direct Preference Optimization",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 18,
+     "doi": "10.1109/icme59968.2025.11209377",
+     "authors": "Zhiyuan Zhao, Bin Wang, Linke Ouyang, Xiaoyi Dong, Jiaqi Wang, Conghui He"
+    },
+    {
+     "title": "Heuristic Action-aware and Priority Communication for Multi-agent Path Finding",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme57554.2024.10687542",
+     "authors": "Dongming Zhou, Zhengbin Pang"
+    },
+    {
+     "title": "Multimodal Fake News Detection via CLIP-Guided Learning",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 114,
+     "doi": "10.1109/icme55011.2023.00480",
+     "authors": "Yangming Zhou, Yuzhou Yang, Qichao Ying, Zhenxing Qian, Xinpeng Zhang"
+    },
+    {
+     "title": "Tell and Show: A Multimodal Guidance Method for Instructional Video Planning",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209997",
+     "authors": "Mingzhe Zhang, Yinghui Zhang, Fengxiang Ge"
+    },
+    {
+     "title": "Confidence-Aware Self-Distillation for Multimodal Sentiment Analysis with Incomplete Modalities",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 4,
+     "doi": "10.1109/icme59968.2025.11208961",
+     "authors": "Yanqian Luo, Shijin Wang, Zhongxing Xu, Yulong Li, Feilong Tang, Jionglong Su"
+    },
+    {
+     "title": "Enhanced Multimodal Chain-of-Thought with Visual Self-Contrastive Distillation",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209812",
+     "authors": "Guangmin Zheng, Jun Kong, Jin Wang, Xuejie Zhang"
+    },
+    {
+     "title": "MALIP: Improving Few-Shot Image Classification with Multimodal Fusion Enhancement",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme57554.2024.10687572",
+     "authors": "Kaifen Cai, Kaiyu Song, Yan Pan, Hanjiang Lai"
+    },
+    {
+     "title": "A Multi-View Co-Learning Method for Multimodal Sentiment Analysis",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme55011.2023.00238",
+     "authors": "Wenxiu Geng, Yulong Bian, Xiangxian Li"
+    },
+    {
+     "title": "AdaMHF: Adaptive Multimodal Hierarchical Fusion for Survival Prediction",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 3,
+     "doi": "10.1109/icme59968.2025.11209546",
+     "authors": "Shuaiyu Zhang, Xun Lin, Rongxiang Zhang, Yu Bai, Yong Xu, Tao Tan"
+    },
+    {
+     "title": "Keyword-Oriented Multimodal Modeling for Euphemism Identification",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme59968.2025.11209360",
+     "authors": "Yuxue Hu, Junsong Li, Meixuan Chen, Dongyu Su, Tongguan Wang, Ying Sha"
+    },
+    {
+     "title": "A Multi-Stage Framework for Multimodal Controllable Speech Synthesis",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11210021",
+     "authors": "Rui Niu, Weihao Wu, Jie Chen, Long Ma, Zhiyong Wu"
+    },
+    {
+     "title": "G-TADS: GUI Task-Ability Decoupling Strategy for High-Adaptability Multimodal Intelligent Agents",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209200",
+     "authors": "Zhiqiang Xia, Xinyuan Zhang, Yang Li, Yuchen Liu, Runyu Shi, Jiaming Xu"
+    },
+    {
+     "title": "Maths: Multimodal Transformer-Based Human-Readable Solver",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme57554.2024.10687434",
+     "authors": "Yicheng Pan, Zhenrong Zhang, Jiefeng Ma, Pengfei Hu, Jun Du, Qing Wang"
+    },
+    {
+     "title": "Incongruity-aware Cross-modal Interaction Network for Multimodal Sarcasm Detection",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11209221",
+     "authors": "Yujun Wu, Chen Wang, Meixuan Chen, Tongguan Wang, Ying Sha"
+    },
+    {
+     "title": "Multimodal Knowledge Graph Embeddings via Lorentz-based Contrastive Learning",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme57554.2024.10687608",
+     "authors": "Ruizhou Liu, Zongsheng Cao, Zhe Wu, Qianqian Xu, Qingming Huang"
+    },
+    {
+     "title": "Multi-Passage Retrieval-Augmented Multimodal Language Generation Model for Knowledge-Based Visual Question Answering",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11210062",
+     "authors": "Siyu Cheng, Chao Yang, Bin Jiang"
+    },
+    {
+     "title": "Towards Trustworthy Model via Uncertainty Verification in Multimodal Sentiment Analysis",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11208957",
+     "authors": "Chen Tang, Yangle Li, Tingrui Shen, Xinrong Gong, Tong Zhang"
+    },
+    {
+     "title": "Multimodal Large Language Model for HDR &amp; SDR Video Quality Measurement",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo Workshops (ICMEW)",
+     "citationCount": 0,
+     "doi": "10.1109/icmew68306.2025.11152187",
+     "authors": "Baojun Li"
+    },
+    {
+     "title": "TalkFashion: Intelligent Virtual Try-On Assistant Based on Multimodal Large Language Model",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209074",
+     "authors": "Yujie Hu, Xuanyu Zhang, Weiqi Li, Jian Zhang"
+    },
+    {
+     "title": "Semantic-Aware Adaptation with Hierarchical Multimodal Prompts for Few-Shot Learning",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11210237",
+     "authors": "Wenhao Li, Qiangchang Wang, Jing Li, Shengnan Zhao, Mindi Ruan, Yilong Yin"
+    },
+    {
+     "title": "DPDEdit: Detail-Preserved Diffusion Models for Multimodal Fashion Image Editing",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme59968.2025.11209148",
+     "authors": "Xiaolong Wang, Zhiqi Cheng, Jue Wang, Huizi Xue, Xiaojiang Peng"
+    },
+    {
+     "title": "Multimodal Causal Reasoning-Guided Intrinsic Goals for Efficient Task Completion in Reinforcement Learning",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11210033",
+     "authors": "Tong Wu, Yi Wen, Guangchun Luo, Lingfu Wang, Qiuran Li, Dayong Zhu"
+    },
+    {
+     "title": "Enhancing Dynamic CAPTCHA Verification Based on Multimodal Trustworthiness Fusion Network",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11208980",
+     "authors": "Chenxi Liu, Huayu Shou, Yuqing Yin, Xu Yang, Qiang Niu"
+    },
+    {
+     "title": "MoPE: Mixture of Policy Experts and Verification with Multimodal Information for Instance ImageGoal Navigation",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209593",
+     "authors": "Yijie Zeng, Xinyi Chen, Kexun Chen, Zhixuan Shen, Haonan Luo, Tianrui Li"
+    },
+    {
+     "title": "Multimodal Aspect-Based Sentiment Classification with Knowledge-Injected Transformer",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 8,
+     "doi": "10.1109/icme55011.2023.00239",
+     "authors": "Zenan Xu, Qinliang Su, Junxi Xiao"
+    },
+    {
+     "title": "Aspect-attentioned Prompting for Multimodal Sentiment Analysis",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11210025",
+     "authors": "Yutian Li, Jiaming Yang, Yiwen Hu, Lap-Kei Lee, Fu Lee Wang, Zhenguo Yang"
+    },
+    {
+     "title": "Hierarchical Attention Learning for Multimodal Classification",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 11,
+     "doi": "10.1109/icme55011.2023.00165",
+     "authors": "Xin Zou, Chang Tang, Wei Zhang, Kun Sun, Liangxiao Jiang"
+    },
+    {
+     "title": "MLLM-DataEngine: Closing the Loop of Multimodal Instruction Tuning Data Generation",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11208956",
+     "authors": "Zhiyuan Zhao, Bin Wang, Linke Ouyang, Yiqi Lin, Pan Zhang, Xiaoyi Dong"
+    },
+    {
+     "title": "Social Optimum Assisted Gradient Modulation for Imbalanced Multimodal Learning",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11210066",
+     "authors": "Disen Hu, Xun Jiang, Zhe Sun, Hao Yang, Chong Peng, Peng Yan"
+    },
+    {
+     "title": "Uncovering Personality Traits via Multimodal LLM for Personalized Image Emotion Analysis",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209942",
+     "authors": "Jianzhang Gao, Hao Pu, Yuchong Sun, Ruihua Song"
+    },
+    {
+     "title": "Prompt Fusion Interaction Transformer For Aspect-Based Multimodal Sentiment Analysis",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 13,
+     "doi": "10.1109/icme57554.2024.10687885",
+     "authors": "Dan Yang, Xiuhong Li, Zhe Li, Chenyu Zhou, Xiaofan Wang, Fan Chen"
+    },
+    {
+     "title": "Enhancing Multimodal Sentiment Analysis via Learning from Large Language Model",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 9,
+     "doi": "10.1109/icme57554.2024.10688334",
+     "authors": "Ning Pang, Wansen Wu, Yue Hu, Kai Xu, Quanjun Yin, Long Qin"
+    },
+    {
+     "title": "Demusa: Demo for Multimodal Sentiment Analysis",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo Workshops (ICMEW)",
+     "citationCount": 0,
+     "doi": "10.1109/icmew56448.2022.9859289",
+     "authors": "Soyeon Hong, Jeonghoon Kim, Donghoon Lee, Hyunsouk Cho"
+    },
+    {
+     "title": "Optimization of Multimodal Inputs Based on Diffusion Models: Zero-Shot Semantic Image Generation",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209790",
+     "authors": "Leilei Wang, Renjie Lu, Fengzhao Sun, Yunxiang Zhang, Jun Yu, Qingsong Liu"
+    },
+    {
+     "title": "A Cascade Multimodal Fine-Grained MRI Image Grading Network For Preoperative Microvascular Invasion In Hepatocellular Carcinoma",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme57554.2024.10687498",
+     "authors": "Xinyu Liu, Yong Yi, Ye Luo"
+    },
+    {
+     "title": "Early Diagnosis of Alzheimer’s Disease Based on Multimodal Hypergraph Attention Network",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 5,
+     "doi": "10.1109/icme55011.2023.00041",
+     "authors": "Yi Li, BaoYao Yang, Dan Pan, An Zeng, Long Wu, Yang Yang"
+    },
+    {
+     "title": "Information Aggregate and Sentiment Enhance Network to Handle Missing Modalities for Multimodal Sentiment Analysis",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme57554.2024.10687981",
+     "authors": "Liang Shi, Fuyong Xu, Ru Wang, Yongqing Wei, Guangjin Wang, Bao Wang"
+    },
+    {
+     "title": "DreamPBR: Text-driven High-Resolution SVBRDF Generation with Multimodal Guidance",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 3,
+     "doi": "10.1109/icme59968.2025.11210202",
+     "authors": "Linxuan Xin, Zheng Zhang, Zhiyi Pan, Jinfu Wei, Duan Gao, Wei Gao"
+    },
+    {
+     "title": "FSRF: Factorization-guided Semantic Recovery for Incomplete Multimodal Sentiment Analysis",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11210154",
+     "authors": "Ziyang Liu, Pengjunfei Chu, Shuming Dong, Chen Zhang, Mingcheng Li, Jin Wang"
+    },
+    {
+     "title": "Attribute-assisted Multimodal Network for Image Aesthetics Assessment",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 6,
+     "doi": "10.1109/icme55011.2023.00422",
+     "authors": "Tong Zhu, Leida Li, Pengfei Chen, Jinjian Wu, Yuzhe Yang, Yaqian Li"
+    },
+    {
+     "title": "A Novel Decoupled Prototype Completion Network for Incomplete Multimodal Emotion Recognition",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 3,
+     "doi": "10.1109/icme57554.2024.10687673",
+     "authors": "Zhangfeng Hu, Wenming Zheng, Yuan Zong, Mengting Wei, Xingxun Jiang, Mengxin Shi"
+    },
+    {
+     "title": "Localizing Step-by-Step: Multimodal Long Video Temporal Grounding with LLM",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11209793",
+     "authors": "Houlun Chen, Xin Wang, Hong Chen, Wei Feng, Zihan Song, Jia Jia"
+    },
+    {
+     "title": "Knowledge-Enhanced Multi-perspective Incongruity Perception Network for Multimodal Sarcasm Detection",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10687530",
+     "authors": "Zihan Niu, Zheyong Xie, Tong Xu, Xiangfeng Wang, Yao Hu, Ying Yu"
+    },
+    {
+     "title": "Decoding Emotional Silences: Reliable Multimodal Sentiment Analysis with Bipolar Uncertainty",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209057",
+     "authors": "Yutao Wei, Hongzhu Fu, Yuxiang Li, Yichen Xin, Xovee Xu, Fan Zhou"
+    },
+    {
+     "title": "RNG: Reducing Multi-level Noise and Multi-grained Semantic Gap for Joint Multimodal Aspect-Sentiment Analysis",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 14,
+     "doi": "10.1109/icme57554.2024.10687372",
+     "authors": "Yaxin Liu, Yan Zhou, Ziming Li, Jinchuan Zhang, Yu Shang, Chenyang Zhang"
+    },
+    {
+     "title": "Agent-Oriented Joint Decision Support for Data Owners in Auction-Based Federated Learning",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme57554.2024.10687797",
+     "authors": "Xiaoli Tang, Han Yu, Xiaoxiao Li"
+    },
+    {
+     "title": "LG-LSTM: Modeling LSTM-Based Interactions for Multi-Agent Trajectory Prediction",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 7,
+     "doi": "10.1109/icme52920.2022.9859580",
+     "authors": "Hanbing Sun, Runfa Chen, Tianyu Liu, Haiwen Wang, Fuchun Sun"
+    },
+    {
+     "title": "Sentiment Confidence Separation: A Trust-Optimized Framework for Multimodal Sentiment Classification",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme57554.2024.10687630",
+     "authors": "Zemin Tang, Min Shi, Zhibang Yang, Xu Zhou, Cen Chen, Joey Tianyi Zhou"
+    },
+    {
+     "title": "A Multi-stage and Multi-target Knowledge Distillation Framework for Multimodal Conversational Emotion Recognition",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11208939",
+     "authors": "Taiyu Niu, Geng Tu, Hui Wang, Bing Qin, Ruifeng Xu"
+    },
+    {
+     "title": "Fine-tuned Multimodal Large Language Models are Zero-shot Learners in Image Quality Assessment",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11209018",
+     "authors": "Rui Xiong, Li Chen, Zhida Feng, Jiaxiang Liu, Shikun Feng"
+    },
+    {
+     "title": "Enhancing Multimodal Chain-of-Thought Reasoning with Tree-Searched Self-Training",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209804",
+     "authors": "Yiwen Luo, Tao Wei, Yong Luo, Zengmao Wang"
+    },
+    {
+     "title": "Multi-source Knowledge Enhanced Graph Attention Networks for Multimodal Fact Verification",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme57554.2024.10687974",
+     "authors": "Han Cao, Lingwei Wei, Wei Zhou, Songlin Hu"
+    },
+    {
+     "title": "Building Trust for Postoperative Pain Estimation: Towards Explainable Machine-Learning Prediction Based on Multimodal Indicators",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 3,
+     "doi": "10.1109/icme52920.2022.9859635",
+     "authors": "Fuchang Han, Jun Cheng, Shenghui Liao, Youwen Deng"
+    },
+    {
+     "title": "Transformer Based Multimodal Scene Recognition in Soccer Videos",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo Workshops (ICMEW)",
+     "citationCount": 4,
+     "doi": "10.1109/icmew56448.2022.9859304",
+     "authors": "Yaozong Gan, Ren Togo, Takahiro Ogawa, Miki Haseyama"
+    },
+    {
+     "title": "A Multimodal Approach for Evaluating Algal Bloom Severity Using Deep Learning",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo Workshops (ICMEW)",
+     "citationCount": 0,
+     "doi": "10.1109/icmew59549.2023.00097",
+     "authors": "Fei Zhao, Chengcui Zhang, Sheikh Abujar"
+    }
+   ]
+  },
+  "audio language model": {
+   "total": 162927,
+   "kept": 96,
+   "papers": [
+    {
+     "title": "Multi-modal Intent Detection with LVAMoE: the Language-Visual-Audio Mixture of Experts",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 3,
+     "doi": "10.1109/icme57554.2024.10688018",
+     "authors": "Tingyu Li, Junpeng Bao, Jiaqi Qin, Yuping Liang, Ruijiang Zhang, Jason Wang"
+    },
+    {
+     "title": "ExpGest: Expressive Speaker Generation Using Diffusion Model and Hybrid Audio-Text Guidance",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 4,
+     "doi": "10.1109/icme57554.2024.10687922",
+     "authors": "Yongkang Cheng, Mingjiang Liang, Shaoli Huang, Jifeng Ning, Wei Liu"
+    },
+    {
+     "title": "UniSep: Universal Target Audio Separation with Language Models at Scale",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme59968.2025.11210185",
+     "authors": "Yuanyuan Wang, Hangting Chen, Dongchao Yang, Weiqin Li, Dan Luo, Guangzhi Li"
+    },
+    {
+     "title": "ASTAnet: Transformer-based Siamese Network for Robust Audio-to-Audio Alignment in Amateur User Generated Audio Clips",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209138",
+     "authors": "Malya Singh, Priyankar Choudhary, Abdulmotaleb El Saddik, Mukesh Saini"
+    },
+    {
+     "title": "Diverse Audio Caption Generation with Semantic-aware Diffusion Model",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11210031",
+     "authors": "Hualei Wang, Yiming Li, Hong Liu, Xiangdong Wang"
+    },
+    {
+     "title": "Lavs: A Lightweight Audio-Visual Saliency Prediction Model",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 8,
+     "doi": "10.1109/icme51207.2021.9428415",
+     "authors": "Dandan Zhu, Defang Zhao, Xiongkuo Min, Tian Han, Qiangqiang Zhou, Shaobo Yu"
+    },
+    {
+     "title": "Content-Style Disentangled Audio Style Transfer via Diffusion Model",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209789",
+     "authors": "Yiran Wang, Jiasheng Lu, Jun Chen, Xinyu Zhang, Yingshan Liang, Zhicheng Du"
+    },
+    {
+     "title": "Low Bitrates Audio Object Coding Using Convolutional Auto-Encoder and Densenet Mixture Model",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 4,
+     "doi": "10.1109/icme51207.2021.9428227",
+     "authors": "Yulin Wu, Ruimin Hu, Chenhao Hu, Shanfa Ke, Gang Li, Xiaochen Wang"
+    },
+    {
+     "title": "Learning to Unify Audio, Visual and Text for Audio-Enhanced Visual Answer Localization",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11209406",
+     "authors": "Zhibin Wen, Bin Li"
+    },
+    {
+     "title": "Exploring Pre-Trained Neural Audio Representations for Audio Topic Segmentation",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme55011.2023.00190",
+     "authors": "Iacopo Ghinassi, Matthew Purver, Huy Phan, Chris Newell"
+    },
+    {
+     "title": "TaxAgent: How Large Language Model Designs Fiscal Policy",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11209931",
+     "authors": "Jizhou Wang, Xiaodan Fang, Lei Huang, Yongfeng Huang"
+    },
+    {
+     "title": "Boosting Disfluency Detection with Large Language Model as Disfluency Generator",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme57554.2024.10688094",
+     "authors": "Zhenrong Cheng, Jiayan Guo, Hao Sun, Yan Zhang"
+    },
+    {
+     "title": "MAO: Efficient Model-Agnostic Optimization of Prompt Tuning for Vision-Language Models",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209968",
+     "authors": "Haoyang Li, Siyu Zhou, Liang Wang, Guodong Long"
+    },
+    {
+     "title": "CT-MIE: Computed Tomography Multi-Task Image Enhancement via Vision-Language Model",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209378",
+     "authors": "Yucheng Zeng, Aihua Mao, Xianghong Wang, Tianye Niu"
+    },
+    {
+     "title": "ECG-Chat: A Large ECG-Language Model for Cardiac Disease Diagnosis",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 10,
+     "doi": "10.1109/icme59968.2025.11209476",
+     "authors": "Yubao Zhao, Jiaju Kang, Tian Zhang, Puyu Han, Tong Chen"
+    },
+    {
+     "title": "Open-Vocabulary Multi-label Image Classification with Pretrained Vision-Language Model",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 5,
+     "doi": "10.1109/icme55011.2023.00365",
+     "authors": "Son D. Dao, Dat Huynh, He Zhao, Dinh Phung, Jianfei Cai"
+    },
+    {
+     "title": "Multimodal Large Language Model for HDR &amp; SDR Video Quality Measurement",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo Workshops (ICMEW)",
+     "citationCount": 0,
+     "doi": "10.1109/icmew68306.2025.11152187",
+     "authors": "Baojun Li"
+    },
+    {
+     "title": "Few-shot Prompt Learning with Large Vision-Language Model for Image Deep Hashing",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209312",
+     "authors": "Ye Liu, Yan Pan, Jian Yin"
+    },
+    {
+     "title": "Weakly-Supervised Audio-Visual Sound Source Detection and Separation",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme51207.2021.9428196",
+     "authors": "Tanzila Rahman, Leonid Sigal"
+    },
+    {
+     "title": "Making Small Language Model Excellent Symptom Inference Expert for Mental Disorders Detection",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209026",
+     "authors": "Meiling Li, Xiaotian Xu, Shicheng Li, Bin Wu"
+    },
+    {
+     "title": "Multi-Passage Retrieval-Augmented Multimodal Language Generation Model for Knowledge-Based Visual Question Answering",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11210062",
+     "authors": "Siyu Cheng, Chao Yang, Bin Jiang"
+    },
+    {
+     "title": "TalkFashion: Intelligent Virtual Try-On Assistant Based on Multimodal Large Language Model",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209074",
+     "authors": "Yujie Hu, Xuanyu Zhang, Weiqi Li, Jian Zhang"
+    },
+    {
+     "title": "MPN: Multimodal Parallel Network for Audio-Visual Event Localization",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 22,
+     "doi": "10.1109/icme51207.2021.9428373",
+     "authors": "Jiashuo Yu, Ying Cheng, Rui Feng"
+    },
+    {
+     "title": "Enhancing Multimodal Sentiment Analysis via Learning from Large Language Model",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 9,
+     "doi": "10.1109/icme57554.2024.10688334",
+     "authors": "Ning Pang, Wansen Wu, Yue Hu, Kai Xu, Quanjun Yin, Long Qin"
+    },
+    {
+     "title": "Why Some Audio Signal Short-Time Fourier Transform Coefficients Have Nonuniform Phase Distributions",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10687591",
+     "authors": "Stephen D. Voran"
+    },
+    {
+     "title": "Exploring Interactive Semantic Alignment for Efficient HOI Detection with Vision-language Model",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 6,
+     "doi": "10.1109/icme57554.2024.10688344",
+     "authors": "Jihao Dong, Hua Yang, Renjie Pan"
+    },
+    {
+     "title": "Adversarial Audio Watermarking: Embedding Watermark into Deep Feature",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 6,
+     "doi": "10.1109/icme55011.2023.00019",
+     "authors": "Shiqiang Wu, Jie Liu, Ying Huang, Hu Guan, Shuwu Zhang"
+    },
+    {
+     "title": "Cross-Modal Semantic-Aware Network for Audio-Visual Event Localization",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209557",
+     "authors": "Liang Liu, Shuaiyong Li, Yongqiang Zhu"
+    },
+    {
+     "title": "Align-AV-HuBERT: AV-HuBERT with Audio-Visual Temporal Alignment",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11210211",
+     "authors": "Cancan Li, Fei Su, Juan Liu"
+    },
+    {
+     "title": "Contextualizing Borderline ECG Analysis via Multi-Modal Feature Extraction and Large Language Model Inference",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11209211",
+     "authors": "Yanlin Xu, Yiwei Ru, Dongsen Zhang, Yongji Liu, Zhenan Sun"
+    },
+    {
+     "title": "Scene Graph Generation with Large Vision-Language Model and Its Applications",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11210017",
+     "authors": "Wei-Xin Chen, Yong-Yong Chen, Shi-Chao Kan"
+    },
+    {
+     "title": "Towards Proper Contrastive Self-Supervised Learning Strategies for Music Audio Representation",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 6,
+     "doi": "10.1109/icme52920.2022.9859799",
+     "authors": "Jeong Choi, Seongwon Jang, Hyunsouk Cho, Sehee Chung"
+    },
+    {
+     "title": "Cross-Attention is not always needed: Dynamic Cross-Attention for Audio-Visual Dimensional Emotion Recognition",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 4,
+     "doi": "10.1109/icme57554.2024.10687371",
+     "authors": "R. Gnana Praveen, Jahangir Alam"
+    },
+    {
+     "title": "Perceptual Audio Object Coding Using Adaptive Subband Grouping with CNN and Residual Block",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme55011.2023.00433",
+     "authors": "Yulin Wu, Ruimin Hu, Xiaochen Wang"
+    },
+    {
+     "title": "Multi-Scale Hybrid Fusion Network for Mandarin Audio-Visual Speech Recognition",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 3,
+     "doi": "10.1109/icme55011.2023.00116",
+     "authors": "Jinxin Wang, Zhongwen Guo, Chao Yang, Xiaomei Li, Ziyuan Cui"
+    },
+    {
+     "title": "Addressing Emotion Bias in Music Emotion Recognition and Generation with Frechet Audio Distance",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11210239",
+     "authors": "Yuanchao Li, Azalea Gui, Dimitra Emmanouilidou, Hannes Gamper"
+    },
+    {
+     "title": "Spatial Audio Object Coding Based on Time-Frequency Shifting and Scheduling",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme51207.2021.9428297",
+     "authors": "Chenhao Hu, Ruimin Hu, Xiaochen Wang, Yulin Wu"
+    },
+    {
+     "title": "Multi-speaker Direction of Arrival Estimation Using Audio and Visual Modalities with Convolutional Neural Network",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme55011.2023.00115",
+     "authors": "Yulin Wu, Ruimin Hu, Xiaochen Wang"
+    },
+    {
+     "title": "UniSync: A Unified Framework for Audio-Visual Synchronization",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 3,
+     "doi": "10.1109/icme59968.2025.11209535",
+     "authors": "Tao Feng, Yifan Xie, Xun Guan, Jiyuan Song, Zhou Liu, Fei Ma"
+    },
+    {
+     "title": "Exploiting Vision-Language Model for Visible-Infrared Person Re-identification via Textual Modality Alignment",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 3,
+     "doi": "10.1109/icme57554.2024.10688271",
+     "authors": "Bingyu Duan, Wanqian Zhang, Dayan Wu, Zheng Lin, Jingzi Gu, Weiping Wang"
+    },
+    {
+     "title": "Research on Audio-Visual Quality Assessment Dataset and Method for User-Generated Omnidirectional Video",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209273",
+     "authors": "Fei Zhao, Da Pan, Zelu Qi, Ping Shi"
+    },
+    {
+     "title": "Audio-driven High-resolution Seamless Talking Head Video Editing via StyleGAN",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 3,
+     "doi": "10.1109/icme57554.2024.10688257",
+     "authors": "Jiacheng Su, Kunhong Liu, Liyan Chen, Junfeng Yao, Qingsong Liu, Dongdong Lv"
+    },
+    {
+     "title": "Audio-Visual Generalized Zero-Shot Learning Based on Variational Information Bottleneck",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme55011.2023.00084",
+     "authors": "Yapeng Li, Yong Luo, Bo Du"
+    },
+    {
+     "title": "Enhanced Self-Supervised Multi-View Representations with Modality-Missing Robustness for Audio-Visual Speech Recognition",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209403",
+     "authors": "Fei Su, Cancan Li, Juan Liu"
+    },
+    {
+     "title": "Jointly Recognizing Speech and Singing Voices Based on Multi-Task Audio Source Separation",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme57554.2024.10687477",
+     "authors": "Ye Bai, Chenxing Li, Hao Li, Yuanyuan Zhao, Xiaorui Wang"
+    },
+    {
+     "title": "Efficient Multi-Step Audio Object Coding with Limited Residual Information",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 3,
+     "doi": "10.1109/icme51207.2021.9428471",
+     "authors": "Chenhao Hu, Ruimin Hu, Xiaochen Wang, Yulin Wu, Wenke Liu"
+    },
+    {
+     "title": "STFTCodec: High-Fidelity Audio Compression through Time-Frequency Domain Representation",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 4,
+     "doi": "10.1109/icme59968.2025.11210181",
+     "authors": "Tao Feng, Zhiyuan Zhao, Yifan Xie, Yuqi Ye, Xiangyang Luo, Xun Guan"
+    },
+    {
+     "title": "Pioneer: Encrypted Video Traffic Identification for Mixed Transmission of Video-Audio Segments",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme59968.2025.11210149",
+     "authors": "Weitao Tang, Taizhong Xu, Meijie Du, Die Hu, Xu Tang, Qingyun Liu"
+    },
+    {
+     "title": "An Empirical Study of Parameter Efficient Fine-tuning on Vision-Language Pre-train Model",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 3,
+     "doi": "10.1109/icme57554.2024.10687740",
+     "authors": "Yuxin Tian, Mouxing Yang, Yunfan Li, Dayiheng Liu, Xingzhang Ren, Xi Peng"
+    },
+    {
+     "title": "Controllable Text-to-Audio Generation with Training-Free Temporal Guidance Diffusion",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme57554.2024.10687830",
+     "authors": "Tianjiao Du, Jun Chen, Jiasheng Lu, Qinmei Xu, Huan Liao, Yupeng Chen"
+    },
+    {
+     "title": "Mel-Spectrogram Image-Based End-to-End Audio Deepfake Detection Under Channel-Mismatched Conditions",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 23,
+     "doi": "10.1109/icme52920.2022.9859621",
+     "authors": "Abderrahim Fathan, Jahangir Alam, Woo Hyun Kang"
+    },
+    {
+     "title": "Audio-Driven Gesture Generation via Deviation Feature in the Latent Space",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209432",
+     "authors": "Jiahui Chen, Huan Yang, Runhua Shi, Chaofan Ding, Xiaoqi Mo, Siyu Xiong"
+    },
+    {
+     "title": "FDAVS: Exploring Frequency-Driven Modality Enhancement in Audio-Visual Segmentation",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11210115",
+     "authors": "Mengyuan Zhu, Yunzhi Zhuge, Sitong Gong, Lu Zhang, Huchuan Lu"
+    },
+    {
+     "title": "Audiolog: LLMs-Powered Long Audio Logging with Hybrid Token-Semantic Contrastive Learning",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 5,
+     "doi": "10.1109/icme57554.2024.10688214",
+     "authors": "Jisheng Bai, Han Yin, Mou Wang, Dongyuan Shi, Woon-Seng Gan, Jianfeng Chen"
+    },
+    {
+     "title": "An Efficient Approach for Audio-Visual Emotion Recognition With Missing Labels And Missing Modalities",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 17,
+     "doi": "10.1109/icme51207.2021.9428219",
+     "authors": "Fei Ma, Shao-Lun Huang, Lin Zhang"
+    },
+    {
+     "title": "Audio Video Synchronization in Content Stitching",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo Workshops (ICMEW)",
+     "citationCount": 0,
+     "doi": "10.1109/icmew68306.2025.11152108",
+     "authors": "Yongjun Wu, Parminder Singh, Kyle Koceski, Mairo Pedrini"
+    },
+    {
+     "title": "Chinese-LiPS: A Chinese Audio-Visual Speech Recognition Dataset with Lip-Reading and Presentation Slides",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11209943",
+     "authors": "Jinghua Zhao, Yuhang Jia, Shiyao Wang, Jiaming Zhou, Hui Wang, Yong Qin"
+    },
+    {
+     "title": "Boosting Audio-Visual Segmentation via Triple-Modalities Alignment",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11209970",
+     "authors": "Yujian Lee, Peng Gao, Zailong Chen, Wentao Fan, Guquan Jing, Yiyang Hu"
+    },
+    {
+     "title": "EAV-Mamba: Efficient Audio-Visual Representation Learning for Weakly-Supervised Temporal Action Localization",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme59968.2025.11210145",
+     "authors": "Quan Zhang, Jinwei Fang, Yuxin Qi, Mingyang Wan, Guojun Ma, Ke Zhang"
+    },
+    {
+     "title": "Synthesizing Audio and Video Bitrate Selections via Learning from Actual Requirements",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 7,
+     "doi": "10.1109/icme52920.2022.9859610",
+     "authors": "Weihe Li, Jiawei Huang, Yu Liang, Jingling Liu, Feng Gao"
+    },
+    {
+     "title": "Boosting the Transferability of Audio Adversarial Examples with Acoustic Representation Optimization",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 4,
+     "doi": "10.1109/icme59968.2025.11209891",
+     "authors": "Weifei Jin, Junjie Su, Hejia Wang, Yulin Ye, Jie Hao"
+    },
+    {
+     "title": "Self-Supervised Learning-Based General Fine-tuning Framework For Audio Classification and Event Detection",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10687821",
+     "authors": "Yanjie Sun, Kele Xu, Yong Dou, Tian Gao"
+    },
+    {
+     "title": "Modality-Fusion Spiking Transformer Network for Audio-Visual Zero-Shot Learning",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 17,
+     "doi": "10.1109/icme55011.2023.00080",
+     "authors": "Wenrui Li, Zhengyu Ma, Liang-Jian Deng, Hengyu Man, Xiaopeng Fan"
+    },
+    {
+     "title": "Listen and Look: Multi-Modal Aggregation and Co-Attention Network for Video-Audio Retrieval",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 8,
+     "doi": "10.1109/icme52920.2022.9859647",
+     "authors": "Xiaoshuai Hao, Wanqian Zhang, Dayan Wu, Fei Zhu, Bo Li"
+    },
+    {
+     "title": "SingAvatar: High-fidelity Audio-driven Singing Avatar Synthesis",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 3,
+     "doi": "10.1109/icme57554.2024.10687925",
+     "authors": "Wentao Ma, Anni Tang, Jun Ling, Han Xue, Huiheng Liao, Yunhui Zhu"
+    },
+    {
+     "title": "Incorporating Audio-Guided Visual Attention into Sound Event Localization and Detection with Source Distance Estimation",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11210146",
+     "authors": "Qing Wang, Jun Du, Hengyi Hong, Maocheng Hu, Mingqi Cai, Xin Fang"
+    },
+    {
+     "title": "Multimodal Transformer Networks with Latent Interaction for Audio-Visual Event Localization",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 9,
+     "doi": "10.1109/icme51207.2021.9428081",
+     "authors": "Yixuan He, Xing Xu, Xin Liu, Weihua Ou, Huimin Lu"
+    },
+    {
+     "title": "An Investigation on Audio-Prompt and Structure Guided Long-Duration Music Generation Based on Diffusion Models",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11209133",
+     "authors": "Ziyu Zhao, Zilu Guo, Jun Du, Feng Ma, Jia Pan"
+    },
+    {
+     "title": "Generalized Audio Deepfake Detection Using Frame-level Latent Information Entropy",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 3,
+     "doi": "10.1109/icme59968.2025.11210096",
+     "authors": "Botao Zhao, Zuheng Kang, Yayun He, Xiaoyang Qu, Junqing Peng, Jing Xiao"
+    },
+    {
+     "title": "Mutual Semantic Bridged Tri-Tower Fusion for Audio-Visual Segmentation",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209503",
+     "authors": "Jingqi Qu, Hui Yu, Dongchen Zhu, Jiamao Li"
+    },
+    {
+     "title": "Dual Space Embedding Learning For Weakly Supervised Audio-Visual Violence Detection",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10687755",
+     "authors": "Yiran Liu, Zhanjie Wu, Mengjingcheng Mo, Ji Gan, Jiaxu Leng, Xinbo Gao"
+    },
+    {
+     "title": "Detecting Highlighted Video Clips Through Emotion-Enhanced Audio-Visual Cues",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme51207.2021.9428252",
+     "authors": "Linkang Hu, Weidong He, Le Zhang, Tong Xu, Hui Xiong, Enhong Chen"
+    },
+    {
+     "title": "Multi-Modal Knowledge Transfer for Target Speaker Lipreading with Improved Audio-Visual Pretraining and Cross-Lingual Fine-Tuning",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo Workshops (ICMEW)",
+     "citationCount": 1,
+     "doi": "10.1109/icmew63481.2024.10645443",
+     "authors": "Genshun Wan, Zhongfu Ye"
+    },
+    {
+     "title": "Non-Reference Subjective Evaluation Method for Binaural Audio in 6-DOF VR Applications",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo Workshops (ICMEW)",
+     "citationCount": 3,
+     "doi": "10.1109/icmew59549.2023.00079",
+     "authors": "Zhiyu Li, Jing Wang, Hanqi Zhang, Sakib Hasan, Jingxin Li"
+    },
+    {
+     "title": "Language-Conditioned Waypoint Predictor for Continuous Vision-and-Language Navigation",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209085",
+     "authors": "Zeyu Wang, Yuankai Qi, Dong An, Xu Yang, Hongxin Li, Zhaoxiang Zhang"
+    },
+    {
+     "title": "Perceptual Evaluation on Audio-Visual Dataset of 360 Content",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo Workshops (ICMEW)",
+     "citationCount": 15,
+     "doi": "10.1109/icmew56448.2022.9859426",
+     "authors": "Randy F Fela, Andreas Pastor, Patrick Le Callet, Nick Zacharov, Toinon Vigier, Soren Forchhammer"
+    },
+    {
+     "title": "Audio-Driven Emotion-Aware 3D Talking Face Generation from Single Image",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209335",
+     "authors": "Chun-Shuo Qiu, Feng-Lin Liu, Hongbo Fu, Fan Zhang, Yan-Pei Cao, Yu-Kun Lai"
+    },
+    {
+     "title": "Improving Audio-Visual Speech Recognition by Lip-Subword Correlation Based Visual Pre-training and Cross-Modal Fusion Encoder",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 6,
+     "doi": "10.1109/icme55011.2023.00447",
+     "authors": "Yusheng Dai, Hang Chen, Jun Du, Xiaofei Ding, Ning Ding, Feijun Jiang"
+    },
+    {
+     "title": "ForecasterFlexOBM: A Multi-View Audio-Visual Dataset for Flexible Object-Based Media Production",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10687655",
+     "authors": "Davide Berghi, Craig Cieciura, Farshad Einabadi, Maxine Glancy, Oliver C. Camilleri, Philip Foster"
+    },
+    {
+     "title": "Meta-Learning Empowered Meta-Face: Personalized Speaking Style Adaptation for Audio-Driven 3D Talking Face Animation",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209844",
+     "authors": "Xukun Zhou, Fengxin Li, Ziqiao Peng, Xinyu Wang, Hongyan Liu, Zhaoxin Fan"
+    },
+    {
+     "title": "Exploring Audio-Visual Information Fusion for Sound Event Localization and Detection In Low-Resource Realistic Scenarios",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 13,
+     "doi": "10.1109/icme57554.2024.10687782",
+     "authors": "Ya Jiang, Qing Wang, Jun Du, Maocheng Hu, Pengfei Hu, Zeyan Liu"
+    },
+    {
+     "title": "An Enhanced Multimodal Negative Feedback Detection Framework with Target Retrieval in Thai Spoken Audio",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo Workshops (ICMEW)",
+     "citationCount": 1,
+     "doi": "10.1109/icmew63481.2024.10645364",
+     "authors": "Pantid Chantangphol, Sattaya Singkul, Thanawat Lodkaew, Nattasit Maharattanamalai, Atthakorn Petchsod, Theerat Sakdejayont"
+    },
+    {
+     "title": "Elastic Architecture Search for Efficient Language Models",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11210235",
+     "authors": "Shang Wang"
+    },
+    {
+     "title": "End to End Text to Sign Language Generation using MultiGAU",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209296",
+     "authors": "Nabeela Khan"
+    },
+    {
+     "title": "Joint Language Prompt and Object Tracking",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 4,
+     "doi": "10.1109/icme57554.2024.10687451",
+     "authors": "ZhiMin Weng, JinPu Zhang, YueHuan Wang"
+    },
+    {
+     "title": "SAMDiffusion: Semantic Segmentation with Diffusion Model and Segmentation Anything Model",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209990",
+     "authors": "Yihao Wang, Xinyu Mu, Peixiang Liu, Zihao Zhang, Zhiyi Wang, Xiaoming Huang"
+    },
+    {
+     "title": "Harnessing Pre-trained Language Models for EEG-based Epilepsy Detection",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11210188",
+     "authors": "Tao Lu, Shangyang Li"
+    },
+    {
+     "title": "Model-Guardian: Protecting against Data-Free Model Stealing Using Gradient Representations and Deceptive Predictions",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11209365",
+     "authors": "Yunfei Yang, Xiaojun Chen, Yuexin Xuan, Zhendong Zhao"
+    },
+    {
+     "title": "Relative Position Representation over Interaction Space for Natural Language Inference",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme51207.2021.9428375",
+     "authors": "Huiyan Wu, Jun Huang"
+    },
+    {
+     "title": "A Result Based Portable Framework for Spoken Language Understanding",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 4,
+     "doi": "10.1109/icme51207.2021.9428384",
+     "authors": "Lizhi Cheng, Wenmian Yang, Weijia Jia"
+    },
+    {
+     "title": "Dual Information Speech Language Models for Emotional Conversations",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11210157",
+     "authors": "Chun Wang, Chenyang Liu, Wenze Xu, Weihong Deng"
+    },
+    {
+     "title": "Tina: Think, Interaction, and Action Framework for Zero-Shot Vision Language Navigation",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 9,
+     "doi": "10.1109/icme57554.2024.10687470",
+     "authors": "Dingbang Li, Wenzhou Chen, Xin Lin"
+    },
+    {
+     "title": "DLVQA: A Dynamic Loss Approach For Visual Question Answering with Language Biases",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209245",
+     "authors": "Shuocheng Wang, Zhenzhen Wang, Qingfeng Wu"
+    },
+    {
+     "title": "Unified Multi-Modal Multi-Task Joint Learning for Language-Vision Relation Inference",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 4,
+     "doi": "10.1109/icme52920.2022.9859683",
+     "authors": "Wenjie Lu, Dong Zhang"
+    },
+    {
+     "title": "FlowJD: Your Imagination Can Help You Jailbreak in Visual Language Models",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209893",
+     "authors": "Xiaotian Zou, Yongkang Chen, Qianqian Han, Ke Li"
+    },
+    {
+     "title": "Synopses of Movie Narratives: a Video-Language Dataset for Story Understanding",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209961",
+     "authors": "Yidan Sun, Qin Chao, Yangfeng Ji, Boyang Li"
+    }
+   ]
+  },
+  "sound event detection": {
+   "total": 153109,
+   "kept": 35,
+   "papers": [
+    {
+     "title": "Location-Oriented Sound Event Localization and Detection with Spatial Mapping and Regression Localization",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11210191",
+     "authors": "Xueping Zhang, Yaxiong Chen, Ruilin Yao, Yunfei Zi, Shengwu Xiong"
+    },
+    {
+     "title": "Multi-Scale Gated Attention for Weakly Labelled Sound Event Detection",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme51207.2021.9428114",
+     "authors": "Zhenwei Hou, Liping Yang"
+    },
+    {
+     "title": "Hierarchical Temporal Attention and Competent Teacher Network for Sound Event Detection",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme57554.2024.10688275",
+     "authors": "Yihang Zhang, Yun Liang, Shitong Weng, Hai Lin, Liping Chen, Shenlong Zheng"
+    },
+    {
+     "title": "Incorporating Audio-Guided Visual Attention into Sound Event Localization and Detection with Source Distance Estimation",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11210146",
+     "authors": "Qing Wang, Jun Du, Hengyi Hong, Maocheng Hu, Mingqi Cai, Xin Fang"
+    },
+    {
+     "title": "Exploring Audio-Visual Information Fusion for Sound Event Localization and Detection In Low-Resource Realistic Scenarios",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 13,
+     "doi": "10.1109/icme57554.2024.10687782",
+     "authors": "Ya Jiang, Qing Wang, Jun Du, Maocheng Hu, Pengfei Hu, Zeyan Liu"
+    },
+    {
+     "title": "Weakly-Supervised Audio-Visual Sound Source Detection and Separation",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme51207.2021.9428196",
+     "authors": "Tanzila Rahman, Leonid Sigal"
+    },
+    {
+     "title": "SEMIPL: A Semi-Supervised Method for Event Sound Source Localization",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo Workshops (ICMEW)",
+     "citationCount": 2,
+     "doi": "10.1109/icmew63481.2024.10645397",
+     "authors": "Yue Li, Baiqiao Yin, Jinfu Liu, Jiajun Wen, Jiaying Lin, Mengyuan Liu"
+    },
+    {
+     "title": "Video Abnormal Event Detection Via Context Cueing Generative Adversarial Network",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 5,
+     "doi": "10.1109/icme51207.2021.9428328",
+     "authors": "Zhi Zhang, Sheng-hua Zhong, Yan Liu"
+    },
+    {
+     "title": "Self-Supervised Learning-Based General Fine-tuning Framework For Audio Classification and Event Detection",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10687821",
+     "authors": "Yanjie Sun, Kele Xu, Yong Dou, Tian Gao"
+    },
+    {
+     "title": "Frame-Level Embedding Learning for Few-shot Bioacoustic Event Detection",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme55011.2023.00134",
+     "authors": "Xueyang Zhang, Shuxian Wang, Jun Du, Genwei Yan, Jigang Tang, Tian Gao"
+    },
+    {
+     "title": "Towards Temporal Event Detection: A Dataset and Benchmarks",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme52920.2022.9859896",
+     "authors": "Zhenguo Yang, Haizhong Zhu, Zhiwei Guo, Han Lin, Zehang Lin, Qing Li"
+    },
+    {
+     "title": "Boosting Road Event Detection with Adaptive Multi-Modal Models",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11210207",
+     "authors": "Linkai Liu, Xiaoyan Xiao, Yijian Yang, Yuchen Zhou, Zipeng Guo, Chao Gou"
+    },
+    {
+     "title": "Adaptive Learning via a Negative Selection Strategy for Few-Shot Bioacoustic Event Detection",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10687668",
+     "authors": "Yaxiong Chen, Xueping Zhang, Yunfei Zi, Shengwu Xiong"
+    },
+    {
+     "title": "Where’s That Voice Coming? Continual Learning for Sound Source Localization",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 5,
+     "doi": "10.1109/icme59968.2025.11209062",
+     "authors": "Yang Xiao, Rohan Kumar Das"
+    },
+    {
+     "title": "MPN: Multimodal Parallel Network for Audio-Visual Event Localization",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 22,
+     "doi": "10.1109/icme51207.2021.9428373",
+     "authors": "Jiashuo Yu, Ying Cheng, Rui Feng"
+    },
+    {
+     "title": "Improving Domain Generalization for Sound Classification with Sparse Frequency-Regularized Transformer",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 5,
+     "doi": "10.1109/icme55011.2023.00193",
+     "authors": "Honglin Mu, Wentian Xia, Wanxiang Che"
+    },
+    {
+     "title": "Wavelet-based Feature Representation Framework for Event Stream Recognition",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11208986",
+     "authors": "Zihan Cheng, Xingyu Pan, Xi Chen, Shenghua Fan"
+    },
+    {
+     "title": "Cross-Modal Semantic-Aware Network for Audio-Visual Event Localization",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209557",
+     "authors": "Liang Liu, Shuaiyong Li, Yongqiang Zhu"
+    },
+    {
+     "title": "Multi-Stage Fusion for Event-based Multimodal Tracker",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10687995",
+     "authors": "Xinyu Zhang, Hefei Huang, Xu Jia, Wenyue Chen, Dong Wang, Shengming Li"
+    },
+    {
+     "title": "Counterfactual-Augmented Representation Learning based Event Prediction",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11210104",
+     "authors": "Cheng Hu, Fangfang Yuan, Cong Cao, Pu Li, Guangjie Zeng, Yanbing Liu"
+    },
+    {
+     "title": "Joint Flow Estimation from Point Clouds and Event Streams",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10687963",
+     "authors": "Hanlin Li, Yueyi Zhang, Guanting Dong, Shida Sun, Zhiwei Xiong"
+    },
+    {
+     "title": "Enhancing Long Video Understanding via Hierarchical Event-Based Memory",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme59968.2025.11210102",
+     "authors": "Dingxin Cheng, Mingda Li, Jingyu Liu, Yongxin Guo, Bin Jiang, Qingbin Liu"
+    },
+    {
+     "title": "Explore the Asymmetric Interference Sound Field for High-precision Localization",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11208913",
+     "authors": "Xiaojie Yu, Mingzhi Pang, Zhongxu Bao, Xu Yang, Qiang Niu, Yuqing Yin"
+    },
+    {
+     "title": "Progressive Event Alignment Network for Partial Relevant Video Retrieval",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 13,
+     "doi": "10.1109/icme55011.2023.00338",
+     "authors": "Xun Jiang, Zhiguo Chen, Xing Xu, Fumin Shen, Zuo Cao, Xunliang Cai"
+    },
+    {
+     "title": "ESTME: Event-driven Spatio-temporal Motion Enhancement for Micro-Expression Recognition",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 5,
+     "doi": "10.1109/icme57554.2024.10687719",
+     "authors": "Peilin Xiao, Yueyi Zhang, Dachun Kai, Yansong Peng, Zheyu Zhang, Xiaoyan Sun"
+    },
+    {
+     "title": "Uneven Event Modeling for Partially Relevant Video Retrieval",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11210135",
+     "authors": "Sa Zhu, Huashan Chen, Wanqian Zhang, Jinchao Zhang, Zexian Yang, Xiaoshuai Hao"
+    },
+    {
+     "title": "Trajectory Prediction from EGO View: A Coordinate Transform and Tail-Light Event Driven Approach",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme52920.2022.9859669",
+     "authors": "Wenlong Liao, Xiaolei Chen, Weipeng Zhang, Huanxi Liu, Junchi Yan, Yingxin Lou"
+    },
+    {
+     "title": "‘Skimming-Perusal’ Detection: A Simple Object Detection Baseline in GigaPixel-level Images",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme55011.2023.00421",
+     "authors": "Zhibin Zhang, Wanli Xue, Kaihua Zhang, Shengyong Chen"
+    },
+    {
+     "title": "Stepwise Schema-Guided Prompting Framework with Parameter Efficient Instruction Tuning for Multimedia Event Extraction",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 3,
+     "doi": "10.1109/icme59968.2025.11210082",
+     "authors": "Xiang Yuan, Xinrong Chen, Haochen Li, Hang Yang, Guanyu Wang, Weiping Li"
+    },
+    {
+     "title": "ES-Parkour: Advanced Robot Parkour with Bio-inspired Event Camera and Spiking Neural Network",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209556",
+     "authors": "Qiang Zhang, Jiahang Cao, Jingkai Sun, Yecheng Shao, Gang Han, Wen Zhao"
+    },
+    {
+     "title": "Consistency Change Detection Framework for Unsupervised Remote Sensing Change Detection",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11209384",
+     "authors": "Yating Liu, Yan Lu"
+    },
+    {
+     "title": "Change Detection Converter: Using Semantic Segmantation Models to Tackle Change Detection Task",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 4,
+     "doi": "10.1109/icme52920.2022.9859973",
+     "authors": "Ding Chen, Bowei Ye, Zhicheng Zhao, Feihong Wang, Weida Xu, Wenjun Yin"
+    },
+    {
+     "title": "Multimodal Transformer Networks with Latent Interaction for Audio-Visual Event Localization",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 9,
+     "doi": "10.1109/icme51207.2021.9428081",
+     "authors": "Yixuan He, Xing Xu, Xin Liu, Weihua Ou, Huimin Lu"
+    },
+    {
+     "title": "DCGNet: Detail and Context Guided Small Object Detection Network with Decoupled Detection Head",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11208976",
+     "authors": "Yixin Qiao, Shiyong Lan, Wenwu Wang, Haohan Chen, Yao Li, Guonan Deng"
+    },
+    {
+     "title": "A Micro-Expression Recognition System with Event Cameras",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo Workshops (ICMEW)",
+     "citationCount": 2,
+     "doi": "10.1109/icmew63481.2024.10645394",
+     "authors": "Peilin Xiao, Yueyi Zhang, Dachun Kai, Yansong Peng, Zheyu Zhang, Xiaoyan Sun"
+    }
+   ]
+  },
+  "neural codec": {
+   "total": 69794,
+   "kept": 89,
+   "papers": [
+    {
+     "title": "Semantic Communication Using Intent-guided Coarse- and Fine-grained Codec with Pre-trained Diffusion Models",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11209052",
+     "authors": "Rui Tang, Dahua Gao, Minxi Yang"
+    },
+    {
+     "title": "Neural Dynamics Pruning for Energy-Efficient Spiking Neural Networks",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme57554.2024.10688279",
+     "authors": "Haoyu Huang, Linxuan He, Faqiang Liu, Rong Zhao, Luping Shi"
+    },
+    {
+     "title": "Implicit Neural Distance Optimization for Mesh Neural Subdivision",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 5,
+     "doi": "10.1109/icme55011.2023.00349",
+     "authors": "Ke Liu, Ning Ma, Zhihua Wang, Jingjun Gu, Jiajun Bu, Haishuai Wang"
+    },
+    {
+     "title": "Faster-SNN: Towards Faster and Better Spiking Neural Networks with Hybrid Neural Coding",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209292",
+     "authors": "Yinsheng Chen, Jilong Luo, Zhiyi Yu, Shanlin Xiao"
+    },
+    {
+     "title": "Neural-MCRL: Neural Multimodal Contrastive Representation Learning for EEG-based Visual Decoding",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 6,
+     "doi": "10.1109/icme59968.2025.11210130",
+     "authors": "Yueyang Li, Zijian Kang, Shengyu Gong, Wenhao Dong, Weiming Zeng, Hongjie Yan"
+    },
+    {
+     "title": "Neural Representations for Scalable Video Coding",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme59968.2025.11209859",
+     "authors": "Yiying Wei, Hadi Amirpour, Christian Timmerer"
+    },
+    {
+     "title": "Pruning Based Training-Free Neural Architecture Search",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme52920.2022.9859732",
+     "authors": "Jiawang Zhou, Fanglin Chen, Guangming Lu"
+    },
+    {
+     "title": "IntegralCAM: Integral-based contribution estimation and visualization for convolutional neural networks",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209834",
+     "authors": "Teng-Yok Lee"
+    },
+    {
+     "title": "Neural Network Based in-Loop Filter with Constrained Memory",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 14,
+     "doi": "10.1109/icme52920.2022.9859910",
+     "authors": "Liqiang Wang, Xiaozhong Xu, Shan Liu"
+    },
+    {
+     "title": "Learning Robust Convolutional Neural Networks with Relevant Feature Focusing Via Explanations",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme52920.2022.9859838",
+     "authors": "Kazuki Adachi, Shin'ya Yamaguchi"
+    },
+    {
+     "title": "NeRVA: Joint Implicit Neural Representations for Videos and Audios",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 4,
+     "doi": "10.1109/icme57554.2024.10687669",
+     "authors": "Anustup Choudhury, Praneet Singh, Guan-Ming Su"
+    },
+    {
+     "title": "Revisiting Graph Neural Networks for Node Classification in Heterogeneous Graphs",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 4,
+     "doi": "10.1109/icme51207.2021.9428354",
+     "authors": "Ye Tao, Ying Li, Zhonghai Wu"
+    },
+    {
+     "title": "Improving Few-Shot Neural Radiance Field with Image Based Rendering",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme57554.2024.10687977",
+     "authors": "Qian Li, Cheng Wen, Rao Fu"
+    },
+    {
+     "title": "Theoretical Bound-Guided Hierarchical Vae For Neural Image Codecs",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 6,
+     "doi": "10.1109/icme57554.2024.10688065",
+     "authors": "Yichi Zhang, Zhihao Duan, Yuning Huang, Fengqing Zhu"
+    },
+    {
+     "title": "Graph Attention Neural Network for Image Restoration",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 8,
+     "doi": "10.1109/icme51207.2021.9428448",
+     "authors": "Chong Mou, Jian Zhang"
+    },
+    {
+     "title": "Robust Image Denoising with Texture-Aware Neural Network",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme51207.2021.9428158",
+     "authors": "Bo Fu, Liyan Wang, Zhongxuan Luo"
+    },
+    {
+     "title": "Multimodal-Semantic Context-Aware Graph Neural Network for Group Activity Recognition",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 6,
+     "doi": "10.1109/icme51207.2021.9428377",
+     "authors": "Tianshan Liu, Rui Zhao, Kin-Man Lam"
+    },
+    {
+     "title": "Exploring Pre-Trained Neural Audio Representations for Audio Topic Segmentation",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme55011.2023.00190",
+     "authors": "Iacopo Ghinassi, Matthew Purver, Huy Phan, Chris Newell"
+    },
+    {
+     "title": "Compact Real-Time Radiance Fields with Neural Codebook",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 7,
+     "doi": "10.1109/icme55011.2023.00374",
+     "authors": "Lingzhi Li, Zhongshu Wang, Zhen Shen, Li Shen, Ping Tan"
+    },
+    {
+     "title": "Efficient Binarized Neural Network Intellectual Property Protection",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11210209",
+     "authors": "Bowen Chen, Jiehua Zhang, Yuchen Sun, Li Liu"
+    },
+    {
+     "title": "Factorial User Modeling with Hierarchical Graph Neural Network for Enhanced Sequential Recommendation",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 5,
+     "doi": "10.1109/icme52920.2022.9859593",
+     "authors": "Lyuxin Xue, Deqing Yang, Yanghua Xiao"
+    },
+    {
+     "title": "Frequency-regularized Neural Representation Method for Sparse-view Tomographic Reconstruction",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10687679",
+     "authors": "Jingmou Xian, Jian Zhu, Haolin Liao, Si Li"
+    },
+    {
+     "title": "Multi-Level Feature-Guided Stereoscopic Video Quality Assessment Based on Transformer and Convolutional Neural Network",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme55011.2023.00428",
+     "authors": "Yuan Chen, Sumei Li"
+    },
+    {
+     "title": "Omni-NeRF: Neural Radiance Field from 360° Image Captures",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 25,
+     "doi": "10.1109/icme52920.2022.9859817",
+     "authors": "Kai Gu, Thomas Maugey, Sebastian Knorr, Christine Guillemot"
+    },
+    {
+     "title": "ATM-NeRF: Learning Adaptive Tone Mapping for Normal-Light Neural Radiance Field Reconstruction",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209944",
+     "authors": "Min Wang, Xin Huang, Qing Wang"
+    },
+    {
+     "title": "Encoding Semantic Priors into the Weights of Implicit Neural Representation",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10688197",
+     "authors": "Zhicheng Cai, Qiu Shen"
+    },
+    {
+     "title": "Efficient Sampling and Volume Rendering Strategy for Neural Field SLAM",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme57554.2024.10688267",
+     "authors": "Meng Wang, Yue Qi"
+    },
+    {
+     "title": "Interpretable Function Embedding and Module in Convolutional Neural Networks",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10687380",
+     "authors": "Wei Han, Zhili Qin, Junming Shao"
+    },
+    {
+     "title": "PortraitNeRF: A Single Neural Radiance Field for Complete and Coordinated Talking Portrait Generation",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10688062",
+     "authors": "Pengfei Hu, Xiuzhe Wu, Yang Wu, Wenming Yang"
+    },
+    {
+     "title": "Training-free Neural Architecture Search on Hybrid Convolution-attention Networks",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10687652",
+     "authors": "Yi Fan, Yu-Bin Yang"
+    },
+    {
+     "title": "Alfie: Neural-Reinforced Adaptive Prefetching for Short Videos",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 16,
+     "doi": "10.1109/icme52920.2022.9859956",
+     "authors": "Jingzong Li, Hong Xu, Ming Ma, Haopeng Yan, Chun Jason Xue"
+    },
+    {
+     "title": "Multi-speaker Direction of Arrival Estimation Using Audio and Visual Modalities with Convolutional Neural Network",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme55011.2023.00115",
+     "authors": "Yulin Wu, Ruimin Hu, Xiaochen Wang"
+    },
+    {
+     "title": "Efficient Training of Lightweight Neural Networks Using Online Self-Acquired Knowledge Distillation",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 6,
+     "doi": "10.1109/icme51207.2021.9428147",
+     "authors": "Maria Tzelepi, Anastasios Tefas"
+    },
+    {
+     "title": "Refining Interactions: Enhancing Anisotropy in Graph Neural Networks with Language Semantics",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11209302",
+     "authors": "Zhaoxing Li, Haifeng Zhang, Xiaoming Zhang, Chengxiang Liu"
+    },
+    {
+     "title": "NID-SLAM: Neural Implicit Representation-based RGB-D SLAM In Dynamic Environments",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 27,
+     "doi": "10.1109/icme57554.2024.10687512",
+     "authors": "Ziheng Xu, Jianwei Niu, Qingfeng Li, Tao Ren, Chen Chen"
+    },
+    {
+     "title": "Exploring Active Learning for Label-Efficient Training of Semantic Neural Radiance Field",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11210109",
+     "authors": "Yuzhe Zhu, Lile Cai, Kangkang Lu, Fayao Liu, Xulei Yang"
+    },
+    {
+     "title": "Small Object Recognition Using a Spatio-Temporal Neural Network",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme51207.2021.9428458",
+     "authors": "Zhibo Liang, Shaohui Liu, Wuzhen Shi, Xingtao Wang, Feng Jiang"
+    },
+    {
+     "title": "Ultralight-weight Binary Neural Network with 1K Parameters for Image Super-Resolution",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10687736",
+     "authors": "Zhijian Wu, Dingjiang Huang"
+    },
+    {
+     "title": "Hierarchical Graph Neural Network for Human Pose Estimation",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 3,
+     "doi": "10.1109/icme55011.2023.00453",
+     "authors": "Guanghua Zheng, Zhongqiu Zhao, Zhao Zhang, Yi Yang"
+    },
+    {
+     "title": "Fast and Physically-based Neural Explicit Surface for Relightable Human Avatars",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11210133",
+     "authors": "Jiacheng Wu, Ruiqi Zhang, Jie Chen, Hui Zhang"
+    },
+    {
+     "title": "An Attention-Guided Two-Stream Convolutional Neural Network for Few-Shot Learning",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme52920.2022.9859903",
+     "authors": "Hui Zhu, Xiaofang Zhao"
+    },
+    {
+     "title": "MA-NeRF: Motion-Assisted Neural Radiance Fields for Face Synthesis from Sparse Images",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 3,
+     "doi": "10.1109/icme55011.2023.00302",
+     "authors": "Weichen Zhang, Xiang Zhou, YuKang Cao, WenSen Feng, Chun Yuan"
+    },
+    {
+     "title": "Deep Neural Networks for End-to-End Spatiotemporal Video Quality Prediction and Aggregation",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 3,
+     "doi": "10.1109/icme51207.2021.9428209",
+     "authors": "Junming Chen, Haiqiang Wang, Munan Xu, Ge Li, Shan Liu"
+    },
+    {
+     "title": "Spike-NeRF: Neural Radiance Field Based On Spike Camera",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 5,
+     "doi": "10.1109/icme57554.2024.10687382",
+     "authors": "Yijia Guo, Yuanxi Bai, Liwen Hu, Mianzhi Liu, Ziyi Guo, Lei Ma"
+    },
+    {
+     "title": "Cross-Modality Graph Neural Network For Few-Shot Learning",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 3,
+     "doi": "10.1109/icme51207.2021.9428405",
+     "authors": "Shubao Liu, Yuan Xie, Wang Yuan, Lizhuang Ma"
+    },
+    {
+     "title": "SG-NeRF: Semantic-guided Point-based Neural Radiance Fields",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 12,
+     "doi": "10.1109/icme55011.2023.00104",
+     "authors": "Yansong Qu, Yuze Wang, Yue Qi"
+    },
+    {
+     "title": "Training-free Neural Architectural Search on Transformer via Evaluating Expressivity and Trainability",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10688064",
+     "authors": "Yi Fan, Yu-Bin Yang"
+    },
+    {
+     "title": "Splittable Pattern-Specific Weight Pruning for Deep Neural Networks",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 3,
+     "doi": "10.1109/icme55011.2023.00249",
+     "authors": "Yiding Liu, Yinglei Teng, Tao Niu"
+    },
+    {
+     "title": "Graph Attention-Based Deep Neural Network for 3D Point Cloud Processing",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme51207.2021.9428399",
+     "authors": "Xun LI, Feng XUE, CHAO CHEN, XIAOHUI YUAN, QIANG LU"
+    },
+    {
+     "title": "When Epipolar Transformers Meets Implicit Neural Super-Resolution in Multi-View Stereo",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11210006",
+     "authors": "Boyang Song, Jin Xiao, Xiaoguang Hu, Guofeng Zhang, Jiaqi Shi, Hao Jiang"
+    },
+    {
+     "title": "Variable-Rate Neural Image Compression with Joint Content-Channel Features and Accurate R-λ Model",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme55011.2023.00126",
+     "authors": "Yunhui Shi, Pengquan Wang, Jin Wang, Baocai Yin, Nam Ling"
+    },
+    {
+     "title": "Mamba-SLAM: Enhancing Neural Implicit SLAM with Uncertainty and Mamba",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11209019",
+     "authors": "Jiaming Lu, Yunrui Zhu, Ruyu Liu, Xu Cheng, Jianhua Zhang, Bo Sun"
+    },
+    {
+     "title": "Texture-Aware Neural Radiance Fields Watermarking for Resisting Feature-Modulation Surrogate Model Attacks",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209097",
+     "authors": "Lei Tan, Yuliang Xue, Guobiao Li, Zhenxing Qian, Sheng Li, Xinpeng Zhang"
+    },
+    {
+     "title": "GE-Talker: Generalizable and Efficient Neural Rendering for Talking Head Generation",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11210076",
+     "authors": "Zixuan Wang, Li Fang, Fei Hu, Long Ye"
+    },
+    {
+     "title": "Efficient U-Shape Invertible Neural Network for Image Steganography",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme57554.2024.10687784",
+     "authors": "Le Zhang, Tong Li, Yao Lu, Mixiao Hou, Guangming Lu"
+    },
+    {
+     "title": "Sttcnerf: Style Transfer of Neural Radiance Fields for 3d Scene Based on Texture Consistency Constraint",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme57554.2024.10688223",
+     "authors": "Wudi Chen, Chao Zhang, Cheng Han, Yanjie Ma, Yongqing Cai"
+    },
+    {
+     "title": "Efficient Sketch Recognition Via Compact Spatial Embedding Graph Neural Networks",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 4,
+     "doi": "10.1109/icme51207.2021.9428180",
+     "authors": "Hanhui Li, Xudong Jiang, Boliang Guarn, Nadia Magnenat Thalmann"
+    },
+    {
+     "title": "Robust 3D Face Alignment with Multi-Path Neural Architecture Search",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10687780",
+     "authors": "Zhichao Jiang, Hongsong Wang, Xi Teng, Baopu Li"
+    },
+    {
+     "title": "FFnsr: Fast and Fine Neural Surface Reconstruction",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10687637",
+     "authors": "Chuanfeng Yang, Kaiheng Li, Jiahui Chen, Qingqi Hong"
+    },
+    {
+     "title": "EVAN: Evolutional Video Streaming Adaptation via Neural Representation",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 4,
+     "doi": "10.1109/icme57554.2024.10688368",
+     "authors": "Mufan Liu, Le Yang, Yiling Xu, Ye-Kui Wang, Jenq-Neng Hwang"
+    },
+    {
+     "title": "DB-NeRF: An Effective Dual-Branch Representation for Neural Radiance Fields",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209036",
+     "authors": "Hailan Shen, Yixiang Jiang, Zailiang Chen, Xujing Liu, Jian Zhang"
+    },
+    {
+     "title": "Edge-aware Neural Implicit Surface Reconstruction",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme55011.2023.00283",
+     "authors": "Xinghui Li, Yikang Ding, Jia Guo, Xiansong Lai, Shihao Ren, Wensen Feng"
+    },
+    {
+     "title": "Truth Inference with Bipartite Attention Graph Neural Network from a Comprehensive View",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 8,
+     "doi": "10.1109/icme51207.2021.9428269",
+     "authors": "Jiacheng Liu, Feilong Tang, Jielong Huang"
+    },
+    {
+     "title": "TC-NeRF:Temporal Consistent Neural Radiance Fields with Cross-View Complementation for Occluded Object Removal",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209825",
+     "authors": "Zicheng Wu, Li-Hsuan Chang, Kuan-Wen Chen"
+    },
+    {
+     "title": "Expansive Supervision for Neural Radiance Fields",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11209507",
+     "authors": "Weixiang Zhang, Wei Yao, Shuzhao Xie, Shijia Ge, Chen Tang, Zhi Wang"
+    },
+    {
+     "title": "Hardware-Aware Low-Light Image Enhancement via One-Shot Neural Architecture Search with Shrinkage Sampling",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme51207.2021.9428092",
+     "authors": "Yuansheng Yao, Risheng Liu, Jiaao Zhang, Wei Zhong, Xin Fan, Zhongxuan Luo"
+    },
+    {
+     "title": "SVASTIN: Sparse Video Adversarial Attack via Spatio-Temporal Invertible Neural Networks",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 5,
+     "doi": "10.1109/icme57554.2024.10688258",
+     "authors": "Yi Pan, Jun-Jie Huang, Zihan Chen, Wentao Zhao, Ziyue Wang"
+    },
+    {
+     "title": "Distribution-Aware Hadamard Quantization for Hardware-Efficient Implicit Neural Representations",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme59968.2025.11210085",
+     "authors": "Wenyong Zhou, Jiachen Ren, Taiqiang Wu, Yuxin Cheng, Zhengwu Liu, Ngai Wong"
+    },
+    {
+     "title": "Multi-view Video Coding with Decoupled Neural Representation for Multi-modal Traffic Data",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209769",
+     "authors": "Siqian Nie, Xin Ding, Jiabo Wu, Sihan Lin, Qiong Liu"
+    },
+    {
+     "title": "Talking Portrait with Discrete Motion Priors in Neural Radiation Field",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10687596",
+     "authors": "Daowu Yang, Ying Liu, Qiyun Yang, Ruihui Li"
+    },
+    {
+     "title": "TopoLayer: A Universal Neural Network Layer for Topological Feature Learning on Point Clouds using Persistent Homology",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209425",
+     "authors": "Zechao Guan, Shuai Du, Qingshan Liu"
+    },
+    {
+     "title": "HDCompression-DNA: Hybrid-Diffusion Neural Image Compression via DNA Storage",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11210168",
+     "authors": "Cihan Ruan, Lei Lu, Rongduo Han, Wei Jiang, Wei Wang, Haoyu Wu"
+    },
+    {
+     "title": "Learning Connected Attentions for Convolutional Neural Networks",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 24,
+     "doi": "10.1109/icme51207.2021.9428397",
+     "authors": "Xu Ma, Jingda Guo, Sihai Tang, Zhinan Qiao, Qi Chen, Qing Yang"
+    },
+    {
+     "title": "Training-Free Robust Neural Network Search Via Pruning",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10687950",
+     "authors": "Qiancheng Yang, Yong Luo, Bo Du"
+    },
+    {
+     "title": "A Simple Stochastic Neural Network for Improving Adversarial Robustness",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 3,
+     "doi": "10.1109/icme55011.2023.00392",
+     "authors": "Hao Yang, Min Wang, Zhengfei Yu, Yun Zhou"
+    },
+    {
+     "title": "InFusionSurf: Refining Neural RGB-D Surface Reconstruction Using Per-Frame Intrinsic Refinement and TSDF Fusion Prior Learning",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme57554.2024.10687901",
+     "authors": "Seunghwan Lee, Gwanmo Park, Hyewon Son, Jiwon Ryu, Han Joo Chae"
+    },
+    {
+     "title": "ES-Parkour: Advanced Robot Parkour with Bio-inspired Event Camera and Spiking Neural Network",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209556",
+     "authors": "Qiang Zhang, Jiahang Cao, Jingkai Sun, Yecheng Shao, Gang Han, Wen Zhao"
+    },
+    {
+     "title": "Implicit Neural Representation Learning for Hyperspectral Image Super-Resolution",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 7,
+     "doi": "10.1109/icme52920.2022.9859739",
+     "authors": "Kaiwei Zhang, Dandan Zhu, Xiongkuo Min, Guangtao Zhai"
+    },
+    {
+     "title": "MNRE: A Challenge Multimodal Dataset for Neural Relation Extraction with Visual Evidence in Social Media Posts",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 67,
+     "doi": "10.1109/icme51207.2021.9428274",
+     "authors": "Changmeng Zheng, Zhiwei Wu, Junhao Feng, Ze Fu, Yi Cai"
+    },
+    {
+     "title": "Cross Knowledge Distillation between Artificial and Spiking Neural Networks",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209488",
+     "authors": "Shuhan Ye, Yuanbin Qian, Chong Wang, Sunqi Lin, Jiazheng Xu, Jiangbo Qian"
+    },
+    {
+     "title": "Customized Cross-device Neural Architecture Search with Images",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10687701",
+     "authors": "Yang Yao, Xin Wang, Yijian Qin, Ziwei Zhang, Wenwu Zhu, Hong Mei"
+    },
+    {
+     "title": "Semantic-Driven Automatic Filter Pruning for Neural Networks",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 11,
+     "doi": "10.1109/icme52920.2022.9859932",
+     "authors": "Yang Guo, Wei Gao"
+    },
+    {
+     "title": "ASTM: An Attention based Spatiotemporal Model for Video Prediction Using 3D Convolutional Neural Networks",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 6,
+     "doi": "10.1109/icme51207.2021.9428362",
+     "authors": "Zheng Chang, Xinfeng Zhang, Shanshe Wang, Siwei Ma, Yan Ye, Wen Gao"
+    },
+    {
+     "title": "Spatial-Spectral Fusion Neural Operator",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11209102",
+     "authors": "Wei Li, Jiawei Jiang, Ni Xu, Ying Cui, Yan Li, Jianwei Zheng"
+    },
+    {
+     "title": "Analyzing Behavior and Intention in Multi-Agent Systems Using Graph Neural Networks",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10687677",
+     "authors": "Jintai Du, Jinlong Wang, Jiansheng Chen, Xinlong Ding, Jiehui Wu, Tianyu Hu"
+    },
+    {
+     "title": "Causal Denoising Framework for Generalizable Recommendation System using Graph Neural Network",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10687532",
+     "authors": "Yibowen Zhao, Yonghui Xu, Ning Liu, Yixin Zhang, Wei Guo, Xudong Lu"
+    },
+    {
+     "title": "QOE-Based Neural Live Streaming Method with Continuous Dynamic Adaptive Video Quality Control",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme51207.2021.9428162",
+     "authors": "Xuekai Wei, Mingliang Zhou, Sam Kwong, Hui Yuan, Tao Xiang"
+    },
+    {
+     "title": "Causal Fusion of Convolutional Neural Network and Vision Transformer for Image Anomaly Detection and Localization",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10687979",
+     "authors": "Shuo Zhang, Xiongpeng Hu, Jing Liu"
+    },
+    {
+     "title": "Adaptive Multi-Order Graph Neural Networks for Human Motion Prediction",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme52920.2022.9859980",
+     "authors": "Pengxiang Su, Xuanjing Shen, Zenan Shi, Wei Liu"
+    }
+   ]
+  },
+  "on-device inference": {
+   "total": 20110,
+   "kept": 25,
+   "papers": [
+    {
+     "title": "An End-to-End Channel-Adaptive Feature Compression Approach in Device-Edge Co-Inference Systems",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo Workshops (ICMEW)",
+     "citationCount": 1,
+     "doi": "10.1109/icmew63481.2024.10645379",
+     "authors": "Yuan Ouyang, Ping Wang, Lijun He, Fan Li"
+    },
+    {
+     "title": "Counterfactual Inference for Visual Relationship Detection in Videos",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme55011.2023.00036",
+     "authors": "Xiaofeng Ji, Jin Chen, Xinxiao Wu"
+    },
+    {
+     "title": "Relative Position Representation over Interaction Space for Natural Language Inference",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme51207.2021.9428375",
+     "authors": "Huiyan Wu, Jun Huang"
+    },
+    {
+     "title": "Chain-of-Thought Prompting for Demographic Inference with Large Multimodal Models",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 4,
+     "doi": "10.1109/icme57554.2024.10687914",
+     "authors": "Yongsheng Yu, Jiebo Luo"
+    },
+    {
+     "title": "Pretrain like Your Inference: Masked Tuning Improves Zero-Shot Composed Image Retrieval",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11208912",
+     "authors": "Junyang Chen, Hanjiang Lai"
+    },
+    {
+     "title": "Compression Metadata-assisted RoI Extraction and Adaptive Inference for Efficient Video Analytics",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11209573",
+     "authors": "Chengzhi Wang, Peng Yang"
+    },
+    {
+     "title": "Individual Property Inference Over Collaborative Learning in Deep Feature Space",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 3,
+     "doi": "10.1109/icme52920.2022.9859857",
+     "authors": "Haoxin Yang, Yi Wang, Bin Li"
+    },
+    {
+     "title": "Fined: Fast Inference Network for Edge Detection",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 30,
+     "doi": "10.1109/icme51207.2021.9428230",
+     "authors": "Jan Kristanto Wibisono, Hsueh-Ming Hang"
+    },
+    {
+     "title": "Unified Multi-Modal Multi-Task Joint Learning for Language-Vision Relation Inference",
+     "year": 2022,
+     "venue": "2022 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 4,
+     "doi": "10.1109/icme52920.2022.9859683",
+     "authors": "Wenjie Lu, Dong Zhang"
+    },
+    {
+     "title": "Efficient Shared KVCache Attention Inference for Multimodal Large Language Models",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11210095",
+     "authors": "Shouxu Kuang, Limin Cheng, Yixin Chen, Hang Qin, Ling Li"
+    },
+    {
+     "title": "InterLayer: Efficient Inference with Interleaved Scheduling and Layer-Specific Optimization",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209145",
+     "authors": "Limin Cheng, Hang Qin, Shouxu Kuang, Xinyu Wang, Ling Li, Yanjun Wu"
+    },
+    {
+     "title": "Cross-Lingual Transfer for Natural Language Inference via Multilingual Prompt Translator",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10687356",
+     "authors": "Xiaoyu Qiu, Yuechen Wang, Jiaxin Shi, Wengang Zhou, Houqiang Li"
+    },
+    {
+     "title": "Perception-Oriented Latent Coding for High-Performance Compressed Domain Semantic Inference",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11209906",
+     "authors": "Xu Zhang, Ming Lu, Yan Chen, Zhan Ma"
+    },
+    {
+     "title": "Making Small Language Model Excellent Symptom Inference Expert for Mental Disorders Detection",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme59968.2025.11209026",
+     "authors": "Meiling Li, Xiaotian Xu, Shicheng Li, Bin Wu"
+    },
+    {
+     "title": "Truth Inference with Bipartite Attention Graph Neural Network from a Comprehensive View",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 8,
+     "doi": "10.1109/icme51207.2021.9428269",
+     "authors": "Jiacheng Liu, Feilong Tang, Jielong Huang"
+    },
+    {
+     "title": "Multi-Camera Logical Topology Inference via Conditional Probability Graph Convolution Network",
+     "year": 2021,
+     "venue": "2021 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme51207.2021.9428335",
+     "authors": "keyang Cheng, Qing Liu, Rabia Tahir, Lubamba Kasangu Eric, Ligang He"
+    },
+    {
+     "title": "Compressive Feature Selection for Remote Visual Multi-Task Inference",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo Workshops (ICMEW)",
+     "citationCount": 0,
+     "doi": "10.1109/icmew63481.2024.10645414",
+     "authors": "Saeed Ranjbar Alvar, Ivan V. Bajić"
+    },
+    {
+     "title": "FIA-TE: Feature Inference Attack on Decision Tree Ensembles in Vertical Federated Learning",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 4,
+     "doi": "10.1109/icme57554.2024.10687832",
+     "authors": "Xiaolin Chen, Daoguang Zan, Wei Li, Bei Guan, Yongji Wang"
+    },
+    {
+     "title": "Confidence Breeds Success: Improving Fake News Video Detection via LVLM-Assisted Inference",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 2,
+     "doi": "10.1109/icme59968.2025.11209223",
+     "authors": "Yuchen Zhang, Mingxin Li, Chao Gao, Xianghua Li"
+    },
+    {
+     "title": "Contextualizing Borderline ECG Analysis via Multi-Modal Feature Extraction and Large Language Model Inference",
+     "year": 2025,
+     "venue": "2025 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme59968.2025.11209211",
+     "authors": "Yanlin Xu, Yiwei Ru, Dongsen Zhang, Yongji Liu, Zhenan Sun"
+    },
+    {
+     "title": "Method to Deploy Lightweight Models with a Novel Pipeline for Efficient Inference",
+     "year": 2023,
+     "venue": "2023 IEEE International Conference on Multimedia and Expo Workshops (ICMEW)",
+     "citationCount": 0,
+     "doi": "10.1109/icmew59549.2023.00095",
+     "authors": "Jingxuan Dong, Wanying Li, Zhengxu Huang, Li Xu"
+    },
+    {
+     "title": "Multimodal Guidance Network for Missing- Modality Inference in Content Moderation",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo Workshops (ICMEW)",
+     "citationCount": 5,
+     "doi": "10.1109/icmew63481.2024.10645412",
+     "authors": "Zhuokai Zhao, Harish Palani, Tianyi Liu, Lena Evans, Ruth Toner"
+    },
+    {
+     "title": "Re<sup>3</sup>adapter:Efficient Parameter Fing-Tuning with Triple Reparameterization for Adapter without Inference Latency",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 1,
+     "doi": "10.1109/icme57554.2024.10688375",
+     "authors": "Lihong Qiao, Rui Wang, Yucheng Shu, Ximing Xu, Baobin Li, Weisheng Li"
+    },
+    {
+     "title": "An Images Regeneration Method for CG Anti-Forensics Based on Sensor Device Trace",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10688125",
+     "authors": "Yihong Lu, Jianyi Liu, Ru Zhang"
+    },
+    {
+     "title": "Customized Cross-device Neural Architecture Search with Images",
+     "year": 2024,
+     "venue": "2024 IEEE International Conference on Multimedia and Expo (ICME)",
+     "citationCount": 0,
+     "doi": "10.1109/icme57554.2024.10687701",
+     "authors": "Yang Yao, Xin Wang, Yijian Qin, Ziwei Zhang, Wenwu Zhu, Hong Mei"
+    }
+   ]
+  }
+ }
+}

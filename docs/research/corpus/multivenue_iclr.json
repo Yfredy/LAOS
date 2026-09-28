@@ -1,0 +1,54 @@
+{
+ "venue": "ICLR",
+ "category": "ml",
+ "canonical_venue_string": "ICLR",
+ "wave": "B",
+ "generated_at": "2026-09-29 01:08:22",
+ "topics": [
+  "LLM agent tool use",
+  "agent memory",
+  "audio language model",
+  "multimodal agent",
+  "on-device inference",
+  "self-supervised speech"
+ ],
+ "request_budget": {
+  "successful": 6,
+  "limit": 300,
+  "attempts": 6
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "LLM agent tool use": {
+   "total": 0,
+   "kept": 0,
+   "papers": []
+  },
+  "agent memory": {
+   "total": 0,
+   "kept": 0,
+   "papers": []
+  },
+  "audio language model": {
+   "total": 0,
+   "kept": 0,
+   "papers": []
+  },
+  "multimodal agent": {
+   "total": 0,
+   "kept": 0,
+   "papers": []
+  },
+  "on-device inference": {
+   "total": 0,
+   "kept": 0,
+   "papers": []
+  },
+  "self-supervised speech": {
+   "total": 0,
+   "kept": 0,
+   "papers": []
+  }
+ }
+}

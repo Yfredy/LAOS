@@ -1,0 +1,1006 @@
+{
+ "venue": "WSDM",
+ "category": "cross",
+ "canonical_venue_string": "ACM International Conference on Web Search and Data Mining",
+ "wave": "B",
+ "generated_at": "2026-09-29 01:24:32",
+ "topics": [
+  "LLM agent tool use",
+  "agent memory",
+  "multimodal agent",
+  "on-device inference"
+ ],
+ "request_budget": {
+  "successful": 39,
+  "limit": 300,
+  "attempts": 4
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "LLM agent tool use": {
+   "total": 46733,
+   "kept": 49,
+   "papers": [
+    {
+     "title": "Agentic Orchestration for Adaptive Educational Recommendations: A Multi-Agent LLM Framework for Personalized Learning Pathways",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3779211.3795741",
+     "authors": "Naina Chaturvedi, Ananda Gunawardena"
+    },
+    {
+     "title": "LLM Agent-based Shilling Attack on Recommender Systems",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 3,
+     "doi": "10.1145/3773966.3777981",
+     "authors": "Shengkang Gu, Jiahao Liu, Dongsheng Li, Guangping Zhang, Mingzhe Han, Hansu Gu"
+    },
+    {
+     "title": "Let the LLMs Talk: Simulating Human-to-Human Conversational QA via Zero-Shot LLM-to-LLM Interactions",
+     "year": 2024,
+     "venue": "Proceedings of the 17th ACM International Conference on Web Search and Data Mining",
+     "citationCount": 75,
+     "doi": "10.1145/3616855.3635856",
+     "authors": "Zahra Abbasiantaeb, Yifei Yuan, Evangelos Kanoulas, Mohammad Aliannejadi"
+    },
+    {
+     "title": "Selective LLM-Guided Regularization for Enhancing Recommendation Models",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3779211.3795736",
+     "authors": "Zhan Shi, Shanglin Yang"
+    },
+    {
+     "title": "Explainable CTR Prediction via LLM Reasoning",
+     "year": 2025,
+     "venue": "Proceedings of the Eighteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 4,
+     "doi": "10.1145/3701551.3703551",
+     "authors": "Xiaohan Yu, Li Zhang, Chong Chen"
+    },
+    {
+     "title": "LLM-Guided Beam Search for Decision Graph Optimization with Dynamic Prompting",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 1,
+     "doi": "10.1145/3773966.3778003",
+     "authors": "Qihao Huang"
+    },
+    {
+     "title": "The Generalization and Error Detection in LLM-based Text-to-SQL Systems",
+     "year": 2025,
+     "venue": "Proceedings of the Eighteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 1,
+     "doi": "10.1145/3701551.3707416",
+     "authors": "Oleg Somov"
+    },
+    {
+     "title": "Joint Evaluation : A Human + LLM + Multi-Agents Collaborative Framework for Comprehensive AI Safety (Jo.E)",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 1,
+     "doi": "10.1145/3779211.3795738",
+     "authors": "Himanshu Joshi"
+    },
+    {
+     "title": "Credibility Drift Attacks: LLM Crafted Adversarial Manipulations That Flip News Believability",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3779403",
+     "authors": "Mostofa Najmus Sakib, Francesca Spezzano"
+    },
+    {
+     "title": "TRUE: A Reproducible Framework for LLM-Driven Relevance Judgment in Information Retrieval",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 3,
+     "doi": "10.1145/3773966.3779397",
+     "authors": "Mouly Dewan, Jiqun Liu, Chirag Shah"
+    },
+    {
+     "title": "LLM-GC: Advancing Granger Causal Discovery from Time Series with Multimodel Language Modeling",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 1,
+     "doi": "10.1145/3773966.3777994",
+     "authors": "Bo Liu, Hongyan Li, Shenda Hong"
+    },
+    {
+     "title": "Privacy-preserved LLM Cascade via CoT-enhanced Policy Learning",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3777920",
+     "authors": "Kai Zhang, Congchao Wang, Liqian Peng, Alec Go, Xiaozhong Liu"
+    },
+    {
+     "title": "TableMind: An Autonomous Programmatic Agent for Tool-Augmented Table Reasoning",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 3,
+     "doi": "10.1145/3773966.3777932",
+     "authors": "Chuang Jiang, Mingyue Cheng, Xiaoyu Tao, Qingyang Mao, Jie Ouyang, Qi Liu"
+    },
+    {
+     "title": "TRuST-M: Evaluating User Trust and Explainability in LLM-Based Web Moderation Systems",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3779211.3793172",
+     "authors": "Kamalakkannan Ravi, Hemant Surale, Jiann-Shiun Yuan"
+    },
+    {
+     "title": "Table Meets LLM: Can Large Language Models Understand Structured Table Data? A Benchmark and Empirical Study",
+     "year": 2024,
+     "venue": "Proceedings of the 17th ACM International Conference on Web Search and Data Mining",
+     "citationCount": 153,
+     "doi": "10.1145/3616855.3635752",
+     "authors": "Yuan Sui, Mengyu Zhou, Mingjie Zhou, Shi Han, Dongmei Zhang"
+    },
+    {
+     "title": "HealAI: A Healthcare LLM for Effective Medical Documentation",
+     "year": 2024,
+     "venue": "Proceedings of the 17th ACM International Conference on Web Search and Data Mining",
+     "citationCount": 70,
+     "doi": "10.1145/3616855.3635739",
+     "authors": "Sagar Goyal, Eti Rastogi, Sree Prasanna Rajagopal, Dong Yuan, Fen Zhao, Jai Chintagunta"
+    },
+    {
+     "title": "TOOL-CURE: Tool Selection via Curriculum-Enhanced Reinforcement Learning with Sample Screening for LLMs",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3777952",
+     "authors": "Jie Zhang, Dongsheng Bi, Tao Sun, Minghui Yang, Jian Wang, Yiwei Wang"
+    },
+    {
+     "title": "On Causal and Anticausal LLM-based Data Synthesis",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3779380",
+     "authors": "Bohan Jiang, Pingchuan Ma, Zhuoyu Shi, Fred Morstatter, Adrienne Raglin, Huan Liu"
+    },
+    {
+     "title": "MCRanker: Generating Diverse Criteria On-the-Fly to Improve Pointwise LLM Rankers",
+     "year": 2025,
+     "venue": "Proceedings of the Eighteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 8,
+     "doi": "10.1145/3701551.3703583",
+     "authors": "Fang Guo, Wenyu Li, Honglei Zhuang, Yun Luo, Yafu Li, Le Yan"
+    },
+    {
+     "title": "PushGen: Push Notifications Generation with LLM",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 2,
+     "doi": "10.1145/3773966.3779373",
+     "authors": "Shifu Bie, Jiangxia Cao, Zixiao Luo, Yichuan Zou, Lei Liang, Lu Zhang"
+    },
+    {
+     "title": "Geo-Personalization Bias in News Search: Analyzing Filter Bubbles in Search Engine Results with Multi-Perspective LLM Annotation",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 2,
+     "doi": "10.1145/3773966.3777984",
+     "authors": "Jaebeom You, Seung-Kyu Hong, Ling Liu, Kisung Lee, Hyuk-Yoon Kwon"
+    },
+    {
+     "title": "SciGraph-LLM: Automatic Knowledge Graph Construction from Scientific Papers",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3779211.3793169",
+     "authors": "Ivan P. Malashin, Igor S. Masich, Vadim S. Tynchenko, Aleksei S. Borodulin, Andrei P. Gantimurov, Vladimir A. Nelyub"
+    },
+    {
+     "title": "Using Brand Knowledge Bases and LLM Agents to Enhance E-commerce Retailers' Catalog Quality",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3784969",
+     "authors": "Hayreddin Ceker, Gang Luo, Kee Kiat Koo, Prashant Mathur, Wencong You, Atharva Amdekar"
+    },
+    {
+     "title": "Scaling Up LLM Reviews for Google Ads Content Moderation",
+     "year": 2024,
+     "venue": "Proceedings of the 17th ACM International Conference on Web Search and Data Mining",
+     "citationCount": 14,
+     "doi": "10.1145/3616855.3635736",
+     "authors": "Wei Qiao, Tushar Dogra, Otilia Stretcu, Yu-Han Lyu, Tiantian Fang, Dongjin Kwon"
+    },
+    {
+     "title": "Mixture of Adaptive Retrieval Experts for Veracity Assessment in the Human–LLM Mixed Generation Paradigm",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3777996",
+     "authors": "Ruohan Zong, Yang Zhang, Zhenrui Yue, Dong Wang"
+    },
+    {
+     "title": "Zero-Shot Image Moderation in Google Ads with LLM-Assisted Textual Descriptions and Cross-modal Co-embeddings",
+     "year": 2025,
+     "venue": "Proceedings of the Eighteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 2,
+     "doi": "10.1145/3701551.3706127",
+     "authors": "Enming Luo, Wei Qiao, Katie Warren, Jingxiang Li, Eric Xiao, Krishna Viswanathan"
+    },
+    {
+     "title": "ARROW: Adaptive Reasoning for LLM-based Recommendation with Explainability",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3779396",
+     "authors": "Woo-Seong Yun, Min-Seong Kim, Yoon-Sik Cho"
+    },
+    {
+     "title": "Precision vs. Discovery: An Adaptive Agent Navigating the Cold-Start Trade-off",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3779362",
+     "authors": "Vedant Thakkar"
+    },
+    {
+     "title": "A Semantic Layer Querying Tool",
+     "year": 2021,
+     "venue": "Proceedings of the 14th ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3437963.3441710",
+     "authors": "Renato Stoffalette João"
+    },
+    {
+     "title": "A Shopping Agent for Addressing Subjective Product Needs",
+     "year": 2025,
+     "venue": "Proceedings of the Eighteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 7,
+     "doi": "10.1145/3701551.3704124",
+     "authors": "Preetam Prabhu Srikar Dammu, Omar Alonso, Barbara Poblete"
+    },
+    {
+     "title": "Unifying Bias and Unfairness in Information Retrieval: New Challenges in the LLM Era",
+     "year": 2025,
+     "venue": "Proceedings of the Eighteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 9,
+     "doi": "10.1145/3701551.3703478",
+     "authors": "Sunhao Dai, Chen Xu, Shicheng Xu, Liang Pang, Zhenhua Dong, Jun Xu"
+    },
+    {
+     "title": "SPARK: Search Personalization via Agent-Driven Retrieval and Knowledge-sharing",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3779211.3793173",
+     "authors": "Gaurab Chhetri, Subasish Das, Tausif Islam Chowdhury"
+    },
+    {
+     "title": "Multi-Agent Video Recommenders: Evolution, Patterns, and Open Challenges",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 1,
+     "doi": "10.1145/3779211.3795739",
+     "authors": "Srivaths Ranganathan, Abhishek Dharmaratnakar, Anushree Sinha, Debanshu Das"
+    },
+    {
+     "title": "Multi-Agent System for Adversarial Robustness and Originality Attribution in Short-Form Videos",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3784974",
+     "authors": "Aditya Gautam, Somya Bhargava"
+    },
+    {
+     "title": "A New Query Expansion Approach for Enhancing Information Retrieval via Agent-Mediated Dialogic Inquiry",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3779360",
+     "authors": "Wonduk Seo, Hyunjin An, Seunghyun Lee"
+    },
+    {
+     "title": "NILC: Discovering New Intents with LLM-assisted Clustering",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3777979",
+     "authors": "Hongtao Wang, Renchi Yang, Wenqing Lin"
+    },
+    {
+     "title": "AgAsk: A Conversational Search Agent for Answering Agricultural Questions",
+     "year": 2023,
+     "venue": "Proceedings of the Sixteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 2,
+     "doi": "10.1145/3539597.3573034",
+     "authors": "Hang Li, Bevan Koopman, Ahmed Mourad, Guido Zuccon"
+    },
+    {
+     "title": "Cluster Insight: A Weighted Clustering Tool for Large Textual Data Exploration",
+     "year": 2025,
+     "venue": "Proceedings of the Eighteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3701551.3704127",
+     "authors": "Amine Ferdjaoui, Séverine Affeldt, Mohamed Nadif"
+    },
+    {
+     "title": "DLCRec: A Novel Approach for Managing Diversity in LLM-Based Recommender Systems",
+     "year": 2025,
+     "venue": "Proceedings of the Eighteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 15,
+     "doi": "10.1145/3701551.3703572",
+     "authors": "Jiaju Chen, Chongming Gao, Shuai Yuan, Shuchang Liu, Qingpeng Cai, Peng Jiang"
+    },
+    {
+     "title": "CoDA: A Context-Decoupled Hierarchical Agent with Reinforcement Learning",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3777986",
+     "authors": "Xuanzhang Liu, Jianglun Feng, Zhuoran Zhuang, Junzhe Zhao, Maofei Que, Jieting Li"
+    },
+    {
+     "title": "Birdspotter",
+     "year": 2021,
+     "venue": "Proceedings of the 14th ACM International Conference on Web Search and Data Mining",
+     "citationCount": 6,
+     "doi": "10.1145/3437963.3441695",
+     "authors": "Rohit Ram, Quyu Kong, Marian-Andrei Rizoiu"
+    },
+    {
+     "title": "Preserving Heritage: Developing a Translation Tool for Indigenous Dialects",
+     "year": 2024,
+     "venue": "Proceedings of the 17th ACM International Conference on Web Search and Data Mining",
+     "citationCount": 4,
+     "doi": "10.1145/3616855.3637828",
+     "authors": "Melissa Robles, Cristian A. Martínez, Juan C. Prieto, Sara Palacios, Rubén Manrique"
+    },
+    {
+     "title": "Scaling Use-case Based Shopping using LLMs",
+     "year": 2024,
+     "venue": "Proceedings of the 17th ACM International Conference on Web Search and Data Mining",
+     "citationCount": 1,
+     "doi": "10.1145/3616855.3635748",
+     "authors": "Sachin Farfade, Sachin Vernekar, Vineet Chaoji, Rajdeep Mukherjee"
+    },
+    {
+     "title": "Phishing Detection in Web Domains: new intelligent tool leveraging the effectiveness of emerging Generative models",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 3,
+     "doi": "10.1145/3773966.3779407",
+     "authors": "Carmine Ambrosino, Maurizio Atzori, Stefano Cirillo, Domenico Desiato, Simona Ettari, Giuseppe Polese"
+    },
+    {
+     "title": "How Do LLM-Generated Texts Impact Term-Based Retrieval Models?",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3777988",
+     "authors": "Wei Huang, Keping Bi, Yinqiong Cai, Wei Chen, Jiafeng Guo, Xueqi Cheng"
+    },
+    {
+     "title": "Dynamic Metrics to Validate the Use of Machine-Learned Interatomic Potential for Dynamic Sampling",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3785507",
+     "authors": "Bourgeois Biova Irénée Gadjagboui, Md Sharif Khan, Oliviero Andreussi"
+    },
+    {
+     "title": "Under the Hood of Social Media Advertising: How Do We use AI Responsibly for Advertising Targeting and Creative Evaluation",
+     "year": 2023,
+     "venue": "Proceedings of the Sixteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 9,
+     "doi": "10.1145/3539597.3575791",
+     "authors": "Aleksandr Farseev"
+    },
+    {
+     "title": "A Cooperative-Competitive Multi-Agent Framework for Auto-bidding in Online Advertising",
+     "year": 2022,
+     "venue": "Proceedings of the Fifteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 25,
+     "doi": "10.1145/3488560.3498373",
+     "authors": "Chao Wen, Miao Xu, Zhilin Zhang, Zhenzhe Zheng, Yuhui Wang, Xiangyu Liu"
+    },
+    {
+     "title": "Preliminary Use of Vision Language Model Driven Extraction of Mouse Behavior Towards Understanding Fear Expression",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3785508",
+     "authors": "Paimon Goulart, Jordan Steinhauser, Kylene Shuler, Edward Korzus, Jia Chen, Evangelos E. Papalexakis"
+    }
+   ]
+  },
+  "agent memory": {
+   "total": 27596,
+   "kept": 19,
+   "papers": [
+    {
+     "title": "Precision vs. Discovery: An Adaptive Agent Navigating the Cold-Start Trade-off",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3779362",
+     "authors": "Vedant Thakkar"
+    },
+    {
+     "title": "A Shopping Agent for Addressing Subjective Product Needs",
+     "year": 2025,
+     "venue": "Proceedings of the Eighteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 7,
+     "doi": "10.1145/3701551.3704124",
+     "authors": "Preetam Prabhu Srikar Dammu, Omar Alonso, Barbara Poblete"
+    },
+    {
+     "title": "SPARK: Search Personalization via Agent-Driven Retrieval and Knowledge-sharing",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3779211.3793173",
+     "authors": "Gaurab Chhetri, Subasish Das, Tausif Islam Chowdhury"
+    },
+    {
+     "title": "Multi-Agent Video Recommenders: Evolution, Patterns, and Open Challenges",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 1,
+     "doi": "10.1145/3779211.3795739",
+     "authors": "Srivaths Ranganathan, Abhishek Dharmaratnakar, Anushree Sinha, Debanshu Das"
+    },
+    {
+     "title": "Multi-Agent System for Adversarial Robustness and Originality Attribution in Short-Form Videos",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3784974",
+     "authors": "Aditya Gautam, Somya Bhargava"
+    },
+    {
+     "title": "Agentic Orchestration for Adaptive Educational Recommendations: A Multi-Agent LLM Framework for Personalized Learning Pathways",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3779211.3795741",
+     "authors": "Naina Chaturvedi, Ananda Gunawardena"
+    },
+    {
+     "title": "A New Query Expansion Approach for Enhancing Information Retrieval via Agent-Mediated Dialogic Inquiry",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3779360",
+     "authors": "Wonduk Seo, Hyunjin An, Seunghyun Lee"
+    },
+    {
+     "title": "AgAsk: A Conversational Search Agent for Answering Agricultural Questions",
+     "year": 2023,
+     "venue": "Proceedings of the Sixteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 2,
+     "doi": "10.1145/3539597.3573034",
+     "authors": "Hang Li, Bevan Koopman, Ahmed Mourad, Guido Zuccon"
+    },
+    {
+     "title": "LLM Agent-based Shilling Attack on Recommender Systems",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 3,
+     "doi": "10.1145/3773966.3777981",
+     "authors": "Shengkang Gu, Jiahao Liu, Dongsheng Li, Guangping Zhang, Mingzhe Han, Hansu Gu"
+    },
+    {
+     "title": "SoftHist: Teaching Graph Injection Attackers to Camouflage with Memory",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3777924",
+     "authors": "Yidong Jiang, Ziwen Xu, Linbo Shao, Peng Zhu, Dawei Cheng"
+    },
+    {
+     "title": "CoDA: A Context-Decoupled Hierarchical Agent with Reinforcement Learning",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3777986",
+     "authors": "Xuanzhang Liu, Jianglun Feng, Zhuoran Zhuang, Junzhe Zhao, Maofei Que, Jieting Li"
+    },
+    {
+     "title": "IMPO: Interpretable Memory-based Prototypical Pooling",
+     "year": 2025,
+     "venue": "Proceedings of the Eighteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 1,
+     "doi": "10.1145/3701551.3703543",
+     "authors": "Alessio Ragno, Roberto Capobianco"
+    },
+    {
+     "title": "From Personalization to Prejudice: Bias and Discrimination in Memory-Enhanced AI Agents for Recruitment",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3779376",
+     "authors": "Himanshu Gharat, Himanshi Agrawal, Gourab K. Patro"
+    },
+    {
+     "title": "VARIUM: Variational Autoencoder for Multi-Interest Representation with Inter-User Memory",
+     "year": 2025,
+     "venue": "Proceedings of the Eighteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3701551.3703558",
+     "authors": "Nhu-Thuat Tran, Hady W. Lauw"
+    },
+    {
+     "title": "Taming Non-Stationary Knowledge Growth: Dynamic Global Memory Framework for Lifelong Knowledge Graph Embedding",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3777936",
+     "authors": "Ling Wang, Yan Liu, Jicang Lu, Xiaoyu Guo, Zhipeng Li, Ningbo Huang"
+    },
+    {
+     "title": "A Two-Stage Anomaly-Aware Framework for Robust Traffic Forecasting with Memory-Guided GNNs",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 1,
+     "doi": "10.1145/3773966.3779379",
+     "authors": "Pei-Xuan Li, Cheng-Ru Chou, Jhe-Wei Tsai, Hsun-Ping Hsieh"
+    },
+    {
+     "title": "TableMind: An Autonomous Programmatic Agent for Tool-Augmented Table Reasoning",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 3,
+     "doi": "10.1145/3773966.3777932",
+     "authors": "Chuang Jiang, Mingyue Cheng, Xiaoyu Tao, Qingyang Mao, Jie Ouyang, Qi Liu"
+    },
+    {
+     "title": "A Cooperative-Competitive Multi-Agent Framework for Auto-bidding in Online Advertising",
+     "year": 2022,
+     "venue": "Proceedings of the Fifteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 25,
+     "doi": "10.1145/3488560.3498373",
+     "authors": "Chao Wen, Miao Xu, Zhilin Zhang, Zhenzhe Zheng, Yuhui Wang, Xiangyu Liu"
+    },
+    {
+     "title": "DeMBR: Denoising Model with Memory Pruning and Semantic Guidance for Multi-Behavior Recommendation",
+     "year": 2025,
+     "venue": "Proceedings of the Eighteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 6,
+     "doi": "10.1145/3701551.3703532",
+     "authors": "Shuai Zhang, Hua Chu, Jianan Li, Yangtao Zhou, Shirong Wang, Qiaofei Sun"
+    }
+   ]
+  },
+  "multimodal agent": {
+   "total": 29459,
+   "kept": 36,
+   "papers": [
+    {
+     "title": "Knowledge is Power",
+     "year": 2022,
+     "venue": "Proceedings of the Fifteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3488560.3500242",
+     "authors": "Yejin Choi"
+    },
+    {
+     "title": "Multilingual and Multimodal Hate Speech Analysis in Twitter",
+     "year": 2021,
+     "venue": "Proceedings of the 14th ACM International Conference on Web Search and Data Mining",
+     "citationCount": 7,
+     "doi": "10.1145/3437963.3441668",
+     "authors": "Gretel Liz De La Peña Sarracén"
+    },
+    {
+     "title": "A Practical Guide to Robust Multimodal Machine Learning and Its Application in Education",
+     "year": 2022,
+     "venue": "Proceedings of the Fifteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 3,
+     "doi": "10.1145/3488560.3510010",
+     "authors": "Zitao Liu"
+    },
+    {
+     "title": "VTCR: Multimodal Visual–Text Cross-Attention Reranking for Streaming Media and Creative Content Discovery",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 1,
+     "doi": "10.1145/3779211.3793161",
+     "authors": "Liping Zhang, Tracy King"
+    },
+    {
+     "title": "Spectrum-based Modality Representation Fusion Graph Convolutional Network for Multimodal Recommendation",
+     "year": 2025,
+     "venue": "Proceedings of the Eighteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 47,
+     "doi": "10.1145/3701551.3703561",
+     "authors": "Rongqing Kenneth Ong, Andy W. H. Khong"
+    },
+    {
+     "title": "A Multimodal Framework for the Identification of Vaccine Critical Memes on Twitter",
+     "year": 2023,
+     "venue": "Proceedings of the Sixteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 18,
+     "doi": "10.1145/3539597.3570450",
+     "authors": "Usman Naseem, Jinman Kim, Matloob Khushi, Adam G. Dunn"
+    },
+    {
+     "title": "Multimodal Pre-Training with Self-Distillation for Product Understanding in E-Commerce",
+     "year": 2023,
+     "venue": "Proceedings of the Sixteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 11,
+     "doi": "10.1145/3539597.3570423",
+     "authors": "Shilei Liu, Lin Li, Jun Song, Yonghua Yang, Xiaoyi Zeng"
+    },
+    {
+     "title": "Waterlogformer: A Multimodal Model for Waterlogging Prediction",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3779369",
+     "authors": "Yinan Chen, Ronghui Xu, Endai Shu, Chenjuan Guo, Bin Yang"
+    },
+    {
+     "title": "Precision vs. Discovery: An Adaptive Agent Navigating the Cold-Start Trade-off",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3779362",
+     "authors": "Vedant Thakkar"
+    },
+    {
+     "title": "Leveraging Multimodal Features and Item-level User Feedback for Bundle Construction",
+     "year": 2024,
+     "venue": "Proceedings of the 17th ACM International Conference on Web Search and Data Mining",
+     "citationCount": 16,
+     "doi": "10.1145/3616855.3635854",
+     "authors": "Yunshan Ma, Xiaohao Liu, Yinwei Wei, Zhulin Tao, Xiang Wang, Tat-Seng Chua"
+    },
+    {
+     "title": "A Shopping Agent for Addressing Subjective Product Needs",
+     "year": 2025,
+     "venue": "Proceedings of the Eighteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 7,
+     "doi": "10.1145/3701551.3704124",
+     "authors": "Preetam Prabhu Srikar Dammu, Omar Alonso, Barbara Poblete"
+    },
+    {
+     "title": "Factorized Transport Alignment for Multimodal and Multiview E-commerce Representation Learning",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3779367",
+     "authors": "Xiwen Chen, Yen-Chieh Lien, Susan Liu, María Castaños, Abolfazl Razi, Xiaoting Zhao"
+    },
+    {
+     "title": "SPARK: Search Personalization via Agent-Driven Retrieval and Knowledge-sharing",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3779211.3793173",
+     "authors": "Gaurab Chhetri, Subasish Das, Tausif Islam Chowdhury"
+    },
+    {
+     "title": "Multi-Agent Video Recommenders: Evolution, Patterns, and Open Challenges",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 1,
+     "doi": "10.1145/3779211.3795739",
+     "authors": "Srivaths Ranganathan, Abhishek Dharmaratnakar, Anushree Sinha, Debanshu Das"
+    },
+    {
+     "title": "Multi-Agent System for Adversarial Robustness and Originality Attribution in Short-Form Videos",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3784974",
+     "authors": "Aditya Gautam, Somya Bhargava"
+    },
+    {
+     "title": "RankID: A Unified Semantic ID Learned through Multi-Stage Semantic Alignment of Multimodal Features",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3784971",
+     "authors": "Jiangfan Zhang, Yinglong Xia, Jiang Li, Chen Yuan, Yonghuan Yang, Jun Xiao"
+    },
+    {
+     "title": "TTC-QuAli: A Text-Table-Chart Dataset for Multimodal Quantity Alignment",
+     "year": 2024,
+     "venue": "Proceedings of the 17th ACM International Conference on Web Search and Data Mining",
+     "citationCount": 3,
+     "doi": "10.1145/3616855.3635777",
+     "authors": "Haoyu Dong, Haochen Wang, Anda Zhou, Yue Hu"
+    },
+    {
+     "title": "Multimodal Machine Learning for Drug Knowledge Discovery",
+     "year": 2021,
+     "venue": "Proceedings of the 14th ACM International Conference on Web Search and Data Mining",
+     "citationCount": 3,
+     "doi": "10.1145/3437963.3441671",
+     "authors": "Guy Shtar"
+    },
+    {
+     "title": "When Modalities Go Missing: Early Fusion for Multimodal Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3779385",
+     "authors": "Lu Chen, Peng Yi, Xiaoyue Hou, Cheng Yang, Xiongcai Cai"
+    },
+    {
+     "title": "Agentic Orchestration for Adaptive Educational Recommendations: A Multi-Agent LLM Framework for Personalized Learning Pathways",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3779211.3795741",
+     "authors": "Naina Chaturvedi, Ananda Gunawardena"
+    },
+    {
+     "title": "A New Query Expansion Approach for Enhancing Information Retrieval via Agent-Mediated Dialogic Inquiry",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3779360",
+     "authors": "Wonduk Seo, Hyunjin An, Seunghyun Lee"
+    },
+    {
+     "title": "MOON: Generative MLLM-based Multimodal Representation Learning for E-commerce Product Understanding",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 3,
+     "doi": "10.1145/3773966.3777958",
+     "authors": "Daoze Zhang, Chenghan Fu, Zhanheng Nie, Jianyu Liu, Wanxian Guan, Yuan Gao"
+    },
+    {
+     "title": "MMQ: Multimodal Mixture-of-Quantization Tokenization for Semantic ID Generation and User Behavioral Adaptation",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 4,
+     "doi": "10.1145/3773966.3777923",
+     "authors": "Yi Xu, Moyu Zhang, Chenxuan Li, Zhihao Liao, Haibo Xing, Hao Deng"
+    },
+    {
+     "title": "AgAsk: A Conversational Search Agent for Answering Agricultural Questions",
+     "year": 2023,
+     "venue": "Proceedings of the Sixteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 2,
+     "doi": "10.1145/3539597.3573034",
+     "authors": "Hang Li, Bevan Koopman, Ahmed Mourad, Guido Zuccon"
+    },
+    {
+     "title": "Hierarchical Multimodal Pre-training for Visually Rich Webpage Understanding",
+     "year": 2024,
+     "venue": "Proceedings of the 17th ACM International Conference on Web Search and Data Mining",
+     "citationCount": 1,
+     "doi": "10.1145/3616855.3635753",
+     "authors": "Hongshen Xu, Lu Chen, Zihan Zhao, Da Ma, Ruisheng Cao, Zichen Zhu"
+    },
+    {
+     "title": "LLM Agent-based Shilling Attack on Recommender Systems",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 3,
+     "doi": "10.1145/3773966.3777981",
+     "authors": "Shengkang Gu, Jiahao Liu, Dongsheng Li, Guangping Zhang, Mingzhe Han, Hansu Gu"
+    },
+    {
+     "title": "CoDA: A Context-Decoupled Hierarchical Agent with Reinforcement Learning",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3777986",
+     "authors": "Xuanzhang Liu, Jianglun Feng, Zhuoran Zhuang, Junzhe Zhao, Maofei Que, Jieting Li"
+    },
+    {
+     "title": "GAMED: Knowledge Adaptive Multi-Experts Decoupling for Multimodal Fake News Detection",
+     "year": 2025,
+     "venue": "Proceedings of the Eighteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 28,
+     "doi": "10.1145/3701551.3703541",
+     "authors": "Lingzhi Shen, Yunfei Long, Xiaohao Cai, Imran Razzak, Guanming Chen, Kang Liu"
+    },
+    {
+     "title": "Reducing the Bias of Visual Objects in Multimodal Named Entity Recognition",
+     "year": 2023,
+     "venue": "Proceedings of the Sixteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 41,
+     "doi": "10.1145/3539597.3570485",
+     "authors": "Xin Zhang, Jingling Yuan, Lin Li, Jianquan Liu"
+    },
+    {
+     "title": "MAF: A General Matching and Alignment Framework for Multimodal Named Entity Recognition",
+     "year": 2022,
+     "venue": "Proceedings of the Fifteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 104,
+     "doi": "10.1145/3488560.3498475",
+     "authors": "Bo Xu, Shizhou Huang, Chaofeng Sha, Hongya Wang"
+    },
+    {
+     "title": "MolEdit: Knowledge Editing for Multimodal Molecule Language Models",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3777928",
+     "authors": "Zhenyu Lei, Patrick Soga, Yaochen Zhu, Yinhan He, Yushun Dong, Jundong Li"
+    },
+    {
+     "title": "InstrucTime: Advancing Time Series Classification with Multimodal Language Modeling",
+     "year": 2025,
+     "venue": "Proceedings of the Eighteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 12,
+     "doi": "10.1145/3701551.3703499",
+     "authors": "Mingyue Cheng, Yiheng Chen, Qi Liu, Zhiding Liu, Yucong Luo, Enhong Chen"
+    },
+    {
+     "title": "TableMind: An Autonomous Programmatic Agent for Tool-Augmented Table Reasoning",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 3,
+     "doi": "10.1145/3773966.3777932",
+     "authors": "Chuang Jiang, Mingyue Cheng, Xiaoyu Tao, Qingyang Mao, Jie Ouyang, Qi Liu"
+    },
+    {
+     "title": "A Cooperative-Competitive Multi-Agent Framework for Auto-bidding in Online Advertising",
+     "year": 2022,
+     "venue": "Proceedings of the Fifteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 25,
+     "doi": "10.1145/3488560.3498373",
+     "authors": "Chao Wen, Miao Xu, Zhilin Zhang, Zhenzhe Zheng, Yuhui Wang, Xiangyu Liu"
+    },
+    {
+     "title": "Label-Free Contrastive Learning for Open-World Multimodal Social Event Detection",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3777919",
+     "authors": "Zhiwei Yang, Haimei Qin, Hao Peng, Xiaoyan Yu, Li Sun, Lei Jiang"
+    },
+    {
+     "title": "MerFT: A Framework for Social Conflict Meme Exploration via Multimodal Retrieval-Augmented Fine-tuning",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3777940",
+     "authors": "Jinkwon Lee, Giseong Kim, Hyeji Yang, Dongyoung Tcha, Hayoung Oh"
+    }
+   ]
+  },
+  "on-device inference": {
+   "total": 19501,
+   "kept": 16,
+   "papers": [
+    {
+     "title": "Causality with Knowledge Graphs: Semantics and Inference",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3784980",
+     "authors": "Hao Huang"
+    },
+    {
+     "title": "ColdNet: Neural Causal Inference Under Extreme Imbalance and Sparsity",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3779211.3793182",
+     "authors": "Mahmudur Rahman, Sanskar Tewatia, Dhruv Garg"
+    },
+    {
+     "title": "Using Causal Inference to Solve Uncertainty Issues in Dataset Shift",
+     "year": 2024,
+     "venue": "Proceedings of the 17th ACM International Conference on Web Search and Data Mining",
+     "citationCount": 1,
+     "doi": "10.1145/3616855.3635732",
+     "authors": "Song Shuang, Muhammad Syafiq Bin Mohd Pozi"
+    },
+    {
+     "title": "Lightning IR: Straightforward Fine-tuning and Inference of Transformer-based Language Models for Information Retrieval",
+     "year": 2025,
+     "venue": "Proceedings of the Eighteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 8,
+     "doi": "10.1145/3701551.3704118",
+     "authors": "Ferdinand Schlatt, Maik Fröbe, Matthias Hagen"
+    },
+    {
+     "title": "Identifiable Disentangled Representation Learning for Causal Inference under Network Interference",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3773966.3777967",
+     "authors": "Di Fan, Chuanhou Gao"
+    },
+    {
+     "title": "Combining vs. Transferring Knowledge: Investigating Strategies for Improving Demographic Inference in Low Resource Settings",
+     "year": 2023,
+     "venue": "Proceedings of the Sixteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 3,
+     "doi": "10.1145/3539597.3570462",
+     "authors": "Yaguang Liu, Lisa Singh"
+    },
+    {
+     "title": "Integrating Knowledge Graph Data with Large Language Models for Explainable Inference",
+     "year": 2024,
+     "venue": "Proceedings of the 17th ACM International Conference on Web Search and Data Mining",
+     "citationCount": 2,
+     "doi": "10.1145/3616855.3636507",
+     "authors": "Carlos Efrain Quintero-Narvaez, Raul Monroy"
+    },
+    {
+     "title": "DistriBayes: A Distributed Platform for Learning, Inference and Attribution on Large Scale Bayesian Network",
+     "year": 2023,
+     "venue": "Proceedings of the Sixteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 1,
+     "doi": "10.1145/3539597.3573028",
+     "authors": "Yi Ding, Jun Zhou, Qing Cui, Lin Wang, Mengqi Zhang, Yang Dong"
+    },
+    {
+     "title": "On-Device Large Language Models for Sequential Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 1,
+     "doi": "10.1145/3773966.3777961",
+     "authors": "Xin Xia, Hongzhi Yin, Shane Culpepper"
+    },
+    {
+     "title": "Graph Disentangle Causal Model: Enhancing Causal Inference in Networked Observational Data",
+     "year": 2025,
+     "venue": "Proceedings of the Eighteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 3,
+     "doi": "10.1145/3701551.3703525",
+     "authors": "Binbin Hu, Zhicheng An, Zhengwei Wu, Ke Tu, Ziqi Liu, Zhiqiang Zhang"
+    },
+    {
+     "title": "A Causal Inference Framework for Actionable Fault Diagnosis and Mitigation",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3779211.3793186",
+     "authors": "Shuhan Yuan, Lu Zhang"
+    },
+    {
+     "title": "Joint Graph Learning for Robust Causal Inference over Knowledge Graphs",
+     "year": 2026,
+     "venue": "Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 2,
+     "doi": "10.1145/3773966.3777980",
+     "authors": "Hao Huang, Maria-Esther Vidal"
+    },
+    {
+     "title": "User Consented Federated Recommender System Against Personalized Attribute Inference Attack",
+     "year": 2024,
+     "venue": "Proceedings of the 17th ACM International Conference on Web Search and Data Mining",
+     "citationCount": 16,
+     "doi": "10.1145/3616855.3635830",
+     "authors": "Qi Hu, Yangqiu Song"
+    },
+    {
+     "title": "Graph Explicit Neural Networks: Explicitly Encoding Graphs for Efficient and Accurate Inference",
+     "year": 2023,
+     "venue": "Proceedings of the Sixteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 6,
+     "doi": "10.1145/3539597.3570388",
+     "authors": "Yiwei Wang, Bryan Hooi, Yozen Liu, Neil Shah"
+    },
+    {
+     "title": "Federated Unlearning for On-Device Recommendation",
+     "year": 2023,
+     "venue": "Proceedings of the Sixteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 109,
+     "doi": "10.1145/3539597.3570463",
+     "authors": "Wei Yuan, Hongzhi Yin, Fangzhao Wu, Shijie Zhang, Tieke He, Hao Wang"
+    },
+    {
+     "title": "Crowdsourcing-based Multi-Device Communication Cooperation for Mobile High-Quality Video Enhancement",
+     "year": 2022,
+     "venue": "Proceedings of the Fifteenth ACM International Conference on Web Search and Data Mining",
+     "citationCount": 4,
+     "doi": "10.1145/3488560.3498484",
+     "authors": "Xiaotong Wu, Lianyong Qi, Xiaolong Xu, Shui Yu, Wanchun Dou, Xuyun Zhang"
+    }
+   ]
+  }
+ }
+}

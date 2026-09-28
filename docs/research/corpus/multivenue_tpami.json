@@ -1,0 +1,1624 @@
+{
+ "venue": "TPAMI",
+ "category": "cv",
+ "canonical_venue_string": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+ "wave": "B",
+ "generated_at": "2026-09-29 01:12:45",
+ "topics": [
+  "audio-visual",
+  "audio language model"
+ ],
+ "request_budget": {
+  "successful": 99,
+  "limit": 300,
+  "attempts": 2
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "audio-visual": {
+   "total": 13842,
+   "kept": 99,
+   "papers": [
+    {
+     "title": "Variational Bayesian Inference for Audio-Visual Tracking of Multiple Speakers",
+     "year": 2021,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 33,
+     "doi": "10.1109/tpami.2019.2953020",
+     "authors": "Yutong Ban, Xavier Alameda-Pineda, Laurent Girin, Radu Horaud"
+    },
+    {
+     "title": "Spherical Vision Transformers for Audio-Visual Saliency Prediction in 360$^{\\circ }$∘ Videos",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 3,
+     "doi": "10.1109/tpami.2025.3604091",
+     "authors": "Mert Cokelek, Halit Ozsoy, Nevrez Imamoglu, Cagri Ozcinar, Inci Ayhan, Erkut Erdem"
+    },
+    {
+     "title": "Robust Audio-Visual Question Answering with Missing Modality in Training and Testing",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3723653",
+     "authors": "Jinxing Zhou, Zhangbin Li, Di Hu, Yanghao Zhou, Rao Muhammad Anwer, Hisham Cholakkal"
+    },
+    {
+     "title": "Deep Audio-Visual Speech Recognition",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 488,
+     "doi": "10.1109/tpami.2018.2889052",
+     "authors": "Triantafyllos Afouras, Joon Son Chung, Andrew Senior, Oriol Vinyals, Andrew Zisserman"
+    },
+    {
+     "title": "SEWA DB: A Rich Database for Audio-Visual Emotion and Sentiment Research in the Wild",
+     "year": 2021,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 170,
+     "doi": "10.1109/tpami.2019.2944808",
+     "authors": "Jean Kossaifi, Robert Walecki, Yannis Panagakis, Jie Shen, Maximilian Schmitt, Fabien Ringeval"
+    },
+    {
+     "title": "Contrastive Positive Sample Propagation Along the Audio-Visual Event Line",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 70,
+     "doi": "10.1109/tpami.2022.3223688",
+     "authors": "Jinxing Zhou, Dan Guo, Meng Wang"
+    },
+    {
+     "title": "Robust Audio-Visual Contrastive Learning for Proposal-Based Self-Supervised Sound Source Localization in Videos",
+     "year": 2024,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 11,
+     "doi": "10.1109/tpami.2024.3363508",
+     "authors": "Hanyu Xuan, Zhiliang Wu, Jian Yang, Bo Jiang, Lei Luo, Xavier Alameda-Pineda"
+    },
+    {
+     "title": "Semantic and Relation Modulation for Audio-Visual Event Localization",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 42,
+     "doi": "10.1109/tpami.2022.3226328",
+     "authors": "Hao Wang, Zheng-Jun Zha, Liang Li, Xuejin Chen, Jiebo Luo"
+    },
+    {
+     "title": "UniAV: Unified Audio-Visual Perception for Multi-Task Video Event Localization",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 7,
+     "doi": "10.1109/tpami.2025.3593932",
+     "authors": "Tiantian Geng, Teng Wang, Jinming Duan, Yanfu Zhang, Weili Guan, Feng Zheng"
+    },
+    {
+     "title": "An Audio-Visual Speech Separation Model Inspired by Cortico-Thalamo-Cortical Circuits",
+     "year": 2024,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 22,
+     "doi": "10.1109/tpami.2024.3384034",
+     "authors": "Kai Li, Fenghua Xie, Hang Chen, Kexin Yuan, Xiaolin Hu"
+    },
+    {
+     "title": "Hierarchical Augmentation and Distillation for Class Incremental Audio-Visual Video Recognition",
+     "year": 2024,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 8,
+     "doi": "10.1109/tpami.2024.3387946",
+     "authors": "Yukun Zuo, Hantao Yao, Liansheng Zhuang, Changsheng Xu"
+    },
+    {
+     "title": "Learning Probabilistic Presence-Absence Evidence for Weakly-Supervised Audio-Visual Event Perception",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 36,
+     "doi": "10.1109/tpami.2025.3546312",
+     "authors": "Junyu Gao, Mengyuan Chen, Changsheng Xu"
+    },
+    {
+     "title": "Mettle: Meta-Token Learning for Memory-Efficient Audio-Visual Adaptation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 3,
+     "doi": "10.1109/tpami.2025.3642821",
+     "authors": "Jinxing Zhou, Zhihui Li, Yongqiang Yu, Yanghao Zhou, Ruohao Guo, Guangyao Li"
+    },
+    {
+     "title": "SparseVLM+: Visual Token Sparsification With Improved Text-Visual Attention Pattern",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3718245",
+     "authors": "Yuan Zhang, Junpeng Ma, Qizhe Zhang, Chun-Kai Fan, Wenzhao Zheng, Kuan Cheng"
+    },
+    {
+     "title": "CMKD: CNN/Transformer-Based Cross-Model Knowledge Distillation for Audio Classification",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 2,
+     "doi": "10.1109/tpami.2025.3644853",
+     "authors": "Yuan Gong, Sameer Khurana, Andrew Rouditchenko, James Glass"
+    },
+    {
+     "title": "Stereo-Talker: Audio-driven 3D Human Synthesis with Prior-Guided Mixture-of-Experts",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 1,
+     "doi": "10.1109/tpami.2025.3596160",
+     "authors": "Xiang Deng, Youxin Pang, Xiaochen Zhao, Chao Xu, Lizhen Wang, Hongjiang Xiao"
+    },
+    {
+     "title": "CAT+: Investigating and Enhancing Audio-Visual Understanding in Large Language Models",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 14,
+     "doi": "10.1109/tpami.2025.3582389",
+     "authors": "Qilang Ye, Zitong Yu, Rui Shao, Yawen Cui, Xiangui Kang, Xin Liu"
+    },
+    {
+     "title": "${\\text{CA}^{2}\\text{ST}}$: Cross-Attention in Audio, Space, and Time for Holistic Video Recognition",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 4,
+     "doi": "10.1109/tpami.2025.3628653",
+     "authors": "Jongseo Lee, Joohyun Chang, Dongho Lee, Jinwoo Choi"
+    },
+    {
+     "title": "Part-Object Relational Visual Saliency",
+     "year": 2021,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 82,
+     "doi": "10.1109/tpami.2021.3053577",
+     "authors": "Yi Liu, Dingwen Zhang, Qiang Zhang, Jungong Han"
+    },
+    {
+     "title": "HoughNet: Integrating Near and Long-Range Evidence for Visual Detection",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 10,
+     "doi": "10.1109/tpami.2022.3200413",
+     "authors": "Nermin Samet, Samet Hicsonmez, Emre Akbas"
+    },
+    {
+     "title": "Decoding Visual Neural Representations by Multimodal Learning of Brain-Visual-Linguistic Features",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 139,
+     "doi": "10.1109/tpami.2023.3263181",
+     "authors": "Changde Du, Kaicheng Fu, Jinpeng Li, Huiguang He"
+    },
+    {
+     "title": "On the Eigenvalues of Global Covariance Pooling for Fine-grained Visual Recognition",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 29,
+     "doi": "10.1109/tpami.2022.3178802",
+     "authors": "Yue Song, Nicu Sebe, Wei Wang"
+    },
+    {
+     "title": "Discriminative Self-Paced Group-Metric Adaptation for Online Visual Identification",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 2,
+     "doi": "10.1109/tpami.2022.3200036",
+     "authors": "Jiahuan Zhou, Bing Su, Ying Wu"
+    },
+    {
+     "title": "Data-And Knowledge-Driven Visual Abductive Reasoning",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2025.3613712",
+     "authors": "Chen Liang, Wenguan Wang, Ling Chen, Yi Yang"
+    },
+    {
+     "title": "Pose-Star++: Semantic–Visual Understanding for Fine-Grained Fashion Image Editing",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3728835",
+     "authors": "Yuran Dong, Bo Du, Mang Ye"
+    },
+    {
+     "title": "Convolutional Hough Matching Networks for Robust and Efficient Visual Correspondence",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 13,
+     "doi": "10.1109/tpami.2022.3233884",
+     "authors": "Juhong Min, Seungwook Kim, Minsu Cho"
+    },
+    {
+     "title": "Patch-based Separable Transformer for Visual Recognition",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 6,
+     "doi": "10.1109/tpami.2022.3231725",
+     "authors": "Shuyang Sun, Xiaoyu Yue, Hengshuang Zhao, Philip H.S. Torr, Song Bai"
+    },
+    {
+     "title": "VALOR: Vision-Audio-Language Omni-Perception Pretraining Model and Dataset",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 38,
+     "doi": "10.1109/tpami.2024.3479776",
+     "authors": "Jing Liu, Sihan Chen, Xingjian He, Longteng Guo, Xinxin Zhu, Weining Wang"
+    },
+    {
+     "title": "Key Point Sensitive Loss for Long-tailed Visual Recognition",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 19,
+     "doi": "10.1109/tpami.2022.3196044",
+     "authors": "Mengke Li, Yiu-ming Cheung, Zhikai Hu"
+    },
+    {
+     "title": "Dynamic Graph Message Passing Networks for Visual Recognition",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 12,
+     "doi": "10.1109/tpami.2022.3207500",
+     "authors": "Li Zhang, Mohan Chen, Anurag Arnab, Xiangyang Xue, Philip H.S. Torr"
+    },
+    {
+     "title": "Event-Based Visual Microphone Based on Specular Reflections Off Angularly Deformed Surfaces",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 2,
+     "doi": "10.1109/tpami.2025.3595008",
+     "authors": "Matthew Howard, Ryan Jones, Keigo Hirakawa"
+    },
+    {
+     "title": "Counterfactual Samples Synthesizing and Training for Robust Visual Question Answering",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 34,
+     "doi": "10.1109/tpami.2023.3290012",
+     "authors": "Long Chen, Yuhang Zheng, Yulei Niu, Hanwang Zhang, Jun Xiao"
+    },
+    {
+     "title": "Prompt Tuning of Deep Neural Networks for Speaker-Adaptive Visual Speech Recognition",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 18,
+     "doi": "10.1109/tpami.2024.3484658",
+     "authors": "Minsu Kim, Hyung-Il Kim, Yong Man Ro"
+    },
+    {
+     "title": "Mirror Detection With the Visual Chirality Cue",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 48,
+     "doi": "10.1109/tpami.2022.3181030",
+     "authors": "Xin Tan, Jiaying Lin, Ke Xu, Pan Chen, Lizhuang Ma, Rynson W.H. Lau"
+    },
+    {
+     "title": "Towards Real-World Visual Tracking With Temporal Contexts",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 107,
+     "doi": "10.1109/tpami.2023.3307174",
+     "authors": "Ziang Cao, Ziyuan Huang, Liang Pan, Shiwei Zhang, Ziwei Liu, Changhong Fu"
+    },
+    {
+     "title": "Learning on Attribute-Missing Graphs",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 108,
+     "doi": "10.1109/tpami.2020.3032189",
+     "authors": "Xu Chen, Siheng Chen, Jiangchao Yao, Huangjie Zheng, Ya Zhang, Ivor W. Tsang"
+    },
+    {
+     "title": "Grad-ECLIP: Gradient-based Visual and Textual Explanations for CLIP",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 3,
+     "doi": "10.1109/tpami.2026.3714444",
+     "authors": "Chenyang Zhao, Kun Wang, Janet H. Hsiao, Antoni B. Chan"
+    },
+    {
+     "title": "Self-Supervised Visual Feature Learning With Deep Neural Networks: A Survey",
+     "year": 2021,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 1542,
+     "doi": "10.1109/tpami.2020.2992393",
+     "authors": "Longlong Jing, Yingli Tian"
+    },
+    {
+     "title": "Real-time high speed motion prediction using fast aperture-robust event-driven visual flow",
+     "year": 2021,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 40,
+     "doi": "10.1109/tpami.2020.3010468",
+     "authors": "Himanshu Akolkar, Sio Hoi Ieng, Ryad Benosman"
+    },
+    {
+     "title": "Pixel-Perfect Visual Geometry Estimation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3727248",
+     "authors": "Gangwei Xu, Haotong Lin, Hongcheng Luo, Haiyang Sun, Bing Wang, Guang Chen"
+    },
+    {
+     "title": "DSGN++: Exploiting Visual-Spatial Relation for Stereo-Based 3D Detectors",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 32,
+     "doi": "10.1109/tpami.2022.3197236",
+     "authors": "Yilun Chen, Shijia Huang, Shu Liu, Bei Yu, Jiaya Jia"
+    },
+    {
+     "title": "Glance and Focus Networks for Dynamic Visual Recognition",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 34,
+     "doi": "10.1109/tpami.2022.3196959",
+     "authors": "Gao Huang, Yulin Wang, Kangchen Lv, Haojun Jiang, Wenhui Huang, Pengfei Qi"
+    },
+    {
+     "title": "Survey on the Analysis and Modeling of Visual Kinship: A Decade in the Making",
+     "year": 2021,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 16,
+     "doi": "10.1109/tpami.2021.3063078",
+     "authors": "Joseph Peter Robinson, Ming Shao, Yun Fu"
+    },
+    {
+     "title": "Replication in Visual Diffusion Models: A Survey and Outlook",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3713990",
+     "authors": "Wenhao Wang, Yifan Sun, Zongxin Yang, Zhengdong Hu, Zhentao Tan, Yi Yang"
+    },
+    {
+     "title": "T-Rex2++: Toward Generic Object Perception via Text-Visual Prompt Synergy",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 1,
+     "doi": "10.1109/tpami.2026.3672908",
+     "authors": "Qing Jiang, Feng Li, Zhaoyang Zeng, Tianhe Ren, Shilong Liu, Lei Zhang"
+    },
+    {
+     "title": "On the Importance of Visual Context for Data Augmentation in Scene Understanding",
+     "year": 2021,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 47,
+     "doi": "10.1109/tpami.2019.2961896",
+     "authors": "Nikita Dvornik, Julien Mairal, Cordelia Schmid"
+    },
+    {
+     "title": "Beyond Self-Attention: External Attention Using Two Linear Layers for Visual Tasks",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 396,
+     "doi": "10.1109/tpami.2022.3211006",
+     "authors": "Meng-Hao Guo, Zheng-Ning Liu, Tai-Jiang Mu, Shi-Min Hu"
+    },
+    {
+     "title": "Semi-Supervised and Unsupervised Deep Visual Learning: A Survey",
+     "year": 2024,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 180,
+     "doi": "10.1109/tpami.2022.3201576",
+     "authors": "Yanbei Chen, Massimiliano Mancini, Xiatian Zhu, Zeynep Akata"
+    },
+    {
+     "title": "Selfie Video Stabilization",
+     "year": 2021,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 3,
+     "doi": "10.1109/tpami.2019.2931897",
+     "authors": "Jiyang Yu, Ravi Ramamoorthi"
+    },
+    {
+     "title": "Decoding Brain Representations by Multimodal Learning of Neural Activity and Visual Features",
+     "year": 2021,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 149,
+     "doi": "10.1109/tpami.2020.2995909",
+     "authors": "Simone Palazzo, Concetto Spampinato, Isaak Kavasidis, Daniela Giordano, Joseph Schmidt, Mubarak Shah"
+    },
+    {
+     "title": "A Unified Visual Information Preservation Framework for Self-supervised Pre-training in Medical Image Analysis",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 71,
+     "doi": "10.1109/tpami.2023.3234002",
+     "authors": "Hong-Yu Zhou, Chixiang Lu, Chaoqi Chen, Sibei Yang, Yizhou Yu"
+    },
+    {
+     "title": "Visual Semantic Information Pursuit: A Survey",
+     "year": 2021,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 25,
+     "doi": "10.1109/tpami.2019.2950025",
+     "authors": "Daqi Liu, Miroslaw Bober, Josef Kittler"
+    },
+    {
+     "title": "GFNet: Global Filter Networks for Visual Recognition",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 112,
+     "doi": "10.1109/tpami.2023.3263824",
+     "authors": "Yongming Rao, Wenliang Zhao, Zheng Zhu, Jie Zhou, Jiwen Lu"
+    },
+    {
+     "title": "R3LIVE++: A Robust, Real-Time, Radiance Reconstruction Package With a Tightly-Coupled LiDAR-Inertial-Visual State Estimator",
+     "year": 2024,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 53,
+     "doi": "10.1109/tpami.2024.3456473",
+     "authors": "Jiarong Lin, Fu Zhang"
+    },
+    {
+     "title": "Dynamic in Static: Hybrid Visual Correspondence for Self-Supervised Video Object Segmentation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3735235",
+     "authors": "Yazhou Yao, Gensheng Pei, Jianbo Jiao, Wenguan Wang, Liqiang Nie, Jinhui Tang"
+    },
+    {
+     "title": "IntPhys 2019: A Benchmark for Visual Intuitive Physics Understanding",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 11,
+     "doi": "10.1109/tpami.2021.3083839",
+     "authors": "Ronan Riochet, Mario Ynocente Castro, Mathieu Bernard, Adam Lerer, Rob Fergus, Veronique Izard"
+    },
+    {
+     "title": "InvPT++: Inverted Pyramid Multi-Task Transformer for Visual Scene Understanding",
+     "year": 2024,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 22,
+     "doi": "10.1109/tpami.2024.3397031",
+     "authors": "Hanrong Ye, Dan Xu"
+    },
+    {
+     "title": "Guest Editorial: Introduction to the Special Section on Fine-Grained Visual Categorization",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 4,
+     "doi": "10.1109/tpami.2021.3065094",
+     "authors": "Jingdong Wang, Zhuowen Tu, Jianlong Fu, Nicu Sebe, Serge Belongie"
+    },
+    {
+     "title": "Visual-in-Visual: A Unified and Efficient Baseline for Image Restoration",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 2,
+     "doi": "10.1109/tpami.2026.3669720",
+     "authors": "Yuning Cui, Wenqi Ren, Boxin Shi, Alois Knoll"
+    },
+    {
+     "title": "Contextual Translation Embedding for Visual Relationship Detection and Scene Graph Generation",
+     "year": 2021,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 72,
+     "doi": "10.1109/tpami.2020.2992222",
+     "authors": "Zih-Siou Hung, Arun Mallya, Svetlana Lazebnik"
+    },
+    {
+     "title": "Visual Object Tracking with Discriminative Filters and Siamese Networks: A Survey and Outlook",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 124,
+     "doi": "10.1109/tpami.2022.3212594",
+     "authors": "Sajid Javed, Martin Danelljan, Fahad Shahbaz Khan, Muhammad Haris Khan, Michael Felsberg, Jiri Matas"
+    },
+    {
+     "title": "Contextual Transformer Networks for Visual Recognition",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 646,
+     "doi": "10.1109/tpami.2022.3164083",
+     "authors": "Yehao Li, Ting Yao, Yingwei Pan, Tao Mei"
+    },
+    {
+     "title": "SimVODIS: Simultaneous Visual Odometry, Object Detection, and Instance Segmentation",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 33,
+     "doi": "10.1109/tpami.2020.3007546",
+     "authors": "Ue-Hwan Kim, Se-Ho Kim, Jong-Hwan Kim"
+    },
+    {
+     "title": "Remedying uncertainty representations in visual inference through Explaining-Away Variational Autoencoders",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3718675",
+     "authors": "Josefina Catoni, Domonkos Martos, Ferenc Csikor, Enzo Ferrante, Diego H. Milone, Balazs Meszena"
+    },
+    {
+     "title": "Interpreting the Rhetoric of Visual Advertisements",
+     "year": 2021,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 25,
+     "doi": "10.1109/tpami.2019.2947440",
+     "authors": "Keren Ye, Narges Honarvar Nazari, James Hahn, Zaeem Hussain, Mingda Zhang, Adriana Kovashka"
+    },
+    {
+     "title": "Symbiotic Graph Neural Networks for 3D Skeleton-Based Human Action Recognition and Motion Prediction",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 185,
+     "doi": "10.1109/tpami.2021.3053765",
+     "authors": "Maosen Li, Siheng Chen, Xu Chen, Ya Zhang, Yanfeng Wang, Qi Tian"
+    },
+    {
+     "title": "QDNet: Query-Denoising Network for Visual Traffic Knowledge Graph Generation",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2025.3572944",
+     "authors": "Yunfei Guo, Fei Yin, Xiao-Hui Li, Cheng-Lin Liu"
+    },
+    {
+     "title": "Augmentation Pathways Network for Visual Recognition",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 6,
+     "doi": "10.1109/tpami.2023.3250330",
+     "authors": "Yalong Bai, Mohan Zhou, Wei Zhang, Bowen Zhou, Tao Mei"
+    },
+    {
+     "title": "Unsupervised Active Visual Search With Monte Carlo Planning Under Uncertain Detections",
+     "year": 2024,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 5,
+     "doi": "10.1109/tpami.2024.3451994",
+     "authors": "Francesco Taioli, Francesco Giuliari, Yiming Wang, Riccardo Berra, Alberto Castellini, Alessio Del Bue"
+    },
+    {
+     "title": "Efficient Visual Transformer by Learnable Token Merging",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 5,
+     "doi": "10.1109/tpami.2025.3588186",
+     "authors": "Yancheng Wang, Yingzhen Yang"
+    },
+    {
+     "title": "Rebuttal to “Comments on ‘Decoding Brain Representations by Multimodal Learning of Neural Activity and Visual Features’ ”",
+     "year": 2024,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 2,
+     "doi": "10.1109/tpami.2024.3426296",
+     "authors": "Simone Palazzo, Concetto Spampinato, Isaak Kavasidis, Daniela Giordano, Joseph Schmidt, Mubarak Shah"
+    },
+    {
+     "title": "RAW-Adapter: Adapting Pre-Trained Visual Model to Camera RAW Images and a Benchmark",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3692923",
+     "authors": "Ziteng Cui, Jianfei Yang, Tatsuya Harada"
+    },
+    {
+     "title": "Symbolic Visual Reinforcement Learning: A Scalable Framework With Object-Level Abstraction and Differentiable Expression Search",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 5,
+     "doi": "10.1109/tpami.2024.3469053",
+     "authors": "Wenqing Zheng, S. P. Sharan, Zhiwen Fan, Kevin Wang, Yihan Xi, Zhangyang Wang"
+    },
+    {
+     "title": "Gradient-Based Instance-Specific Visual Explanations for Object Specification and Object Discrimination",
+     "year": 2024,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 23,
+     "doi": "10.1109/tpami.2024.3380604",
+     "authors": "Chenyang Zhao, Janet H. Hsiao, Antoni B. Chan"
+    },
+    {
+     "title": "Neuron Abandoning Attention Flow: Visual Explanation of Dynamics Inside CNN Models",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 1,
+     "doi": "10.1109/tpami.2026.3651260",
+     "authors": "Yi Liao, Yongsheng Gao, Weichuan Zhang"
+    },
+    {
+     "title": "PI-H2T: Enhancing Long-Tailed Visual Recognition with Permutation-Invariant and Head-to-Tail Feature Fusion",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3711911",
+     "authors": "Mengke Li, Zhikai Hu, Yang Lu, Weichao Lan, Yiu-ming Cheung, Hui Huang"
+    },
+    {
+     "title": "End-to-End Open-Vocabulary Video Visual Relationship Detection Using Multi-Modal Prompting",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 6,
+     "doi": "10.1109/tpami.2025.3561366",
+     "authors": "Yongqi Wang, Xinxiao Wu, Shuo Yang, Jiebo Luo"
+    },
+    {
+     "title": "Deep High-Resolution Representation Learning for Visual Recognition",
+     "year": 2021,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 4145,
+     "doi": "10.1109/tpami.2020.2983686",
+     "authors": "Jingdong Wang, Ke Sun, Tianheng Cheng, Borui Jiang, Chaorui Deng, Yang Zhao"
+    },
+    {
+     "title": "OmniTracker: Unifying Visual Object Tracking by Tracking-With-Detection",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 25,
+     "doi": "10.1109/tpami.2025.3529926",
+     "authors": "Junke Wang, Zuxuan Wu, Dongdong Chen, Chong Luo, Xiyang Dai, Lu Yuan"
+    },
+    {
+     "title": "VOLO: Vision Outlooker for Visual Recognition",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 169,
+     "doi": "10.1109/tpami.2022.3206108",
+     "authors": "Li Yuan, Qibin Hou, Zihang Jiang, Jiashi Feng, Shuicheng Yan"
+    },
+    {
+     "title": "Distilled Siamese Networks for Visual Tracking",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 140,
+     "doi": "10.1109/tpami.2021.3127492",
+     "authors": "Jianbing Shen, Yuanpei Liu, Xingping Dong, Xiankai Lu, Fahad Shahbaz Khan, Steven Hoi"
+    },
+    {
+     "title": "StructVPR++: Distill Structural and Semantic Knowledge With Weighting Samples for Visual Place Recognition",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 6,
+     "doi": "10.1109/tpami.2025.3556859",
+     "authors": "Yanqing Shen, Sanping Zhou, Jingwen Fu, Ruotong Wang, Shitao Chen, Nanning Zheng"
+    },
+    {
+     "title": "A Visual Approach to Measure Cloth-Body and Cloth-Cloth Friction",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 4,
+     "doi": "10.1109/tpami.2021.3097547",
+     "authors": "Abdullah Haroon Rasheed, Victor Romero, Florence Bertails-Descoubes, Stefanie Wuhrer, Jean-Sebastien Franco, Arnaud Lazarus"
+    },
+    {
+     "title": "360VOTS: Visual Object Tracking and Segmentation in Omnidirectional Videos",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 4,
+     "doi": "10.1109/tpami.2025.3591725",
+     "authors": "Yinzhe Xu, Huajian Huang, Yingshu Chen, Sai-Kit Yeung"
+    },
+    {
+     "title": "AutoNovel: Automatically Discovering and Learning Novel Visual Categories",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 147,
+     "doi": "10.1109/tpami.2021.3091944",
+     "authors": "Kai Han, Sylvestre-Alvise Rebuffi, Sebastien Ehrhardt, Andrea Vedaldi, Andrew Zisserman"
+    },
+    {
+     "title": "A Pose-Only Solution to Visual Reconstruction and Navigation",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 39,
+     "doi": "10.1109/tpami.2021.3139681",
+     "authors": "Qi Cai, Lilian Zhang, Yuanxin Wu, Wenxian Yu, Dewen Hu"
+    },
+    {
+     "title": "MBA-SLAM: Motion Blur Aware Dense Visual SLAM With Radiance Fields Representation",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 6,
+     "doi": "10.1109/tpami.2025.3596976",
+     "authors": "Peng Wang, Lingzhe Zhao, Yin Zhang, Shiyu Zhao, Peidong Liu"
+    },
+    {
+     "title": "SHC: Deeply Activating Human-Like Cognitive Ability for Visual Question Answering",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3673273",
+     "authors": "Fengjuan Wang, Zhenxue Wang, Gaoyun An, Congyan Lang, Dapeng Oliver Wu"
+    },
+    {
+     "title": "BRACTIVE: A Brain Activation Approach to Human Visual Brain Learning",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 1,
+     "doi": "10.1109/tpami.2025.3612582",
+     "authors": "Xuan-Bac Nguyen, Hojin Jang, Xin Li, Samee U. Khan, Pawan Sinha, Khoa Luu"
+    },
+    {
+     "title": "Visual Embodied Brain-1.5: Enhanced Perception, Spatial Reasoning and Robot Control in Spaces",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3728098",
+     "authors": "Ganlin Yang, Gen Luo, Ziyang Gong, Guanzhou Chen, Haonan Duan, Tianyi Zhang"
+    },
+    {
+     "title": "Visual Scanpath Prediction Using IOR-ROI Recurrent Mixture Density Network",
+     "year": 2021,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 71,
+     "doi": "10.1109/tpami.2019.2956930",
+     "authors": "Wanjie Sun, Zhenzhong Chen, Feng Wu"
+    },
+    {
+     "title": "TV-3DG: Mastering Text-to-3D Customized Generation with Visual Prompt",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 5,
+     "doi": "10.1109/tpami.2025.3587105",
+     "authors": "Jiahui Yang, Donglin Di, Baorui Ma, Jianxun Cui, Xun Yang, Yongjia Ma"
+    },
+    {
+     "title": "Knowledge Distillation and Student-Teacher Learning for Visual Intelligence: A Review and New Outlooks",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 746,
+     "doi": "10.1109/tpami.2021.3055564",
+     "authors": "Lin Wang, Kuk-Jin Yoon"
+    },
+    {
+     "title": "Visual Reasoning: From State to Transformation",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 7,
+     "doi": "10.1109/tpami.2023.3268093",
+     "authors": "Xin Hong, Yanyan Lan, Liang Pang, Jiafeng Guo, Xueqi Cheng"
+    },
+    {
+     "title": "Benchmarking and Analyzing Generative Data for Visual Recognition",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 1,
+     "doi": "10.1109/tpami.2025.3572476",
+     "authors": "Bo Li, Haotian Liu, Liangyu Chen, Yong Jae Lee, Chunyuan Li, Ziwei Liu"
+    },
+    {
+     "title": "Learning From Human Attention for Attribute-Assisted Visual Recognition",
+     "year": 2024,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 20,
+     "doi": "10.1109/tpami.2024.3458921",
+     "authors": "Xiao Bai, Pengcheng Zhang, Xiaohan Yu, Jin Zheng, Edwin R. Hancock, Jun Zhou"
+    },
+    {
+     "title": "StudioGAN: A Taxonomy and Benchmark of GANs for Image Synthesis",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 54,
+     "doi": "10.1109/tpami.2023.3306436",
+     "authors": "Minguk Kang, Joonghyuk Shin, Jaesik Park"
+    },
+    {
+     "title": "Visual Camera Re-Localization from RGB and RGB-D Images Using DSAC",
+     "year": 2021,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 168,
+     "doi": "10.1109/tpami.2021.3070754",
+     "authors": "Eric Brachmann, Carsten Rother"
+    },
+    {
+     "title": "Spectral-Adaptive Modulation Networks for Visual Perception",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3690455",
+     "authors": "Guhnoo Yun, Juhan Yoo, Kijung Kim, Jeongho Lee, Paul Hongsuck Seo, Dong Hwan Kim"
+    }
+   ]
+  },
+  "audio language model": {
+   "total": 58833,
+   "kept": 100,
+   "papers": [
+    {
+     "title": "VALOR: Vision-Audio-Language Omni-Perception Pretraining Model and Dataset",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 38,
+     "doi": "10.1109/tpami.2024.3479776",
+     "authors": "Jing Liu, Sihan Chen, Xingjian He, Longteng Guo, Xinxin Zhu, Weining Wang"
+    },
+    {
+     "title": "CMKD: CNN/Transformer-Based Cross-Model Knowledge Distillation for Audio Classification",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 2,
+     "doi": "10.1109/tpami.2025.3644853",
+     "authors": "Yuan Gong, Sameer Khurana, Andrew Rouditchenko, James Glass"
+    },
+    {
+     "title": "General 3D Vision-Language Model With Fast Rendering and Pre-Training Vision-Language Alignment",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 3,
+     "doi": "10.1109/tpami.2025.3566593",
+     "authors": "Kangcheng Liu, Yong-Jin Liu, Baoquan Chen"
+    },
+    {
+     "title": "SignNet II: A Transformer-Based Two-Way Sign Language Translation Model",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 34,
+     "doi": "10.1109/tpami.2022.3232389",
+     "authors": "Lipisha Chaudhary, Tejaswini Ananthanarayana, Enjamamul Hoq, Ifeoma Nwogu"
+    },
+    {
+     "title": "Towards a Causally-inspired Evolving World Model for Vision-and-Language Navigation in Continuous Environments",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3728426",
+     "authors": "Xuan Yao, Junyu Gao, Changsheng Xu"
+    },
+    {
+     "title": "X2-VLM: All-in-One Pre-Trained Model for Vision-Language Tasks",
+     "year": 2024,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 64,
+     "doi": "10.1109/tpami.2023.3339661",
+     "authors": "Yan Zeng, Xinsong Zhang, Hang Li, Jiawei Wang, Jipeng Zhang, Wangchunshu Zhou"
+    },
+    {
+     "title": "An Audio-Visual Speech Separation Model Inspired by Cortico-Thalamo-Cortical Circuits",
+     "year": 2024,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 22,
+     "doi": "10.1109/tpami.2024.3384034",
+     "authors": "Kai Li, Fenghua Xie, Hang Chen, Kexin Yuan, Xiaolin Hu"
+    },
+    {
+     "title": "PCBClip: Vision-Language Defect Detection Model for Low-Sample Inspection Systems",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3711750",
+     "authors": "Zhongshu Chen, Feng Guo, Zhenghua Chen, Lin Zuo, Yu Liu"
+    },
+    {
+     "title": "Exploiting Vision Language Model for Training-Free 3D Point Cloud Understanding via Improved Graph Score Propagation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3725415",
+     "authors": "Tiankai Chen, Yushu Li, Adam Goodge, Fei Teng, Xulei Yang, Zhen Liang"
+    },
+    {
+     "title": "SG-Net: Syntax Guided Transformer for Language Representation",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 46,
+     "doi": "10.1109/tpami.2020.3046683",
+     "authors": "Zhuosheng Zhang, Yuwei Wu, Junru Zhou, Sufeng Duan, Hai Zhao, Rui Wang"
+    },
+    {
+     "title": "Variational Bayesian Inference for Audio-Visual Tracking of Multiple Speakers",
+     "year": 2021,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 33,
+     "doi": "10.1109/tpami.2019.2953020",
+     "authors": "Yutong Ban, Xavier Alameda-Pineda, Laurent Girin, Radu Horaud"
+    },
+    {
+     "title": "Robust Audio-Visual Question Answering with Missing Modality in Training and Testing",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3723653",
+     "authors": "Jinxing Zhou, Zhangbin Li, Di Hu, Yanghao Zhou, Rao Muhammad Anwer, Hisham Cholakkal"
+    },
+    {
+     "title": "Spherical Vision Transformers for Audio-Visual Saliency Prediction in 360$^{\\circ }$∘ Videos",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 3,
+     "doi": "10.1109/tpami.2025.3604091",
+     "authors": "Mert Cokelek, Halit Ozsoy, Nevrez Imamoglu, Cagri Ozcinar, Inci Ayhan, Erkut Erdem"
+    },
+    {
+     "title": "Latent Class-Conditional Noise Model",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 9,
+     "doi": "10.1109/tpami.2023.3247629",
+     "authors": "Jiangchao Yao, Bo Han, Zhihan Zhou, Ya Zhang, Ivor W. Tsang"
+    },
+    {
+     "title": "Deep Audio-Visual Speech Recognition",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 488,
+     "doi": "10.1109/tpami.2018.2889052",
+     "authors": "Triantafyllos Afouras, Joon Son Chung, Andrew Senior, Oriol Vinyals, Andrew Zisserman"
+    },
+    {
+     "title": "Stereo-Talker: Audio-driven 3D Human Synthesis with Prior-Guided Mixture-of-Experts",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 1,
+     "doi": "10.1109/tpami.2025.3596160",
+     "authors": "Xiang Deng, Youxin Pang, Xiaochen Zhao, Chao Xu, Lizhen Wang, Hongjiang Xiao"
+    },
+    {
+     "title": "${\\text{CA}^{2}\\text{ST}}$: Cross-Attention in Audio, Space, and Time for Holistic Video Recognition",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 4,
+     "doi": "10.1109/tpami.2025.3628653",
+     "authors": "Jongseo Lee, Joohyun Chang, Dongho Lee, Jinwoo Choi"
+    },
+    {
+     "title": "Bi-Modality Individual-Aware Prompt Tuning for Visual-Language Model",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 6,
+     "doi": "10.1109/tpami.2025.3557780",
+     "authors": "Hantao Yao, Rui Zhang, Huaihai Lyu, Yongdong Zhang, Changsheng Xu"
+    },
+    {
+     "title": "Text Compression-aided Transformer Encoding",
+     "year": 2021,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 22,
+     "doi": "10.1109/tpami.2021.3058341",
+     "authors": "Zuchao Li, Zhuosheng Zhang, Hai Zhao, Rui Wang, Kehai Chen, Masao Utiyama"
+    },
+    {
+     "title": "SignBERT+: Hand-Model-Aware Self-Supervised Pre-Training for Sign Language Understanding",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 144,
+     "doi": "10.1109/tpami.2023.3269220",
+     "authors": "Hezhen Hu, Weichao Zhao, Wengang Zhou, Houqiang Li"
+    },
+    {
+     "title": "CAT+: Investigating and Enhancing Audio-Visual Understanding in Large Language Models",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 14,
+     "doi": "10.1109/tpami.2025.3582389",
+     "authors": "Qilang Ye, Zitong Yu, Rui Shao, Yawen Cui, Xiangui Kang, Xin Liu"
+    },
+    {
+     "title": "VLBiasBench: A Comprehensive Benchmark for Evaluating Bias in Large Vision-Language Model",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 2,
+     "doi": "10.1109/tpami.2026.3683747",
+     "authors": "Sibo Wang, Xiangkui Cao, Jie Zhang, Zheng Yuan, Shiguang Shan, Xilin Chen"
+    },
+    {
+     "title": "Learn-Explain-Reinforce: Counterfactual Reasoning and its Guidance to Reinforce an Alzheimer's Disease Diagnosis Model",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 39,
+     "doi": "10.1109/tpami.2022.3197845",
+     "authors": "Kwanseok Oh, Jee Seok Yoon, Heung-Il Suk"
+    },
+    {
+     "title": "VisionUnite: A Vision-Language Foundation Model for Ophthalmology Enhanced With Clinical Knowledge",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 15,
+     "doi": "10.1109/tpami.2025.3598734",
+     "authors": "Zihan Li, Diping Song, Zefeng Yang, Deming Wang, Fei Li, Xiulan Zhang"
+    },
+    {
+     "title": "SEWA DB: A Rich Database for Audio-Visual Emotion and Sentiment Research in the Wild",
+     "year": 2021,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 170,
+     "doi": "10.1109/tpami.2019.2944808",
+     "authors": "Jean Kossaifi, Robert Walecki, Yannis Panagakis, Jie Shen, Maximilian Schmitt, Fabien Ringeval"
+    },
+    {
+     "title": "Contrastive Positive Sample Propagation Along the Audio-Visual Event Line",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 70,
+     "doi": "10.1109/tpami.2022.3223688",
+     "authors": "Jinxing Zhou, Dan Guo, Meng Wang"
+    },
+    {
+     "title": "Learning on Attribute-Missing Graphs",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 108,
+     "doi": "10.1109/tpami.2020.3032189",
+     "authors": "Xu Chen, Siheng Chen, Jiangchao Yao, Huangjie Zheng, Ya Zhang, Ivor W. Tsang"
+    },
+    {
+     "title": "Lifelong Learning of Large Language Model Based Agents: A Roadmap",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 11,
+     "doi": "10.1109/tpami.2025.3650546",
+     "authors": "Junhao Zheng, Chengming Shi, Xidi Cai, Qiuke Li, Duzhen Zhang, Chenxing Li"
+    },
+    {
+     "title": "Robust Audio-Visual Contrastive Learning for Proposal-Based Self-Supervised Sound Source Localization in Videos",
+     "year": 2024,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 11,
+     "doi": "10.1109/tpami.2024.3363508",
+     "authors": "Hanyu Xuan, Zhiliang Wu, Jian Yang, Bo Jiang, Lei Luo, Xavier Alameda-Pineda"
+    },
+    {
+     "title": "Semantic and Relation Modulation for Audio-Visual Event Localization",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 42,
+     "doi": "10.1109/tpami.2022.3226328",
+     "authors": "Hao Wang, Zheng-Jun Zha, Liang Li, Xuejin Chen, Jiebo Luo"
+    },
+    {
+     "title": "UniAV: Unified Audio-Visual Perception for Multi-Task Video Event Localization",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 7,
+     "doi": "10.1109/tpami.2025.3593932",
+     "authors": "Tiantian Geng, Teng Wang, Jinming Duan, Yanfu Zhang, Weili Guan, Feng Zheng"
+    },
+    {
+     "title": "Social Reasoning-Aware Trajectory Prediction via Multimodal Language Model",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 4,
+     "doi": "10.1109/tpami.2025.3582000",
+     "authors": "Inhwan Bae, Junoh Lee, Hae-Gon Jeon"
+    },
+    {
+     "title": "What Does a Model Really Look at?: Extracting Model-Oriented Concepts for Explaining Deep Neural Networks",
+     "year": 2024,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 14,
+     "doi": "10.1109/tpami.2024.3357717",
+     "authors": "Seonggyeom Kim, Dong-Kyu Chae"
+    },
+    {
+     "title": "Quantum Generative Diffusion Model: A Fully Quantum-Mechanical Model for Generating Quantum State Ensemble",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3718311",
+     "authors": "Chuangtao Chen, Qinglin Zhao, MengChu Zhou, Zhimin He, Zhili Sun, Haozhen Situ"
+    },
+    {
+     "title": "Learning Probabilistic Presence-Absence Evidence for Weakly-Supervised Audio-Visual Event Perception",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 36,
+     "doi": "10.1109/tpami.2025.3546312",
+     "authors": "Junyu Gao, Mengyuan Chen, Changsheng Xu"
+    },
+    {
+     "title": "Symbiotic Graph Neural Networks for 3D Skeleton-Based Human Action Recognition and Motion Prediction",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 185,
+     "doi": "10.1109/tpami.2021.3053765",
+     "authors": "Maosen Li, Siheng Chen, Xu Chen, Ya Zhang, Yanfeng Wang, Qi Tian"
+    },
+    {
+     "title": "Relational Temporal Graph Reasoning for Dual-task Dialogue Language Understanding",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 8,
+     "doi": "10.1109/tpami.2023.3289509",
+     "authors": "Bowen Xing, Ivor W. Tsang"
+    },
+    {
+     "title": "Hierarchical Augmentation and Distillation for Class Incremental Audio-Visual Video Recognition",
+     "year": 2024,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 8,
+     "doi": "10.1109/tpami.2024.3387946",
+     "authors": "Yukun Zuo, Hantao Yao, Liansheng Zhuang, Changsheng Xu"
+    },
+    {
+     "title": "Mettle: Meta-Token Learning for Memory-Efficient Audio-Visual Adaptation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 3,
+     "doi": "10.1109/tpami.2025.3642821",
+     "authors": "Jinxing Zhou, Zhihui Li, Yongqiang Yu, Yanghao Zhou, Ruohao Guo, Guangyao Li"
+    },
+    {
+     "title": "Boosting Multi-Modal Large Language Model With Enhanced Visual Features",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2025.3644851",
+     "authors": "Yiwei Ma, Weihuang Lin, Zhibin Wang, Jiayi Ji, Xiaoshuai Sun, Chia-Wen Lin"
+    },
+    {
+     "title": "Learning Long-form Movie Prior via Large Language Models",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3729756",
+     "authors": "Jinheng Xie, Jiajun Feng, Mike Zheng Shou"
+    },
+    {
+     "title": "Vision-Language Models for Vision Tasks: A Survey",
+     "year": 2024,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 938,
+     "doi": "10.1109/tpami.2024.3369699",
+     "authors": "Jingyi Zhang, Jiaxing Huang, Sheng Jin, Shijian Lu"
+    },
+    {
+     "title": "Leveraging Symbolic Knowledge Bases for Commonsense Natural Language Inference using Pattern Theory",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 11,
+     "doi": "10.1109/tpami.2023.3287837",
+     "authors": "Sathyanarayanan N. Aakur, Sudeep Sarkar"
+    },
+    {
+     "title": "Text2Loc++: Generalizing 3D Point Cloud Localization from Natural Language",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3723656",
+     "authors": "Yan Xia, Letian Shi, Yilin Di, Joao F. Henriques, Daniel Cremers"
+    },
+    {
+     "title": "Universal Multimodal Representation for Language Understanding",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 22,
+     "doi": "10.1109/tpami.2023.3234170",
+     "authors": "Zhuosheng Zhang, Kehai Chen, Rui Wang, Masao Utiyama, Eiichiro Sumita, Zuchao Li"
+    },
+    {
+     "title": "VLT: Vision-Language Transformer and Query Generation for Referring Segmentation",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 152,
+     "doi": "10.1109/tpami.2022.3217852",
+     "authors": "Henghui Ding, Chang Liu, Suchen Wang, Xudong Jiang"
+    },
+    {
+     "title": "BitNet v2: Low-bit and Sparsified Activations for 1-bit Large Language Models",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 2,
+     "doi": "10.1109/tpami.2026.3717905",
+     "authors": "Hongyu Wang, Shuming Ma, Furu Wei"
+    },
+    {
+     "title": "Exploring Discriminative Word-Level Domain Contexts for Multi-Domain Neural Machine Translation",
+     "year": 2021,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 19,
+     "doi": "10.1109/tpami.2019.2954406",
+     "authors": "Jinsong Su, Jiali Zeng, Jun Xie, Huating Wen, Yongjing Yin, Yang Liu"
+    },
+    {
+     "title": "Drinking from a Firehose: Continual Learning with Web-scale Natural Language",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 8,
+     "doi": "10.1109/tpami.2022.3218265",
+     "authors": "Hexiang Hu, Ozan Sener, Fei Sha, Vladlen Koltun"
+    },
+    {
+     "title": "Parameter-Efficient Fine-Tuning Methods for Pretrained Language Models: A Critical Review and Assessment",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 63,
+     "doi": "10.1109/tpami.2026.3657354",
+     "authors": "Lingling Xu, Haoran Xie, S. Joe Qin, Xiaohui Tao, Fu Lee Wang"
+    },
+    {
+     "title": "A Survey on Video Temporal Grounding With Multimodal Large Language Model",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 11,
+     "doi": "10.1109/tpami.2025.3615586",
+     "authors": "Jianlong Wu, Wei Liu, Ye Liu, Meng Liu, Liqiang Nie, Zhouchen Lin"
+    },
+    {
+     "title": "PoseScript: Linking 3D Human Poses and Natural Language",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 8,
+     "doi": "10.1109/tpami.2024.3407570",
+     "authors": "Ginger Delmas, Philippe Weinzaepfel, Thomas Lucas, Francesc Moreno-Noguer, Grégory Rogez"
+    },
+    {
+     "title": "PrefixQuant: Eliminating Outliers by Prefixed Tokens for Large Language Models Quantization",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3711802",
+     "authors": "Mengzhao Chen, Yi Liu, Jiahao Wang, Yi Bin, Wenqi Shao, Ping Luo"
+    },
+    {
+     "title": "Human Versus Machine Intelligence: Assessing Natural Language Generation Models Through Complex Systems Theory",
+     "year": 2024,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 31,
+     "doi": "10.1109/tpami.2024.3358168",
+     "authors": "Enrico De Santis, Alessio Martino, Antonello Rizzi"
+    },
+    {
+     "title": "HOP+: History-Enhanced and Order-Aware Pre-Training for Vision-and-Language Navigation",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 43,
+     "doi": "10.1109/tpami.2023.3234243",
+     "authors": "Yanyuan Qiao, Yuankai Qi, Yicong Hong, Zheng Yu, Peng Wang, Qi Wu"
+    },
+    {
+     "title": "Towards Zero-Shot Sign Language Recognition",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 55,
+     "doi": "10.1109/tpami.2022.3143074",
+     "authors": "Yunus Can Bilge, Ramazan Gokberk Cinbis, Nazli Ikizler-Cinbis"
+    },
+    {
+     "title": "Prompt Disentanglement via Language Guidance and Representation Alignment for Domain Generalization",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 1,
+     "doi": "10.1109/tpami.2026.3661049",
+     "authors": "De Cheng, Zhipeng Xu, Xinyang Jiang, Dongsheng Li, Nannan Wang, Xinbo Gao"
+    },
+    {
+     "title": "Anticipating Object Interactions Via Aggregation and Distillation of Spatio-Temporal Knowledge From Vision Language Models",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3726073",
+     "authors": "Yang Liu, Dejie Yang, Minghang Zheng, Ming-Hsuan Yang"
+    },
+    {
+     "title": "HeadArtist-VL: Vision / Language Guided 3D Head Generation with Self Score Distillation",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2025.3619576",
+     "authors": "Hongyu Liu, Xuan Wang, Ziyu Wan, Yujun Shen, Yibing Song, Jing Liao"
+    },
+    {
+     "title": "GPT4Point++: Advancing Unified Point-Language Understanding and Generation",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 4,
+     "doi": "10.1109/tpami.2025.3597938",
+     "authors": "Zhangyang Qi, Ye Fang, Zeyi Sun, Xiaoyang Wu, Tong Wu, Jiaqi Wang"
+    },
+    {
+     "title": "Defying Distractions in Multimodal Tasks: A Novel Benchmark for Large Vision-Language Models",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 1,
+     "doi": "10.1109/tpami.2026.3655641",
+     "authors": "Jinhui Yang, Ming Jiang, Qi Zhao"
+    },
+    {
+     "title": "PointLLM-V2: Empowering Large Language Models to Better Understand Point Clouds",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 2,
+     "doi": "10.1109/tpami.2025.3590784",
+     "authors": "Runsen Xu, Shuai Yang, Xiaolong Wang, Tai Wang, Yilun Chen, Jiangmiao Pang"
+    },
+    {
+     "title": "Co-Guiding for Multi-Intent Spoken Language Understanding",
+     "year": 2024,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 6,
+     "doi": "10.1109/tpami.2023.3336709",
+     "authors": "Bowen Xing, Ivor W. Tsang"
+    },
+    {
+     "title": "Language-Aware Spatial-Temporal Collaboration for Referring Video Segmentation",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 22,
+     "doi": "10.1109/tpami.2023.3235720",
+     "authors": "Tianrui Hui, Si Liu, Zihan Ding, Shaofei Huang, Guanbin Li, Wenguan Wang"
+    },
+    {
+     "title": "Text-to-Motion Generation With Discrete Representations and Large Language Models",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3728107",
+     "authors": "Jianrong Zhang, Yangsong Zhang, Xiaodong Cun, Xi Shen, Xiaojian Shen, Hehe Fan"
+    },
+    {
+     "title": "SignMoD: Sign Language Video Generation via Mixture of Diffusion",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3698334",
+     "authors": "Fan Qi, Yu Duan, Huaiwen Zhang, Changsheng Xu"
+    },
+    {
+     "title": "<i>RefMover:</i>\n                    Diffusion-Based Single Image Reflection Removal With Language and Region Guidance",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3731103",
+     "authors": "Zifeng Wang, Yuchen Hong, Tianyi Xu, Haofeng Zhong, Shuchen Weng, Jinxiu Liang"
+    },
+    {
+     "title": "ImagineNav++: Prompting Vision-Language Models as Embodied Navigator Through Scene Imagination",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 2,
+     "doi": "10.1109/tpami.2026.3688692",
+     "authors": "Teng Wang, Xinxin Zhao, Wenzhe Cai, Changyin Sun"
+    },
+    {
+     "title": "Vision-Language Navigation Policy Learning and Adaptation",
+     "year": 2021,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 23,
+     "doi": "10.1109/tpami.2020.2972281",
+     "authors": "Xin Wang, Qiuyuan Huang, Asli Celikyilmaz, Jianfeng Gao, Dinghan Shen, Yuan-Fang Wang"
+    },
+    {
+     "title": "EgoMotion: Hierarchical Vision-Language Learning and Diffusion for Egocentric Motion Generation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3736065",
+     "authors": "Ruibing Hou, Mingyue Zhou, Yuwei Gui, Mingshuang Luo, Bingpeng Ma, Hong Chang"
+    },
+    {
+     "title": "PiGLET: Pixel-Level Grounding of Language Expressions With Transformers",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 8,
+     "doi": "10.1109/tpami.2023.3286760",
+     "authors": "Cristina González, Nicolás Ayobi, Isabela Hernández, Jordi Pont-Tuset, Pablo Arbeláez"
+    },
+    {
+     "title": "Negation-Aware Test-Time Adaptation for Vision-Language Models",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 2,
+     "doi": "10.1109/tpami.2026.3703017",
+     "authors": "Haochen Han, Alex Jinpeng Wang, Fangming Liu, Jun Zhu"
+    },
+    {
+     "title": "Every Problem, Every Step, All in Focus: Learning to Solve Vision-Language Problems With Integrated Attention",
+     "year": 2024,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 5,
+     "doi": "10.1109/tpami.2024.3357631",
+     "authors": "Xianyu Chen, Jinhui Yang, Shi Chen, Louis Wang, Ming Jiang, Qi Zhao"
+    },
+    {
+     "title": "Text4Seg++: Advancing Image Segmentation via Generative Language Modeling",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3683307",
+     "authors": "Mengcheng Lan, Chaofeng Chen, Jiaxing Xu, Zongrui Li, Yiping Ke, Xudong Jiang"
+    },
+    {
+     "title": "Low-Precision Training of Large Language Models: Methods, Challenges, and Opportunities",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 1,
+     "doi": "10.1109/tpami.2026.3718968",
+     "authors": "Zhiwei Hao, Jianyuan Guo, Li Shen, Yong Luo, Han Hu, Guoxia Wang"
+    },
+    {
+     "title": "A Survey on Efficient Vision-Language-Action Models",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 1,
+     "doi": "10.1109/tpami.2026.3734740",
+     "authors": "Zhaoshu Yu, Bo Wang, Pengpeng Zeng, Haonan Zhang, Ji Zhang, Zheng Wang"
+    },
+    {
+     "title": "DXA-Net: Dual-Task Cross-Lingual Alignment Network for Zero-Shot Cross-Lingual Spoken Language Understanding",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 6,
+     "doi": "10.1109/tpami.2025.3597726",
+     "authors": "Bowen Xing, Libo Qin, Zhihong Zhu, Zhou Yu, Ivor W. Tsang"
+    },
+    {
+     "title": "Soft Label Pruning and Quantization for Large-Scale Dataset Distillation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3664488",
+     "authors": "Lingao Xiao, Yang He"
+    },
+    {
+     "title": "From Image to Pixels: Towards Fine-Grained Medical Vision-Language Models",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3682684",
+     "authors": "Lingdong Shen, Xiaoshuang Huang, Fangxin Shang, Xudong Zhang, Yehui Yang, Bin Fan"
+    },
+    {
+     "title": "Semantic-Aligned Adversarial Evolution Triangle for High-Transferability Vision-Language Attack",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 12,
+     "doi": "10.1109/tpami.2025.3581476",
+     "authors": "Xiaojun Jia, Sensen Gao, Qing Guo, Simeng Qin, Ke Ma, Yihao Huang"
+    },
+    {
+     "title": "Evolving Diverse Red-Team Language Models in Multi-Round Multi-Agent Games",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 1,
+     "doi": "10.1109/tpami.2026.3694367",
+     "authors": "Chengdong Ma, Ziran Yang, Hai Ci, Jun Gao, Minquan Gao, Xuehai Pan"
+    },
+    {
+     "title": "LangSurf: Language-Embedded Surface Gaussians for 3D Scene Understanding",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 1,
+     "doi": "10.1109/tpami.2026.3701287",
+     "authors": "Hao Li, Minghan Qin, Zhengyu Zou, Diqi He, Xinhao Ji, Bohan Li"
+    },
+    {
+     "title": "SymBOL: A General-Purpose Symbolic Learner for Scientific Discovery Using Bayesian Optimization-Enhanced Large Language Models",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3712056",
+     "authors": "Jiaxu Cui, Qifei Li, Weiting Liu, Jiao Hu, Xinhui Yin, Ninghao Liu"
+    },
+    {
+     "title": "Dynamic Inference by Model Reduction",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 1,
+     "doi": "10.1109/tpami.2025.3595670",
+     "authors": "Matteo Priorelli, Ivilin Peev Stoianov"
+    },
+    {
+     "title": "SPIDER: Multi-Layer Semantic Token Pruning and Adaptive Sub-Layer Skipping in Multimodal Large Language Models",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3734987",
+     "authors": "Tianxiang Chen, Zhentao Tan, Zi Ye, Yue Wu, Xiaobing Tu, Jinkui Ren"
+    },
+    {
+     "title": "Transferable Unintentional Action Localization With Language-Guided Intention Translation",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 2,
+     "doi": "10.1109/tpami.2025.3538675",
+     "authors": "Jinglin Xu, Yongming Rao, Jie Zhou, Jiwen Lu"
+    },
+    {
+     "title": "Language-4D Cross-Boosting for Generalized Zero-Shot 6DoF Tracking and 3D Reconstruction",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3711593",
+     "authors": "Jingtao Sun, Yaonan Wang, Jiawen Zhao, Yike Zhang, Min Liu, Mike Zheng Shou"
+    },
+    {
+     "title": "A Mathematical Model for Universal Semantics",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 1,
+     "doi": "10.1109/tpami.2020.3022533",
+     "authors": "Weinan E, Yajun Zhou"
+    },
+    {
+     "title": "VLPose: Bridging the Domain Gap in Pose Estimation With Language-Vision Tuning",
+     "year": 2025,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 2,
+     "doi": "10.1109/tpami.2025.3594097",
+     "authors": "Jingyao Li, Pengguang Chen, Xuan Ju, Shu Liu, Hong Xu, Jiaya Jia"
+    },
+    {
+     "title": "Natural Language Video Localization: A Revisit in Span-based Question Answering Framework",
+     "year": 2021,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 57,
+     "doi": "10.1109/tpami.2021.3060449",
+     "authors": "Hao Zhang, Aixin Sun, Wei Jing, Liangli Zhen, Joey Tianyi Zhou, Rick Siow Mong Goh"
+    },
+    {
+     "title": "HC2L: Hybrid and Cooperative Contrastive Learning for Cross-Lingual Spoken Language Understanding",
+     "year": 2024,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 5,
+     "doi": "10.1109/tpami.2024.3402746",
+     "authors": "Bowen Xing, Ivor W. Tsang"
+    },
+    {
+     "title": "LLM Post-Training: A Deep Dive into Reasoning Large Language Models",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 6,
+     "doi": "10.1109/tpami.2026.3720414",
+     "authors": "Komal Kumar, Tajamul Ashraf, Omkar Thawakar, Rao Muhammad Anwer, Hisham Cholakkal, Mubarak Shah"
+    },
+    {
+     "title": "Latent Gaussian Model Boosting",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 34,
+     "doi": "10.1109/tpami.2022.3168152",
+     "authors": "Fabio Sigrist"
+    },
+    {
+     "title": "Compositional Generative Model of Unbounded 4D Cities",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 12,
+     "doi": "10.1109/tpami.2025.3603078",
+     "authors": "Haozhe Xie, Zhaoxi Chen, Fangzhou Hong, Ziwei Liu"
+    },
+    {
+     "title": "Multi-Scale 2D Temporal Adjacency Networks for Moment Localization With Natural Language",
+     "year": 2022,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 60,
+     "doi": "10.1109/tpami.2021.3120745",
+     "authors": "Songyang Zhang, Houwen Peng, Jianlong Fu, Yijuan Lu, Jiebo Luo"
+    },
+    {
+     "title": "MAGIC: Meta-Ability Guided Interactive Chain-of-Distillation for Effective-and-Efficient Vision-and-Language Navigation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 1,
+     "doi": "10.1109/tpami.2026.3692132",
+     "authors": "Liuyi Wang, Zongtao He, Mengjiao Shen, Jingwei Yang, Chengju Liu, Qijun Chen"
+    },
+    {
+     "title": "Fast and Informative Model Selection Using Learning Curve Cross-Validation",
+     "year": 2023,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 62,
+     "doi": "10.1109/tpami.2023.3251957",
+     "authors": "Felix Mohr, Jan N. van Rijn"
+    },
+    {
+     "title": "Learning to Follow and Generate Instructions for Language-Capable Navigation",
+     "year": 2024,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 9,
+     "doi": "10.1109/tpami.2023.3341828",
+     "authors": "Xiaohan Wang, Wenguan Wang, Jiayi Shao, Yi Yang"
+    },
+    {
+     "title": "Enhancing Video-Language Representations With Structural Spatio-Temporal Alignment",
+     "year": 2024,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 47,
+     "doi": "10.1109/tpami.2024.3393452",
+     "authors": "Hao Fei, Shengqiong Wu, Meishan Zhang, Min Zhang, Tat-Seng Chua, Shuicheng Yan"
+    },
+    {
+     "title": "NAP-Tuning: Neural Augmented Prompt Tuning for Adversarially Robust Vision-Language Models",
+     "year": 2026,
+     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+     "citationCount": 0,
+     "doi": "10.1109/tpami.2026.3659598",
+     "authors": "Jiaming Zhang, Xin Wang, Xingjun Ma, Lingyu Qiu, Yu-Gang Jiang, Jitao Sang"
+    }
+   ]
+  }
+ }
+}

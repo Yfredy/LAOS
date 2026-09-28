@@ -1,0 +1,341 @@
+{
+ "venue": "MMSys",
+ "category": "multimedia",
+ "canonical_venue_string": "Proceedings of the ACM Multimedia Systems Conference",
+ "wave": "B",
+ "generated_at": "2026-09-29 01:22:36",
+ "topics": [
+  "multimodal agent",
+  "audio language model",
+  "sound event detection",
+  "neural codec",
+  "on-device inference"
+ ],
+ "request_budget": {
+  "successful": 22,
+  "limit": 300,
+  "attempts": 5
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "multimodal agent": {
+   "total": 28603,
+   "kept": 10,
+   "papers": [
+    {
+     "title": "Multimodal Cascaded Framework with Metric Learning Robust to Missing Modalities for Person Classification",
+     "year": 2023,
+     "venue": "Proceedings of the 14th ACM Multimedia Systems Conference",
+     "citationCount": 4,
+     "doi": "10.1145/3587819.3590989",
+     "authors": "Vijay John, Yasutomo Kawanishi"
+    },
+    {
+     "title": "Explainability methods for machine learning systems for multimodal medical datasets",
+     "year": 2022,
+     "venue": "Proceedings of the 13th ACM Multimedia Systems Conference",
+     "citationCount": 3,
+     "doi": "10.1145/3524273.3533925",
+     "authors": "Andrea M. Storås, Inga Strümke, Michael A. Riegler, Pål Halvorsen"
+    },
+    {
+     "title": "AI-assisted affective computing and spatial audio for interactive multimodal virtual environments",
+     "year": 2022,
+     "venue": "Proceedings of the 13th ACM Multimedia Systems Conference",
+     "citationCount": 0,
+     "doi": "10.1145/3524273.3533930",
+     "authors": "Juan Antonio De Rus, Mario Montagud, Maximo Cobos"
+    },
+    {
+     "title": "AMIS: An Audiovisual Dataset for Multimodal XR Research",
+     "year": 2025,
+     "venue": "Proceedings of the 16th ACM Multimedia Systems Conference",
+     "citationCount": 2,
+     "doi": "10.1145/3712676.3718344",
+     "authors": "Abhinav Bhattacharya, Luís Fernando de Souza Cardoso, Andy Schleising, Gareth Rendle, Adrian Kreskowski, Felix Immohr"
+    },
+    {
+     "title": "MultiSenseVR: An open multimodal dataset for human pose estimation and perception in interactive VR",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Multimedia Systems Conference 2026",
+     "citationCount": 2,
+     "doi": "10.1145/3793853.3799815",
+     "authors": "Javad Sameri, Nabeel Nisar Bhat, Filip De Turck, Rafael Berkvens, Jeroen Famaey, Maria Torres Vega"
+    },
+    {
+     "title": "CADENCE: Collaborative Multi-Agent Dual-Objective Framework for Intelligent CDN Selection",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Multimedia Systems Conference 2026",
+     "citationCount": 1,
+     "doi": "10.1145/3793853.3795756",
+     "authors": "Jashanjot Singh Sidhu, Chidambar Joshi, Abdelhak Bentaleb"
+    },
+    {
+     "title": "CADENCE: A Multi-Agent CDN Steering and Experimentation Platform for Dash.js",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Multimedia Systems Conference 2026",
+     "citationCount": 1,
+     "doi": "10.1145/3793853.3798190",
+     "authors": "Jashanjot Singh Sidhu, Mohammad Parsa Toopchinezhad, Abdelhak Bentaleb"
+    },
+    {
+     "title": "Multiuser Virtual Experiences powered by Holoportation Technologies and Multimodal Human-Computer Interaction (HCI)",
+     "year": 2024,
+     "venue": "Proceedings of the ACM Multimedia Systems Conference 2024 on ZZZ",
+     "citationCount": 2,
+     "doi": "10.1145/3625468.3652917",
+     "authors": "Mohamad Hjeij, Mario Montagud, David Rincón"
+    },
+    {
+     "title": "Multimodal AI-Based Summarization and Storytelling for Soccer on Social Media",
+     "year": 2024,
+     "venue": "Proceedings of the ACM Multimedia Systems Conference 2024 on ZZZ",
+     "citationCount": 15,
+     "doi": "10.1145/3625468.3652197",
+     "authors": "Mehdi Houshmand Sarkhoosh, Sushant Gautam, Cise Midoglu, Saeed Shafiee Sabet, Pål Halvorsen"
+    },
+    {
+     "title": "APEIRON",
+     "year": 2024,
+     "venue": "Proceedings of the ACM Multimedia Systems Conference 2024 on ZZZ",
+     "citationCount": 3,
+     "doi": "10.1145/3625468.3652186",
+     "authors": "Nunzio Barone, Walter Brescia, Saverio Mascolo, Luca De Cicco"
+    }
+   ]
+  },
+  "audio language model": {
+   "total": 151633,
+   "kept": 12,
+   "papers": [
+    {
+     "title": "Audio Made Simple: A Modern Framework for Audio Processing",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Multimedia Systems Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3793853.3799811",
+     "authors": "Jack Geraghty, Fatemeh Golpayegani, Andrew Hines"
+    },
+    {
+     "title": "Self-Supervised Contrastive Learning for Robust Audio-Sheet Music Retrieval Systems",
+     "year": 2023,
+     "venue": "Proceedings of the 14th ACM Multimedia Systems Conference",
+     "citationCount": 4,
+     "doi": "10.1145/3587819.3590968",
+     "authors": "Luis Carvalho, Tobias Washüttl, Gerhard Widmer"
+    },
+    {
+     "title": "AI-assisted affective computing and spatial audio for interactive multimodal virtual environments",
+     "year": 2022,
+     "venue": "Proceedings of the 13th ACM Multimedia Systems Conference",
+     "citationCount": 0,
+     "doi": "10.1145/3524273.3533930",
+     "authors": "Juan Antonio De Rus, Mario Montagud, Maximo Cobos"
+    },
+    {
+     "title": "AQP",
+     "year": 2022,
+     "venue": "Proceedings of the 13th ACM Multimedia Systems Conference",
+     "citationCount": 0,
+     "doi": "10.1145/3524273.3532885",
+     "authors": "Jack Geraghty, Jiazheng Li, Alessandro Ragano, Andrew Hines"
+    },
+    {
+     "title": "Spatial audio in 360° videos",
+     "year": 2022,
+     "venue": "Proceedings of the 13th ACM Multimedia Systems Conference",
+     "citationCount": 22,
+     "doi": "10.1145/3524273.3528179",
+     "authors": "Amit Hirway, Yuansong Qiao, Niall Murray"
+    },
+    {
+     "title": "CrispSearch",
+     "year": 2022,
+     "venue": "Proceedings of the 13th ACM Multimedia Systems Conference",
+     "citationCount": 2,
+     "doi": "10.1145/3524273.3528181",
+     "authors": "Zhiming Hu, Lan Xiao, Mete Kemertas, Caleb Phillips, Iqbal Mohomed, Afsaneh Fazly"
+    },
+    {
+     "title": "Evaluating Visual Attention and QoE for 360° videos with non-spatial and spatial audio",
+     "year": 2024,
+     "venue": "Proceedings of the ACM Multimedia Systems Conference 2024 on ZZZ",
+     "citationCount": 5,
+     "doi": "10.1145/3625468.3652916",
+     "authors": "Amit Hirway, Yuansong Qiao, Niall Murray"
+    },
+    {
+     "title": "FedVSR: Towards Model-Agnostic Federated Learning in Video Super-Resolution",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Multimedia Systems Conference 2026",
+     "citationCount": 1,
+     "doi": "10.1145/3793853.3795752",
+     "authors": "Ali Mollaahmadi Dehaghi, Hossein KhademSohi, Reza Razavi, Steve Drew, Mohammad Moshirpour"
+    },
+    {
+     "title": "Extending 3-DoF Metrics to Model User Behaviour Similarity in 6-DoF Immersive Applications",
+     "year": 2023,
+     "venue": "Proceedings of the 14th ACM Multimedia Systems Conference",
+     "citationCount": 7,
+     "doi": "10.1145/3587819.3590976",
+     "authors": "Silvia Rossi, Irene Viola, Laura Toni, Pablo Cesar"
+    },
+    {
+     "title": "The World is Too Big to Download: 3D Model Retrieval for World-Scale Augmented Reality",
+     "year": 2023,
+     "venue": "Proceedings of the 14th ACM Multimedia Systems Conference",
+     "citationCount": 2,
+     "doi": "10.1145/3587819.3590970",
+     "authors": "Yi-Zhen Tsai, James Luo, Yunshu Wang, Jiasi Chen"
+    },
+    {
+     "title": "A\n                    <scp>tom</scp>\n                    : Efficient On-Device Video-Language Pipelines Through Modular Reuse",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Multimedia Systems Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3793853.3795759",
+     "authors": "Kunjal Panchal, Saayan Mitra, Somdeb Sarkhel, Haoliang Wang, Ishita Dasgupta, Gang Wu"
+    },
+    {
+     "title": "3DeformR",
+     "year": 2022,
+     "venue": "Proceedings of the 13th ACM Multimedia Systems Conference",
+     "citationCount": 5,
+     "doi": "10.1145/3524273.3528180",
+     "authors": "Kit Yung Lam, Lik-Hang Lee, Pan Hui"
+    }
+   ]
+  },
+  "sound event detection": {
+   "total": 141132,
+   "kept": 6,
+   "papers": [
+    {
+     "title": "Accelerated Event-Based Feature Detection and Compression for Surveillance Video Systems",
+     "year": 2024,
+     "venue": "Proceedings of the ACM Multimedia Systems Conference 2024 on ZZZ",
+     "citationCount": 5,
+     "doi": "10.1145/3625468.3647618",
+     "authors": "Andrew C. Freeman, Ketan Mayer-Patel, Montek Singh"
+    },
+    {
+     "title": "The ADΔER Framework: Tools for Event Video Representations",
+     "year": 2023,
+     "venue": "Proceedings of the 14th ACM Multimedia Systems Conference",
+     "citationCount": 2,
+     "doi": "10.1145/3587819.3593028",
+     "authors": "Andrew C. Freeman"
+    },
+    {
+     "title": "Remote Particle Trajectory Tracking using Event-Based Vision Streams",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Multimedia Systems Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3793853.3795751",
+     "authors": "Pina Kolling, Andrew C. Freeman, Amr Rizk"
+    },
+    {
+     "title": "Motion segmentation and tracking for integrating event cameras",
+     "year": 2021,
+     "venue": "Proceedings of the 12th ACM Multimedia Systems Conference",
+     "citationCount": 4,
+     "doi": "10.1145/3458305.3463373",
+     "authors": "Andrew C. Freeman, Chris Burgess, Ketan Mayer-Patel"
+    },
+    {
+     "title": "An Asynchronous Intensity Representation for Framed and Event Video Sources",
+     "year": 2023,
+     "venue": "Proceedings of the 14th ACM Multimedia Systems Conference",
+     "citationCount": 5,
+     "doi": "10.1145/3587819.3590969",
+     "authors": "Andrew C. Freeman, Montek Singh, Ketan Mayer-Patel"
+    },
+    {
+     "title": "An Open Software Suite for Event-Based Video",
+     "year": 2024,
+     "venue": "Proceedings of the ACM Multimedia Systems Conference 2024 on ZZZ",
+     "citationCount": 1,
+     "doi": "10.1145/3625468.3652169",
+     "authors": "Andrew C. Freeman"
+    }
+   ]
+  },
+  "neural codec": {
+   "total": 81566,
+   "kept": 5,
+   "papers": [
+    {
+     "title": "Multi-codec ultra high definition 8K MPEG-DASH dataset",
+     "year": 2022,
+     "venue": "Proceedings of the 13th ACM Multimedia Systems Conference",
+     "citationCount": 39,
+     "doi": "10.1145/3524273.3532889",
+     "authors": "Babak Taraghi, Hadi Amirpour, Christian Timmerer"
+    },
+    {
+     "title": "Light field image quality assessment method based on deep graph convolutional neural network",
+     "year": 2022,
+     "venue": "Proceedings of the 13th ACM Multimedia Systems Conference",
+     "citationCount": 1,
+     "doi": "10.1145/3524273.3533927",
+     "authors": "Sana Alamgeer, Muhammad Irshad, Mylène C. Q. Farias"
+    },
+    {
+     "title": "MobileCodec",
+     "year": 2022,
+     "venue": "Proceedings of the 13th ACM Multimedia Systems Conference",
+     "citationCount": 34,
+     "doi": "10.1145/3524273.3532906",
+     "authors": "Hoang Le, Liang Zhang, Amir Said, Guillaume Sautiere, Yang Yang, Pranav Shrestha"
+    },
+    {
+     "title": "Fidelity as Forgetting: Rethinking Reconstruction in Neural Volumetric Media",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Multimedia Systems Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3793853.3798180",
+     "authors": "Yin Bing, Shuyi Wang, Angela Chulei Tang, Siyun Wang, Yuan Zhang"
+    },
+    {
+     "title": "OASIS",
+     "year": 2024,
+     "venue": "Proceedings of the ACM Multimedia Systems Conference 2024 on ZZZ",
+     "citationCount": 7,
+     "doi": "10.1145/3625468.3647610",
+     "authors": "Shuowei Jin, Ruiyang Zhu, Ahmad Hassan, Xiao Zhu, Xumiao Zhang, Z. Morley Mao"
+    }
+   ]
+  },
+  "on-device inference": {
+   "total": 18426,
+   "kept": 3,
+   "papers": [
+    {
+     "title": "CrispSearch",
+     "year": 2022,
+     "venue": "Proceedings of the 13th ACM Multimedia Systems Conference",
+     "citationCount": 2,
+     "doi": "10.1145/3524273.3528181",
+     "authors": "Zhiming Hu, Lan Xiao, Mete Kemertas, Caleb Phillips, Iqbal Mohomed, Afsaneh Fazly"
+    },
+    {
+     "title": "Continuous-time feedback device to enhance situation awareness during take-over requests in automated driving conditions",
+     "year": 2022,
+     "venue": "Proceedings of the 13th ACM Multimedia Systems Conference",
+     "citationCount": 2,
+     "doi": "10.1145/3524273.3532905",
+     "authors": "Guilherme Daniel Gomes, Ronan Flynn, Niall Murray"
+    },
+    {
+     "title": "A\n                    <scp>tom</scp>\n                    : Efficient On-Device Video-Language Pipelines Through Modular Reuse",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Multimedia Systems Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3793853.3795759",
+     "authors": "Kunjal Panchal, Saayan Mitra, Somdeb Sarkhel, Haoliang Wang, Ishita Dasgupta, Gang Wu"
+    }
+   ]
+  }
+ }
+}

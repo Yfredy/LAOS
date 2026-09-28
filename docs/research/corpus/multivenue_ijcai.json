@@ -1,0 +1,3532 @@
+{
+ "venue": "IJCAI",
+ "category": "ml",
+ "canonical_venue_string": "Proceedings of the International Joint Conference on Artificial Intelligence",
+ "wave": "B",
+ "generated_at": "2026-09-29 01:22:01",
+ "topics": [
+  "LLM agent tool use",
+  "agent memory",
+  "audio language model",
+  "multimodal agent",
+  "on-device inference",
+  "self-supervised speech"
+ ],
+ "request_budget": {
+  "successful": 12,
+  "limit": 300,
+  "attempts": 6
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "LLM agent tool use": {
+   "total": 46181,
+   "kept": 45,
+   "papers": [
+    {
+     "title": "An LLM-enhanced Agent-based Simulation Tool for Information Propagation",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2024/1007",
+     "authors": "Yuxuan Hu, Gemju Sherpa, Lan Zhang, Weihua Li, Quan Bai, Yijun Wang"
+    },
+    {
+     "title": "Tool Call Dependency Graphs Enable Deep LLM Reasoning Evaluation and Better Explanations",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/64",
+     "authors": "Nick Ferguson, Alan Bundy, Kwabena Nuamah"
+    },
+    {
+     "title": "LLM-to-Map: Transparent Conversational Tool Orchestration for Real-Time Multi-Domain Simulation",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/958",
+     "authors": "Marouane Benbrahim, Kavya Gautam, Zonghan Zhang, Zhiqian Chen"
+    },
+    {
+     "title": "Self-Refine Learning in LLM Multi-Agent Systems for Legal Norm Cognition and Compliance",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/848",
+     "authors": "Rongxin Cheng, Jianhui Yang, Bohan Xiong, Ning Zheng, Yiran Hu, Qingjing Chen"
+    },
+    {
+     "title": "MIRROR: Multi-agent Intra- and Inter-Reflection for Optimized Reasoning in Tool Learning",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2025/14",
+     "authors": "Zikang Guo, Benfeng Xu, Xiaorui Wang, Zhendong Mao"
+    },
+    {
+     "title": "How to Enable LLM with 3D Capacity? A Survey of Spatial Reasoning in LLM",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 17,
+     "doi": "10.24963/ijcai.2025/1200",
+     "authors": "Jirong Zha, Yuxuan Fan, Xiao Yang, Chen Gao, Xinlei Chen"
+    },
+    {
+     "title": "How to Enable LLM with 3D Capacity? A Survey of Spatial Reasoning in LLM",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2024/1200",
+     "authors": "Jirong Zha, Yuxuan Fan, Xiao Yang, Chen Gao, Xinlei Chen"
+    },
+    {
+     "title": "Personalizing Long-Term Interactions with LLM-Based Agents",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/953",
+     "authors": "Rebecca Westhäußer"
+    },
+    {
+     "title": "Information Entropy for LLM-generated Text Detection",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/226",
+     "authors": "Xiaoquan Yi, Haozhao Wang, Jingcai Guo"
+    },
+    {
+     "title": "Wisdom from Diversity: Bias Mitigation Through Hybrid Human-LLM Crowds",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2025/37",
+     "authors": "Axel Abels, Tom Lenaerts"
+    },
+    {
+     "title": "LLM-Based Intelligent Tutoring Systems: A Survey",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/875",
+     "authors": "Li Kong, Jianwen Sun, Junsheng Zhou, Vincent Ng"
+    },
+    {
+     "title": "LPDetective: Dusting the LLM Chats for Prompt Template Abusers",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/847",
+     "authors": "Yang Luo, Qingni Shen, Zhonghai Wu"
+    },
+    {
+     "title": "LLM-Summarized Interest Distillation for Multimedia Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/300",
+     "authors": "Meng Jian, Zhuoyang Xia, Haolun Fan, Lifang Wu"
+    },
+    {
+     "title": "NeuroSymbolic LLM for Mathematical Reasoning and Software Engineering",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2024/961",
+     "authors": "Prithwish Jana"
+    },
+    {
+     "title": "LLM-guided Cutting-plane Management for Mixed-integer Linear Programming",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/736",
+     "authors": "Zetao Zheng, Zhe Wang, Jie Shao"
+    },
+    {
+     "title": "Budget-Aware LLM Quantization and Low-Rank Correction via Information-Guided Subspace Matrices",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/475",
+     "authors": "Sinuo Fan, Yingjie Lao"
+    },
+    {
+     "title": "Unlocking More Granular Control of Memory-Efficient LLM Finetuning",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/555",
+     "authors": "Yezhen Wang, Zhouhao Yang, Fanyi Pu, Kenji Kawaguchi"
+    },
+    {
+     "title": "VaryBalance: Detecting LLM-Generated Text Through Variation",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/648",
+     "authors": "Xuecong Li, Xiaohong Li, Qiang Hu, Yao Zhang, Junjie Wang"
+    },
+    {
+     "title": "LEKA: LLM-Enhanced Knowledge Augmentation",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 4,
+     "doi": "10.24963/ijcai.2025/781",
+     "authors": "Xinhao Zhang, Jinghan Zhang, Fengran Mo, Dongjie Wang, Yanjie Fu, Kunpeng Liu"
+    },
+    {
+     "title": "Cross-Relational Preference Learning for Better LLM Instruction Following",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/439",
+     "authors": "Runsheng Li, Kai Sun, Bin Shi, Bo Dong"
+    },
+    {
+     "title": "Semi-Clairvoyant Scheduling of Speculative Decoding Requests to Minimize LLM Inference Latency",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/951",
+     "authors": "Ruixiao Li, Fahao Chen, Peng Li"
+    },
+    {
+     "title": "EDGE: Efficient Data Selection for LLM Agents via Guideline Effectiveness",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/932",
+     "authors": "Yunxiao Zhang, Guanming Xiong, Haochen Li, Wen Zhao"
+    },
+    {
+     "title": "Directional Hallucinations: Ideological Drift in News-Grounded LLM Question Answering",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/831",
+     "authors": "Chendi Wang, Liam Cunningham, Tom Yishay, Jieying Chen"
+    },
+    {
+     "title": "A Smart Multimodal Healthcare Copilot with Powerful LLM Reasoning",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2025/1278",
+     "authors": "Xuejiao Zhao, Siyan Liu, Su-Yin Yang, Chunyan Miao"
+    },
+    {
+     "title": "Leveraging Implicit Contexts via LLM–Graph Fusion for Temporal Knowledge Graph Reasoning",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/727",
+     "authors": "Zeshu Tian, Junjie Tao, Hongli Zhang"
+    },
+    {
+     "title": "LLM-Based Agents on the Edge: A Survey of Privacy, Scalability, Heterogeneity, and Autonomy",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/858",
+     "authors": "Nikita Agrawal, Ruben Mayer"
+    },
+    {
+     "title": "AI4Contracts: LLM &amp; RAG-Powered Encoding of Financial Derivative Contracts",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2025/1034",
+     "authors": "Maruf Ahmed Mridul, Ian Sloyan, Aparna Gupta, Oshani Seneviratne"
+    },
+    {
+     "title": "LLM as Clinical Graph Structure Refiner: Enhancing Representation Learning in EEG Seizure Diagnosis",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/753",
+     "authors": "Lincan Li, Zheng Chen, Yushun Dong"
+    },
+    {
+     "title": "LLM-enhanced Score Function Evolution for Causal Structure Learning",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2025/1010",
+     "authors": "Zidong Wang, Fei Liu, Qi Feng, Qingfu Zhang, Xiaoguang Gao"
+    },
+    {
+     "title": "Dynamic and Adaptive Feature Generation with LLM",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 4,
+     "doi": "10.24963/ijcai.2025/782",
+     "authors": "Xinhao Zhang, Jinghan Zhang, Banafsheh Rekabdar, Yuanchun Zhou, Pengfei Wang, Kunpeng Liu"
+    },
+    {
+     "title": "Grammar-State Aware Beam Search for Enhancing Structural Diversity in LLM Generation",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/639",
+     "authors": "Hantao Hua, Jiming Su, Yiping Yao, Feng Zhu"
+    },
+    {
+     "title": "Uncovering Discriminatory Behavior in LLM-Based CV Screening Systems with Composite Statistical Metamorphic Relations",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/855",
+     "authors": "Tetyana Turiy, Simon Speth, Alexander Pretschner"
+    },
+    {
+     "title": "Expanding the Category of Classifiers with LLM Supervision",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2025/657",
+     "authors": "Derui Lyu, Xiangyu Wang, Taiyu Ban, Lyuzhou Chen, Xiren Zhou, Huanhuan Chen"
+    },
+    {
+     "title": "SplitScaling: Adaptive Scaling for Disaggregated LLM Serving Against Traffic Bursts via DRL",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/568",
+     "authors": "Wei Xiao, Xuefeng Huang, Weijia Shi, Baokang Zhao"
+    },
+    {
+     "title": "Beyond Scaling: A Survey of Data-Efficient Learning for LLM Agents",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/893",
+     "authors": "Yaqing Wang, Zhenlin Luo, Peiyao Zhao, Yunfeng Cai, Quanming Yao"
+    },
+    {
+     "title": "SecV: LLM-based Secure Verilog Generation with Clue-Guided Exploration on Hardware-CWE Knowledge Graph",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2025/895",
+     "authors": "Fanghao Fan, YingJie Xia, Li Kuang"
+    },
+    {
+     "title": "Enhancing Automated Grading in Science Education through LLM-Driven Causal Reasoning and Multimodal Analysis",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 4,
+     "doi": "10.24963/ijcai.2025/1150",
+     "authors": "Haohao Zhu, Tingting Li, Peng He, Jiayu Zhou"
+    },
+    {
+     "title": "POLO: An LLM-Powered Project-Level Code Performance Optimization Framework",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2025/814",
+     "authors": "Jiameng Bai, Ruoyi Xu, Sai Wu, Dingyu Yang, Junbo Zhao, Gang Chen"
+    },
+    {
+     "title": "LLM-Guided Monte Carlo Tree Search over Knowledge Graphs: Composing Mechanistic Explanations for Drug–Disease Pairs",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/751",
+     "authors": "Rishabh Jakhar, Michel Dumontier, Remzi Celebi"
+    },
+    {
+     "title": "SteelAgent: An LLM-Orchestrated System for Physics-Informed Steel Property Prediction  and Generalization Auditing",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/1000",
+     "authors": "Aleksandr Volkov, Roman Sultimov, Mikhail Kuzin, Yury Maximov"
+    },
+    {
+     "title": "IC3-Evolve: Proof-/Witness-Gated Offline LLM-Driven Heuristic Evolution for IC3 Hardware Model Checking",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/31",
+     "authors": "Mingkai Miao, Guangyu Hu, Ziyi Yang, Hongce Zhang"
+    },
+    {
+     "title": "Efficient Dynamic Ensembling for Multiple LLM Experts",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2025/900",
+     "authors": "Jinwu Hu, Yufeng Wang, Shuhai Zhang, Kai Zhou, Guohao Chen, Yu Hu"
+    },
+    {
+     "title": "Multi-Agent Belief Base Revision",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 5,
+     "doi": "10.24963/ijcai.2021/270",
+     "authors": "Emiliano Lorini, Francois Schwarzentruber"
+    },
+    {
+     "title": "Propagating Unsafe Actions in LLM Controlled Multi-Robot Collaboration via Single Robot Compromise",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/71",
+     "authors": "Zhen Huang, Zhihuang Liu, Mengxuan Luo, Weishang Wu, Zhiping Cai"
+    },
+    {
+     "title": "UrbanMix: LLM-Guided Simulation of Mixed Autonomy Traffic with Heterogeneous Behavioral Profiles",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/997",
+     "authors": "Roman Sultimov, Daniil Efimov, Ivan Novikov, Aleksandr Volkov, Yury Maximov"
+    }
+   ]
+  },
+  "agent memory": {
+   "total": 27251,
+   "kept": 94,
+   "papers": [
+    {
+     "title": "Multi-Agent Belief Base Revision",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 5,
+     "doi": "10.24963/ijcai.2021/270",
+     "authors": "Emiliano Lorini, Francois Schwarzentruber"
+    },
+    {
+     "title": "Multi-agent Approach to Resource Allocation in Autonomous Vehicle Fleets",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2021/671",
+     "authors": "Alaa Daoud"
+    },
+    {
+     "title": "On the Learnability of Knowledge in Multi-Agent Logics",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2021/685",
+     "authors": "Ionela G Mocanu"
+    },
+    {
+     "title": "Reducing Bus Bunching with Asynchronous Multi-Agent Reinforcement Learning",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 22,
+     "doi": "10.24963/ijcai.2021/60",
+     "authors": "Jiawei Wang, Lijun Sun"
+    },
+    {
+     "title": "Connect Multi-Agent Path Finding: Generation and Visualization",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2021/714",
+     "authors": "Arthur Queffelec, Ocan Sankur, Francois Schwarzentruber"
+    },
+    {
+     "title": "Improving Multi-agent Coordination by Learning to Estimate Contention",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2021/18",
+     "authors": "Panayiotis Danassis, Florian Wiedemair, Boi Faltings"
+    },
+    {
+     "title": "Multi-Agent Abstract Argumentation Frameworks With Incomplete Knowledge of Attacks",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2021/265",
+     "authors": "Andreas Herzig, Antonio Yuste Ginel"
+    },
+    {
+     "title": "Multi-Agent Intention Progression with Black-Box Agents",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2021/19",
+     "authors": "Michael Dann, Yuan Yao, Brian Logan, John Thangarajah"
+    },
+    {
+     "title": "Addressing Downward Memory Loss in Hierarchical GNN Forecasters Through Memory-Buffered Decoding",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/462",
+     "authors": "Thomas Bailie, S. Karthik Mukkavilli, Varvara Vetrova, Yun Sing Koh"
+    },
+    {
+     "title": "ADMN: Agent-Driven Modular Network for Dynamic Parameter Sharing in Cooperative Multi-Agent Reinforcement Learning",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2024/34",
+     "authors": "Yang Yu, Qiyue Yin, Junge Zhang, Pei Xu, Kaiqi Huang"
+    },
+    {
+     "title": "Model-based Multi-agent Policy Optimization with Adaptive Opponent-wise Rollouts",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 18,
+     "doi": "10.24963/ijcai.2021/466",
+     "authors": "Weinan Zhang, Xihuai Wang, Jian Shen, Ming Zhou"
+    },
+    {
+     "title": "Solving Continuous Control with Episodic Memory",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 15,
+     "doi": "10.24963/ijcai.2021/365",
+     "authors": "Igor Kuznetsov, Andrey Filchenkov"
+    },
+    {
+     "title": "Anytime Multi-Agent Path Finding via Large Neighborhood Search",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 60,
+     "doi": "10.24963/ijcai.2021/568",
+     "authors": "Jiaoyang Li, Zhe Chen, Daniel Harabor, Peter J. Stuckey, Sven Koenig"
+    },
+    {
+     "title": "Principal-Agent Boolean Games",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2023/17",
+     "authors": "David Hyland, Julian Gutierrez, Michael Wooldridge"
+    },
+    {
+     "title": "Streaming Multi-agent Pathfinding",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2025/31",
+     "authors": "Mingkai Tang, Lu Gan, Kaichen Zhang"
+    },
+    {
+     "title": "Emergent Prosociality in Multi-Agent Games Through Gifting",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 15,
+     "doi": "10.24963/ijcai.2021/61",
+     "authors": "Woodrow Z. Wang, Mark Beliaev, Erdem Bıyık, Daniel A. Lazar, Ramtin Pedarsani, Dorsa Sadigh"
+    },
+    {
+     "title": "Agent-based Modeling for Policy-Making in Inequity Contexts",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/1236",
+     "authors": "Alba Aguilera"
+    },
+    {
+     "title": "Towards Streamlined Learning and Search for Multi-Agent Optimization",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/909",
+     "authors": "Thomy Phan"
+    },
+    {
+     "title": "Improving LaCAM for Scalable Eventually Optimal Multi-Agent Pathfinding",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 29,
+     "doi": "10.24963/ijcai.2023/28",
+     "authors": "Keisuke Okumura"
+    },
+    {
+     "title": "Towards Formal Verification of Neuro-symbolic Multi-agent Systems",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2023/800",
+     "authors": "Panagiotis Kouvaros"
+    },
+    {
+     "title": "External Memory Matters: Generalizable Object-Action Memory for Retrieval-Augmented Long-Term Video Understanding",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2025/97",
+     "authors": "Jisheng Dang, Huicheng Zheng, Xudong Wu, Jingmei Jiao, Bimei Wang, Jun Yang"
+    },
+    {
+     "title": "Improved MMS Approximations for Few Agent Types",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/452",
+     "authors": "Parnian Shahkar, Jugal Garg"
+    },
+    {
+     "title": "Problem Compilation for Multi-Agent Path Finding: a Survey",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 12,
+     "doi": "10.24963/ijcai.2022/783",
+     "authors": "Pavel Surynek"
+    },
+    {
+     "title": "Multi-Agent Non-Discriminatory Contracts",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/376",
+     "authors": "Ke Ding, Bo Li, Ankang Sun"
+    },
+    {
+     "title": "Multi-Agent Reinforcement Learning for Automated Peer-to-Peer Energy Trading in Double-Side Auction Market",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 45,
+     "doi": "10.24963/ijcai.2021/401",
+     "authors": "Dawei Qiu, Jianhong Wang, Junkai Wang, Goran Strbac"
+    },
+    {
+     "title": "Safe Multi-agent Learning via Trapping Regions",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2023/10",
+     "authors": "Aleksander Czechowski, Frans A. Oliehoek"
+    },
+    {
+     "title": "MFVFD: A Multi-Agent Q-Learning Approach to Cooperative and Non-Cooperative Tasks",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 9,
+     "doi": "10.24963/ijcai.2021/70",
+     "authors": "Tianhao Zhang, Qiwei Ye, Jiang Bian, Guangming Xie, Tie-Yan Liu"
+    },
+    {
+     "title": "Variational Offline Multi-agent Skill Discovery",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/538",
+     "authors": "Jiayu Chen, Tian Lan, Vaneet Aggarwal"
+    },
+    {
+     "title": "Drowning in Degrees of Freedom: One Agent for Every Task",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/906",
+     "authors": "Steven James"
+    },
+    {
+     "title": "Multi-Agent Corridor Generating Algorithm",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/28",
+     "authors": "Arseni Pertzovskiy, Roni Stern, Roie Zivan, Ariel Felner"
+    },
+    {
+     "title": "Practical Model Reductions for Verification of Multi-Agent Systems",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2023/834",
+     "authors": "Wojciech Jamroga, Yan Kim"
+    },
+    {
+     "title": "Approximate EFX Under Limited Agent Heterogeneity",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/18",
+     "authors": "Vishwa Prakash HV, Ruta Mehta, Prajakta Nimbhorkar"
+    },
+    {
+     "title": "Toward Policy Explanations for Multi-Agent Reinforcement Learning",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 13,
+     "doi": "10.24963/ijcai.2022/16",
+     "authors": "Kayla Boggess, Sarit Kraus, Lu Feng"
+    },
+    {
+     "title": "Unveiling Concepts Learned by a World-Class Chess-Playing Agent",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 5,
+     "doi": "10.24963/ijcai.2023/541",
+     "authors": "Aðalsteinn Pálsson, Yngvi Björnsson"
+    },
+    {
+     "title": "Counterfactual Reasoning for Responsibility Attribution in Probabilistic Multi-Agent Systems",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/33",
+     "authors": "Chunyan Mu, Muhammad Najib"
+    },
+    {
+     "title": "Asynchronous Communication Aware Multi-Agent Task Allocation",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2023/30",
+     "authors": "Ben Rachmut, Sofia Amador Nelke, Roie Zivan"
+    },
+    {
+     "title": "Multi-Agent Systems with Quantitative Satisficing Goals",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2023/32",
+     "authors": "Senthil Rajasekaran, Suguman Bansal, Moshe Y. Vardi"
+    },
+    {
+     "title": "Explainable Multi-Agent Reinforcement Learning for Temporal Queries",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 10,
+     "doi": "10.24963/ijcai.2023/7",
+     "authors": "Kayla Boggess, Sarit Kraus, Lu Feng"
+    },
+    {
+     "title": "Transfer Learning Based Adaptive Automated Negotiating Agent Framework",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2022/67",
+     "authors": "Ayan Sengupta, Shinji Nakadai, Yasser Mohammad"
+    },
+    {
+     "title": "Offline Time-Independent Multi-Agent Path Planning",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2022/645",
+     "authors": "Keisuke Okumura, François Bonnet, Yasumasa Tamura, Xavier Défago"
+    },
+    {
+     "title": "N-Agent Ad Hoc Teamwork",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2024/974",
+     "authors": "Caroline Wang"
+    },
+    {
+     "title": "Adaptive TD-Lambda for Cooperative Multi-agent Reinforcement Learning",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/10",
+     "authors": "Yue Deng, Zirui Wang, Yin Zhang"
+    },
+    {
+     "title": "Decentralized Anomaly Detection in Cooperative Multi-Agent Reinforcement Learning",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 4,
+     "doi": "10.24963/ijcai.2023/19",
+     "authors": "Kiarash Kazari, Ezzeldin Shereen, Gyorgy Dan"
+    },
+    {
+     "title": "Competitive-Cooperative Multi-Agent Reinforcement Learning for Auction-based Federated Learning",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 20,
+     "doi": "10.24963/ijcai.2023/474",
+     "authors": "Xiaoli Tang, Han Yu"
+    },
+    {
+     "title": "Cybersecurity in AI-Enabled Digital Ecosystems: Evolutionary Game-Theoretic Modelling and Multi-Agent Defence",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/939",
+     "authors": "Adeela Bashir"
+    },
+    {
+     "title": "Asynchronous Credit Assignment for Multi-Agent Reinforcement Learning",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2025/20",
+     "authors": "Yongheng Liang, Hejun Wu, Haitao Wang, Hao Cai"
+    },
+    {
+     "title": "Synthesis of Communication Policies for Multi-Agent Systems Robust to Communication Restrictions",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2025/30",
+     "authors": "Saleh Soudijani, Rayna Dimitrova"
+    },
+    {
+     "title": "Dynamic Belief for Decentralized Multi-Agent Cooperative Learning",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2023/39",
+     "authors": "Yunpeng Zhai, Peixi Peng, Chen Su, Yonghong Tian"
+    },
+    {
+     "title": "Dual-Agent Reinforcement Learning for Automated Feature Generation",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/578",
+     "authors": "Wanfu Gao, Zengyao Man, Hanlin Pan, Kunpeng Liu"
+    },
+    {
+     "title": "Efficient Multi-Agent Communication via Shapley Message Value",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 8,
+     "doi": "10.24963/ijcai.2022/82",
+     "authors": "Di Xue, Lei Yuan, Zongzhang Zhang, Yang Yu"
+    },
+    {
+     "title": "k-Nearest Neighbors by Means of Sequence to Sequence Deep Neural Networks and Memory Networks",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2021/442",
+     "authors": "Yiming Xu, Diego Klabjan"
+    },
+    {
+     "title": "Beyond Strict Competition: Approximate Convergence of Multi-agent Q-Learning Dynamics",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2023/16",
+     "authors": "Aamal Hussain, Francesco Belardinelli, Georgios Piliouras"
+    },
+    {
+     "title": "Modeling Moral Choices in Social Dilemmas with Multi-Agent Reinforcement Learning",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 13,
+     "doi": "10.24963/ijcai.2023/36",
+     "authors": "Elizaveta Tennant, Stephen Hailes, Mirco Musolesi"
+    },
+    {
+     "title": "Multi-Agent Intention Progression with Reward Machines",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2022/31",
+     "authors": "Michael Dann, Yuan Yao, Natasha Alechina, Brian Logan, John Thangarajah"
+    },
+    {
+     "title": "MA2CL:Masked Attentive Contrastive Learning for Multi-Agent Reinforcement Learning",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 12,
+     "doi": "10.24963/ijcai.2023/470",
+     "authors": "Haolin Song, Mingxiao Feng, Wengang Zhou, Houqiang Li"
+    },
+    {
+     "title": "From Gridworlds to Warehouses: Adapting Lightweight One-shot Multi-Agent Pathfinding for AGVs",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/35",
+     "authors": "Hiroki Nagai, Keisuke Okumura"
+    },
+    {
+     "title": "Probabilistic Verification of Recurrent Neural Networks for Single and Multi-Agent Reinforcement Learning",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/30",
+     "authors": "Luca Marzari, Enrico Marchesini"
+    },
+    {
+     "title": "Scalable Anytime Planning for Multi-Agent MDPs (Extended Abstract)",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2022/735",
+     "authors": "Shushman Choudhury, Jayesh K. Gupta, Mykel J. Kochenderfer"
+    },
+    {
+     "title": "Exploration via Joint Policy Diversity for Sparse-Reward Multi-Agent Tasks",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 8,
+     "doi": "10.24963/ijcai.2023/37",
+     "authors": "Pei Xu, Junge Zhang, Kaiqi Huang"
+    },
+    {
+     "title": "Multi-Agent Advisor Q-Learning (Extended Abstract)",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2023/776",
+     "authors": "Sriram Ganapathi Subramanian, Matthew E. Taylor, Kate Larson, Mark Crowley"
+    },
+    {
+     "title": "Decentralized Autonomous Organizations and Multi-agent Systems for Artificial Intelligence Applications and Data Analysis",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 4,
+     "doi": "10.24963/ijcai.2022/828",
+     "authors": "Sante Dino Facchini"
+    },
+    {
+     "title": "Scalable Communication for Multi-Agent Reinforcement Learning via Transformer-Based Email Mechanism",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 10,
+     "doi": "10.24963/ijcai.2023/15",
+     "authors": "Xudong Guo, Daming Shi, Wenhui Fan"
+    },
+    {
+     "title": "Recursive Small-Step Multi-Agent A* for Dec-POMDPs",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2023/600",
+     "authors": "Wietze Koops, Nils Jansen, Sebastian Junges, Thiago D. Simão"
+    },
+    {
+     "title": "Continuous Multi-Attribute Recognition for Agent Behaviour Understanding",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/28",
+     "authors": "Sheryl Mantik, Michael Dann, Huong Ha, Minyi Li, Julie Porteous"
+    },
+    {
+     "title": "Multi-Agent Intention Recognition and Progression",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2023/11",
+     "authors": "Michael Dann, Yuan Yao, Natasha Alechina, Brian Logan, Felipe Meneguzzi, John Thangarajah"
+    },
+    {
+     "title": "Memory-Limited Model-Based Diagnosis (Extended Abstract)",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2023/789",
+     "authors": "Patrick Rodler"
+    },
+    {
+     "title": "Why Bad Coffee? Explaining BDI Agent Behaviour with Valuings (Extended Abstract)",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2022/810",
+     "authors": "Michael Winikoff, Galina Sidorenko, Virginia Dignum, Frank Dignum"
+    },
+    {
+     "title": "Context-Aware Multi-Agent Coordination: Learning Correlated Equilibria Under Situational Constraints",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/53",
+     "authors": "Libo Zhang, Zhirui Zeng, Yang Chen, Jiamou Liu"
+    },
+    {
+     "title": "Self-Supervised Neuron Segmentation with Multi-Agent Reinforcement Learning",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 21,
+     "doi": "10.24963/ijcai.2023/68",
+     "authors": "Yinda Chen, Wei Huang, Shenglong Zhou, Qi Chen, Zhiwei Xiong"
+    },
+    {
+     "title": "JURIS: Bringing the Jury System to Multi-Agent Summarization",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/23",
+     "authors": "Ziling Li, Junwei Zhang, Yixuan Yang, Yuqiang Han, Xiaolin Li"
+    },
+    {
+     "title": "Agent-based Modeling for Policy-Making in Inequity Contexts",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2024/1236",
+     "authors": "Alba Aguilera"
+    },
+    {
+     "title": "Generative Multi-Agent Collaboration in Embodied AI: A Systematic Review",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 14,
+     "doi": "10.24963/ijcai.2025/1190",
+     "authors": "Di Wu, Xian Wei, Guang Chen, Hao Shen, Bo Jin"
+    },
+    {
+     "title": "DPMAC: Differentially Private Communication for Cooperative Multi-Agent Reinforcement Learning",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 4,
+     "doi": "10.24963/ijcai.2023/516",
+     "authors": "Canzhe Zhao, Yanjie Ze, Jing Dong, Baoxiang Wang, Shuai Li"
+    },
+    {
+     "title": "Constructive Conflict-Driven Multi-Agent Reinforcement Learning for Strategic Diversity",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/24",
+     "authors": "Yuxiang Mai, Qiyue Yin, Wancheng Ni, Pei Xu, Kaiqi Huang"
+    },
+    {
+     "title": "Agent-based Modeling Meets the Capability Approach for Human Development: Simulating Homelessness Policy-making",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/1058",
+     "authors": "Alba Aguilera, Nardine Osman, Georgina Curto"
+    },
+    {
+     "title": "RoLocMe: A Robust Multi-agent Source Localization System with Learning-based Map Estimation",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/18",
+     "authors": "Thanh Dat Le, Lyuzhou Ye, Yan Huang"
+    },
+    {
+     "title": "Goal Consistency: An Effective Multi-Agent Cooperative Method for Multistage Tasks",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 4,
+     "doi": "10.24963/ijcai.2022/25",
+     "authors": "Xinning Chen, Xuan Liu, Shigeng Zhang, Bo Ding, Kenli Li"
+    },
+    {
+     "title": "Deep Hierarchical Communication Graph in Multi-Agent Reinforcement Learning",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 10,
+     "doi": "10.24963/ijcai.2023/24",
+     "authors": "Zeyang Liu, Lipeng Wan, Xue Sui, Zhuoran Chen, Kewu Sun, Xuguang Lan"
+    },
+    {
+     "title": "Multi-Agent Communication with Information Preserving Graph Contrastive Learning",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2025/8",
+     "authors": "Wei Du, Shifei Ding, Wei Guo, Yuqing Sun, Guoxian Yu, Lizhen Cui"
+    },
+    {
+     "title": "MIRROR: Multi-agent Intra- and Inter-Reflection for Optimized Reasoning in Tool Learning",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2025/14",
+     "authors": "Zikang Guo, Benfeng Xu, Xiaorui Wang, Zhendong Mao"
+    },
+    {
+     "title": "Learning to Send Reinforcements: Coordinating Multi-Agent Dynamic Police Patrol Dispatching and Rescheduling via Reinforcement Learning",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 4,
+     "doi": "10.24963/ijcai.2023/18",
+     "authors": "Waldy Joe, Hoong Chuin Lau"
+    },
+    {
+     "title": "Intent Hub: A Self-Healing Semantic Agent Routing System for Resolving Overlap in Agentic Systems",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/976",
+     "authors": "Chenrui Liang, Peng Xu, Xinyuan Liu"
+    },
+    {
+     "title": "AgentRetro: Agent-Enhanced Molecular Spectral Domain Generalization Framework for Retrosynthesis Prediction Under Mixed OOD Shifts",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/39",
+     "authors": "Jiahang Shen, Hongxin Xiang, Yiping Liu"
+    },
+    {
+     "title": "Data-Driven Revision of Conditional Norms in Multi-Agent Systems (Extended Abstract)",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2023/773",
+     "authors": "Davide Dell'Anna, Natasha Alechina, Fabiano Dalpiaz, Mehdi Dastani, Brian Logan"
+    },
+    {
+     "title": "Simulating Misinformation Diffusion on Social Media Through CoNVaI: A Textual- and Agent-Based Diffusion Model",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/29",
+     "authors": "Raquel Rodríguez-García, Roberto Centeno, Álvaro Rodrigo"
+    },
+    {
+     "title": "Advancing Embodied Agent Security: From Safety Benchmarks to Input Moderation",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/867",
+     "authors": "Ning Wang, Zihan Yan, Weiyang Li, Chuan Ma, He Chen, Tao Xiang"
+    },
+    {
+     "title": "Multi-Agent Reinforcement Learning for Traffic Signal Control through Universal Communication Method",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 25,
+     "doi": "10.24963/ijcai.2022/535",
+     "authors": "Qize Jiang, Minhao Qin, Shengmin Shi, Weiwei Sun, Baihua Zheng"
+    },
+    {
+     "title": "Hypertron: Explicit Social-Temporal Hypergraph Framework for Multi-Agent Forecasting",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 12,
+     "doi": "10.24963/ijcai.2022/189",
+     "authors": "Yu Tian, Xingliang Huang, Ruigang Niu, Hongfeng Yu, Peijin Wang, Xian Sun"
+    },
+    {
+     "title": "Responsibility in Multi-Agent Sequential Decision-Making: Comparing Human Judgments to Formal Models of Causal Attribution",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/853",
+     "authors": "Nripsuta Saxena, Stelios Triantafyllou, Goran Radanović"
+    },
+    {
+     "title": "Learn from Concepts: Towards the Purified Memory for Few-shot Learning",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 10,
+     "doi": "10.24963/ijcai.2021/123",
+     "authors": "Xuncheng Liu, Xudong Tian, Shaohui Lin, Yanyun Qu, Lizhuang Ma, Wang Yuan"
+    },
+    {
+     "title": "Local and Global Explanations of Agent Behavior: Integrating Strategy Summaries with Saliency Maps (Extended Abstract)",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2022/803",
+     "authors": "Tobias Huber, Katharina Weitz, Elisabeth André, Ofra Amir"
+    },
+    {
+     "title": "ArogyaSutra: A Multi-Agent Framework for Multimodal Medical Reasoning in Indic Languages",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/799",
+     "authors": "Tanmoy Kanti Halder, Akash Ghosh, Subhadip Baidya, Arijit Roy, Sriparna Saha"
+    },
+    {
+     "title": "Synthesizing Resilient Strategies for Infinite-Horizon Objectives in Multi-Agent Systems",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2023/20",
+     "authors": "David Klaška, Antonín Kučera, Martin Kurečka, Vít Musil, Petr Novotný, Vojtěch Řehák"
+    },
+    {
+     "title": "PRIME: A Decoupled Multi-agent Actor-Critic for Multi-view Clustering",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/478",
+     "authors": "Jing Gao, Xinxin Liu, Peng Li, Jianing Zhang, Meng Liu, Qingchen Zhang"
+    }
+   ]
+  },
+  "audio language model": {
+   "total": 159126,
+   "kept": 65,
+   "papers": [
+    {
+     "title": "Weakly-supervised Audio Temporal Forgery Localization via Progressive Audio-language Co-learning Network",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2025/65",
+     "authors": "Junyan Wu, Wenbo Xu, Wei Lu, Xiangyang Luo, Rui Yang, Shize Guo"
+    },
+    {
+     "title": "SepALM: Audio Language Models Are Error Correctors for Robust Speech Separation",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2025/912",
+     "authors": "Zhaoxi Mu, Xinyu Yang, Gang Wang"
+    },
+    {
+     "title": "Spotlighting Partially Visible Cinematic Language for Video-to-Audio Generation via Self-distillation",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/131",
+     "authors": "Feizhen Huang, Yu Wu, Yutian Lin, Bo Du"
+    },
+    {
+     "title": "Sign-to-Speech Model for Sign Language Understanding: A Case Study of Nigerian Sign Language",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 8,
+     "doi": "10.24963/ijcai.2022/855",
+     "authors": "Steven Kolawole, Opeyemi Osakuade, Nayan Saxena, Babatunde Kazeem Olorisade"
+    },
+    {
+     "title": "Pretrained Language Model for Text Generation: A Survey",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 98,
+     "doi": "10.24963/ijcai.2021/612",
+     "authors": "Junyi Li, Tianyi Tang, Wayne Xin Zhao, Ji-Rong Wen"
+    },
+    {
+     "title": "Discovering Sounding Objects by Audio Queries for Audio Visual Segmentation",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 28,
+     "doi": "10.24963/ijcai.2023/97",
+     "authors": "Shaofei Huang, Han Li, Yuqing Wang, Hongji Zhu, Jiao Dai, Jizhong Han"
+    },
+    {
+     "title": "BATON: Aligning Text-to-Audio Model Using Human Preference Feedback",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 7,
+     "doi": "10.24963/ijcai.2024/502",
+     "authors": "Huan Liao, Haonan Han, Kai Yang, Tianjiao Du, Rui Yang, Qinmei Xu"
+    },
+    {
+     "title": "Genetic Prompt Search via Exploiting Language Model Probabilities",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 7,
+     "doi": "10.24963/ijcai.2023/588",
+     "authors": "Jiangjiang Zhao, Zhuoran Wang, Fangchun Yang"
+    },
+    {
+     "title": "Adversarial Attack Framework Against Vision-Language Model Unlearning",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/510",
+     "authors": "Yimin Liu, Peng Jiang, Yajie Wang"
+    },
+    {
+     "title": "Toward Preference-aligned Large Language Models via Residual-based Model Steering",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/642",
+     "authors": "Lucio La Cava, Andrea Tagarelli"
+    },
+    {
+     "title": "On Conditional and Compositional Language Model Differentiable Prompting",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2023/460",
+     "authors": "Jonathan Pilault, Can Liu, Mohit Bansal, Markus Dreyer"
+    },
+    {
+     "title": "Large Language Model Meets Constraint Propagation",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2025/1115",
+     "authors": "Alexandre Bonlarron, Florian Régin, Elisabetta De Maria, Jean-Charles Régin"
+    },
+    {
+     "title": "WenyanGPT: A Large Language Model for Classical Chinese Tasks",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2025/927",
+     "authors": "Xinyu Yao, Mengdi Wang, Bo Chen, Xiaobing Zhao"
+    },
+    {
+     "title": "Markov Constraint as Large Language Model Surrogate",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2024/204",
+     "authors": "Alexandre Bonlarron, Jean-Charles Régin"
+    },
+    {
+     "title": "MLLM-ITM: Multimodal Large Language Model Promotes Inverse Tone Mapping",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/169",
+     "authors": "Jingchao Peng, Thomas Bashford-Rogers, Haitao Zhao, Kurt Debattista"
+    },
+    {
+     "title": "Black-box Prompt Tuning for Vision-Language Model as a Service",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 15,
+     "doi": "10.24963/ijcai.2023/187",
+     "authors": "Lang Yu, Qin Chen, Jiaju Lin, Liang He"
+    },
+    {
+     "title": "Unified Molecule-Text Language Model with Discrete Token Representation",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/1023",
+     "authors": "Shuhan Guo, Yatao Bian, Ruibing Wang, Nan Yin, Zhen Wang, Quanming Yao"
+    },
+    {
+     "title": "RePST: Language Model Empowered Spatio-Temporal Forecasting via Semantic-Oriented Reprogramming",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 4,
+     "doi": "10.24963/ijcai.2025/374",
+     "authors": "Hao Wang, Jindong Han, Wei Fan, Leilei Sun, Hao Liu"
+    },
+    {
+     "title": "Speech2Talking-Face: Inferring and Driving a Face with Synchronized Audio-Visual Representation",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 18,
+     "doi": "10.24963/ijcai.2021/141",
+     "authors": "Yasheng Sun, Hang Zhou, Ziwei Liu, Hideki Koike"
+    },
+    {
+     "title": "Imperio: Language-Guided Backdoor Attacks for Arbitrary Model Control",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2024/78",
+     "authors": "Ka-Ho Chow, Wenqi Wei, Lei Yu"
+    },
+    {
+     "title": "Large Language Model Meets Constraint Propagation",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2024/1115",
+     "authors": "Alexandre Bonlarron, Florian Régin, Elisabetta De Maria, Jean-Charles Régin"
+    },
+    {
+     "title": "Audio2Head: Audio-driven One-shot Talking-head Generation with Natural Head Motion",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 142,
+     "doi": "10.24963/ijcai.2021/152",
+     "authors": "Suzhen Wang, Lincheng Li, Yu Ding, Changjie Fan, Xin Yu"
+    },
+    {
+     "title": "Enhancing Chemical Reaction and Retrosynthesis Prediction with Large Language Model and Dual-task Learning",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2025/840",
+     "authors": "Xuan Lin, Qingrui Liu, Hongxin Xiang, Daojian Zeng, Xiangxiang Zeng"
+    },
+    {
+     "title": "MedualTime: A Dual-Adapter Language Model for Medical Time Series-Text Multimodal Learning",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2025/880",
+     "authors": "Jiexia Ye, Weiqi Zhang, Ziyue Li, Jia Li, Meng Zhao, Fugee Tsung"
+    },
+    {
+     "title": "Good Advisor for Source Localization: Using Large Language Model to Guide the Source Inference Process",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/326",
+     "authors": "Dongpeng Hou, Wenfei Wei, Chao Gao, Xianghua Li, Zhen Wang"
+    },
+    {
+     "title": "DictBERT: Dictionary Description Knowledge Enhanced Language Model Pre-training via Contrastive Learning",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 8,
+     "doi": "10.24963/ijcai.2022/567",
+     "authors": "Qianglong Chen, Feng-Lin Li, Guohai Xu, Ming Yan, Ji Zhang, Yin Zhang"
+    },
+    {
+     "title": "A Unified Strategy for Multilingual Grammatical Error Correction with Pre-trained Cross-Lingual Language Model",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 7,
+     "doi": "10.24963/ijcai.2022/606",
+     "authors": "Xin Sun, Tao Ge, Shuming Ma, Jingjing Li, Furu Wei, Houfeng Wang"
+    },
+    {
+     "title": "L2M2: A Hierarchical Framework Integrating Large Language Model and Multi-agent Reinforcement Learning",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 5,
+     "doi": "10.24963/ijcai.2025/12",
+     "authors": "Minghong Geng, Shubham Pateria, Budhitama Subagdja, Lin Li, Xin Zhao, Ah-Hwee Tan"
+    },
+    {
+     "title": "A Dynamic Knowledge Update-Driven Model with Large Language Models for Fake News Detection",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 7,
+     "doi": "10.24963/ijcai.2025/334",
+     "authors": "Di Jin, Jun Yang, Xiaobao Wang, Junwei Zhang, Shuqi Li, Dongxiao He"
+    },
+    {
+     "title": "Tree-of-AdEditor:  Heuristic Tree Reasoning for Automated Video Advertisement Editing with Large Language Model",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/968",
+     "authors": "Yuqi Zhang, Bin Guo, Nuo Li, Ying Zhang, Shijie Wang, Zhiwen Yu"
+    },
+    {
+     "title": "Fin-PRM: A Domain-Specialized Process Reward Model for Financial Reasoning in Large Language Models",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/683",
+     "authors": "Jie Zhu, Yuanchen Zhou, Shuo Jiang, Junhui Li, Lifan Guo, Feng Chen"
+    },
+    {
+     "title": "Exploring the Trade-Offs: Quantization Methods, Task Difficulty, and Model Size in Large Language Models From Edge to Giant",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2025/902",
+     "authors": "Jemin Lee, Sihyeong Park, Jinse Kwon, Jihun Oh, Yongin Kwon"
+    },
+    {
+     "title": "Can Retelling Have Adequate Information for Reasoning? An Enhancement Method for Imperfect Video Understanding with Large Language Model",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/906",
+     "authors": "Mingxin Li, Wenhao Wang, Hongru Ji, Xianghua Li, Chao Gao"
+    },
+    {
+     "title": "Large Language Model Guided Knowledge Distillation for Time Series Anomaly Detection",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 16,
+     "doi": "10.24963/ijcai.2024/239",
+     "authors": "Chen Liu, Shibo He, Qihang Zhou, Shizhong Li, Wenchao Meng"
+    },
+    {
+     "title": "Large Language Model-Enhanced Algorithm Selection: Towards Comprehensive Algorithm Representation",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2024/579",
+     "authors": "Xingyu Wu, Yan Zhong, Jibin Wu, Bingbing Jiang, Kay Chen Tan"
+    },
+    {
+     "title": "An Empirical Study of Federated Prompt Learning for Vision Language Model",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2025/1188",
+     "authors": "Zhihao Wang, Wenke Huang, Tian Chen, Zekun Shi, Guancheng Wan, Yu Qiao"
+    },
+    {
+     "title": "Large Language Model as a Policy Teacher for Training Reinforcement Learning Agents",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 5,
+     "doi": "10.24963/ijcai.2024/627",
+     "authors": "Zihao Zhou, Bin Hu, Chenyang Zhao, Pu Zhang, Bin Liu"
+    },
+    {
+     "title": "Uncovering the Deceptions: An Analysis on Audio Spoofing Detection and Future Prospects",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 9,
+     "doi": "10.24963/ijcai.2023/756",
+     "authors": "Rishabh Ranjan, Mayank Vatsa, Richa Singh"
+    },
+    {
+     "title": "AudioQR: Deep Neural Audio Watermarks For QR Code",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 4,
+     "doi": "10.24963/ijcai.2023/687",
+     "authors": "Xinghua Qu, Xiang Yin, Pengfei Wei, Lu Lu, Zejun Ma"
+    },
+    {
+     "title": "SpatialV2A: Visual-Guided High-fidelity Spatial Audio Generation",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/198",
+     "authors": "Yanan Wang, Linjie Ren, Zihao Li, Junyi Wang, Tian Gan"
+    },
+    {
+     "title": "A Multimodal AI Dialogue System for Unified Document, Visual, and Audio Interaction",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/1259",
+     "authors": "Yujun Feng, Jingyi Huang, Yang Zhang"
+    },
+    {
+     "title": "NotaGen: Advancing Musicality in Symbolic Music Generation with Large Language Model Training Paradigms",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 14,
+     "doi": "10.24963/ijcai.2025/1134",
+     "authors": "Yashan Wang, Shangda Wu, Jianhuai Hu, Xingjian Du, Yueqi Peng, Yongxin Huang"
+    },
+    {
+     "title": "Towards Robust Unsupervised Disentanglement of Sequential Data — A Case Study Using Music Audio",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 8,
+     "doi": "10.24963/ijcai.2022/458",
+     "authors": "Yin-Jyun Luo, Sebastian Ewert, Simon Dixon"
+    },
+    {
+     "title": "Explaining, Verifying and Aligning Semantic Hierarchies in Vision-Language Model Embeddings",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/82",
+     "authors": "Gesina Schwalbe, Mert Keser, Moritz Bayerkuhnlein, Edgar Heinert, Annika Mütze, Marvin Keller"
+    },
+    {
+     "title": "Enhancing Transferability of Audio Adversarial Example for Both Frequency- and Time-domain",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2025/697",
+     "authors": "Zilin Tian, Yunfei Long, Liguo Zhang, Jiahong Zhao"
+    },
+    {
+     "title": "LocMoE: A Low-overhead MoE for Large Language Model Training",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2024/705",
+     "authors": "Jing Li, Zhijie Sun, Xuan He, Li Zeng, Yi Lin, Entong Li"
+    },
+    {
+     "title": "Solving Copyright Infringement on Short Video Platforms: Novel Datasets and an Audio Restoration Deep Learning Pipeline",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2025/855",
+     "authors": "Minwoo Oh, Minsu Park, Eunil Park"
+    },
+    {
+     "title": "ScreenAgent: A Vision Language Model-driven Computer Control Agent",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 8,
+     "doi": "10.24963/ijcai.2024/711",
+     "authors": "Runliang Niu, Jindong Li, Shiqi Wang, Yali Fu, Xiyu Hu, Xueyuan Leng"
+    },
+    {
+     "title": "A Survey of Graph Meets Large Language Model: Progress and Future Directions",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 17,
+     "doi": "10.24963/ijcai.2024/898",
+     "authors": "Yuhan Li, Zhixun Li, Peisong Wang, Jia Li, Xiangguo Sun, Hong Cheng"
+    },
+    {
+     "title": "Large Language Model Based Multi-agents: A Survey of Progress and Challenges",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 244,
+     "doi": "10.24963/ijcai.2024/890",
+     "authors": "Taicheng Guo, Xiuying Chen, Yaqi Wang, Ruidi Chang, Shichao Pei, Nitesh V. Chawla"
+    },
+    {
+     "title": "ScreenAI: A Vision-Language Model for UI and Infographics Understanding",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 19,
+     "doi": "10.24963/ijcai.2024/339",
+     "authors": "Gilles Baechler, Srinivas Sunkara, Maria Wang, Fedir Zubach, Hassan Mansoor, Vincent Etter"
+    },
+    {
+     "title": "Separate in the Speech Chain: Cross-Modal Conditional Audio-Visual Target Speech Extraction",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 5,
+     "doi": "10.24963/ijcai.2024/709",
+     "authors": "Zhaoxi Mu, Xinyu Yang"
+    },
+    {
+     "title": "Active Contrastive Set Mining for Robust Audio-Visual Instance Discrimination",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2022/506",
+     "authors": "Hanyu Xuan, Yihong Xu, Shuo Chen, Zhiliang Wu, Jian Yang, Yan Yan"
+    },
+    {
+     "title": "Cross-Modal Global Interaction and Local Alignment for Audio-Visual Speech Recognition",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 10,
+     "doi": "10.24963/ijcai.2023/564",
+     "authors": "Yuchen Hu, Ruizhe Li, Chen Chen, Heqing Zou, Qiushi Zhu, Eng Siong Chng"
+    },
+    {
+     "title": "Temporally Aligning Long Audio Interviews with Questions: A Case Study in Multimodal Data Integration",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2023/683",
+     "authors": "Piyush Singh Pasi, Karthikeya Battepati, Preethi Jyothi, Ganesh Ramakrishnan, Tanmay Mahapatra, Manoj Singh"
+    },
+    {
+     "title": "DiffuseStyleGesture: Stylized Audio-Driven Co-Speech Gesture Generation with Diffusion Models",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 88,
+     "doi": "10.24963/ijcai.2023/650",
+     "authors": "Sicheng Yang, Zhiyong Wu, Minglei Li, Zhensong Zhang, Lei Hao, Weihong Bao"
+    },
+    {
+     "title": "A Multimodal AI Dialogue System for Unified Document, Visual, and Audio Interaction",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2024/1259",
+     "authors": "Yujun Feng, Jingyi Huang, Yang Zhang"
+    },
+    {
+     "title": "An Empirical Study of Federated Prompt Learning for Vision Language Model",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2024/1188",
+     "authors": "Zhihao Wang, Wenke Huang, Tian Chen, Zekun Shi, Guancheng Wan, Yu Qiao"
+    },
+    {
+     "title": "EAT: Self-Supervised Pre-Training with Efficient Audio Transformer",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 11,
+     "doi": "10.24963/ijcai.2024/421",
+     "authors": "Wenxi Chen, Yuzhe Liang, Ziyang Ma, Zhisheng Zheng, Xie Chen"
+    },
+    {
+     "title": "Bridging the SEA Gap: An Initial Benchmark for Neural Audio Codec-Synthesized Speech Deepfakes in South-East Asian Languages",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/791",
+     "authors": "Orchid Chetia Phukan, Girish ., Mohd Mujtaba Akhtar, Arun Balaji Buduru"
+    },
+    {
+     "title": "NotaGen: Advancing Musicality in Symbolic Music Generation with Large Language Model Training Paradigms",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2024/1134",
+     "authors": "Yashan Wang, Shangda Wu, Jianhuai Hu, Xingjian Du, Yueqi Peng, Yongxin Huang"
+    },
+    {
+     "title": "End-to-End Real-World Polyphonic Piano Audio-to-Score Transcription with Hierarchical Decoding",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2024/862",
+     "authors": "Wei Zeng, Xian He, Ye Wang"
+    },
+    {
+     "title": "Low-Latency Real-Time  Audio Game Commentary System via LLM-Based Parallel Text Generation",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/972",
+     "authors": "Ryota Kawamatsu, Anum Afzal, Yuki Saito, Shinnosuke Takamichi, Graham Neubig, Katsuhito Sudoh"
+    },
+    {
+     "title": "SyncAnimation: A Real-Time End-to-End Framework for Audio-Driven Human Pose and Talking Head Animation",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2025/185",
+     "authors": "Yujian Liu, Shidang Xu, Jing Guo, Dingbin Wang, Zairan Wang, Xianfeng Tan"
+    },
+    {
+     "title": "AVIN-Chat: An Audio-Visual Interactive Chatbot System with Emotional State Tuning",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2024/1027",
+     "authors": "Chanhyuk Park, Jungbin Cho, Junwan Kim, Seongmin Lee, Jungsu Kim, Sanghoon Lee"
+    }
+   ]
+  },
+  "multimodal agent": {
+   "total": 29416,
+   "kept": 87,
+   "papers": [
+    {
+     "title": "ArogyaSutra: A Multi-Agent Framework for Multimodal Medical Reasoning in Indic Languages",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/799",
+     "authors": "Tanmoy Kanti Halder, Akash Ghosh, Subhadip Baidya, Arijit Roy, Sriparna Saha"
+    },
+    {
+     "title": "Multimodal Transformer Networks for Pedestrian Trajectory Prediction",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 50,
+     "doi": "10.24963/ijcai.2021/174",
+     "authors": "Ziyi Yin, Ruijin Liu, Zhiliang Xiong, Zejian Yuan"
+    },
+    {
+     "title": "Multi-Agent Belief Base Revision",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 5,
+     "doi": "10.24963/ijcai.2021/270",
+     "authors": "Emiliano Lorini, Francois Schwarzentruber"
+    },
+    {
+     "title": "Multi-agent Approach to Resource Allocation in Autonomous Vehicle Fleets",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2021/671",
+     "authors": "Alaa Daoud"
+    },
+    {
+     "title": "On the Learnability of Knowledge in Multi-Agent Logics",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2021/685",
+     "authors": "Ionela G Mocanu"
+    },
+    {
+     "title": "Reducing Bus Bunching with Asynchronous Multi-Agent Reinforcement Learning",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 22,
+     "doi": "10.24963/ijcai.2021/60",
+     "authors": "Jiawei Wang, Lijun Sun"
+    },
+    {
+     "title": "SalientSleepNet: Multimodal Salient Wave Detection Network for Sleep Staging",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 97,
+     "doi": "10.24963/ijcai.2021/360",
+     "authors": "Ziyu Jia, Youfang Lin, Jing Wang, Xuehui Wang, Peiyi Xie, Yingbin Zhang"
+    },
+    {
+     "title": "Connect Multi-Agent Path Finding: Generation and Visualization",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2021/714",
+     "authors": "Arthur Queffelec, Ocan Sankur, Francois Schwarzentruber"
+    },
+    {
+     "title": "Improving Multi-agent Coordination by Learning to Estimate Contention",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2021/18",
+     "authors": "Panayiotis Danassis, Florian Wiedemair, Boi Faltings"
+    },
+    {
+     "title": "Multi-Agent Abstract Argumentation Frameworks With Incomplete Knowledge of Attacks",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2021/265",
+     "authors": "Andreas Herzig, Antonio Yuste Ginel"
+    },
+    {
+     "title": "Automatic Multimodal Emotion Recognition Using Facial Expression, Voice, and Text",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2022/843",
+     "authors": "Hélène Tran"
+    },
+    {
+     "title": "VideoMaster: A Multimodal Micro Game Video Recreator",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2023/844",
+     "authors": "Yipeng Yu, Xiao Chen, Hui Zhan"
+    },
+    {
+     "title": "Multi-Agent Intention Progression with Black-Box Agents",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2021/19",
+     "authors": "Michael Dann, Yuan Yao, Brian Logan, John Thangarajah"
+    },
+    {
+     "title": "KG-MultiMS: a Knowledge Graph-Enhanced Multimodal Framework  for Multiple Sclerosis",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/943",
+     "authors": "Riccardo Francia"
+    },
+    {
+     "title": "MDNN: A Multimodal Deep Neural Network for Predicting Drug-Drug Interaction Events",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 61,
+     "doi": "10.24963/ijcai.2021/487",
+     "authors": "Tengfei Lyu, Jianliang Gao, Ling Tian, Zhao Li, Peng Zhang, Ji Zhang"
+    },
+    {
+     "title": "UIBert: Learning Generic Multimodal Representations for UI Understanding",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 22,
+     "doi": "10.24963/ijcai.2021/235",
+     "authors": "Chongyang Bai, Xiaoxue Zang, Ying Xu, Srinivas Sunkara, Abhinav Rastogi, Jindong Chen"
+    },
+    {
+     "title": "ADMN: Agent-Driven Modular Network for Dynamic Parameter Sharing in Cooperative Multi-Agent Reinforcement Learning",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2024/34",
+     "authors": "Yang Yu, Qiyue Yin, Junge Zhang, Pei Xu, Kaiqi Huang"
+    },
+    {
+     "title": "Human-Centred Multimodal Deep Learning Models for Chest X-Ray Diagnosis",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2023/817",
+     "authors": "Chihcheng Hsieh"
+    },
+    {
+     "title": "Interactive Multimodal Learning via Flat Gradient Modification",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/611",
+     "authors": "Qing-Yuan Jiang, Zhouyang Chi, Yang Yang"
+    },
+    {
+     "title": "UniMF: A Unified Framework to Incorporate Multimodal Knowledge Bases intoEnd-to-End Task-Oriented Dialogue Systems",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 22,
+     "doi": "10.24963/ijcai.2021/548",
+     "authors": "Shiquan Yang, Rui Zhang, Sarah M. Erfani, Jey Han Lau"
+    },
+    {
+     "title": "kgMBQA: Quality Knowledge Graph-driven Multimodal Blind Image Assessment",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2025/473",
+     "authors": "Wuyuan Xie, Tingcheng Bian, Miaohui Wang"
+    },
+    {
+     "title": "Model-based Multi-agent Policy Optimization with Adaptive Opponent-wise Rollouts",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 18,
+     "doi": "10.24963/ijcai.2021/466",
+     "authors": "Weinan Zhang, Xihuai Wang, Jian Shen, Ming Zhou"
+    },
+    {
+     "title": "GarmentDiffusion: 3D Garment Sewing Pattern Generation with Multimodal Diffusion Transformers",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 11,
+     "doi": "10.24963/ijcai.2025/163",
+     "authors": "Xinyu Li, Qi Yao, Yuanda Wang"
+    },
+    {
+     "title": "Towards Reliable Multimodal Clinical Decision Support: From Quality-Aware Fusion to Patient Digital Twins",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/950",
+     "authors": "Linpeng Sun"
+    },
+    {
+     "title": "Anytime Multi-Agent Path Finding via Large Neighborhood Search",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 60,
+     "doi": "10.24963/ijcai.2021/568",
+     "authors": "Jiaoyang Li, Zhe Chen, Daniel Harabor, Peter J. Stuckey, Sven Koenig"
+    },
+    {
+     "title": "Multimodal Inference with Incremental Tabular Attributes",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2025/543",
+     "authors": "Xinda Chen, Zhen Xing, Zixian Zhang, Weimin Tan, Bo Yan"
+    },
+    {
+     "title": "PlaceNet: Neural Spatial Representation Learning with Multimodal Attention",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2022/144",
+     "authors": "Chung-Yeon Lee, Youngjae Yoo, Byoung-Tak Zhang"
+    },
+    {
+     "title": "Words Over Pixels? Rethinking Vision in Multimodal Large Language Models",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2025/1164",
+     "authors": "Anubhooti Jain, Mayank Vatsa, Richa Singh"
+    },
+    {
+     "title": "Template-based Uncertainty Multimodal Fusion Network for RGBT Tracking",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2025/102",
+     "authors": "Zhaodong Ding, Chenglong Li, Shengqing Miao, Jin Tang"
+    },
+    {
+     "title": "Multimodal Fake News Detection: MFND Dataset and Shallow-Deep Multitask Learning",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 9,
+     "doi": "10.24963/ijcai.2025/891",
+     "authors": "Ye Zhu, Yunan Wang, Zitong Yu"
+    },
+    {
+     "title": "Towards Equilibrium: An Instantaneous Probe-and-Rebalance Multimodal Learning Approach",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/395",
+     "authors": "Yang Yang, Xixian Wu, Qing-Yuan Jiang"
+    },
+    {
+     "title": "Improving Multimodal Reasoning via Worst Dimension Optimization",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/166",
+     "authors": "Haocheng Lv, Huaping Zhang, Qiuchi Li, Lei Li, Chunxiao Gao"
+    },
+    {
+     "title": "A Smart Multimodal Healthcare Copilot with Powerful LLM Reasoning",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2025/1278",
+     "authors": "Xuejiao Zhao, Siyan Liu, Su-Yin Yang, Chunyan Miao"
+    },
+    {
+     "title": "Streaming Multi-agent Pathfinding",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2025/31",
+     "authors": "Mingkai Tang, Lu Gan, Kaichen Zhang"
+    },
+    {
+     "title": "Principal-Agent Boolean Games",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2023/17",
+     "authors": "David Hyland, Julian Gutierrez, Michael Wooldridge"
+    },
+    {
+     "title": "Emergent Prosociality in Multi-Agent Games Through Gifting",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 15,
+     "doi": "10.24963/ijcai.2021/61",
+     "authors": "Woodrow Z. Wang, Mark Beliaev, Erdem Bıyık, Daniel A. Lazar, Ramtin Pedarsani, Dorsa Sadigh"
+    },
+    {
+     "title": "FedAMB: Adaptive Modality Balancing for Dominance-Robust Multimodal Federated Distillation",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/482",
+     "authors": "Seungjin Han, Juyeob Lee, Sangmin Lee, Eunil Park"
+    },
+    {
+     "title": "Decoding the Underlying Meaning of Multimodal Hateful Memes",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 29,
+     "doi": "10.24963/ijcai.2023/665",
+     "authors": "Ming Shan Hee, Wen-Haw Chong, Roy Ka-Wei Lee"
+    },
+    {
+     "title": "Rethinking Multimodal Few-Shot 3D Point Cloud Segmentation: From Fused Refinement to Decoupled Arbitration",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/103",
+     "authors": "Wentao Bian, Fenglei Xu"
+    },
+    {
+     "title": "Generative Agents for Multimodal Controversy Detection",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/1107",
+     "authors": "Tianjiao Xu, Jinfei Gao, Keyi Kong, Jianhua Yin, Tian Gan, Liqiang Nie"
+    },
+    {
+     "title": "Three Minds, One Student: Online Multi-Teacher Knowledge Distillation for Multimodal Recommenders",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/348",
+     "authors": "Hangtong Xu, Yuanbo Xu, En Wang"
+    },
+    {
+     "title": "A Multimodal AI Dialogue System for Unified Document, Visual, and Audio Interaction",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/1259",
+     "authors": "Yujun Feng, Jingyi Huang, Yang Zhang"
+    },
+    {
+     "title": "Problem Compilation for Multi-Agent Path Finding: a Survey",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 12,
+     "doi": "10.24963/ijcai.2022/783",
+     "authors": "Pavel Surynek"
+    },
+    {
+     "title": "Agent-based Modeling for Policy-Making in Inequity Contexts",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/1236",
+     "authors": "Alba Aguilera"
+    },
+    {
+     "title": "Towards Formal Verification of Neuro-symbolic Multi-agent Systems",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2023/800",
+     "authors": "Panagiotis Kouvaros"
+    },
+    {
+     "title": "Improved MMS Approximations for Few Agent Types",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/452",
+     "authors": "Parnian Shahkar, Jugal Garg"
+    },
+    {
+     "title": "Multi-Agent Non-Discriminatory Contracts",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/376",
+     "authors": "Ke Ding, Bo Li, Ankang Sun"
+    },
+    {
+     "title": "Robult: Leveraging Redundancy and Modality-Specific Features for Robust Multimodal Learning",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2025/666",
+     "authors": "Duy A. Nguyen, Abhi Kamboj, Minh N. Do"
+    },
+    {
+     "title": "Property Prediction of Stacked Bilayer Materials: A Multimodal Learning Approach",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/453",
+     "authors": "An Vuong, Minh-Hao Van, Chen Zhao, Xintao Wu"
+    },
+    {
+     "title": "Image Captioning Evaluation in the Age of Multimodal LLMs: Challenges and Future Perspectives",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 13,
+     "doi": "10.24963/ijcai.2025/1180",
+     "authors": "Sara Sarto, Marcella Cornia, Rita Cucchiara"
+    },
+    {
+     "title": "Structured Modality-Aware Token Interaction for Multimodal Medical Imaging",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/769",
+     "authors": "Selene Tomassini, Hafiza Ayesha Hoor Chaudhry, Alessandro Galdelli, Paolo Giorgini"
+    },
+    {
+     "title": "Connecting Giants: Synergistic Knowledge Transfer of Large Multimodal Models for Few-Shot Learning",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 34,
+     "doi": "10.24963/ijcai.2025/693",
+     "authors": "Hao Tang, Shengfeng He, Jing Qin"
+    },
+    {
+     "title": "Multimodal Retina Image Analysis Survey: Datasets, Tasks and Methods",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2025/1182",
+     "authors": "Hongwei Sheng, Heming Du, Xin Shen, Sen Wang, Xin Yu"
+    },
+    {
+     "title": "TP-Eval: Tap Multimodal LLMs' Potential in Evaluation by Customizing Prompts",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/232",
+     "authors": "Yuxuan Xie, Tianhua Li, Wenqi Shao, Kaipeng Zhang"
+    },
+    {
+     "title": "Towards Streamlined Learning and Search for Multi-Agent Optimization",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/909",
+     "authors": "Thomy Phan"
+    },
+    {
+     "title": "Improving LaCAM for Scalable Eventually Optimal Multi-Agent Pathfinding",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 29,
+     "doi": "10.24963/ijcai.2023/28",
+     "authors": "Keisuke Okumura"
+    },
+    {
+     "title": "MLLM-ITM: Multimodal Large Language Model Promotes Inverse Tone Mapping",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/169",
+     "authors": "Jingchao Peng, Thomas Bashford-Rogers, Haitao Zhao, Kurt Debattista"
+    },
+    {
+     "title": "Popular and Dominant Matchings with Uncertain and Multimodal Preferences",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2024/303",
+     "authors": "Gergely Csáji"
+    },
+    {
+     "title": "Multi-Agent Reinforcement Learning for Automated Peer-to-Peer Energy Trading in Double-Side Auction Market",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 45,
+     "doi": "10.24963/ijcai.2021/401",
+     "authors": "Dawei Qiu, Jianhong Wang, Junkai Wang, Goran Strbac"
+    },
+    {
+     "title": "Safe Multi-agent Learning via Trapping Regions",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2023/10",
+     "authors": "Aleksander Czechowski, Frans A. Oliehoek"
+    },
+    {
+     "title": "MFVFD: A Multi-Agent Q-Learning Approach to Cooperative and Non-Cooperative Tasks",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 9,
+     "doi": "10.24963/ijcai.2021/70",
+     "authors": "Tianhao Zhang, Qiwei Ye, Jiang Bian, Guangming Xie, Tie-Yan Liu"
+    },
+    {
+     "title": "Enhancing Multimodal Model Robustness Under Missing Modalities via Memory-Driven Prompt Learning",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 4,
+     "doi": "10.24963/ijcai.2025/274",
+     "authors": "Yihan Zhao, Wei Xi, Xiao Fu, Jizhong Zhao"
+    },
+    {
+     "title": "Band Together: Untargeted Adversarial Training with Multimodal Coordination Against Evasion-Based Promotion Attacks",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/347",
+     "authors": "Guanmeng Xian, Ning Yang, Philip S. Yu"
+    },
+    {
+     "title": "Endogenous Recovery via Within-modality Prototypes for Incomplete Multimodal Hashing",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/281",
+     "authors": "Sa Zhu, Dayan Wu, Chenming Wu, Pengwen Dai, Bo Li"
+    },
+    {
+     "title": "Variational Offline Multi-agent Skill Discovery",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/538",
+     "authors": "Jiayu Chen, Tian Lan, Vaneet Aggarwal"
+    },
+    {
+     "title": "Drowning in Degrees of Freedom: One Agent for Every Task",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/906",
+     "authors": "Steven James"
+    },
+    {
+     "title": "Probabilistic Multimodal Learning with von Mises-Fisher Distributions",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/600",
+     "authors": "Peng Hu, Yang Qin, Yuanbiao Gou, Yunfan Li, Mouxing Yang, Xi Peng"
+    },
+    {
+     "title": "WDMIR: Wavelet-Driven Multimodal Intent Recognition",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2025/582",
+     "authors": "Weiyin Gong, Kai Zhang, Yanghai Zhang, Qi Liu, Xinjie Sun, Junyu Lu"
+    },
+    {
+     "title": "Incorporating Visual Experts to Resolve the Information Loss in Multimodal Large Language Models",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2025/123",
+     "authors": "Xin He, Longhui Wei, Lingxi Xie, Qi Tian"
+    },
+    {
+     "title": "Multi-Agent Corridor Generating Algorithm",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/28",
+     "authors": "Arseni Pertzovskiy, Roni Stern, Roie Zivan, Ariel Felner"
+    },
+    {
+     "title": "Practical Model Reductions for Verification of Multi-Agent Systems",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2023/834",
+     "authors": "Wojciech Jamroga, Yan Kim"
+    },
+    {
+     "title": "DPMamba: Distillation Prompt Mamba for Multimodal Remote Sensing Image Classification with Missing Modalities",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2025/248",
+     "authors": "Yueguang Yang, Jiahui Qu, Ling Huang, Wenqian Dong"
+    },
+    {
+     "title": "Multimodal Emotion Recognition with Large Language Models",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/897",
+     "authors": "Hongrui Zhang, Daiqing Wu, Yangyang Li, Kuien Liu, Yuhui Wang, Yu Zhou"
+    },
+    {
+     "title": "Multimodal Inverse Attention Network with Intrinsic Discriminant Feature Exploitation for Fake News Detection",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 7,
+     "doi": "10.24963/ijcai.2025/883",
+     "authors": "Tianlin Zhang, En Yu, Yi Shao, Jiande Sun"
+    },
+    {
+     "title": "Targeted Multimodal Sentiment Classification based on Coarse-to-Fine Grained Image-Target Matching",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 55,
+     "doi": "10.24963/ijcai.2022/622",
+     "authors": "Jianfei Yu, Jieming Wang, Rui Xia, Junjie Li"
+    },
+    {
+     "title": "POMP: Pathology-omics Multimodal Pre-training Framework for Cancer Survival Prediction",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 4,
+     "doi": "10.24963/ijcai.2025/869",
+     "authors": "Suixue Wang, Shilin Zhang, Huiyuan Lai, Weiliang Huo, Qingchen Zhang"
+    },
+    {
+     "title": "A First Runtime Analysis of NSGA-III on a Many-Objective Multimodal Problem: Provable Exponential Speedup via Stochastic Population Update",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 8,
+     "doi": "10.24963/ijcai.2025/990",
+     "authors": "Andre Opris"
+    },
+    {
+     "title": "Trust, but Verify: Uncertainty-Driven Evidential Multimodal Representation Learning",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/128",
+     "authors": "Yupeng Han, Kai Zhang, Xianquan Wang, Zhihong Pan, Ze Liu, Jiyuan He"
+    },
+    {
+     "title": "Approximate EFX Under Limited Agent Heterogeneity",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/18",
+     "authors": "Vishwa Prakash HV, Ruta Mehta, Prajakta Nimbhorkar"
+    },
+    {
+     "title": "Benchmarking and Enhancing Relational Diagrams Reasoning for Multimodal Large Language Models",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/132",
+     "authors": "Tianyu Hong, Peng Wang, Wenjun Ke, Yao He, Hongao Wang"
+    },
+    {
+     "title": "Tackling Multimodal Learning Challenges with Mixture-of-Expert: A Survey",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/900",
+     "authors": "Liangwei Zheng, Wei Emma Zhang, Olaf Maennel, Lin Yue, Weitong Chen"
+    },
+    {
+     "title": "Enhancing Automated Grading in Science Education through LLM-Driven Causal Reasoning and Multimodal Analysis",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 4,
+     "doi": "10.24963/ijcai.2025/1150",
+     "authors": "Haohao Zhu, Tingting Li, Peng He, Jiayu Zhou"
+    },
+    {
+     "title": "3D Surface Super-resolution from Enhanced 2D Normal Images: A Multimodal-driven Variational AutoEncoder Approach",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2023/175",
+     "authors": "Wuyuan Xie, Tengcong Huang, Miaohui Wang"
+    },
+    {
+     "title": "Unveiling Concepts Learned by a World-Class Chess-Playing Agent",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 5,
+     "doi": "10.24963/ijcai.2023/541",
+     "authors": "Aðalsteinn Pálsson, Yngvi Björnsson"
+    },
+    {
+     "title": "Toward Policy Explanations for Multi-Agent Reinforcement Learning",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 13,
+     "doi": "10.24963/ijcai.2022/16",
+     "authors": "Kayla Boggess, Sarit Kraus, Lu Feng"
+    },
+    {
+     "title": "Transfer Learning Based Adaptive Automated Negotiating Agent Framework",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2022/67",
+     "authors": "Ayan Sengupta, Shinji Nakadai, Yasser Mohammad"
+    },
+    {
+     "title": "Counterfactual Reasoning for Responsibility Attribution in Probabilistic Multi-Agent Systems",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/33",
+     "authors": "Chunyan Mu, Muhammad Najib"
+    }
+   ]
+  },
+  "on-device inference": {
+   "total": 19350,
+   "kept": 72,
+   "papers": [
+    {
+     "title": "Inconsistency Measurement for Paraconsistent Inference",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2021/280",
+     "authors": "Yakoub Salhi"
+    },
+    {
+     "title": "Consistent Inference for Dialogue Relation Extraction",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 6,
+     "doi": "10.24963/ijcai.2021/535",
+     "authors": "Xinwei Long, Shuzi Niu, Yucheng Li"
+    },
+    {
+     "title": "Fine-Grained Air Quality Inference via Multi-Channel Attention Model",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 16,
+     "doi": "10.24963/ijcai.2021/346",
+     "authors": "Qilong Han, Dan Lu, Rui Chen"
+    },
+    {
+     "title": "Neural Relation Inference for Multi-dimensional Temporal Point Processes via Message Passing Graph",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 9,
+     "doi": "10.24963/ijcai.2021/469",
+     "authors": "Yunhao Zhang, Junchi Yan"
+    },
+    {
+     "title": "Device-Cloud Collaborative Correction for On-Device Recommendation",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2025/402",
+     "authors": "Tianyu Zhan, Shengyu Zhang, Zheqi Lv, Jieming Zhu, Jiwei Li, Fan Wu"
+    },
+    {
+     "title": "Boosting Variational Inference With Locally Adaptive Step-Sizes",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2021/322",
+     "authors": "Gideon Dresdner, Saurav Shekhar, Fabian Pedregosa, Francesco Locatello, Gunnar Rätsch"
+    },
+    {
+     "title": "Fast Algorithms for Lexicographic Inference",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/436",
+     "authors": "Jonas Klein, Matthias Thimm"
+    },
+    {
+     "title": "Hybrid Probabilistic Inference with Logical and Algebraic Constraints: a Survey",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2021/617",
+     "authors": "Paolo Morettin, Pedro Zuidberg Dos Martires, Samuel Kolb, Andrea Passerini"
+    },
+    {
+     "title": "Optimal ANN-SNN Conversion for Fast and Accurate Inference in Deep Spiking Neural Networks",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 121,
+     "doi": "10.24963/ijcai.2021/321",
+     "authors": "Jianhao Ding, Zhaofei Yu, Yonghong Tian, Tiejun Huang"
+    },
+    {
+     "title": "Against Membership Inference Attack: Pruning is All You Need",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 30,
+     "doi": "10.24963/ijcai.2021/432",
+     "authors": "Yijue Wang, Chenghong Wang, Zigeng Wang, Shanglin Zhou, Hang Liu, Jinbo Bi"
+    },
+    {
+     "title": "Polynomial-Time Relational Probabilistic Inference in Open Universes",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/1007",
+     "authors": "Luise Ge, Brendan Juba, Kris Nilsson"
+    },
+    {
+     "title": "Rhythm Inference Helping Writing Music Scores",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2024/1033",
+     "authors": "François Schwarzentruber"
+    },
+    {
+     "title": "Constrained Sequential Inference in Machine Learning Using Constraint Programming",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/293",
+     "authors": "Virasone Manibod, David Saikali, Gilles Pesant"
+    },
+    {
+     "title": "Multimodal Inference with Incremental Tabular Attributes",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2025/543",
+     "authors": "Xinda Chen, Zhen Xing, Zixian Zhang, Weimin Tan, Bo Yan"
+    },
+    {
+     "title": "Disconfounding Fake News Video Explanation with Causal Inference",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2025/539",
+     "authors": "Lizhi Chen, Zhong Qian, Peifeng Li, Qiaoming Zhu"
+    },
+    {
+     "title": "Membership Inference via Backdooring",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 37,
+     "doi": "10.24963/ijcai.2022/532",
+     "authors": "Hongsheng Hu, Zoran Salčić, Gillian Dobbie, Jinjun Chen, Lichao Sun, Xuyun Zhang"
+    },
+    {
+     "title": "DPVI: A Dynamic-Weight Particle-Based Variational Inference Framework",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2022/679",
+     "authors": "Chao Zhang, Zhijian Li, Xin Du, Hui Qian"
+    },
+    {
+     "title": "Domain Generalization under Conditional and Label Shifts via Variational Bayesian Inference",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 25,
+     "doi": "10.24963/ijcai.2021/122",
+     "authors": "Xiaofeng Liu, Bo Hu, Linghao Jin, Xu Han, Fangxu Xing, Jinsong Ouyang"
+    },
+    {
+     "title": "Automated Program Analysis: Revisiting Precondition Inference through Constraint Acquisition",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2022/260",
+     "authors": "Grégoire Menguy, Sébastien Bardin, Nadjib Lazaar, Arnaud Gotlieb"
+    },
+    {
+     "title": "To Trust or Not To Trust Prediction Scores for Membership Inference Attacks",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 7,
+     "doi": "10.24963/ijcai.2022/422",
+     "authors": "Dominik Hintersdorf, Lukas Struppek, Kristian Kersting"
+    },
+    {
+     "title": "Semi-Clairvoyant Scheduling of Speculative Decoding Requests to Minimize LLM Inference Latency",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/951",
+     "authors": "Ruixiao Li, Fahao Chen, Peng Li"
+    },
+    {
+     "title": "Active Diffusion-Based Inference for Ill-Posed Inverse Problems Under Incomplete Priors",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/570",
+     "authors": "Jitao Xu, Nobuo Sato, Yaohang Li"
+    },
+    {
+     "title": "NeoMaPy: A Framework for Computing MAP Inference on Temporal Knowledge Graphs",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2023/831",
+     "authors": "Victor David, Raphael Fournier-S'niehotta, Nicolas Travers"
+    },
+    {
+     "title": "Inference of Human-derived Specifications of Object Placement via Demonstration",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/460",
+     "authors": "Alex Cuellar, Ho Chit Siu, Julie A Shah"
+    },
+    {
+     "title": "DAHGT-CCI: Dynamic Heterogeneous Graph Transformer for Spatial Transcriptomics Cell-Cell Interaction Inference",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/488",
+     "authors": "Weiliang Huo, Shuo Yu, Qingchen Zhang"
+    },
+    {
+     "title": "TESTN: A Triad-Enhanced Spatio-Temporal Network for Multi-Temporal POI Relationship Inference",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2025/866",
+     "authors": "Hongyu Wang, Lisi Chen, Shuo Shang"
+    },
+    {
+     "title": "StreamTimer: Efficient Inference for Long-Context Time Series Transformers",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/327",
+     "authors": "Xiyu Meng, Yuhan Wu, Canran Xiao, Yabo Dong, Duanqing Xu"
+    },
+    {
+     "title": "Accelerating Masked Diffusion Large Language Models: A Survey of Efficient Inference Techniques",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/873",
+     "authors": "Daehoon Gwak, Minhyung Lee, Junwoo Park, Jaegul Choo"
+    },
+    {
+     "title": "Approximate Inference in Logical Credal Networks",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2023/632",
+     "authors": "Radu Marinescu, Haifeng Qian, Alexander Gray, Debarun Bhattacharjya, Francisco Barahona, Tian Gao"
+    },
+    {
+     "title": "SmartBERT: A Promotion of Dynamic Early Exiting Mechanism for Accelerating BERT Inference",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 6,
+     "doi": "10.24963/ijcai.2023/563",
+     "authors": "Boren Hu, Yun Zhu, Jiacheng Li, Siliang Tang"
+    },
+    {
+     "title": "Training-Free Inference for High-Resolution Sinogram Completion",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/119",
+     "authors": "Jiaze E, Srutarshi Banerjee, Tekin Bicer, Guannan Wang, Yanfu Zhang, Bin Ren"
+    },
+    {
+     "title": "Parameter-Efficient Dual-Loss Adaptation with Logit Divergence: A Unified Approach for Adversarial Example Detection and Robust Inference",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/122",
+     "authors": "Zirui Fu, Marco Donato"
+    },
+    {
+     "title": "Multi-Omics Analysis for Cancer Subtype Inference via Unrolling Graph Smoothness Priors",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/650",
+     "authors": "Jielong Lu, Zhihao Wu, Jiajun Yu, Jiajun Bu, Haishuai Wang"
+    },
+    {
+     "title": "Ancestral Instrument Method for Causal Inference without Complete Knowledge",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 7,
+     "doi": "10.24963/ijcai.2022/671",
+     "authors": "Debo Cheng, Jiuyong Li, Lin Liu, Jiji Zhang, Thuc Duy Le, Jixue Liu"
+    },
+    {
+     "title": "Minimally Supervised Contextual Inference from Human Mobility: An Iterative Collaborative Distillation Framework",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2023/272",
+     "authors": "Jiayun Zhang, Xinyang Zhang, Dezhi Hong, Rajesh K. Gupta, Jingbo Shang"
+    },
+    {
+     "title": "Unified Evidence Enhancement Inference Framework for Fake News Detection",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 6,
+     "doi": "10.24963/ijcai.2024/723",
+     "authors": "Lianwei Wu, Linyong Wang, Yongqiang Zhao"
+    },
+    {
+     "title": "Dual-Channel Hybrid Graph Neural Network for Mobility Social Relationship Inference",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/278",
+     "authors": "Liangkun Chen, Xiang Li, Guiyuan Jiang, Zhongying Zhao, Junyu Dong, Yanwei Yu"
+    },
+    {
+     "title": "Overlapping Communities and Roles in Networks with Node Attributes: Probabilistic Graphical Modeling, Bayesian Formulation and Variational Inference (Extended Abstract)",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2022/796",
+     "authors": "Gianni Costa, Riccardo Ortale"
+    },
+    {
+     "title": "Proportion-based Sensitivity Analysis of Uncontrolled Confounding Bias in Causal Inference",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2024/789",
+     "authors": "Haruka Yoshida, Manabu Kuroki"
+    },
+    {
+     "title": "Disentangled Hypergraph Network with Implicit Structure Learning for Mobility Social Relationship Inference",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/370",
+     "authors": "Jingjing Zhu, Xiang Li, Dongliang Chen, Haobing Liu, Yuan Cao, Yanwei Yu"
+    },
+    {
+     "title": "DoMoE: Domain-Aware Semantic Expert Prediction for Efficient MoE Inference Under Expert Offloading",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/657",
+     "authors": "Yao Mu, Fahao Chen, Wenbin Zhu, Mengying Zhao, Zhaoyan Shen, Dongxiao Yu"
+    },
+    {
+     "title": "Global Inference with Explicit Syntactic and Discourse Structures for Dialogue-Level Relation Extraction",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 12,
+     "doi": "10.24963/ijcai.2022/570",
+     "authors": "Hao Fei, Jingye Li, Shengqiong Wu, Chenliang Li, Donghong Ji, Fei Li"
+    },
+    {
+     "title": "Good Advisor for Source Localization: Using Large Language Model to Guide the Source Inference Process",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/326",
+     "authors": "Dongpeng Hou, Wenfei Wei, Chao Gao, Xianghua Li, Zhen Wang"
+    },
+    {
+     "title": "Not All Layers of LLMs Are Necessary During Inference",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2025/566",
+     "authors": "Siqi Fan, Xin Jiang, Xiang Li, Xuying Meng, Peng Han, Shuo Shang"
+    },
+    {
+     "title": "Hybrid-Adaptive Thread Tuning to Mitigate Simulation Execution Bottlenecks in High-Performance Reinforcement Learning Inference",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/42",
+     "authors": "Jiming Su, Hantao Hua, Lujia Yin, Yiping Yao, Feng Zhu"
+    },
+    {
+     "title": "Correct and Optimal: The Regular Expression Inference Challenge",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2024/717",
+     "authors": "Mojtaba Valizadeh, Philip John Gorinski, Ignacio Iacobacci, Martin Berger"
+    },
+    {
+     "title": "PHSIC against Random Consistency and Its Application in Causal Inference",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2024/233",
+     "authors": "Jue Li, Yuhua Qian, Jieting Wang, Saixiong Liu"
+    },
+    {
+     "title": "An Out-Of-Distribution Membership Inference Attack Approach for Cross-Domain Graph Attacks",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2025/375",
+     "authors": "Jinyan Wang, Liu Yang, Yuecen Wei, Jiaxuan Si, Chenhao Guo, Qingyun Sun"
+    },
+    {
+     "title": "Going Beyond the Edge: Distributed Inference of Transformer Models on Ultra-Low-Power Wireless Devices",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/14",
+     "authors": "Alexander Gräfe, Ding Huo, Vincent de Bakker, Johannes Berger, Marco Zimmerling, Sebastian Trimpe"
+    },
+    {
+     "title": "OMS: One More Step Noise Searching to Enhance Membership Inference Attacks for Diffusion Models",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/43",
+     "authors": "Xiaomeng Fu, Xi Wang, Qiao Li, Jin Liu, Jiao Dai, Jizhong Han"
+    },
+    {
+     "title": "ChemKGL: Bridging Knowledge Graphs and Large Language Models for Chemical Multi-Step Reaction Pathway Inference",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/669",
+     "authors": "Fan Yang, Feiyang Xu, Kun Zhang, Huadong Liang, Pengyang Shao, Xin Li"
+    },
+    {
+     "title": "InfVC: An Inference-Enhanced Local Search Algorithm for the Minimum Vertex Cover Problem in Massive Graphs",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/998",
+     "authors": "Rui Sun, Peiyan Liu, Yiyuan Wang, Zhaohui Liu, Liping Du, Jian Gao"
+    },
+    {
+     "title": "Efficient Tuning and Inference for Large Language Models on Textual Graphs",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 16,
+     "doi": "10.24963/ijcai.2024/634",
+     "authors": "Yun Zhu, Yaoke Wang, Haizhou Shi, Siliang Tang"
+    },
+    {
+     "title": "Efficient Inter-Operator Scheduling  for Concurrent Recommendation Model Inference on GPU",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/318",
+     "authors": "Shuxi Guo, Zikang Xu, Jiahao Liu, Jinyi Zhang, Qi Qi, Haifeng Sun"
+    },
+    {
+     "title": "NELLIE: A Neuro-Symbolic Inference Engine for Grounded, Compositional, and Explainable Reasoning",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2024/399",
+     "authors": "Nathaniel Weir, Peter Clark, Benjamin Van Durme"
+    },
+    {
+     "title": "Where Does This Data Come From? Enhanced Source Inference Attacks in Federated Learning",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2025/536",
+     "authors": "Haiyang Chen, Xiaolong Xu, Xiang Zhu, Xiaokang Zhou, Fei Dai, Yansong Gao"
+    },
+    {
+     "title": "Spatio-Temporal Field Neural Networks for Air Quality Inference",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2024/803",
+     "authors": "Yutong Feng, Qiongyan Wang, Yutong Xia, Junlin Huang, Siru Zhong, Yuxuan Liang"
+    },
+    {
+     "title": "Enhancing Fine-Grained Urban Flow Inference via Incremental Neural Operator",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2024/644",
+     "authors": "Qiang Gao, Xiaolong Song, Li Huang, Goce Trajcevski, Fan Zhou, Xueqin Chen"
+    },
+    {
+     "title": "Natural Language-centered Inference Network for Multi-modal Fake News Detection",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 6,
+     "doi": "10.24963/ijcai.2024/281",
+     "authors": "Qiang Zhang, Jiawei Liu, Fanrui Zhang, Jingyi Xie, Zheng-Jun Zha"
+    },
+    {
+     "title": "Multi-Relational Graph Attention Network for Social Relationship Inference from Human Mobility Data",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2024/256",
+     "authors": "Guangming Qin, Jianpeng Qi, Bin Wang, Guiyuan Jiang, Yanwei Yu, Junyu Dong"
+    },
+    {
+     "title": "GenID: A Generalizable Physical-Layer Device Identification Method for Out-of-Distribution Environments",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/233",
+     "authors": "Yawei Zhang, Lanting Fang, Di Yao, Kaiyu Feng, Shuliang Wang"
+    },
+    {
+     "title": "Using Causal Inference to Investigate Contraceptive Discontinuation in Sub-Saharan Africa",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2024/792",
+     "authors": "Victor Akinwande, Megan MacGregor, Celia Cintas, Ehud Karavani, Dennis Wei, Kush R. Varshney"
+    },
+    {
+     "title": "Resolving Word Vagueness with Scenario-guided Adapter for Natural Language Inference",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2024/509",
+     "authors": "Yonghao Liu, Mengyu Li, Di Liang, Ximing Li, Fausto Giunchiglia, Lan Huang"
+    },
+    {
+     "title": "When Fairness Meets Privacy: Exploring Privacy Threats in Fair Binary Classifiers via Membership Inference Attacks",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2024/57",
+     "authors": "Huan Tian, Guangsheng Zhang, Bo Liu, Tianqing Zhu, Ming Ding, Wanlei Zhou"
+    },
+    {
+     "title": "AdaptPFL: Unlocking Cross-Device Palmprint Recognition via Adaptive Personalized Federated Learning with Feature Decoupling",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2025/787",
+     "authors": "Zirui Zhang, Donghai Guan, Çetin Kaya Koç, Jie Wen, Qi Zhu"
+    },
+    {
+     "title": "StructureBench: A Unified Benchmark Suite for Multi-Scenario Structured Generation Tasks with On-Device Models",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/267",
+     "authors": "Xiaokun Xiong, Zhengjie Xu, Junyi Chen, Shihao Bai, Ruihao Gong, Xianglong Liu"
+    },
+    {
+     "title": "On-Device Realistic Test-Time Adaptation via Bias-Resistant Statistical Alignment",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/101",
+     "authors": "Haojie Bai, Aiguo Chen, Ruiting Dai, Yijia Rong, Zirui Wang, Jiaxin Liu"
+    },
+    {
+     "title": "Cost-Effective On-Device Sequential Recommendation with Spiking Neural Networks",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/398",
+     "authors": "Di Yu, Changze Lv, Xin Du, Linshan Jiang, Qing Yin, Wentao Tong"
+    },
+    {
+     "title": "Efficient Multi-view Unsupervised Feature Selection with Adaptive Structure Learning and Inference",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 16,
+     "doi": "10.24963/ijcai.2024/602",
+     "authors": "Chenglong Zhang, Yang Fang, Xinyan Liang, Han Zhang, Peng Zhou, Xingyu Wu"
+    },
+    {
+     "title": "CT2BSE: 3D BSE Microstructural Image Cross-Device Generation from µCT for Cement Hydration via Voxel Swin Transformer",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/124",
+     "authors": "Haozhong Gao, Liangliang Zhang, Yamin Han, Ruiqi Han, Lin Wang, Bo Yang"
+    },
+    {
+     "title": "RUVA: Personalized Transparent On-Device Graph Reasoning",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/960",
+     "authors": "Gabriele Conte, Alessio Mattiace, Gianni Carmosino, Potito Aghilar, Giovanni Servedio, Francesco Musicco"
+    },
+    {
+     "title": "Shadow-Free Membership Inference Attacks: Recommender Systems Are More Vulnerable Than You Thought",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2024/639",
+     "authors": "Xiaoxiao Chi, Xuyun Zhang, Yan Wang, Lianyong Qi, Amin Beheshti, Xiaolong Xu"
+    }
+   ]
+  },
+  "self-supervised speech": {
+   "total": 57912,
+   "kept": 71,
+   "papers": [
+    {
+     "title": "Hierarchical Self-supervised Augmented Knowledge Distillation",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 57,
+     "doi": "10.24963/ijcai.2021/168",
+     "authors": "Chuanguang Yang, Zhulin An, Linhang Cai, Yongjun Xu"
+    },
+    {
+     "title": "SS-BSN: Attentive Blind-Spot Network for Self-Supervised Denoising with Nonlocal Self-Similarity",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 15,
+     "doi": "10.24963/ijcai.2023/89",
+     "authors": "Young-Joo Han, Ha-Jin Yu"
+    },
+    {
+     "title": "Self-supervised Network Evolution for Few-shot Classification",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2021/419",
+     "authors": "Xuwen Tang, Zhu Teng, Baopeng Zhang, Jianping Fan"
+    },
+    {
+     "title": "Conditional Self-Supervised Learning for Few-Shot Classification",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 33,
+     "doi": "10.24963/ijcai.2021/295",
+     "authors": "Yuexuan An, Hui Xue, Xingyu Zhao, Lu Zhang"
+    },
+    {
+     "title": "Self-Supervised Video Action Localization with Adversarial Temporal Transforms",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 4,
+     "doi": "10.24963/ijcai.2021/96",
+     "authors": "Guoqiang Gong, Liangfeng Zheng, Wenhao Jiang, Yadong Mu"
+    },
+    {
+     "title": "Improving Sequential Recommendation Consistency with Self-Supervised Imitation",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 16,
+     "doi": "10.24963/ijcai.2021/457",
+     "authors": "Xu Yuan, Hongshen Chen, Yonghao Song, Xiaofang Zhao, Zhuoye Ding"
+    },
+    {
+     "title": "Self-Supervised Adversarial Distribution Regularization for Medication Recommendation",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 37,
+     "doi": "10.24963/ijcai.2021/431",
+     "authors": "Yanda Wang, Weitong Chen, Dechang PI, Lin Yue, Sen Wang, Miao Xu"
+    },
+    {
+     "title": "CSGNN: Contrastive Self-Supervised Graph Neural Network for Molecular Interaction Prediction",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 28,
+     "doi": "10.24963/ijcai.2021/517",
+     "authors": "Chengshuai Zhao, Shuai Liu, Feng Huang, Shichao Liu, Wen Zhang"
+    },
+    {
+     "title": "Self-Recover: Forecasting Block Maxima in Time Series from Predictors with Disparate Temporal Coverage Using Self-Supervised Learning",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2023/414",
+     "authors": "Asadullah Hill Galib, Andrew McDonald, Pang-Ning Tan, Lifeng Luo"
+    },
+    {
+     "title": "Explaining Self-Supervised Image Representations with Visual Probing",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 11,
+     "doi": "10.24963/ijcai.2021/82",
+     "authors": "Dominika Basaj, Witold Oleszkiewicz, Igor Sieradzki, Michał Górszczak, Barbara Rychalska, Tomasz Trzcinski"
+    },
+    {
+     "title": "Text Transformations in Contrastive Self-Supervised Learning: A Review",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 15,
+     "doi": "10.24963/ijcai.2022/757",
+     "authors": "Amrita Bhattacharjee, Mansooreh Karami, Huan Liu"
+    },
+    {
+     "title": "Self-Supervised Video Representation Learning with Constrained Spatiotemporal Jigsaw",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 18,
+     "doi": "10.24963/ijcai.2021/104",
+     "authors": "Yuqi Huo, Mingyu Ding, Haoyu Lu, Ziyuan Huang, Mingqian Tang, Zhiwu Lu"
+    },
+    {
+     "title": "Self-supervised Graph Neural Networks for Multi-behavior Recommendation",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 101,
+     "doi": "10.24963/ijcai.2022/285",
+     "authors": "Shuyun Gu, Xiao Wang, Chuan Shi, Ding Xiao"
+    },
+    {
+     "title": "MonoMixer: Marrying Convolution and Vision Transformer for Efficient Self-Supervised Monocular Depth Estimation",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/85",
+     "authors": "Zhiyong Chang, Yan Wang"
+    },
+    {
+     "title": "Multi-Scale Contrastive Siamese Networks for Self-Supervised Graph Representation Learning",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 120,
+     "doi": "10.24963/ijcai.2021/204",
+     "authors": "Ming Jin, Yizhen Zheng, Yuan-Fang Li, Chen Gong, Chuan Zhou, Shirui Pan"
+    },
+    {
+     "title": "Exploring Semantic Masked Autoencoder for Self-supervised Point Cloud Understanding",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2025/261",
+     "authors": "Yixin Zha, Chuxin Wang, Wenfei Yang, Tianzhu Zhang"
+    },
+    {
+     "title": "Domain-Adaptive Self-Supervised Face &amp; Body Detection in Drawings",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 11,
+     "doi": "10.24963/ijcai.2023/159",
+     "authors": "Barış Batuhan Topal, Deniz Yuret, Tevfik Metin Sezgin"
+    },
+    {
+     "title": "Self-supervised Semantic Segmentation Grounded in Visual Concepts",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 4,
+     "doi": "10.24963/ijcai.2022/133",
+     "authors": "Wenbin He, William Surmeier, Arvind Kumar Shekar, Liang Gou, Liu Ren"
+    },
+    {
+     "title": "Self-supervised Learning and Adaptation for Single Image Dehazing",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 36,
+     "doi": "10.24963/ijcai.2022/159",
+     "authors": "Yudong Liang, Bin Wang, Wangmeng Zuo, Jiaying Liu, Wenqi Ren"
+    },
+    {
+     "title": "Two-Fold Patch Perturbation for Efficient Self-Supervised Learning in 3D Medical Imaging",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/740",
+     "authors": "Tirthajit Baruah, Kabir Jamadar, Punit Rathore"
+    },
+    {
+     "title": "Dual-View Self-Supervised Pre-Training for Expert Finding",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/359",
+     "authors": "Mingqiao Zhang, Hongtao Liu, Yinghui Wang, Yumeng Wang, Qiyao Peng"
+    },
+    {
+     "title": "Self-Supervised Neuron Segmentation with Multi-Agent Reinforcement Learning",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 21,
+     "doi": "10.24963/ijcai.2023/68",
+     "authors": "Yinda Chen, Wei Huang, Shenglong Zhou, Qi Chen, Zhiwei Xiong"
+    },
+    {
+     "title": "Deciphering the Projection Head: Representation Evaluation Self-supervised Learning",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2024/522",
+     "authors": "Jiajun Ma, Tianyang Hu, Wenjia Wang"
+    },
+    {
+     "title": "Self-supervised End-to-end ToF Imaging Based on RGB-D Cross-modal Dependency",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2025/221",
+     "authors": "Weihang Wang, Jun Wang, Fei Wen"
+    },
+    {
+     "title": "DenseDINO: Boosting Dense Self-Supervised Learning with Token-Based Point-Level Consistency",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2023/188",
+     "authors": "Yike Yuan, Xinghe Fu, Yunlong Yu, Xi Li"
+    },
+    {
+     "title": "DiffSQL: Leveraging Diffusion Model for Zero-Shot Self-Supervised Monocular Depth Estimation",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/981",
+     "authors": "Heyuan Zheng, Yunji Liang, Lei Liu, Zhiwen Yu"
+    },
+    {
+     "title": "SCMT: Self-Correction Mean Teacher for Semi-supervised Object Detection",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 6,
+     "doi": "10.24963/ijcai.2022/207",
+     "authors": "Feng Xiong, Jiayi Tian, Zhihui Hao, Yulin He, Xiaofeng Ren"
+    },
+    {
+     "title": "Image Retrieval with Self-Supervised Divergence Minimization and Cross-Attention Classification",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2024/149",
+     "authors": "Vivek Trivedy, Longin Jan Latecki"
+    },
+    {
+     "title": "Multi-Semantic Aware Self-Supervised Learning for Multi-Label Node Classification",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/356",
+     "authors": "Jiayu Zhang, Jitao Zhao, Dongxiao He, Cuiying Huo, Zhiyong Feng"
+    },
+    {
+     "title": "Self-Supervised Mutual Learning for Dynamic Scene Reconstruction of Spiking Camera",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 25,
+     "doi": "10.24963/ijcai.2022/396",
+     "authors": "Shiyan Chen, Chaoteng Duan, Zhaofei Yu, Ruiqin Xiong, Tiejun Huang"
+    },
+    {
+     "title": "Self-supervised Graph Disentangled Networks for Review-based Recommendation",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 16,
+     "doi": "10.24963/ijcai.2023/254",
+     "authors": "Yuyang Ren, Haonan Zhang, Qi Li, Luoyi Fu, Xinbing Wang, Chenghu Zhou"
+    },
+    {
+     "title": "Multi-Modality Spatio-Temporal Forecasting via Self-Supervised Learning",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 9,
+     "doi": "10.24963/ijcai.2024/223",
+     "authors": "Jiewen Deng, Renhe Jiang, Jiaqi Zhang, Xuan Song"
+    },
+    {
+     "title": "Self-Classification Enhancement and Correction for Weakly Supervised Object Detection",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2025/254",
+     "authors": "Yufei Yin, Lechao Cheng, Wengang Zhou, Jiajun Deng, Zhou Yu, Houqiang Li"
+    },
+    {
+     "title": "SHIELD: A Self-supervised, Silicosis-focused Hierarchical Imaging Framework for Occupational Lung Disease Diagnosis",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2025/1060",
+     "authors": "Yasmeena Akhter, Rishabh Ranjan, Richa Singh, Mayank Vatsa"
+    },
+    {
+     "title": "RePre: Improving Self-Supervised Vision Transformer with Reconstructive Pre-training",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 12,
+     "doi": "10.24963/ijcai.2022/200",
+     "authors": "Luya Wang, Feng Liang, Yangguang Li, Honggang Zhang, Wanli Ouyang, Jing Shao"
+    },
+    {
+     "title": "Contrastive Representation Learning for Self-Supervised Taxonomy Completion",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 5,
+     "doi": "10.24963/ijcai.2024/712",
+     "authors": "Yuhang Niu, Hongyuan Xu, Ciyi Liu, Yanlong Wen, Xiaojie Yuan"
+    },
+    {
+     "title": "Self-Supervised Learning with Attention-based Latent Signal Augmentation for Sleep Staging with Limited Labeled Data",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 12,
+     "doi": "10.24963/ijcai.2022/537",
+     "authors": "Harim Lee, Eunseon Seong, Dong-Kyu Chae"
+    },
+    {
+     "title": "Knowing When Not to Predict: Self Supervised Learning and Abstention for Safer DR Screening",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/742",
+     "authors": "Muskaan Chopra, Lorenz Sparrenberg, Jan H. Terheyden, Rafet Sifa"
+    },
+    {
+     "title": "A Survey on Masked Autoencoder for Visual Self-supervised Learning",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 36,
+     "doi": "10.24963/ijcai.2023/762",
+     "authors": "Chaoning Zhang, Chenshuang Zhang, Junha Song, John Seon Keun Yi, In So Kweon"
+    },
+    {
+     "title": "Part Aware Contrastive Learning for Self-Supervised Action Recognition",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 50,
+     "doi": "10.24963/ijcai.2023/95",
+     "authors": "Yilei Hua, Wenhan Wu, Ce Zheng, Aidong Lu, Mengyuan Liu, Chen Chen"
+    },
+    {
+     "title": "SeRO: Self-Supervised Reinforcement Learning for Recovery from Out-of-Distribution Situations",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2023/432",
+     "authors": "Chan Kim, Jaekyung Cho, Christophe Bobda, Seung-Woo Seo, Seong-Woo Kim"
+    },
+    {
+     "title": "Bridging Feature-structural Homophily and Long-range Heterogeneity for Self-supervised Heterogeneous Graph Learning",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/280",
+     "authors": "Minda Chen, Yujie Mo, Junkai Huang, Guoqiu Wen, Xiaofeng Zhu"
+    },
+    {
+     "title": "ContrastMotion: Self-supervised Scene Motion Learning for Large-Scale LiDAR Point Clouds",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 7,
+     "doi": "10.24963/ijcai.2023/103",
+     "authors": "Xiangze Jia, Hui Zhou, Xinge Zhu, Yandong Guo, Ji Zhang, Yuexin Ma"
+    },
+    {
+     "title": "MaskDGNN: Self-Supervised Dynamic Graph Neural Networks with Activeness-aware Temporal Masking",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2025/322",
+     "authors": "Yiming He, Xiang Li, Zhongying Zhao, Haobing Liu, Peilan He, Yanwei Yu"
+    },
+    {
+     "title": "TaxoPrompt: A Prompt-based Generation Method with Taxonomic Context for Self-Supervised Taxonomy Expansion",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 10,
+     "doi": "10.24963/ijcai.2022/615",
+     "authors": "Hongyuan Xu, Yunong Chen, Zichen Liu, Yanlong Wen, Xiaojie Yuan"
+    },
+    {
+     "title": "EAT: Self-Supervised Pre-Training with Efficient Audio Transformer",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 11,
+     "doi": "10.24963/ijcai.2024/421",
+     "authors": "Wenxi Chen, Yuzhe Liang, Ziyang Ma, Zhisheng Zheng, Xie Chen"
+    },
+    {
+     "title": "Predicting Spectral Information for Self-Supervised Signal Classification",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2025/752",
+     "authors": "Yi Xu, Shuang Wang, Hantong Xing, Chenxu Wang, Dou Quan, Rui Yang"
+    },
+    {
+     "title": "SPOTR: Spatio-temporal Pooling One-Token Reconstruction for Universal Physiological Signal Self-supervised Learning",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/612",
+     "authors": "Yiyu Gui, Mingzhi Chen, Yuesheng Zhu, Guibo Luo, Yuchao Yang"
+    },
+    {
+     "title": "Self-Supervised Monocular Depth Estimation in the Dark: Towards Data Distribution Compensation",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2024/173",
+     "authors": "Haolin Yang, Chaoqiang Zhao, Lu Sheng, Yang Tang"
+    },
+    {
+     "title": "Hypergraph Self-supervised Learning with Sampling-efficient Signals",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 5,
+     "doi": "10.24963/ijcai.2024/486",
+     "authors": "Fan Li, Xiaoyang Wang, Dawei Cheng, Wenjie Zhang, Ying Zhang, Xuemin Lin"
+    },
+    {
+     "title": "VFM-Dynamo: Accurate Non-rigid Motion Identification via Vision Foundation Model for Self-supervised Monocular Depth Estimation",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/118",
+     "authors": "Qianqian Du, Hui Yin, Xingyu Miao, Zhengyin Liang"
+    },
+    {
+     "title": "BADFSS: Backdoor Attacks on Federated Self-Supervised Learning",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2024/61",
+     "authors": "Jiale Zhang, Chengcheng Zhu, Di Wu, Xiaobing Sun, Jianming Yong, Guodong Long"
+    },
+    {
+     "title": "RobustHAR: Multi-scale Spatial-temporal Masked Self-supervised Pre-training for Robust Human Activity Recognition",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 3,
+     "doi": "10.24963/ijcai.2025/952",
+     "authors": "Xiao Liu, Guan Yuan, Yanmei Zhang, Shang Liu, Qiuyan Yan"
+    },
+    {
+     "title": "GraphSculptor: Sculpting Pre-training Core Sets for Graph Self-supervised Learning",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/316",
+     "authors": "Chuang Liu, Zelin Yao, Xueqi Ma, Luzhi Wang, Mukun Chen, Pinghua Xu"
+    },
+    {
+     "title": "Self-Supervised Vision for Climate Downscaling",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2024/825",
+     "authors": "Karandeep Singh, Chaeyoon Jeong, Naufal Shidqi, Sungwon Park, Arjun Nellikkattil, Elke Zeller"
+    },
+    {
+     "title": "Self-supervised Weighted Information Bottleneck for Multi-view Clustering",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 6,
+     "doi": "10.24963/ijcai.2024/513",
+     "authors": "Zhengzheng Lou, Chaoyang Zhang, Hang Xue, Yangdong Ye, Qinglei Zhou, Shizhe Hu"
+    },
+    {
+     "title": "Point Cloud Mixture-of-Domain-Experts Model for 3D Self-supervised Learning",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2025/260",
+     "authors": "Yaohua Zha, Tao Dai, Hang Guo, Yanzi Wang, Bin Chen, Ke Chen"
+    },
+    {
+     "title": "Advancing Medical Image Segmentation via Self-supervised Instance-adaptive Prototype Learning",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2024/117",
+     "authors": "Guoyan Liang, Qin Zhou, Jingyuan Chen, Zhe Wang, Chang Yao"
+    },
+    {
+     "title": "CGMN: A Contrastive Graph Matching Network for Self-Supervised Graph Similarity Learning",
+     "year": 2022,
+     "venue": "Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence",
+     "citationCount": 20,
+     "doi": "10.24963/ijcai.2022/292",
+     "authors": "Di Jin, Luzhi Wang, Yizhen Zheng, Xiang Li, Fei Jiang, Wei Lin"
+    },
+    {
+     "title": "Self-Supervised Learning for Enhancing Spatial Awareness in Free-Hand Sketches",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 17,
+     "doi": "10.24963/ijcai.2024/566",
+     "authors": "Xin Wang, Tengjie Li, Sicong Zang, Shikui Tu, Lei Xu"
+    },
+    {
+     "title": "Pairwise Half-graph Discrimination: A Simple Graph-level Self-supervised Strategy for Pre-training Graph Neural Networks",
+     "year": 2021,
+     "venue": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+     "citationCount": 8,
+     "doi": "10.24963/ijcai.2021/371",
+     "authors": "Pengyong Li, Jun Wang, Ziliang Li, Yixuan Qiao, Xianggen Liu, Fei Ma"
+    },
+    {
+     "title": "Alleviating Imbalanced Pseudo-label Distribution: Self-Supervised Multi-Source Domain Adaptation with Label-specific Confidence",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2024/516",
+     "authors": "Shuai Lü, Meng Kang, Ximing Li"
+    },
+    {
+     "title": "SHIELD: A Self-supervised, Silicosis-focused Hierarchical Imaging Framework for Occupational Lung Disease Diagnosis",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2024/1060",
+     "authors": "Yasmeena Akhter, Rishabh Ranjan, Richa Singh, Mayank Vatsa"
+    },
+    {
+     "title": "LRGR: Self-Supervised Incomplete Multi-View Clustering via Local Refinement and Global Realignment",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2025/737",
+     "authors": "Yanwanyu Xi, Xiao Zheng, Chang Tang, Xingchen Hu, Yuanyuan Liu, Jun-Jie Huang"
+    },
+    {
+     "title": "SensorSCAN: Self-supervised learning and deep clustering for fault diagnosis in chemical processes (Abstract Reprint)",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2024/951",
+     "authors": "Maksim Golyadkin, Vitaliy Pozdnyakov, Leonid Zhukov, Ilya Makarov"
+    },
+    {
+     "title": "DGCPath: Distribution-Aware Generative Contrastive Framework for Self-supervised Path Representation Learning",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/352",
+     "authors": "Sean Bin Yang, Hao Miao, Zongyi Xu, Jilin Hu, Xiangmeng Wang, Hua Lu"
+    },
+    {
+     "title": "Modality-Guided Dynamic Graph Fusion and Temporal Diffusion for Self-Supervised RGB-T Tracking",
+     "year": 2025,
+     "venue": "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence",
+     "citationCount": 1,
+     "doi": "10.24963/ijcai.2025/159",
+     "authors": "Shenglan Li, Rui Yao, Yong Zhou, Hancheng Zhu, Kunyang Sun, Bing Liu"
+    },
+    {
+     "title": "Expressiveness is Effectiveness: Self-supervised Fashion-aware CLIP for Video-to-Shop Retrieval",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 2,
+     "doi": "10.24963/ijcai.2024/148",
+     "authors": "Likai Tian, Zhengwei Yang, Zechao Hu, Hao Li, Yifang Yin, Zheng Wang"
+    },
+    {
+     "title": "Self-Supervised Pre-training with Symmetric Superimposition Modeling for Scene Text Recognition",
+     "year": 2024,
+     "venue": "Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence",
+     "citationCount": 8,
+     "doi": "10.24963/ijcai.2024/85",
+     "authors": "Zuan Gao, Yuxin Wang, Yadong Qu, Boqiang Zhang, Zixiao Wang, Jianjun Xu"
+    },
+    {
+     "title": "Can Edge Addition Be Safe and Effective? Adjacency-Centered Augmentation via Langevin and SDE Diffusion for Self-Supervised Graph Anomaly Detection",
+     "year": 2026,
+     "venue": "Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence",
+     "citationCount": 0,
+     "doi": "10.24963/ijcai.2026/292",
+     "authors": "Haokai Gao, Menghua Jiang, Xuantao Yang, Jiale Liu, Yubin Li, Yuncheng Jiang"
+    },
+    {
+     "title": "Learning 3D Photography Videos via Self-supervised Diffusion on Single Images",
+     "year": 2023,
+     "venue": "Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence",
+     "citationCount": 7,
+     "doi": "10.24963/ijcai.2023/167",
+     "authors": "Xiaodong Wang, Chenfei Wu, Shengming Yin, Minheng Ni, Jianfeng Wang, Linjie Li"
+    }
+   ]
+  }
+ }
+}

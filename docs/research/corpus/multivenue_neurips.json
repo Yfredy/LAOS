@@ -1,0 +1,4860 @@
+{
+ "venue": "NeurIPS",
+ "category": "ml",
+ "canonical_venue_string": "Neural Information Processing Systems",
+ "wave": "B",
+ "generated_at": "2026-09-29 01:17:14",
+ "topics": [
+  "LLM agent tool use",
+  "agent memory",
+  "audio language model",
+  "multimodal agent",
+  "on-device inference",
+  "self-supervised speech"
+ ],
+ "request_budget": {
+  "successful": 6,
+  "limit": 300,
+  "attempts": 6
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "LLM agent tool use": {
+   "total": 12586,
+   "kept": 100,
+   "papers": [
+    {
+     "title": "GUARDIAN: Safeguarding LLM Multi-Agent Collaborations with Temporal Graph Modeling",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 4,
+     "doi": "10.52202/085713-0272",
+     "authors": "Jialong Zhou, Lichao Wang, Xiao Yang"
+    },
+    {
+     "title": "Group-in-Group Policy Optimization for LLM Agent Training",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 3,
+     "doi": "10.52202/085713-1544",
+     "authors": "Lang Feng, Zhenghai Xue, Tingcong Liu, Bo An"
+    },
+    {
+     "title": "LLM-DAMVC: A Large Language Model Assisted Dynamic Agent for Multi-View Clustering",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3990",
+     "authors": "Qianqian Wang, Qianqian Wang"
+    },
+    {
+     "title": "Multi-Agent Debate for LLM Judges with Adaptive Stability Detection",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-1548",
+     "authors": "Tianyu Hu, Zhen Tan, Song Wang, Huaizhi Qu, Tianlong Chen"
+    },
+    {
+     "title": "GenArtist: Multimodal LLM as an Agent for Unified Image Generation and Editing",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 16,
+     "doi": "10.52202/079017-4077",
+     "authors": "Zhenyu Wang, Aoxue Li, Zhenguo Li, Xihui Liu"
+    },
+    {
+     "title": "TrajAgent: An LLM-Agent Framework for Trajectory Modeling via Large-and-Small Model Collaboration",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0729",
+     "authors": "Yuwei Du, Jie Feng, Jie Zhao, Yong Li"
+    },
+    {
+     "title": "Distilling LLM Agent into Small Models with Retrieval and Code Tools",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3553",
+     "authors": "Minki Kang, Jongwon Jeong, Seanie Lee, Jaewoong Cho, Sung Ju Hwang"
+    },
+    {
+     "title": "MAGIS: LLM-Based Multi-Agent Framework for GitHub Issue Resolution",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 30,
+     "doi": "10.52202/079017-1647",
+     "authors": "Wei Tao, Yucheng Zhou, Yanlin Wang, Wenqiang Zhang, Hongyu Zhang, Yu Cheng"
+    },
+    {
+     "title": "Can Dependencies Induced by LLM-Agent Workflows Be Trusted?",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0587",
+     "authors": "Yu Yao, Yiliao (Lia) Song, Yian Xie, Mengdan Fan, Mingyu Guo, Tongliang Liu"
+    },
+    {
+     "title": "WorldCoder, a Model-Based LLM Agent: Building World Models by Writing Code and Interacting with the Environment",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 4,
+     "doi": "10.52202/079017-2243",
+     "authors": "Hao Tang, Darren Key, Kevin Ellis"
+    },
+    {
+     "title": "MM-Agent: LLM as Agents for Real-world Mathematical Modeling Problem",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-0704",
+     "authors": "Fan LIU, Zherui Yang, Cancheng Liu, Tianrui Song, Xiaofeng Gao, Hao Liu"
+    },
+    {
+     "title": "AgentNet: Decentralized Evolutionary Coordination for LLM-based Multi-Agent Systems",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 3,
+     "doi": "10.52202/085713-3578",
+     "authors": "Yingxuan Yang, Huacan Chai, Shuai Shao, Yuanyi Song, Siyuan Qi, Renting Rui"
+    },
+    {
+     "title": "Coevolving with the Other You: Fine-Tuning LLM with Sequential Cooperative Multi-Agent Reinforcement Learning",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 8,
+     "doi": "10.52202/079017-0495",
+     "authors": "Hao Ma, Tianyi Hu, Zhiqiang Pu, Boyin Liu, Xiaolin Ai, Yanyan Liang"
+    },
+    {
+     "title": "SE-Agent: Self-Evolution Trajectory Optimization in Multi-Step Reasoning with LLM-Based Agents",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3877",
+     "authors": "Yifu Guo, Jiaye Lin, Huacan Wang, Yuzhen Han, Sen Hu, Ziyi Ni"
+    },
+    {
+     "title": "KVFlow: Efficient Prefix Caching for Accelerating LLM-Based Multi-Agent Workflows",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 3,
+     "doi": "10.52202/085713-4208",
+     "authors": "Zaifeng Pan, AJJKUMAR DAHYALAL PATEL, Yipeng Shen, Zhengding Hu, Yue Guan, Wan-Lu Li"
+    },
+    {
+     "title": "Large Language Models as Urban Residents: An LLM Agent Framework for Personal Mobility Generation",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 48,
+     "doi": "10.52202/079017-3957",
+     "authors": "Jiawei Wang, Renhe Jiang, Chuang Yang, Zengqing Wu, Makoto Onizuka, Ryosuke Shibasaki"
+    },
+    {
+     "title": "AgentRecBench: Benchmarking LLM Agent-based Personalized Recommender Systems",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 3,
+     "doi": "10.52202/085713-5156",
+     "authors": "Yu Shang, Peijie Liu, Yuwei Yan, Zijing Wu, Leheng Sheng, Yuanqing Yu"
+    },
+    {
+     "title": "AvaTaR: Optimizing LLM Agents for Tool Usage via Contrastive Reasoning",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 10,
+     "doi": "10.52202/079017-0817",
+     "authors": "Shirley Wu, Shiyu Zhao, Qian Huang, Kexin Huang, Michihiro Yasunaga, Kaidi Cao"
+    },
+    {
+     "title": "KVCOMM: Online Cross-context KV-cache Communication for Efficient LLM-based Multi-agent Systems",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 3,
+     "doi": "10.52202/085713-0605",
+     "authors": "Hancheng Ye, Zhengqi Gao, Mingyuan Ma, Qinsi Wang, Yuzhe Fu, Ming-Yu Chung"
+    },
+    {
+     "title": "Why Do Multi-Agent LLM Systems Fail?",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 35,
+     "doi": "10.52202/085713-4082",
+     "authors": "Mert Cemri, Melissa Z Pan, Shuyi Yang, Lakshya A Agrawal, Bhavya Chopra, Rishabh Tiwari"
+    },
+    {
+     "title": "Set-LLM: A Permutation-Invariant LLM",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-2105",
+     "authors": "Beni Egressy, Jan Stühmer"
+    },
+    {
+     "title": "BrainEC-LLM: Brain Effective Connectivity Estimation by Multiscale Mixing LLM",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4105",
+     "authors": "Wen Xiong, Junzhong Ji, Jinduo Liu"
+    },
+    {
+     "title": "How to Train Your LLM Web Agent: A Statistical Diagnosis",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-1774",
+     "authors": "Dheeraj Vattikonda, Santhoshi Ravichandran, Emiliano Penaloza, Hadi Nekoei, Thibault de Chezelles, Megh Thakkar"
+    },
+    {
+     "title": "Response Length Perception and  Sequence Scheduling: An LLM-Empowered LLM Inference Pipeline",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 20,
+     "doi": "10.52202/075280-2859",
+     "authors": "Zangwei Zheng, Xiaozhe Ren, Fuzhao Xue, Yang Luo, Xin Jiang, Yang You"
+    },
+    {
+     "title": "FinCon: A Synthesized LLM Multi-Agent System with Conceptual Verbal Reinforcement for Enhanced Financial Decision Making",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 46,
+     "doi": "10.52202/079017-4354",
+     "authors": "Yangyang Yu, Zhiyuan Yao, Haohang Li, Zhiyang Deng, Yuechen Jiang, Yupeng Cao"
+    },
+    {
+     "title": "Let the LLM Stick to Its Strengths: Learning to Route Economical LLM",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-1127",
+     "authors": "Yi-Kai Zhang, Shiyin Lu, Qingguo Chen, Weihua Luo, De-Chuan Zhan, Han-Jia Ye"
+    },
+    {
+     "title": "Sim-LLM: Optimizing LLM Inference at the Edge through Inter-Task KV Reuse",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-2984",
+     "authors": "Ruikun Luo, Changwei Gu, Qiang He, Feifei Chen, Song Wu, Hai Jin"
+    },
+    {
+     "title": "Deep Video Discovery: Agentic Search with Tool Use for Long-form Video Understanding",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 3,
+     "doi": "10.52202/085713-3005",
+     "authors": "Xiaoyi Zhang, Zhaoyang Jia, Zongyu Guo, Jiahao Li, Bin Li, Houqiang Li"
+    },
+    {
+     "title": "Multi-LLM Debate: Framework, Principals, and Interventions",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 27,
+     "doi": "10.52202/079017-0911",
+     "authors": "Andrew Estornell, Yang Liu"
+    },
+    {
+     "title": "Thinkless: LLM Learns When to Think",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-5060",
+     "authors": "Gongfan Fang, Xinyin Ma, Xinchao Wang"
+    },
+    {
+     "title": "Exploiting LLM Quantization",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 35,
+     "doi": "10.52202/079017-1319",
+     "authors": "Kazuki Egashira, Mark Vero, Robin Staab, Jingxuan He, Martin Vechev"
+    },
+    {
+     "title": "LoFiT: Localized Fine-tuning on LLM Representations",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 7,
+     "doi": "10.52202/079017-0301",
+     "authors": "Fangcong Yin, Xi Ye, Greg Durrett"
+    },
+    {
+     "title": "Transcoders find interpretable LLM feature circuits",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 11,
+     "doi": "10.52202/079017-0768",
+     "authors": "Jacob Dunefsky, Philippe Chlenski, Neel Nanda"
+    },
+    {
+     "title": "Jailbroken: How Does LLM Safety Training Fail?",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 190,
+     "doi": "10.52202/075280-3508",
+     "authors": "Alexander Wei, Nika Haghtalab, Jacob Steinhardt"
+    },
+    {
+     "title": "LLM Evaluators Recognize and Favor Their Own Generations",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 85,
+     "doi": "10.52202/079017-2197",
+     "authors": "Arjun Panickssery, Samuel Bowman, Shi Feng"
+    },
+    {
+     "title": "HaloScope: Harnessing Unlabeled LLM Generations for Hallucination Detection",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 22,
+     "doi": "10.52202/079017-3270",
+     "authors": "Xuefeng Du, Chaowei Xiao, Yixuan Li"
+    },
+    {
+     "title": "WaterMax: breaking the LLM watermark detectability-robustness-quality trade-off",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 5,
+     "doi": "10.52202/079017-0597",
+     "authors": "Eva Giboulot, Teddy Furon"
+    },
+    {
+     "title": "LLM Layers Immediately Correct Each Other",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4643",
+     "authors": "Arjun Patrawala, Jiahai Feng, Erik Jones, Jacob Steinhardt"
+    },
+    {
+     "title": "Enhancing Multilingual LLM Pretraining with Model-Based Data Selection",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-2109",
+     "authors": "Bettina Messmer, Vinko Sabolčec, Martin Jaggi"
+    },
+    {
+     "title": "Cost-aware LLM-based Online Dataset Annotation",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0125",
+     "authors": "Eray Can Elumar, Cem Tekin, Osman Yagan"
+    },
+    {
+     "title": "SubTrack++ : Gradient Subspace Tracking for Scalable LLM Training",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-1060",
+     "authors": "Sahar Rajabi, Nayeema Nonta, Sirisha Rambhatla"
+    },
+    {
+     "title": "Learned Prefix Caching for Efficient LLM Inference",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-1526",
+     "authors": "Dongsheng Yang, Austin Li, Kai Li, Wyatt Lloyd"
+    },
+    {
+     "title": "Tail-Optimized Caching for LLM Inference",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-5483",
+     "authors": "Wenxin Zhang, Yueying Li, Ciamac C Moallemi, Tianyi Peng"
+    },
+    {
+     "title": "Efficient Training-Free Online Routing for High-Volume Multi-LLM Serving",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4577",
+     "authors": "Fangzhou Wu, Sandeep Silwal"
+    },
+    {
+     "title": "Gradient Multi-Normalization for Efficient LLM Training",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-1433",
+     "authors": "Meyer Scetbon, Chao Ma, Wenbo Gong, Ted Meeds"
+    },
+    {
+     "title": "On Evaluating LLM Alignment by Evaluating LLMs as Judges",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-5051",
+     "authors": "Yixin Liu, Pengfei Liu, Arman Cohan"
+    },
+    {
+     "title": "LLM-Pruner: On the Structural Pruning of Large Language Models",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 104,
+     "doi": "10.52202/075280-0950",
+     "authors": "Xinyin Ma, Gongfan Fang, Xinchao Wang"
+    },
+    {
+     "title": "URLs Help, Topics Guide: Understanding Metadata Utility in LLM Training",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4584",
+     "authors": "Dongyang Fan, Vinko Sabolčec, Martin Jaggi"
+    },
+    {
+     "title": "Memory-Efficient LLM Training with Online Subspace Descent",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 4,
+     "doi": "10.52202/079017-2054",
+     "authors": "Kaizhao Liang, Bo Liu, Lizhang Chen, Qiang Liu"
+    },
+    {
+     "title": "RvLLM: LLM Runtime Verification with Domain Knowledge",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-2693",
+     "authors": "Yedi Zhang, Sun Emma, Annabelle En, Jin Song Dong"
+    },
+    {
+     "title": "Detecting Bugs with Substantial Monetary Consequences by LLM and Rule-based Reasoning",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 4,
+     "doi": "10.52202/079017-4258",
+     "authors": "Brian Zhang, Zhuo Zhang"
+    },
+    {
+     "title": "APOLLO: Automated LLM and Lean Collaboration for Advanced Formal Reasoning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-1389",
+     "authors": "Azim Ospanov, Farzan Farnia, Roozbeh Mohit"
+    },
+    {
+     "title": "Evaluating LLM-contaminated Crowdsourcing Data Without Ground Truth",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-2287",
+     "authors": "Yichi Zhang, Jinlong Pang, Zhaowei Zhu, Yang Liu"
+    },
+    {
+     "title": "LLM Interpretability with Identifiable Temporal-Instantaneous Representation",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3472",
+     "authors": "Xiangchen Song, Jiaqi Sun, Zijian Li, Yujia Zheng, Kun Zhang"
+    },
+    {
+     "title": "LLM Generated Persona is a Promise with a Catch",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 7,
+     "doi": "10.52202/085713-2226",
+     "authors": "Ang Li, Haozhe Chen, Hongseok Namkoong, Tianyi Peng"
+    },
+    {
+     "title": "C-SafeGen: Certified Safe LLM Generation with Claim-Based Streaming Guardrails",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-2248",
+     "authors": "Mintong Kang, Zhaorun Chen, Bo Li"
+    },
+    {
+     "title": "LLM Dataset Inference: Did you train on my dataset?",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 17,
+     "doi": "10.52202/079017-3941",
+     "authors": "Pratyush Maini, Hengrui Jia, Nicolas Papernot, Adam Dziedzic"
+    },
+    {
+     "title": "Causal LLM Routing: End-to-End Regret Minimization from Observational Data",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-1252",
+     "authors": "Asterios Tsiourvas, Wei Sun, Georgia Perakis"
+    },
+    {
+     "title": "Enhancing LLM Watermark Resilience Against Both Scrubbing and  Spoofing Attacks",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0943",
+     "authors": "Huanming Shen, Baizhou Huang, Xiaojun Wan"
+    },
+    {
+     "title": "CLAVE: An Adaptive Framework for Evaluating Values of LLM Generated Responses",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 2,
+     "doi": "10.52202/079017-1877",
+     "authors": "Jing Yao, Xiaoyuan Yi, Xing Xie"
+    },
+    {
+     "title": "Speculative Decoding with CTC-based Draft Model for LLM Inference Acceleration",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-2923",
+     "authors": "Zhuofan Wen, Shangtong Gui, Yang Feng"
+    },
+    {
+     "title": "SpeedLoader: An I/O efficient scheme for heterogeneous and distributed LLM operation",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 1,
+     "doi": "10.52202/079017-1092",
+     "authors": "Yiqi Zhang, Yang You"
+    },
+    {
+     "title": "LLM Circuit Analyses Are Consistent Across Training and Scale",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 2,
+     "doi": "10.52202/079017-1287",
+     "authors": "Curt Tigges, Michael Hanna, Qinan Yu, Stella Biderman"
+    },
+    {
+     "title": "Bilevel ZOFO: Efficient LLM Fine-Tuning and Meta-Training",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-2223",
+     "authors": "Reza Shirkavand, Peiran Yu, Qi He, Heng Huang"
+    },
+    {
+     "title": "LLM Meeting Decision Trees on Tabular Data",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3938",
+     "authors": "Hangting Ye, Jinmeng Li, He Zhao, Dandan Guo, Yi Chang"
+    },
+    {
+     "title": "Towards Fully FP8 GEMM LLM Training at Scale",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-1896",
+     "authors": "Alejandro Hernández Cano, Dhia Garbaya, Imanol Schlag, Martin Jaggi"
+    },
+    {
+     "title": "GPO: Learning from Critical Steps to Improve LLM Reasoning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0039",
+     "authors": "Jiahao Yu, Zelei Cheng, Xian Wu, Xinyu Xing"
+    },
+    {
+     "title": "HyGen: Efficient LLM Serving via Elastic Online-Offline Request Co-location",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-0502",
+     "authors": "Ting Sun, Penghan Wang, Fan Lai"
+    },
+    {
+     "title": "Can Agent Fix Agent Issues?",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-1638",
+     "authors": "Alfin Wijaya Rahardja, Junwei Liu, Weitong Chen, Zhenpeng Chen, Yiling Lou"
+    },
+    {
+     "title": "COGNAC: Cooperative Graph-based Networked Agent Challenges for Multi-Agent Reinforcement Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0200",
+     "authors": "Jules Sintes, Ana Busic"
+    },
+    {
+     "title": "SG-Bench: Evaluating LLM Safety Generalization Across Diverse Tasks and Prompt Types",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 16,
+     "doi": "10.52202/079017-3910",
+     "authors": "Yutao Mou, Shikun Zhang, Wei Ye"
+    },
+    {
+     "title": "Bayesian Concept Bottleneck Models with LLM Priors",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-3141",
+     "authors": "Jean Feng, Avni Kothari, Lucas Zier, Chandan Singh, Yan Shuo Tan"
+    },
+    {
+     "title": "Richelieu: Self-Evolving LLM-Based Agents for AI Diplomacy",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 11,
+     "doi": "10.52202/079017-3925",
+     "authors": "Zhenyu Guan, Xiangyu Kong, Fangwei Zhong, Yizhou Wang"
+    },
+    {
+     "title": "Web-Scale Visual Entity Recognition: An LLM-Driven Data Approach",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 1,
+     "doi": "10.52202/079017-1089",
+     "authors": "Mathilde Caron, Alireza Fathi, Cordelia Schmid, Ahmet Iscen"
+    },
+    {
+     "title": "AdvPrefix: An Objective for Nuanced LLM Jailbreaks",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3010",
+     "authors": "Sicheng Zhu, Brandon Amos, Yuandong Tian, Chuan Guo, Ivan Evtimov"
+    },
+    {
+     "title": "Guiding LLM Decision-Making with Fairness Reward Models",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-4867",
+     "authors": "Zara Hall, Melanie Subbiah, Thomas Zollo, Kathleen McKeown, Richard Zemel"
+    },
+    {
+     "title": "Your Pre-trained LLM is Secretly an Unsupervised Confidence Calibrator",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-5458",
+     "authors": "Beier Luo, Shuoyuan Wang, Sharon Li, Hongxin Wei"
+    },
+    {
+     "title": "MAT-Agent: Adaptive Multi-Agent Training Optimization",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-2589",
+     "authors": "jusheng zhang, Kaitong Cai, Yijia Fan, Ningyuan Liu, Keze Wang"
+    },
+    {
+     "title": "Eyes Wide Open: Ego Proactive Video-LLM for Streaming Video",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0453",
+     "authors": "Xueyang Yu, Cheng Shi, Yang Wang, Sibei Yang"
+    },
+    {
+     "title": "Q-Palette: Fractional-Bit Quantizers Toward Optimal Bit Allocation for Efficient LLM Deployment",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0387",
+     "authors": "DEOKJAE LEE, Hyun Oh Song"
+    },
+    {
+     "title": "LLM-Driven Treatment Effect Estimation Under Inference Time Text Confounding",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-0351",
+     "authors": "Yuchen Ma, Dennis Frauen, Jonas Schweisthal, Stefan Feuerriegel"
+    },
+    {
+     "title": "LLM-based Skill Diffusion for Zero-shot Policy Adaptation",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 2,
+     "doi": "10.52202/079017-0216",
+     "authors": "Woo Kyung Kim, Youngseok Lee, Jooyoung Kim, Honguk Woo"
+    },
+    {
+     "title": "ShapeCraft: LLM Agents for Structured, Textured and Interactive 3D Modeling",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-2181",
+     "authors": "Shuyuan Zhang, ChenHan Jiang, Zuoou Li, Jiankang Deng"
+    },
+    {
+     "title": "Zero-Shot Detection of LLM-Generated Text via Implicit Reward Model",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-5590",
+     "authors": "Runheng Liu, Heyan Huang, Xingchen Xiao, Zhijing Wu"
+    },
+    {
+     "title": "MUSTAFAR: Promoting Unstructured Sparsity for KV Cache Pruning in LLM Inference",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-2564",
+     "authors": "Donghyeon Joo, Helya Hosseini, Ramyad Hadidi, Bahar Asgari"
+    },
+    {
+     "title": "Distributional LLM-as-a-Judge",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-1008",
+     "authors": "Luyu Chen, Zeyu Zhang, Haoran Tan, Quanyu Dai, Yang Hao, Zhenhua Dong"
+    },
+    {
+     "title": "Reparameterized LLM Training via Orthogonal Equivalence Transformation",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4704",
+     "authors": "Zeju Qiu, Simon Buchholz, Tim Xiao, Maximilian Dax, Bernhard Schölkopf, Weiyang Liu"
+    },
+    {
+     "title": "Clean First, Align Later: Benchmarking Preference Data Cleaning for Reliable LLM Alignment",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4149",
+     "authors": "Samuel (Min-Hsuan) Yeh, Sharon Li"
+    },
+    {
+     "title": "Cooperation, Competition, and Maliciousness: LLM-Stakeholders Interactive Negotiation",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 23,
+     "doi": "10.52202/079017-2658",
+     "authors": "Sahar Abdelnabi, Amr Gomaa, Sarath Sivaprasad, Lea Schönherr, Mario Fritz"
+    },
+    {
+     "title": "ReMindRAG: Low-Cost LLM-Guided Knowledge Graph Traversal for Efficient RAG",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-1793",
+     "authors": "Yikuan Hu, Jifeng Zhu, Lanrui Tang, Chen Huang"
+    },
+    {
+     "title": "Agentic Plan Caching: Test-Time Memory for Fast and Cost-Efficient LLM Agents",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3451",
+     "authors": "Qizheng Zhang, Michael Wornow, Kunle Olukotun"
+    },
+    {
+     "title": "D4: Improving LLM Pretraining via Document De-Duplication and Diversification",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 12,
+     "doi": "10.52202/075280-2348",
+     "authors": "Kushal Tirumala, Daniel Simig, Armen Aghajanyan, Ari Morcos"
+    },
+    {
+     "title": "Polar Sparsity: High Throughput Batched LLM Inferencing with Scalable Contextual Sparsity",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-2843",
+     "authors": "Susav Shrestha, Bradley Settlemyer, Nikoli Dryden, Narasimha Reddy"
+    },
+    {
+     "title": "The Unreasonable Effectiveness of Entropy Minimization in LLM Reasoning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 3,
+     "doi": "10.52202/085713-3573",
+     "authors": "Shivam Agarwal, Zimin Zhang, Lifan Yuan, Jiawei Han, Hao Peng"
+    },
+    {
+     "title": "A-Mem: Agentic Memory for LLM Agents",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 19,
+     "doi": "10.52202/085713-0593",
+     "authors": "Wujiang Xu, Zujie Liang, Kai Mei, Hang Gao, Juntao Tan, Yongfeng Zhang"
+    },
+    {
+     "title": "Make Information Diffusion Explainable: LLM-based Causal Framework for Diffusion Prediction",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-4426",
+     "authors": "Wenbo Shang, Zihan Feng, Yang Yajun, Xin Huang"
+    },
+    {
+     "title": "Learning Grouped Lattice Vector Quantizers for Low-Bit LLM Compression",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3696",
+     "authors": "Xi Zhang, Xiaolin Wu, Jiamang Wang, Weisi Lin"
+    },
+    {
+     "title": "LLM Safety Alignment is Divergence Estimation in Disguise",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3145",
+     "authors": "Rajdeep Haldar, Ziyi Wang, Guang Lin, Yue XING, Qifan Song"
+    },
+    {
+     "title": "Reinforcing LLM Agents via Policy Optimization with Action Decomposition",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 4,
+     "doi": "10.52202/079017-3297",
+     "authors": "Muning Wen, Ziyu Wan, Jun Wang, Weinan Zhang, Ying Wen"
+    },
+    {
+     "title": "Bag of Tricks for Inference-time Computation of LLM Reasoning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-4815",
+     "authors": "Fan LIU, Wen-Shuo Chao, Naiqiang Tan, Hao Liu"
+    }
+   ]
+  },
+  "agent memory": {
+   "total": 8947,
+   "kept": 100,
+   "papers": [
+    {
+     "title": "G-Memory: Tracing Hierarchical Memory for Multi-Agent Systems",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 3,
+     "doi": "10.52202/085713-0439",
+     "authors": "Guibin Zhang, Muxin Fu, Kun Wang, Frank Wan, Miao Yu, Shuicheng Yan"
+    },
+    {
+     "title": "COGNAC: Cooperative Graph-based Networked Agent Challenges for Multi-Agent Reinforcement Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0200",
+     "authors": "Jules Sintes, Ana Busic"
+    },
+    {
+     "title": "Can Agent Fix Agent Issues?",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-1638",
+     "authors": "Alfin Wijaya Rahardja, Junwei Liu, Weitong Chen, Zhenpeng Chen, Yiling Lou"
+    },
+    {
+     "title": "MAT-Agent: Adaptive Multi-Agent Training Optimization",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-2589",
+     "authors": "jusheng zhang, Kaitong Cai, Yijia Fan, Ningyuan Liu, Keze Wang"
+    },
+    {
+     "title": "Does Worst-Performing Agent Lead the Pack? Analyzing Agent Dynamics in Unified Distributed SGD",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-2316",
+     "authors": "Jie Hu, Yi-Ting Ma, Young Eun"
+    },
+    {
+     "title": "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 216,
+     "doi": "10.52202/079017-1601",
+     "authors": "John Yang, Carlos Jimenez, Alexander Wettig, Kilian Lieret, Shunyu Yao, Karthik Narasimhan"
+    },
+    {
+     "title": "RF-Agent: Automated Reward Function Design via Language Agent Tree Search",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-5742",
+     "authors": "Ning Gao, Xiuhui Zhang, Xingyu Jiang, Mukang You, Mohan Zhang, Yue Deng"
+    },
+    {
+     "title": "3D-Agent: A Tri-Modal Multi-Agent Responsive Framework for Comprehensive 3D Object Annotation",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-2232",
+     "authors": "jusheng zhang, Yijia Fan, Zimo Wen, Jian Wang, Keze Wang"
+    },
+    {
+     "title": "ALI-Agent: Assessing LLMs'  Alignment with Human Values via Agent-based Evaluation",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 5,
+     "doi": "10.52202/079017-3142",
+     "authors": "Jingnan Zheng, Han Wang, An Zhang, Tai Nguyen, Jun Sun, Tat-Seng Chua"
+    },
+    {
+     "title": "Kernel Memory Networks: A Unifying Framework for Memory Modeling",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 1,
+     "doi": "10.52202/068431-2560",
+     "authors": "Georgios Iatropoulos, Johanni Brea, Wulfram Gerstner"
+    },
+    {
+     "title": "R&amp;D-Agent-Quant: A Multi-Agent Framework for Data-Centric Factors and Model Joint Optimization",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 3,
+     "doi": "10.52202/085713-3967",
+     "authors": "Yuante Li, Xu Yang, Xiao Yang, Xisen Wang, Weiqing Liu, Jiang Bian"
+    },
+    {
+     "title": "Mobile-Agent-v2: Mobile Device Operation Assistant with Effective Navigation via Multi-Agent Collaboration",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 40,
+     "doi": "10.52202/079017-0088",
+     "authors": "Junyang Wang, Haiyang Xu, Haitao Jia, Xi Zhang, Ming Yan, Weizhou Shen"
+    },
+    {
+     "title": "Multi-agent Markov Entanglement",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0332",
+     "authors": "Shuze Chen, Tianyi Peng"
+    },
+    {
+     "title": "Memory Decoder: A Pretrained, Plug-and-Play Memory for Large Language Models",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3851",
+     "authors": "Jiaqi Cao, Jiarui Wang, Rubin Wei, Qipeng Guo, Kai Chen, Bowen Zhou"
+    },
+    {
+     "title": "Learning Multi-agent Behaviors from Distributed and Streaming Demonstrations",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 3,
+     "doi": "10.52202/075280-2330",
+     "authors": "Shicheng Liu, Minghui Zhu"
+    },
+    {
+     "title": "Mutual-Information Regularized Multi-Agent Policy Iteration",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 0,
+     "doi": "10.52202/075280-0118",
+     "authors": "Wang Wang, Deheng Ye, Zongqing Lu"
+    },
+    {
+     "title": "Towards Principled Unsupervised Multi-Agent Reinforcement Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-2524",
+     "authors": "Riccardo Zamboni, Mirco Mutti, Marcello Restelli"
+    },
+    {
+     "title": "Efficient Adversarial Attacks on Online Multi-agent Reinforcement Learning",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 3,
+     "doi": "10.52202/075280-1062",
+     "authors": "Guanlin Liu, Lifeng Lai"
+    },
+    {
+     "title": "Distributed Inverse Constrained Reinforcement Learning for Multi-Agent Systems",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 4,
+     "doi": "10.52202/068431-2423",
+     "authors": "Shicheng Liu, Minghui Zhu"
+    },
+    {
+     "title": "On Feasible Rewards in Multi-Agent Inverse Reinforcement Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3811",
+     "authors": "Till Freihaut, Giorgia Ramponi"
+    },
+    {
+     "title": "Episodic Future Thinking Mechanism for Multi-agent Reinforcement Learning",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-0369",
+     "authors": "Dongsu Lee, Minhae Kwon"
+    },
+    {
+     "title": "Shield Decentralization for Safe Multi-Agent Reinforcement Learning",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 2,
+     "doi": "10.52202/068431-0972",
+     "authors": "Daniel Melcer, Christopher Amato, Stavros Tripakis"
+    },
+    {
+     "title": "ALMA: Hierarchical Learning for Composite Multi-Agent Tasks",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 6,
+     "doi": "10.52202/068431-0519",
+     "authors": "Shariq Iqbal, Robby Costales, Fei Sha"
+    },
+    {
+     "title": "Periodic agent-state based Q-learning for POMDPs",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-1985",
+     "authors": "Amit Sinha, Matthieu Geist, Aditya Mahajan"
+    },
+    {
+     "title": "Selectively Sharing Experiences Improves Multi-Agent Reinforcement Learning",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 2,
+     "doi": "10.52202/075280-2602",
+     "authors": "Matthias Gerstgrasser, Tom Danino, Sarah Keren"
+    },
+    {
+     "title": "Asynchronous Actor-Critic for Multi-Agent Reinforcement Learning",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 8,
+     "doi": "10.52202/068431-0317",
+     "authors": "Yuchen Xiao, Weihao Tan, Christopher Amato"
+    },
+    {
+     "title": "In-Context Fully Decentralized Cooperative Multi-Agent Reinforcement Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4943",
+     "authors": "Chao Li, Bingkun BAO, Yang Gao"
+    },
+    {
+     "title": "Provably Efficient Offline Multi-Agent Reinforcement Learning Via Strategy-Wise Bonus",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 1,
+     "doi": "10.52202/068431-0853",
+     "authors": "Qiwen Cui, Simon Du"
+    },
+    {
+     "title": "Multi-Agent Learning with Heterogeneous Linear Contextual Bandits",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 0,
+     "doi": "10.52202/075280-3445",
+     "authors": "Anh Do, Thanh Nguyen-Tang, Raman Arora"
+    },
+    {
+     "title": "Information Design in Multi-Agent Reinforcement Learning",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 4,
+     "doi": "10.52202/075280-1113",
+     "authors": "Yue Lin, Wenhao Li, Hongyuan Zha, Baoxiang Wang"
+    },
+    {
+     "title": "Universally Expressive Communication in Multi-Agent Reinforcement Learning",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 1,
+     "doi": "10.52202/068431-2428",
+     "authors": "Matthew Morris, Thomas D Barrett, Arnu Pretorius"
+    },
+    {
+     "title": "Enabling Adaptive Agent Training in Open-Ended Simulators by Targeting Diversity",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-2446",
+     "authors": "Robby Costales, Stefanos Nikolaidis"
+    },
+    {
+     "title": "N-agent Ad Hoc Teamwork",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 1,
+     "doi": "10.52202/079017-3551",
+     "authors": "Caroline Wang, Arrasy Rahman, Ishan Durugkar, Elad Liebman, Peter Stone"
+    },
+    {
+     "title": "Kaleidoscope: Learnable Masks for Heterogeneous Multi-agent Reinforcement Learning",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 3,
+     "doi": "10.52202/079017-0695",
+     "authors": "Xinran Li, Ling Pan, Jun Zhang"
+    },
+    {
+     "title": "Hierarchical Multi-Agent Skill Discovery",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 5,
+     "doi": "10.52202/075280-2699",
+     "authors": "Mingyu Yang, Yaodong Yang, Zhenbo Lu, Wengang Zhou, Houqiang Li"
+    },
+    {
+     "title": "MisoDICE: Multi-Agent Imitation from Mixed-Quality Demonstrations",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-5471",
+     "authors": "The Viet Bui, Tien Mai, Thanh Nguyen"
+    },
+    {
+     "title": "Decentralized Randomly Distributed Multi-agent Multi-armed Bandit with Heterogeneous Rewards",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 0,
+     "doi": "10.52202/075280-3270",
+     "authors": "Mengfan Xu, Diego Klabjan"
+    },
+    {
+     "title": "Rethinking Individual Global Max in Cooperative Multi-Agent Reinforcement Learning",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 6,
+     "doi": "10.52202/068431-2350",
+     "authors": "Yitian Hong, Yaochu Jin, Yang Tang"
+    },
+    {
+     "title": "Mean-Field Sampling for Cooperative Multi-Agent Reinforcement Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0287",
+     "authors": "Emile Anand, Ishani Karmarkar, Guannan Qu"
+    },
+    {
+     "title": "Look Ma, No Hands! Agent-Environment Factorization of Egocentric Videos",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 3,
+     "doi": "10.52202/075280-0938",
+     "authors": "Matthew Chang, Aditya Prakash, Saurabh Gupta"
+    },
+    {
+     "title": "GUARDIAN: Safeguarding LLM Multi-Agent Collaborations with Temporal Graph Modeling",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 4,
+     "doi": "10.52202/085713-0272",
+     "authors": "Jialong Zhou, Lichao Wang, Xiao Yang"
+    },
+    {
+     "title": "ProtoX: Explaining a Reinforcement Learning Agent Via Prototyping",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 1,
+     "doi": "10.52202/068431-1975",
+     "authors": "Ronilo Ragodos, Tong Wang, Qihang Lin, Xun Zhou"
+    },
+    {
+     "title": "Multi-Agent Learning under Uncertainty: Recurrence vs. Concentration",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-2640",
+     "authors": "Kyriakos Lotidis, Panayotis Mertikopoulos, Nicholas Bambos, Jose Blanchet"
+    },
+    {
+     "title": "SYMPHONY: Synergistic Multi-agent Planning with Heterogeneous Language Model Assembly",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-1934",
+     "authors": "Wei Zhu, Zhiwen Tang, Kun Yue"
+    },
+    {
+     "title": "Bayesian Ego-graph Inference for Networked Multi-Agent Reinforcement Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-2451",
+     "authors": "Wei Duan, Jie Lu, Junyu Xuan"
+    },
+    {
+     "title": "SiriuS: Self-improving Multi-agent Systems via Bootstrapped Reasoning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-4148",
+     "authors": "Wanjia Zhao, Mert Yuksekgonul, Shirley Wu, James Zou"
+    },
+    {
+     "title": "UrbanKGent: A Unified Large Language Model Agent Framework for Urban Knowledge Graph Construction",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 12,
+     "doi": "10.52202/079017-3913",
+     "authors": "Yansong Ning, Hao Liu"
+    },
+    {
+     "title": "Heterogeneous Skill Learning for Multi-Agent Tasks",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 4,
+     "doi": "10.52202/068431-2682",
+     "authors": "Yuntao Liu, Yuan Li, Xinhai Xu, Yong Dou, Donghong Liu"
+    },
+    {
+     "title": "Memory Mosaics at scale",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-1299",
+     "authors": "Jianyu Zhang, Leon Bottou"
+    },
+    {
+     "title": "LLM-DAMVC: A Large Language Model Assisted Dynamic Agent for Multi-View Clustering",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3990",
+     "authors": "Qianqian Wang, Qianqian Wang"
+    },
+    {
+     "title": "MALinZero: Efficient Low-Dimensional Search for Mastering Complex Multi-Agent Planning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-2527",
+     "authors": "Sizhe Tang, Jiayu Chen, Tian Lan"
+    },
+    {
+     "title": "Near-Optimal Multi-Agent Learning for Safe Coverage Control",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 3,
+     "doi": "10.52202/068431-1091",
+     "authors": "Manish Prajapat, Matteo Turchetta, Melanie Zeilinger, Andreas Krause"
+    },
+    {
+     "title": "Wonder Wins Ways: Curiosity-Driven Exploration through Multi-Agent Contextual Calibration",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3872",
+     "authors": "Yiyuan Pan, Zhe Liu, Hesheng Wang"
+    },
+    {
+     "title": "State2Explanation: Concept-Based Explanations to Benefit Agent Learning and User Understanding",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 2,
+     "doi": "10.52202/075280-2935",
+     "authors": "Devleena Das, Sonia Chernova, Been Kim"
+    },
+    {
+     "title": "Measuring Mutual Policy Divergence for Multi-Agent Sequential Exploration",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 1,
+     "doi": "10.52202/079017-2428",
+     "authors": "Haowen Dou, Lujuan Dang, Zhirong Luan, Badong Chen"
+    },
+    {
+     "title": "Group-in-Group Policy Optimization for LLM Agent Training",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 3,
+     "doi": "10.52202/085713-1544",
+     "authors": "Lang Feng, Zhenghai Xue, Tingcong Liu, Bo An"
+    },
+    {
+     "title": "AgentBreeder: Mitigating the AI Safety Risks of Multi-Agent Scaffolds via Self-Improvement",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-5003",
+     "authors": "J Rosser, Jakob Foerster"
+    },
+    {
+     "title": "Distributed Multi-Agent Bandits Over Erdős-Rényi Random Networks",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-5340",
+     "authors": "Jingyuan Liu, Hao Qiu, Lin Yang, Mengfan Xu"
+    },
+    {
+     "title": "Randomized Exploration in Cooperative Multi-Agent Reinforcement Learning",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 10,
+     "doi": "10.52202/079017-2374",
+     "authors": "Hao-Lun Hsu, Weixin Wang, Miroslav Pajic, Pan Xu"
+    },
+    {
+     "title": "HyperMARL: Adaptive Hypernetworks for Multi-Agent RL",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3814",
+     "authors": "Kale-ab Tessera, Muhammad Arrasy Rahman, Amos Storkey, Stefano Albrecht"
+    },
+    {
+     "title": "Statistical and Computational Trade-off in Multi-Agent Multi-Armed Bandits",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 0,
+     "doi": "10.52202/075280-3020",
+     "authors": "Filippo Vannella, Alexandre Proutiere, Jaeseong Jeong"
+    },
+    {
+     "title": "Regret Lower Bounds for Decentralized Multi-Agent Stochastic Shortest Path Problems",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-5786",
+     "authors": "Utkarsh Chavan, Prashant Trivedi, Nandyala Hemachandra"
+    },
+    {
+     "title": "Learning to Share in Networked Multi-Agent Reinforcement Learning",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 2,
+     "doi": "10.52202/068431-1100",
+     "authors": "Yuxuan Yi, Ge Li, Yaowei Wang, Zongqing Lu"
+    },
+    {
+     "title": "MOSDT: Self-Distillation-Based Decision Transformer for Multi-Agent Offline Safe Reinforcement Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0809",
+     "authors": "Yuchen Xia, Yunjian Xu"
+    },
+    {
+     "title": "High-order Interactions Modeling for Interpretable Multi-Agent Q-Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-5233",
+     "authors": "Qinyu Xu, Yuanyang Zhu, Xuefei Wu, Chunlin Chen"
+    },
+    {
+     "title": "OPHR: Mastering Volatility Trading with Multi-Agent Deep Reinforcement Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-1764",
+     "authors": "Zeting Chen, Xinyu Cai, Molei Qin, Bo An"
+    },
+    {
+     "title": "Inverse Factorized Soft Q-Learning for Cooperative Multi-agent Imitation Learning",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-0854",
+     "authors": "The Viet Bui, Tien Mai, Thanh Nguyen"
+    },
+    {
+     "title": "CREA: A Collaborative Multi-Agent Framework for Creative Image Editing and Generation",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-5705",
+     "authors": "Kavana Venkatesh, Connor Dunlop, Pinar Yanardag"
+    },
+    {
+     "title": "Recurrent Memory Transformer",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 26,
+     "doi": "10.52202/068431-0805",
+     "authors": "Aydar Bulatov, Yury Kuratov, Mikhail Burtsev"
+    },
+    {
+     "title": "SketchMind:  A Multi-Agent Cognitive Framework for Assessing Student-Drawn Scientific Sketches",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-2774",
+     "authors": "Ehsan Latif, Zirak Khan, Xiaoming Zhai"
+    },
+    {
+     "title": "Can an AI Agent Safely Run a Government? Existence of Probably Approximately Aligned Policies",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-3168",
+     "authors": "Frédéric Berdoz, Roger Wattenhofer"
+    },
+    {
+     "title": "Scalable Multi-Agent Covering Option Discovery Based on Kronecker Graphs",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 0,
+     "doi": "10.52202/068431-2204",
+     "authors": "Jiayu Chen, Jingdi Chen, Tian Lan, Vaneet Aggarwal"
+    },
+    {
+     "title": "PAC: Assisted Value Factorization with Counterfactual Predictions in Multi-Agent Reinforcement Learning",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 2,
+     "doi": "10.52202/068431-1146",
+     "authors": "Hanhan Zhou, Tian Lan, Vaneet Aggarwal"
+    },
+    {
+     "title": "No-Regret Learning for Fair Multi-Agent Social Welfare Optimization",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 1,
+     "doi": "10.52202/079017-1839",
+     "authors": "Mengxiao Zhang, Ramiro Deo-Campo Vuong, Haipeng Luo"
+    },
+    {
+     "title": "Multi-Agent Imitation Learning: Value is Easy, Regret is Hard",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 3,
+     "doi": "10.52202/079017-0872",
+     "authors": "Jingwu Tang, Gokul Swamy, Fei Fang, Zhiwei Wu"
+    },
+    {
+     "title": "EnCompass: Enhancing Agent Programming with Search Over Program Execution Paths",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3533",
+     "authors": "Zhening Li, Armando Solar-Lezama, Yisong Yue, Stephan Zheng"
+    },
+    {
+     "title": "Multi-Agent Dynamic Algorithm Configuration",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 10,
+     "doi": "10.52202/068431-1465",
+     "authors": "Ke Xue, Jiacheng Xu, Lei Yuan, Miqing Li, Chao Qian, Zongzhang Zhang"
+    },
+    {
+     "title": "Stochastic Principal-Agent Problems: Computing and Learning Optimal History-Dependent Policies",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-5239",
+     "authors": "Jiarui Gan, R Majumdar, Debmalya Mandal, Goran Radanovic"
+    },
+    {
+     "title": "Maximizing utility in multi-agent environments by anticipating the behavior of other learners",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 2,
+     "doi": "10.52202/079017-1225",
+     "authors": "Angelos Assos, Yuval Dagan, Constantinos Daskalakis"
+    },
+    {
+     "title": "WFCRL: A Multi-Agent Reinforcement Learning Benchmark for Wind Farm Control",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 8,
+     "doi": "10.52202/079017-4235",
+     "authors": "Claire Monroc, Ana Bušic, Donatien Dubuc, Jiamin Zhu"
+    },
+    {
+     "title": "SHAQ: Incorporating Shapley Value Theory into Multi-Agent Q-Learning",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 2,
+     "doi": "10.52202/068431-0430",
+     "authors": "Jianhong Wang, Yuan Zhang, Yunjie Gu, Tae-Kyun Kim"
+    },
+    {
+     "title": "WASP: Benchmarking Web Agent Security Against Prompt Injection Attacks",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 6,
+     "doi": "10.52202/085713-0666",
+     "authors": "Ivan Evtimov, Arman Zharmagambetov, Aaron Grattafiori, Chuan Guo, Kamalika Chaudhuri"
+    },
+    {
+     "title": "Multi-Agent Performative Prediction with Greedy Deployment and Consensus Seeking Agents",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 4,
+     "doi": "10.52202/068431-2786",
+     "authors": "Qiang Li, Chung-Yiu Yau, Hoi-To Wai"
+    },
+    {
+     "title": "Multi-Agent First Order Constrained Optimization in Policy Space",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 0,
+     "doi": "10.52202/075280-1703",
+     "authors": "Youpeng Zhao, Yaodong Yang, Zhenbo Lu, Wengang Zhou, Houqiang Li"
+    },
+    {
+     "title": "Curriculum Design for Trajectory-Constrained Agent: Compressing Chain-of-Thought Tokens in LLMs",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0669",
+     "authors": "Georgios Tzannetos, Parameswaran Kamalaruban, Adish Singla"
+    },
+    {
+     "title": "Multi-Agent Coordination via Multi-Level Communication",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 3,
+     "doi": "10.52202/079017-3763",
+     "authors": "Ziluo Ding, Zeyuan Liu, Zhirui Fang, Kefan Su, Liwen Zhu, Zongqing Lu"
+    },
+    {
+     "title": "Surprise Minimizing Multi-Agent Learning with Energy-Based Models",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 0,
+     "doi": "10.52202/068431-0447",
+     "authors": "Karush Suri, Xiao Qi Shi, Konstantinos N Plataniotis, Yuri Lawryshyn"
+    },
+    {
+     "title": "Debate or Vote: Which Yields Better Decisions in Multi-Agent Large Language Models?",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 7,
+     "doi": "10.52202/085713-3405",
+     "authors": "Hyeong Kyu Choi, Jerry Zhu, Sharon Li"
+    },
+    {
+     "title": "MetaMind: Modeling Human Social Thoughts with Metacognitive Multi-Agent Systems",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-0881",
+     "authors": "Xuanming Zhang, Yuxuan Chen, Samuel (Min-Hsuan) Yeh, Sharon Li"
+    },
+    {
+     "title": "Offline Multi-Agent Reinforcement Learning with Implicit Global-to-Local Value Regularization",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 10,
+     "doi": "10.52202/075280-2282",
+     "authors": "Xiangsen Wang, Haoran Xu, Yinan Zheng, Xianyuan Zhan"
+    },
+    {
+     "title": "Minimax-Optimal Multi-Agent RL in Markov Games with a Generative Model",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 2,
+     "doi": "10.52202/068431-1117",
+     "authors": "Gen Li, Yuejie Chi, Yuting Wei, Yuxin Chen"
+    },
+    {
+     "title": "Online Relational Inference for Evolving Multi-agent Interacting Systems",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-0313",
+     "authors": "Beomseok Kang, Priyabrata Saha, Sudarshan Sharma, Biswadeep Chakraborty, Saibal Mukhopadhyay"
+    },
+    {
+     "title": "Reasoning Multi-Agent Behavioral Topology for Interactive Autonomous Driving",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 11,
+     "doi": "10.52202/079017-2941",
+     "authors": "Haochen Liu, Li Chen, Yu Qiao, Chen Lv, Hongyang Li"
+    },
+    {
+     "title": "GenArtist: Multimodal LLM as an Agent for Unified Image Generation and Editing",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 16,
+     "doi": "10.52202/079017-4077",
+     "authors": "Zhenyu Wang, Aoxue Li, Zhenguo Li, Xihui Liu"
+    },
+    {
+     "title": "CAML: Collaborative Auxiliary Modality Learning for Multi-Agent Systems",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-4824",
+     "authors": "Rui Liu, Yu Shen, Peng Gao, Pratap Tokekar, Ming C. Lin"
+    },
+    {
+     "title": "SPD: Synergy Pattern Diversifying Oriented Unsupervised Multi-Agent Reinforcement Learning",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 1,
+     "doi": "10.52202/068431-1502",
+     "authors": "Yuhang Jiang, Jianzhun Shao, Shuncheng He, Hongchang Zhang, Xiangyang Ji"
+    },
+    {
+     "title": "Multi-Agent Debate for LLM Judges with Adaptive Stability Detection",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-1548",
+     "authors": "Tianyu Hu, Zhen Tan, Song Wang, Huaizhi Qu, Tianlong Chen"
+    },
+    {
+     "title": "Multi-Modal Interactive Agent Layer for Few-Shot Universal Cross-Domain Retrieval and Beyond",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-1016",
+     "authors": "Kaixiang Chen, Pengfei Fang, hui xue"
+    },
+    {
+     "title": "Regret-Optimal Q-Learning with Low Cost for Single-Agent and Federated Reinforcement Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4288",
+     "authors": "Haochen Zhang, Zhong Zheng, Lingzhou Xue"
+    },
+    {
+     "title": "Offline Multi-Agent Reinforcement Learning with Knowledge Distillation",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 2,
+     "doi": "10.52202/068431-0017",
+     "authors": "Wei-Cheng Tseng, Tsun-Hsuan Johnson Wang, Yen-Chen Lin, Phillip Isola"
+    }
+   ]
+  },
+  "audio language model": {
+   "total": 55829,
+   "kept": 100,
+   "papers": [
+    {
+     "title": "Pengi: An Audio Language Model for Audio Tasks",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 34,
+     "doi": "10.52202/075280-0795",
+     "authors": "Soham Deshmukh, Benjamin Elizalde, Rita Singh, Huaming Wang"
+    },
+    {
+     "title": "Mellow: a small audio language model for reasoning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-1649",
+     "authors": "Soham Deshmukh, Satvik Dixit, Rita Singh, Bhiksha Raj"
+    },
+    {
+     "title": "UniAudio 1.5: Large Language Model-Driven Audio Codec is A Few-Shot Audio Task Learner",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 3,
+     "doi": "10.52202/079017-1809",
+     "authors": "Dongchao Yang, Haohan Guo, Yuanyuan Wang, Rongjie Huang, Xiang Li, Xu Tan"
+    },
+    {
+     "title": "VITA-Audio: Fast Interleaved Audio-Text Token Generation for Efficient Large Speech-Language Model",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-3224",
+     "authors": "Zuwei Long, Yunhang Shen, Chaoyou Fu, Heting Gao, Lijiang Li, Peixian Chen"
+    },
+    {
+     "title": "Audio Flamingo 3: Advancing Audio Intelligence with Fully Open Large Audio Language Models",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-1396",
+     "authors": "Sreyan Ghosh, Arushi Goel, Jaehyeon Kim, Sonal Kumar, Zhifeng Kong, Sang-gil Lee"
+    },
+    {
+     "title": "AHa-Bench: Benchmarking Audio Hallucinations in Large Audio-Language Models",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0398",
+     "authors": "Xize Cheng, Dongjie Fu, Chenyuhao Wen, Shannon Yu, Zehan Wang, Shengpeng Ji"
+    },
+    {
+     "title": "CoLLAT: On Adding Fine-grained Audio Understanding to Language Models using Token-Level Locked-Language Tuning",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 0,
+     "doi": "10.52202/075280-2759",
+     "authors": "Dadallage A R Silva, Spencer Whitehead, Christopher Lengerich, Hugh Leather"
+    },
+    {
+     "title": "AVLEN: Audio-Visual-Language Embodied Navigation in 3D Environments",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 6,
+     "doi": "10.52202/068431-0451",
+     "authors": "Sudipta Paul, Amit Roy-Chowdhury, Anoop Cherian"
+    },
+    {
+     "title": "Revisit Weakly-Supervised Audio-Visual Video Parsing from the Language Perspective",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 0,
+     "doi": "10.52202/075280-1767",
+     "authors": "Yingying Fan, Yu Wu, Bo Du, Yutian Lin"
+    },
+    {
+     "title": "AudSemThinker: Enhancing Audio-Language Models Through Reasoning over Semantics of Sound",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-0265",
+     "authors": "Gijs Wijngaard, Elia Formisano, Michele Esposito, Michel Dumontier"
+    },
+    {
+     "title": "AVCD: Mitigating Hallucinations in Audio-Visual Large Language Models through Contrastive Decoding",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-2121",
+     "authors": "Chaeyoung Jung, Youngjoon Jang, Joon Son Chung"
+    },
+    {
+     "title": "SAO-Instruct: Free-form Audio Editing using Natural Language Instructions",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-2797",
+     "authors": "Michael Ungersböck, Florian Grötschla, Luca Lanzendörfer, June Young Yi, Changho Choi, Roger Wattenhofer"
+    },
+    {
+     "title": "Learning Spatially-Aware Language and Audio Embeddings",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 6,
+     "doi": "10.52202/079017-1056",
+     "authors": "Bhavika Devnani, Skyler Seto, Zakaria Aldeneh, Alessandro Toso, Elena Menyaylenko, Barry-John Theobald"
+    },
+    {
+     "title": "SLIM: Style-Linguistics Mismatch Model for Generalized Audio Deepfake Detection",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 7,
+     "doi": "10.52202/079017-2168",
+     "authors": "Yi Zhu, Surya Koppisetti, Trang Tran, Gaurav Bharaj"
+    },
+    {
+     "title": "ALMGuard: Safety Shortcuts and Where to Find Them as Guardrails for Audio–Language Models",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0306",
+     "authors": "Weifei Jin, Yuxin Cao, Junjie Su, Minhui Xue, Jie Hao, Ke Xu"
+    },
+    {
+     "title": "Jailbreak-AudioBench: In-Depth Evaluation and Analysis of Jailbreak Threats for Large Audio Language Models",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-0361",
+     "authors": "Hao Cheng, Erjia Xiao, Jing Shao, Yichi Wang, Le Yang, Chao Shen"
+    },
+    {
+     "title": "VAST: A Vision-Audio-Subtitle-Text Omni-Modality Foundation Model and Dataset",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 39,
+     "doi": "10.52202/075280-3185",
+     "authors": "Sihan Chen, Handong Li, Qunbo Wang, Zijia Zhao, Mingzhen Sun, Xinxin Zhu"
+    },
+    {
+     "title": "AV-Cloud: Spatial Audio Rendering Through Audio-Visual Cloud Splatting",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 6,
+     "doi": "10.52202/079017-4477",
+     "authors": "Mingfei Chen, Eli Shlizerman"
+    },
+    {
+     "title": "Model-Guided Dual-Role Alignment for High-Fidelity Open-Domain Video-to-Audio Generation",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-1216",
+     "authors": "Kang Zhang, Trung X. Pham, Suyeon Lee, Axi Niu, Arda Senocak, Joon Son Chung"
+    },
+    {
+     "title": "The Curse of Multi-Modalities: Evaluating Hallucinations of Large Multimodal Models across Language, Visual, and Audio",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-3601",
+     "authors": "Sicong Leng, Yun Xing, Zesen Cheng, Yang Zhou, Hang Zhang, Xin Li"
+    },
+    {
+     "title": "Learning Audio-Visual Dynamics Using Scene Graphs for Audio Source Separation",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 0,
+     "doi": "10.52202/068431-1235",
+     "authors": "Moitreya Chatterjee, Narendra Ahuja, Anoop Cherian"
+    },
+    {
+     "title": "Model Fusion through Bayesian Optimization in Language Model Fine-Tuning",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 1,
+     "doi": "10.52202/079017-0941",
+     "authors": "Chaeyun Jang, Hyungi Lee, Jungtaek Kim, Juho Lee"
+    },
+    {
+     "title": "Language Model as Visual Explainer",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 3,
+     "doi": "10.52202/079017-4294",
+     "authors": "Xingyi Yang, Xinchao Wang"
+    },
+    {
+     "title": "Anchored Diffusion Language Model",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-2997",
+     "authors": "Litu Rout, Constantine Caramanis, Sanjay Shakkottai"
+    },
+    {
+     "title": "Large Language Model Unlearning",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 45,
+     "doi": "10.52202/079017-3346",
+     "authors": "Yuanshun Yao, Xiaojun Xu, Yang Liu"
+    },
+    {
+     "title": "VoiceBlock: Privacy Through Real-Time Adversarial Attacks with Audio-To-Audio Models",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 1,
+     "doi": "10.52202/068431-2179",
+     "authors": "Patrick O'Reilly, Andreas Bugler, Keshav Bhandari, Max Morrison, Bryan Pardo"
+    },
+    {
+     "title": "Multi-agent KTO: Enhancing Strategic Interactions of Large Language Model in Language Game",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3638",
+     "authors": "Rong Ye, Yongxin Zhang, yikai zhang, Haoyu Kuang, peng sun, zhongyu wei"
+    },
+    {
+     "title": "Forging Time Series with Language: A Large Language Model Approach to Synthetic Data Generation",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-2626",
+     "authors": "Cécile Rousseau, Tobia Boschi, Giandomenico Cornacchia, Dhaval Salwala, Alessandra Pascale, Juan Moreno"
+    },
+    {
+     "title": "Continuous Diffusion Model for Language Modeling",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3256",
+     "authors": "Jaehyeong Jo, Sung Ju Hwang"
+    },
+    {
+     "title": "Direct Preference Optimization: Your Language Model is Secretly a Reward Model",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 629,
+     "doi": "10.52202/075280-2338",
+     "authors": "Rafael Rafailov, Archit Sharma, Eric Mitchell, Christopher D Manning, Stefano Ermon, Chelsea Finn"
+    },
+    {
+     "title": "BinauralGrad: A Two-Stage Conditional Diffusion Probabilistic Model for Binaural Audio Synthesis",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 8,
+     "doi": "10.52202/068431-1721",
+     "authors": "Yichong Leng, Zehua Chen, Junliang Guo, Haohe Liu, Jiawei Chen, Xu Tan"
+    },
+    {
+     "title": "Exploiting Vocabulary Frequency Imbalance in Language Model Pre-training",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4595",
+     "authors": "Woojin Chung, Jeonghoon Kim"
+    },
+    {
+     "title": "An eye for an ear: zero-shot audio description leveraging an image captioner with audio-visual token distribution matching",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-1223",
+     "authors": "Hugo Malard, Michel Olvera, Stéphane Lathuiliere, Slim Essid"
+    },
+    {
+     "title": "Model Provenance Testing for Large Language Models",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-1146",
+     "authors": "Ivica Nikolic, Teodora Baluta, Prateek Saxena"
+    },
+    {
+     "title": "Demystifying Language Model Forgetting with Low-rank Example Associations",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0153",
+     "authors": "Xisen Jin, Xiang Ren"
+    },
+    {
+     "title": "Fast-Slow Thinking GRPO for Large Vision-Language Model Reasoning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-5712",
+     "authors": "Wenyi Xiao, Leilei Gan"
+    },
+    {
+     "title": "metaTextGrad: Automatically optimizing language model optimizers",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-5107",
+     "authors": "Guowei Xu, Mert Yuksekgonul, Carlos Guestrin, James Zou"
+    },
+    {
+     "title": "Language Model Alignment with Elastic Reset",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 2,
+     "doi": "10.52202/075280-0152",
+     "authors": "Michael Noukhovitch, Samuel Lavoie, Florian Strub, Aaron Courville"
+    },
+    {
+     "title": "Self-Refining Language Model Anonymizers via Adversarial Distillation",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-5520",
+     "authors": "Kyuyoung Kim, Hyunjun Jeon, Jinwoo Shin"
+    },
+    {
+     "title": "Latent Principle Discovery for Language Model Self-Improvement",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-5420",
+     "authors": "Keshav Ramji, Tahira Naseem, Ramón Astudillo"
+    },
+    {
+     "title": "HMVLM:Human Motion-Vision-Language Model via MoE LoRA",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-3268",
+     "authors": "Lei Hu, Yongjing Ye, Shihong Xia"
+    },
+    {
+     "title": "Self-Challenging Language Model Agents",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-3801",
+     "authors": "Yifei Zhou, Sergey Levine, Jason Weston, Xian Li, Sainbayar Sukhbaatar"
+    },
+    {
+     "title": "HoloLLM: Multisensory Foundation Model for Language-Grounded Human Sensing and Reasoning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-2464",
+     "authors": "Chuhao Zhou, Jianfei Yang"
+    },
+    {
+     "title": "OmniVL: One Foundation Model for Image-Language and Video-Language Tasks",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 9,
+     "doi": "10.52202/068431-0412",
+     "authors": "Junke Wang, Dongdong Chen, Zuxuan Wu, Chong Luo, Luowei Zhou, Yucheng Zhao"
+    },
+    {
+     "title": "Large language model validity via enhanced conformal prediction methods",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 6,
+     "doi": "10.52202/079017-3645",
+     "authors": "John Cherian, Isaac Gibbs, Emmanuel Candès"
+    },
+    {
+     "title": "Efficient Large Language Model Inference with Neural Block Linearization",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0196",
+     "authors": "Mete Erdogan, Francesco Tonin, Volkan Cevher"
+    },
+    {
+     "title": "PARALLELPROMPT: Extracting Parallelism from Large Language Model Queries",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-2497",
+     "authors": "Steven Kolawole, Keshav Santhanam, Virginia Smith, Pratiksha Thaker"
+    },
+    {
+     "title": "Large Language Models as Model Organisms for Human Associative Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3761",
+     "authors": "Camila Kolling, Vy Vo, Mariya Toneva"
+    },
+    {
+     "title": "Abstract Counterfactuals for Language Model Agents",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-2925",
+     "authors": "Edoardo Pona, Milad Kazemi, Yali Du, David Watson, Nicola Paoletti"
+    },
+    {
+     "title": "Smoothie: Label Free Language Model Routing",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 2,
+     "doi": "10.52202/079017-4053",
+     "authors": "Neel Guha, Mayee Chen, Trevor Chow, Ishan Khare, Christopher Ré"
+    },
+    {
+     "title": "SYMPHONY: Synergistic Multi-agent Planning with Heterogeneous Language Model Assembly",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-1934",
+     "authors": "Wei Zhu, Zhiwen Tang, Kun Yue"
+    },
+    {
+     "title": "Large Language Model Unlearning via Embedding-Corrupted Prompts",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 12,
+     "doi": "10.52202/079017-3754",
+     "authors": "Chris Liu, Yaxuan Wang, Jeffrey Flanigan, Yang Liu"
+    },
+    {
+     "title": "CGBench: Benchmarking Language Model Scientific Reasoning for Clinical Genetics Research",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-0585",
+     "authors": "Owen Queen, Harrison Zhang, James Zou"
+    },
+    {
+     "title": "LLaMo: Large Language Model-based Molecular Graph Assistant",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 1,
+     "doi": "10.52202/079017-4195",
+     "authors": "Jinyoung Park, Minseong Bae, Dohwan Ko, Hyunwoo Kim"
+    },
+    {
+     "title": "LOVM: Language-Only Vision Model Selection",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 5,
+     "doi": "10.52202/075280-1437",
+     "authors": "Orr Zohar, Shih-Cheng Huang, Kuan-Chieh Wang, Serena Yeung"
+    },
+    {
+     "title": "Language Model Tokenizers Introduce Unfairness Between Languages",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 17,
+     "doi": "10.52202/075280-1608",
+     "authors": "Aleksandar Petrov, Emanuele La Malfa, Philip Torr, Adel Bibi"
+    },
+    {
+     "title": "Gorilla: Large Language Model Connected with Massive APIs",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 104,
+     "doi": "10.52202/079017-4020",
+     "authors": "Shishir Patil, Tianjun Zhang, Xin Wang, Joseph Gonzalez"
+    },
+    {
+     "title": "Towards Efficient Pre-Trained Language Model via Feature Correlation Distillation",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 1,
+     "doi": "10.52202/075280-0709",
+     "authors": "Kun Huang, Xin Guo, Meng Wang"
+    },
+    {
+     "title": "UrbanKGent: A Unified Large Language Model Agent Framework for Urban Knowledge Graph Construction",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 12,
+     "doi": "10.52202/079017-3913",
+     "authors": "Yansong Ning, Hao Liu"
+    },
+    {
+     "title": "Transferring Linear Features Across Language Models With Model Stitching",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-1621",
+     "authors": "Alan Chen, Jack Merullo, Alessandro Stolfo, Ellie Pavlick"
+    },
+    {
+     "title": "LLM-DAMVC: A Large Language Model Assisted Dynamic Agent for Multi-View Clustering",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3990",
+     "authors": "Qianqian Wang, Qianqian Wang"
+    },
+    {
+     "title": "LAMP: Extracting Text from Gradients with Language Model Priors",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 9,
+     "doi": "10.52202/068431-0555",
+     "authors": "Mislav Balunovic, Dimitar Dimitrov, Nikola Jovanovic, Martin Vechev"
+    },
+    {
+     "title": "Stepwise Alignment for Constrained Language Model Policy Optimization",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 2,
+     "doi": "10.52202/079017-3319",
+     "authors": "Akifumi Wachi, Thien Tran, Rei Sato, Takumi Tanabe, Youhei Akimoto"
+    },
+    {
+     "title": "Recursive Introspection: Teaching Language Model Agents How to Self-Improve",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 17,
+     "doi": "10.52202/079017-1754",
+     "authors": "Yuxiao Qu, Tianjun Zhang, Naman Garg, Aviral Kumar"
+    },
+    {
+     "title": "Connecting Pre-trained Language Model and Downstream Task via Properties of Representation",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 0,
+     "doi": "10.52202/075280-2044",
+     "authors": "Chenwei Wu, Holden Lee, Rong Ge"
+    },
+    {
+     "title": "Data Augmentations for Improved (Large) Language Model Generalization",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 2,
+     "doi": "10.52202/075280-3096",
+     "authors": "Amir Feder, Yoav Wald, Claudia Shi, Suchi Saria, David Blei"
+    },
+    {
+     "title": "Steering Information Utility in Key-Value Memory for Language Model Post-Training",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3414",
+     "authors": "Chunyuan Deng, Ruidi Chang, Hanjie Chen"
+    },
+    {
+     "title": "Unveiling the Compositional Ability Gap in Vision-Language Reasoning Model",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-4222",
+     "authors": "Tianle Li, Jihai Zhang, Yongming Rao, Yu Cheng"
+    },
+    {
+     "title": "Language Model Behavioral Phases are Consistent Across Architecture, Training Data, and Scale",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3426",
+     "authors": "James Michaelov, Roger Levy, Benjamin Bergen"
+    },
+    {
+     "title": "Attention! Your Vision Language Model Could Be Maliciously Manipulated",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4285",
+     "authors": "Xiaosen Wang, Shaokang Wang, Zhijin Ge, Yuyang Luo, Shudong Zhang"
+    },
+    {
+     "title": "Rethinking Misalignment in Vision-Language Model Adaptation from a Causal Perspective",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 7,
+     "doi": "10.52202/079017-1238",
+     "authors": "Yanan Zhang, Jiangmeng Li, Lixiang Liu, Wenwen Qiang"
+    },
+    {
+     "title": "Mol-LLaMA: Towards General Understanding of Molecules in Large Molecular Language Model",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0908",
+     "authors": "Dongki Kim, Wonbin Lee, Sung Ju Hwang"
+    },
+    {
+     "title": "DynaAct: Large Language Model Reasoning with Dynamic Action Spaces",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-1194",
+     "authors": "Xueliang Zhao, Wei Wu, Jian Guan, Qintong Li, Lingpeng Kong"
+    },
+    {
+     "title": "Diversity-Aware Policy Optimization for Large Language Model Reasoning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-3169",
+     "authors": "Jian Yao, Ran Cheng, Xingyu Wu, Jibin Wu, KC Tan"
+    },
+    {
+     "title": "Self-Chained Image-Language Model for Video Localization and Question Answering",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 44,
+     "doi": "10.52202/075280-3354",
+     "authors": "Shoubin Yu, Jaemin Cho, Prateek Yadav, Mohit Bansal"
+    },
+    {
+     "title": "SimpleStrat: Diversifying Language Model Generation with Stratification",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3897",
+     "authors": "Justin Wong, Yury Orlovskiy, Alexander Shypula, Michael Luo, Sanjit Seshia, Joseph Gonzalez"
+    },
+    {
+     "title": "Vision-centric Token Compression in Large Language Model",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 4,
+     "doi": "10.52202/085713-1111",
+     "authors": "Ling Xing, Alex Jinpeng Wang, Rui Yan, Xiangbo Shu, Jinhui Tang"
+    },
+    {
+     "title": "Weakly-Supervised Audio-Visual Segmentation",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 5,
+     "doi": "10.52202/075280-0753",
+     "authors": "Shentong Mo, Bhiksha Raj"
+    },
+    {
+     "title": "MASTER: Enhancing Large Language Model via Multi-Agent Simulated Teaching",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-4904",
+     "authors": "Liang Yue, Yihong Tang, Kehai Chen, Jie Liu, Min zhang"
+    },
+    {
+     "title": "Theoretical Benefit and Limitation of Diffusion Language Model",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-0825",
+     "authors": "Guhao Feng, Yihan Geng, Jian Guan, Wei Wu, Liwei Wang, Di He"
+    },
+    {
+     "title": "Enhancing Vision-Language Model Reliability with Uncertainty-Guided Dropout Decoding",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4991",
+     "authors": "Yixiong Fang, Ziran Yang, Zhaorun Chen, Zhuokai Zhao, Jiawei Zhou"
+    },
+    {
+     "title": "PhyloGen: Language Model-Enhanced Phylogenetic Inference via Graph Structure Generation",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 4,
+     "doi": "10.52202/079017-4186",
+     "authors": "Chenrui Duan, Zelin Zang, Siyuan Li, Yongjie Xu, Stan Li"
+    },
+    {
+     "title": "Inference-Time Intervention: Eliciting Truthful Answers from a Language Model",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 78,
+     "doi": "10.52202/075280-1797",
+     "authors": "Kenneth Li, Oam Patel, Fernanda Viégas, Hanspeter Pfister, Martin Wattenberg"
+    },
+    {
+     "title": "Graph-based Uncertainty Metrics for Long-form Language Model Generations",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-1038",
+     "authors": "Mingjian Jiang, Yangjun Ruan, Prasanna Sattigeri, Salim Roukos, Tatsunori Hashimoto"
+    },
+    {
+     "title": "Elo Uncovered: Robustness and Best Practices in Language Model Evaluation",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 10,
+     "doi": "10.52202/079017-3367",
+     "authors": "Meriem Boubdir, Edward Kim, Beyza Ermis, Sara Hooker, Marzieh Fadaee"
+    },
+    {
+     "title": "Adversarial Representation Engineering: A General Model Editing Framework for Large Language Models",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-4010",
+     "authors": "Yihao Zhang, Zeming Wei, Jun Sun, Meng Sun"
+    },
+    {
+     "title": "Cal-DPO: Calibrated Direct Preference Optimization for Language Model Alignment",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 10,
+     "doi": "10.52202/079017-3630",
+     "authors": "Teng Xiao, Yige Yuan, Huaisheng Zhu, Mingxiao Li, Vasant Honavar"
+    },
+    {
+     "title": "Better Language Model Inversion by Compactly Representing Next-Token Distributions",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0293",
+     "authors": "Murtaza Nazir, Matthew Finlayson, John Morris, Xiang Ren, Swabha Swayamdipta"
+    },
+    {
+     "title": "LoRASuite: Efficient LoRA Adaptation Across Large Language Model Upgrades",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-5664",
+     "authors": "Yanan Li, Fanxu Meng, Muhan Zhang, Shiai Zhu, Shangguang Wang, Mengwei Xu"
+    },
+    {
+     "title": "CAMEL: Communicative Agents for \"Mind\" Exploration of Large Language Model Society",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 203,
+     "doi": "10.52202/075280-2264",
+     "authors": "Guohao Li, Hasan Hammoud, Hani Itani, Dmitrii Khizbullin, Bernard Ghanem"
+    },
+    {
+     "title": "AD-DROP: Attribution-Driven Dropout for Robust Language Model Fine-Tuning",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 0,
+     "doi": "10.52202/068431-0894",
+     "authors": "Tao Yang, Jinghao Deng, Xiaojun Quan, Qifan Wang, Shaoliang Nie"
+    },
+    {
+     "title": "Spectral Editing of Activations for Large Language Model Alignment",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 5,
+     "doi": "10.52202/079017-1815",
+     "authors": "Yifu Qiu, Zheng Zhao, Yftah Ziser, Anna Korhonen, Edoardo Ponti, Shay Cohen"
+    },
+    {
+     "title": "Bias Amplification in Language Model Evolution: An Iterated Learning Perspective",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 4,
+     "doi": "10.52202/079017-1220",
+     "authors": "Yi Ren, Shangmin Guo, Linlu Qiu, Bailin Wang, Danica J. Sutherland"
+    },
+    {
+     "title": "AtmosSci-Bench: Evaluating the Recent Advance of Large Language Model for Atmospheric Science",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-4850",
+     "authors": "Chenyue Li, Wen Deng, Mengqian Lu, Binhang Yuan"
+    },
+    {
+     "title": "PLANNER: Generating Diversified Paragraph via Latent Language Diffusion Model",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 4,
+     "doi": "10.52202/075280-3513",
+     "authors": "Yizhe Zhang, Jiatao Gu, Zhuofeng Wu, Shuangfei Zhai, Joshua Susskind, Navdeep Jaitly"
+    },
+    {
+     "title": "VisionLLM v2: An End-to-End Generalist Multimodal Large Language Model for Hundreds of Vision-Language Tasks",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 18,
+     "doi": "10.52202/079017-2235",
+     "authors": "Jiannan Wu, Muyan Zhong, Sen Xing, Zeqiang Lai, Zhaoyang Liu, Zhe Chen"
+    },
+    {
+     "title": "World-aware Planning Narratives Enhance Large Vision-Language Model Planner",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-1687",
+     "authors": "Junhao Shi, Zhaoye Fei, Siyin Wang, Qipeng Guo, Jingjing Gong, Xipeng Qiu"
+    },
+    {
+     "title": "HLM-Cite: Hybrid Language Model Workflow for Text-based Scientific Citation Prediction",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 4,
+     "doi": "10.52202/079017-1527",
+     "authors": "Qianyue Hao, Jingyang Fan, Fengli Xu, Jian Yuan, Yong Li"
+    },
+    {
+     "title": "C3PO: Optimized Large Language Model Cascades with Probabilistic Cost Constraints for Reasoning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-2832",
+     "authors": "Antonios Valkanas, Soumyasundar Pal, Pavel Rumiantsev, Yingxue Zhang, Mark Coates"
+    },
+    {
+     "title": "Refining Low-Resource Unsupervised Translation by Language Disentanglement of Multilingual Translation Model",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 0,
+     "doi": "10.52202/068431-2625",
+     "authors": "Xuan-Phi Nguyen, Shafiq Joty, Kui Wu, Ai Ti Aw"
+    }
+   ]
+  },
+  "multimodal agent": {
+   "total": 9726,
+   "kept": 100,
+   "papers": [
+    {
+     "title": "GenArtist: Multimodal LLM as an Agent for Unified Image Generation and Editing",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 16,
+     "doi": "10.52202/079017-4077",
+     "authors": "Zhenyu Wang, Aoxue Li, Zhenguo Li, Xihui Liu"
+    },
+    {
+     "title": "Guide Your Agent with Adaptive Multimodal Rewards",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 2,
+     "doi": "10.52202/075280-2373",
+     "authors": "Changyeon Kim, Younggyo Seo, Hao Liu, Lisa Lee, Jinwoo Shin, Honglak Lee"
+    },
+    {
+     "title": "MIP against Agent: Malicious Image Patches Hijacking Multimodal OS Agents",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0625",
+     "authors": "Lukas Aichberger, Alasdair Paren, Guohao Li, Philip Torr, Yarin Gal, Adel Bibi"
+    },
+    {
+     "title": "RestoreAgent: Autonomous Image Restoration Agent via Multimodal Large Language Models",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 11,
+     "doi": "10.52202/079017-3512",
+     "authors": "Haoyu Chen, Wenbo Li, Jinjin Gu, Jingjing Ren, Sixiang Chen, Tian Ye"
+    },
+    {
+     "title": "InfantAgent-Next: A Multimodal Generalist Agent for Automated Computer Interaction",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-1157",
+     "authors": "Bin Lei, Weitai Kang, Zijian Zhang, Winson Chen, Xi Xie, Shan Zuo"
+    },
+    {
+     "title": "Implicit Multimodal Alignment: On the Generalization of Frozen LLMs to Multimodal Inputs",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 5,
+     "doi": "10.52202/079017-4159",
+     "authors": "Mustafa Shukor, Matthieu Cord"
+    },
+    {
+     "title": "ElasticMM: Efficient Multimodal LLMs Serving with Elastic Multimodal Parallelism",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-3153",
+     "authors": "Zedong Liu, Shenggan Cheng, Guangming Tan, Yang You, Dingwen Tao"
+    },
+    {
+     "title": "MoME: Mixture of Multimodal Experts for Generalist Multimodal Large Language Models",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 13,
+     "doi": "10.52202/079017-1330",
+     "authors": "Leyang Shen, Gongwei Chen, Rui Shao, Weili Guan, Liqiang Nie"
+    },
+    {
+     "title": "Multimodal Task Vectors Enable Many-Shot Multimodal In-Context Learning",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 8,
+     "doi": "10.52202/079017-0697",
+     "authors": "Brandon Huang, Chancharik Mitra, Assaf Arbelle, Leonid Karlinsky, Trevor Darrell, Roei Herzig"
+    },
+    {
+     "title": "Can Agent Fix Agent Issues?",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-1638",
+     "authors": "Alfin Wijaya Rahardja, Junwei Liu, Weitong Chen, Zhenpeng Chen, Yiling Lou"
+    },
+    {
+     "title": "COGNAC: Cooperative Graph-based Networked Agent Challenges for Multi-Agent Reinforcement Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0200",
+     "authors": "Jules Sintes, Ana Busic"
+    },
+    {
+     "title": "MAT-Agent: Adaptive Multi-Agent Training Optimization",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-2589",
+     "authors": "jusheng zhang, Kaitong Cai, Yijia Fan, Ningyuan Liu, Keze Wang"
+    },
+    {
+     "title": "Does Worst-Performing Agent Lead the Pack? Analyzing Agent Dynamics in Unified Distributed SGD",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-2316",
+     "authors": "Jie Hu, Yi-Ting Ma, Young Eun"
+    },
+    {
+     "title": "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 216,
+     "doi": "10.52202/079017-1601",
+     "authors": "John Yang, Carlos Jimenez, Alexander Wettig, Kilian Lieret, Shunyu Yao, Karthik Narasimhan"
+    },
+    {
+     "title": "RF-Agent: Automated Reward Function Design via Language Agent Tree Search",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-5742",
+     "authors": "Ning Gao, Xiuhui Zhang, Xingyu Jiang, Mukang You, Mohan Zhang, Yue Deng"
+    },
+    {
+     "title": "A Theory of Multimodal Learning",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 11,
+     "doi": "10.52202/075280-2501",
+     "authors": "Zhou Lu"
+    },
+    {
+     "title": "3D-Agent: A Tri-Modal Multi-Agent Responsive Framework for Comprehensive 3D Object Annotation",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-2232",
+     "authors": "jusheng zhang, Yijia Fan, Zimo Wen, Jian Wang, Keze Wang"
+    },
+    {
+     "title": "ALI-Agent: Assessing LLMs'  Alignment with Human Values via Agent-based Evaluation",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 5,
+     "doi": "10.52202/079017-3142",
+     "authors": "Jingnan Zheng, Han Wang, An Zhang, Tai Nguyen, Jun Sun, Tat-Seng Chua"
+    },
+    {
+     "title": "R&amp;D-Agent-Quant: A Multi-Agent Framework for Data-Centric Factors and Model Joint Optimization",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 3,
+     "doi": "10.52202/085713-3967",
+     "authors": "Yuante Li, Xu Yang, Xiao Yang, Xisen Wang, Weiqing Liu, Jiang Bian"
+    },
+    {
+     "title": "MINT-1T: Scaling Open-Source Multimodal Data by 10x: A Multimodal Dataset with One Trillion Tokens",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 7,
+     "doi": "10.52202/079017-1160",
+     "authors": "Anas Awadalla, Le Xue, Oscar Lo, Manli Shu, Hannah Lee, Etash Guha"
+    },
+    {
+     "title": "Mobile-Agent-v2: Mobile Device Operation Assistant with Effective Navigation via Multi-Agent Collaboration",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 40,
+     "doi": "10.52202/079017-0088",
+     "authors": "Junyang Wang, Haiyang Xu, Haitao Jia, Xi Zhang, Ming Yan, Weizhou Shen"
+    },
+    {
+     "title": "Vision Function Layer in Multimodal LLMs",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-0926",
+     "authors": "Cheng Shi, Yizhou Yu, Sibei Yang"
+    },
+    {
+     "title": "Multimodal Bandits: Regret Lower Bounds and Optimal Algorithms",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3264",
+     "authors": "William Réveillard, Richard Combes"
+    },
+    {
+     "title": "HEALNet: Multimodal Fusion for Heterogeneous Biomedical Data",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 45,
+     "doi": "10.52202/079017-2057",
+     "authors": "Konstantin Hemker, Nikola Simidjievski, Mateja Jamnik"
+    },
+    {
+     "title": "Generating Images with Multimodal Language Models",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 29,
+     "doi": "10.52202/075280-0939",
+     "authors": "Jing Yu Koh, Daniel Fried, Russ Salakhutdinov"
+    },
+    {
+     "title": "Continual Multimodal Contrastive Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-1616",
+     "authors": "Xiaohao Liu, Xiaobo Xia, See-Kiong Ng, Tat-Seng Chua"
+    },
+    {
+     "title": "Multimodal Negative Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-5125",
+     "authors": "Baoquan Gong, Xiyuan Gao, Pengfei Zhu, Qinghua Hu, Bing Cao"
+    },
+    {
+     "title": "RegBN: Batch Normalization of Multimodal Data with Regularization",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 2,
+     "doi": "10.52202/075280-0949",
+     "authors": "Morteza Ghahremani Boozandani, Christian Wachinger"
+    },
+    {
+     "title": "Show-o2: Improved Native Unified Multimodal Models",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 19,
+     "doi": "10.52202/085713-1584",
+     "authors": "Jinheng Xie, Zhenheng Yang, Mike Zheng Shou"
+    },
+    {
+     "title": "Kernel Multimodal Continuous Attention",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 1,
+     "doi": "10.52202/068431-1312",
+     "authors": "Alexander Moreno, Zhenke Wu, Supriya Nagesh, Walter Dempsey, James Rehg"
+    },
+    {
+     "title": "Towards Robust Multimodal Sentiment Analysis with Incomplete Data",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 33,
+     "doi": "10.52202/079017-1779",
+     "authors": "Haoyu Zhang, Wenbin Wang, Tianshu Yu"
+    },
+    {
+     "title": "Propensity Score Alignment of Unpaired Multimodal Data",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 1,
+     "doi": "10.52202/079017-4480",
+     "authors": "Johnny Xi, Jana Osea, Zuheng Xu, Jason Hartford"
+    },
+    {
+     "title": "Identifiable Shared Component Analysis of Unpaired Multimodal Mixtures",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-4058",
+     "authors": "Subash Timilsina, Sagar Shrestha, Xiao Fu"
+    },
+    {
+     "title": "MokA: Multimodal Low-Rank Adaptation for MLLMs",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-4588",
+     "authors": "Yake Wei, Yu Miao, Dongzhan Zhou, Di Hu"
+    },
+    {
+     "title": "Multi-agent Markov Entanglement",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0332",
+     "authors": "Shuze Chen, Tianyi Peng"
+    },
+    {
+     "title": "Mass-Producing Failures of Multimodal Systems with Language Models",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 8,
+     "doi": "10.52202/075280-1275",
+     "authors": "Shengbang Tong, Erik Jones, Jacob Steinhardt"
+    },
+    {
+     "title": "Learning Intractable Multimodal Policies with Reparameterization and Diversity Regularization",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-5313",
+     "authors": "Ziqi Wang, Jiashun Liu, Ling Pan"
+    },
+    {
+     "title": "Understanding protein function with a multimodal retrieval-augmented foundation model",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-1772",
+     "authors": "Timothy Truong Jr, Tristan Bepler"
+    },
+    {
+     "title": "A TRIANGLE Enables Multimodal Alignment Beyond Cosine Similarity",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-3741",
+     "authors": "Giordano Cicchetti, Eleonora Grassucci, Danilo Comminiello"
+    },
+    {
+     "title": "CHIMLE: Conditional Hierarchical IMLE for Multimodal Conditional Image Synthesis",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 1,
+     "doi": "10.52202/068431-0021",
+     "authors": "Shichong Peng, Seyed Alireza Moazenipourasil, Ke Li"
+    },
+    {
+     "title": "Seeing the Arrow of Time in Large Multimodal Models",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 4,
+     "doi": "10.52202/085713-3041",
+     "authors": "Zihui (Sherry) Xue, Romy Luo, Kristen Grauman"
+    },
+    {
+     "title": "Implicit Differentiable Outlier Detection Enable Robust Deep Multimodal Analysis",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 1,
+     "doi": "10.52202/075280-0610",
+     "authors": "Zhu Wang, Sourav Medya, Sathya Ravi"
+    },
+    {
+     "title": "Achieving Cross Modal Generalization with Multimodal Unified Representation",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 8,
+     "doi": "10.52202/075280-2774",
+     "authors": "Yan Xia, Hai Huang, Jieming Zhu, Zhou Zhao"
+    },
+    {
+     "title": "CrypticBio: A Large Multimodal Dataset for Visually Confusing Species",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0049",
+     "authors": "Georgiana Manolache, Gerard Schouten, Joaquin Vanschoren"
+    },
+    {
+     "title": "Understanding the Gain from Data Filtering in Multimodal Contrastive Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0081",
+     "authors": "Divyansh Pareek, Sewoong Oh, Simon Du"
+    },
+    {
+     "title": "MEgoHand: Multimodal Egocentric Hand-Object Interaction Motion Generation",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-1655",
+     "authors": "Bohan Zhou, Yi Zhan, Zhongbin Zhang, Zongqing Lu"
+    },
+    {
+     "title": "Classifier-guided Gradient Modulation for Enhanced Multimodal Learning",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 7,
+     "doi": "10.52202/079017-4238",
+     "authors": "Zirun Guo, Tao Jin, Jingyuan Chen, Zhou Zhao"
+    },
+    {
+     "title": "Terra: A Multimodal Spatio-Temporal Dataset Spanning the Earth",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 12,
+     "doi": "10.52202/079017-2121",
+     "authors": "Wei Chen, Xixuan Hao, Yuankai Wu, Yuxuan Liang"
+    },
+    {
+     "title": "Improving multimodal datasets with image captioning",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 12,
+     "doi": "10.52202/075280-0967",
+     "authors": "Thao Nguyen, Samir Yitzhak Gadre, Gabriel Ilharco, Sewoong Oh, Ludwig Schmidt"
+    },
+    {
+     "title": "SPIQA: A Dataset for Multimodal Question Answering on Scientific Papers",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 17,
+     "doi": "10.52202/079017-3773",
+     "authors": "Shraman Pramanick, Rama Chellappa, Subhashini Venugopalan"
+    },
+    {
+     "title": "RiOSWorld: Benchmarking the Risk of Multimodal Computer-Use Agents",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0286",
+     "authors": "Jingyi Yang, Shuai Shao, Dongrui Liu, Jing Shao"
+    },
+    {
+     "title": "Plug-and-play Feature Causality Decomposition for Multimodal Representation Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-1972",
+     "authors": "Ye Liu, Zihan Ji, Hongmin Cai"
+    },
+    {
+     "title": "MIDAS: Misalignment-based Data Augmentation Strategy for Imbalanced Multimodal Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-4942",
+     "authors": "Seong-Hyeon Hwang, Soyoung Choi, Steven Whang"
+    },
+    {
+     "title": "Rethinking Multimodal Learning from the Perspective of Mitigating Classification Ability Disproportion",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-4315",
+     "authors": "Qing-Yuan Jiang, Longfei Huang, Yang Yang"
+    },
+    {
+     "title": "Can Push-Forward Generative Models Fit Multimodal Distributions?",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 6,
+     "doi": "10.52202/068431-0782",
+     "authors": "Antoine Salmona, Valentin De Bortoli, Julie Delon, Agnes Desolneux"
+    },
+    {
+     "title": "Data Selection Matters: Towards Robust Instruction Tuning of Large Multimodal Models",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0316",
+     "authors": "Xu Yang, Chen Liu, Ying Wei"
+    },
+    {
+     "title": "Facilitating Multimodal Classification via Dynamically Learning Modality Gap",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 12,
+     "doi": "10.52202/079017-1984",
+     "authors": "Yang Yang, Fengqiang Wan, Qing-Yuan Jiang, Yi Xu"
+    },
+    {
+     "title": "CovMatch: Cross-Covariance Guided Multimodal Dataset Distillation with Trainable Text Encoder",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-3398",
+     "authors": "Yongmin Lee, Hye Won Chung"
+    },
+    {
+     "title": "Head Pursuit: Probing Attention Specialization in Multimodal Transformers",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3752",
+     "authors": "Lorenzo Basile, Valentino Maiorca, Diego Doimo, Francesco Locatello, Alberto Cazzaniga"
+    },
+    {
+     "title": "Adaptive Re-calibration Learning for Balanced Multimodal Intention Recognition",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4658",
+     "authors": "Qu Yang, Xiyang Li, Fu Lin, Mang Ye"
+    },
+    {
+     "title": "Multi-Lingual Acquisition on Multimodal Pre-Training for Cross-Modal Retrieval",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 0,
+     "doi": "10.52202/068431-2153",
+     "authors": "Liang Zhang, Anwen Hu, Qin Jin"
+    },
+    {
+     "title": "SciFIBench: Benchmarking Large Multimodal Models for Scientific Figure Interpretation",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 2,
+     "doi": "10.52202/079017-0593",
+     "authors": "Jonathan Roberts, Kai Han, Neil Houlsby, Samuel Albanie"
+    },
+    {
+     "title": "Data curation via joint example selection further accelerates multimodal learning",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 7,
+     "doi": "10.52202/079017-4485",
+     "authors": "Talfan Evans, Nikhil Parthasarathy, Hamza Merzic, Olivier Hénaff"
+    },
+    {
+     "title": "Structure-Aware Cooperative Ensemble Evolutionary Optimization on Combinatorial Problems with Multimodal Large Language Models",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0296",
+     "authors": "Jie Zhao, Kang Cheong"
+    },
+    {
+     "title": "Integration-free Training for Spatio-temporal Multimodal Covariate Deep Kernel Point Processes",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 0,
+     "doi": "10.52202/075280-1088",
+     "authors": "Yixuan Zhang, Quyu Kong, Feng Zhou"
+    },
+    {
+     "title": "Co-Reinforcement Learning for Unified Multimodal Understanding and Generation",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-0205",
+     "authors": "Jingjing Jiang, Chongjie Si, Jun Luo, Hanwang Zhang, Chao Ma"
+    },
+    {
+     "title": "The Indra Representation Hypothesis for Multimodal Alignment",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-5245",
+     "authors": "Jianglin Lu, Hailing Wang, Kuo Yang, Yitian Zhang, Simon Jenni, Yun Fu"
+    },
+    {
+     "title": "4M: Massively Multimodal Masked Modeling",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 11,
+     "doi": "10.52202/075280-2544",
+     "authors": "David Mizrahi, Roman Bachmann, Oguzhan Kar, Teresa Yeo, Mingfei Gao, Afshin Dehghan"
+    },
+    {
+     "title": "Beyond Unimodal: Generalising Neural Processes for Multimodal Uncertainty Estimation",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 1,
+     "doi": "10.52202/075280-1829",
+     "authors": "Myong Chol Jung, He Zhao, Joanna Dipnall, Lan Du"
+    },
+    {
+     "title": "MACK: Multimodal Aligned Conceptual Knowledge for Unpaired Image-Text Matching",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 3,
+     "doi": "10.52202/068431-0573",
+     "authors": "Yan Huang, Yuming Wang, Yunan Zeng, Liang Wang"
+    },
+    {
+     "title": "Unsupervised Homography Estimation on Multimodal Image Pair via Alternating Optimization",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 2,
+     "doi": "10.52202/079017-1960",
+     "authors": "Sanghyeob Song, Jaihyun Lew, Hyemi Jang, Sungroh Yoon"
+    },
+    {
+     "title": "Lyapunov-Stable Adaptive Control for Multimodal Concept Drift",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0975",
+     "authors": "Tianyu Pan, Mengdi Zhu, Alexa Cole, Ronald Wilson, Damon Woodard"
+    },
+    {
+     "title": "Structured Spectral Reasoning for Frequency-Adaptive Multimodal Recommendation",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-0948",
+     "authors": "Wei Yang, Rui Zhong, Yiqun Chen, Chi Lu, Peng Jiang"
+    },
+    {
+     "title": "Flex-Judge: Text-Only Reasoning Unleashes Zero-Shot Multimodal Evaluators",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3625",
+     "authors": "Jongwoo Ko, Sungnyun Kim, Sungwoo Cho, Se-Young Yun"
+    },
+    {
+     "title": "Grounding Multimodal Large Language Models in Actions",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 2,
+     "doi": "10.52202/079017-0638",
+     "authors": "Andrew Szot, Bogdan Mazoure, Harsh Agrawal, Devon Hjelm, Zsolt Kira, Alexander Toshev"
+    },
+    {
+     "title": "Paper2Poster: Towards Multimodal Poster Automation from Scientific Papers",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 3,
+     "doi": "10.52202/085713-0530",
+     "authors": "Wei Pang, Kevin Qinghong Lin, Xiangru Jian, Xi He, Philip Torr"
+    },
+    {
+     "title": "With Limited Data for Multimodal Alignment, Let the STRUCTURE Guide You",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-5075",
+     "authors": "Fabian Gröger, Shuo Wen, Huyen Le, Maria Brbic"
+    },
+    {
+     "title": "Inference of Whole Brain Electrophysiological Networks Through Multimodal Integration of Simultaneous Scalp and Intracranial EEG",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3033",
+     "authors": "Shihao Yang, Feng Liu"
+    },
+    {
+     "title": "DreamPRM: Domain-reweighted Process Reward Model for Multimodal Reasoning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-4073",
+     "authors": "Qi Cao, Ruiyi Wang, Ruiyi Zhang, Sai Ashish Somayajula, Pengtao Xie"
+    },
+    {
+     "title": "NoisyGRPO: Incentivizing Multimodal CoT Reasoning via Noise Injection and Bayesian Estimation",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-4139",
+     "authors": "Longtian Qiu, Shan Ning, Jiaxuan Sun, Xuming He"
+    },
+    {
+     "title": "Recursive Inference Scaling: A Winning Path to Scalable Inference in Language and Multimodal Systems",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3636",
+     "authors": "Ibrahim Alabdulmohsin, Xiaohua Zhai"
+    },
+    {
+     "title": "Efficient Multimodal Dataset Distillation via Generative Models",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-2280",
+     "authors": "Zhenghao Zhao, Haoxuan Wang, Junyi Wu, Yuzhang Shang, Gaowen Liu, Yan Yan"
+    },
+    {
+     "title": "Defending Multimodal Backdoored Models by Repulsive Visual Prompt Tuning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-5610",
+     "authors": "Zhifang Zhang, Shuo He, Haobo Wang, Bingquan Shen, Lei Feng"
+    },
+    {
+     "title": "Mitigating Intra- and Inter-modal Forgetting in Continual Learning of Unified Multimodal Models",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-5082",
+     "authors": "Xiwen Wei, Mustafa Munir, Radu Marculescu"
+    },
+    {
+     "title": "MONITRS: Multimodal Observations of Natural Incidents Through Remote Sensing",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4355",
+     "authors": "Shreelekha Revankar, Utkarsh Mall, Cheng Perng Phoo, Kavita Bala, Bharath Hariharan"
+    },
+    {
+     "title": "AgMMU: A Comprehensive Agricultural Multimodal Understanding Benchmark",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 4,
+     "doi": "10.52202/085713-2540",
+     "authors": "Aruna Gauba, Irene Pi, Yunze Man, Ziqi Pang, Vikram Adve, Yu-Xiong Wang"
+    },
+    {
+     "title": "Into the LAION’s Den: Investigating Hate in Multimodal Datasets",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 18,
+     "doi": "10.52202/075280-0930",
+     "authors": "Abeba Birhane, Vinay Prabhu, Sanghyun Han, Vishnu Boddeti, Sasha Luccioni"
+    },
+    {
+     "title": "MuSe-GNN: Learning Unified Gene Representation From Multimodal Biological Graph Data",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 12,
+     "doi": "10.52202/075280-1071",
+     "authors": "Tianyu Liu, Yuge Wang, Rex Ying, Hongyu Zhao"
+    },
+    {
+     "title": "QoQ-Med: Building Multimodal Clinical Foundation Models with Domain-Aware GRPO Training",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 3,
+     "doi": "10.52202/085713-1256",
+     "authors": "David Dai, Peilin Chen, Chanakya Ekbote, Paul Liang"
+    },
+    {
+     "title": "Unraveling Molecular Structure: A Multimodal Spectroscopic Dataset for Chemistry",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 21,
+     "doi": "10.52202/079017-3996",
+     "authors": "Marvin Alberts, Oliver Schilter, Federico Zipoli, Nina Hartrampf, Teodoro Laino"
+    },
+    {
+     "title": "WhodunitBench: Evaluating Large Multimodal Agents via Murder Mystery Games",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-2751",
+     "authors": "Junlin Xie, Ruifei Zhang, Zhihong Chen, Xiang Wan, Guanbin Li"
+    },
+    {
+     "title": "OmniResponse: Online Multimodal Conversational Response Generation in Dyadic Interactions",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4196",
+     "authors": "Cheng Luo, Jianghui Wang, Bing Li, Siyang Song, Bernard Ghanem"
+    },
+    {
+     "title": "A Concept-Based Explainability Framework for Large Multimodal Models",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 8,
+     "doi": "10.52202/079017-4312",
+     "authors": "Jayneel Parekh, Pegah Khayatan, Mustafa Shukor, Alasdair Newson, Matthieu Cord"
+    },
+    {
+     "title": "MANGO: Multimodal Attention-based Normalizing Flow Approach to Fusion Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-4614",
+     "authors": "Thanh-Dat Truong, Christophe Bobda, Nitin Agarwal, Khoa Luu"
+    },
+    {
+     "title": "InstructG2I: Synthesizing Images from Multimodal Attributed Graphs",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 3,
+     "doi": "10.52202/079017-3734",
+     "authors": "Bowen Jin, Ziqi Pang, Bingjun Guo, Yu-Xiong Wang, Jiaxuan You, Jiawei Han"
+    },
+    {
+     "title": "Towards Unified Multimodal Interleaved Generation via Group Relative Policy Optimization",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-0189",
+     "authors": "Ming Nie, Chunwei Wang, Jianhua Han, Hang Xu, Li Zhang"
+    },
+    {
+     "title": "Layer-Wise Modality Decomposition for Interpretable Multimodal Sensor Fusion",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-4816",
+     "authors": "Jaehyun Park, Konyul Park, Daehun Kim, Junseo Park, Jun Won Choi"
+    },
+    {
+     "title": "Multimodal Contrastive Learning with LIMoE: The Language-Image Mixture of Experts",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 36,
+     "doi": "10.52202/068431-0695",
+     "authors": "Basil Mustafa, Carlos Riquelme, Joan Puigcerver, Rodolphe Jenatton, Neil Houlsby"
+    },
+    {
+     "title": "Towards Principled Unsupervised Multi-Agent Reinforcement Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-2524",
+     "authors": "Riccardo Zamboni, Mirco Mutti, Marcello Restelli"
+    },
+    {
+     "title": "Learning Multi-agent Behaviors from Distributed and Streaming Demonstrations",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 3,
+     "doi": "10.52202/075280-2330",
+     "authors": "Shicheng Liu, Minghui Zhu"
+    }
+   ]
+  },
+  "on-device inference": {
+   "total": 5601,
+   "kept": 100,
+   "papers": [
+    {
+     "title": "Kraken: Inherently Parallel Transformers For Efficient Multi-Device Inference",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 5,
+     "doi": "10.52202/079017-0256",
+     "authors": "Rohan Baskar Prabhakar, Hengrui Zhang, David Wentzlaff"
+    },
+    {
+     "title": "LoRO: Real-Time on-Device Secure Inference for LLMs via TEE-Based Low Rank Obfuscation",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0645",
+     "authors": "Gaojian Xiong, Yu Sun, Jianhua Liu, Jian Cui, Jianwei Liu"
+    },
+    {
+     "title": "AegisGuard: RL-Guided Adapter Tuning for TEE-Based Efficient &amp; Secure On-Device Inference",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-5546",
+     "authors": "CHE WANG, Ziqi Zhang, Yinggui Wang, Tiantong Wang, Yurong Hao, Jianbo Gao"
+    },
+    {
+     "title": "Gated Inference Network: Inference and Learning State-Space Models",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-1232",
+     "authors": "Hamidreza Hashempoor, Wan Choi"
+    },
+    {
+     "title": "Inference via Interpolation: Contrastive Representations Provably Enable Planning and Inference",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 1,
+     "doi": "10.52202/079017-1878",
+     "authors": "Benjamin Eysenbach, Vivek Myers, Ruslan Salakhutdinov, Sergey Levine"
+    },
+    {
+     "title": "Recursive Inference Scaling: A Winning Path to Scalable Inference in Language and Multimodal Systems",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3636",
+     "authors": "Ibrahim Alabdulmohsin, Xiaohua Zhai"
+    },
+    {
+     "title": "Rollout Roulette: A Probabilistic Inference Approach to Inference-Time Scaling of LLMs using Particle-Based Monte Carlo Methods",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-5227",
+     "authors": "Isha Puri, Shivchander Sudalairaj, Guangxuan Xu, Abhishek Bhandwaldar, Kai Xu, Akash Srivastava"
+    },
+    {
+     "title": "When Is Inductive Inference Possible?",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-2944",
+     "authors": "Zhou Lu"
+    },
+    {
+     "title": "Universal Causal Inference in a Topos",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4175",
+     "authors": "Sridhar Mahadevan"
+    },
+    {
+     "title": "Data Minimization at Inference Time",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 2,
+     "doi": "10.52202/075280-3162",
+     "authors": "Cuong Tran, Ferdinando Fioretto"
+    },
+    {
+     "title": "Particle Semi-Implicit Variational Inference",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 2,
+     "doi": "10.52202/079017-3938",
+     "authors": "Jen Lim, Adam Johansen"
+    },
+    {
+     "title": "Iterative Structural Inference of Directed Graphs",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 5,
+     "doi": "10.52202/068431-0634",
+     "authors": "Aoran Wang, Jun Pang"
+    },
+    {
+     "title": "Attention as Implicit Structural Inference",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 1,
+     "doi": "10.52202/075280-1083",
+     "authors": "Ryan Singh, Christopher L Buckley"
+    },
+    {
+     "title": "Globally Convergent Variational Inference",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 1,
+     "doi": "10.52202/079017-0589",
+     "authors": "Declan McNamara, Jackson Loper, Jeffrey Regier"
+    },
+    {
+     "title": "Model-Informed Flows for Bayesian Inference",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-2924",
+     "authors": "Joohwan Ko, Justin Domke"
+    },
+    {
+     "title": "Task-Agnostic Machine-Learning-Assisted Inference",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 1,
+     "doi": "10.52202/079017-3368",
+     "authors": "Jiacheng Miao, Qiongshi Lu"
+    },
+    {
+     "title": "Foundation Posteriors for Approximate Probabilistic Inference",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 0,
+     "doi": "10.52202/068431-0385",
+     "authors": "Mike Wu, Noah Goodman"
+    },
+    {
+     "title": "Brain-like Variational Inference",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-5465",
+     "authors": "Hadi Vafaii, Dekel Galor, Jacob Yates"
+    },
+    {
+     "title": "Balanced Active Inference",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-1724",
+     "authors": "Boyu Chen, Zhixiang Zhou, Liuhua Peng, Zhonglei Wang"
+    },
+    {
+     "title": "Gaussian Membership Inference Privacy",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 0,
+     "doi": "10.52202/075280-3231",
+     "authors": "Tobias Leemann, Martin Pawelczyk, Gjergji Kasneci"
+    },
+    {
+     "title": "Least squares variational inference",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4838",
+     "authors": "Yvann Le Fay, Nicolas Chopin, Simon Barthelmé"
+    },
+    {
+     "title": "Inference with correlated priors using sisters cells",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-5321",
+     "authors": "Sina Tootoonian, Andreas Schaefer"
+    },
+    {
+     "title": "Anytime-Valid Inference for Multinomial Count Data",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 3,
+     "doi": "10.52202/068431-0204",
+     "authors": "Michael Lindon, Alan Malek"
+    },
+    {
+     "title": "Black-Box Coreset Variational Inference",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 0,
+     "doi": "10.52202/068431-2477",
+     "authors": "Dionysis Manousakas, Hippolyt Ritter, Theofanis Karaletsos"
+    },
+    {
+     "title": "Generalization Gap in Amortized Inference",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 0,
+     "doi": "10.52202/068431-1942",
+     "authors": "Mingtian Zhang, Peter Hayes, David Barber"
+    },
+    {
+     "title": "Variational Transdimensional Inference",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-1048",
+     "authors": "Laurence Davies, Daniel MacKinlay, Rafael Oliveira, Scott SIsson"
+    },
+    {
+     "title": "Robust Sampling for Active Statistical Inference",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-2312",
+     "authors": "Puheng Li, Tijana Zrnic, Emmanuel Candes"
+    },
+    {
+     "title": "Causal Discovery and Inference through Next-Token Prediction",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-2292",
+     "authors": "Eivinas Butkus, Nikolaus Kriegeskorte"
+    },
+    {
+     "title": "Unified Covariate Adjustment for Causal Inference",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 1,
+     "doi": "10.52202/079017-0208",
+     "authors": "Yonghan Jung, Jin Tian, Elias Bareinboim"
+    },
+    {
+     "title": "Bayesian Inference Via Sparse Hamiltonian Flows",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 0,
+     "doi": "10.52202/068431-1518",
+     "authors": "Naitong Chen, Zuheng Xu, Trevor Campbell"
+    },
+    {
+     "title": "Approximate inference of marginals using the IBIA framework",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 0,
+     "doi": "10.52202/075280-3176",
+     "authors": "Shivani Bathla, Vinita Vasudevan"
+    },
+    {
+     "title": "Empirical Gateaux Derivatives for Causal Inference",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 1,
+     "doi": "10.52202/068431-0619",
+     "authors": "Michael Jordan, Yixin Wang, Angela Zhou"
+    },
+    {
+     "title": "Statistical Inference for Gradient Boosting Regression",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-1098",
+     "authors": "Haimo Fang, Kevin Tan, Giles Hooker"
+    },
+    {
+     "title": "Opponent Modeling based on Subgoal Inference",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 2,
+     "doi": "10.52202/079017-1936",
+     "authors": "Xiaopeng Yu, Jiechuan Jiang, Zongqing Lu"
+    },
+    {
+     "title": "SING: SDE Inference via Natural Gradients",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-5146",
+     "authors": "Amber Hu, Henry Smith, Scott Linderman"
+    },
+    {
+     "title": "ARTree: A Deep Autoregressive Model for Phylogenetic Inference",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 0,
+     "doi": "10.52202/075280-0635",
+     "authors": "Tianyu Xie, Cheng Zhang"
+    },
+    {
+     "title": "Proximal Causal Inference With Text Data",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 3,
+     "doi": "10.52202/079017-4320",
+     "authors": "Jacob Chen, Rohit Bhattacharya, Katherine Keith"
+    },
+    {
+     "title": "Risk-sensitive control as inference with Rényi divergence",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 1,
+     "doi": "10.52202/079017-2280",
+     "authors": "Kaito Ito, Kenji Kashima"
+    },
+    {
+     "title": "Inference and Sampling for Archimax Copulas",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 0,
+     "doi": "10.52202/068431-1244",
+     "authors": "Yuting Ng, Ali Hasan, Vahid Tarokh"
+    },
+    {
+     "title": "Collapsed Inference for Bayesian Deep Learning",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 0,
+     "doi": "10.52202/075280-3427",
+     "authors": "Zhe Zeng, Guy Van Den Broeck"
+    },
+    {
+     "title": "Simulation-Based Inference for Adaptive Experiments",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4761",
+     "authors": "Brian Cho, Aurelien Bibaut, Nathan Kallus"
+    },
+    {
+     "title": "Pseudo-Likelihood Inference",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 1,
+     "doi": "10.52202/075280-0905",
+     "authors": "Theo Gruner, Boris Belousov, Fabio Muratore, Daniel Palenicek, Jan Peters"
+    },
+    {
+     "title": "Anytime-valid, Bayes-assisted, Prediction-Powered Inference",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0033",
+     "authors": "Valentin Kilian, Stefano Cortinovis, Francois Caron"
+    },
+    {
+     "title": "EVODiff: Entropy-aware Variance Optimized Diffusion Inference",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-4952",
+     "authors": "Shigui Li, Wei Chen, Delu Zeng"
+    },
+    {
+     "title": "A Statistical Online Inference Approach in Averaged Stochastic Approximation",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 1,
+     "doi": "10.52202/068431-0654",
+     "authors": "Chuhan Xie, Zhihua Zhang"
+    },
+    {
+     "title": "Inference of Neural Dynamics Using Switching Recurrent Neural Networks",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 2,
+     "doi": "10.52202/079017-4178",
+     "authors": "Yongxu Zhang, Shreya Saxena"
+    },
+    {
+     "title": "Transductive Conformal Inference for Full Ranking",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0212",
+     "authors": "Jean-Baptiste Fermanian, Pierre Humbert, Gilles Blanchard"
+    },
+    {
+     "title": "Rethinking Approximate Gaussian Inference in Classification",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0643",
+     "authors": "Bálint Mucsányi, Nathaël Da Costa, Philipp Hennig"
+    },
+    {
+     "title": "Meta-Learning Dynamics Forecasting Using Task Inference",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 1,
+     "doi": "10.52202/068431-1573",
+     "authors": "Rui Wang, Robin Walters, Rose Yu"
+    },
+    {
+     "title": "Probabilistic Inference in Reinforcement Learning Done Right",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 2,
+     "doi": "10.52202/075280-1463",
+     "authors": "Jean Tarbouriech, Tor Lattimore, Brendan O'Donoghue"
+    },
+    {
+     "title": "Simplifying Constraint Inference with Inverse Reinforcement Learning",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-1413",
+     "authors": "Adriana Hugessen, Harley Wiltzer, Glen Berseth"
+    },
+    {
+     "title": "ZipLM: Inference-Aware Structured Pruning of Language Models",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 2,
+     "doi": "10.52202/075280-2863",
+     "authors": "Eldar Kurtic, Elias Frantar, Dan Alistarh"
+    },
+    {
+     "title": "A Metalearned Neural Circuit for Nonparametric Bayesian Inference",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-1826",
+     "authors": "Jake Snell, Gianluca Bencomo, Thomas Griffiths"
+    },
+    {
+     "title": "Inflationary Flows: Calibrated Bayesian Inference with Diffusion-Based Models",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-3070",
+     "authors": "Daniela De Albuquerque, John Pearson"
+    },
+    {
+     "title": "Provable convergence guarantees for black-box variational inference",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 0,
+     "doi": "10.52202/075280-2894",
+     "authors": "Justin Domke, Robert Gower, Guillaume Garrigos"
+    },
+    {
+     "title": "Structural Inference of Dynamical Systems with Conjoined State Space Models",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 1,
+     "doi": "10.52202/079017-2399",
+     "authors": "Aoran Wang, Jun Pang"
+    },
+    {
+     "title": "Statistical Inference under Performativity",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4089",
+     "authors": "Xiang Li, Yunai Li, Huiying Zhong, Lihua Lei, Zhun Deng"
+    },
+    {
+     "title": "GeoPhy: Differentiable Phylogenetic Inference via Geometric Gradients of Tree Topologies",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 1,
+     "doi": "10.52202/075280-1591",
+     "authors": "Takahiro Mimori, Michiaki Hamada"
+    },
+    {
+     "title": "SIXO: Smoothing Inference with Twisted Objectives",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 0,
+     "doi": "10.52202/068431-2815",
+     "authors": "Dieterich Lawson, Allan Raventós, Andrew Warrington, Scott Linderman"
+    },
+    {
+     "title": "Variational Inference with  Mixtures of Isotropic Gaussians",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4844",
+     "authors": "Marguerite Petit-Talamon, Marc Lambert, Anna Korba"
+    },
+    {
+     "title": "Brain-like Flexible Visual Inference by Harnessing Feedback Feedforward Alignment",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 2,
+     "doi": "10.52202/075280-2491",
+     "authors": "Tahereh Toosi, Elias Issa"
+    },
+    {
+     "title": "Multilevel neural simulation-based inference",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-1748",
+     "authors": "Yuga Hikida, Ayush Bharti, Niall Jeffrey, Francois-Xavier Briol"
+    },
+    {
+     "title": "Amortized Reparametrization: Efficient and Scalable Variational Inference for Latent SDEs",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 2,
+     "doi": "10.52202/075280-3423",
+     "authors": "Kevin Course, Prasanth Nair"
+    },
+    {
+     "title": "ProDAG: Projected Variational Inference for Directed Acyclic Graphs",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-5432",
+     "authors": "Ryan Thompson, Edwin Bonilla, Robert Kohn"
+    },
+    {
+     "title": "Rethinking Variational Inference for Probabilistic Programs with Stochastic Support",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 0,
+     "doi": "10.52202/068431-1103",
+     "authors": "Tim Reichelt, Luke Ong, Thomas Rainforth"
+    },
+    {
+     "title": "Synthetic Combinations: A Causal Inference Framework for Combinatorial Interventions",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 0,
+     "doi": "10.52202/075280-0842",
+     "authors": "Abhineet Agarwal, Anish Agarwal, Suhas Vijaykumar"
+    },
+    {
+     "title": "Diffusion Network Inference for Cross-layer Cascades",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-2209",
+     "authors": "Siyu Huang, Yubai Yuan, Abdul Basit Adeel"
+    },
+    {
+     "title": "TRIM: Scalable 3D Gaussian Diffusion Inference with Temporal and Spatial Trimming",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-1679",
+     "authors": "Zeyuan Yin, Xiaoming Liu"
+    },
+    {
+     "title": "A Synthetic Dataset for Personal Attribute Inference",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 5,
+     "doi": "10.52202/079017-3837",
+     "authors": "Hanna Yukhymenko, Robin Staab, Mark Vero, Martin Vechev"
+    },
+    {
+     "title": "Marginal Causal Flows for Validation and Inference",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-0318",
+     "authors": "Daniel De Vassimon Manela, Laura Battaglia, Robin Evans"
+    },
+    {
+     "title": "Graph Structure Inference with BAM: Neural Dependency Processing via Bilinear Attention",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 1,
+     "doi": "10.52202/079017-4093",
+     "authors": "Philipp Froehlich, Heinz Koeppl"
+    },
+    {
+     "title": "Tail-Optimized Caching for LLM Inference",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-5483",
+     "authors": "Wenxin Zhang, Yueying Li, Ciamac C Moallemi, Tianyi Peng"
+    },
+    {
+     "title": "Synthetic-powered predictive inference",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-3925",
+     "authors": "Meshi Bashari, Roy Maor Lotan, Yonghoon Lee, Edgar Dobriban, Yaniv Romano"
+    },
+    {
+     "title": "Scaling Epidemic Inference on Contact Networks: Theory and Algorithms",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0461",
+     "authors": "Guanghui Min, Yinhan He, Chen Chen"
+    },
+    {
+     "title": "CausalVTG: Towards Robust Video Temporal Grounding via Causal Inference",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-3461",
+     "authors": "Qiyi Wang, Senda Chen, Ying Shen"
+    },
+    {
+     "title": "Introspective Learning : A Two-Stage Approach for Inference in Neural Networks",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 1,
+     "doi": "10.52202/068431-0881",
+     "authors": "Mohit Prabhushankar, Ghassan Alregib"
+    },
+    {
+     "title": "IPSI: Enhancing Structural Inference with Automatically Learned Structural Priors",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-5219",
+     "authors": "Zhongben Gong, Xiaoqun Wu, Mingyang Zhou"
+    },
+    {
+     "title": "Efficient Large Language Model Inference with Neural Block Linearization",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0196",
+     "authors": "Mete Erdogan, Francesco Tonin, Volkan Cevher"
+    },
+    {
+     "title": "A Theoretical Framework for Inference Learning",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 0,
+     "doi": "10.52202/068431-2706",
+     "authors": "Nick Alonso, Beren Millidge, Jeffrey Krichmar, Emre O Neftci"
+    },
+    {
+     "title": "Latent Graph Inference with Limited Supervision",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 1,
+     "doi": "10.52202/075280-1412",
+     "authors": "Jianglin Lu, Yi Xu, Huan Wang, Yue Bai, Yun Fu"
+    },
+    {
+     "title": "Learned Prefix Caching for Efficient LLM Inference",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-1526",
+     "authors": "Dongsheng Yang, Austin Li, Kai Li, Wyatt Lloyd"
+    },
+    {
+     "title": "DINGO: Constrained Inference for Diffusion LLMs",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-5362",
+     "authors": "Tarun Suresh, Debangshu Banerjee, Shubham Ugare, Sasa Misailovic, Gagandeep Singh"
+    },
+    {
+     "title": "Divide-and-Conquer Predictive Coding: a structured Bayesian inference algorithm",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-1540",
+     "authors": "Eli Sennesh, Hao Wu, Tommaso Salvatori"
+    },
+    {
+     "title": "Zipper: Addressing Degeneracy in Algorithm-Agnostic Inference",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-2106",
+     "authors": "Geng Chen, Yinxu Jia, Guanghui Wang, Changliang Zou"
+    },
+    {
+     "title": "Hyperbolic Embedding Inference for Structured Multi-Label Prediction",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 3,
+     "doi": "10.52202/068431-2392",
+     "authors": "Bo Xiong, Michael Cochez, Mojtaba Nayyeri, Steffen Staab"
+    },
+    {
+     "title": "PrivCirNet: Efficient Private Inference via Block Circulant Transformation",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 5,
+     "doi": "10.52202/079017-3550",
+     "authors": "Tianshi Xu, Lemeng Wu, Runsheng Wang, Meng Li"
+    },
+    {
+     "title": "Valid Inference with Imperfect Synthetic Data",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 2,
+     "doi": "10.52202/085713-5424",
+     "authors": "Yewon Byun, Shantanu Gupta, Zachary Lipton, Rachel Childers, Bryan Wilder"
+    },
+    {
+     "title": "What type of inference is planning?",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 1,
+     "doi": "10.52202/079017-3705",
+     "authors": "Miguel Lázaro-Gredilla, Li Ku, Kevin Murphy, Dileep George"
+    },
+    {
+     "title": "Asymptotics of Alpha-Divergence Variational Inference Algorithms with Exponential Families",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-3370",
+     "authors": "François Bertholom, Randal Douc, François Roueff"
+    },
+    {
+     "title": "TreeVI: Reparameterizable Tree-structured Variational Inference for Instance-level Correlation Capturing",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-0463",
+     "authors": "Junxi Xiao, Qinliang Su"
+    },
+    {
+     "title": "Flexible inference for animal learning rules using neural networks",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0295",
+     "authors": "Yuhan Helena Liu, Victor Geadah, Jonathan Pillow"
+    },
+    {
+     "title": "Simultaneous Statistical Inference for Off-Policy Evaluation in Reinforcement Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-2367",
+     "authors": "Tianpai Luo, Xinyuan Fan, Weichi Wu"
+    },
+    {
+     "title": "Hamiltonian Monte Carlo Inference of Marginalized Linear Mixed-Effects Models",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-0926",
+     "authors": "Jinlin Lai, Justin Domke, Daniel Sheldon"
+    },
+    {
+     "title": "On the Relationship Between Variational Inference and Auto-Associative Memory",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 0,
+     "doi": "10.52202/068431-2718",
+     "authors": "Louis Annabi, Alexandre Pitti, Mathias Quoy"
+    },
+    {
+     "title": "Vid-SME: Membership Inference Attacks against Large Video Understanding Models",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-3725",
+     "authors": "Qi Li, Runpeng Yu, Xinchao Wang"
+    },
+    {
+     "title": "Implicit Variational Inference for High-Dimensional Posteriors",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 0,
+     "doi": "10.52202/075280-3227",
+     "authors": "Anshuk Uppal, Kristoffer Stensbo-Smidt, Wouter Boomsma, Jes Frellsen"
+    },
+    {
+     "title": "Remasking Discrete Diffusion Models with Inference-Time Scaling",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-4927",
+     "authors": "Guanghan Wang, Yair Schiff, Subham Sahoo, Volodymyr Kuleshov"
+    },
+    {
+     "title": "OSLO: One-Shot Label-Only Membership Inference Attacks",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-1991",
+     "authors": "Yuefeng Peng, Jaechul Roh, Subhransu Maji, Amir Houmansadr"
+    },
+    {
+     "title": "Remarkable Robustness of LLMs: Stages of Inference?",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-4332",
+     "authors": "Vedang Lad, Jin Hwa Lee, Wes Gurnee, Max Tegmark"
+    },
+    {
+     "title": "Variational Inference Via Wasserstein Gradient Flows",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 6,
+     "doi": "10.52202/068431-1049",
+     "authors": "Marc Lambert, Sinho Chewi, Francis Bach, Silvère Bonnabel, Philippe Rigollet"
+    }
+   ]
+  },
+  "self-supervised speech": {
+   "total": 30855,
+   "kept": 100,
+   "papers": [
+    {
+     "title": "DiffNorm: Self-Supervised Normalization for Non-autoregressive Speech-to-speech Translation",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 1,
+     "doi": "10.52202/079017-1048",
+     "authors": "Weiting Tan, Jingyu Zhang, Lingfeng Shen, Daniel Khashabi, Philipp Koehn"
+    },
+    {
+     "title": "DinoSR: Self-Distillation and Online Clustering for Self-supervised Speech Representation Learning",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 3,
+     "doi": "10.52202/075280-2543",
+     "authors": "Alexander Liu, Heng-Jui Chang, Michael Auli, Wei-Ning Hsu, Jim Glass"
+    },
+    {
+     "title": "Losses Can Be Blessings: Routing Self-Supervised Speech Representations Towards Efficient Multilingual and Multitask Speech Processing",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 0,
+     "doi": "10.52202/068431-1520",
+     "authors": "Yonggan Fu, Yang Zhang, Kaizhi Qian, Zhifan Ye, Zhongzhi Yu, Cheng-I Jeff Lai"
+    },
+    {
+     "title": "HierSpeech: Bridging the Gap Between Text and Speech by Hierarchical Variational Inference Using Self-Supervised Representations for Speech Synthesis",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 3,
+     "doi": "10.52202/068431-1209",
+     "authors": "Sang-Hoon Lee, Seung-Bin Kim, Ji-Hyun Lee, Eunwoo Song, Min-Jae Hwang, Seong-Whan Lee"
+    },
+    {
+     "title": "CA-SSLR: Condition-Aware Self-Supervised Learning Representation for Generalized Speech Processing",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 2,
+     "doi": "10.52202/079017-1586",
+     "authors": "Yen-Ju Lu, Jing Liu, Thomas Thebaud, Laureano Moro-Velazquez, Ariya Rastrow, Najim Dehak"
+    },
+    {
+     "title": "Self-Supervised Adversarial Training via Diverse Augmented Queries and Self-Supervised Double Perturbation",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-1389",
+     "authors": "Ruize Zhang, Sheng Tang, Juan Cao"
+    },
+    {
+     "title": "Toward a Realistic Model of Speech Processing in the Brain with Self-Supervised Learning",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 12,
+     "doi": "10.52202/068431-2422",
+     "authors": "Juliette Millet, Charlotte Caucheteux, Pierre Orhan, Yves Boubenec, Alexandre Gramfort, Ewan Dunbar"
+    },
+    {
+     "title": "Self-Supervised Contrastive Learning is Approximately Supervised Contrastive Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-1392",
+     "authors": "Achleshwar Luthra, Tianbao Yang, Tomer Galanti"
+    },
+    {
+     "title": "Asymmetric Dual Self-Distillation for 3D Self-Supervised Representation Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4954",
+     "authors": "Remco Leijenaar, Hamidreza Kasaei"
+    },
+    {
+     "title": "Generalized Semi-Supervised Learning via Self-Supervised Feature Adaptation",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 1,
+     "doi": "10.52202/075280-2655",
+     "authors": "Jiachen Liang, Ruibing Hou, Hong Chang, Bingpeng Ma, Shiguang Shan, Xilin Chen"
+    },
+    {
+     "title": "Self-Supervised Fair Representation Learning Without Demographics",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 3,
+     "doi": "10.52202/068431-1965",
+     "authors": "Junyi Chai, Xiaoqian Wang"
+    },
+    {
+     "title": "Self-Supervised Visual Acoustic Matching",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 1,
+     "doi": "10.52202/075280-1059",
+     "authors": "Arjun Somayazulu, Changan Chen, Kristen Grauman"
+    },
+    {
+     "title": "Self-Supervised Learning Through Efference Copies",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 2,
+     "doi": "10.52202/068431-0328",
+     "authors": "Franz Scherr, Qinghai Guo, Timoleon Moraitis"
+    },
+    {
+     "title": "Self-supervised Object-Centric Learning for Videos",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 6,
+     "doi": "10.52202/075280-1424",
+     "authors": "Görkay Aydemir, Weidi Xie, Fatma Guney"
+    },
+    {
+     "title": "TopoSRL: Topology preserving self-supervised Simplicial Representation Learning",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 0,
+     "doi": "10.52202/075280-2808",
+     "authors": "Hiren Madhu, Sundeep Prabhakar Chepuri"
+    },
+    {
+     "title": "OSKAR: Omnimodal Self-supervised Knowledge Abstraction and Representation",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0021",
+     "authors": "Mohamed Abdelfattah, Kaouther Messaoud, Alexandre Alahi"
+    },
+    {
+     "title": "Contrastive Self-Supervised Learning As Neural Manifold Packing",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4498",
+     "authors": "Guanming Zhang, David Heeger, Stefano Martiniani"
+    },
+    {
+     "title": "VICRegL: Self-Supervised Learning of Local Visual Features",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 25,
+     "doi": "10.52202/068431-0640",
+     "authors": "Adrien Bardes, Jean Ponce, Yann Lecun"
+    },
+    {
+     "title": "FLSL: Feature-level Self-supervised Learning",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 0,
+     "doi": "10.52202/075280-0287",
+     "authors": "Qing Su, Anton Netchaev, Hai Li, Shihao Ji"
+    },
+    {
+     "title": "S3GC: Scalable Self-Supervised Graph Clustering",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 11,
+     "doi": "10.52202/068431-0235",
+     "authors": "Fnu Devvrit, Aditya Sinha, Inderjit Dhillon, Prateek Jain"
+    },
+    {
+     "title": "Connecting Joint-Embedding Predictive Architecture with Contrastive Self-supervised Learning",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 10,
+     "doi": "10.52202/079017-0077",
+     "authors": "Shentong Mo, Shengbang Tong"
+    },
+    {
+     "title": "Graph Self-Supervised Learning with Accurate Discrepancy Learning",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 0,
+     "doi": "10.52202/068431-1024",
+     "authors": "Dongki Kim, Jinheon Baek, Sung Ju Hwang"
+    },
+    {
+     "title": "CG-SSL: Concept-Guided Self-Supervised Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4823",
+     "authors": "Sara Atito, Josef Kittler, Imran Razzak, Muhammad Awais"
+    },
+    {
+     "title": "The Mechanism of Prediction Head in Non-Contrastive Self-Supervised Learning",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 0,
+     "doi": "10.52202/068431-1798",
+     "authors": "Zixin Wen, Yuanzhi Li"
+    },
+    {
+     "title": "Self-Supervised Pretraining for Large-Scale Point Clouds",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 0,
+     "doi": "10.52202/068431-2740",
+     "authors": "Zaiwei Zhang, Min Bai, Erran Li Li"
+    },
+    {
+     "title": "Dataset Distillation for Pre-Trained Self-Supervised Vision Models",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-2019",
+     "authors": "George Cazenavette, Antonio Torralba, Vincent Sitzmann"
+    },
+    {
+     "title": "Improving Self-supervised Molecular Representation Learning using Persistent Homology",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 2,
+     "doi": "10.52202/075280-1475",
+     "authors": "Yuankai Luo, Lei Shi, Veronika Thost"
+    },
+    {
+     "title": "Language-based Action Concept Spaces Improve Video Self-Supervised Learning",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 2,
+     "doi": "10.52202/075280-3277",
+     "authors": "Kanchana Ranasinghe, Michael S Ryoo"
+    },
+    {
+     "title": "Self-Supervised Motion Magnification by Backpropagating Through Optical Flow",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 1,
+     "doi": "10.52202/075280-0013",
+     "authors": "Zhaoying Pan, Daniel Geng, Andrew Owens"
+    },
+    {
+     "title": "Self-Supervised Learning of Brain Dynamics from Broad Neuroimaging Data",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 6,
+     "doi": "10.52202/068431-1545",
+     "authors": "Armin Thomas, Christopher Ré, Russell Poldrack"
+    },
+    {
+     "title": "Preventing Dimensional Collapse in Self-Supervised Learning via Orthogonality Regularization",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 9,
+     "doi": "10.52202/079017-3028",
+     "authors": "Junlin He, Jinxiao Du, Wei Ma"
+    },
+    {
+     "title": "HASSOD: Hierarchical Adaptive Self-Supervised Object Detection",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 3,
+     "doi": "10.52202/075280-2592",
+     "authors": "Shengcao Cao, Dhiraj Joshi, Liangyan Gui, Yu-Xiong Wang"
+    },
+    {
+     "title": "Return of Unconditional Generation: A Self-supervised Representation Generation Method",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 7,
+     "doi": "10.52202/079017-3985",
+     "authors": "Tianhong Li, Dina Katabi, Kaiming He"
+    },
+    {
+     "title": "Decoupled Self-Supervised Learning for Graphs",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 1,
+     "doi": "10.52202/068431-0045",
+     "authors": "Teng Xiao, Zhengyu Chen, Zhimeng Guo, Zeyang Zhuang, Suhang Wang"
+    },
+    {
+     "title": "Neural Harmonics: Bridging Spectral Embedding and Matrix Completion in Self-Supervised Learning",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 0,
+     "doi": "10.52202/075280-2651",
+     "authors": "Marina Munkhoeva, Ivan Oseledets"
+    },
+    {
+     "title": "Self-Supervised Learning Via Maximum Entropy Coding",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 10,
+     "doi": "10.52202/068431-2471",
+     "authors": "Xin Liu, Zhongdao Wang, Ya-Li Li, Shengjin Wang"
+    },
+    {
+     "title": "Improving Self-Supervised Learning by Characterizing Idealized Representations",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 1,
+     "doi": "10.52202/068431-0820",
+     "authors": "Yann Dubois, Stefano Ermon, Tatsunori Hashimoto, Percy Liang"
+    },
+    {
+     "title": "Analyzing the Sample Complexity of Self-Supervised Image Reconstruction Methods",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 2,
+     "doi": "10.52202/075280-2876",
+     "authors": "Tobit Klug, Dogukan Atik, Reinhard Heckel"
+    },
+    {
+     "title": "Cross-Scale Self-Supervised Blind Image Deblurring via Implicit Neural Representation",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 5,
+     "doi": "10.52202/079017-0226",
+     "authors": "Tianjing Zhang, Yuhui Quan, Hui Ji"
+    },
+    {
+     "title": "Self-Supervised Discovery of Neural Circuits in Spatially Patterned Neural Responses with Graph Neural Networks",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4848",
+     "authors": "Kijung Yoon"
+    },
+    {
+     "title": "On Separate Normalization in Self-supervised Transformers",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 1,
+     "doi": "10.52202/075280-1929",
+     "authors": "Xiaohui Chen, Yinkai Wang, Yuanqi Du, Soha Hassoun, Liping Liu"
+    },
+    {
+     "title": "Reverse Engineering Self-Supervised Learning",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 2,
+     "doi": "10.52202/075280-2542",
+     "authors": "Ido Ben-Shaul, Ravid Shwartz-Ziv, Tomer Galanti, Shai Dekel, Yann Lecun"
+    },
+    {
+     "title": "Effective Targeted Attacks for Adversarial Self-Supervised Learning",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 0,
+     "doi": "10.52202/075280-2486",
+     "authors": "Minseon Kim, Hyeonjeong Ha, Sooel Son, Sung Ju Hwang"
+    },
+    {
+     "title": "Pseudo-Siamese Blind-spot Transformers for Self-Supervised Real-World Denoising",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 4,
+     "doi": "10.52202/079017-0442",
+     "authors": "Yuhui Quan, Tianxiang Zheng, Hui Ji"
+    },
+    {
+     "title": "Self-Supervised Visual Representation Learning with Semantic Grouping",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 5,
+     "doi": "10.52202/068431-1195",
+     "authors": "Xin Wen, Bingchen Zhao, Anlin Zheng, Xiangyu Zhang, Xiaojuan Qi"
+    },
+    {
+     "title": "Self-supervised Transformation Learning for Equivariant Representations",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 2,
+     "doi": "10.52202/079017-2643",
+     "authors": "Jaemyung Yu, Jaehyun Choi, Dong-Jae Lee, Hyeonggwon Hong, Junmo Kim"
+    },
+    {
+     "title": "Does Self-Supervised Learning Really Improve Reinforcement Learning from Pixels?",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 4,
+     "doi": "10.52202/068431-2238",
+     "authors": "Xiang Li, Jinghuan Shang, Srijan Das, Michael Ryoo"
+    },
+    {
+     "title": "Uncovering the Hidden Dynamics of Video Self-supervised Learning under Distribution Shifts",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 1,
+     "doi": "10.52202/075280-2340",
+     "authors": "Pritam Sarkar, Ahmad Beirami, Ali Etemad"
+    },
+    {
+     "title": "T-REGS: Minimum Spanning Tree Regularization for Self-Supervised Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0408",
+     "authors": "Julie Mordacq, David Loiseaux, Vicky Kalogeiton, Steve OUDOT"
+    },
+    {
+     "title": "Self-Supervised Learning with an Information Maximization Criterion",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 0,
+     "doi": "10.52202/068431-2554",
+     "authors": "Serdar Ozsoy, Shadi Hamdan, Sercan Arik, Deniz Yuret, Alper Erdogan"
+    },
+    {
+     "title": "Contrastive and Non-Contrastive Self-Supervised Learning Recover Global and Local Spectral Embedding Methods",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 6,
+     "doi": "10.52202/068431-1934",
+     "authors": "Randall Balestriero, Yann Lecun"
+    },
+    {
+     "title": "QueST: Self-Supervised Skill Abstractions for Learning Continuous Control",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 9,
+     "doi": "10.52202/079017-0133",
+     "authors": "Atharva Mete, Haotian Xue, Albert Wilcox, Yongxin Chen, Animesh Garg"
+    },
+    {
+     "title": "Self-Supervised Image Restoration with Blurry and Noisy Pairs",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 4,
+     "doi": "10.52202/068431-2116",
+     "authors": "Zhilu Zhang, Rongjian Xu, Ming Liu, Zifei Yan, Wangmeng Zuo"
+    },
+    {
+     "title": "ShapeEmbed: a self-supervised learning framework for 2D contour quantification",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0416",
+     "authors": "Anna Foix-Romero, Craig Russell, Alexander Krull, Virginie Uhlmann"
+    },
+    {
+     "title": "No Train, all Gain: Self-Supervised Gradients Improve Deep Frozen Representations",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 1,
+     "doi": "10.52202/079017-0492",
+     "authors": "Walter Simoncini, Spyros Gidaris, Andrei Bursuc, Yuki Asano"
+    },
+    {
+     "title": "Self-Supervised Reinforcement Learning that Transfers using Random Features",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 3,
+     "doi": "10.52202/075280-2461",
+     "authors": "Boyuan Chen, Chuning Zhu, Pulkit Agrawal, Kaiqing Zhang, Abhishek Gupta"
+    },
+    {
+     "title": "Adapting Self-Supervised Vision Transformers by Probing Attention-Conditioned Masking Consistency",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 1,
+     "doi": "10.52202/068431-1691",
+     "authors": "Viraj Prabhu, Sriram Yenamandra, Aaditya Singh, Judy Hoffman"
+    },
+    {
+     "title": "Debiased Self-Training for Semi-Supervised Learning",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 33,
+     "doi": "10.52202/068431-2349",
+     "authors": "Baixu Chen, Junguang Jiang, Ximei Wang, Pengfei Wan, Jianmin Wang, Mingsheng Long"
+    },
+    {
+     "title": "AutoLink: Self-Supervised Learning of Human Skeletons and Object Outlines by Linking Keypoints",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 2,
+     "doi": "10.52202/068431-2618",
+     "authors": "Xingzhe He, Bastian Wandt, Helge Rhodin"
+    },
+    {
+     "title": "Contrastive-Equivariant Self-Supervised Learning Improves Alignment with Primate Visual Area IT",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-3043",
+     "authors": "Thomas Yerxa, Jenelle Feather, Eero Simoncelli, Sueyeon Chung"
+    },
+    {
+     "title": "Evaluating Self-Supervised Learning for Molecular Graph Embeddings",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 1,
+     "doi": "10.52202/075280-2977",
+     "authors": "Hanchen Wang, Jean Kaddour, Shengchao Liu, Jian Tang, Joan Lasenby, Qi Liu"
+    },
+    {
+     "title": "In-Context Symmetries: Self-Supervised Learning through Contextual World Models",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 0,
+     "doi": "10.52202/079017-3312",
+     "authors": "Sharut Gupta, Chenyu Wang, Yifei Wang, Tommi Jaakkola, Stefanie Jegelka"
+    },
+    {
+     "title": "MoE-Gyro: Self-Supervised Over-Range Reconstruction and Denoising for MEMS Gyroscopes",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-5373",
+     "authors": "Feiyang Pan, Shenghe Zheng, Chunyan Yin, Guangbin Dou"
+    },
+    {
+     "title": "Revisiting Self-Supervised Heterogeneous Graph Learning from Spectral Clustering Perspective",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 3,
+     "doi": "10.52202/079017-1366",
+     "authors": "Yujie Mo, Zhihe Lu, Runpeng Yu, Xiaofeng Zhu, Xinchao Wang"
+    },
+    {
+     "title": "Bridging the Domain Gap: Self-Supervised 3D Scene Understanding with Foundation Models",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 7,
+     "doi": "10.52202/075280-3467",
+     "authors": "Zhimin Chen, Longlong Jing, Yingwei Li, Bing Li"
+    },
+    {
+     "title": "Self-Supervised Contrastive Pre-Training for Time Series Via Time-Frequency Consistency",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 98,
+     "doi": "10.52202/068431-0288",
+     "authors": "Xiang Zhang, Ziyuan Zhao, Theodoros Tsiligkaridis, Marinka Zitnik"
+    },
+    {
+     "title": "Self-Supervised Aggregation of Diverse Experts for Test-Agnostic Long-Tailed Recognition",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 24,
+     "doi": "10.52202/068431-2470",
+     "authors": "Yifan Zhang, Bryan Hooi, Lanqing Hong, Jiashi Feng"
+    },
+    {
+     "title": "VESSA: Video-based objEct-centric Self-Supervised Adaptation for Visual Foundation Models",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-1472",
+     "authors": "Jesimon Barreto, Carlos Caetano, Andre Araujo, William Schwartz"
+    },
+    {
+     "title": "Adv-SSL: Adversarial Self-Supervised Representation Learning with Theoretical Guarantees",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4097",
+     "authors": "Chenguang Duan, Yuling Jiao, Huazhen Lin, Wensen Ma, Jerry Yang"
+    },
+    {
+     "title": "Uncovering the Redundancy in Graph Self-supervised Learning Models",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 1,
+     "doi": "10.52202/079017-3130",
+     "authors": "Zhibiao Wang, Xiao Wang, Haoyue Deng, Nian Liu, Shirui Pan, Chunming Hu"
+    },
+    {
+     "title": "Exploring Structural Degradation in Dense Representations for Self-supervised Learning",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-0565",
+     "authors": "Siran Dai, Qianqian Xu, Peisong Wen, Yang Liu, Qingming Huang"
+    },
+    {
+     "title": "OwMatch: Conditional Self-Labeling with Consistency for Open-World Semi-Supervised Learning",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 4,
+     "doi": "10.52202/079017-3167",
+     "authors": "Shengjie Niu, Lifan Lin, Jian Huang, Chao Wang"
+    },
+    {
+     "title": "Self-Supervised Surround-View Depth Estimation with Volumetric Feature Fusion",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 2,
+     "doi": "10.52202/068431-0291",
+     "authors": "Jung-Hee Kim, Junhwa Hur, Tien Phuoc Nguyen, Seong-Gyun Jeong"
+    },
+    {
+     "title": "Self-Supervised Selective-Guided Diffusion Model for Old-Photo Face Restoration",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-4833",
+     "authors": "Wenjie Li, Xiangyi Wang, Heng Guo, Guangwei Gao, Zhanyu Ma"
+    },
+    {
+     "title": "Modality-Agnostic Self-Supervised Learning with Meta-Learned Masked Auto-Encoder",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 2,
+     "doi": "10.52202/075280-3232",
+     "authors": "Huiwon Jang, Jihoon Tack, Daewon Choi, Jongheon Jeong, Jinwoo Shin"
+    },
+    {
+     "title": "Self-Supervised Direct Preference Optimization for Text-to-Image Diffusion Models",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 1,
+     "doi": "10.52202/085713-0083",
+     "authors": "Liang Peng, Boxi Wu, Haoran Cheng, Yibo Zhao, Xiaofei He"
+    },
+    {
+     "title": "bit2bit: 1-bit quanta video reconstruction via self-supervised photon prediction",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 3,
+     "doi": "10.52202/079017-2806",
+     "authors": "Yehe Liu, Alexander Krull, Hector Basevi, Aleš Leonardis, Michael Jenkins"
+    },
+    {
+     "title": "Understanding the Role of Equivariance in Self-supervised Learning",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 4,
+     "doi": "10.52202/079017-4048",
+     "authors": "Yifei Wang, Kaiwen Hu, Sharut Gupta, Ziyu Ye, Yisen Wang, Stefanie Jegelka"
+    },
+    {
+     "title": "VideoMAE: Masked Autoencoders Are Data-Efficient Learners for Self-Supervised Video Pre-Training",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 337,
+     "doi": "10.52202/068431-0732",
+     "authors": "Zhan Tong, Yibing Song, Jue Wang, Limin Wang"
+    },
+    {
+     "title": "Self-Supervised Learning of Graph Representations for Network Intrusion Detection",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 3,
+     "doi": "10.52202/085713-3653",
+     "authors": "Lorenzo Guerra, Thomas Chapuis, Guillaume Duc, Pavlo Mozharovskyi, Van-Tam Nguyen"
+    },
+    {
+     "title": "SNAP: Self-Supervised Neural Maps for Visual Positioning and Semantic Understanding",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 4,
+     "doi": "10.52202/075280-0338",
+     "authors": "Paul-Edouard Sarlin, Eduard Trulls, Marc Pollefeys, Jan Hosang, Simon Lynen"
+    },
+    {
+     "title": "Encoding Time-Series Explanations through Self-Supervised Model Behavior Consistency",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 7,
+     "doi": "10.52202/075280-1395",
+     "authors": "Owen Queen, Tom Hartvigsen, Teddy Koker, Huan He, Theodoros Tsiligkaridis, Marinka Zitnik"
+    },
+    {
+     "title": "Self-Supervised Learning with Lie Symmetries for Partial Differential Equations",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 2,
+     "doi": "10.52202/075280-1262",
+     "authors": "Grégoire Mialon, Quentin Garrido, Hannah Lawrence, Danyal Rehman, Yann Lecun, Bobak Kiani"
+    },
+    {
+     "title": "Keypoint-Augmented Self-Supervised Learning for Medical Image Segmentation with Limited Annotation",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 4,
+     "doi": "10.52202/075280-2652",
+     "authors": "Zhangsihao Yang, Mengwei Ren, Kaize Ding, Guido Gerig, Yalin Wang"
+    },
+    {
+     "title": "CADet: Fully Self-Supervised Out-Of-Distribution Detection With Contrastive Learning",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 3,
+     "doi": "10.52202/075280-0322",
+     "authors": "Charles Guille-Escuret, Pau Rodriguez, David Vazquez, Ioannis Mitliagkas, Joao Monteiro"
+    },
+    {
+     "title": "MetaMask: Revisiting Dimensional Confounder for Self-Supervised Learning",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 2,
+     "doi": "10.52202/068431-2790",
+     "authors": "Jiangmeng Li, Wenwen Qiang, Yanan Zhang, Wenyi Mo, Changwen Zheng, Bing Su"
+    },
+    {
+     "title": "Bridging the Gap from Asymmetry Tricks to Decorrelation Principles in Non-Contrastive Self-Supervised Learning",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 2,
+     "doi": "10.52202/068431-1441",
+     "authors": "Kang-Jun Liu, Masanori Suganuma, Takayuki Okatani"
+    },
+    {
+     "title": "An Investigation into Whitening Loss for Self-Supervised Learning",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 2,
+     "doi": "10.52202/068431-2157",
+     "authors": "Xi Weng, Lei Huang, Lei Zhao, Rao Anwer, Salman Khan, Fahad Shahbaz Khan"
+    },
+    {
+     "title": "You Don’t Need Domain-Specific Data Augmentations When Scaling Self-Supervised Learning",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 4,
+     "doi": "10.52202/079017-3686",
+     "authors": "Théo Moutakanni, Maxime Oquab, Marc Szafraniec, Maria Vakalopoulou, Piotr Bojanowski"
+    },
+    {
+     "title": "Self-supervised video pretraining yields robust and more human-aligned visual representations",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 2,
+     "doi": "10.52202/075280-2869",
+     "authors": "Nikhil Parthasarathy, S. M. Ali Eslami, Joao Carreira, Olivier Henaff"
+    },
+    {
+     "title": "ElasticMVS: Learning Elastic Part Representation for Self-Supervised Multi-View Stereopsis",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 2,
+     "doi": "10.52202/068431-1708",
+     "authors": "Jinzhi Zhang, Ruofan Tang, Zheng Cao, Jing Xiao, Ruqi Huang, Lu Fang"
+    },
+    {
+     "title": "Learning from Pattern Completion: Self-supervised Controllable Generation",
+     "year": 2024,
+     "venue": "Advances in Neural Information Processing Systems 37",
+     "citationCount": 1,
+     "doi": "10.52202/079017-0855",
+     "authors": "Zhiqiang Chen, Guofan Fan, Jinying Gao, Lei Ma, Bo Lei, Tiejun Huang"
+    },
+    {
+     "title": "Ditch the Denoiser: Emergence of Noise Robustness in Self-Supervised Learning from Data Curriculum",
+     "year": 2025,
+     "venue": "Advances in Neural Information Processing Systems 38",
+     "citationCount": 0,
+     "doi": "10.52202/085713-4541",
+     "authors": "Wenquan Lu, Jiaqi Zhang, Hugues Van Assel, Randall Balestriero"
+    },
+    {
+     "title": "a-ReQ : Assessing Representation Quality in Self-Supervised Learning by Measuring Eigenspectrum Decay",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 6,
+     "doi": "10.52202/068431-1281",
+     "authors": "Kumar K Agrawal, Arnab Kumar Mondal, Arna Ghosh, Blake Richards"
+    },
+    {
+     "title": "D2NeRF: Self-Supervised Decoupling of Dynamic and Static Objects from a Monocular Video",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 16,
+     "doi": "10.52202/068431-2366",
+     "authors": "Tianhao Wu, Fangcheng Zhong, Andrea Tagliasacchi, Forrester Cole, Cengiz Oztireli"
+    },
+    {
+     "title": "Self-supervised Graph Neural Networks via Low-Rank Decomposition",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 1,
+     "doi": "10.52202/075280-1487",
+     "authors": "Liang Yang, Runjie Shi, Qiuliang Zhang, Bingxin Niu, Zhen Wang, Xiaochun Cao"
+    },
+    {
+     "title": "Self-Supervised Learning of Representations for Space Generates Multi-Modular Grid Cells",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 4,
+     "doi": "10.52202/075280-1004",
+     "authors": "Rylan Schaeffer, Mikail Khona, Tzuhsuan Ma, Cristobal Eyzaguirre, Sanmi Koyejo, Ila Fiete"
+    },
+    {
+     "title": "Dataset Inference for Self-Supervised Models",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 8,
+     "doi": "10.52202/068431-0876",
+     "authors": "Adam Dziedzic, Haonan Duan, Muhammad Ahmad Kaleem, Nikita Dhawan, Jonas Guan, Yannis Cattan"
+    },
+    {
+     "title": "Efficient Multi-Agent Communication Via Self-Supervised Information Aggregation",
+     "year": 2022,
+     "venue": "Advances in Neural Information Processing Systems 35",
+     "citationCount": 7,
+     "doi": "10.52202/068431-0075",
+     "authors": "Cong Guan, Feng Chen, Lei Yuan, Chenghe Wang, Hao Yin, Zongzhang Zhang"
+    },
+    {
+     "title": "PUCA: Patch-Unshuffle and Channel Attention for Enhanced Self-Supervised Image Denoising",
+     "year": 2023,
+     "venue": "Advances in Neural Information Processing Systems 36",
+     "citationCount": 10,
+     "doi": "10.52202/075280-0843",
+     "authors": "Hyemi Jang, Junsung Park, Dahuin Jung, Jaihyun Lew, Ho Bae, Sungroh Yoon"
+    }
+   ]
+  }
+ }
+}

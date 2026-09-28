@@ -1,0 +1,2949 @@
+{
+ "venue": "ACMMM",
+ "category": "multimedia",
+ "canonical_venue_string": "ACM Multimedia",
+ "wave": "B",
+ "generated_at": "2026-09-29 01:18:09",
+ "topics": [
+  "multimodal agent",
+  "audio language model",
+  "sound event detection",
+  "neural codec",
+  "on-device inference"
+ ],
+ "request_budget": {
+  "successful": 23,
+  "limit": 300,
+  "attempts": 5
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "multimodal agent": {
+   "total": 2934,
+   "kept": 88,
+   "papers": [
+    {
+     "title": "Agent-to-Agent (A2A) Protocol Integrated Digital Twin System with AgentIQ for Multimodal AI Fitness Coaching and Personalized Well-Being",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1145/3746027.3758176",
+     "authors": "Kamran Gholizadeh HamlAbadi, Monica Vahdati, Fedwa Laamarti, Abdulmotaleb El Saddik"
+    },
+    {
+     "title": "Agent-MER: A Cognitive Agent with Hierarchical Deliberation for Open-Vocabulary Multimodal Emotion Recognition",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1145/3746027.3762011",
+     "authors": "Zhengqin Lai, Zhilin Zhu, Xiaopeng Hong, Yaowei Wang"
+    },
+    {
+     "title": "Impression of a Job Interview training agent that gives rationalized feedback",
+     "year": 2021,
+     "venue": "ACM Multimedia Asia",
+     "citationCount": 2,
+     "doi": "10.1145/3469877.3493598",
+     "authors": "Nao Takeuchi, Tomoko Koda"
+    },
+    {
+     "title": "Inter-modality Discordance for Multimodal Fake News Detection",
+     "year": 2021,
+     "venue": "ACM Multimedia Asia",
+     "citationCount": 17,
+     "doi": "10.1145/3469877.3490614",
+     "authors": "Shivangi Singhal, Mudit Dhawan, Rajiv Ratn Shah, Ponnurangam Kumaraguru"
+    },
+    {
+     "title": "MMRec: Simplifying Multimodal Recommendation",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia Workshops",
+     "citationCount": 106,
+     "doi": "10.1145/3611380.3628561",
+     "authors": "Xin Zhou"
+    },
+    {
+     "title": "MAXplain: A Multi-Agent System for Interactive Multimodal Hate Speech Detection",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1145/3746027.3754474",
+     "authors": "Nils Riekers, Marten Risius, Tong Chen"
+    },
+    {
+     "title": "HM-RAG: Hierarchical Multi-Agent Multimodal Retrieval Augmented Generation",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 33,
+     "doi": "10.1145/3746027.3754761",
+     "authors": "Pei Liu, Xin Liu, Ruoyu Yao, Junming Liu, Siyuan Meng, Ding Wang"
+    },
+    {
+     "title": "Focusing Attention across Multiple Images for Multimodal Event Detection",
+     "year": 2021,
+     "venue": "ACM Multimedia Asia",
+     "citationCount": 3,
+     "doi": "10.1145/3469877.3495642",
+     "authors": "Yangyang Li, Jun Li, Hao Jin, Liang Peng"
+    },
+    {
+     "title": "Few-shot Egocentric Multimodal Activity Recognition",
+     "year": 2021,
+     "venue": "ACM Multimedia Asia",
+     "citationCount": 4,
+     "doi": "10.1145/3469877.3490603",
+     "authors": "Jinxing Pan, Xiaoshan Yang, Yi Huang, Changsheng Xu"
+    },
+    {
+     "title": "Multimedia Verification Through Multi-Agent Deep Research Multimodal Large Language Models",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1145/3746027.3762033",
+     "authors": "Huy Hoan Le, Van Sy Thinh Nguyen, Thi Le Chi Dang, Vo Thanh Khang Nguyen, Truong Thanh Hung Nguyen, Hung Cao"
+    },
+    {
+     "title": "Talk, Imagine, Evolve: A Unified Multimodal Agent for Seamless Visual Generation and Editing",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3754467",
+     "authors": "Zhaofan Qiu, Zijian Gong, Yingwei Pan, Ting Yao, Tao Mei"
+    },
+    {
+     "title": "DriveEval-Agent: A Closed-Loop Framework Combining Zero-Shot Benchmarking and Full Fine-Tuning for Multimodal Autonomous Driving",
+     "year": 2025,
+     "venue": "Proceedings of the 7th ACM International Conference on Multimedia in Asia",
+     "citationCount": 0,
+     "doi": "10.1145/3743093.3770936",
+     "authors": "Jingwen Zhao, junwei Hu, yichu Liu"
+    },
+    {
+     "title": "FinGuard: A Multimodal AIGC Guardrail in Financial Scenarios",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 2,
+     "doi": "10.1145/3595916.3626351",
+     "authors": "Wenlong Du, Qingquan Li, Jian Zhou, Xu Ding, Xuewei Wang, Zhongjun Zhou"
+    },
+    {
+     "title": "I2SRM: Intra- and Inter-Sample Relationship Modeling for Multimodal Information Extraction",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 13,
+     "doi": "10.1145/3595916.3626399",
+     "authors": "Yusheng Huang, Zhouhan Lin"
+    },
+    {
+     "title": "Hybrid Improvements in Multimodal Analysis for Deep Video Understanding",
+     "year": 2021,
+     "venue": "ACM Multimedia Asia",
+     "citationCount": 3,
+     "doi": "10.1145/3469877.3493599",
+     "authors": "Beibei Zhang, Fan Yu, Yaqun Fang, Tongwei Ren, Gangshan Wu"
+    },
+    {
+     "title": "Confidence-guided Boundary Adaption Network for Multimodal Fake News Detection",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 0,
+     "doi": "10.1145/3595916.3626451",
+     "authors": "Lin Jiajie, Zhuopan Yang, Zhenguo Yang, Xiaoping Li, Fu Lee Wang, Wenyin Liu"
+    },
+    {
+     "title": "Learning a Contextualized Multimodal Embedding for Zero-shot Cooking Video Caption Generation",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 0,
+     "doi": "10.1145/3595916.3626413",
+     "authors": "lin wang, Hongyi Zhang, xingfu wang, yan xiong"
+    },
+    {
+     "title": "Cross-modal Image-Recipe Retrieval via Multimodal Fusion",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 5,
+     "doi": "10.1145/3595916.3626389",
+     "authors": "Lijie Li, Caiyue Hu, Haitao Zhang, Akshita Maradapu Vera Venkata sai"
+    },
+    {
+     "title": "Cross-modal Consistency Learning with Fine-grained Fusion Network for Multimodal Fake News Detection",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 19,
+     "doi": "10.1145/3595916.3626397",
+     "authors": "Jun Li, Yi Bin, Jie Zou, Jiwei Wei, Guoqing Wang, Yang Yang"
+    },
+    {
+     "title": "A Multi-Agent Framework for Fine-Grained Multimodal Named Entity Recognition through Check and Reasoning",
+     "year": 2025,
+     "venue": "Proceedings of the 7th ACM International Conference on Multimedia in Asia",
+     "citationCount": 0,
+     "doi": "10.1145/3743093.3771014",
+     "authors": "Heng-yang Lu, Xintong Liu, Xingda Shang, Wei Fang, Xiao-jun Wu"
+    },
+    {
+     "title": "The Design of a Trust-based Game as a Conversational Component of Interactive Environment for a Human-agent Negotiation",
+     "year": 2021,
+     "venue": "Proceedings of the 2nd ACM Multimedia Workshop on Multimodal Conversational AI",
+     "citationCount": 0,
+     "doi": "10.1145/3475959.3485393",
+     "authors": "Andrey V. Vlasov, Oksana O. Zinchenko, Zhenjie Zhao, Mansur Bakaev, Arsenjy Karavaev"
+    },
+    {
+     "title": "Multimodal Unlearnable Examples: Protecting Data against Multimodal Contrastive Learning",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 13,
+     "doi": "10.1145/3664647.3680708",
+     "authors": "Xinwei Liu, Xiaojun Jia, Yuan Xun, Siyuan Liang, Xiaochun Cao"
+    },
+    {
+     "title": "EMO-Avatar: An LLM-Agent-Orchestrated Framework for Multimodal Emotional Support in Human Animation",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1145/3746027.3762030",
+     "authors": "Keqi Chen, Wenxin Fu, Qihang Lu, Zekai Sun, Yizhong Geng, Yi Liu"
+    },
+    {
+     "title": "Building Robust Multimodal Sentiment Recognition via a Simple yet Effective Multimodal Transformer",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1145/3581783.3612872",
+     "authors": "Daoming Zong, Chaoyue Ding, Baoxiang Li, Dinghao Zhou, Jiakui Li, Ken Zheng"
+    },
+    {
+     "title": "Unlocking Financial Insights: An advanced Multimodal Summarization with Multimodal Output Framework for Financial Advisory Videos",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3754557",
+     "authors": "Sarmistha Das, R. E. Zera Marveen Lyngkhoi, Sriparna Saha, Alka Maurya"
+    },
+    {
+     "title": "Disentangled-Multimodal Privileged Knowledge Distillation for Depression Recognition with Incomplete Multimodal Data",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 17,
+     "doi": "10.1145/3664647.3681227",
+     "authors": "Yuchen Pan, Junjun Jiang, Kui Jiang, Xianming Liu"
+    },
+    {
+     "title": "DREAM: Integrating Hierarchical Multimodal Retrieval with Multi-page Multimodal Language Model for Documents VQA",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3755357",
+     "authors": "Jinxu Zhang, Qiyuan Fan, Yongqi Yu, Yu Zhang"
+    },
+    {
+     "title": "Few-shot Multimodal Sentiment Analysis Based on Multimodal Probabilistic Fusion Prompts",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 34,
+     "doi": "10.1145/3581783.3612181",
+     "authors": "Xiaocui Yang, Shi Feng, Daling Wang, Yifei Zhang, Soujanya Poria"
+    },
+    {
+     "title": "Generative Multimodal Data Augmentation for Low-Resource Multimodal Named Entity Recognition",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 14,
+     "doi": "10.1145/3664647.3681598",
+     "authors": "Ziyan Li, Jianfei Yu, Jia Yang, Wenya Wang, Li Yang, Rui Xia"
+    },
+    {
+     "title": "Dark Side of Modalities: Reinforced Multimodal Distillation for Multimodal Knowledge Graph Reasoning",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3754576",
+     "authors": "Yu Zhao, Ying Zhang, Xuhui Sui, Baohang Zhou, Haoze Zhu, Jeff Z. Pan"
+    },
+    {
+     "title": "Multimodal Content Creation, Consumption and Distribution",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3764192",
+     "authors": "Ting Yao"
+    },
+    {
+     "title": "Zero-shot Generalization of Multimodal Dialogue Agents",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1145/3503161.3548759",
+     "authors": "Diogo Tavares"
+    },
+    {
+     "title": "PG-Agent: An Agent Powered by Page Graph",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3755189",
+     "authors": "Weizhi Chen, Ziwei Wang, Leyang Yang, Sheng Zhou, Xiaoxuan Tang, Jiajun Bu"
+    },
+    {
+     "title": "Panel: Multimodal Large Foundation Models",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3581783.3617350",
+     "authors": "Mohan Kankanhalli, Marcel Worring"
+    },
+    {
+     "title": "Large Multimodal Models as Social Multimedia Analysis Engines",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3664647.3676596",
+     "authors": "Jiebo Luo"
+    },
+    {
+     "title": "Multimodal AI &amp; LLMs for Peacekeeping and Emergency Response",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1145/3581783.3613911",
+     "authors": "Alejandro Jaimes"
+    },
+    {
+     "title": "Multimodal-aware Multi-intention Learning for Recommendation",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1145/3664647.3681412",
+     "authors": "Wei Yang, Qingchen Yang"
+    },
+    {
+     "title": "Multimodal Dual Population Evolutionary Reinforcement Learning",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3755206",
+     "authors": "Yao Zhang, Ping Huang, Rui Zhang"
+    },
+    {
+     "title": "Enhancing Multimodal Large Language Models on Demonstrative Multi-Image Instructions",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1145/3664647.3688994",
+     "authors": "Xian Fu"
+    },
+    {
+     "title": "Grounding, Meaning and Foundation Models",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3503161.3549914",
+     "authors": "Douwe Kiela"
+    },
+    {
+     "title": "Can Multimodal Large Language Models Understand Human Values in Videos?",
+     "year": 2025,
+     "venue": "Proceedings of the 7th ACM International Conference on Multimedia in Asia",
+     "citationCount": 0,
+     "doi": "10.1145/3743093.3770993",
+     "authors": "Yuchen Wang, Hao Qiu, He Chang, Junbin Xiao, Zhulin Tao, Libiao Jin"
+    },
+    {
+     "title": "Multimodal Color Recommendation in Vector Graphic Documents",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 8,
+     "doi": "10.1145/3581783.3612139",
+     "authors": "Qianru Qiu, Xueting Wang, Mayu Otani"
+    },
+    {
+     "title": "Do you see what I see?",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3474085.3476967",
+     "authors": "Cordelia Schmid"
+    },
+    {
+     "title": "Text-to-Metaverse: Towards a Digital Twin-Enabled Multimodal Conditional Generative Metaverse",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 8,
+     "doi": "10.1145/3581783.3613432",
+     "authors": "Ahmed Elhagry"
+    },
+    {
+     "title": "MRAC 2025: 3rd International Workshop on Multimodal, Generative and Responsible Affective Computing",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3762108",
+     "authors": "Zheng Lian, Shreya Ghosh, Erik Cambria, Zhixi Cai, Guoying Zhao, Abhinav Dhall"
+    },
+    {
+     "title": "Parameter-Efficient Variational AutoEncoder for Multimodal Multi-Interest Recommendation",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3754597",
+     "authors": "Nhu-Thuat Tran, Hady W. Lauw"
+    },
+    {
+     "title": "Multimodal Video Summarization via Time-Aware Transformers",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 27,
+     "doi": "10.1145/3474085.3475321",
+     "authors": "Xindi Shang, Zehuan Yuan, Anran Wang, Changhu Wang"
+    },
+    {
+     "title": "DMMD4SR: Diffusion Model-based Multi-level Multimodal Denoising for Sequential Recommendation",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 11,
+     "doi": "10.1145/3746027.3755861",
+     "authors": "Weihai Lu, Li Yin"
+    },
+    {
+     "title": "Detached and Interactive Multimodal Learning",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1145/3664647.3680697",
+     "authors": "Yunfeng Fan, Wenchao Xu, Haozhao Wang, Junhong Liu, Song Guo"
+    },
+    {
+     "title": "Query-Focused Multimodal Summarization with Gate-Guided Mixture-of-Experts",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1145/3746027.3754699",
+     "authors": "Jiajun Han, Xuran Yang, Hui Zhang"
+    },
+    {
+     "title": "CapS-Adapter: Caption-based MultiModal Adapter in Zero-Shot Classification",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1145/3664647.3681566",
+     "authors": "Qijie Wang, Guandu Liu, Bin Wang"
+    },
+    {
+     "title": "Robust Understanding of Human-robot Social Interactions through Multimodal Distillation",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1145/3746027.3755463",
+     "authors": "Tongfei Bian, Mathieu Chollet, Tanaya Guha"
+    },
+    {
+     "title": "A Feature-space Multimodal Data Augmentation Technique for Text-video Retrieval",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 24,
+     "doi": "10.1145/3503161.3548365",
+     "authors": "Alex Falcon, Giuseppe Serra, Oswald Lanz"
+    },
+    {
+     "title": "Sync Glass",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3474085.3478553",
+     "authors": "Yuki Tajima, Toshiharu Horiuchi, Gen Hattori"
+    },
+    {
+     "title": "AdaCLIP: Towards Pragmatic Multimodal Video Retrieval",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 7,
+     "doi": "10.1145/3581783.3612161",
+     "authors": "Zhiming Hu, Angela Ning Ye, Salar Hosseini Khorasgani, Iqbal Mohomed"
+    },
+    {
+     "title": "Mining High-quality Samples from Raw Data and Majority Voting Method for Multimodal Emotion Recognition",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1145/3581783.3612862",
+     "authors": "Qifei Li, Yingming Gao, Ya Li"
+    },
+    {
+     "title": "Differentiable Cross-modal Hashing via Multimodal Transformers",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 94,
+     "doi": "10.1145/3503161.3548187",
+     "authors": "Junfeng Tu, Xueliang Liu, Zongxiang Lin, Richang Hong, Meng Wang"
+    },
+    {
+     "title": "Reverse2Complete: Unpaired Multimodal Point Cloud Completion via Guided Diffusion",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1145/3664647.3680590",
+     "authors": "Wenxiao Zhang, Hossein Rahmani, Xun Yang, Jun Liu"
+    },
+    {
+     "title": "The Next Generation Multimodal Conversational Search and Recommendation",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1145/3474085.3480025",
+     "authors": "Joao Magalhaes, Tat-Seng Chua, Tao Mei, Alan Smeaton"
+    },
+    {
+     "title": "Multimodal In-bed Pose and Shape Estimation under the Blankets",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 16,
+     "doi": "10.1145/3503161.3548063",
+     "authors": "Yu Yin, Joseph P. Robinson, Yun Fu"
+    },
+    {
+     "title": "A Tale of Two Graphs: Freezing and Denoising Graph Structures for Multimodal Recommendation",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 231,
+     "doi": "10.1145/3581783.3611943",
+     "authors": "Xin Zhou, Zhiqi Shen"
+    },
+    {
+     "title": "Simplifying Multimodal Emotion Recognition with Single Eye Movement Modality",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 35,
+     "doi": "10.1145/3474085.3475701",
+     "authors": "Xu Yan, Li-Ming Zhao, Bao-Liang Lu"
+    },
+    {
+     "title": "Event Traffic Forecasting with Sparse Multimodal Data",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 11,
+     "doi": "10.1145/3664647.3680706",
+     "authors": "Xiao Han, Zhenduo Zhang, Yiling Wu, Xinfeng Zhang, Zhe Wu"
+    },
+    {
+     "title": "Understanding Political Polarization via Jointly Modeling Users, Connections and Multimodal Contents on Heterogeneous Graphs",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 9,
+     "doi": "10.1145/3503161.3547898",
+     "authors": "Hanjia Lyu, Jiebo Luo"
+    },
+    {
+     "title": "Multimodal Low-light Image Enhancement with Depth Information",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 14,
+     "doi": "10.1145/3664647.3680741",
+     "authors": "Zhen Wang, Dongyuan Li, Guang Li, Ziqing Zhang, Renhe Jiang"
+    },
+    {
+     "title": "MIRAGE25: ACM MM25 Multimodal Interleaved Reasoning and Generation Challenge",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3762000",
+     "authors": "Dong Chen, Fei Gao, Zhengqing Hu, Xiaojun Chang"
+    },
+    {
+     "title": "Vaccine Misinformation Detection in X using Cooperative Multimodal Framework",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1145/3664647.3681422",
+     "authors": "Usman Naseem, Adam G. Dunn, Matloob Khushi, Jinman Kim"
+    },
+    {
+     "title": "A Multimodal Framework for Video Ads Understanding",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1145/3474085.3479202",
+     "authors": "Zejia Weng, Lingchen Meng, Rui Wang, Zuxuan Wu, Yu-Gang Jiang"
+    },
+    {
+     "title": "Disentangling Homophily and Heterophily in Multimodal Graph Clustering",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1145/3746027.3755631",
+     "authors": "Zhaochen Guo, Zhixiang Shen, Xuanting Xie, Liangjian Wen, Zhao Kang"
+    },
+    {
+     "title": "MM-AU:Towards Multimodal Understanding of Advertisement Videos",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 10,
+     "doi": "10.1145/3581783.3612371",
+     "authors": "Digbalay Bose, Rajat Hebbar, Tiantian Feng, Krishna Somandepalli, Anfeng Xu, Shrikanth Narayanan"
+    },
+    {
+     "title": "Empowering People to Harness and Control their Multimodal Data in Scrutable User models",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3664647.3680509",
+     "authors": "Judy Kay"
+    },
+    {
+     "title": "MedAI Hub: A Multimodal Medical Data Platform with Evolutionary Image Enhancement and Graph-Driven Literature Retrieval",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3761832",
+     "authors": "Guoming Wang"
+    },
+    {
+     "title": "Seeing Beyond Words: Multimodal Aspect-Level Complaint Detection in Ecommerce Videos",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 6,
+     "doi": "10.1145/3664647.3681595",
+     "authors": "Rishikesh Devanathan, Apoorva Singh, A.S. Poornash, Sriparna Saha"
+    },
+    {
+     "title": "Towards Balanced Active Learning for Multimodal Classification",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1145/3581783.3612463",
+     "authors": "Meng Shen, Yizheng Huang, Jianxiong Yin, Heqing Zou, Deepu Rajan, Simon See"
+    },
+    {
+     "title": "Next Phase of Research on Multimodal Foundation Models: From Alignments to Content Generation and Quality Assessment",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3758125",
+     "authors": "Tat-Seng Chua"
+    },
+    {
+     "title": "Modal-aware Bias Constrained Contrastive Learning for Multimodal Recommendation",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 16,
+     "doi": "10.1145/3581783.3612568",
+     "authors": "Wei Yang, Zhengru Fang, Tianle Zhang, Shiguang Wu, Chi Lu"
+    },
+    {
+     "title": "Multimodal Hate Speech Detection via Cross-Domain Knowledge Transfer",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 40,
+     "doi": "10.1145/3503161.3548255",
+     "authors": "Chuanpeng Yang, Fuqing Zhu, Guihua Liu, Jizhong Han, Songlin Hu"
+    },
+    {
+     "title": "Benchmarking and Bridging Emotion Conflicts for Multimodal Emotion Reasoning",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 7,
+     "doi": "10.1145/3746027.3754856",
+     "authors": "Zhiyuan Han, Beier Zhu, Yanlong Xu, Peipei Song, Xun Yang"
+    },
+    {
+     "title": "A Streamlined System for Multimodal Industrial Anomaly Detection via 2D and 3D Feature Fusion",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3761837",
+     "authors": "Wenbing Zhu, Mingmin Chi, Bo Peng"
+    },
+    {
+     "title": "MuCAI'21: 2nd ACM Multimedia Workshop on Multimodal Conversational AI",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1145/3474085.3478580",
+     "authors": "Joao Magalhaes, Alexander G. Hauptmann, Ricardo G. Sousa, Carlos Santiago"
+    },
+    {
+     "title": "LDW: Label Divergence Weighting for Multimodal Sentiment Analysis",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1145/3746027.3758160",
+     "authors": "Quanqi Du, Loic De Langhe, Els Lefever, Veronique Hoste"
+    },
+    {
+     "title": "DAPT: Domain-Aware Prompt-Tuning for Multimodal Fake News Detection",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 9,
+     "doi": "10.1145/3746027.3755192",
+     "authors": "Yu Tong, Weihai Lu, Xiaoxi Cui, Yifan Mao, Zhejun Zhao"
+    },
+    {
+     "title": "UniL: Point Cloud Novelty Detection through Multimodal Pre-training",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3664647.3680988",
+     "authors": "Yuhan Wang, Mofei Song"
+    },
+    {
+     "title": "Multi-label Emotion Analysis in Conversation via Multimodal Knowledge Distillation",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 22,
+     "doi": "10.1145/3581783.3612517",
+     "authors": "Sidharth Anand, Naresh Kumar Devulapally, Sreyasee Das Bhattacharjee, Junsong Yuan"
+    },
+    {
+     "title": "AbCoRD: Exploiting multimodal generative approach for Aspect-based Complaint and Rationale Detection",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1145/3581783.3613776",
+     "authors": "Raghav Jain, Apoorva Singh, Vivek Gangwar, Sriparna Saha"
+    },
+    {
+     "title": "MT-DPCQA: A Multimodal Time-aware Learning Approach for No-Reference Dynamic Point Cloud Quality Assessment",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1145/3746027.3754803",
+     "authors": "Swarna Chakraborty, Mylene C.Q. Farias"
+    },
+    {
+     "title": "A New Dataset and Benchmark for Grounding Multimodal Misinformation",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1145/3746027.3758191",
+     "authors": "Bingjian Yang, Danni Xu, Kaipeng Niu, Wenxuan Liu, Zheng Wang, Mohan Kankanhalli"
+    },
+    {
+     "title": "Exploiting BERT for Multimodal Target Sentiment Classification through Input Space Translation",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 176,
+     "doi": "10.1145/3474085.3475692",
+     "authors": "Zaid Khan, Yun Fu"
+    }
+   ]
+  },
+  "audio language model": {
+   "total": 8384,
+   "kept": 84,
+   "papers": [
+    {
+     "title": "Multimodal Large Language Models and Tunings: Vision, Language, Sensors, Audio, and Beyond",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1145/3664647.3689177",
+     "authors": "Soyeon Caren Han, Feiqi Cao, Josiah Poon, Roberto Navigli"
+    },
+    {
+     "title": "A Lightweight and Efficient Model for Audio Anti-Spoofing",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 3,
+     "doi": "10.1145/3595916.3626403",
+     "authors": "Qiaowei Ma, Jinghui Zhong, Yitao Yang, Weiheng Liu, Ying Gao, Wing Ng"
+    },
+    {
+     "title": "Multi-grained Correspondence Learning of Audio-language Models for Few-shot Audio Recognition",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3664647.3681389",
+     "authors": "Shengwei Zhao, Linhai Xu, Yuying Liu, Shaoyi Du"
+    },
+    {
+     "title": "NEXUS-O: An Omni-Perceptive and -Interactive Model for Language, Audio, and Vision",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3754752",
+     "authors": "Che Liu, Yingji Zhang, Dong Zhang, Weijie Zhang, Chenggong Gong, Yu Lu"
+    },
+    {
+     "title": "BAND: A Benchmark Dataset forBangla News Audio Classification",
+     "year": 2021,
+     "venue": "ACM Multimedia Asia",
+     "citationCount": 0,
+     "doi": "10.1145/3469877.3490575",
+     "authors": "Md. Rafi Ur Rashid, Mahim Mahbub, Muhammad Abdullah Adnan"
+    },
+    {
+     "title": "Speech Emotion Recognition using Threshold Fusion for Enhancing Audio Sensitivity",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia Workshops",
+     "citationCount": 0,
+     "doi": "10.1145/3611380.3628557",
+     "authors": "Zhaojie Luo, Stefan Christiansson, Bence Ladóczki, Kazunori Komatani"
+    },
+    {
+     "title": "ALLM4ADD: Unlocking the Capabilities of Audio Large Language Models for Audio Deepfake Detection",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1145/3746027.3755851",
+     "authors": "Hao Gu, Jiangyan Yi, Chenglong Wang, Jianhua Tao, Zheng Lian, Jiayi He"
+    },
+    {
+     "title": "Auto-ACD: A Large-scale Dataset for Audio-Language Representation Learning",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 29,
+     "doi": "10.1145/3664647.3681472",
+     "authors": "Luoyi Sun, Xuenan Xu, Mengyue Wu, Weidi Xie"
+    },
+    {
+     "title": "A Cross-modal and Redundancy-reduced Network for Weakly-Supervised Audio-Visual Violence Detection",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 1,
+     "doi": "10.1145/3595916.3626375",
+     "authors": "Yidan Fan, Yongxin Yu, Wenhuan Lu, Yahong Han"
+    },
+    {
+     "title": "Text-to-Audio Generation using Instruction Guided Latent Diffusion Model",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 104,
+     "doi": "10.1145/3581783.3612348",
+     "authors": "Deepanway Ghosal, Navonil Majumder, Ambuj Mehrish, Soujanya Poria"
+    },
+    {
+     "title": "Graph-Based Video-Language Learning with Multi-Grained Audio-Visual Alignment",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 6,
+     "doi": "10.1145/3581783.3612132",
+     "authors": "Chenyang Lyu, Wenxi Li, Tianbo Ji, Longyue Wang, Liting Zhou, Cathal Gurrin"
+    },
+    {
+     "title": "Language Based Image Quality Assessment",
+     "year": 2021,
+     "venue": "ACM Multimedia Asia",
+     "citationCount": 3,
+     "doi": "10.1145/3469877.3490605",
+     "authors": "Lorenzo Seidenari, Leonardo Galteri, Pietro Bongini, Marco Bertini, Alberto Del Bimbo"
+    },
+    {
+     "title": "FLAP: Fully-controllable Audio-driven Portrait Video Generation through 3D head conditioned diffusion model",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3755671",
+     "authors": "Lingzhou Mu, Baiji Liu, Ruonan Zhang, Guiming Mo, Jiawei Jin, Kai Zhang"
+    },
+    {
+     "title": "Advancing Multi-grained Alignment for Contrastive Language-Audio Pre-training",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 12,
+     "doi": "10.1145/3664647.3681145",
+     "authors": "Yiming Li, Zhifang Guo, Xiangdong Wang, Hong Liu"
+    },
+    {
+     "title": "Parameter-Efficient Transfer Learning for Audio-Visual-Language Tasks",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1145/3581783.3611939",
+     "authors": "Hongye Liu, Xianhai Xie, Yang Gao, Zhou Yu"
+    },
+    {
+     "title": "KLASSify to Verify: Audio-Visual Deepfake Detection Using SSL-based Audio and Handcrafted Visual Features",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3761982",
+     "authors": "Ivan Kukanov, Jun Wah Ng"
+    },
+    {
+     "title": "Utilizing Resource-Rich Language Datasets for End-to-End Scene Text Recognition in Resource-Poor Languages",
+     "year": 2021,
+     "venue": "ACM Multimedia Asia",
+     "citationCount": 1,
+     "doi": "10.1145/3469877.3490571",
+     "authors": "Shota Orihashi, Yoshihiro Yamazaki, Naoki Makishima, Mana Ihori, Akihiko Takashima, Tomohiro Tanaka"
+    },
+    {
+     "title": "GROOT: Generating Robust Watermark for Diffusion-Model-Based Audio Synthesis",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 11,
+     "doi": "10.1145/3664647.3680596",
+     "authors": "Weizhi Liu, Yue Li, Dongdong Lin, Hui Tian, Haizhou Li"
+    },
+    {
+     "title": "TelEmoScatter: Enabling Remote Interaction and Emotional Connections in Virtual and Physical Music Performance",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 1,
+     "doi": "10.1145/3595916.3626350",
+     "authors": "Chen-Wei Fu, Wei-Lun Huang, Pin-Xuan Liu, Yu-Hsuan Chen, Ming-Cong Su, Andrew Chen"
+    },
+    {
+     "title": "CCStereo: Audio-Visual Contextual and Contrastive Learning for Binaural Audio Generation",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1145/3746027.3754919",
+     "authors": "Yuanhong Chen, Kazuki Shimada, Christian Simon, Yukara Ikemiya, Takashi Shibuya, Yuki Mitsufuji"
+    },
+    {
+     "title": "A Model-Guided Unfolding Network for Single Image Reflection Removal",
+     "year": 2021,
+     "venue": "ACM Multimedia Asia",
+     "citationCount": 1,
+     "doi": "10.1145/3469877.3490607",
+     "authors": "Dongliang Shao, Yunhui Shi, Jin Wang, Nam Ling, Baocai Yin"
+    },
+    {
+     "title": "BLAT: Bootstrapping Language-Audio Pre-training based on AudioSet Tag-guided Synthetic Data",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 13,
+     "doi": "10.1145/3581783.3613820",
+     "authors": "Xuenan Xu, Zhiling Zhang, Zelin Zhou, Pingyue Zhang, Zeyu Xie, Mengyue Wu"
+    },
+    {
+     "title": "Audio-driven Talking Head Generation with Transformer and 3D Morphable Model",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 14,
+     "doi": "10.1145/3503161.3551574",
+     "authors": "Ricong Huang, Weizhi Zhong, Guanbin Li"
+    },
+    {
+     "title": "Tutorial: Large Language-Vision Model in Society",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1145/3664647.3689175",
+     "authors": "Kaicheng Yu, Zhuang Shao, Siyuan Qi, Dongfang Liu"
+    },
+    {
+     "title": "From Captions to Rewards\n                    <scp>(CaReVL):</scp>\n                    Leveraging Large Language Model Experts for Enhanced Reward Modeling in Large Vision-Language Models",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1145/3746027.3755697",
+     "authors": "Muzhi Dai, Jiashuo Sun, Zhiyuan Zhao, Shixuan Liu, Rui Li, Junyu Gao"
+    },
+    {
+     "title": "CFCR: A Convolution and Fusion Model for Cross-platform Recommendation",
+     "year": 2021,
+     "venue": "ACM Multimedia Asia",
+     "citationCount": 0,
+     "doi": "10.1145/3469877.3495639",
+     "authors": "Shengze Yu, Xin Wang, Wenwu Zhu"
+    },
+    {
+     "title": "Tango 2: Aligning Diffusion-based Text-to-Audio Generations through Direct Preference Optimization",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 61,
+     "doi": "10.1145/3664647.3681688",
+     "authors": "Navonil Majumder, Chia-Yu Hung, Deepanway Ghosal, Wei-Ning Hsu, Rada Mihalcea, Soujanya Poria"
+    },
+    {
+     "title": "Vision-Language Navigation for Quadcopters with Conditional Transformer and Prompt-based Text Rephraser",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 3,
+     "doi": "10.1145/3595916.3626450",
+     "authors": "Zhe Chen, Jiyi Li, Fumiyo Fukumoto, Peng Liu, Yoshimi Suzuki"
+    },
+    {
+     "title": "An Overview of the ICASSP Special Session on AI Security and Privacy in Speech and Audio Processing",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia Workshops",
+     "citationCount": 5,
+     "doi": "10.1145/3611380.3628563",
+     "authors": "Zhao Ren, Kun Qian, Tanja Schultz, Björn W. Schuller"
+    },
+    {
+     "title": "SSAT-Adapter: Enhancing Vision-Language Model Few-shot Learning with Auxiliary Tasks",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1145/3664647.3681624",
+     "authors": "Bowen Chen, Yun Sing Koh, Gillian Dobbie"
+    },
+    {
+     "title": "CATR: Combinatorial-Dependence Audio-Queried Transformer for Audio-Visual Video Segmentation",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 68,
+     "doi": "10.1145/3581783.3611724",
+     "authors": "Kexin Li, Zongxin Yang, Lei Chen, Yi Yang, Jun Xiao"
+    },
+    {
+     "title": "OMAR-RQ: Open Music Audio Representation Model Trained with Multi-Feature Masked Token Prediction",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1145/3746027.3756871",
+     "authors": "Pablo Alonso-Jiménez, Pedro Ramoneda, R. Oguz Araz, Andrea Poltronieri, Dmitry Bogdanov"
+    },
+    {
+     "title": "Domain Knowledge Enhanced Vision-Language Pretrained Model for Dynamic Facial Expression Recognition",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 6,
+     "doi": "10.1145/3664647.3681708",
+     "authors": "Liupeng Li, Yuhua Zheng, Shupeng Liu, Xiaoyin Xu, Taihao Li"
+    },
+    {
+     "title": "Learning a Robust Model with Pseudo Boundaries for Noisy Temporal Action Localization",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 0,
+     "doi": "10.1145/3595916.3626455",
+     "authors": "Xinyi Yuan, Liansheng Zhuang"
+    },
+    {
+     "title": "SEAR: Semantically-grounded Audio Representations",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3581783.3612592",
+     "authors": "Rajat Hebbar, Digbalay Bose, Shrikanth Narayanan"
+    },
+    {
+     "title": "GG-Editor: Locally Editing 3D Avatars with Multimodal Large Language Model Guidance",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 11,
+     "doi": "10.1145/3664647.3681039",
+     "authors": "Yunqiu Xu, Linchao Zhu, Yi Yang"
+    },
+    {
+     "title": "Generative Text Steganography with Large Language Model",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 18,
+     "doi": "10.1145/3664647.3680562",
+     "authors": "Jiaxuan Wu, Zhengxian Wu, Yiming Xue, Juan Wen, Wanli Peng"
+    },
+    {
+     "title": "FaceInsight: A Multimodal Large Language Model for Face Perception",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1145/3746027.3755634",
+     "authors": "Jingzhi Li, Changjiang Luo, Ruoyu Chen, Hua Zhang, Wenqi Ren, Jianhou Gan"
+    },
+    {
+     "title": "Research on the classification method of knowledge question intention for Tibetan language curriculum",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia Workshops",
+     "citationCount": 0,
+     "doi": "10.1145/3611380.3628570",
+     "authors": "Qie Yangzhuoma, Kuntharrgyal Khysru, Wan Maji, Jianguo Wei"
+    },
+    {
+     "title": "Optimal Feature Embedding for Document Large Visual Language Model",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1145/3746027.3755204",
+     "authors": "Fan Yang, Ling Deng, Zhiyong Gan, Qisheng He, Yuanbo Fang, Xiangmin Xu"
+    },
+    {
+     "title": "Developing a VR-based contextualized language learning system to Enhance Junior High School Students' Pragmatic Competence",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 4,
+     "doi": "10.1145/3595916.3626360",
+     "authors": "Kuo-Yu Liu, Yuanshan Chen, Ming-Fang Lin, Li-Jung Daphne Huang, Cheah Ping Xiang"
+    },
+    {
+     "title": "Unveiling and Mitigating Bias in Audio Visual Segmentation",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 13,
+     "doi": "10.1145/3664647.3680802",
+     "authors": "Peiwen Sun, Honggang Zhang, Di Hu"
+    },
+    {
+     "title": "Pro-Cap: Leveraging a Frozen Vision-Language Model for Hateful Meme Detection",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 57,
+     "doi": "10.1145/3581783.3612498",
+     "authors": "Rui Cao, Ming Shan Hee, Adriel Kuek, Wen-Haw Chong, Roy Ka-Wei Lee, Jing Jiang"
+    },
+    {
+     "title": "RSVLM-QA: A Benchmark Dataset for Remote Sensing Vision Language Model-based Question Answering",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 6,
+     "doi": "10.1145/3746027.3758235",
+     "authors": "Xing Zi, Jinghao Xiao, Yunxiao Shi, Xian Tao, Jun Li, Ali Braytee"
+    },
+    {
+     "title": "Cross-Lingual Transfer of Large Language Model by Visually-Derived Supervision Toward Low-Resource Languages",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1145/3581783.3611992",
+     "authors": "Masayasu Muraoka, Bishwaranjan Bhattacharjee, Michele Merler, Graeme Blackwood, Yulong Li, Yang Zhao"
+    },
+    {
+     "title": "Protecting Copyright of Medical Pre-trained Language Models: Training-Free Backdoor Model Watermarking",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1145/3746027.3755548",
+     "authors": "Cong Kong, Rui Xu, Jiawei Chen, Zhaoxia Yin"
+    },
+    {
+     "title": "Face Anthropometry Aware Audio-visual Age Verification",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1145/3503161.3548434",
+     "authors": "Pavel Korshunov, Sébastien Marcel"
+    },
+    {
+     "title": "Audio-Driven Identity Manipulation for Face Inpainting",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3664647.3680975",
+     "authors": "Yuqi Sun, Qing Lin, Weimin Tan, Bo Yan"
+    },
+    {
+     "title": "A Method for Visual Spatial Description Based on Large Language Model Fine-tuning",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3664647.3688991",
+     "authors": "Jiabao Wang, Fang Gao, Jingfeng Tang, Shaodong Li, Hanbo Zheng, Shengheng Ma"
+    },
+    {
+     "title": "A Satellite-Ground Synergistic Large Vision-Language Model System for Earth Observation",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1145/3746027.3755299",
+     "authors": "Yuxin Zhang, Jiahao Yang, Zhe Chen, Wenjun Zhu, Jin Zhao, Yue Gao"
+    },
+    {
+     "title": "DREAM: Integrating Hierarchical Multimodal Retrieval with Multi-page Multimodal Language Model for Documents VQA",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3755357",
+     "authors": "Jinxu Zhang, Qiyuan Fan, Yongqi Yu, Yu Zhang"
+    },
+    {
+     "title": "BAPEN: Towards Versatile Audio Phase Retrieval",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1145/3746027.3755416",
+     "authors": "Lingling Dai, Andong Li, Zhe Han, Chengshi Zheng, Xiaodong Li"
+    },
+    {
+     "title": "Automatic Audio Augmentation for Requests Sub-Challenge",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1145/3581783.3612849",
+     "authors": "Yanjie Sun, Kele Xu, Chaorun Liu, Yong Dou, Kun Qian"
+    },
+    {
+     "title": "Generic Attention-model Explainability by Weighted Relevance Accumulation",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 6,
+     "doi": "10.1145/3595916.3626437",
+     "authors": "Yiming Huang, Aozhe Jia, Xiaodan Zhang, Jiawei Zhang"
+    },
+    {
+     "title": "mPLUG-PaperOwl: Scientific Diagram Analysis with the Multimodal Large Language Model",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 18,
+     "doi": "10.1145/3664647.3681294",
+     "authors": "Anwen Hu, Yaya Shi, Haiyang Xu, Jiabo Ye, Qinghao Ye, Ming Yan"
+    },
+    {
+     "title": "A Reinforcement Learning-Based Automatic Video Editing Method Using Pre-trained Vision-Language Model",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 9,
+     "doi": "10.1145/3581783.3611878",
+     "authors": "Panwen Hu, Nan Xiao, Feifei Li, Yongquan Chen, Rui Huang"
+    },
+    {
+     "title": "EvoVLMA: Evolutionary Vision-Language Model Adaptation",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1145/3746027.3755520",
+     "authors": "Kun Ding, Ying Wang, Shiming Xiang"
+    },
+    {
+     "title": "Extreme-scale Talking-Face Video Upsampling with Audio-Visual Priors",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1145/3503161.3548080",
+     "authors": "Sindhu B. Hegde, Rudrabha Mukhopadhyay, Vinay P. Namboodiri, C.V. Jawahar"
+    },
+    {
+     "title": "Beyond Generic: Enhancing Image Captioning with Real-World Knowledge using Vision-Language Pre-Training Model",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 21,
+     "doi": "10.1145/3581783.3611987",
+     "authors": "Kanzhi Cheng, Wenpo Song, Zheng Ma, Wenhao Zhu, Zixuan Zhu, Jianbing Zhang"
+    },
+    {
+     "title": "MM-Skin: Enhancing Dermatology Vision-Language Model with an Image-Text Dataset Derived from Textbooks",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 7,
+     "doi": "10.1145/3746027.3755187",
+     "authors": "Wenqi Zeng, Yuqi Sun, Chenxi Ma, Weimin Tan, Bo Yan"
+    },
+    {
+     "title": "GPT4Video: A Unified Multimodal Large Language Model for lnstruction-Followed Understanding and Safety-Aware Generation",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 28,
+     "doi": "10.1145/3664647.3681464",
+     "authors": "Zhanyu Wang, Longyue Wang, Zhen Zhao, Minghao Wu, Chenyang Lyu, Huayang Li"
+    },
+    {
+     "title": "Audio Features from the Wav2Vec 2.0 Embeddings for the ACM Multimedia 2022 Stuttering Challenge",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1145/3503161.3551606",
+     "authors": "Claude Montacié, Marie-José Caraty, Nikola Lackovic"
+    },
+    {
+     "title": "CatchPhrase: EXPrompt-Guided Encoder Adaptation for Audio-to-Image Generation",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1145/3746027.3755130",
+     "authors": "Hyunwoo Oh, SeungJu Cha, Kwanyoung Lee, Si-Woo Kim, Dong-Jin Kim"
+    },
+    {
+     "title": "Can Audio Language Models Listen Between the Lines? A Study on Metaphorical Reasoning via\n                    <scp>Unspoken</scp>",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3758173",
+     "authors": "Hongru Xiao, Xiang Li, Duyi Pan, Longfei Zhang, ZhixueSong ZhixueSong, Jiale Han"
+    },
+    {
+     "title": "Discrepancy-Aware Attention Network for Enhanced Audio-Visual Generalized Zero-Shot Learning",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1145/3746027.3754966",
+     "authors": "Runlin Yu, Yipu Gong, Wenrui Li, Aiwen Sun, Mengren Zheng"
+    },
+    {
+     "title": "Cross-Modal Metrics for Capturing Correspondences Between Music Audio and Stage Lighting Signals",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3755488",
+     "authors": "Michael Kohl, Tobias Wursthorn, Christof Weiß"
+    },
+    {
+     "title": "Multi-level SSL Feature Gating for Audio Deepfake Detection",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1145/3746027.3754568",
+     "authors": "Hoan My Tran, Damien Lolive, Aghilas Sini, Arnaud Delhay, Pierre-François Marteau, David Guennec"
+    },
+    {
+     "title": "Open3D-VQA: A Benchmark for Embodied Spatial Concept Reasoning with Multimodal Large Language Model in Open Space",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 11,
+     "doi": "10.1145/3746027.3758219",
+     "authors": "Weichen Zhang, Zile Zhou, Xin Zeng, Liu Xuchen, Jianjie Fang, Chen Gao"
+    },
+    {
+     "title": "Genesis: A Large-Scale Benchmark for Multimodal Large Language Model in Emotional Causality Analysis",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 6,
+     "doi": "10.1145/3746027.3758202",
+     "authors": "Yulong Li, Yuxuan Zhang, Rui Chen, Feilong Tang, Zhixiang Lu, Ming Hu"
+    },
+    {
+     "title": "AudioAtlas: A Comprehensive and Balanced Benchmark Towards Movie-Oriented Text-to-Audio Generation",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3758284",
+     "authors": "Chenxi Wang, Yusheng Dai, Lei Sun, Jun Du, Jianqing Gao"
+    },
+    {
+     "title": "AV-DiT: Taming Image Diffusion Transformers for Efficient Joint Audio and Video Generation",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1145/3746027.3755713",
+     "authors": "Kai Wang, Shijian Deng, Jing Shi, Dimitrios Hatzinakos, Yapeng Tian"
+    },
+    {
+     "title": "Summary of the 2023 PAIR-LITEON Competition: Embedded AI Object Detection Model Design Contest on Fish-eye Around-view Cameras",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 0,
+     "doi": "10.1145/3595916.3628352",
+     "authors": "Yu-Shu Ni, Chia-Chi Tsai, Jyun-Syu Lin, Hsien-Po Meng, Po-Chi Hu, Jiun-Shiung Chen"
+    },
+    {
+     "title": "Time-Frequency Domain Fusion Enhancement for Audio Super-Resolution",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3664647.3681486",
+     "authors": "Ye Tian, Zhe Wang, Jianguo Sun, Liguo Zhang"
+    },
+    {
+     "title": "Span-based Audio-Visual Localization",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 9,
+     "doi": "10.1145/3503161.3548318",
+     "authors": "Yiling Wu, Xinfeng Zhang, Yaowei Wang, Qingming Huang"
+    },
+    {
+     "title": "Towards Engagement Prediction: A Cross-Modality Dual-Pipeline Approach using Visual and Audio Features",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 6,
+     "doi": "10.1145/3664647.3688986",
+     "authors": "Deepak Kumar, Surbhi Madan, Pradeep Singh, Abhinav Dhall, Balasubramanian Raman"
+    },
+    {
+     "title": "RAVSS: Robust Audio-Visual Speech Separation in Multi-Speaker Scenarios with Missing Visual Cues",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1145/3664647.3681261",
+     "authors": "Tianrui Pan, Jie Liu, Bohan Wang, Jie Tang, Gangshan Wu"
+    },
+    {
+     "title": "Boosting Audio Visual Question Answering via Key Semantic-Aware Cues",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 20,
+     "doi": "10.1145/3664647.3680803",
+     "authors": "Guangyao Li, Henghui Du, Di Hu"
+    },
+    {
+     "title": "Free-FreeSLT: A Gloss-Free Parameter-Free model for Sign Language Translation",
+     "year": 2024,
+     "venue": "Proceedings of the 6th ACM International Conference on Multimedia in Asia Workshops",
+     "citationCount": 1,
+     "doi": "10.1145/3700410.3702115",
+     "authors": "Weirong Sun, Yujun Ma, Ruili Wang"
+    },
+    {
+     "title": "Mavors: Multi-granularity Video Representation for Multimodal Large Language Model",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1145/3746027.3755363",
+     "authors": "Yang Shi, Jiaheng Liu, Yushuo Guan, Zhenhua Wu, Yuanxing Zhang, Zihao Wang"
+    },
+    {
+     "title": "The Eye of Sherlock Holmes: Uncovering User Private Attribute Profiling via Vision-Language Model Agentic Framework",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1145/3746027.3755643",
+     "authors": "Feiran Liu, Yuzhe Zhang, Xinyi Huang, Yinan Peng, Xinfeng Li, Lixu Wang"
+    },
+    {
+     "title": "Talking Head from Speech Audio using a Pre-trained Image Generator",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 23,
+     "doi": "10.1145/3503161.3548101",
+     "authors": "Mohammed M. Alghamdi, He Wang, Andrew J. Bulpitt, David C. Hogg"
+    },
+    {
+     "title": "AMG-Embedding: A Self-Supervised Embedding Approach for Audio Identification",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1145/3664647.3681647",
+     "authors": "Yuhang Su, Wei Hu, Fan Zhang, Qiming Xu"
+    },
+    {
+     "title": "AV-Deepfake1M: A Large-Scale LLM-Driven Audio-Visual Deepfake Dataset",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 56,
+     "doi": "10.1145/3664647.3680795",
+     "authors": "Zhixi Cai, Shreya Ghosh, Aman Pankaj Adatia, Munawar Hayat, Abhinav Dhall, Tom Gedeon"
+    },
+    {
+     "title": "Pretraining Large Brain Language Model for Active BCI: Silent Speech",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1145/3746027.3754810",
+     "authors": "Jinzhao Zhou, Zehong Cao, Yiqun Duan, Connor Barkley, Daniel Leong, Xiaowei Jiang"
+    }
+   ]
+  },
+  "sound event detection": {
+   "total": 5143,
+   "kept": 59,
+   "papers": [
+    {
+     "title": "Detect Any Sound: Open-Vocabulary Sound Event Detection with Multi-Modal Queries",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1145/3746027.3755574",
+     "authors": "Pengfei Cai, Yan Song, Qing Gu, Nan Jiang, Haoyu Song, Ian McLoughlin"
+    },
+    {
+     "title": "IFS-SED: Incremental Few-Shot Sound Event Detection Using Explicit Learning and Calibration",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3581783.3612676",
+     "authors": "Ming Feng, Kele Xu, Hengxing Cai"
+    },
+    {
+     "title": "Focusing Attention across Multiple Images for Multimodal Event Detection",
+     "year": 2021,
+     "venue": "ACM Multimedia Asia",
+     "citationCount": 3,
+     "doi": "10.1145/3469877.3495642",
+     "authors": "Yangyang Li, Jun Li, Hao Jin, Liang Peng"
+    },
+    {
+     "title": "Adaptive Hierarchical Pooling for Weakly-supervised Sound Event Detection",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 6,
+     "doi": "10.1145/3503161.3548097",
+     "authors": "Lijian Gao, Ling Zhou, Qirong Mao, Ming Dong"
+    },
+    {
+     "title": "Discovering Social Connections using Event Images",
+     "year": 2021,
+     "venue": "ACM Multimedia Asia",
+     "citationCount": 0,
+     "doi": "10.1145/3469877.3493699",
+     "authors": "Ming Cheung, Weiwei Sun, Jiantao Zhou"
+    },
+    {
+     "title": "Dedark+Detection: A Hybrid Scheme for Object Detection under Low-light Surveillance",
+     "year": 2021,
+     "venue": "ACM Multimedia Asia",
+     "citationCount": 0,
+     "doi": "10.1145/3469877.3497691",
+     "authors": "Xiaolei Luo, Sen Xiang, Yingfeng Wang, Qiong Liu, You Yang, Kejun Wu"
+    },
+    {
+     "title": "Event Consistency-aware Robust Fake News Detection",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3755417",
+     "authors": "Liyuan Cao, Zihang Guo, Huaiwen Zhang"
+    },
+    {
+     "title": "Improving Camouflaged Object Detection with the Uncertainty of Pseudo-edge Labels",
+     "year": 2021,
+     "venue": "ACM Multimedia Asia",
+     "citationCount": 21,
+     "doi": "10.1145/3469877.3490587",
+     "authors": "Nobukatsu Kajiura, Hong Liu, Shin'ichi Satoh"
+    },
+    {
+     "title": "DSF-Net: Dynamic Sparse Fusion of Event-RGB via Spike-Triggered Attention for High-Speed Detection",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1145/3746027.3755846",
+     "authors": "Dongyang Ma, Zhengyu Ma, Wei Zhang, Yonghong Tian"
+    },
+    {
+     "title": "Inter-modality Discordance for Multimodal Fake News Detection",
+     "year": 2021,
+     "venue": "ACM Multimedia Asia",
+     "citationCount": 17,
+     "doi": "10.1145/3469877.3490614",
+     "authors": "Shivangi Singhal, Mudit Dhawan, Rajiv Ratn Shah, Ponnurangam Kumaraguru"
+    },
+    {
+     "title": "An Event-tailored State-Space Based Model for Pedestrian Detection",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3755380",
+     "authors": "Liuyi Li, Feng Shi, Jian Wang, Jinjing Zhu, Wenze Shao"
+    },
+    {
+     "title": "Flat and Shallow: Understanding Fake Image Detection Models by Architecture Profiling",
+     "year": 2021,
+     "venue": "ACM Multimedia Asia",
+     "citationCount": 2,
+     "doi": "10.1145/3469877.3490566",
+     "authors": "Jing Xu, Wei Zhang, Yalong Bai, Qibin Sun, Tao Mei"
+    },
+    {
+     "title": "Directional Sound Source Representation Using Paired Microphone Array with Different Characteristics Suitable for Volumetric Video Capture",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 0,
+     "doi": "10.1145/3595916.3626354",
+     "authors": "Shota Okubo, Tomoaki Konno, Toshiharu Horiuchi, Tatsuya Kobayashi"
+    },
+    {
+     "title": "RoadAtlas: Intelligent Platform for Automated Road Defect Detection and Asset Management",
+     "year": 2021,
+     "venue": "ACM Multimedia Asia",
+     "citationCount": 4,
+     "doi": "10.1145/3469877.3493589",
+     "authors": "Zhuoxiao Chen, Yiyun Zhang, Yadan Luo, Zijian Wang, Jinjiang Zhong, Anthony Southon"
+    },
+    {
+     "title": "Chinese White Dolphin Detection in the Wild",
+     "year": 2021,
+     "venue": "ACM Multimedia Asia",
+     "citationCount": 3,
+     "doi": "10.1145/3469877.3490574",
+     "authors": "Hao Zhang, Qi Zhang, Phuong Anh Nguyen, Victor C. S. Lee, Antoni Chan"
+    },
+    {
+     "title": "Latent Pattern Sensing: Deepfake Video Detection via Predictive Representation Learning",
+     "year": 2021,
+     "venue": "ACM Multimedia Asia",
+     "citationCount": 9,
+     "doi": "10.1145/3469877.3490586",
+     "authors": "Shiming Ge, Fanzhao Lin, Chenyu Li, Daichi Zhang, Jiyong Tan, Weiping Wang"
+    },
+    {
+     "title": "One-Epoch Training for Object Detection in Fisheye Images",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 1,
+     "doi": "10.1145/3595916.3628349",
+     "authors": "Yu-Hsi Chen"
+    },
+    {
+     "title": "VLM-BCD: Unsupervised Building Change Detection",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 1,
+     "doi": "10.1145/3595916.3626357",
+     "authors": "Yiyun Zhang, Zijian Wang"
+    },
+    {
+     "title": "Source-Style Transferred Mean Teacher for Source-data Free Object Detection",
+     "year": 2021,
+     "venue": "ACM Multimedia Asia",
+     "citationCount": 8,
+     "doi": "10.1145/3469877.3490584",
+     "authors": "Dan Zhang, Mao Ye, Lin Xiong, Shuaifeng Li, Xue Li"
+    },
+    {
+     "title": "Effective Video Abnormal Event Detection by Learning A Consistency-Aware High-Level Feature Extractor",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 7,
+     "doi": "10.1145/3503161.3547944",
+     "authors": "Guang Yu, Siqi Wang, Zhiping Cai, Xinwang Liu, Chengkun Wu"
+    },
+    {
+     "title": "Semantic-Aware Dynamic Feature Selection and Fusion for Object Detection in UAV Videos",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 2,
+     "doi": "10.1145/3595916.3626385",
+     "authors": "Jianping Zhong, Zhaobo Qi, Weigang Zhang, Qingming Huang"
+    },
+    {
+     "title": "Rethinking the Architecture Design for Efficient Generic Event Boundary Detection",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1145/3664647.3681513",
+     "authors": "Ziwei Zheng, Zechuan Zhang, Yulin Wang, Shiji Song, Gao Huang, Le Yang"
+    },
+    {
+     "title": "Object Detection via Fisheye Camera",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 2,
+     "doi": "10.1145/3595916.3628351",
+     "authors": "Yi-Zeng Hsieh, Hau-Ching Chen, Yi-Hung Yeh"
+    },
+    {
+     "title": "Event-ID: Intrinsic Decomposition Using an Event Camera",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1145/3664647.3681133",
+     "authors": "Zehao Chen, Zhan Lu, De Ma, Huajin Tang, Xudong Jiang, Qian Zheng"
+    },
+    {
+     "title": "ESOD: Event-Based Small Object Detection",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1145/3746027.3755486",
+     "authors": "Quanmin Liang, Jinyi Lu, Qiang Li, Shuai Liu, Zhihao Zhao, Yinzheng Zhao"
+    },
+    {
+     "title": "Color4E: Event Demosaicing for Full-color Event Guided Image Deblurring",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1145/3664647.3681051",
+     "authors": "Yi Ma, Peiqi Duan, Yuchen Hong, Chu Zhou, Yu Zhang, Jimmy Ren"
+    },
+    {
+     "title": "EventVAD: Training-Free Event-Aware Video Anomaly Detection",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 22,
+     "doi": "10.1145/3746027.3754500",
+     "authors": "Yihua Shao, Haojin He, Sijie Li, Siyu Chen, Xinwei Long, Fanhu Zeng"
+    },
+    {
+     "title": "Confidence-guided Boundary Adaption Network for Multimodal Fake News Detection",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 0,
+     "doi": "10.1145/3595916.3626451",
+     "authors": "Lin Jiajie, Zhuopan Yang, Zhenguo Yang, Xiaoping Li, Fu Lee Wang, Wenyin Liu"
+    },
+    {
+     "title": "A Cross-modal and Redundancy-reduced Network for Weakly-Supervised Audio-Visual Violence Detection",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 1,
+     "doi": "10.1145/3595916.3626375",
+     "authors": "Yidan Fan, Yongxin Yu, Wenhuan Lu, Yahong Han"
+    },
+    {
+     "title": "RanLayNet: A Dataset for Document Layout Detection used for Domain Adaptation and Generalization",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 4,
+     "doi": "10.1145/3595916.3626448",
+     "authors": "Avinash Anand, Raj Jaiswal, Mohit Gupta, Siddhesh S Bangar, Pijush Bhuyan, Naman Lal"
+    },
+    {
+     "title": "Reproducibility Companion Paper: On Learning Disentangled Representation for Acoustic Event Detection",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3474085.3477938",
+     "authors": "Lijian Gao, Qirong Mao, Jingjing Chen, Ming Dong, Ratna Chinnam, Lucile Sassatelli"
+    },
+    {
+     "title": "Self-supervised anomaly detection of medical images based on dual-module discrepancy",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 3,
+     "doi": "10.1145/3595916.3626388",
+     "authors": "Yuqing Song, Jinyong Cheng"
+    },
+    {
+     "title": "EVENT-Retriever: Event-Aware Multimodal Image Retrieval for Realistic Captions",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3762038",
+     "authors": "Dinh-Khoi Vo, Van-Loc Nguyen, Minh-Triet Tran, Trung-Nghia Le"
+    },
+    {
+     "title": "Rethinking Parking Slot Detection with Rotated Bounding Box",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 0,
+     "doi": "10.1145/3595916.3626436",
+     "authors": "Shengli Zhang, Shikui Wei, Shiyin Zhang, Sen Xu, Weiyan Xu, Yao Zhao"
+    },
+    {
+     "title": "Cross-modal Consistency Learning with Fine-grained Fusion Network for Multimodal Fake News Detection",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 19,
+     "doi": "10.1145/3595916.3626397",
+     "authors": "Jun Li, Yi Bin, Jie Zou, Jiwei Wei, Guoqing Wang, Yang Yang"
+    },
+    {
+     "title": "Adapting Object Detection to Fisheye Cameras: A Knowledge Distillation with Semi-Pseudo-Label Approach",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 2,
+     "doi": "10.1145/3595916.3628350",
+     "authors": "Chih-Chung Hsu, Wen-Hai Tseng, Ming-Hsuan Wu, Chia-Ming Lee, Wei-Hao Huang"
+    },
+    {
+     "title": "Multi-Task Self-Blended Images for Face Forgery Detection",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 5,
+     "doi": "10.1145/3595916.3626426",
+     "authors": "Po-Han Huang, Yue-Hua Han, Ernie Chu, Jun-Cheng Chen, Kai-Lung Hua"
+    },
+    {
+     "title": "Summary of the 2023 PAIR-LITEON Competition: Embedded AI Object Detection Model Design Contest on Fish-eye Around-view Cameras",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 0,
+     "doi": "10.1145/3595916.3628352",
+     "authors": "Yu-Shu Ni, Chia-Chi Tsai, Jyun-Syu Lin, Hsien-Po Meng, Po-Chi Hu, Jiun-Shiung Chen"
+    },
+    {
+     "title": "Prior Knowledge Guided Network for Video Anomaly Detection",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 3,
+     "doi": "10.1145/3595916.3626421",
+     "authors": "Zhewen Deng, Dongyue Chen, Shizhuo Deng"
+    },
+    {
+     "title": "Event-Diffusion: Event-Based Image Reconstruction and Restoration with Diffusion Models",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 15,
+     "doi": "10.1145/3581783.3612462",
+     "authors": "Quanmin Liang, Xiawu Zheng, Kai Huang, Yan Zhang, Jie Chen, Yonghong Tian"
+    },
+    {
+     "title": "Learning Event-Specific Localization Preferences for Audio-Visual Event Localization",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 14,
+     "doi": "10.1145/3581783.3612506",
+     "authors": "Shiping Ge, Zhiwei Jiang, Yafeng Yin, Cong Wang, Zifeng Cheng, Qing Gu"
+    },
+    {
+     "title": "Learning Surface-awareness Network for X-Ray Prohibited Item Detection",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 0,
+     "doi": "10.1145/3595916.3626358",
+     "authors": "Ying Shen, Wei Li, Zhaoquan Yuan, Xiao Wu"
+    },
+    {
+     "title": "Speech Spoofing Detection Based on Graph Attention Networks with Spectral and Temporal Information",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 2,
+     "doi": "10.1145/3595916.3626406",
+     "authors": "Peng Zhang, Yida Chen, Meijuan Li, Hui Zhao, Jianqiang Zhang, Fuqiang Wang"
+    },
+    {
+     "title": "ADNet: An Asymmetric Dual-Stream Network for RGB-T Salient Object Detection",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 7,
+     "doi": "10.1145/3595916.3626440",
+     "authors": "Yaqun Fang, Ruichao Hou, Jia Bei, Tongwei Ren, Gangshan Wu"
+    },
+    {
+     "title": "Asymmetric Event-Guided Video Super-Resolution",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 22,
+     "doi": "10.1145/3664647.3681357",
+     "authors": "Zeyu Xiao, Dachun Kai, Yueyi Zhang, Xiaoyan Sun, Zhiwei Xiong"
+    },
+    {
+     "title": "AutoSFX: Automatic Sound Effect Generation for Videos",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1145/3664647.3681109",
+     "authors": "Yujia Wang, Zhongxu Wang, Hua Huang"
+    },
+    {
+     "title": "Event Traffic Forecasting with Sparse Multimodal Data",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 11,
+     "doi": "10.1145/3664647.3680706",
+     "authors": "Xiao Han, Zhenduo Zhang, Yiling Wu, Xinfeng Zhang, Zhe Wu"
+    },
+    {
+     "title": "<i>adder-viz:</i>\n                    Real-Time Visualization Software for Transcoding Event Video",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3756867",
+     "authors": "Andrew C. Freeman, Luke Reinkensmeyer"
+    },
+    {
+     "title": "Read Your Voice: A Playful Interactive Sound Encoder/Decoder",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3503161.3549974",
+     "authors": "Hugo Pauget Ballesteros, Gilles Azzaro, Jean Mélou, Yvain Quéau, Jean-Denis Durou"
+    },
+    {
+     "title": "FRED: The Florence RGB-Event Drone Dataset",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 6,
+     "doi": "10.1145/3746027.3758271",
+     "authors": "Gabriele Magrini, Niccolò Marini, Federico Becattini, Lorenzo Berlincioni, Niccolò Biondi, Pietro Pala"
+    },
+    {
+     "title": "Sequence-Event Semantic Consistent Learning for Text-to-Motion Retrieval",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3755662",
+     "authors": "Haoyu Shi, Huaiwen Zhang"
+    },
+    {
+     "title": "How to Learn a Domain-Adaptive Event Simulator?",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 8,
+     "doi": "10.1145/3474085.3475229",
+     "authors": "Daxin Gu, Jia Li, Yu Zhang, Yonghong Tian"
+    },
+    {
+     "title": "EventLip: Enhancing Event-Based Lip Reading via Frequency-Aware Spatiotemporal Hypergraph Modeling",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3755404",
+     "authors": "Xueyi Zhang, Jialu Sun, Chengwei Zhang, Xianghu Yue, Tianfang Xiao, Siqi Cai"
+    },
+    {
+     "title": "Event-based Motion Deblurring with Modality-Aware Decomposition and Recomposition",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 15,
+     "doi": "10.1145/3581783.3612505",
+     "authors": "Wen Yang, Jinjian Wu, Leida Li, Weisheng Dong, Guangming Shi"
+    },
+    {
+     "title": "ENRIC: EveNt-AwaRe Captioning with Image Retrieval via UnCertainty-Guided Re-ranking and Semantic Ensemble Reasoning",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3762090",
+     "authors": "Nam-Quan Nguyen, Minh-Hoang Le, Vinh-Toan Vong, Minh-Triet Tran"
+    },
+    {
+     "title": "E-4DGS: High-Fidelity Dynamic Reconstruction from the Multi-view Event Cameras",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1145/3746027.3754777",
+     "authors": "Chaoran Feng, Zhenyu Tang, Wangbo Yu, Yatian Pang, Yian Zhao, Jianbin Zhao"
+    },
+    {
+     "title": "ReCap: Event-Aware Image Captioning with Article Retrieval and Semantic Gaussian Normalization",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1145/3746027.3762039",
+     "authors": "Thinh-Phuc Nguyen, Thanh-Hai Nguyen, Gia-Huy Dinh, Lam-Huy Nguyen, Minh-Triet Tran, Trung-Nghia Le"
+    },
+    {
+     "title": "Optical Flow-Guided 6DoF Object Pose Tracking with an Event Camera",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 7,
+     "doi": "10.1145/3664647.3680992",
+     "authors": "Zibin Liu, Banglei Guan, Yang Shang, Shunkun Liang, Zhenbao Yu, Qifeng Yu"
+    },
+    {
+     "title": "OpenEvents V1: Large-Scale Benchmark Dataset for Multimodal Event Grounding",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 6,
+     "doi": "10.1145/3746027.3758264",
+     "authors": "Hieu Nguyen, Phuc-Tan Nguyen, Thien-Phuc Tran, Minh-Quang Nguyen, Tam V. Nguyen, Minh-Triet Tran"
+    }
+   ]
+  },
+  "neural codec": {
+   "total": 2701,
+   "kept": 78,
+   "papers": [
+    {
+     "title": "Overfitted Point Cloud Attribute Codec Using Sparse Hierarchical Implicit Neural Representations",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3755329",
+     "authors": "Zhe Sun, Qiang Xu, Qi Zhang, Shan Liu, Ge Li"
+    },
+    {
+     "title": "Towards Real-Time Neural Video Codec for Cross-Platform Application Using Calibration Information",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 8,
+     "doi": "10.1145/3581783.3611955",
+     "authors": "Kuan Tian, Yonghang Guan, Jinxi Xiang, Jun Zhang, Xiao Han, Wei Yang"
+    },
+    {
+     "title": "Lambda-Domain Rate Control for Neural Image Compression",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 5,
+     "doi": "10.1145/3595916.3626372",
+     "authors": "Naifu Xue, Yuan Zhang"
+    },
+    {
+     "title": "Efficient Semantic Codec for Real-time Vibrotactile Transmission",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3755630",
+     "authors": "Runjie Wang, Kemi Chen, Shuijie Li, Mingkai Chen, Tiesong Zhao"
+    },
+    {
+     "title": "ELFIC: A Learning-based Flexible Image Codec with Rate-Distortion-Complexity Optimization",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 10,
+     "doi": "10.1145/3581783.3612540",
+     "authors": "Zhichen Zhang, Bolin Chen, Hongbin Lin, Jielian Lin, Xu Wang, Tiesong Zhao"
+    },
+    {
+     "title": "Convolutional Neural Network-Based Pure Paint Pigment Identification Using Hyperspectral Images",
+     "year": 2021,
+     "venue": "ACM Multimedia Asia",
+     "citationCount": 6,
+     "doi": "10.1145/3469877.3495641",
+     "authors": "Ailin Chen, Rui Jesus, Marcia Vilarigues"
+    },
+    {
+     "title": "Pseudo-Autoregressive Neural Codec Language Models for Efficient Zero-Shot Text-to-Speech Synthesis",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1145/3746027.3754745",
+     "authors": "Yifan Yang, Shujie Liu, Jinyu Li, Yuxuan Hu, Haibin Wu, Hui Wang"
+    },
+    {
+     "title": "MuCodec: Ultra Low-Bitrate Music Codec for Music Generation",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1145/3746027.3755710",
+     "authors": "Yaoxun Xu, Hangting Chen, Jianwei Yu, Wei Tan, Shun Lei, Zhiwei Lin"
+    },
+    {
+     "title": "NeRF-IS: Explicit Neural Radiance Fields in Semantic Space",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 3,
+     "doi": "10.1145/3595916.3626379",
+     "authors": "Jiansong Sha, Haoyu Zhang, Yuchen Pan, Guang Kou, Xiaodong Yi"
+    },
+    {
+     "title": "Cross-layer Navigation Convolutional Neural Network for Fine-grained Visual Classification",
+     "year": 2021,
+     "venue": "ACM Multimedia Asia",
+     "citationCount": 0,
+     "doi": "10.1145/3469877.3490579",
+     "authors": "Chenyu Guo, Jiyang Xie, Kongming Liang, Xian Sun, Zhanyu Ma"
+    },
+    {
+     "title": "RL-NMT: Reinforcement Learning Fine-tuning for Improved Neural Machine Translation of Burmese Dialects",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia Workshops",
+     "citationCount": 0,
+     "doi": "10.1145/3611380.3628564",
+     "authors": "Ye Kyaw Thu, Thazin Myint Oo, Thepchai Supnithi"
+    },
+    {
+     "title": "Joint Coordinate Regression and Association For Multi-Person Pose Estimation, A Pure Neural Network Approach",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 6,
+     "doi": "10.1145/3595916.3626382",
+     "authors": "Dongyang Yu, Yunshi Xie, Wangpeng An, Zhang Li, Yufeng Yao"
+    },
+    {
+     "title": "Relevance and Irrelevance Considered Subspace Mapping Neural Networks for Remote Sensing Text-Image Retrieval",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 2,
+     "doi": "10.1145/3595916.3626391",
+     "authors": "Xiu Li, Chengyu Zheng, Jie Nie, Ruoyu Zhang, Xinyue Liang, Zhiqiang Wei"
+    },
+    {
+     "title": "NeRF-SDP: Efficient Generalizable Neural Radiance Field with Scene Depth Perception",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 1,
+     "doi": "10.1145/3595916.3626380",
+     "authors": "Qiuwen Wang, Shuai Guo, Haoning Wu, Rong Xie, Li Song, Wenjun Zhang"
+    },
+    {
+     "title": "Independent and Collaborative Demosaicking Neural Networks",
+     "year": 2023,
+     "venue": "ACM Multimedia Asia 2023",
+     "citationCount": 1,
+     "doi": "10.1145/3595916.3626454",
+     "authors": "Yan Niu, Lixue Zhang, Chenlai Li"
+    },
+    {
+     "title": "SLIC: Secure Learned Image Codec through Compressed Domain Watermarking to Defend Image Manipulation",
+     "year": 2024,
+     "venue": "Proceedings of the 6th ACM International Conference on Multimedia in Asia",
+     "citationCount": 2,
+     "doi": "10.1145/3696409.3700161",
+     "authors": "Chen-Hsiu Huang, Ja-Ling Wu"
+    },
+    {
+     "title": "VoxInstruct: Expressive Human Instruction-to-Speech Generation with Unified Multilingual Codec Language Modelling",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 14,
+     "doi": "10.1145/3664647.3681680",
+     "authors": "Yixuan Zhou, Xiaoyu Qin, Zeyu Jin, Shuoyi Zhou, Shun Lei, Songtao Zhou"
+    },
+    {
+     "title": "Explicifying Neural Implicit Fields for Efficient Dynamic Human Avatar Modeling via a Neural Explicit Surface",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1145/3581783.3611707",
+     "authors": "Ruiqi Zhang, Jie Chen, Qiang Wang"
+    },
+    {
+     "title": "GCL",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 16,
+     "doi": "10.1145/3503161.3548423",
+     "authors": "Min Wang, Hao Yang, Qing Cheng"
+    },
+    {
+     "title": "Hybrid Spatial-Temporal Entropy Modelling for Neural Video Compression",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 210,
+     "doi": "10.1145/3503161.3547845",
+     "authors": "Jiahao Li, Bin Li, Yan Lu"
+    },
+    {
+     "title": "DAWN",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 130,
+     "doi": "10.1145/3474085.3475591",
+     "authors": "Sebastian Szyller, Buse Gul Atli, Samuel Marchal, N. Asokan"
+    },
+    {
+     "title": "Scalable Super-Resolution Neural Operator",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1145/3664647.3681374",
+     "authors": "Lei Han, Xuesong Zhang"
+    },
+    {
+     "title": "MegaSurf: Scalable Large Scene Neural Surface Reconstruction",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 6,
+     "doi": "10.1145/3664647.3681303",
+     "authors": "Yusen Wang, Kaixuan Zhou, Wenxiao Zhang, Chunxia Xiao"
+    },
+    {
+     "title": "MESH2IR: Neural Acoustic Impulse Response Generator for Complex 3D Scenes",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 36,
+     "doi": "10.1145/3503161.3548253",
+     "authors": "Anton Ratnarajah, Zhenyu Tang, Rohith Aralikatti, Dinesh Manocha"
+    },
+    {
+     "title": "Scalable Multi-Source Pre-training for Graph Neural Networks",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1145/3664647.3680924",
+     "authors": "Mingkai Lin, Wenzhong Li, Xiaobin Hong, Sanglu Lu"
+    },
+    {
+     "title": "Self-Supervised Vision Graph Neural Networks Based on Contrastive Learning",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3755590",
+     "authors": "Yuzhen Li, Yuehui Han, Jianjun Qian, Jian Yang"
+    },
+    {
+     "title": "Neural-based Rendering and Application",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3474085.3481031",
+     "authors": "Peng Dai"
+    },
+    {
+     "title": "TrGa: Reconsidering the Application of Graph Neural Networks in Two-View Correspondence Pruning",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1145/3664647.3681139",
+     "authors": "Luanyuan Dai, Xiaoyu Du, Jinhui Tang"
+    },
+    {
+     "title": "Autistic Spectrum Disorders Diagnose with Graph Neural Networks",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 9,
+     "doi": "10.1145/3581783.3613818",
+     "authors": "Lu Wei, Bin Liu, Jiujun He, Manxue Zhang, Yi Huang"
+    },
+    {
+     "title": "Expanded Convolutional Neural Network Based Look-Up Tables for High Efficient Single-Image Super-Resolution",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1145/3664647.3681255",
+     "authors": "Kai Yin, Jie Shen"
+    },
+    {
+     "title": "RHKH: Relational Hypergraph Neural Network for Link Prediction on N-ary Knowledge Hypergraph",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1145/3664647.3681706",
+     "authors": "Yuzhuo Wang, Junwei He, Hongzhi Wang"
+    },
+    {
+     "title": "MegaPortraits: One-shot Megapixel Neural Head Avatars",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 90,
+     "doi": "10.1145/3503161.3547838",
+     "authors": "Nikita Drobyshev, Jenya Chelishev, Taras Khakhulin, Aleksei Ivakhnenko, Victor Lempitsky, Egor Zakharov"
+    },
+    {
+     "title": "Deep Neural Network Retrieval",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1145/3474085.3475505",
+     "authors": "Nan Zhong, Zhenxing Qian, Xinpeng Zhang"
+    },
+    {
+     "title": "Graph Neural Networks for Knowledge Enhanced Visual Representation of Paintings",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 19,
+     "doi": "10.1145/3474085.3475586",
+     "authors": "Athanasios Efthymiou, Stevan Rudinac, Monika Kackovic, Marcel Worring, Nachoem Wijnberg"
+    },
+    {
+     "title": "GS\n            <sup>2</sup>\n            -GNeSF: Geometry-Semantics Synergy for Generalizable Neural Semantic Fields",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3664647.3681156",
+     "authors": "Chengshun Wang, Na Zhao"
+    },
+    {
+     "title": "Exposure Completing for Temporally Consistent Neural High Dynamic Range Video Rendering",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1145/3664647.3680935",
+     "authors": "Jiahao Cui, Wei Jiang, Zhan Peng, Zhiyu Pan, Zhiguo Cao"
+    },
+    {
+     "title": "DoF-NeRF: Depth-of-Field Meets Neural Radiance Fields",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 38,
+     "doi": "10.1145/3503161.3548088",
+     "authors": "Zijin Wu, Xingyi Li, Juewen Peng, Hao Lu, Zhiguo Cao, Weicai Zhong"
+    },
+    {
+     "title": "BrainFLORA: Uncovering Brain Concept Representation via Multimodal Neural Embeddings",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1145/3746027.3754996",
+     "authors": "Dongyang Li, Haoyang Qin, Mingyang Wu, Chen Wei, Quanying Liu"
+    },
+    {
+     "title": "Enhancing Image Rescaling using Dual Latent Variables in Invertible Neural Network",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 7,
+     "doi": "10.1145/3503161.3548376",
+     "authors": "Min Zhang, Zhihong Pan, Xin Zhou, C.-C. Jay Kuo"
+    },
+    {
+     "title": "Text2Weight: Bridging Natural Language and Neural Network Weight Spaces",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3755441",
+     "authors": "Bowen Tian, Wenshuo Chen, Zexi Li, Songning Lai, Jiemin Wu, Yutao Yue"
+    },
+    {
+     "title": "Text as Neural Operator:Image Manipulation by Text Instruction",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 16,
+     "doi": "10.1145/3474085.3475343",
+     "authors": "Tianhao Zhang, Hung-Yu Tseng, Lu Jiang, Weilong Yang, Honglak Lee, Irfan Essa"
+    },
+    {
+     "title": "Prompt-Guided Image-Adaptive Neural Implicit Lookup Tables for Interpretable Image Enhancement",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1145/3664647.3680743",
+     "authors": "Satoshi Kosugi"
+    },
+    {
+     "title": "DGNS: Deformable Gaussian Splatting and Dynamic Neural Surface for Monocular Dynamic 3D Reconstruction",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1145/3746027.3755446",
+     "authors": "Xuesong Li, Jinguang Tong, Jie Hong, Vivien Rolland, Lars Petersson"
+    },
+    {
+     "title": "NIVM: Real-time View Morphing via Neural Implicit Function",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3755485",
+     "authors": "Tung-I Chen, Dae Yeol Lee, Guan-Ming Su, Mohammad Hajiesmaili, Ramesh K. Sitaraman"
+    },
+    {
+     "title": "Resource Constrained Model Compression via Minimax Optimization for Spiking Neural Networks",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1145/3581783.3611838",
+     "authors": "Jue Chen, Huan Yuan, Jianchao Tan, Bin Chen, Chengru Song, Di Zhang"
+    },
+    {
+     "title": "Achieving Resolution-Agnostic DNN-based Image Watermarking: A Novel Perspective of Implicit Neural Representation",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 6,
+     "doi": "10.1145/3664647.3681138",
+     "authors": "Yuchen Wang, Xingyu Zhu, Guanhui Ye, Shiyao Zhang, Xuetao Wei"
+    },
+    {
+     "title": "SGM-Transformer: Rethinking Gradient Information Loss and Compensation in Spiking Neural Networks",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3754732",
+     "authors": "Xiubo Liang, Hongzhi Wang, Zigen Li, Jinxing Han, Yu Zhao, Weidong Geng"
+    },
+    {
+     "title": "InDiD: Instant Disorder Detection via a Principled Neural Network",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 6,
+     "doi": "10.1145/3503161.3548182",
+     "authors": "Evgenia Romanenkova, Alexander Stepikin, Matvey Morozov, Alexey Zaytsev"
+    },
+    {
+     "title": "Superpixel-based Efficient Sampling for Learning Neural Fields from Large Input",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1145/3664647.3681299",
+     "authors": "Zhongwei Xuan, Zunjie Zhu, Shuai Wang, Haibing Yin, Hongkui Wang, Ming Lu"
+    },
+    {
+     "title": "Resisting Over-Smoothing in Graph Neural Networks via Dual-Dimensional Decoupling",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 9,
+     "doi": "10.1145/3664647.3681204",
+     "authors": "Wei Shen, Mang Ye, Wenke Huang"
+    },
+    {
+     "title": "RSNN: Recurrent Spiking Neural Networks for Dynamic Spatial-Temporal Information Processing",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 14,
+     "doi": "10.1145/3664647.3680573",
+     "authors": "Qi Xu, Xuanye Fang, Yaxin Li, Jiangrong Shen, De Ma, Yi Xu"
+    },
+    {
+     "title": "Self-Supervised Graph Neural Network for Multi-Source Domain Adaptation",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 19,
+     "doi": "10.1145/3503161.3548121",
+     "authors": "Jin Yuan, Feng Hou, Yangzhou Du, Zhongchao Shi, Xin Geng, Jianping Fan"
+    },
+    {
+     "title": "Information Diffusion Prediction with Graph Neural Ordinary Differential Equation Network",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 10,
+     "doi": "10.1145/3664647.3681363",
+     "authors": "Ding Wang, Wei Zhou, Songiln Hu"
+    },
+    {
+     "title": "Neural Video Compression with Spatio-Temporal Cross-Covariance Transformers",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 25,
+     "doi": "10.1145/3581783.3611960",
+     "authors": "Zhenghao Chen, Lucas Relic, Roberto Azevedo, Yang Zhang, Markus Gross, Dong Xu"
+    },
+    {
+     "title": "Cut-Thumbnail: A Novel Data Augmentation for Convolutional Neural Network",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 35,
+     "doi": "10.1145/3474085.3475302",
+     "authors": "Tianshu Xie, Xuan Cheng, Xiaomin Wang, Minghui Liu, Jiali Deng, Tao Zhou"
+    },
+    {
+     "title": "When Perceptual Authentication Hashing Meets Neural Architecture Search",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1145/3581783.3612457",
+     "authors": "Yuanding Zhou, Xinran Li, Yaodong Fang, Chuan Qin"
+    },
+    {
+     "title": "Get The Best of the Three Worlds",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 8,
+     "doi": "10.1145/3474085.3475667",
+     "authors": "Zekun Zheng, Xiaodong Wang, Xinye Lin, Shaohe Lv"
+    },
+    {
+     "title": "TimeNeRF: Building Generalizable Neural Radiance Fields across Time from Few-Shot Input Views",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1145/3664647.3681337",
+     "authors": "Hsiang-Hui Hung, Huu-Phu Do, Yung-Hui Li, Ching-Chun Huang"
+    },
+    {
+     "title": "Challenging Cases of Neural Image Compression: A Dataset of Visually Compelling Yet Semantically Incorrect Reconstructions",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1145/3746027.3758291",
+     "authors": "Nora Hofer, Rainer Böhme"
+    },
+    {
+     "title": "Neural Image Popularity Assessment with Retrieval-augmented Transformer",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1145/3581783.3611918",
+     "authors": "Liya Ji, Chan Ho Park, Zhefan Rao, Qifeng Chen"
+    },
+    {
+     "title": "Neural Interaction Energy for Multi-Agent Trajectory Prediction",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1145/3664647.3680792",
+     "authors": "Kaixin Shen, Ruijie Quan, Linchao Zhu, Jun Xiao, Yi Yang"
+    },
+    {
+     "title": "Reversing Structural Pattern Learning with Biologically Inspired Knowledge Distillation for Spiking Neural Networks",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 15,
+     "doi": "10.1145/3664647.3680655",
+     "authors": "Qi Xu, Yaxin Li, Xuanye Fang, Jiangrong Shen, Qiang Zhang, Gang Pan"
+    },
+    {
+     "title": "Securing Fixed Neural Network Steganography",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 18,
+     "doi": "10.1145/3581783.3611920",
+     "authors": "Zicong Luo, Sheng Li, Guobiao Li, Zhenxing Qian, Xinpeng Zhang"
+    },
+    {
+     "title": "OSNeRF: On-demand Semantic Neural Radiance Fields for Fast and Robust 3D Object Reconstruction",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1145/3664647.3681686",
+     "authors": "Rui Xu, Gaolei Li, Changze Li, Zhaohui Yang, Yuchen Liu, Mingzhe Chen"
+    },
+    {
+     "title": "HINER: Neural Representation for Hyperspectral Image",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1145/3664647.3681643",
+     "authors": "Junqi Shi, Mingyi Jiang, Ming Lu, Tong Chen, Xun Cao, Zhan Ma"
+    },
+    {
+     "title": "Digging into Depth Priors for Outdoor Neural Radiance Fields",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 13,
+     "doi": "10.1145/3581783.3612306",
+     "authors": "Chen Wang, Jiadai Sun, Lina Liu, Chenming Wu, Zhelun Shen, Dayan Wu"
+    },
+    {
+     "title": "NeRF-SR: High Quality Neural Radiance Fields using Supersampling",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 112,
+     "doi": "10.1145/3503161.3547808",
+     "authors": "Chen Wang, Xian Wu, Yuan-Chen Guo, Song-Hai Zhang, Yu-Wing Tai, Shi-Min Hu"
+    },
+    {
+     "title": "Build Your Own Bundle - A Neural Combinatorial Optimization Method",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 18,
+     "doi": "10.1145/3474085.3475440",
+     "authors": "Qilin Deng, Kai Wang, Minghao Zhao, Runze Wu, Yu Ding, Zhene Zou"
+    },
+    {
+     "title": "Consistency Guided Diffusion Model with Neural Syntax for Perceptual Image Compression",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 7,
+     "doi": "10.1145/3664647.3681336",
+     "authors": "Haowei Kuang, Yiyang Ma, Wenhan Yang, Zongming Guo, Jiaying Liu"
+    },
+    {
+     "title": "Neural Video Compression with In-Loop Contextual Filtering and Out-of-Loop Reconstruction Enhancement",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1145/3746027.3755059",
+     "authors": "Yaojun Wu, Chaoyi Lin, Yiming Wang, Semih Esenlik, Zhaobin Zhang, Kai Zhang"
+    },
+    {
+     "title": "Neural Additive Adapters for Interpretable Nutrition Prediction",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3755865",
+     "authors": "Vitalii Emelianov, Niki Martinel"
+    },
+    {
+     "title": "Relit-NeuLF: Efficient Relighting and Novel View Synthesis via Neural 4D Light Field",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 18,
+     "doi": "10.1145/3581783.3612160",
+     "authors": "Zhong Li, Liangchen Song, Zhang Chen, Xiangyu Du, Lele Chen, Junsong Yuan"
+    },
+    {
+     "title": "Merging Multiple Template Matching Predictions in Intra Coding with Attentive Convolutional Neural Network",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1145/3474085.3475359",
+     "authors": "Qijun Wang, Guodong Zheng"
+    },
+    {
+     "title": "PatchBackdoor: Backdoor Attack against Deep Neural Networks without Model Modification",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 12,
+     "doi": "10.1145/3581783.3612032",
+     "authors": "Yizhen Yuan, Rui Kong, Shenghao Xie, Yuanchun Li, Yunxin Liu"
+    },
+    {
+     "title": "Block Popularity Prediction for Multimedia Storage Systems Using Spatial-Temporal-Sequential Neural Networks",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1145/3474085.3475495",
+     "authors": "Yingying Cheng, Fan Zhang, Gang Hu, Yiwen Wang, Hanhui Yang, Gong Zhang"
+    },
+    {
+     "title": "Cover-separable Fixed Neural Network Steganography via Deep Generative Models",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 15,
+     "doi": "10.1145/3664647.3680824",
+     "authors": "Guobiao Li, Sheng Li, Zhenxing Qian, Xinpeng Zhang"
+    },
+    {
+     "title": "MB2C: Multimodal Bidirectional Cycle Consistency for Learning Robust Visual Neural Representations",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 21,
+     "doi": "10.1145/3664647.3681292",
+     "authors": "Yayun Wei, Lei Cao, Hao Li, Yilin Dong"
+    },
+    {
+     "title": "SiFMimicEvader: Evading Fake Voice Detection with Adversarial Neural Mimicry Attacks",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3755595",
+     "authors": "Xuan Hai, Xin Liu, Zihao Zhang, Ziyao Yu, Xiangzhen Kong, Song Li"
+    }
+   ]
+  },
+  "on-device inference": {
+   "total": 1483,
+   "kept": 53,
+   "papers": [
+    {
+     "title": "Video Instance Segmentation by Weighted Structure Inference",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1145/3746027.3755007",
+     "authors": "Zheyun Qin, Deng Yu, Yang Shi, Qiangchang Wang, Zhumin Chen"
+    },
+    {
+     "title": "JAVP: Joint-Aware Video Processing with Edge-Cloud Collaboration for DNN Inference",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 24,
+     "doi": "10.1145/3581783.3613914",
+     "authors": "Zheming Yang, Wen Ji, Qi Guo, Zhi Wang"
+    },
+    {
+     "title": "TransFusion: Multi-Modal Fusion for Video Tag Inference via Translation-based Knowledge Embedding",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1145/3474085.3481535",
+     "authors": "Di Jin, Zhongang Qi, Yingmin Luo, Ying Shan"
+    },
+    {
+     "title": "Cross-modal Observation Hypothesis Inference",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3664647.3681591",
+     "authors": "Mengze Li, Kairong Han, Jiahe Xu, Yueying Li, Tao Wu, Zhou Zhao"
+    },
+    {
+     "title": "Video Visual Relation Detection via Iterative Inference",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 40,
+     "doi": "10.1145/3474085.3475263",
+     "authors": "Xindi Shang, Yicong Li, Junbin Xiao, Wei Ji, Tat-Seng Chua"
+    },
+    {
+     "title": "FCG: High-Throughput JPEG Heterogeneous Inference with Hybrid Parallel Pipeline on Mobile Devices",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3755712",
+     "authors": "Youbo Mao, Ziyang Kang, Pengfei Li, Jiyao Chen, Zenglin Yang, Zhijun Li"
+    },
+    {
+     "title": "Learning an Inference-accelerated Network from a Pre-trained Model with Frequency-enhanced Feature Distillation",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1145/3503161.3547983",
+     "authors": "Xuesong Niu, Jili Gu, Guoxin Zhang, Pengfei Wan, Zhongyuan Wang"
+    },
+    {
+     "title": "ResearchPulse: Building Method-Experiment Chains through Multi-Document Scientific Inference",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1145/3746027.3754813",
+     "authors": "Qi Chen, Jingxuan Wei, Zhuoya Yao, Haiguang Wang, Gaowei Wu, Bihui Yu"
+    },
+    {
+     "title": "CausalRec: Causal Inference for Visual Debiasing in Visually-Aware Recommendation",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 38,
+     "doi": "10.1145/3474085.3475266",
+     "authors": "Ruihong Qiu, Sen Wang, Zhi Chen, Hongzhi Yin, Zi Huang"
+    },
+    {
+     "title": "Cefdet: Cognitive Effectiveness Network Based on Fuzzy Inference for Action Detection",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1145/3664647.3681226",
+     "authors": "Zhe Luo, Weina Fu, Shuai Liu, Saeed Anwar, Muhammad Saqib, Sambit Bakshi"
+    },
+    {
+     "title": "Unveiling Structural Memorization: Structural Membership Inference Attack for Text-to-Image Diffusion Models",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 7,
+     "doi": "10.1145/3664647.3681170",
+     "authors": "Qiao Li, Xiaomeng Fu, Xi Wang, Jin Liu, Xingyu Gao, Jiao Dai"
+    },
+    {
+     "title": "Change-UP: Advancing Visualization and Inference Capability for Multi-level Remote Sensing Change Interpretation",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1145/3746027.3754706",
+     "authors": "Mo Yang, Luo Chen, Jiali Zhou"
+    },
+    {
+     "title": "Counterfactual Debiasing Inference for Compositional Action Recognition",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 24,
+     "doi": "10.1145/3474085.3475472",
+     "authors": "Pengzhan Sun, Bo Wu, Xunsong Li, Wen Li, Lixin Duan, Chuang Gan"
+    },
+    {
+     "title": "Accelerating Inference of Networks in the Frequency Domain",
+     "year": 2024,
+     "venue": "Proceedings of the 6th ACM International Conference on Multimedia in Asia",
+     "citationCount": 4,
+     "doi": "10.1145/3696409.3700171",
+     "authors": "chenqiu zhao, Guanfang Dong, Anup Basu"
+    },
+    {
+     "title": "ScaleFlow: Efficient Deep Vision Pipeline with Closed-Loop Scale-Adaptive Inference",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1145/3581783.3612412",
+     "authors": "Yuyang Leng, Renyuan Liu, Hongpeng Guo, Songqing Chen, Shuochao Yao"
+    },
+    {
+     "title": "Unsupervised Multi-object Tracking via Dynamical VAE and Variational Inference",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3503161.3548754",
+     "authors": "Xiaoyu Lin"
+    },
+    {
+     "title": "Towards Consumer-Grade Cybersickness Prediction: Multi-Model Alignment for Real-Time Vision-Only Inference",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1145/3746027.3755115",
+     "authors": "Yitong Zhu, Zhuowen Liang, Yiming Wu, Tangyao Li, Yuyang Wang"
+    },
+    {
+     "title": "Boosting Temporal Sentence Grounding via Causal Inference",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1145/3746027.3755624",
+     "authors": "Kefan Tang, Lihuo He, Jisheng Dang, Xinbo Gao"
+    },
+    {
+     "title": "Outlier-Aware Model Merging for Efficient Multitask Inference",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1145/3746027.3754894",
+     "authors": "Qiyuan Zhu, Lujun Li, Dezhi Li, Jiacheng Liu, Pengyu Cheng, Yucheng Xu"
+    },
+    {
+     "title": "S-CCR: Super-Complete Comparative Representation for Low-Light Image Quality Inference In-the-wild",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1145/3503161.3548083",
+     "authors": "Miaohui Wang, Zhuowei Xu, Yuanhao Gong, Wuyuan Xie"
+    },
+    {
+     "title": "MQuant: Unleashing the Inference Potential of Multimodal Large Language Models via Static Quantization",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 11,
+     "doi": "10.1145/3746027.3755433",
+     "authors": "Jiangyong Yu, Sifan Zhou, Dawei Yang, Shuoyu Li, Shuo Wang, Xing Hu"
+    },
+    {
+     "title": "Towards Causality Inference for Very Important Person Localization",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1145/3503161.3548014",
+     "authors": "Xiao Wang, Zheng Wang, Wu Liu, Xin Xu, Qijun Zhao, Shin'ichi Satoh"
+    },
+    {
+     "title": "Advancing Audio Emotion and Intent Recognition with Large Pre-Trained Models and Bayesian Inference",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1145/3581783.3612848",
+     "authors": "Dejan Porjazovski, Yaroslav Getman, Tamás Grósz, Mikko Kurimo"
+    },
+    {
+     "title": "Arbitrary Bit-width Network: A Joint Layer-Wise Quantization and Adaptive Inference Approach",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 15,
+     "doi": "10.1145/3503161.3548001",
+     "authors": "Chen Tang, Haoyu Zhai, Kai Ouyang, Zhi Wang, Yifei Zhu, Wenwu Zhu"
+    },
+    {
+     "title": "Towards Deconfounded Image-Text Matching with Causal Inference",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 13,
+     "doi": "10.1145/3581783.3612472",
+     "authors": "Wenhui Li, Xinqi Su, Dan Song, Lanjun Wang, Kun Zhang, An-An Liu"
+    },
+    {
+     "title": "Dynamic Scene Graph Generation via Temporal Prior Inference",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 30,
+     "doi": "10.1145/3503161.3548324",
+     "authors": "Shuang Wang, Lianli Gao, Xinyu Lyu, Yuyu Guo, Pengpeng Zeng, Jingkuan Song"
+    },
+    {
+     "title": "AdaMask: Enabling Machine-Centric Video Streaming with Adaptive Frame Masking for DNN Inference Offloading",
+     "year": 2022,
+     "venue": "Proceedings of the 30th ACM International Conference on Multimedia",
+     "citationCount": 49,
+     "doi": "10.1145/3503161.3548033",
+     "authors": "Shengzhong Liu, Tianshi Wang, Jinyang Li, Dachun Sun, Mani Srivastava, Tarek Abdelzaher"
+    },
+    {
+     "title": "AudioLCM: Efficient and High-Quality Text-to-Audio Generation with Minimal Inference Steps",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 7,
+     "doi": "10.1145/3664647.3681072",
+     "authors": "Huadai Liu, Rongjie Huang, Yang Liu, Hengyuan Cao, Jialei Wang, Xize Cheng"
+    },
+    {
+     "title": "Hierarchical Perceptual and Predictive Analogy-Inference Network for Abstract Visual Reasoning",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 6,
+     "doi": "10.1145/3664647.3681246",
+     "authors": "Wentao He, Jianfeng Ren, Ruibin Bai, Xudong Jiang"
+    },
+    {
+     "title": "Device-Cloud Collaborative Learning Framework for Efficient Unknown Object Detection",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3755681",
+     "authors": "Kewei Zhao, Xiaowei Hu, Qinya Li"
+    },
+    {
+     "title": "Specify Privacy Yourself: Assessing Inference-Time Personalized Privacy Preservation Ability of Large Vision-Language Models",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3758156",
+     "authors": "Xingqi Wang, Xiaoyuan Yi, Xing Xie, Jia Jia"
+    },
+    {
+     "title": "Boosting Mobile CNN Inference through Semantic Memory",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 12,
+     "doi": "10.1145/3474085.3475399",
+     "authors": "Yun Li, Chen Zhang, Shihao Han, Li Lyna Zhang, Baoqun Yin, Yunxin Liu"
+    },
+    {
+     "title": "CHORD: Customizing Hybrid-precision On-device Model for Sequential Recommendation with Device-cloud Collaboration",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3755632",
+     "authors": "Tianqi Liu, Kairui Fu, Shengyu Zhang, Wenyan Fan, Zhaocheng Du, Jieming Zhu"
+    },
+    {
+     "title": "Detection-Aware Inference for Robust Talking-Head Video Generation",
+     "year": 2025,
+     "venue": "Proceedings of the 7th ACM International Conference on Multimedia in Asia",
+     "citationCount": 0,
+     "doi": "10.1145/3769748.3773364",
+     "authors": "Seyyedhamid Azimidokht, Fang Kang, Yueyi Yang, Haoyu Chen"
+    },
+    {
+     "title": "SplatPose: On-Device Outdoor AR Pose Estimation Using Gaussian Splatting",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3755709",
+     "authors": "Weiwu Pang, Rajrup Ghosh, Jiawei Yang, Ziyu Wei, Branden Leong, Yue Wang"
+    },
+    {
+     "title": "Seeing is Believing?",
+     "year": 2021,
+     "venue": "Proceedings of the 29th ACM International Conference on Multimedia",
+     "citationCount": 16,
+     "doi": "10.1145/3474085.3475552",
+     "authors": "Carlos Bermejo Fernandez, Petteri Nurmi, Pan Hui"
+    },
+    {
+     "title": "QoS-Diff: Adaptive Auto-tuning Framework for Low-latency Diffusion Model Inference",
+     "year": 2024,
+     "venue": "Proceedings of the 6th ACM International Conference on Multimedia in Asia",
+     "citationCount": 0,
+     "doi": "10.1145/3696409.3700277",
+     "authors": "Pingyi Huo, Ajay Narayanan Sridhar, Md Fahim Faysal Khan, Kiwan Maeng, Vijaykrishnan Narayanan"
+    },
+    {
+     "title": "ASTER: Adaptive Dynamic Layer-Skipping for Efficient Transformer Inference via Markov Decision Process",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1145/3746027.3755526",
+     "authors": "Fangxin Liu, Junjie Wang, Ning Yang, Zongwu Wang, Junping Zhao, Li Jiang"
+    },
+    {
+     "title": "Prior Knowledge-driven Dynamic Scene Graph Generation with Causal Inference",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 8,
+     "doi": "10.1145/3581783.3612249",
+     "authors": "Jiale Lu, Lianggangxu Chen, Youqi Song, Shaohui Lin, Changbo Wang, Gaoqi He"
+    },
+    {
+     "title": "SAM based Region-Word Clustering and Inference Score Adjusting for Open-Vocabulary Object Detection",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3754501",
+     "authors": "Qiuyu Liang, Yongqiang Zhang"
+    },
+    {
+     "title": "Deconfounded Visual Question Generation with Causal Inference",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 10,
+     "doi": "10.1145/3581783.3612536",
+     "authors": "Jiali Chen, Zhenjun Guo, Jiayuan Xie, Yi Cai, Qing Li"
+    },
+    {
+     "title": "Zero-shot Micro-video Classification with Neural Variational Inference in Graph Prototype Network",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 16,
+     "doi": "10.1145/3581783.3611740",
+     "authors": "Junyang Chen, Jialong Wang, Zhijiang Dai, Huisi Wu, Mengzhu Wang, Qin Zhang"
+    },
+    {
+     "title": "MAGNeT: Multimodal Adaptive Gaussian Networks for Intent Inference in Moving Target Selection across Complex Scenarios",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3758187",
+     "authors": "Xiangxian Li, Yawen Zheng, Baiqiao Zhang, Yijia Ma, Xianhui Cao, Juan Liu"
+    },
+    {
+     "title": "Distilling knowledge in causal inference for unbiased visual question answering",
+     "year": 2021,
+     "venue": "Proceedings of the 2nd ACM International Conference on Multimedia in Asia",
+     "citationCount": 12,
+     "doi": "10.1145/3444685.3446256",
+     "authors": "Yonghua Pan, Zechao Li, Liyan Zhang, Jinhui Tang"
+    },
+    {
+     "title": "MNN-LLM: A Generic Inference Engine for Fast Large Language Model Deployment on Mobile Devices",
+     "year": 2024,
+     "venue": "Proceedings of the 6th ACM International Conference on Multimedia in Asia Workshops",
+     "citationCount": 14,
+     "doi": "10.1145/3700410.3702126",
+     "authors": "Zhaode Wang, Jingbang Yang, Xinyu Qian, Shiwen Xing, Xiaotang Jiang, Chengfei Lv"
+    },
+    {
+     "title": "VidIQ: Inference-Aware Neural Codecs for Quality-Enhanced, Real-Time Video Analytics",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3755254",
+     "authors": "Andong Zhu, Sheng Zhang, Xiaohang Shi, Hesheng Sun, Yu Liang, Zhuzhong Qian"
+    },
+    {
+     "title": "Mixed Prototype Correction for Causal Inference in Medical Image Classification",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1145/3664647.3681395",
+     "authors": "Yajie Zhang, Zhi-An Huang, Zhiliang Hong, Songsong Wu, Jibin Wu, Kay Chen Tan"
+    },
+    {
+     "title": "Multi-Width Neural Network-Assisted Hierarchical Federated Learning in Heterogeneous Cloud-Edge-Device Computing",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3754596",
+     "authors": "Haizhou Wang, Guobing Zou, Fei Xu, Yangguang Cui, Tongquan Wei"
+    },
+    {
+     "title": "Edge-Assisted On-Device Model Update for Video Analytics in Adverse Environments",
+     "year": 2023,
+     "venue": "Proceedings of the 31st ACM International Conference on Multimedia",
+     "citationCount": 43,
+     "doi": "10.1145/3581783.3612585",
+     "authors": "Yuxin Kong, Peng Yang, Yan Cheng"
+    },
+    {
+     "title": "BOLT: Fewer Tokens but More Performance Retention for Efficient Vision-Language Models Inference",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3755305",
+     "authors": "Jiahua Bao, Siyao Cheng, Jiaxing Du, Changjiang He, Zeming Lang, Hao Zhang"
+    },
+    {
+     "title": "VISA: Group-wise Visual Token Selection and Aggregation via Graph Summarization for Efficient MLLMs Inference",
+     "year": 2025,
+     "venue": "Proceedings of the 33rd ACM International Conference on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1145/3746027.3755792",
+     "authors": "Pengfei Jiang, Hanjun Li, Linglan Zhao, Fei Chao, Ke Yan, Shouhong Ding"
+    },
+    {
+     "title": "Micro-Action Recognition via Hierarchical Fusion and Inference",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1145/3664647.3688977",
+     "authors": "Fan Gong, Jialiang Chen, Jiajun Zhu, Qijian Bao, Fei Gao, Renshu Gu"
+    },
+    {
+     "title": "Deconfounded Emotion Guidance Sticker Selection with Causal Inference",
+     "year": 2024,
+     "venue": "Proceedings of the 32nd ACM International Conference on Multimedia",
+     "citationCount": 7,
+     "doi": "10.1145/3664647.3681522",
+     "authors": "Jiali Chen, Yi Cai, Ruohang Xu, Jiexin Wang, Jiayuan Xie, Qing Li"
+    }
+   ]
+  }
+ }
+}

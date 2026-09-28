@@ -1,0 +1,2182 @@
+{
+ "venue": "SIGIR",
+ "category": "cross",
+ "canonical_venue_string": "SIGIR",
+ "wave": "B",
+ "generated_at": "2026-09-29 01:19:20",
+ "topics": [
+  "LLM agent tool use",
+  "agent memory",
+  "multimodal agent",
+  "on-device inference"
+ ],
+ "request_budget": {
+  "successful": 47,
+  "limit": 300,
+  "attempts": 4
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "LLM agent tool use": {
+   "total": 225,
+   "kept": 89,
+   "papers": [
+    {
+     "title": "The Agent Perspective In LLM-Based Strategic Information Retrieval Ecosystems",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3726302.3730125",
+     "authors": "Tommy Mordo"
+    },
+    {
+     "title": "Insight Agents: An LLM-Based Multi-Agent System for Data Insights",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 3,
+     "doi": "10.1145/3726302.3731959",
+     "authors": "Jincheng Bai, Zhenyu Zhang, Jennifer Zhang, Jason Zhu"
+    },
+    {
+     "title": "LEMSS: LLM-Based Platform for Multi-Agent Competitive Search Simulation",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 3,
+     "doi": "10.1145/3726302.3730312",
+     "authors": "Tommy Mordo, Tomer Kordonsky, Haya Nachimovsky, Moshe Tennenholtz, Oren Kurland"
+    },
+    {
+     "title": "MAAQR: An LLM-based Multi-Agent Framework for Adaptive Query Rewriting in Alipay Search",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 4,
+     "doi": "10.1145/3726302.3731950",
+     "authors": "Qi Zheng, Mingjie Zhong, Saisai Gong, Huimin Jiang, Kaixin Wu, Hong Liu"
+    },
+    {
+     "title": "LLM Agents Factory: Retrieval of Domain-Specific LLM Agents",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808515",
+     "authors": "Vitalii Belov, Artyom Sosedka, Andrey Sakhovskiy, Elizaveta Kovtun, Artyom Boyarskikh, Semen Budennyy"
+    },
+    {
+     "title": "Let Me Do It For You: Towards LLM Empowered Recommendation via Tool Learning",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 48,
+     "doi": "10.1145/3626772.3657828",
+     "authors": "Yuyue Zhao, Jiancan Wu, Xiang Wang, Wei Tang, Dingxian Wang, Maarten de Rijke"
+    },
+    {
+     "title": "LLM-UP: SIGIR 2026 Workshop on LLM-powered User Profiling for Search and Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808652",
+     "authors": "Hongzhi Yin, Wei Yuan, Yi Zhang, Joel Mackenzie, Quoc Viet Hung Nguyen, Wayne Xin Zhao"
+    },
+    {
+     "title": "Tool-Star: Empowering Multi-Tool Collaborative Web Agent via Reinforcement Learning",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809712",
+     "authors": "Guanting Dong, Yifei Chen, Xiaoxi Li, Jiajie Jin, Hongjin Qian, Yutao Zhu"
+    },
+    {
+     "title": "Inquiry Assistant Using LLM-Generated Knowledge Graphs",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3726302.3731956",
+     "authors": "István Varga, Yuta Yamashita"
+    },
+    {
+     "title": "Benchmarking LLM-based Relevance Judgment Methods",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 14,
+     "doi": "10.1145/3726302.3730305",
+     "authors": "Negar Arabzadeh, Charles L. A. Clarke"
+    },
+    {
+     "title": "Does LLM Relevance Labelling Work for Arabic?",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809855",
+     "authors": "Marwah Alaofi, Fatima Haouari"
+    },
+    {
+     "title": "Diagnosing LLM Reranker Behavior Under Fixed Evidence Pools",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3805712.3809852",
+     "authors": "Baris Arat, Emre Sefer"
+    },
+    {
+     "title": "LLM-Driven Usefulness Labeling for IR Evaluation",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 4,
+     "doi": "10.1145/3726302.3730223",
+     "authors": "Mouly Dewan, Jiqun Liu, Chirag Shah"
+    },
+    {
+     "title": "LLM as User Simulator: Towards Training News Recommender without Real User Interactions",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 2,
+     "doi": "10.1145/3726302.3730224",
+     "authors": "Choongwon Park"
+    },
+    {
+     "title": "Learning to Rank with Multi-Criteria LLM-Judge Annotations",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809580",
+     "authors": "Naghmeh Farzi, Laura Dietz"
+    },
+    {
+     "title": "On the Robustness of LLM Re-Rankings",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809883",
+     "authors": "Reyhaneh Goli, Alistair Moffat"
+    },
+    {
+     "title": "Bridging LLM Embeddings and VAE Parameters for Disentangled Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809537",
+     "authors": "Nhu-Thuat Tran, Hady W. Lauw"
+    },
+    {
+     "title": "Truth-O-Meter: Handling Multiple Inconsistent Sources Repairing LLM Hallucinations",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 15,
+     "doi": "10.1145/3626772.3657679",
+     "authors": "Boris Galitsky, Anton Chernyavskiy, Dmitry Ilvovsky"
+    },
+    {
+     "title": "Query Understanding in LLM-based Conversational Information Seeking",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3726302.3731687",
+     "authors": "Yifei Yuan, Zahra Abbasiantaeb, Mohammad Aliannejadi, Yang Deng"
+    },
+    {
+     "title": "A Field Guide to Automatic Evaluation of LLM-Generated Summaries",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 32,
+     "doi": "10.1145/3626772.3661346",
+     "authors": "Tempest A. van Schaik, Brittany Pugh"
+    },
+    {
+     "title": "Trustworthy Personalized Retrieval in the LLM Era: Fairness, Bias Awareness, Privacy, and Multimodality",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808647",
+     "authors": "Frank Hopfgartner, Jialie Shen"
+    },
+    {
+     "title": "Beyond Relevance: Utility-Centric Retrieval in the LLM Era",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808641",
+     "authors": "Hengran Zhang, Minghao Tang, Keping Bi, Jiafeng Guo"
+    },
+    {
+     "title": "Local Information Access in Marathi: Evaluating LLM-Native Web Retrieval in a Low-Resource Environment",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808534",
+     "authors": "Sahil Kale"
+    },
+    {
+     "title": "A Human-AI Comparative Analysis of Prompt Sensitivity in LLM-Based Relevance Judgment",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 14,
+     "doi": "10.1145/3726302.3730159",
+     "authors": "Negar Arabzadeh, Charles L.A. Clarke"
+    },
+    {
+     "title": "LLM-Informed Bayesian Content Exploration in Ultra-Recency Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808498",
+     "authors": "Qing Feng, Ivan Ji, Yiting Hua, Shujian Bu"
+    },
+    {
+     "title": "GNN-Based Item Indexing for LLM-Enhanced Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809568",
+     "authors": "Senlin Mao, Ji Zhang, Peng Zhang, Ze Wang, Xiaoyao Zheng, Jia Wang"
+    },
+    {
+     "title": "OpenP5: An Open-Source Platform for Developing, Training, and Evaluating LLM-based Recommender Systems",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 38,
+     "doi": "10.1145/3626772.3657883",
+     "authors": "Shuyuan Xu, Wenyue Hua, Yongfeng Zhang"
+    },
+    {
+     "title": "One Pass, Any Order: Position-Invariant Listwise Reranking for LLM-Based Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3805712.3809952",
+     "authors": "Ethan Bito, Yongli Ren, Estrid He"
+    },
+    {
+     "title": "LLM-Click Agreement: Harmonizing Implicit Feedback and Semantic Judgments for Enterprise Search",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808394",
+     "authors": "Avinash Kumar, Hardi Rathod, Rohan Mallick, Swarnangsu Acharyya"
+    },
+    {
+     "title": "LLM-enhanced Cascaded Multi-level Learning on Temporal Heterogeneous Graphs",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 10,
+     "doi": "10.1145/3626772.3657731",
+     "authors": "Fengyi Wang, Guanghui Zhu, Chunfeng Yuan, Yihua Huang"
+    },
+    {
+     "title": "RankEvolve: Automating the Discovery of Retrieval Algorithms via LLM-Driven Evolution",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809962",
+     "authors": "Jinming Nian, Fangchen Li, Dae Hoon Park, Yi Fang"
+    },
+    {
+     "title": "Beyond Reproducibility: Advancing Zero-shot LLM Reranking Efficiency with Setwise Insertion",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 4,
+     "doi": "10.1145/3726302.3730323",
+     "authors": "Jakub Podolak, Leon Perić, Mina Janićijević, Roxana Petcu"
+    },
+    {
+     "title": "RubricRAG: Towards Interpretable and Reliable LLM Evaluation via Domain Knowledge Retrieval for Rubric Generation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809940",
+     "authors": "Kaustubh Dhole, Eugene Agichtein"
+    },
+    {
+     "title": "Faithful LLM-Assisted Question Answering for Technical and Academic Search",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808357",
+     "authors": "Juan Luis Filgueiras"
+    },
+    {
+     "title": "Scaling Search Relevance: Augmenting App Store Ranking with LLM-Generated Judgments",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808460",
+     "authors": "Evangelia Christakopoulou, Vivekkumar Patel, Hemanth Velaga, Sandip Gaikwad"
+    },
+    {
+     "title": "CRED: Calibrated Relational Enhanced Distillation for LLM-Based Pointwise Reranking",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809850",
+     "authors": "Qingran Yang, Wenxuan Zhang, Yuting Wang, Xue Li, Lanshun Nie"
+    },
+    {
+     "title": "When LLM Judges Inflate Scores: Exploring Overrating in Relevance Assessment",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809905",
+     "authors": "Chuting Yu, Hang Li, Guido Zuccon, Joel Mackenzie, Teerapong Leelanupab"
+    },
+    {
+     "title": "The LLM Effect on IR Benchmarks: A Meta-Analysis of Effectiveness, Baselines, and Contamination",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809901",
+     "authors": "Moritz Staudinger, Wojciech Kusa, Allan Hanbury"
+    },
+    {
+     "title": "From Unstructured to Structured: LLM-Guided Attribute Graphs for Entity Search and Ranking",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808501",
+     "authors": "Yilun Zhu, Nikhita Vedula, Shervin Malmasi"
+    },
+    {
+     "title": "PAG-LLM: Paraphrase and Aggregate with Large Language Models for Minimizing Intent Classification Errors",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 20,
+     "doi": "10.1145/3626772.3657959",
+     "authors": "Vikas Yadav, Zheng Tang, Vijay Srinivasan"
+    },
+    {
+     "title": "LLM-Assisted Relevance Assessments: When Should We Ask LLMs for Help?",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 10,
+     "doi": "10.1145/3726302.3729916",
+     "authors": "Rikiya Takehi, Ellen M. Voorhees, Tetsuya Sakai, Ian Soboroff"
+    },
+    {
+     "title": "Continual Origin Tracing of LLM-Generated Text",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 2,
+     "doi": "10.1145/3726302.3729935",
+     "authors": "Haoran Li, Quan Wang"
+    },
+    {
+     "title": "Factorized Latent Reasoning for LLM-based Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809559",
+     "authors": "Tianqi Gao, Chengkai Huang, Zihan Wang, Cao Liu, Ke Zeng, Lina Yao"
+    },
+    {
+     "title": "ELOQ: Resources for Enhancing LLM Detection of Out-of-Scope Questions",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3726302.3730333",
+     "authors": "Zhiyuan Peng, Jinming Nian, Alexandre Evfimievski, Yi Fang"
+    },
+    {
+     "title": "ResumeFlow: An LLM-facilitated Pipeline for Personalized Resume Generation and Refinement",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 18,
+     "doi": "10.1145/3626772.3657680",
+     "authors": "Saurabh Bhausaheb Zinjad, Amrita Bhattacharjee, Amey Bhilegaonkar, Huan Liu"
+    },
+    {
+     "title": "LLM Personalization: Foundations, Breakthroughs, and Frontiers",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808646",
+     "authors": "Xiaoyan Zhao, Xinyu Lin, Chengbing Wang, Zeyu Zhang, Bohao Wang, Yang Zhang"
+    },
+    {
+     "title": "Think, But Don't Tell: Implicit Reasoning for LLM-based Sequential Recommendation via Multi-Teacher Distillation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809758",
+     "authors": "Weihai Lu, Xiaoxi Cui, Chenke Yin"
+    },
+    {
+     "title": "Detectability and Evaluation Risks of LLM-Generated Answers in Low-Resource Swahili Agricultural Information Retrieval",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808524",
+     "authors": "Theofrida J. Maginga, Farian S. Ishengoma"
+    },
+    {
+     "title": "A Reproducibility Study of LLM Setwise Reranker with Heapsort",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3726302.3730338",
+     "authors": "Dawn Lawrie, Efsun Kayi, James Mayfield, Eugene Yang, Andrew Yates, Douglas W. Oard"
+    },
+    {
+     "title": "LLM-Oriented Information Retrieval: A Denoising-First Perspective",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808544",
+     "authors": "Lu Dai, Liang Sun, Fanpu Cao, Ziyang Rao, Cehao Yang, Hao Liu"
+    },
+    {
+     "title": "DiSCo: LLM Knowledge Distillation for Efficient Sparse Retrieval in Conversational Search",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 6,
+     "doi": "10.1145/3726302.3729966",
+     "authors": "Simon Lupart, Mohammad Aliannejadi, Evangelos Kanoulas"
+    },
+    {
+     "title": "Behavior Alignment: A New Perspective of Evaluating LLM-based Conversational Recommendation Systems",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 25,
+     "doi": "10.1145/3626772.3657924",
+     "authors": "Dayu Yang, Fumian Chen, Hui Fang"
+    },
+    {
+     "title": "Beyond the Single Path: Divergent Reasoning for LLM-based Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3805712.3809732",
+     "authors": "Guojia An, Jie Zou, Yuhan Yang, Shuai Qin, Weikang Guo, Jinyu Guo"
+    },
+    {
+     "title": "In-Context Learning as an Effective Estimator of Functional Correctness of LLM-Generated Code",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 3,
+     "doi": "10.1145/3726302.3730212",
+     "authors": "Susmita Das, Madhusudan Ghosh, Priyanka Swami, Debasis Ganguly, Gul Calikli"
+    },
+    {
+     "title": "InstructRAG: Leveraging Retrieval-Augmented Generation on Instruction Graphs for LLM-Based Task Planning",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 4,
+     "doi": "10.1145/3726302.3730009",
+     "authors": "Zheng Wang, Shu Xian Teo, Jun Jie Chew, Wei Shi"
+    },
+    {
+     "title": "Data-efficient Fine-tuning for LLM-based Recommendation",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 157,
+     "doi": "10.1145/3626772.3657807",
+     "authors": "Xinyu Lin, Wenjie Wang, Yongqi Li, Shuo Yang, Fuli Feng, Yinwei Wei"
+    },
+    {
+     "title": "As It Was: Aligning LLM Search Evaluation with Historical User Preferences",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808488",
+     "authors": "Ali Vardasbi, Gustavo Penha, Enrico Palumbo, Claudia Hauff, Hugues Bouchard, Mounia Lalmas"
+    },
+    {
+     "title": "Efficient LLM Adaptation for Opinion Knowledge Graph Construction: Lessons from the Telecom Industry",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808450",
+     "authors": "Nai-Chi Yang, Yu-Ming Hsieh, Wei-Yun Ma, Kuo-Wei Chang"
+    },
+    {
+     "title": "PersonaPlugin: A Multi-Source Persona Framework for LLM Personalization in Telecommunications",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808416",
+     "authors": "Jinmo Kang, Minseop Lee, Songha Kim, Junho Shin, Changho Lee, Yeonghwan Jeon"
+    },
+    {
+     "title": "Rank-R1: Enhancing Reasoning in LLM-based Document Rerankers via Reinforcement Learning",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 6,
+     "doi": "10.1145/3805712.3809961",
+     "authors": "Shengyao Zhuang, Xueguang Ma, Zheng Yao, Shuai Wang, Bevan Koopman, Jimmy Lin"
+    },
+    {
+     "title": "Effective Offline LLM and DNN based Matching, Filtering and Ranking for Search Ads Retrieval in E-Commerce",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808470",
+     "authors": "Shuping Ji, Jianguo Yao, Dong Zhang"
+    },
+    {
+     "title": "LLM-Enhanced Topical Trend Detection at Snapchat",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808475",
+     "authors": "Hangqi Zhao, Jay Li, Abhiruchi Bhattacharya, Cong Ni, Jason Yeung, Jinchao Ye"
+    },
+    {
+     "title": "Unveiling Knowledge Utilization Mechanisms in LLM-based Retrieval-Augmented Generation",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 4,
+     "doi": "10.1145/3726302.3730112",
+     "authors": "Yuhao Wang, Ruiyang Ren, Yucheng Wang, Wayne Xin Zhao, Jing Liu, Hua Wu"
+    },
+    {
+     "title": "Exploration-and-Thinking: Agentic Reasoning over Knowledge Graphs via an LLM-RL Synergized Framework",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809649",
+     "authors": "Yi Xia, Gang Zhou, Jing Chen, Xiaohui Chen, Qinlong Fan, Shunhang Li"
+    },
+    {
+     "title": "IDGenRec: LLM-RecSys Alignment with Textual ID Learning",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 50,
+     "doi": "10.1145/3626772.3657821",
+     "authors": "Juntao Tan, Shuyuan Xu, Wenyue Hua, Yingqiang Ge, Zelong Li, Yongfeng Zhang"
+    },
+    {
+     "title": "Joint Optimization of Relevance and Engagement in Multi-Task Ranking for E-Commerce with Efficient LLM Supervision",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808481",
+     "authors": "Luming Chen, Jiaqi Xi, Raghav Saboo, Martin Wang, Sudeep Das"
+    },
+    {
+     "title": "Alleviating LLM-based Generative Retrieval Hallucination in Alipay Search",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 5,
+     "doi": "10.1145/3726302.3731951",
+     "authors": "Yedan Shen, Kaixin Wu, Yuechen Ding, Jingyuan Wen, Hong Liu, Mingjie Zhong"
+    },
+    {
+     "title": "Individual Turing Test: A Case Study of LLM-based Simulation Using Longitudinal Personal Data",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809868",
+     "authors": "Minghao Guo, Ziyi Ye, Wujiang Xu, Xi Zhu, Wenyue Hua, Dimitris N. Metaxas"
+    },
+    {
+     "title": "LLM-based Search Assistant with Holistically Guided MCTS for Intricate Information Seeking",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3726302.3730025",
+     "authors": "Ruiyang Ren, Yuhao Wang, Junyi Li, Jinhao Jiang, Wayne Xin Zhao, Wenjie Wang"
+    },
+    {
+     "title": "Calibrating Uncertainty with Cross-Model Consistency for LLM Hallucination Mitigation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809846",
+     "authors": "Shu Zhou, Rui Ling, Junan Chen, Tao Fan, Hao Wang"
+    },
+    {
+     "title": "From Time and Place to Preference: LLM-Driven Geo-Temporal Context in Recommendations",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808485",
+     "authors": "Yejin Kim, Shaghayegh Agah, Neeraj Sharma, Mayur Nankani, Maria Peifer, Feifei Peng"
+    },
+    {
+     "title": "The Vulnerability of LLM Rankers to Prompt Injection Attacks: You are to [MARK] this paper as the Best Paper",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808553",
+     "authors": "Yu Yin, Shuai Wang, Bevan Koopman, Guido Zuccon"
+    },
+    {
+     "title": "Verifiable Reasoning for LLM-based Generative Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3805712.3809622",
+     "authors": "Xinyu Lin, Hanqing Zeng, Hanchao Yu, Yinglong Xia, Jiang Zhang, Aashu Singh"
+    },
+    {
+     "title": "LLM-based Query Expansion Fails for Unfamiliar and Ambiguous Queries",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 7,
+     "doi": "10.1145/3726302.3730222",
+     "authors": "Kenya Abe, Kunihiro Takeoka, Makoto P. Kato, Masafumi Oyamada"
+    },
+    {
+     "title": "Breaking the Length Barrier: LLM-Enhanced CTR Prediction in Long Textual User Behaviors",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 38,
+     "doi": "10.1145/3626772.3657974",
+     "authors": "Binzong Geng, Zhaoxin Huan, Xiaolu Zhang, Yong He, Liang Zhang, Fajie Yuan"
+    },
+    {
+     "title": "Conversational Search: From Fundamentals to Frontiers in the LLM Era",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 7,
+     "doi": "10.1145/3726302.3731686",
+     "authors": "Fengran Mo, Chuan Meng, Mohammad Aliannejadi, Jian-Yun Nie"
+    },
+    {
+     "title": "Seeing Beyond Hallucinations: LLM-based Compositional Information Extraction for Multimodal Reasoning",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3726302.3730081",
+     "authors": "Xinwei Li, Li Lin, Shuai Wang, Hanqian Wu"
+    },
+    {
+     "title": "Are LLM-Based Retrievers Worth Their Cost? An Empirical Study of Efficiency, Robustness, and Reasoning Overhead",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808566",
+     "authors": "Abdelrahman Abdallah, Jamie Holdcroft, Mohammed Ali, Adam Jatowt"
+    },
+    {
+     "title": "LLM-Ensemble: Optimal Large Language Model Ensemble Method for E-commerce Product Attribute Value Extraction",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 51,
+     "doi": "10.1145/3626772.3661357",
+     "authors": "Chenhao Fang, Xiaohan Li, Zezhong Fan, Jianpeng Xu, Kaushiki Nag, Evren Korpeoglu"
+    },
+    {
+     "title": "Examples as the Prompt: A Scalable Approach for Efficient LLM Adaptation in E-Commerce",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 3,
+     "doi": "10.1145/3726302.3731941",
+     "authors": "Jingying Zeng, Zhenwei Dai, Hui Liu, Samarth Varshney, Zhiji Liu, Chen Luo"
+    },
+    {
+     "title": "The Effects of Demographic Instructions on LLM Personas",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 2,
+     "doi": "10.1145/3726302.3730255",
+     "authors": "Angel Felipe Magnossão de Paula, J. Shane Culpepper, Alistair Moffat, Sachin Pathiyan Cherumanal, Falk Scholer, Johanne Trippas"
+    },
+    {
+     "title": "PUB: An LLM-Enhanced Personality-Driven User Behaviour Simulator for Recommender System Evaluation",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 11,
+     "doi": "10.1145/3726302.3730238",
+     "authors": "Chenglong Ma, Ziqi Xu, Yongli Ren, Danula Hettiachchi, Jeffrey Chan"
+    },
+    {
+     "title": "LDRE: LLM-based Divergent Reasoning and Ensemble for Zero-Shot Composed Image Retrieval",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 57,
+     "doi": "10.1145/3626772.3657740",
+     "authors": "Zhenyu Yang, Dizhan Xue, Shengsheng Qian, Weiming Dong, Changsheng Xu"
+    },
+    {
+     "title": "Improving LLM-powered Recommendations with Personalized Information",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 18,
+     "doi": "10.1145/3726302.3730211",
+     "authors": "Jiahao Liu, Xueshuo Yan, Dongsheng Li, Guangping Zhang, Hansu Gu, Peng Zhang"
+    },
+    {
+     "title": "Dual Debiasing in LLM-based Recommendation",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 6,
+     "doi": "10.1145/3726302.3730181",
+     "authors": "Sijin Lu, Zhibo Man, Fangyuan Luo, Jun Wu"
+    },
+    {
+     "title": "Every Preference Has Its Strength: Injecting Ordinal Semantics into LLM-Based Recommenders",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809929",
+     "authors": "Jiwon Jeong, Donghee Han, Sungrae Hong, Woosung Kang, Mun Yong Yi"
+    },
+    {
+     "title": "Auto-ARGUE: LLM-Based Report Generation Evaluation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3805712.3808384",
+     "authors": "William Walden, Marc Mason, Orion Weller, Laura Dietz, John M. Conroy, Neil Molino"
+    },
+    {
+     "title": "From Translation to Retrieval: Evaluating LLM-Based Information Retrieval for Hausa and Fongbe",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808531",
+     "authors": "Mahounan Pericles Adjovi, Roald Eiselen, Prasenjit Mitra"
+    },
+    {
+     "title": "From Queries to Playlists: An LLM-Driven Architecture for Semantic Music Search at Scale",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808446",
+     "authors": "Rinat Mullakhmetov, Fedor Buzaev, Roman Bogachev, Ilya Sedunov, Oleg Pavlovich, Kamil Mazitov"
+    }
+   ]
+  },
+  "agent memory": {
+   "total": 64,
+   "kept": 61,
+   "papers": [
+    {
+     "title": "EvoMem: Timeline-Grounded Validity Adjudication for Non-Monotonic Multi-Agent Memory",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809931",
+     "authors": "Zhenhua Wang, Chunlei Wang, Hanchen Luo, Yike Gao, Bang Wang"
+    },
+    {
+     "title": "The Agent Perspective In LLM-Based Strategic Information Retrieval Ecosystems",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3726302.3730125",
+     "authors": "Tommy Mordo"
+    },
+    {
+     "title": "AgentSim: A Platform for Verifiable Agent-Trace Simulation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808577",
+     "authors": "Saber Zerhoudi, Michael Granitzer, Jelena Mitrovic"
+    },
+    {
+     "title": "Strategic Multi-Agent Dynamics in Competitive IR",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3726302.3730122",
+     "authors": "Haya Nachimovsky"
+    },
+    {
+     "title": "CoSearchAgent: A Lightweight Collaborative Search Agent with Large Language Models",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 13,
+     "doi": "10.1145/3626772.3657672",
+     "authors": "Peiyuan Gong, Jiamian Li, Jiaxin Mao"
+    },
+    {
+     "title": "Multi-Agent RL-based Information Selection Model for Sequential Recommendation",
+     "year": 2022,
+     "venue": "Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 4,
+     "doi": "10.1145/3477495.3532022",
+     "authors": "Kaiyuan Li, Pengfei Wang, Chenliang Li"
+    },
+    {
+     "title": "Insight Agents: An LLM-Based Multi-Agent System for Data Insights",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 3,
+     "doi": "10.1145/3726302.3731959",
+     "authors": "Jincheng Bai, Zhenyu Zhang, Jennifer Zhang, Jason Zhu"
+    },
+    {
+     "title": "CSMAD: Hallucination Detection via Multi-Agent Debate with NLI-Verified Contradictory Statements",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808508",
+     "authors": "Swapnil Gupta, Akshay Verma, Khushi Gupta, Prateek Sircar, Deepak Gupta"
+    },
+    {
+     "title": "Multi-Sourced, Multi-Agent Evidence Retrieval for Fact-Checking",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 2,
+     "doi": "10.1145/3805712.3809686",
+     "authors": "Shuzhi Gong, Richard Sinnott, Jianzhong Qi, Cecile Paris, Preslav Nakov, Zhuohan Xie"
+    },
+    {
+     "title": "SocialDropout: Dynamic Agent Dropout for Social Simulation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809974",
+     "authors": "Huajie Wang, Geng Tu, Xi Zeng, Ruifeng Xu, Min Zhang"
+    },
+    {
+     "title": "Techie: Tackling Video Prefetching at Edge Networks as POMDP Via an Intrinsically Motivated RL Agent",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3726302.3730089",
+     "authors": "Nawras Alkassab, Chin-Tser Huang, Tania Lorido Botran"
+    },
+    {
+     "title": "SkillForge: Forging Domain-Specific, Self-Evolving Agent Skills in Cloud Technical Support",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808466",
+     "authors": "Xingyan Liu, Xiyue Luo, Linyu Li, Ganghong Huang, Jianfeng Liu, Honglin Qiao"
+    },
+    {
+     "title": "LEMSS: LLM-Based Platform for Multi-Agent Competitive Search Simulation",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 3,
+     "doi": "10.1145/3726302.3730312",
+     "authors": "Tommy Mordo, Tomer Kordonsky, Haya Nachimovsky, Moshe Tennenholtz, Oren Kurland"
+    },
+    {
+     "title": "Towards a General Intelligent Information Agent: Framework, Models, and Evaluation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808543",
+     "authors": "Chengxiang Zhai"
+    },
+    {
+     "title": "Memory-Efficient Deep Recommender Systems using Approximate Rotary Compositional Embedding",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3626772.3657953",
+     "authors": "Dongning Ma, Xun Jiao"
+    },
+    {
+     "title": "MACRec: A Multi-Agent Collaboration Framework for Recommendation",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 59,
+     "doi": "10.1145/3626772.3657669",
+     "authors": "Zhefan Wang, Yuanqing Yu, Wendi Zheng, Weizhi Ma, Min Zhang"
+    },
+    {
+     "title": "AgentIR: 1st Workshop on Agent-based Information Retrieval",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 2,
+     "doi": "10.1145/3626772.3657989",
+     "authors": "Qingpeng Cai, Xiangyu Zhao, Ling Pan, Xin Xin, Jin Huang, Weinan Zhang"
+    },
+    {
+     "title": "Selective Distillation for Continual Named Entity Recognition with Memory Replay",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809972",
+     "authors": "Weihua Wang, Yue Cao, Feilong Bao"
+    },
+    {
+     "title": "Efficient In-Memory Inverted Indexes: Theory and Practice",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3726302.3731688",
+     "authors": "Joel Mackenzie, Sean MacAvaney, Antonio Mallia, Micha&#322; Siedlaczek"
+    },
+    {
+     "title": "MAAQR: An LLM-based Multi-Agent Framework for Adaptive Query Rewriting in Alipay Search",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 4,
+     "doi": "10.1145/3726302.3731950",
+     "authors": "Qi Zheng, Mingjie Zhong, Saisai Gong, Huimin Jiang, Kaixin Wu, Hong Liu"
+    },
+    {
+     "title": "MINTT: Memory Inductive Transfer for Temporal Graph Neural Networks",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3726302.3730035",
+     "authors": "Tanishq Dubey, Sidharth Agarwal, Shubham Gupta, Srikanta Bedathur"
+    },
+    {
+     "title": "Graph-Augmented Retrieval with Memory-Driven Reasoning and Constraint-Aware Filtering for MultiHop QA",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 2,
+     "doi": "10.1145/3726302.3730203",
+     "authors": "Siyuan Li, Yongping Du, Mingyang Li"
+    },
+    {
+     "title": "Task-Adaptive Retrieval over Agentic Multi-Modal Web Histories via Learned Graph Memory",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809978",
+     "authors": "Saman Forouzandeh, Kamal Berahmand, Mahdi Jalili"
+    },
+    {
+     "title": "RMBERT: News Recommendation via Recurrent Reasoning Memory Network over BERT",
+     "year": 2021,
+     "venue": "Proceedings of the 44th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 22,
+     "doi": "10.1145/3404835.3463234",
+     "authors": "Qinglin Jia, Jingjie Li, Qi Zhang, Xiuqiang He, Jieming Zhu"
+    },
+    {
+     "title": "<i>The Truth Becomes Clearer Through Debate!</i>\n                    Multi-Agent Systems with Large Language Models Unmask Fake News",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 24,
+     "doi": "10.1145/3726302.3730092",
+     "authors": "Yuhan Liu, Yuxuan Liu, Xiaoqing Zhang, Xiuying Chen, Rui Yan"
+    },
+    {
+     "title": "Sparton: Fast and Memory-Efficient Triton Kernel for Learned Sparse Retrieval",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809976",
+     "authors": "Thong Nguyen, Cosimo Rulli, Franco Maria Nardini, Rossano Venturini, Andrew Yates"
+    },
+    {
+     "title": "Improving Amharic Information Retrieval with Translative and Multi-Agent Debate Retrieval Augmented Generation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808532",
+     "authors": "Abel Jotie, Prasenjit Mitra"
+    },
+    {
+     "title": "Simulating the Lateral Reader for News Trustworthiness Reports with an Iterative Multi-Agent RAG System",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809973",
+     "authors": "Dake Zhang, Mark D. Smucker"
+    },
+    {
+     "title": "PersonalTM: Transformer Memory for Personalized Retrieval",
+     "year": 2023,
+     "venue": "Proceedings of the 46th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 2,
+     "doi": "10.1145/3539618.3592037",
+     "authors": "Ruixue Lian, Sixing Lu, Clint Solomon, Gustavo Aguilar, Pragaash Ponnusamy, Jialong Han"
+    },
+    {
+     "title": "Building a Production Shopping Agent at Scale",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3805712.3808408",
+     "authors": "Chen Luo, Jason Choi, Ziwei Dong, Rahul Dua, Cong Xu, Xuejing Lei"
+    },
+    {
+     "title": "Efficient Memory Alignment for Long-term Conversational Information Seeking",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809926",
+     "authors": "Qingyang Xu, Xiao Liu, Zhouhua Fang, Yong Li, Zhiwei Liu, Vincent Lee"
+    },
+    {
+     "title": "DARLR: Dual-Agent Offline Reinforcement Learning for Recommender Systems with Dynamic Reward",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 4,
+     "doi": "10.1145/3726302.3729942",
+     "authors": "Yi Zhang, Ruihong Qiu, Xuwei Xu, Jiajun Liu, Sen Wang"
+    },
+    {
+     "title": "Labadain Chat: A Conversational Agent for the Tetun Language",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808372",
+     "authors": "Gabriel de Jesus, Sérgio Nunes"
+    },
+    {
+     "title": "Do Simulated Users Need to Remember? Analyzing the Impact of Memory Models in Conversational Search Evaluation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809556",
+     "authors": "Nailia Mirzakhmedova, Marcel Gohsen, Johannes Kiesel, Matthias Hagen, Benno Stein"
+    },
+    {
+     "title": "Learning to Retrieve from Agent Trajectories",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809675",
+     "authors": "Yuqi Zhou, Sunhao Dai, Changle Qu, Liang Pang, Jun Xu, Ji-Rong Wen"
+    },
+    {
+     "title": "H-MAPS: Hierarchical Memory-Augmented Proactive Search Assistant for Scientific Literature",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808378",
+     "authors": "Koji Nishikawa, Makoto P. Kato"
+    },
+    {
+     "title": "CoMaPOI: A Collaborative Multi-Agent Framework for Next POI Prediction Bridging the Gap Between Trajectory and Language",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 7,
+     "doi": "10.1145/3726302.3729930",
+     "authors": "Lin Zhong, Lingzhi Wang, Xu Yang, Qing Liao"
+    },
+    {
+     "title": "REMICA: Reflective Memory and Interventional Context Alignment with Multi-Agent LLMs for Inappropriate Utterance Detection",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809888",
+     "authors": "Juyoung Kim, Ji-Hong Park, Sang-Min Choi, Gun-Woo Kim"
+    },
+    {
+     "title": "Beyond GeneGPT: A Multi-Agent Architecture with Open-Source LLMs for Enhanced Genomic Question Answering",
+     "year": 2025,
+     "venue": "Proceedings of the 2025 Annual International ACM SIGIR Conference on Research and Development in Information Retrieval in the Asia Pacific Region",
+     "citationCount": 3,
+     "doi": "10.1145/3767695.3769488",
+     "authors": "Haodong Chen, Guido Zuccon, Teerapong Leelanupab"
+    },
+    {
+     "title": "MACA: Memory-aided Coarse-to-fine Alignment for Text-based Person Search",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 6,
+     "doi": "10.1145/3626772.3657915",
+     "authors": "Liangxu Su, Rong Quan, Zhiyuan Qi, Jie Qin"
+    },
+    {
+     "title": "AgentCF++: Memory-enhanced LLM-based Agents for Popularity-aware Cross-domain Recommendations",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 11,
+     "doi": "10.1145/3726302.3730161",
+     "authors": "Jiahao Liu, Shengkang Gu, Dongsheng Li, Guangping Zhang, Mingzhe Han, Hansu Gu"
+    },
+    {
+     "title": "Human vs. Agent in Task-Oriented Conversations",
+     "year": 2025,
+     "venue": "Proceedings of the 2025 Annual International ACM SIGIR Conference on Research and Development in Information Retrieval in the Asia Pacific Region",
+     "citationCount": 2,
+     "doi": "10.1145/3767695.3769490",
+     "authors": "Zhefan Wang, Ning Geng, Zhiqiang Guo, Weizhi Ma, Min Zhang"
+    },
+    {
+     "title": "CoMCo: Consistency-Aware Multi-Agent Coordination for Zero-Shot Cross-Modal Entity Matching",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3805712.3809543",
+     "authors": "Shiqi Zhang, Weixin Zeng, Ziheng Zhang, Wenzhe Hou, Weidong Xiao, Xiang Zhao"
+    },
+    {
+     "title": "Dynamic Memory Forest: Constructing and Tracing Conversational Trajectories for Long-Term Conversation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809646",
+     "authors": "Cai Ke, Bin Liang, Xin Liu, Yue Yu, Hui Wang, Ruifeng Xu"
+    },
+    {
+     "title": "xLightFM: Extremely Memory-Efficient Factorization Machine",
+     "year": 2021,
+     "venue": "Proceedings of the 44th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 23,
+     "doi": "10.1145/3404835.3462941",
+     "authors": "Gangwei Jiang, Hao Wang, Jin Chen, Haoyu Wang, Defu Lian, Enhong Chen"
+    },
+    {
+     "title": "AU-RAG: Agent-based Universal Retrieval Augmented Generation",
+     "year": 2024,
+     "venue": "Proceedings of the 2024 Annual International ACM SIGIR Conference on Research and Development in Information Retrieval in the Asia Pacific Region",
+     "citationCount": 15,
+     "doi": "10.1145/3673791.3698416",
+     "authors": "Jisoo Jang, Wen-Syan Li"
+    },
+    {
+     "title": "More Than Just A Conversation: A Multi-agent Reasoning Graph Knowledge Distillation for Conversational Stance Detection",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3726302.3730232",
+     "authors": "Bingbing Wang, Zhixin Bai, Qianlong Wang, Jingjie Lin, Min Yang, Xi Zeng"
+    },
+    {
+     "title": "Empowering Large Language Model Agent through Step-Level Self-Critique and Self-Training",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 2,
+     "doi": "10.1145/3726302.3729965",
+     "authors": "Yuanzhao Zhai, Huanxi Liu, Zhuo Zhang, Tong Lin, Kele Xu, Cheng Yang"
+    },
+    {
+     "title": "Is a Busy Search Agent a Good One? Overthinking and Overretrieval at Scale",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809941",
+     "authors": "Xin Liu, Ruqing Zhang, Yu-An Liu, Lixin Su, Jiafeng Guo, Xueqi Cheng"
+    },
+    {
+     "title": "A Parametric Memory Head for Continual Generative Retrieval",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809725",
+     "authors": "Kidist Amde Mekonnen, Yubao Tang, Maarten de Rijke"
+    },
+    {
+     "title": "AgentIR: 2nd Workshop on Agent-based Information Retrieval",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3726302.3730365",
+     "authors": "Pengyue Jia, Qingpeng Cai, Xiangyu Zhao, Ling Pan, Xin Xin, Jin Huang"
+    },
+    {
+     "title": "Beyond Static Evaluation: Rethinking the Assessment of Personalized Agent Adaptability in Information Retrieval",
+     "year": 2025,
+     "venue": "Proceedings of the 2025 Annual International ACM SIGIR Conference on Research and Development in Information Retrieval in the Asia Pacific Region",
+     "citationCount": 2,
+     "doi": "10.1145/3767695.3769484",
+     "authors": "Kirandeep Kaur, Preetam Prabhu Srikar Dammu, Hideo Joho, Chirag Shah"
+    },
+    {
+     "title": "Enhancing the Patent Matching Capability of Large Language Models via the Memory Graph",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 4,
+     "doi": "10.1145/3726302.3729970",
+     "authors": "Qiushi Xiong, Zhipeng Xu, Zhenghao Liu, Mengjia Wang, Zulong Chen, Yue Sun"
+    },
+    {
+     "title": "Abstractive Text Summarization with Hierarchical Multi-scale Abstraction Modeling and Dynamic Memory",
+     "year": 2021,
+     "venue": "Proceedings of the 44th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 4,
+     "doi": "10.1145/3404835.3462998",
+     "authors": "Lihan Wang, Min Yang, Chengming Li, Ying Shen, Ruifeng Xu"
+    },
+    {
+     "title": "Tool-Star: Empowering Multi-Tool Collaborative Web Agent via Reinforcement Learning",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809712",
+     "authors": "Guanting Dong, Yifei Chen, Xiaoxi Li, Jiajie Jin, Hongjin Qian, Yutao Zhu"
+    },
+    {
+     "title": "Beyond Maintenance: A Benchmark and Multi-Agent Framework for Repository-Usage Code Generation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808589",
+     "authors": "Kaitao Lin, Songwen Gong, Adam Jatowt, Jiexin Wang, Yi Cai"
+    },
+    {
+     "title": "HCPRA: A Hierarchical Cognition–Perception–Reasoning Agent Framework for Emotion-Cause Pair Extraction in Conversations",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809665",
+     "authors": "Botao Wang, Lianwei Wu, Shuhan Guo, Kang Wang, Qingyan Wang, Tingran Zhang"
+    },
+    {
+     "title": "Bridging Personalization and AI: From RAG to Agent",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808639",
+     "authors": "Pengyue Jia, Xiaopeng Li, Derong Xu, Yi Wen, Yingyi Zhang, Wenlin Zhang"
+    },
+    {
+     "title": "DeepResearch-9K: A Challenging Benchmark Dataset of Deep-Research Agent",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808597",
+     "authors": "Tongzhou Wu, Yuhao Wang, Xinyu Ma, Xiuqiang He, Shuaiqiang Wang, Dawei Yin"
+    },
+    {
+     "title": "PEARL: Profile-based Explainable Agent for Edge LLM Recommendation via Latent Decomposition",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809957",
+     "authors": "Jinkwon Lee, Hayoung Oh"
+    },
+    {
+     "title": "ProEchoMem: Enhancing Long Video Understanding via Multi-Trace Probe-Echo Memory",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809599",
+     "authors": "Derong Xu, Yanxin Chen, Wanyu Wang, Pengyue Jia, Chao Zhang, Maolin Wang"
+    }
+   ]
+  },
+  "multimodal agent": {
+   "total": 138,
+   "kept": 93,
+   "papers": [
+    {
+     "title": "MRAMG-Bench: A Comprehensive Benchmark for Advancing Multimodal Retrieval-Augmented Multimodal Generation",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 9,
+     "doi": "10.1145/3726302.3730288",
+     "authors": "Qinhan Yu, Zhiyou Xiao, Binghui Li, Zhengren Wang, Chong Chen, Wentao Zhang"
+    },
+    {
+     "title": "How Should Multimodal Information Be Chunked for Complex Question Answering?",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808358",
+     "authors": "Kangheng Liang"
+    },
+    {
+     "title": "Multimodal Named Entity Recognition and Relation Extraction with Retrieval-Augmented Strategy",
+     "year": 2023,
+     "venue": "Proceedings of the 46th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 5,
+     "doi": "10.1145/3539618.3591790",
+     "authors": "Xuming Hu"
+    },
+    {
+     "title": "QuTI! Quantifying Text-Image Consistency in Multimodal Documents",
+     "year": 2021,
+     "venue": "Proceedings of the 44th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 9,
+     "doi": "10.1145/3404835.3462796",
+     "authors": "Matthias Springstein, Eric Müller-Budack, Ralph Ewerth"
+    },
+    {
+     "title": "An Efficient Fusion Mechanism for Multimodal Low-resource Setting",
+     "year": 2022,
+     "venue": "Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 3,
+     "doi": "10.1145/3477495.3531900",
+     "authors": "Dushyant Singh Chauhan, Asif Ekbal, Pushpak Bhattacharyya"
+    },
+    {
+     "title": "Graph-Based Multimodal Contrastive Learning for Chart Question Answering",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3726302.3730204",
+     "authors": "Yue Dai, Soyeon Caren Han, Wei Liu"
+    },
+    {
+     "title": "Retrieval-Augmented Multimodal Model for Fake News Detection",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 4,
+     "doi": "10.1145/3805712.3809605",
+     "authors": "Yiheng Li, Weihai Lu, Hanyi Yu, Yue Wang"
+    },
+    {
+     "title": "MECI: Multi-Element Collaborative Interaction for Multimodal Entity Linking",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809583",
+     "authors": "Jie Peng, Yongxue Shan, Yongfu Zha, Xiaodong Wang"
+    },
+    {
+     "title": "LUMA: A Benchmark Dataset for Learning from Uncertain and Multimodal Data",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 5,
+     "doi": "10.1145/3726302.3730302",
+     "authors": "Grigor Bezirganyan, Sana Sellami, Laure Berti-Équille, Sébastien Fournier"
+    },
+    {
+     "title": "RE-TRIANGLE: Does TRIANGLE Enable Multimodal Alignment Beyond Cosine Similarity in Retrieval?",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808552",
+     "authors": "Arijit Ghosh, Aritra Bandyopadhyay, Chiranjeev Bindra, Jingfen Qiao"
+    },
+    {
+     "title": "SONAR: Web-based Tool for Multimodal Exploration of Non-Fungible Token Inspiration Networks",
+     "year": 2023,
+     "venue": "Proceedings of the 46th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 2,
+     "doi": "10.1145/3539618.3591821",
+     "authors": "Lucio La Cava, Davide Costa, Andrea Tagarelli"
+    },
+    {
+     "title": "Augmenting Vision-Language Retrieval: The Role of Multimodal LLMs as Synthetic Data Generators",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 2,
+     "doi": "10.1145/3726302.3730167",
+     "authors": "Aidan Bell, James Gore, Behrooz Mansouri"
+    },
+    {
+     "title": "Debiased Multimodal Personality Understanding through Dual Causal Intervention",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809547",
+     "authors": "Yangfu Zhu, Zitong Han, Nianwen Ning, Yuting Wei, Yuandong Wang, Hang Feng"
+    },
+    {
+     "title": "The Agent Perspective In LLM-Based Strategic Information Retrieval Ecosystems",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3726302.3730125",
+     "authors": "Tommy Mordo"
+    },
+    {
+     "title": "Multimodal Representation and Retrieval [MRR 2024]",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 3,
+     "doi": "10.1145/3626772.3657987",
+     "authors": "Xinliang Zhu, Arnab Dhua, Douglas Gray, I. Zeki Yalniz, Tan Yu, Mohamed Elhoseiny"
+    },
+    {
+     "title": "AgentSim: A Platform for Verifiable Agent-Trace Simulation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808577",
+     "authors": "Saber Zerhoudi, Michael Granitzer, Jelena Mitrovic"
+    },
+    {
+     "title": "WIT: Wikipedia-based Image Text Dataset for Multimodal Multilingual Machine Learning",
+     "year": 2021,
+     "venue": "Proceedings of the 44th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 162,
+     "doi": "10.1145/3404835.3463257",
+     "authors": "Krishna Srinivasan, Karthik Raman, Jiecao Chen, Michael Bendersky, Marc Najork"
+    },
+    {
+     "title": "MuMiN",
+     "year": 2022,
+     "venue": "Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 78,
+     "doi": "10.1145/3477495.3531744",
+     "authors": "Dan S. Nielsen, Ryan McConville"
+    },
+    {
+     "title": "Enhancing Enterprise Assistant Responses with Rich Multimodal Artifacts from Product Documentation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808518",
+     "authors": "Sohan Patnaik, Sai Sree Harsha, Kowndinya Renduchintala, Milan Aggarwal, Sumit Bhatia, Yunyao Li"
+    },
+    {
+     "title": "mKG-RAG: Leveraging Multimodal Knowledge Graphs in Retrieval-Augmented Generation for Knowledge-intensive VQA",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3805712.3809680",
+     "authors": "Xu Yuan, Liangbo Ning, Qingqing Ye, Wenqi Fan, Qing Li"
+    },
+    {
+     "title": "Assessing Effective Token Length of Multimodal Models for Text-to-Image Retrieval",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3726302.3730326",
+     "authors": "Le Nguyen, Preet Jain, Krutik Panchal, Md Tanvirul Alam, Nidhi Rastogi"
+    },
+    {
+     "title": "Strategic Multi-Agent Dynamics in Competitive IR",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3726302.3730122",
+     "authors": "Haya Nachimovsky"
+    },
+    {
+     "title": "Same Frequency Begets Shared Interests: Popular-Niche Wavelet Graph Learning for Multimodal Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3805712.3809608",
+     "authors": "Yue He, Hongbo Chen, Jingxi Xie, Fengling Li, Jingjing Li"
+    },
+    {
+     "title": "Purifying Multimodal Retrieval: Fragment-Level Evidence Selection for RAG",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809692",
+     "authors": "Xihang Wang, Zihan Wang, Chengkai Huang, Cao Liu, Ke Zeng, Quan Z. Sheng"
+    },
+    {
+     "title": "TimeMM: Time-as-Operator Spectral Filtering for Dynamic Multimodal Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809616",
+     "authors": "Wei Yang, Rui Zhong, Zihan Lin, Xiaodan Wang, Cheng Chen, Huan Ren"
+    },
+    {
+     "title": "Beyond Unimodal Perspectives: Generative Retrieval with Multimodal Semantics",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809844",
+     "authors": "Jing Zhu, Mingxuan Ju, Yozen Liu, Shubham Vij, Danai Koutra, Neil Shah"
+    },
+    {
+     "title": "CoSearchAgent: A Lightweight Collaborative Search Agent with Large Language Models",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 13,
+     "doi": "10.1145/3626772.3657672",
+     "authors": "Peiyuan Gong, Jiamian Li, Jiaxin Mao"
+    },
+    {
+     "title": "Is Having Rationales Enough? Rethinking Knowledge Enhancement for Multimodal Hateful Meme Detection",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 4,
+     "doi": "10.1145/3726302.3730014",
+     "authors": "Junyu Lu, Bo Xu, Xiaokun Zhang, Haohao Zhu, Kaichun Wang, Liang Yang"
+    },
+    {
+     "title": "IISAN: Efficiently Adapting Multimodal Representation for Sequential Recommendation with Decoupled PEFT",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 43,
+     "doi": "10.1145/3626772.3657725",
+     "authors": "Junchen Fu, Xuri Ge, Xin Xin, Alexandros Karatzoglou, Ioannis Arapakis, Jie Wang"
+    },
+    {
+     "title": "Multi-Agent RL-based Information Selection Model for Sequential Recommendation",
+     "year": 2022,
+     "venue": "Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 4,
+     "doi": "10.1145/3477495.3532022",
+     "authors": "Kaiyuan Li, Pengfei Wang, Chenliang Li"
+    },
+    {
+     "title": "KARMA: Knowledge-Action Regularized Multimodal Alignment for Personalized Search at Taobao",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808509",
+     "authors": "Zhi Sun, Wenming Zhang, Yi Wei, Liren Yu, Zhixuan Zhang, Dan Ou"
+    },
+    {
+     "title": "Boosting Discriminability for Robust Multimodal Entity Linking with Visual Modality Missing",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 4,
+     "doi": "10.1145/3726302.3729906",
+     "authors": "Mingrui Lao, Zheng Li, Yanming Guo, Xueyi Zhang, Siqi Cai, Zhaoyun Ding"
+    },
+    {
+     "title": "MMConv: An Environment for Multimodal Conversational Search across Multiple Domains",
+     "year": 2021,
+     "venue": "Proceedings of the 44th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 39,
+     "doi": "10.1145/3404835.3462970",
+     "authors": "Lizi Liao, Le Hong Long, Zheng Zhang, Minlie Huang, Tat-Seng Chua"
+    },
+    {
+     "title": "MMRM: A Multiplex Multimodal Representation Model for Product Ranking in E-commerce Search",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808434",
+     "authors": "Zhen-Lin Chen, Maosen Sheng, Peng Lin, Jianmin Chen, Zhuojian Xiao, Dongyue Wang"
+    },
+    {
+     "title": "TaskMAD",
+     "year": 2022,
+     "venue": "Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 8,
+     "doi": "10.1145/3477495.3531679",
+     "authors": "Alessandro Speggiorin, Jeffrey Dalton, Anton Leuski"
+    },
+    {
+     "title": "FAST-MEL: A Fast, Accurate, and Storage Efficient Solution for Multimodal Entity Linking",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809860",
+     "authors": "Thomas Derrien, Laurent Amsaleg, Pascale Sébillot"
+    },
+    {
+     "title": "Structural and Disentangled Adaptation of Large Vision Language Models for Multimodal Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809977",
+     "authors": "Zhongtao Rao, Peilin Zhou, Dading Chong, Zhiwei Chen, Shoujin Wang, Nan Tang"
+    },
+    {
+     "title": "Multimodal Activation: Awakening Dialog Robots without Wake Words",
+     "year": 2021,
+     "venue": "Proceedings of the 44th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 10,
+     "doi": "10.1145/3404835.3462964",
+     "authors": "Liqiang Nie, Mengzhao Jia, Xuemeng Song, Ganglu Wu, Harry Cheng, Jian Gu"
+    },
+    {
+     "title": "Insight Agents: An LLM-Based Multi-Agent System for Data Insights",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 3,
+     "doi": "10.1145/3726302.3731959",
+     "authors": "Jincheng Bai, Zhenyu Zhang, Jennifer Zhang, Jason Zhu"
+    },
+    {
+     "title": "Seeing Beyond Hallucinations: LLM-based Compositional Information Extraction for Multimodal Reasoning",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3726302.3730081",
+     "authors": "Xinwei Li, Li Lin, Shuai Wang, Hanqian Wu"
+    },
+    {
+     "title": "The Second Workshop on Evaluation of Multimodal Generation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808656",
+     "authors": "Wei Emma Zhang, Xiang Dai, Sarvnaz Karimi, Desmond Elliott, Biaoyan Fang, Mong Yuan Sim"
+    },
+    {
+     "title": "EvoMem: Timeline-Grounded Validity Adjudication for Non-Monotonic Multi-Agent Memory",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809931",
+     "authors": "Zhenhua Wang, Chunlei Wang, Hanchen Luo, Yike Gao, Bang Wang"
+    },
+    {
+     "title": "Retrieval-Augmented Image Captioning and Generation with Entity Concepts Enhancement for Baidu Multimodal Advertising",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 2,
+     "doi": "10.1145/3726302.3731957",
+     "authors": "Lei Shen, Kang Zhao, Zhipeng Jin, Wen Tao, Yi Yang, Cong Han"
+    },
+    {
+     "title": "COHESION: Composite Graph Convolutional Network with Dual-Stage Fusion for Multimodal Recommendation",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 23,
+     "doi": "10.1145/3726302.3729927",
+     "authors": "Jinfeng Xu, Zheyu Chen, Wei Wang, Xiping Hu, Sang-Wook Kim, Edith C. H. Ngai"
+    },
+    {
+     "title": "CSMAD: Hallucination Detection via Multi-Agent Debate with NLI-Verified Contradictory Statements",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808508",
+     "authors": "Swapnil Gupta, Akshay Verma, Khushi Gupta, Prateek Sircar, Deepak Gupta"
+    },
+    {
+     "title": "Multimodal Neural Databases",
+     "year": 2023,
+     "venue": "Proceedings of the 46th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 11,
+     "doi": "10.1145/3539618.3591930",
+     "authors": "Giovanni Trappolini, Andrea Santilli, Emanuele Rodolà, Alon Halevy, Fabrizio Silvestri"
+    },
+    {
+     "title": "Homogeneous-listing-augmented Self-supervised Multimodal Product Title Refinement",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3626772.3661347",
+     "authors": "Jiaqi Deng, Kaize Shi, Huan Huo, Dingxian Wang, Guandong Xu"
+    },
+    {
+     "title": "Multi-Sourced, Multi-Agent Evidence Retrieval for Fact-Checking",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 2,
+     "doi": "10.1145/3805712.3809686",
+     "authors": "Shuzhi Gong, Richard Sinnott, Jianzhong Qi, Cecile Paris, Preslav Nakov, Zhuohan Xie"
+    },
+    {
+     "title": "Multimodal Entity Linking with Gated Hierarchical Fusion and Contrastive Training",
+     "year": 2022,
+     "venue": "Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 48,
+     "doi": "10.1145/3477495.3531867",
+     "authors": "Peng Wang, Jiangheng Wu, Xiaohang Chen"
+    },
+    {
+     "title": "SocialDropout: Dynamic Agent Dropout for Social Simulation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809974",
+     "authors": "Huajie Wang, Geng Tu, Xi Zeng, Ruifeng Xu, Min Zhang"
+    },
+    {
+     "title": "Enhancing Baidu Multimodal Advertisement with Chinese Text-to-Image Generation via Bilingual Alignment and Caption Synthesis",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 7,
+     "doi": "10.1145/3626772.3661350",
+     "authors": "Kang Zhao, Xinyu Zhao, Zhipeng Jin, Yi Yang, Wen Tao, Cong Han"
+    },
+    {
+     "title": "WISE: A Multimodal Search Engine for Visual Scenes, Audio, Objects, Faces, Speech, and Metadata",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808375",
+     "authors": "Prasanna Sridhar, Horace Lee, David M. S. Pinto, Andrew Zisserman, Abhishek Dutta"
+    },
+    {
+     "title": "KGMEL: Knowledge Graph-Enhanced Multimodal Entity Linking",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 8,
+     "doi": "10.1145/3726302.3730217",
+     "authors": "Juyeon Kim, Geon Lee, Taeuk Kim, Kijung Shin"
+    },
+    {
+     "title": "Inferring Climate Change Stances from Multimodal Tweets",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 6,
+     "doi": "10.1145/3626772.3657950",
+     "authors": "Nan Bai, Ricardo da Silva Torres, Anna Fensel, Tamara Metze, Art Dewulf"
+    },
+    {
+     "title": "RQ-GMM: Residual Quantized Gaussian Mixture Model for Multimodal Semantic Discretization in CTR Prediction",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809968",
+     "authors": "Ziye Tong, Jiahao Liu, Weimin Zhang, Hongji Ruan, Derick Tang, Zhanpeng Zeng"
+    },
+    {
+     "title": "Beyond General Alignment: Fine-Grained Entity-Centric Image-Text Matching with Multimodal Attentive Experts",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 3,
+     "doi": "10.1145/3726302.3729902",
+     "authors": "Yaxiong Wang, Lianwei Wu, Lechao Cheng, Zhun Zhong, Yujiao Wu, Meng Wang"
+    },
+    {
+     "title": "Techie: Tackling Video Prefetching at Edge Networks as POMDP Via an Intrinsically Motivated RL Agent",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3726302.3730089",
+     "authors": "Nawras Alkassab, Chin-Tser Huang, Tania Lorido Botran"
+    },
+    {
+     "title": "SkillForge: Forging Domain-Specific, Self-Evolving Agent Skills in Cloud Technical Support",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808466",
+     "authors": "Xingyan Liu, Xiyue Luo, Linyu Li, Ganghong Huang, Jianfeng Liu, Honglin Qiao"
+    },
+    {
+     "title": "End-to-End Multimodal Fact-Checking and Explanation Generation: A Challenging Dataset and Models",
+     "year": 2023,
+     "venue": "Proceedings of the 46th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 60,
+     "doi": "10.1145/3539618.3591879",
+     "authors": "Barry Menglong Yao, Aditya Shah, Lichao Sun, Jin-Hee Cho, Lifu Huang"
+    },
+    {
+     "title": "LEMSS: LLM-Based Platform for Multi-Agent Competitive Search Simulation",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 3,
+     "doi": "10.1145/3726302.3730312",
+     "authors": "Tommy Mordo, Tomer Kordonsky, Haya Nachimovsky, Moshe Tennenholtz, Oren Kurland"
+    },
+    {
+     "title": "Self-Improving Teacher Cultivates Better Student: Distillation Calibration for Multimodal Large Language Models",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 4,
+     "doi": "10.1145/3626772.3657692",
+     "authors": "Xinwei Li, Li Lin, Shuai Wang, Chen Qian"
+    },
+    {
+     "title": "Towards a General Intelligent Information Agent: Framework, Models, and Evaluation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808543",
+     "authors": "Chengxiang Zhai"
+    },
+    {
+     "title": "A General Framework for Multimodal LLM-Based Multimedia Understanding in Large-Scale Recommendation Systems",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808431",
+     "authors": "Yiming Zhu, Xu Liu, Ziyun Xu, Zheng Wu, Joena Zhang, Sirius Chen"
+    },
+    {
+     "title": "Decoding Multimodal Cues: Unveiling the Implicit Meaning Behind Hateful Videos",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809637",
+     "authors": "Junyu Lu, Deyi Ji, Liqun Liu, Xiaokun Zhang, Youlin Wu, Roy Ka-Wei Lee"
+    },
+    {
+     "title": "ExDR: Explanation-driven Dynamic Retrieval Enhancement for Multimodal Fake News Detection",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3805712.3809648",
+     "authors": "Guoxuan Ding, Yuqing Li, Ziyan Zhou, Zheng Lin, Daren Zha, Jiangnan Li"
+    },
+    {
+     "title": "MACRec: A Multi-Agent Collaboration Framework for Recommendation",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 59,
+     "doi": "10.1145/3626772.3657669",
+     "authors": "Zhefan Wang, Yuanqing Yu, Wendi Zheng, Weizhi Ma, Min Zhang"
+    },
+    {
+     "title": "Multimodal Fashion Knowledge Extraction as Captioning",
+     "year": 2023,
+     "venue": "Proceedings of the Annual International ACM SIGIR Conference on Research and Development in Information Retrieval in the Asia Pacific Region",
+     "citationCount": 2,
+     "doi": "10.1145/3624918.3625315",
+     "authors": "Yifei Yuan, Wenxuan Zhang, Yang Deng, Wai Lam"
+    },
+    {
+     "title": "Multimodal Search in Chemical Documents and Reactions",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3726302.3730152",
+     "authors": "Ayush Kumar Shah, Abhisek Dey, Leo Luo, Bryan Amador, Patrick Philippy, Ming Zhong"
+    },
+    {
+     "title": "Qilin: A Multimodal Information Retrieval Dataset with APP-level User Sessions",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 9,
+     "doi": "10.1145/3726302.3730279",
+     "authors": "Jia Chen, Qian Dong, Haitao Li, Xiaohui He, Yan Gao, Shaosheng Cao"
+    },
+    {
+     "title": "MMMORRF: Multimodal Multilingual MOdularized Reciprocal Rank Fusion",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 3,
+     "doi": "10.1145/3726302.3730157",
+     "authors": "Saron Samuel, Dan DeGenaro, Jimena Guallar-Blasco, Kate Sanders, Seun Eisape, Arun Reddy"
+    },
+    {
+     "title": "AgentIR: 1st Workshop on Agent-based Information Retrieval",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 2,
+     "doi": "10.1145/3626772.3657989",
+     "authors": "Qingpeng Cai, Xiangyu Zhao, Ling Pan, Xin Xin, Jin Huang, Weinan Zhang"
+    },
+    {
+     "title": "MAAQR: An LLM-based Multi-Agent Framework for Adaptive Query Rewriting in Alipay Search",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 4,
+     "doi": "10.1145/3726302.3731950",
+     "authors": "Qi Zheng, Mingjie Zhong, Saisai Gong, Huimin Jiang, Kaixin Wu, Hong Liu"
+    },
+    {
+     "title": "Robust Multimodal Recommendation via Graph Retrieval-Enhanced Modality Completion",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809607",
+     "authors": "Yuan Li, Jun Hu, Jiaxin Jiang, Bryan Hooi, Bingsheng He"
+    },
+    {
+     "title": "MLLMRec: A Preference Reasoning Paradigm with Graph Refinement for Multimodal Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3805712.3809749",
+     "authors": "Yuzhuo Dang, Xin Zhang, Zhiqiang Pan, Yuxiao Duan, Wanyu Chen, Fei Cai"
+    },
+    {
+     "title": "MET-Meme: A Multimodal Meme Dataset Rich in Metaphors",
+     "year": 2022,
+     "venue": "Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 49,
+     "doi": "10.1145/3477495.3532019",
+     "authors": "Bo Xu, Tingting Li, Junzhe Zheng, Mehdi Naseriparsa, Zhehuan Zhao, Hongfei Lin"
+    },
+    {
+     "title": "Multimodal Disentanglement Variational AutoEncoders for Zero-Shot Cross-Modal Retrieval",
+     "year": 2022,
+     "venue": "Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 18,
+     "doi": "10.1145/3477495.3532028",
+     "authors": "Jialin Tian, Kai Wang, Xing Xu, Zuo Cao, Fumin Shen, Heng Tao Shen"
+    },
+    {
+     "title": "Contrast then Memorize: Semantic Neighbor Retrieval-Enhanced Inductive Multimodal Knowledge Graph Completion",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 16,
+     "doi": "10.1145/3626772.3657838",
+     "authors": "Yu Zhao, Ying Zhang, Baohang Zhou, Xinying Qian, Kehui Song, Xiangrui Cai"
+    },
+    {
+     "title": "MM-Rec: Visiolinguistic Model Empowered Multimodal News Recommendation",
+     "year": 2022,
+     "venue": "Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 44,
+     "doi": "10.1145/3477495.3531896",
+     "authors": "Chuhan Wu, Fangzhao Wu, Tao Qi, Chao Zhang, Yongfeng Huang, Tong Xu"
+    },
+    {
+     "title": "<i>The Truth Becomes Clearer Through Debate!</i>\n                    Multi-Agent Systems with Large Language Models Unmask Fake News",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 24,
+     "doi": "10.1145/3726302.3730092",
+     "authors": "Yuhan Liu, Yuxuan Liu, Xiaoqing Zhang, Xiuying Chen, Rui Yan"
+    },
+    {
+     "title": "Improving Amharic Information Retrieval with Translative and Multi-Agent Debate Retrieval Augmented Generation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808532",
+     "authors": "Abel Jotie, Prasenjit Mitra"
+    },
+    {
+     "title": "MR2: A Benchmark for Multimodal Retrieval-Augmented Rumor Detection in Social Media",
+     "year": 2023,
+     "venue": "Proceedings of the 46th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 35,
+     "doi": "10.1145/3539618.3591896",
+     "authors": "Xuming Hu, Zhijiang Guo, Junzhe Chen, Lijie Wen, Philip S. Yu"
+    },
+    {
+     "title": "Exploring the Trade-Off within Visual Information for MultiModal Sentence Summarization",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 4,
+     "doi": "10.1145/3626772.3657753",
+     "authors": "Minghuan Yuan, Shiyao Cui, Xinghua Zhang, Shicheng Wang, Hongbo Xu, Tingwen Liu"
+    },
+    {
+     "title": "CogPlanner: Unveiling the Potential of Agentic Multimodal Retrieval Augmented Generation with Planning",
+     "year": 2025,
+     "venue": "Proceedings of the 2025 Annual International ACM SIGIR Conference on Research and Development in Information Retrieval in the Asia Pacific Region",
+     "citationCount": 3,
+     "doi": "10.1145/3767695.3769486",
+     "authors": "Xiaohan Yu, Zhihan Yang, Chong Chen"
+    },
+    {
+     "title": "Mixture-of-Retrieval Experts for Reasoning-Guided Multimodal Knowledge Exploitation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809588",
+     "authors": "Chunyi Peng, Zhipeng Xu, Zhenghao Liu, Yishan Li, Yukun Yan, Shuo Wang"
+    },
+    {
+     "title": "From Raw Features to Effective Embeddings: A Three-Stage Approach for Multimodal Recipe Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809863",
+     "authors": "Jeeho Shin, Kyungho Kim, Kijung Shin"
+    },
+    {
+     "title": "Simulating the Lateral Reader for News Trustworthiness Reports with an Iterative Multi-Agent RAG System",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809973",
+     "authors": "Dake Zhang, Mark D. Smucker"
+    },
+    {
+     "title": "Building a Production Shopping Agent at Scale",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3805712.3808408",
+     "authors": "Chen Luo, Jason Choi, Ziwei Dong, Rahul Dua, Cong Xu, Xuejing Lei"
+    },
+    {
+     "title": "MAMO: Fine-Grained Vision-Language Representations Learning with Masked Multimodal Modeling",
+     "year": 2023,
+     "venue": "Proceedings of the 46th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 9,
+     "doi": "10.1145/3539618.3591721",
+     "authors": "Zijia Zhao, Longteng Guo, Xingjian He, Shuai Shao, Zehuan Yuan, Jing Liu"
+    },
+    {
+     "title": "A Graph-Enhanced MLLM for Hierarchical Multimodal Emotion Understanding and Support in Conversations",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809910",
+     "authors": "Geng Tu, Taiyu Niu, Xi Zeng, Ruifeng Xu, Min Zhang"
+    },
+    {
+     "title": "DARLR: Dual-Agent Offline Reinforcement Learning for Recommender Systems with Dynamic Reward",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 4,
+     "doi": "10.1145/3726302.3729942",
+     "authors": "Yi Zhang, Ruihong Qiu, Xuwei Xu, Jiajun Liu, Sen Wang"
+    },
+    {
+     "title": "Labadain Chat: A Conversational Agent for the Tetun Language",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808372",
+     "authors": "Gabriel de Jesus, Sérgio Nunes"
+    },
+    {
+     "title": "Simple but Effective Raw-Data Level Multimodal Fusion for Composed Image Retrieval",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 33,
+     "doi": "10.1145/3626772.3657727",
+     "authors": "Haokun Wen, Xuemeng Song, Xiaolin Chen, Yinwei Wei, Liqiang Nie, Tat-Seng Chua"
+    },
+    {
+     "title": "Well Begun is Half Done: Training-Free and Model-Agnostic Semantically Guaranteed User Representation Initialization for Multimodal Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809623",
+     "authors": "Jinfeng Xu, Zheyu Chen, Shuo Yang, Jinze Li, Hewei Wang, Jianheng Tang"
+    }
+   ]
+  },
+  "on-device inference": {
+   "total": 26,
+   "kept": 24,
+   "papers": [
+    {
+     "title": "Exploring ℓ\n            <sub>0</sub>\n            Sparsification for Inference-free Sparse Retrievers",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 3,
+     "doi": "10.1145/3726302.3730192",
+     "authors": "Xinjie Shen, Zhichao Geng, Yang Yang"
+    },
+    {
+     "title": "When Fair Ranking Meets Uncertain Inference",
+     "year": 2021,
+     "venue": "Proceedings of the 44th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 31,
+     "doi": "10.1145/3404835.3462850",
+     "authors": "Avijit Ghosh, Ritam Dutt, Christo Wilson"
+    },
+    {
+     "title": "Distilling Knowledge on Text Graph for Social Media Attribute Inference",
+     "year": 2022,
+     "venue": "Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 19,
+     "doi": "10.1145/3477495.3531968",
+     "authors": "Quan Li, Xiaoting Li, Lingwei Chen, Dinghao Wu"
+    },
+    {
+     "title": "Effective Inference-Free Retrieval for Learned Sparse Representations",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 9,
+     "doi": "10.1145/3726302.3730185",
+     "authors": "Franco Maria Nardini, Thong Nguyen, Cosimo Rulli, Rossano Venturini, Andrew Yates"
+    },
+    {
+     "title": "Inference at Scale: Significance Testing for Large Search and Recommendation Experiments",
+     "year": 2023,
+     "venue": "Proceedings of the 46th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 4,
+     "doi": "10.1145/3539618.3592004",
+     "authors": "Ngozi Ihemelandu, Michael D. Ekstrand"
+    },
+    {
+     "title": "Should Graph Convolution Trust Neighbors? A Simple Causal Inference Method",
+     "year": 2021,
+     "venue": "Proceedings of the 44th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 57,
+     "doi": "10.1145/3404835.3462971",
+     "authors": "Fuli Feng, Weiran Huang, Xiangnan He, Xin Xin, Qifan Wang, Tat-Seng Chua"
+    },
+    {
+     "title": "A Large-Scale Study of Reranker Relevance Feedback at Inference",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3726302.3730160",
+     "authors": "Revanth Gangi Reddy, Pradeep Dasigi, Md Arafat Sultan, Arman Cohan, Avirup Sil, Heng Ji"
+    },
+    {
+     "title": "Robust Causal Inference for Recommender System to Overcome Noisy Confounders",
+     "year": 2023,
+     "venue": "Proceedings of the 46th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 5,
+     "doi": "10.1145/3539618.3592055",
+     "authors": "Zhiheng Zhang, Quanyu Dai, Xu Chen, Zhenhua Dong, Ruiming Tang"
+    },
+    {
+     "title": "BizGraphQA: A Dataset for Image-based Inference over Graph-structured Diagrams from Business Domains",
+     "year": 2023,
+     "venue": "Proceedings of the 46th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 5,
+     "doi": "10.1145/3539618.3591875",
+     "authors": "Petr Babkin, William Watson, Zhiqiang Ma, Lucas Cecchi, Natraj Raman, Armineh Nourbakhsh"
+    },
+    {
+     "title": "Efficient Multi-Cohort Inference for Long-Term Effects and Lifetime Value in A/B Testing with User Learning",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808519",
+     "authors": "Dario Simionato, Andrea Tonon, Mingxue Wang, Weiguo Wang, Tong Gui, Xiaoyue Li"
+    },
+    {
+     "title": "Predicting User Demography and Device from News Comments",
+     "year": 2021,
+     "venue": "Proceedings of the 44th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 2,
+     "doi": "10.1145/3404835.3463024",
+     "authors": "Ohad Rozen, Joel Oren, Ariel Raviv"
+    },
+    {
+     "title": "MeMemo: On-device Retrieval Augmentation for Private and Personalized Text Generation",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 13,
+     "doi": "10.1145/3626772.3657662",
+     "authors": "Zijie J. Wang, Duen Horng Chau"
+    },
+    {
+     "title": "DeCoCDR: Deployable Cloud-Device Collaboration for Cross-Domain Recommendation",
+     "year": 2024,
+     "venue": "Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 2,
+     "doi": "10.1145/3626772.3657786",
+     "authors": "Yu Li, Yi Zhang, Zimu Zhou, Qiang Li"
+    },
+    {
+     "title": "Towards Validating Long-Term User Feedbacks in Interactive Recommendation Systems",
+     "year": 2022,
+     "venue": "Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 2,
+     "doi": "10.1145/3477495.3531869",
+     "authors": "Hojoon Lee, Dongyoon Hwang, Kyushik Min, Jaegul Choo"
+    },
+    {
+     "title": "Exploring Training and Inference Scaling Laws in Generative Retrieval",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 2,
+     "doi": "10.1145/3726302.3729973",
+     "authors": "Hongru Cai, Yongqi Li, Ruifeng Yuan, Wenjie Wang, Zhen Zhang, Wenjie Li"
+    },
+    {
+     "title": "Towards Structurally Robust Cross-Device Federated Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808355",
+     "authors": "Aymen Rayane Khouas"
+    },
+    {
+     "title": "A Study of Cross-Session Cross-Device Search Within an Academic Digital Library",
+     "year": 2022,
+     "venue": "Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 17,
+     "doi": "10.1145/3477495.3531929",
+     "authors": "Sebastian Gomes, Miriam Boon, Orland Hoeber"
+    },
+    {
+     "title": "Model-Agnostic Decentralized Collaborative Learning for On-Device POI Recommendation",
+     "year": 2023,
+     "venue": "Proceedings of the 46th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 30,
+     "doi": "10.1145/3539618.3591733",
+     "authors": "Jing Long, Tong Chen, Quoc Viet Hung Nguyen, Guandong Xu, Kai Zheng, Hongzhi Yin"
+    },
+    {
+     "title": "Efficiency Unleashed: Inference Acceleration for LLM-based Recommender Systems with Speculative Decoding",
+     "year": 2025,
+     "venue": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 6,
+     "doi": "10.1145/3726302.3729961",
+     "authors": "Yunjia Xi, Hangyu Wang, Bo Chen, Jianghao Lin, Menghui Zhu, Weiwen Liu"
+    },
+    {
+     "title": "RecGPT-Mobile: On-Device Large Language Models for User Intent Understanding in Taobao Feed Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3808410",
+     "authors": "Bin Zhang, Weipeng Huang, Dimin Wang, Jialin Zhu, Yuning Jiang, Zhaode Wang"
+    },
+    {
+     "title": "On-Device Next-Item Recommendation with Self-Supervised Knowledge Distillation",
+     "year": 2022,
+     "venue": "Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 57,
+     "doi": "10.1145/3477495.3531775",
+     "authors": "Xin Xia, Hongzhi Yin, Junliang Yu, Qinyong Wang, Guandong Xu, Quoc Viet Hung Nguyen"
+    },
+    {
+     "title": "SOLARIS:Speculative Offloading of Latent-bAsed Representation for Inference Scaling",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3805712.3808465",
+     "authors": "Zikun Liu, Liang Luo, Qianru Li, Zhengyu Zhang, Wei Ling, Jingyi Shen"
+    },
+    {
+     "title": "GDA: Graph Distance Autoencoder for Label-only Membership Inference Attack on GNNs",
+     "year": 2025,
+     "venue": "Proceedings of the 2025 Annual International ACM SIGIR Conference on Research and Development in Information Retrieval in the Asia Pacific Region",
+     "citationCount": 0,
+     "doi": "10.1145/3767695.3769506",
+     "authors": "Yang Li, Yunfan Wu, Bingbing Xu, Fei Sun, Qi Cao, Huawei Shen"
+    },
+    {
+     "title": "HE-DeepFM: An FHE Inference System for CTR Prediction with Efficient FM Interactions",
+     "year": 2026,
+     "venue": "Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3805712.3809866",
+     "authors": "Qiyue Su, Hang Gu, Zhiguang Wang, Teng Wang, Zhendong Zheng, Qianyu Cheng"
+    }
+   ]
+  }
+ }
+}

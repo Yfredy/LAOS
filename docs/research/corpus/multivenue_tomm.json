@@ -1,0 +1,2853 @@
+{
+ "venue": "TOMM",
+ "category": "multimedia",
+ "canonical_venue_string": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+ "wave": "B",
+ "generated_at": "2026-09-29 01:11:34",
+ "topics": [
+  "multimodal agent",
+  "audio language model",
+  "sound event detection",
+  "neural codec",
+  "on-device inference"
+ ],
+ "request_budget": {
+  "successful": 71,
+  "limit": 300,
+  "attempts": 5
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "multimodal agent": {
+   "total": 10791,
+   "kept": 97,
+   "papers": [
+    {
+     "title": "Breaking GUI agent Actions: Realistic Adversarial Attacks on Multimodal LLMs",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3821640",
+     "authors": "Kanghua Mo, Zhengdao Li, Shanshan Huang, Li Hu"
+    },
+    {
+     "title": "Multimodal Cascaded Framework with Multimodal Latent Loss Functions Robust to Missing Modalities",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 3,
+     "doi": "10.1145/3711860",
+     "authors": "Vijay John, Yasutomo Kawanishi"
+    },
+    {
+     "title": "Multimodal Graph for Unaligned Multimodal Sequence Analysis via Graph Convolution and Graph Pooling",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 27,
+     "doi": "10.1145/3542927",
+     "authors": "Sijie Mai, Songlong Xing, Jiaxuan He, Ying Zeng, Haifeng Hu"
+    },
+    {
+     "title": "Multimodal PEAR Chain-of-Thought Reasoning for Multimodal Sentiment Analysis",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 24,
+     "doi": "10.1145/3672398",
+     "authors": "Yan Li, Xiangyuan Lan, Haifeng Chen, Ke Lu, Dongmei Jiang"
+    },
+    {
+     "title": "A Multimodal Semantic Fusion Network with Cross-Modal Alignment for Multimodal Sentiment Analysis",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 15,
+     "doi": "10.1145/3744648",
+     "authors": "Shunxiang Zhang, Jiajia Liu, Yixuan Jiao, Yulei Zhang, Lei Chen, Kuanching Li"
+    },
+    {
+     "title": "MMGRec: Multimodal Generative Recommendation with Transformer Model",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3838594",
+     "authors": "Han Liu, Yinwei Wei, Xuemeng Song, Weili Guan, Yuan-Fang Li, Liqiang Nie"
+    },
+    {
+     "title": "A Deep Multi-level Attentive Network for Multimodal Sentiment Analysis",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 94,
+     "doi": "10.1145/3517139",
+     "authors": "Ashima Yadav, Dinesh Kumar Vishwakarma"
+    },
+    {
+     "title": "Multimodal Score Fusion with Sparse Low-rank Bilinear Pooling for Egocentric Hand Action Recognition",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 6,
+     "doi": "10.1145/3656044",
+     "authors": "Kankana Roy"
+    },
+    {
+     "title": "Personal Behavior-Robust and Interpretable Multimodal Sentiment Analysis",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3829080",
+     "authors": "Wenjuan Gong, Jiarui Li, Tingbo Shi, Chunhan Li, Chenglizhao Chen, José M. Álvarez"
+    },
+    {
+     "title": "Robust Multimodal Driver Identification Using Dash-Cam and In-Vehicle Sensor Data",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3841179",
+     "authors": "Kahyun Lee, Yubin Jeong, Gihun Lee, Byung Il Kwak, Jong-Uk Hou"
+    },
+    {
+     "title": "Multimodal Infusion Tuning for Large Models",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3821575",
+     "authors": "Hao Sun, Yu Song, Shiyu Teng, Xinyao Yu, Ziwei Niu, Yen-Wei Chen"
+    },
+    {
+     "title": "Introduction to Big Multimodal Multimedia Data with Deep Analytics",
+     "year": 2021,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3447530",
+     "authors": "Yang Wang, Meng Fang, Joey Tianyi Zhou, Tingting Mu, Dacheng Tao"
+    },
+    {
+     "title": "MF\n                    <sup>2</sup>\n                    ShrT: Multimodal Feature Fusion Using Shared Layered Transformer for Face Anti-spoofing",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 24,
+     "doi": "10.1145/3640817",
+     "authors": "Aashania Antil, Chhavi Dhiman"
+    },
+    {
+     "title": "MICA-Net: A Multimodal Cross-Attention Network for Human Action Recognition",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3839227",
+     "authors": "Trung-Hieu Le, Thai-Khanh Nguyen, Trung-Kien Tran, Cuong Pham, Thanh-Hai Tran"
+    },
+    {
+     "title": "Neighborhood-Attention-Based Multiscale Alignment and Hierarchical Reconstruction for Multimodal Medical Image Fusion",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3797039",
+     "authors": "Dongtao Cao, Jinghui Wang, Jiatao Yan, Zheyi Chen, Xiangwen Liao, Hongju Cheng"
+    },
+    {
+     "title": "Unleashing Creativity in the Metaverse: Generative AI and Multimodal Content",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 30,
+     "doi": "10.1145/3713075",
+     "authors": "Abdulmotaleb El Saddik, Jamil Ahmad, Mustaqeem Khan, Saad Abouzahir, Wail Gueaieb"
+    },
+    {
+     "title": "Introducing WARM-VR: Benchmark Dataset for Multimodal Wearable Affect Recognition in Virtual Reality",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3836767",
+     "authors": "Karim Alghoul, Mohd Faisal, Fedwa Laamarti, Hussein Al Osman, Abdulmotaleb El Saddik"
+    },
+    {
+     "title": "AMSA: Adaptive Multimodal Learning for Sentiment Analysis",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 19,
+     "doi": "10.1145/3572915",
+     "authors": "Jingyao Wang, Luntian Mou, Lei Ma, Tiejun Huang, Wen Gao"
+    },
+    {
+     "title": "Tensor-empowered Incomplete Multimodal Learning with Modality Reconstruction for Edge Intelligence",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3712593",
+     "authors": "Xin Nie, Laurence T. Yang, Zhe Li, Fulan Fan, Zecan Yang"
+    },
+    {
+     "title": "Dynamic Weighted Gating for Enhanced Cross-Modal Interaction in Multimodal Sentiment Analysis",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 7,
+     "doi": "10.1145/3702996",
+     "authors": "Nan Wang, Qi Wang"
+    },
+    {
+     "title": "Introduction to the Special Issue on Integrity of Multimedia and Multimodal Data in Internet of Things",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 4,
+     "doi": "10.1145/3643040",
+     "authors": "Amit Kumar Singh, Deepa Kundur, Mauro Conti"
+    },
+    {
+     "title": "Potential Features Fusion Network for Multimodal Fake News Detection",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 18,
+     "doi": "10.1145/3711866",
+     "authors": "Feifei Kou, Bingwei Wang, Haisheng Li, Chuangying Zhu, Lei Shi, Jiwei Zhang"
+    },
+    {
+     "title": "Introduction to the Special Issue on Deep Multimodal Generation and Retrieval",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3762666",
+     "authors": "Hao Fei, Wei Ji, Yinwei Wei, Zhedong Zheng, Jialie Shen, Alan Hanjalic"
+    },
+    {
+     "title": "Micro-video Scene Classification Method Based on Generative Feature Disentanglement and Multimodal Dynamical Fusion",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3845614",
+     "authors": "Jie Guo, Lanting Qiu, Yu Zhang, Cuiping Cheng, Yanhui Zhang, Yuling Ma"
+    },
+    {
+     "title": "A Multimodal Framework for Large-Scale Emotion Recognition by Fusing Music and Electrodermal Activity Signals",
+     "year": 2022,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 46,
+     "doi": "10.1145/3490686",
+     "authors": "Guanghao Yin, Shouqian Sun, Dian Yu, Dejian Li, Kejun Zhang"
+    },
+    {
+     "title": "Affective Feedback Synthesis Towards Multimodal Text and Image Data",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 3,
+     "doi": "10.1145/3589186",
+     "authors": "Puneet Kumar, Gaurav Bhatt, Omkar Ingle, Daksh Goyal, Balasubramanian Raman"
+    },
+    {
+     "title": "R-HMF: A Relation-enhanced Hierarchical Multimodal Framework for Few-shot Knowledge Graph Completion",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3769865",
+     "authors": "Chengmei Yang, Qian Li, Zhenyang Li, Chen Ma, Lianghua He"
+    },
+    {
+     "title": "A Discriminative Correlation Platform for Feature Representation Learning in Multimodal Information Computing",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3787857",
+     "authors": "Lei Gao, Kai Liu, Phuoc-Thanh Hong, Chakkrit Termritthikun, Kanin Luangsawang, Rabian Wangkeeree"
+    },
+    {
+     "title": "Actual Cause-Guided Adaptive Gradient Scaling for Balanced Multimodal Sentiment Analysis",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 23,
+     "doi": "10.1145/3736415",
+     "authors": "Jili Chen, Qionghao Huang, Changqin Huang, Xiaodi Huang"
+    },
+    {
+     "title": "Hierarchical Synergy-Enhanced Multimodal Relational Network for Video Question Answering",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3630101",
+     "authors": "Min Peng, Xiaohu Shao, Yu Shi, Xiangdong Zhou"
+    },
+    {
+     "title": "MLlm-DR: Towards Explainable Depression Recognition with MultiModal Large Language Models",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 5,
+     "doi": "10.1145/3796722",
+     "authors": "Wei Zhang, Juan Chen, En Zhu, Wenhong Cheng, Yunpeng Li, Yuhan Li"
+    },
+    {
+     "title": "ForgeFinder: Perceptive Multimodal Deepfake Detection via Multi-grained Forgery Localization",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3778030",
+     "authors": "Baoping Liu, Bo Liu, Ming Ding, Tianqing Zhu"
+    },
+    {
+     "title": "Correlation-guided Masked Autoencoder with Multimodal Contrastive Interaction on Point Clouds",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3770579",
+     "authors": "Peng Ren, Xiaoheng Li, Yunfeng Bai, Jinyuan Jia"
+    },
+    {
+     "title": "Language-guided Visual Tracking: Comprehensive and Effective Multimodal Information Fusion",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 4,
+     "doi": "10.1145/3757322",
+     "authors": "Jianbo Song, Hong Zhang, Yachun Feng, Hanyang Liu, Yifan Yang"
+    },
+    {
+     "title": "Introduction to the Special Issue on Multimodal Video Understanding and Analysis with Foundation Models",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3801571",
+     "authors": "Fan Liu, Hanjia Lyu, Yinwei Wei, Hehe Fan, Djamila Aouada, Jiebo Luo"
+    },
+    {
+     "title": "Multimodal Presentation of Interactive Audio-Tactile Graphics Supporting the Perception of Visual Information by Blind People",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 30,
+     "doi": "10.1145/3586076",
+     "authors": "Michał Maćkowski, Piotr Brzoza, Mateusz Kawulok, Rafał Meisel, Dominik Spinczyk"
+    },
+    {
+     "title": "Privacy and Integrity Protection for IoT Multimodal Data Using Machine Learning and Blockchain",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 5,
+     "doi": "10.1145/3638769",
+     "authors": "Qingzhi Liu, Yuchen Huang, Chenglu Jin, Xiaohan Zhou, Ying Mao, Cagatay Catal"
+    },
+    {
+     "title": "Multimodal Emotion-Cause Pair Extraction with Holistic Interaction and Label Constraint",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 10,
+     "doi": "10.1145/3689646",
+     "authors": "Bobo Li, Hao Fei, Fei Li, Tat-Seng Chua, Donghong Ji"
+    },
+    {
+     "title": "Multimodal Neurosymbolic Approach for Explainable Deepfake Detection",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 26,
+     "doi": "10.1145/3624748",
+     "authors": "Ijaz Ul Haq, Khalid Mahmood Malik, Khan Muhammad"
+    },
+    {
+     "title": "Health-oriented Multimodal Food Question Answering with Implicit and Explicit Knowledge",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3766065",
+     "authors": "Menghao Hu, Yaguang Song, Xiaoshan Yang, Yaowei Wang, Changsheng Xu"
+    },
+    {
+     "title": "Multimodal Fusion for Talking Face Generation Utilizing Speech-Related Facial Action Units",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 7,
+     "doi": "10.1145/3672565",
+     "authors": "Zhilei Liu, Xiaoxing Liu, Sen Chen, Jiaxing Liu, Longbiao Wang, Chongke Bi"
+    },
+    {
+     "title": "A Multimodal Hierarchical Attentional Ordering Network",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3711864",
+     "authors": "Yiping Yang, Baiyun Cui, Yingming Li"
+    },
+    {
+     "title": "Automatic Lyric Transcription and Automatic Music Transcription from Multimodal Singing",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 11,
+     "doi": "10.1145/3651310",
+     "authors": "Xiangming Gu, Longshen Ou, Wei Zeng, Jianan Zhang, Nicholas Wong, Ye Wang"
+    },
+    {
+     "title": "MKVSE: Multimodal Knowledge Enhanced Visual-semantic Embedding for Image-text Retrieval",
+     "year": 2022,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 49,
+     "doi": "10.1145/3580501",
+     "authors": "Duoduo Feng, Xiangteng He, Yuxin Peng"
+    },
+    {
+     "title": "Multimodal Food Learning",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 12,
+     "doi": "10.1145/3715143",
+     "authors": "Weiqing Min, Xingjian Hong, Yuxin Liu, Mingyu Huang, Ying Jin, Pengfei Zhou"
+    },
+    {
+     "title": "A Multimodal, Multimedia Point-of-Care Deep Learning Framework for COVID-19 Diagnosis",
+     "year": 2021,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 46,
+     "doi": "10.1145/3421725",
+     "authors": "MD Abdur Rahman, M. Shamim Hossain, Nabil A. Alrajeh, B. B. Gupta"
+    },
+    {
+     "title": "Distribution Aligned Multimodal and Multi-domain Image Stylization",
+     "year": 2021,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 20,
+     "doi": "10.1145/3450525",
+     "authors": "Minxuan Lin, Fan Tang, Weiming Dong, Xiao Li, Changsheng Xu, Chongyang Ma"
+    },
+    {
+     "title": "A Multi-agent Feature Selection and Hybrid Classification Model for Parkinson's Disease Diagnosis",
+     "year": 2021,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 47,
+     "doi": "10.1145/3433180",
+     "authors": "Mazin Abed Mohammed, Mohamed Elhoseny, Karrar Hameed Abdulkareem, Salama A. Mostafa, Mashael S. Maashi"
+    },
+    {
+     "title": "Wakeup-Darkness: When Multimodal Meets Unsupervised Low-Light Image Enhancement",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 20,
+     "doi": "10.1145/3711929",
+     "authors": "Xiaofeng Zhang, Zishan Xu, Hao Tang, Chaochen Gu, Wei Chen, Abdulmotaleb El Saddik"
+    },
+    {
+     "title": "EEG-based Multimodal Emotion Recognition: Recent Progress, Challenges, and Future Directions",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 5,
+     "doi": "10.1145/3774428",
+     "authors": "Ghulam Muhammad, Sumayah Almuntasheri, Fadia Alenezi, Nwraan Alhadi, Victor C. M. Leung"
+    },
+    {
+     "title": "Multi-Agent Semi-Siamese Training for Long-Tail and Shallow Face Learning",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 3,
+     "doi": "10.1145/3594669",
+     "authors": "Yichun Tai, Hailin Shi, Dan Zeng, Hang Du, Yibo Hu, Zicheng Zhang"
+    },
+    {
+     "title": "LAM-MD: A Large Action Model Integrated Multi-Agent Reinforcement Learning Framework for NOMA Networks",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3817118",
+     "authors": "Yuhong He, Wenjing Xiao, Miaojiang Chen, Anfeng Liu, Min Chen, Ahmed Farouk"
+    },
+    {
+     "title": "Disentangled Multimodal Tuning and Interaction for Human Perception Understanding",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3828163",
+     "authors": "Hao Sun, Xinyao Yu, Ziwei Niu, Jiaqing Liu, Yen-Wei Chen, Lanfen Lin"
+    },
+    {
+     "title": "Socializing the Videos: A Multimodal Approach for Social Relation Recognition",
+     "year": 2021,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 17,
+     "doi": "10.1145/3416493",
+     "authors": "Tong Xu, Peilun Zhou, Linkang Hu, Xiangnan He, Yao Hu, Enhong Chen"
+    },
+    {
+     "title": "Generating and Evaluating Data of Daily Activities with an Autonomous Agent in a Virtual Smart Home",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 3,
+     "doi": "10.1145/3665331",
+     "authors": "Lysa Gramoli, Julien Cumin, Jérémy Lacoche, Anthony Foulonneau, Bruno Arnaldi, Valérie Gouranton"
+    },
+    {
+     "title": "VGL-DPO: Vision-Guided Lexical Direct Preference Optimization for Mitigating Hallucination in Multimodal Large Language Models",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3796715",
+     "authors": "Siyuan Li, Feng Wang, Simeng Qin, Ranjie Duan, Haonan Cheng, Long Ye"
+    },
+    {
+     "title": "Robust Multimodal Representation under Uncertain Missing Modalities",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 11,
+     "doi": "10.1145/3702003",
+     "authors": "Guilin Lan, Yeqian Du, Zhouwang Yang"
+    },
+    {
+     "title": "Reliability-Aware Multi-View Fusion for Robust Multimodal Sarcasm Detection with Incomplete Observations",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3820382",
+     "authors": "Hao Guo, Subin Huang, Junjie Chen, Zhifa Geng, Sanmin Liu, Chao Kong"
+    },
+    {
+     "title": "TextCoT: Zoom-In for Enhanced Multimodal Text-Rich Image Understanding",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 3,
+     "doi": "10.1145/3785474",
+     "authors": "Bozhi Luan, Hao Feng, Hong Chen, Yonghui Wang, Wengang Zhou, Houqiang Li"
+    },
+    {
+     "title": "HKA: A Hierarchical Knowledge Alignment Framework for Multimodal Knowledge Graph Completion",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 7,
+     "doi": "10.1145/3664288",
+     "authors": "Yunhui Xu, Youru Li, Muhao Xu, Zhenfeng Zhu, Yao Zhao"
+    },
+    {
+     "title": "Domain-aware Multimodal Dialog Systems with Distribution-based User Characteristic Modeling",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 4,
+     "doi": "10.1145/3704811",
+     "authors": "Xiaolin Chen, Xuemeng Song, Jianhui Zuo, Yinwei Wei, Liqiang Nie, Tat-Seng Chua"
+    },
+    {
+     "title": "Deep Modular Co-Attention Shifting Network for Multimodal Sentiment Analysis",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 15,
+     "doi": "10.1145/3634706",
+     "authors": "Piao Shi, Min Hu, Xuefeng Shi, Fuji Ren"
+    },
+    {
+     "title": "Learning from Orthogonal Space with Multimodal Large Models for Generalized Few-shot Segmentation",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3712597",
+     "authors": "Xiaojie Zhou, Hang Yu, Shengjie Yang, Jing Huo, Pinzhuo Tian"
+    },
+    {
+     "title": "EAMA: Entity-Aware Multimodal Alignment Based Approach for News Image Captioning",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3801548",
+     "authors": "Junzhe Zhang, Huixuan Zhang, Xunjian Yin, Xiaojun Wan"
+    },
+    {
+     "title": "Multimodal Consistency Suppression Factor for Fake News Detection",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 4,
+     "doi": "10.1145/3699959",
+     "authors": "Zhulin Tao, Runze Zhao, Xin Shi, Xingyu Gao, Xi Wang, Xianglin Huang"
+    },
+    {
+     "title": "Multimodal Attentive Representation Learning for Micro-video Multi-label Classification",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 7,
+     "doi": "10.1145/3643888",
+     "authors": "Peiguang Jing, Xianyi Liu, Lijuan Zhang, Yun Li, Yu Liu, Yuting Su"
+    },
+    {
+     "title": "An LLM-Enabled Multimodal Agentic AI Framework for the Medical Internet of Things (MIoT)",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3805047",
+     "authors": "M. A. Rahman, Syed Usman Jamil, M. Shamim Hossain, Muhammad Arif Khan, Tanveer Zia, Muhammad Ali Paracha"
+    },
+    {
+     "title": "LPIC: Learnable Prompts and ID-guided Contrastive Learning for Multimodal Recommendation",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 7,
+     "doi": "10.1145/3735561",
+     "authors": "Xin Liu, Qiya Song, Lin Xiao, Chun Wang, Xieping Gao"
+    },
+    {
+     "title": "Code-Driven LLM Agent for One-Shot Explanatory Visual Question Answering",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3785327",
+     "authors": "Zuyi Zhou, Dizhan Xue, Baoyuan Qi, Shengsheng Qian, Changsheng Xu"
+    },
+    {
+     "title": "Cognition-driven Adaptive Semantic Decoding Framework for Multimodal Sentiment Analysis",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3802587",
+     "authors": "Jiajia Tang, Gang Xie, Honggang Liu, Xuanyu Jin, Jianhai Zhang, Wanzeng Kong"
+    },
+    {
+     "title": "Dynamic De-Redundancy and Modality-Guided Feature De-Noisy for Multimodal Recommendation",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3797878",
+     "authors": "Feng Mo, Lin Xiao, Qiya Song, Xieping Gao, Eryao Liang"
+    },
+    {
+     "title": "GJFusion: A Channel-Level Correlation Construction Method for Multimodal Physiological Signal Fusion",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 12,
+     "doi": "10.1145/3617503",
+     "authors": "Wuliang Huang, Yiqiang Chen, Xinlong Jiang, Teng Zhang, Qian Chen"
+    },
+    {
+     "title": "Multi-agent DRL-based Multipath Scheduling for Video Streaming with QUIC",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 15,
+     "doi": "10.1145/3649139",
+     "authors": "Xueqiang Han, Biao Han, Jinrong Li, Congxi Song"
+    },
+    {
+     "title": "Multimodal Large Language Model for Virtual Object Grounding",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3796717",
+     "authors": "Ziheng Xia, Chao Li, Ding Ding, Ye Wang, Hao Chen"
+    },
+    {
+     "title": "Integrated Sensing, Communication, and Computing for Cost-effective Multimodal Federated Perception",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 8,
+     "doi": "10.1145/3661313",
+     "authors": "Ning Chen, Zhipeng Cheng, Xuwei Fan, Zhang Liu, Bangzhen Huang, Yifeng Zhao"
+    },
+    {
+     "title": "Beyond Songs: Analyzing User Sentiment through Music Playlists and Multimodal Data",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3708346",
+     "authors": "Yipei Chen, Hua Yuan, Baojun Ma, Limin Wang, Yu Qian"
+    },
+    {
+     "title": "From CNNs to Transformers in Multimodal Human Action Recognition: A Survey",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 57,
+     "doi": "10.1145/3664815",
+     "authors": "Muhammad Bilal Shaikh, Douglas Chai, Syed Muhammad Shamsul Islam, Naveed Akhtar"
+    },
+    {
+     "title": "Demonstrative Learning for Human-Agent Knowledge Transfer",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3703838",
+     "authors": "Xiaonuo Dongye, Haiyan Jiang, Dongdong Weng, Zhenliang Zhang"
+    },
+    {
+     "title": "Rethinking the Effect of Unimodal Labels in Multimodal Sentiment Analysis",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3796718",
+     "authors": "Lingli Zhang, Tianrui Li, Baiyu Lu, Junlin Fang, Desheng Zheng, Wei Zhou"
+    },
+    {
+     "title": "Multimodal-Conditioned Latent Diffusion Models for Fashion Image Editing",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3789212",
+     "authors": "Alberto Baldrati, Davide Morelli, Marcella Cornia, Marco Bertini, Rita Cucchiara"
+    },
+    {
+     "title": "Parents and Children: Distinguishing Multimodal Deepfakes from Natural Images",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 29,
+     "doi": "10.1145/3665497",
+     "authors": "Roberto Amoroso, Davide Morelli, Marcella Cornia, Lorenzo Baraldi, Alberto Del Bimbo, Rita Cucchiara"
+    },
+    {
+     "title": "Cross-Modal Attention Network with Dual Graph Learning in Multimodal Recommendation",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 3,
+     "doi": "10.1145/3788289",
+     "authors": "Ji Dai, Quan Fang, Jun Hu, Desheng Cai, Yang Yang, Can Zhao"
+    },
+    {
+     "title": "A Optimized BERT for Multimodal Sentiment Analysis",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 21,
+     "doi": "10.1145/3566126",
+     "authors": "Jun Wu, Tianliang Zhu, Jiahui Zhu, Tianyi Li, Chunzhi Wang"
+    },
+    {
+     "title": "Multimodal Depression Estimation via Contrastive Modality Alignment and Fusion",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3778172",
+     "authors": "Xinke Wang, Xin Liu, Jingyuan Xu, Weijie Feng, Dan Guo, Meng Wang"
+    },
+    {
+     "title": "Fine-grained Semantic Disentanglement Network for Multimodal Sarcasm Analysis",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3722558",
+     "authors": "Jiajia Tang, Binbin Ni, Feiwei Zhou, Dongjun Liu, Yu Ding, Yong Peng"
+    },
+    {
+     "title": "Can Linguistic Knowledge Improve Multimodal Alignment in Vision-Language Pretraining?",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 9,
+     "doi": "10.1145/3690640",
+     "authors": "Fei Wang, Liang Ding, Jun Rao, Ye Liu, Li Shen, Changxing Ding"
+    },
+    {
+     "title": "SeCo: Semantic-Guided Multimodal Color Splash Effects",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3785154",
+     "authors": "Jing-Xuan Chen, Ling Lo, Si-Yu Lu, Ling Zou, Wen-Huang Cheng, Jungwoo Huh"
+    },
+    {
+     "title": "MMFN: MLLMs-guided Multi-source Information Fusion Network for Multimodal Fake News Detection",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3820376",
+     "authors": "Ruihao Zhang, Shujuan Ji, Jiandong Lv, Ning Li, Haojie Li"
+    },
+    {
+     "title": "A Review on Methods and Applications in Multimodal Deep Learning",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 190,
+     "doi": "10.1145/3545572",
+     "authors": "Summaira Jabeen, Xi Li, Muhammad Shoib Amin, Omar Bourahla, Songyuan Li, Abdul Jabbar"
+    },
+    {
+     "title": "PingTactics: A Multimodal Dataset for Table Tennis Action Recognition and Tactical Analysis",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3788868",
+     "authors": "Lejun Gong, Ziyi Wei, Li Tian, Jie Deng, Guozi Sun"
+    },
+    {
+     "title": "Domain-Separated Bottleneck Attention Fusion Framework for Multimodal Emotion Recognition",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 12,
+     "doi": "10.1145/3711865",
+     "authors": "Peng He, Jun Yu, Chengjie Ge, Ye Yu, Wei Xu, Lei Wang"
+    },
+    {
+     "title": "Dual-branch Prompting for Multimodal Machine Translation",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3822604",
+     "authors": "Jie Wang, Zhendong Yang, Liansong Zong, Xiaobo Zhang, Dexian Wang, Ji Zhang"
+    },
+    {
+     "title": "Frequency Restoration and Modality Enforcement towards Resisting-corruption Multimodal Sentiment Analysis",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 3,
+     "doi": "10.1145/3767746",
+     "authors": "Weicheng Xie, Haijian Liang, Zenghao Niu, Xianxu Hou, Siyang Song, Zitong Yu"
+    },
+    {
+     "title": "S\n                    <sup>3</sup>\n                    Agent: Unlocking the Power of VLLM for Zero-Shot Multi-Modal Sarcasm Detection",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 6,
+     "doi": "10.1145/3690642",
+     "authors": "Peng Wang, Yongheng Zhang, Hao Fei, Qiguang Chen, Yukai Wang, Jiasheng Si"
+    },
+    {
+     "title": "Towards Energy-efficient Audio-visual Classification via Multimodal Interactive Spiking Neural Network",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 6,
+     "doi": "10.1145/3721981",
+     "authors": "Xu Liu, Na Xia, Jinxing Zhou, Zhangbin Li, Dan Guo"
+    },
+    {
+     "title": "Multimodal Visual-Semantic Representations Learning for Scene Text Recognition",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 3,
+     "doi": "10.1145/3646551",
+     "authors": "Xinjian Gao, Ye Pang, Yuyu Liu, Maokun Han, Jun Yu, Wei Wang"
+    },
+    {
+     "title": "MuralAgent: Enhancing Ancient Mural Outpainting with RAG-Based Texts and Multimodal Integration",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 3,
+     "doi": "10.1145/3743679",
+     "authors": "Zishan Xu, Xiaofeng Zhang, Yuqing Yang, Wei Chen, Jueting Liu, Tingting Xu"
+    }
+   ]
+  },
+  "audio language model": {
+   "total": 61575,
+   "kept": 99,
+   "papers": [
+    {
+     "title": "A Novel Lightweight Audio-visual Saliency Model for Videos",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 14,
+     "doi": "10.1145/3576857",
+     "authors": "Dandan Zhu, Xuan Shao, Qiangqiang Zhou, Xiongkuo Min, Guangtao Zhai, Xiaokang Yang"
+    },
+    {
+     "title": "Audio-Visual Saliency Prediction Model with Implicit Neural Representation",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3698881",
+     "authors": "Nana Zhang, Min Xiong, Dandan Zhu, Kun Zhu, Guangtao Zhai, Xiaokang Yang"
+    },
+    {
+     "title": "TextBlockV2: Towards Precise-Detection-Free Scene Text Spotting with Pre-trained Language Model",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 5,
+     "doi": "10.1145/3734872",
+     "authors": "Jiahao Lyu, Jin Wei, Gangyan Zeng, Zeng Li, Enze Xie, Wei Wang"
+    },
+    {
+     "title": "Valley: Video Assistant with Large Language Model Enhanced Ability",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 15,
+     "doi": "10.1145/3796716",
+     "authors": "Ruipu Luo, Ziwang Zhao, Min Yang, Zheming Yang, Minghui Qiu, Zhongyu Wei"
+    },
+    {
+     "title": "<tt>TWIN-GPT</tt>\n            : Digital Twins for Clinical Trials via Large Language Model",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 53,
+     "doi": "10.1145/3674838",
+     "authors": "Yue Wang, Tianfan Fu, Yinlong Xu, Zihan Ma, Hongxia Xu, Bang Du"
+    },
+    {
+     "title": "AIE: Adaptive Inter-Domain Ensemble for Boosting Cross-Domain Audio Adversarial Transferability",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3822175",
+     "authors": "Zilin Tian, Yunfei Long, Liguo Zhang"
+    },
+    {
+     "title": "MAFF-Net: A Multi-level Acoustic Feature Fusion Network For Synthetic Audio Detection",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3767331",
+     "authors": "Dong Chen, Fan Huang, Chengxin Chen, Zhengxuan Song, Ge Lin, Kun Zeng"
+    },
+    {
+     "title": "Variational Autoencoder with CCA for Audio–Visual Cross-modal Retrieval",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 22,
+     "doi": "10.1145/3575658",
+     "authors": "Jiwei Zhang, Yi Yu, Suhua Tang, Jianming Wu, Wei Li"
+    },
+    {
+     "title": "Joint Audio-Visual Attention with Contrastive Learning for More General Deepfake Detection",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 34,
+     "doi": "10.1145/3625100",
+     "authors": "Yibo Zhang, Weiguo Lin, Junfeng Xu"
+    },
+    {
+     "title": "Multimodal Presentation of Interactive Audio-Tactile Graphics Supporting the Perception of Visual Information by Blind People",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 30,
+     "doi": "10.1145/3586076",
+     "authors": "Michał Maćkowski, Piotr Brzoza, Mateusz Kawulok, Rafał Meisel, Dominik Spinczyk"
+    },
+    {
+     "title": "Blockchain-Based Audio Watermarking Technique for Multimedia Copyright Protection in Distribution Networks",
+     "year": 2022,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 29,
+     "doi": "10.1145/3492803",
+     "authors": "Iynkaran Natgunanathan, Purathani Praitheeshan, Longxiang Gao, Yong Xiang, Lei Pan"
+    },
+    {
+     "title": "Metapath-Enhanced Language Model Pretraining on Text-Attributed Heterogeneous Graphs",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3763241",
+     "authors": "Shangheng Chen, Quan Fang, Shengsheng Qian, Changsheng Xu"
+    },
+    {
+     "title": "Emotionally Controllable Audio-driven Talking Face Generation",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3779219",
+     "authors": "Yifan Xu, Sirui Zhao, Shifeng Liu, Tong Xu, Enhong Chen"
+    },
+    {
+     "title": "Toward Long Form Audio-Visual Video Understanding",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 14,
+     "doi": "10.1145/3672079",
+     "authors": "Wenxuan Hou, Guangyao Li, Yapeng Tian, Di Hu"
+    },
+    {
+     "title": "ALOHA: Adapting Local Spatio-Temporal Context to Enhance the Audio-Visual Semantic Segmentation",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 4,
+     "doi": "10.1145/3735975",
+     "authors": "Yang-Hao Zhou, Heyan Huang, Cunhan Guo, Rong-Cheng Tu, Zeyu Xiao, Bo Wang"
+    },
+    {
+     "title": "Learning Explicit and Implicit Dual Common Subspaces for Audio-visual Cross-modal Retrieval",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 11,
+     "doi": "10.1145/3564608",
+     "authors": "Donghuo Zeng, Jianming Wu, Gen Hattori, Rong Xu, Yi Yu"
+    },
+    {
+     "title": "Multimodal Large Language Model for Virtual Object Grounding",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3796717",
+     "authors": "Ziheng Xia, Chao Li, Ding Ding, Ye Wang, Hao Chen"
+    },
+    {
+     "title": "Interactive Image Retrieval Meets Query Rewriting with Large Language and Vision Language Models",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 4,
+     "doi": "10.1145/3744910",
+     "authors": "Hongyi Zhu, Jia-Hong Huang, Yixian Shen, Stevan Rudinac, Evangelos Kanoulas"
+    },
+    {
+     "title": "PADVG: A Simple Baseline of Active Protection for Audio-Driven Video Generation",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 6,
+     "doi": "10.1145/3638556",
+     "authors": "Huan Liu, Xiaolong Liu, Zichang Tan, Xiaolong Li, Yao Zhao"
+    },
+    {
+     "title": "A Quality of Experience and Visual Attention Evaluation for 360° Videos with Non-spatial and Spatial Audio",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 13,
+     "doi": "10.1145/3650208",
+     "authors": "Amit Hirway, Yuansong Qiao, Niall Murray"
+    },
+    {
+     "title": "Efficient Video-to-Audio Generation via Multiple Foundation Models Mapper",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3820048",
+     "authors": "Gehui Chen, Guan’an Wang, Xiaowen Huang, Jitao Sang"
+    },
+    {
+     "title": "PoseTalk: Exploring Text- and Audio-Based Pose Control for One-Shot Talking Face Generation",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3788691",
+     "authors": "Jun Ling, Yiwen Wang, Han Xue, Rong Xie, Li Song"
+    },
+    {
+     "title": "Audio-Visual Contrastive Pre-train for Face Forgery Detection",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 4,
+     "doi": "10.1145/3651311",
+     "authors": "Hanqing Zhao, Wenbo Zhou, Dongdong Chen, Weiming Zhang, Ying Guo, Zhen Cheng"
+    },
+    {
+     "title": "QoE Estimation of WebRTC-based Audio-visual Conversations from Facial and Speech Features",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 13,
+     "doi": "10.1145/3638251",
+     "authors": "Gülnaziye Bingöl, Simone Porcu, Alessandro Floris, Luigi Atzori"
+    },
+    {
+     "title": "Incremental Audio-Visual Fusion for Person Recognition in Earthquake Scene",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 4,
+     "doi": "10.1145/3614434",
+     "authors": "Sisi You, Yukun Zuo, Hantao Yao, Changsheng Xu"
+    },
+    {
+     "title": "Boosting Semi-Supervised Video Captioning via Learning Candidates Adjusters",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3652838",
+     "authors": "Wanru Xu, Zhenjiang Miao, Jian Yu, Yigang Cen, Yi Tian, Lili Wan"
+    },
+    {
+     "title": "Dynamic Safety Gating for Large Action Models: Mitigating Jailbreak Exploits in Large Language Models",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3803021",
+     "authors": "Zhenxin Zhang, Ziyu Ding, Haiwei Sang, Fuan Xiao"
+    },
+    {
+     "title": "Seeing Crucial Parts: Vehicle Model Verification via a Discriminative Representation Model",
+     "year": 2022,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 6,
+     "doi": "10.1145/3474596",
+     "authors": "Liqian Liang, Congyan Lang, Zun Li, Jian Zhao, Tao Wang, Songhe Feng"
+    },
+    {
+     "title": "A Survey on Video Captioning in the Era of Large Language Models",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3793908",
+     "authors": "Antoine Brimont, Titus Zaharia, Ruxandra Tapu"
+    },
+    {
+     "title": "Global-Local Enhancement Network for NMF-Aware Sign Language Recognition",
+     "year": 2021,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 54,
+     "doi": "10.1145/3436754",
+     "authors": "Hezhen Hu, Wengang Zhou, Junfu Pu, Houqiang Li"
+    },
+    {
+     "title": "Vision-Language Models Learn Super Images for Efficient Partially Relevant Video Retrieval",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 5,
+     "doi": "10.1145/3708349",
+     "authors": "Taichi Nishimura, Shota Nakada, Masayoshi Kondo"
+    },
+    {
+     "title": "Generalizing Vision-Language Models to Novel Domains: A Comprehensive Survey",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3816251",
+     "authors": "Xinyao Li, Jingjing Li, Fengling Li, Lei Zhu, Yang Yang, Heng Tao Shen"
+    },
+    {
+     "title": "Realizing Efficient On-Device Language-based Image Retrieval",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3649896",
+     "authors": "Zhiming Hu, Mete Kemertas, Lan Xiao, Caleb Phillips, Iqbal Mohomed, Afsaneh Fazly"
+    },
+    {
+     "title": "Cross-Modal Comprehensive Multi-Level Granularity Alignment for Vision-Language Pre-Training",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3802546",
+     "authors": "Ju Jiang, Darko B. Vukovic, Jie Cao, Haoran Xie, Youquan Wang, Jia Wu"
+    },
+    {
+     "title": "SignMask: Structure-aware Masked Modeling for Holistic 3D Sign Language Production",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3776750",
+     "authors": "Yibo Xia, Qihui Zhan, Xiaoyan Luo, Xiaofeng Shi, Yunhong Wang"
+    },
+    {
+     "title": "An X Language-Driven Framework for Systematic Development of Digital Twin Healthcare Systems",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 4,
+     "doi": "10.1145/3729230",
+     "authors": "Kunyu Xie, Lin Zhang, Yuan Yang, Xiaohe Li, Ridha Khedri, Zhen Chen"
+    },
+    {
+     "title": "Towards Energy-efficient Audio-visual Classification via Multimodal Interactive Spiking Neural Network",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 6,
+     "doi": "10.1145/3721981",
+     "authors": "Xu Liu, Na Xia, Jinxing Zhou, Zhangbin Li, Dan Guo"
+    },
+    {
+     "title": "Alleviating Hallucination in Large Vision-Language Models with Active Retrieval Augmentation",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 9,
+     "doi": "10.1145/3742434",
+     "authors": "Xiaoye Qu, Qiyuan Chen, Wei Wei, Jiashuo Sun, Daizong Liu, Jianfeng Dong"
+    },
+    {
+     "title": "Introduction to the Special Issue on Text-Multimedia Retrieval: Retrieving Multimedia Data by Means of Natural Language",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3750451",
+     "authors": "Alex Falcon, Giuseppe Serra, Sergio Escalera, Michael Wray"
+    },
+    {
+     "title": "Video Fire Recognition Using Zero-Shot Vision-Language Models Guided by a Task-Aware Object Detector",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 11,
+     "doi": "10.1145/3721291",
+     "authors": "Diego Gragnaniello, Antonio Greco, Carlo Sansone, Bruno Vento"
+    },
+    {
+     "title": "Principled Evaluation of Multi-Label Persuasion in Advertisements with Large Vision-Language Models",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3788874",
+     "authors": "Iván Martín-Fernández, Mihai Gabriel Constantin, Bogdan Ionescu, Manuel Gil-Martín, Fernando Fernández-Martínez"
+    },
+    {
+     "title": "Learning Semantic-aware Representation in Visual-Language Models for Multi-label Recognition with Partial Labels",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 11,
+     "doi": "10.1145/3708991",
+     "authors": "Haoxian Ruan, Zhihua Xu, Zhijing Yang, Yongyi Lu, Jinghui Qin, Tianshui Chen"
+    },
+    {
+     "title": "Improving Continuous Sign Language Recognition with Consistency Constraints and Signer Removal",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 22,
+     "doi": "10.1145/3640815",
+     "authors": "Ronglai Zuo, Brian Mak"
+    },
+    {
+     "title": "MLlm-DR: Towards Explainable Depression Recognition with MultiModal Large Language Models",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 5,
+     "doi": "10.1145/3796722",
+     "authors": "Wei Zhang, Juan Chen, En Zhu, Wenhong Cheng, Yunpeng Li, Yuhan Li"
+    },
+    {
+     "title": "Language-guided Visual Tracking: Comprehensive and Effective Multimodal Information Fusion",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 4,
+     "doi": "10.1145/3757322",
+     "authors": "Jianbo Song, Hong Zhang, Yachun Feng, Hanyang Liu, Yifan Yang"
+    },
+    {
+     "title": "LANBIQUE: LANguage-based Blind Image QUality Evaluation",
+     "year": 2022,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3538649",
+     "authors": "Leonardo Galteri, Lorenzo Seidenari, Pietro Bongini, Marco Bertini, Alberto Del Bimbo"
+    },
+    {
+     "title": "LiLTv2: Language-substitutable Layout-image Transformer for Visual Information Extraction",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 5,
+     "doi": "10.1145/3708351",
+     "authors": "Jiapeng Wang, Zening Lin, Dayi Huang, Longfei Xiong, Lianwen Jin"
+    },
+    {
+     "title": "Uni-EDEN: Universal Encoder-Decoder Network by Multi-Granular Vision-Language Pre-training",
+     "year": 2022,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 15,
+     "doi": "10.1145/3473140",
+     "authors": "Yehao Li, Jiahao Fan, Yingwei Pan, Ting Yao, Weiyao Lin, Tao Mei"
+    },
+    {
+     "title": "CVLP-NaVD: Contrastive Visual-language Pre-training Models for Non-annotated Visual Description",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3708348",
+     "authors": "Haoran Li, Yanbin Hao, Jiarui Yu, Bin Zhu, Shuo Wang, Tong Xu"
+    },
+    {
+     "title": "Introduction to the Special Issue on Deep Learning for Robust Human Body Language Understanding",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3712012",
+     "authors": "Dan Guo, Troy McDaniel, Shuhui Wang, Meng Wang"
+    },
+    {
+     "title": "Advances, Evaluation, and Explainability of Large Language Models in Healthcare: A Systematic Review",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 3,
+     "doi": "10.1145/3786334",
+     "authors": "Syed Umar Amin, Mohsen Guizani, M. Shamim Hossain"
+    },
+    {
+     "title": "PE-CLIP: A Parameter-Efficient Fine-Tuning of Vision Language Models for Dynamic Facial Expression Recognition",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 8,
+     "doi": "10.1145/3786789",
+     "authors": "Ibtissam Saadi, Abdenour Hadid, Douglas W. Cunningham, Abdelmalik Taleb-Ahmed, Yassin El Hillali"
+    },
+    {
+     "title": "StepNet: Spatial-temporal Part-aware Network for Isolated Sign Language Recognition",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 26,
+     "doi": "10.1145/3656046",
+     "authors": "Xiaolong Shen, Zhedong Zheng, Yi Yang"
+    },
+    {
+     "title": "Action-Aware Visual-Textual Alignment for Long-Instruction Vision-and-Language Navigation",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3748656",
+     "authors": "Bowen Huang, Yanwei Zheng, Chuanlin Lan, Dongchen Sui, Xinpeng Zhao, Xiao Zhang"
+    },
+    {
+     "title": "Retrieval-Augmented Sign Language Translation",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3771277",
+     "authors": "Huijie Yao, Wengang Zhou, Hao Zhou, Hezhen Hu, Houqiang Li"
+    },
+    {
+     "title": "SCALE-Pose: Skeletal Correction and Language Knowledge-assisted for 3D Human Pose Estimation",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3800573",
+     "authors": "Yaochen Li, Xinnan Ma, Limeng Zhao, Chenxu Zhou, Jiahui Feng, Yuehu Liu"
+    },
+    {
+     "title": "MMGRec: Multimodal Generative Recommendation with Transformer Model",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3838594",
+     "authors": "Han Liu, Yinwei Wei, Xuemeng Song, Weili Guan, Yuan-Fang Li, Liqiang Nie"
+    },
+    {
+     "title": "JambaTalk: Speech-driven 3D Talking Head Generation based on a Hybrid Transformer-Mamba Model",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3793196",
+     "authors": "Farzaneh Jafari, Stefano Berretti, Anup Basu"
+    },
+    {
+     "title": "Diff-VF: Training-free High-quality Long Video Generation via Diffusion Model",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3838802",
+     "authors": "Haoning Yang, Xinyuan Chen, Yaohui Wang, Guo Lu"
+    },
+    {
+     "title": "Boosting Vision-and-Language Navigation with Direction Guiding and Backtracing",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 9,
+     "doi": "10.1145/3526024",
+     "authors": "Jingwen Chen, Jianjie Luo, Yingwei Pan, Yehao Li, Ting Yao, Hongyang Chao"
+    },
+    {
+     "title": "Dual Alignment-Enhanced Fashion Vision-Language Pre-Training",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3774884",
+     "authors": "Weili Guan, Kejie Wang, Xuemeng Song, Kaihao Zhang, Xiaojun Chang, Shengping Zhang"
+    },
+    {
+     "title": "RSUIGM: Realistic Synthetic Underwater Image Generation with Image Formation Model",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 12,
+     "doi": "10.1145/3656473",
+     "authors": "Chaitra Desai, Sujay Benur, Ujwala Patil, Uma Mudenagudi"
+    },
+    {
+     "title": "Language-guided Bias Generation Contrastive Strategy for Visual Question Answering",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 10,
+     "doi": "10.1145/3715141",
+     "authors": "Enyuan Zhao, Ning Song, Ze Zhang, Jie Nie, Xinyue Liang, Zhiqiang Wei"
+    },
+    {
+     "title": "DNA Computing-Based Multi-Source Data Storage Model in Digital Twins",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3561823",
+     "authors": "Jinxia Wang, Rui Chen, Zhihan Lv"
+    },
+    {
+     "title": "iDAM: Iteratively Trained Deep In-loop Filter with Adaptive Model Selection",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 17,
+     "doi": "10.1145/3529107",
+     "authors": "Yue Li, Li Zhang, Kai Zhang"
+    },
+    {
+     "title": "3DMambaComplete: Structured State Space Model for High-Efficiency Point Cloud Completion",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3774887",
+     "authors": "Yixuan Li, Lipeng Ma, Weidong Yang, Ben Fei"
+    },
+    {
+     "title": "Jointly Harnessing Prior Structures and Temporal Consistency for Sign Language Video Generation",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 25,
+     "doi": "10.1145/3648368",
+     "authors": "Yucheng Suo, Zhedong Zheng, Xiaohan Wang, Bang Zhang, Yi Yang"
+    },
+    {
+     "title": "Model Inversion Attacks Through Target-Specific Conditional Diffusion Models",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3842389",
+     "authors": "Ouxiang Li, Yanbin Hao, Zhicai Wang, Bin Zhu, Shuo Wang, Zaixi Zhang"
+    },
+    {
+     "title": "Language-guided Residual Graph Attention Network and Data Augmentation for Visual Grounding",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 12,
+     "doi": "10.1145/3604557",
+     "authors": "Jia Wang, Hong-Han Shuai, Yung-Hui Li, Wen-Huang Cheng"
+    },
+    {
+     "title": "TEVL: Trilinear Encoder for Video-language Representation Learning",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 6,
+     "doi": "10.1145/3585388",
+     "authors": "Xin Man, Jie Shao, Feiyu Chen, Mingxing Zhang, Heng Tao Shen"
+    },
+    {
+     "title": "VGL-DPO: Vision-Guided Lexical Direct Preference Optimization for Mitigating Hallucination in Multimodal Large Language Models",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3796715",
+     "authors": "Siyuan Li, Feng Wang, Simeng Qin, Ranjie Duan, Haonan Cheng, Long Ye"
+    },
+    {
+     "title": "Beyond the V-PCC Reference Model: A Holistic Approach to Low-Complexity Attribute Map Generation",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3846172",
+     "authors": "Louis Fréneau, Guillaume Gautier, Alexandre Mercat, Jarno Vanne"
+    },
+    {
+     "title": "Synthesized Image Training Techniques: On Improving Model Performance Using Confusion",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3641856",
+     "authors": "Azeez Idris, Mohammed Khaleel, Wallapak Tavanapong, Piet C. De Groen"
+    },
+    {
+     "title": "-Score-Based Secure Biomedical Model for Effective Skin Lesion Segmentation Over eHealth Cloud",
+     "year": 2021,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 8,
+     "doi": "10.1145/3430806",
+     "authors": "Amitesh Singh Rajput, Vishesh Kumar Tanwar, Balasubramanian Raman"
+    },
+    {
+     "title": "Multi-Task–Driven Adapter-Based Foundation Model for Locomotion Prediction in Virtual Reality",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3786206",
+     "authors": "Ding Ding, Zicheng Liu, Hao Chen"
+    },
+    {
+     "title": "Gloss-driven Conditional Diffusion Models for Sign Language Production",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 45,
+     "doi": "10.1145/3663572",
+     "authors": "Shengeng Tang, Feng Xue, Jingjing Wu, Shuo Wang, Richang Hong"
+    },
+    {
+     "title": "Mastering Deepfake Detection: A Cutting-edge Approach to Distinguish GAN and Diffusion-model Images",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 74,
+     "doi": "10.1145/3652027",
+     "authors": "Luca Guarnera, Oliver Giudice, Sebastiano Battiato"
+    },
+    {
+     "title": "TTV Regularized LRTA Technique for the Estimation of Haze Model Parameters in Video Dehazing",
+     "year": 2022,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3465454",
+     "authors": "Baiju P. S., Sudhish N. George"
+    },
+    {
+     "title": "Intelligent Prompt Construction for Large Language Models in Knowledge-based Visual Question Answering",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3833389",
+     "authors": "Zhongjian Hu, Peng Yang, Dongmei Yang, Fengyuan Liu"
+    },
+    {
+     "title": "Enhancing the Latent Space of 3D-GANs: A Model-Agnostic Paradigm for Hierarchical Disentanglement",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3827617",
+     "authors": "Xiao Cui, Xuanqing Cao, Li Li, Wengang Zhou, Houqiang Li"
+    },
+    {
+     "title": "AABLSTM: A Novel Multi-task Based CNN-RNN Deep Model for Fashion Analysis",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 4,
+     "doi": "10.1145/3519029",
+     "authors": "Xianlin Zhang, Mengling Shen, Xueming Li, Xiaojie Wang"
+    },
+    {
+     "title": "Towards Accurate and Smooth Human Motion Reconstruction from Sparse Tracking with State Space Model",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3778860",
+     "authors": "Kun Dong, Jian Xue, Zehai Niu, Qingyuan Liu, Shun Mao, Ke Lu"
+    },
+    {
+     "title": "An Efficient and Accurate GPU-based Deep Learning Model for Multimedia Recommendation",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3524022",
+     "authors": "Youcef Djenouri, Asma Belhadi, Gautam Srivastava, Jerry Chun-Wei Lin"
+    },
+    {
+     "title": "BlockKD3A: A Web3-Native Framework for Decentralized Collaborative AI and User-Generated Model Assets",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3822600",
+     "authors": "Ziang Zhou, Hongjian Shi, Ruhui Ma, Yuhan Qiu, Qiwei Yu, Shiquan Wang"
+    },
+    {
+     "title": "NNFMAC: A Neural Network Fingerprinting-Based Model Authentication Code Scheme",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3778121",
+     "authors": "Haiyu Deng, Xu Wang, Guangsheng Yu, Wei Ni, Ying He, Tanzeela Altaf"
+    },
+    {
+     "title": "Mitigating Multilingual Hallucination in Large Vision-Language Models",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3797025",
+     "authors": "Xiaoye Qu, Mingyang Song, Wei Wei, Daizong Liu, Jianfeng Dong, Yu Cheng"
+    },
+    {
+     "title": "A Multi-agent Feature Selection and Hybrid Classification Model for Parkinson's Disease Diagnosis",
+     "year": 2021,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 47,
+     "doi": "10.1145/3433180",
+     "authors": "Mazin Abed Mohammed, Mohamed Elhoseny, Karrar Hameed Abdulkareem, Salama A. Mostafa, Mashael S. Maashi"
+    },
+    {
+     "title": "MatPose: A 2D Human Pose Estimation Model with Hybrid Mamba-Transformer",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 5,
+     "doi": "10.1145/3777469",
+     "authors": "Wenjun Xie, Kejun Chen, Dong Wang, Xiaoping Liu"
+    },
+    {
+     "title": "An Explainable Deep Learning Ensemble Model for Robust Diagnosis of Diabetic Retinopathy Grading",
+     "year": 2021,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 50,
+     "doi": "10.1145/3469841",
+     "authors": "Mohammad Shorfuzzaman, M. Shamim Hossain, Abdulmotaleb El Saddik"
+    },
+    {
+     "title": "Dynamic De-Redundancy and Modality-Guided Feature De-Noisy for Multimodal Recommendation",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3797878",
+     "authors": "Feng Mo, Lin Xiao, Qiya Song, Xieping Gao, Eryao Liang"
+    },
+    {
+     "title": "LAM-MD: A Large Action Model Integrated Multi-Agent Reinforcement Learning Framework for NOMA Networks",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3817118",
+     "authors": "Yuhong He, Wenjing Xiao, Miaojiang Chen, Anfeng Liu, Min Chen, Ahmed Farouk"
+    },
+    {
+     "title": "Transform, Warp, and Dress: A New Transformation-guided Model for Virtual Try-on",
+     "year": 2022,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 17,
+     "doi": "10.1145/3491226",
+     "authors": "Matteo Fincato, Marcella Cornia, Federico Landi, Fabio Cesari, Rita Cucchiara"
+    },
+    {
+     "title": "VL-NMS: Breaking Proposal Bottlenecks in Two-stage Visual-language Matching",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 5,
+     "doi": "10.1145/3579095",
+     "authors": "Chenchi Zhang, Wenbo Ma, Jun Xiao, Hanwang Zhang, Jian Shao, Yueting Zhuang"
+    },
+    {
+     "title": "MECI: A Multi-Model Motion Capture-Free Event Dataset Featuring Large-Scale Challenging Indoor Environments",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3820502",
+     "authors": "Yang Chen, Lin Zhang, Shengjie Zhao, Yicong Zhou"
+    },
+    {
+     "title": "DRSV: A Robust Framework for Signature Verification Based on Diffusion Model",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3803022",
+     "authors": "Jian-Xin Ren, Ming-Bo Zhao, Zhao Zhang, Jicong Fan"
+    },
+    {
+     "title": "DPDFormer: A Coarse-to-Fine Model for Monocular Depth Estimation",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 9,
+     "doi": "10.1145/3638559",
+     "authors": "Chunpu Liu, Guanglei Yang, Wangmeng Zuo, Tianyi Zang"
+    },
+    {
+     "title": "Unified View Empirical Study for Large Pretrained Model on Cross-Domain Few-Shot Learning",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 7,
+     "doi": "10.1145/3673231",
+     "authors": "Linhai Zhuo, Yuqian Fu, Jingjing Chen, Yixin Cao, Yu-Gang Jiang"
+    },
+    {
+     "title": "Face Reconstruction-Based Generalized Deepfake Detection Model with Residual Outlook Attention",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 13,
+     "doi": "10.1145/3686162",
+     "authors": "Zenan Shi, Wenyu Liu, Haipeng Chen"
+    },
+    {
+     "title": "CALICE: Continuous Bitrate Control with Adapted LIC Model",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3820658",
+     "authors": "Gabriele Spadaro, Alberto Presta, Jhony H. Giraldo, Attilio Fiandrotti, Marco Grangetto, Enzo Tartaglione"
+    }
+   ]
+  },
+  "sound event detection": {
+   "total": 51057,
+   "kept": 93,
+   "papers": [
+    {
+     "title": "E-detector: Asynchronous Spatio-temporal for Event-based Object Detection in Intelligent Transportation System",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 6,
+     "doi": "10.1145/3584361",
+     "authors": "Shixiong Zhang, Wenmin Wang, Honglei Li, Shenyong Zhang"
+    },
+    {
+     "title": "Graph-Based Event and Sub-Event Grouping in User-Generated Videos with Distortion-Aware Keyframe Clustering",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3820503",
+     "authors": "Malya Singh, Wei Tsang Ooi, Abdulmotaleb El Saddik, Mukesh Saini"
+    },
+    {
+     "title": "Learning Suspected Anomalies from Event Prompts for Video Anomaly Detection",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3801554",
+     "authors": "Chenchen Tao, Xiaohao Peng, Chong Wang, Jiafei Wu, Puning Zhao, Jun Wang"
+    },
+    {
+     "title": "Event-based Lip Reading with Triplane Fusion Network",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3787856",
+     "authors": "Hao Ju, Zhedong Zheng, Xu Zheng, Wenyue Chen, Lin Wang, Dong Wang"
+    },
+    {
+     "title": "Guided Masked Self-Distillation Modeling for Distributed Multimedia Sensor Event Analysis",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 3,
+     "doi": "10.1145/3779057",
+     "authors": "Masahiro Yasuda, Noboru Harada, Yasunori Ohishi, Shoichiro Saito, Akira Nakayama, Nobutaka Ono"
+    },
+    {
+     "title": "Smart Director: An Event-Driven Directing System for Live Broadcasting",
+     "year": 2021,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 22,
+     "doi": "10.1145/3448981",
+     "authors": "Yingwei Pan, Yue Chen, Qian Bao, Ning Zhang, Ting Yao, Jingen Liu"
+    },
+    {
+     "title": "MECI: A Multi-Model Motion Capture-Free Event Dataset Featuring Large-Scale Challenging Indoor Environments",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3820502",
+     "authors": "Yang Chen, Lin Zhang, Shengjie Zhao, Yicong Zhou"
+    },
+    {
+     "title": "Demonstrative Learning for Human-Agent Knowledge Transfer",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3703838",
+     "authors": "Xiaonuo Dongye, Haiyan Jiang, Dongdong Weng, Zhenliang Zhang"
+    },
+    {
+     "title": "An Efficient Hybrid Cascade Tracker with Spiking Neural Networks for Event Domain Tracking",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3795518",
+     "authors": "Yun Zhou, Hongfu Yin, Chunyu Tan, Qiaoyun Wu, Changyin Sun, Richang Hong"
+    },
+    {
+     "title": "EvSAM: Segment Anything Model with Event-based Assistance",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3786794",
+     "authors": "Yi Ding, Bowen Yao, Yuhan Liu, Hao Chen, Ding Ding, Zhen Yang"
+    },
+    {
+     "title": "Shot Boundary Detection Using Color Clustering and Attention Mechanism",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 16,
+     "doi": "10.1145/3595923",
+     "authors": "Ye Yuan, Jiawan Zhang"
+    },
+    {
+     "title": "Dual-Branch Point-Supervised Action Detection Network with High Quality Pseudo-Labels",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3762194",
+     "authors": "Xu Cui, Xinyan Liu, Weigang Zhang, Laiyun Qing"
+    },
+    {
+     "title": "Deep Convolutional Pooling Transformer for Deepfake Detection",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 89,
+     "doi": "10.1145/3588574",
+     "authors": "Tianyi Wang, Harry Cheng, Kam Pui Chow, Liqiang Nie"
+    },
+    {
+     "title": "Synthetic Data and Hierarchical Object Detection in Overhead Imagery",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 10,
+     "doi": "10.1145/3635309",
+     "authors": "Nathan Clement, Alan Schoen, Arnold Boedihardjo, Andrew Jenkins"
+    },
+    {
+     "title": "Hierarchical Learning and Dummy Triplet Loss for Efficient Deepfake Detection",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 6,
+     "doi": "10.1145/3626101",
+     "authors": "Nicolas Beuve, Wassim Hamidouche, Olivier Déforges"
+    },
+    {
+     "title": "Deepfake Detection Using Spatiotemporal Transformer",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 48,
+     "doi": "10.1145/3643030",
+     "authors": "Bachir Kaddar, Sid Ahmed Fezza, Zahid Akhtar, Wassim Hamidouche, Abdenour Hadid, Joan Serra-Sagristá"
+    },
+    {
+     "title": "Bottom-up and Layerwise Domain Adaptation for Pedestrian Detection in Thermal Images",
+     "year": 2021,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 56,
+     "doi": "10.1145/3418213",
+     "authors": "My Kieu, Andrew D. Bagdanov, Marco Bertini"
+    },
+    {
+     "title": "Skeleton-Boundary–Guided Network for Camouflaged Object Detection",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3711869",
+     "authors": "Yuzhen Niu, Yeyuan Xu, Yuezhou Li, Jiabang Zhang, Yuzhong Chen"
+    },
+    {
+     "title": "PAV-SOD: A New Task towards Panoramic Audiovisual Saliency Detection",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 11,
+     "doi": "10.1145/3565267",
+     "authors": "Yi Zhang, Fang-Yi Chao, Wassim Hamidouche, Olivier Deforges"
+    },
+    {
+     "title": "Towards Sustainable Universal Deepfake Detection with Frequency-Domain Masking",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3797266",
+     "authors": "Chandler Timm C. Doloriel, Habib Ullah, Kristian Hovde Liland, Fadi Al Machot, Ngai-Man Cheung"
+    },
+    {
+     "title": "FDQ-Det: Frequency-Aware Spatial Modeling and Density-Guided Query for Tiny Object Detection",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3831708",
+     "authors": "Zhejie Ma, Haiyang Hu"
+    },
+    {
+     "title": "Gated Multi-Modal Edge Refinement Network for Light Field Salient Object Detection",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3674836",
+     "authors": "Yefan Li, Fuqing Duan, Ke Lu"
+    },
+    {
+     "title": "Detection of Recolored Image by Texture Features in Chrominance Components",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 4,
+     "doi": "10.1145/3571076",
+     "authors": "Yushu Zhang, Nuo Chen, Shuren Qi, Mingfu Xue, Zhongyun Hua"
+    },
+    {
+     "title": "Compensating Propagated Error in Wide Angle Intra Prediction for Enhanced VVC Double Compression Detection",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3830241",
+     "authors": "Xiao Han, Qiang Xu, Tanfeng Sun, Xinghao Jiang, Shijie Hou"
+    },
+    {
+     "title": "Axial-shunted Spatial-temporal Conversation for Change Detection",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 5,
+     "doi": "10.1145/3721135",
+     "authors": "Yuchao Feng, Mengjie Qin, Jiawei Jiang, Jintao Lai, Jianwei Zheng"
+    },
+    {
+     "title": "Distill-DBDGAN: Knowledge Distillation and Adversarial Learning Framework for Defocus Blur Detection",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 8,
+     "doi": "10.1145/3557897",
+     "authors": "Sankaraganesh Jonna, Moushumi Medhi, Rajiv Ranjan Sahay"
+    },
+    {
+     "title": "End-to-end Multi-face Forgery Detection via Progressively-explicit Queries",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3801556",
+     "authors": "Pengwen Dai, Xiaomeng Wen, Feiyang He, Xiaoru Cai, Xugong Qin, Sanyi Zhang"
+    },
+    {
+     "title": "MAFF-Net: A Multi-level Acoustic Feature Fusion Network For Synthetic Audio Detection",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3767331",
+     "authors": "Dong Chen, Fan Huang, Chengxin Chen, Zhengxuan Song, Ge Lin, Kun Zeng"
+    },
+    {
+     "title": "Mastering Deepfake Detection: A Cutting-edge Approach to Distinguish GAN and Diffusion-model Images",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 74,
+     "doi": "10.1145/3652027",
+     "authors": "Luca Guarnera, Oliver Giudice, Sebastiano Battiato"
+    },
+    {
+     "title": "Synthetic Data for Object Detection with Neural Networks: State-of-the-Art Survey of Domain Randomisation Techniques",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 15,
+     "doi": "10.1145/3637064",
+     "authors": "Adam Westerski, Wee Teck Fong"
+    },
+    {
+     "title": "LogoDet-3K: A Large-scale Image Dataset for Logo Detection",
+     "year": 2022,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 55,
+     "doi": "10.1145/3466780",
+     "authors": "Jing Wang, Weiqing Min, Sujuan Hou, Shengnan Ma, Yuanjie Zheng, Shuqiang Jiang"
+    },
+    {
+     "title": "PRest-Net: Multi-domain Probability Estimation Network for Robust Image Forgery Detection",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 19,
+     "doi": "10.1145/3711930",
+     "authors": "Jiaxin Chen, Xin Liao, Zhenxing Qian, Zheng Qin"
+    },
+    {
+     "title": "Siamese Network-Based Detection of Deepfake Impersonation Attacks with a Person of Interest Approach",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 8,
+     "doi": "10.1145/3708352",
+     "authors": "Khouloud Samrouth, Pia El Housseini, Olivier Deforges"
+    },
+    {
+     "title": "Temporal Dynamic Concept Modeling Network for Explainable Video Event Recognition",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3568312",
+     "authors": "Weigang Zhang, Zhaobo Qi, Shuhui Wang, Chi Su, Li Su, Qingming Huang"
+    },
+    {
+     "title": "Evaluating Adaptive Video Streaming over Multipath QUIC with Shared Bottleneck Detection",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 6,
+     "doi": "10.1145/3711862",
+     "authors": "Bruno Kimura, Simone Ferlin, Thomas Paiva, Toktam Mahmoodi, Anna Brunstrom, Ozgu Alay"
+    },
+    {
+     "title": "DualFocusNet: Dual-Stream Spatio-Temporal Transformer for Generalizable Deepfake Detection",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3820378",
+     "authors": "Bachir Kaddar, Joan Serra-Sagrista, Victor Sanchez, Marco Raoul Marini, Federico Fontana"
+    },
+    {
+     "title": "CamWave-Emo: Advanced Contactless Emotion Detection from Facial Expression Analysis Using Camera Labeling and mm-wave Sensing",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3767743",
+     "authors": "Naveed Imran, Jian Zhang, Jehad Ali, Sana Hameed, Mohammed J.F. Alenazi, Houbing Song"
+    },
+    {
+     "title": "SwinShadow: Shifted Window for Ambiguous Adjacent Shadow Detection",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 5,
+     "doi": "10.1145/3688803",
+     "authors": "Yonghui Wang, Shaokai Liu, Li Li, Wengang Zhou, Houqiang Li"
+    },
+    {
+     "title": "Potential Features Fusion Network for Multimodal Fake News Detection",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 18,
+     "doi": "10.1145/3711866",
+     "authors": "Feifei Kou, Bingwei Wang, Haisheng Li, Chuangying Zhu, Lei Shi, Jiwei Zhang"
+    },
+    {
+     "title": "Disentangle Saliency Detection into Cascaded Detail Modeling and Body Filling",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 8,
+     "doi": "10.1145/3513134",
+     "authors": "Yue Song, Hao Tang, Nicu Sebe, Wei Wang"
+    },
+    {
+     "title": "A Temporal Action Detection Framework Based on Multi-Scale Temporal-Channel Collaboration",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3833086",
+     "authors": "Yibo Zhao, Wen Zhang, Chunjie Ma, Cong Liu, Riwei Wang, Zan Gao"
+    },
+    {
+     "title": "UEFPN: Unified and Enhanced Feature Pyramid Networks for Small Object Detection",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 8,
+     "doi": "10.1145/3561824",
+     "authors": "Ziteng Qiao, Dianxi Shi, Xiaodong Yi, Yanyan Shi, Yuhui Zhang, Yangyang Liu"
+    },
+    {
+     "title": "Towards Generalizable Deepfake Detection by Primary Region Regularization",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3777474",
+     "authors": "Harry Cheng, Yangyang Guo, Tianyi Wang, Liqiang Nie, Mohan Kankanhalli"
+    },
+    {
+     "title": "Multigranularity Feature Aggregation and Cross-level Boundary Modeling for Temporal Action Detection",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 5,
+     "doi": "10.1145/3712598",
+     "authors": "Qiang Li, Di Liu, Guang Zu, Sen Li, Hui Sun, Jianzhong Wang"
+    },
+    {
+     "title": "Unsupervised Adversarial Example Detection of Vision Transformers for Trustworthy Edge Computing",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3674981",
+     "authors": "Jiaxing Li, Yu’an Tan, Jie Yang, Zhengdao Li, Heng Ye, Chenxiao Xia"
+    },
+    {
+     "title": "Sparsity-guided Discriminative Feature Encoding for Robust Keypoint Detection",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3628432",
+     "authors": "Yurui Xie, Ling Guan"
+    },
+    {
+     "title": "Exploiting Residual and Illumination with GANs for Shadow Detection and Shadow Removal",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 9,
+     "doi": "10.1145/3571745",
+     "authors": "Ling Zhang, Chengjiang Long, Xiaolong Zhang, Chunxia Xiao"
+    },
+    {
+     "title": "Data Augmentation-based Novel Deep Learning Method for Deepfaked Images Detection",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 57,
+     "doi": "10.1145/3592615",
+     "authors": "Farkhund Iqbal, Ahmed Abbasi, Abdul Rehman Javed, Ahmad Almadhor, Zunera Jalil, Sajid Anwar"
+    },
+    {
+     "title": "RICA-MD: A Refined ICA Algorithm for Motion Detection",
+     "year": 2021,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3416492",
+     "authors": "Chao Zhang, Xiaopei Wu, Jianchao Lu, Xi Zheng, Alireza Jolfaei, Quan Z. Sheng"
+    },
+    {
+     "title": "Weighted Guided Optional Fusion Network for RGB-T Salient Object Detection",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 14,
+     "doi": "10.1145/3624984",
+     "authors": "Jie Wang, Guoqiang Li, Jie Shi, Jinwen Xi"
+    },
+    {
+     "title": "Temporal-Enhanced Radar and Camera Fusion for Object Detection",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3700442",
+     "authors": "Linhua Kong, Yiming Wang, Dongxia Chang, Yao Zhao"
+    },
+    {
+     "title": "Towards Intelligent Attack Detection Using DNA Computing",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 8,
+     "doi": "10.1145/3561057",
+     "authors": "Zengri Zeng, Baokang Zhao, Han-Chieh Chao, Ilsun You, Kuo-Hui Yeh, Weizhi Meng"
+    },
+    {
+     "title": "Dual-Branch Cross-Layer Information Flow Network for Camouflaged Object Detection in Complex Scenes",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3764866",
+     "authors": "Yuan Cao, Dong Wang"
+    },
+    {
+     "title": "Joint Audio-Visual Attention with Contrastive Learning for More General Deepfake Detection",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 34,
+     "doi": "10.1145/3625100",
+     "authors": "Yibo Zhang, Weiguo Lin, Junfeng Xu"
+    },
+    {
+     "title": "Exploiting Backdoors of Face Synthesis Detection with Natural Triggers",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3677380",
+     "authors": "Xiaoxuan Han, Songlin Yang, Wei Wang, Ziwen He, Jing Dong"
+    },
+    {
+     "title": "GLU-Net: Global–Local Fusion Network for Event-Based Monocular Depth Estimation via Uncertainty Optimization",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3803017",
+     "authors": "Shangjie Wu, Jihua Zhu, Zhikuan Zhou, Siqi Li, Shaoyi Du, Yue Gao"
+    },
+    {
+     "title": "Spatial-temporal Regularized Multi-modality Correlation Filters for Tracking with Re-detection",
+     "year": 2021,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 11,
+     "doi": "10.1145/3430257",
+     "authors": "Xiangyuan Lan, Zifei Yang, Wei Zhang, Pong C. Yuen"
+    },
+    {
+     "title": "Boosting Foreground-Background Disentanglement for Camouflaged Object Detection",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3768584",
+     "authors": "Jiesheng Wu, Fangwei Hao, Jing Xu"
+    },
+    {
+     "title": "Visual-Guided Long Temporal Context Learning Network for Weakly Supervised Video Anomaly Detection",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3810186",
+     "authors": "Hao Zhou, Ruomei Wang, Linxuan Han, Baoquan Zhao, Fan Zhou"
+    },
+    {
+     "title": "SDCN2: A Shallow Densely Connected CNN for Multi-Purpose Image Manipulation Detection",
+     "year": 2022,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 13,
+     "doi": "10.1145/3510462",
+     "authors": "Gurinder Singh, Puneet Goyal"
+    },
+    {
+     "title": "ProActive DeepFake Detection using GAN-based Visible Watermarking",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 57,
+     "doi": "10.1145/3625547",
+     "authors": "Aakash Varma Nadimpalli, Ajita Rattani"
+    },
+    {
+     "title": "Toward Oriented Fisheye Object Detection: Dataset and Baseline",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 4,
+     "doi": "10.1145/3702640",
+     "authors": "Jialin Yang, Chunyu Lin, Lang Nie, Zisen Kong, Jiapeng Wang, Yao Zhao"
+    },
+    {
+     "title": "ForgeFinder: Perceptive Multimodal Deepfake Detection via Multi-grained Forgery Localization",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3778030",
+     "authors": "Baoping Liu, Bo Liu, Ming Ding, Tianqing Zhu"
+    },
+    {
+     "title": "Boosting Few-shot Object Detection with Discriminative Representation and Class Margin",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 9,
+     "doi": "10.1145/3608478",
+     "authors": "Yanyan Shi, Shaowu Yang, Wenjing Yang, Dianxi Shi, Xuehui Li"
+    },
+    {
+     "title": "An Integrated Dual-Motion Framework for Camouflaged Object Detection in Videos",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3820042",
+     "authors": "Xinyu Wang, Hong-Shuo Chen, Zhiruo Zhou, Suya You, Azad M. Madni, C.-C. Jay Kuo"
+    },
+    {
+     "title": "EOGT: Video Anomaly Detection with Enhanced Object Information and Global Temporal Dependency",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 11,
+     "doi": "10.1145/3662185",
+     "authors": "Ruoyan Pi, Peng Wu, Xiangteng He, Yuxin Peng"
+    },
+    {
+     "title": "Generative Edge Detection with Stable Diffusion",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3830018",
+     "authors": "Caixia Zhou, Yaping Huang, Mochu Xiang, Jiahui Ren, Haibin Ling, Jing Zhang"
+    },
+    {
+     "title": "An Effective Forest Fire Detection Framework Using Heterogeneous Wireless Multimedia Sensor Networks",
+     "year": 2022,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 74,
+     "doi": "10.1145/3473037",
+     "authors": "Burak Kizilkaya, Enver Ever, Hakan Yekta Yatbaz, Adnan Yazici"
+    },
+    {
+     "title": "AMVFNet: Attentive Multi-View Fusion Network for 3D Object Detection",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3689639",
+     "authors": "Yuxiao Huang, Zhicong Huang, Jingwen Zhao, Haifeng Hu, Dihu Chen"
+    },
+    {
+     "title": "Multimodal Neurosymbolic Approach for Explainable Deepfake Detection",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 26,
+     "doi": "10.1145/3624748",
+     "authors": "Ijaz Ul Haq, Khalid Mahmood Malik, Khan Muhammad"
+    },
+    {
+     "title": "Multi-Granular Action Detection Based on Highlighted Categories Hierarchical Prior Knowledge",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3815785",
+     "authors": "Xiaochen Wang, Dehui Kong, Jinghua Li, Jing Wang, Baocai Yin"
+    },
+    {
+     "title": "Domain Adaptive Thermal Object Detection with Unbiased Granularity Alignment",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 4,
+     "doi": "10.1145/3665892",
+     "authors": "Caijuan Shi, Yuanfan Zheng, Zhen Chen"
+    },
+    {
+     "title": "Vocoder Detection of Spoofing Speech Based on GAN Fingerprints and Domain Generalization",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 8,
+     "doi": "10.1145/3630751",
+     "authors": "Fan Li, Yanxiang Chen, Haiyang Liu, Zuxing Zhao, Yuanzhi Yao, Xin Liao"
+    },
+    {
+     "title": "Exploring Image Enhancement for Salient Object Detection in Low Light Images",
+     "year": 2021,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 58,
+     "doi": "10.1145/3414839",
+     "authors": "Xin Xu, Shiqin Wang, Zheng Wang, Xiaolong Zhang, Ruimin Hu"
+    },
+    {
+     "title": "Boosting Relationship Detection in Images with Multi-Granular Self-Supervised Learning",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 3,
+     "doi": "10.1145/3556978",
+     "authors": "Xuewei Ding, Yingwei Pan, Yehao Li, Ting Yao, Dan Zeng, Tao Mei"
+    },
+    {
+     "title": "Detection of AI-Manipulated Fake Faces via Mining Generalized Features",
+     "year": 2022,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 33,
+     "doi": "10.1145/3499026",
+     "authors": "Yang Yu, Rongrong Ni, Wenjie Li, Yao Zhao"
+    },
+    {
+     "title": "GAROD: Delve into Gradient-Based Attribution Reliability for Out-of-Distribution Detection",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3787859",
+     "authors": "Guanhua Zheng, Jitao Sang, Changsheng Xu"
+    },
+    {
+     "title": "Hierarchical Global–Local Fusion for One-stage Open-vocabulary Temporal Action Detection",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3773986",
+     "authors": "Trung Thanh Nguyen, Yasutomo Kawanishi, Takahiro Komamizu, Ichiro Ide"
+    },
+    {
+     "title": "Temporal Scene Montage for Self-Supervised Video Scene Boundary Detection",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 4,
+     "doi": "10.1145/3654669",
+     "authors": "Jiawei Tan, Pingan Yang, Lu Chen, Hongxing Wang"
+    },
+    {
+     "title": "Deep Learning for Logo Detection: A Survey",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 24,
+     "doi": "10.1145/3611309",
+     "authors": "Sujuan Hou, Jiacheng Li, Weiqing Min, Qiang Hou, Yanna Zhao, Yuanjie Zheng"
+    },
+    {
+     "title": "Face Reconstruction-Based Generalized Deepfake Detection Model with Residual Outlook Attention",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 13,
+     "doi": "10.1145/3686162",
+     "authors": "Zenan Shi, Wenyu Liu, Haipeng Chen"
+    },
+    {
+     "title": "Domain-invariant and Patch-discriminative Feature Learning for General Deepfake Detection",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 4,
+     "doi": "10.1145/3657297",
+     "authors": "Jian Zhang, Jiangqun Ni, Fan Nie, Jiwu Huang"
+    },
+    {
+     "title": "Exploring Generative Adversarial Networks for Augmenting Network Intrusion Detection Tasks",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 10,
+     "doi": "10.1145/3689636",
+     "authors": "Mihai Gabriel Constantin, Dan-Cristian Stanciu, Liviu-Daniel Ştefan, Mihai Dogariu, Dan Mihăilescu, George Ciobanu"
+    },
+    {
+     "title": "TCSD: Triple Complementary Streams Detector for Comprehensive Deepfake Detection",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 15,
+     "doi": "10.1145/3558004",
+     "authors": "Xiaolong Liu, Yang Yu, Xiaolong Li, Yao Zhao, Guodong Guo"
+    },
+    {
+     "title": "InterCLIP-MEP: Interactive CLIP and Memory-Enhanced Predictor for Multi-Modal Sarcasm Detection",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 6,
+     "doi": "10.1145/3776561",
+     "authors": "Junjie Chen, Hang Yu, Subin Huang, Sanmin Liu, Linfeng Zhang"
+    },
+    {
+     "title": "A New Tensor Summary Statistic for Real-Time Detection of Stealthy Anomaly in Avatar Interaction",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 3,
+     "doi": "10.1145/3689429",
+     "authors": "Jiuzhen Zeng, Laurence T. Yang, Chao Wang, Junjie Su, Xianjun Deng"
+    },
+    {
+     "title": "Detection of Adversarial Facial Accessory Presentation Attacks Using Local Face Differential",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 4,
+     "doi": "10.1145/3643831",
+     "authors": "Fei Peng, Le Qin, Min Long, Jin Li"
+    },
+    {
+     "title": "Contrastive Learning-Based Speech Spoofing Detection for Multimedia Security in Edge Intelligence",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 3,
+     "doi": "10.1145/3698773",
+     "authors": "Jiaqi Sun, Xianjun Deng, Shenghao Liu, Xiaoxuan Fan, Yongling Huang, Yuanyuan He"
+    },
+    {
+     "title": "MFECN: Multi-level Feature Enhanced Cumulative Network for Scene Text Detection",
+     "year": 2021,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 3,
+     "doi": "10.1145/3440087",
+     "authors": "Zhandong Liu, Wengang Zhou, Houqiang Li"
+    },
+    {
+     "title": "Frequency-aware Camouflaged Object Detection",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 49,
+     "doi": "10.1145/3545609",
+     "authors": "Jiaying Lin, Xin Tan, Ke Xu, Lizhuang Ma, Rynson W. H. Lau"
+    },
+    {
+     "title": "Towards Accurate Oriented Object Detection in Aerial Images with Adaptive Multi-level Feature Fusion",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 28,
+     "doi": "10.1145/3513133",
+     "authors": "Peining Zhen, Shuqi Wang, Suming Zhang, Xiaotao Yan, Wei Wang, Zhigang Ji"
+    },
+    {
+     "title": "Residual Refinement Network with Attribute Guidance for Precise Saliency Detection",
+     "year": 2021,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 6,
+     "doi": "10.1145/3440694",
+     "authors": "Feng Lin, Wengang Zhou, Jiajun Deng, Bin Li, Yan Lu, Houqiang Li"
+    },
+    {
+     "title": "A SAM-guided Two-stream Lightweight Model for Anomaly Detection",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 18,
+     "doi": "10.1145/3706574",
+     "authors": "Chenghao Li, Lei Qi, Xin Geng"
+    }
+   ]
+  },
+  "neural codec": {
+   "total": 39934,
+   "kept": 49,
+   "papers": [
+    {
+     "title": "A Universal Optimization Framework for Learning-based Image Codec",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 12,
+     "doi": "10.1145/3580499",
+     "authors": "Jing Zhao, Bin Li, Jiahao Li, Ruiqin Xiong, Yan Lu"
+    },
+    {
+     "title": "MEDUSA: A Dynamic Codec Switching Approach in HTTP Adaptive Streaming",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 3,
+     "doi": "10.1145/3656175",
+     "authors": "Daniele Lorenzi, Farzad Tashtarian, Hermann Hellwagner, Christian Timmerer"
+    },
+    {
+     "title": "<i>CLOUD-CODEC</i>\n            : A New Way of Storing Traffic Camera Footage at Scale",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3744649",
+     "authors": "Hoyoung Kim, Azimbek Khudoyberdiev, Shubhangi S. R. Garnaik, Arani Bhattacharya, Jihoon Ryoo"
+    },
+    {
+     "title": "Viewport-based Neural 360° Image Compression",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3844943",
+     "authors": "Jingwei Liao, Bo Chen, Klara Nahrstedt, Zhisheng Yan"
+    },
+    {
+     "title": "Spatio-Temporal Spectra-Preserving Neural Representation for Video Modeling",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3796711",
+     "authors": "Jina Kim, Je-Won Kang"
+    },
+    {
+     "title": "Multitarget Tracking Using Siamese Neural Networks",
+     "year": 2021,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 44,
+     "doi": "10.1145/3441656",
+     "authors": "Na An, Wei Qi Yan"
+    },
+    {
+     "title": "Fully Decentralized NFT Storage through Frequency Domain Neural Network Compression",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3842752",
+     "authors": "Ningbo Zhu, Xinyao Sun, Irene Cheng"
+    },
+    {
+     "title": "Neural Image Compression with Regional Decoding",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 8,
+     "doi": "10.1145/3708347",
+     "authors": "Yili Jin, Jiahao Li, Bin Li, Yan Lu"
+    },
+    {
+     "title": "Pansharpening Scheme Using Bi-dimensional Empirical Mode Decomposition and Neural Network",
+     "year": 2022,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3506709",
+     "authors": "Nidhi Saxena, Balasubramanian Raman"
+    },
+    {
+     "title": "Diffusion-based Perceptual Neural Video Compression with Temporal Diffusion Information Reuse",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 14,
+     "doi": "10.1145/3761815",
+     "authors": "Wenzhuo Ma, Zhenzhong Chen"
+    },
+    {
+     "title": "Ischemic Stroke Segmentation by Transformer and Convolutional Neural Network Using Few-Shot Learning",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 10,
+     "doi": "10.1145/3699513",
+     "authors": "Fatima Alshehri, Ghulam Muhammad"
+    },
+    {
+     "title": "Optimized Deep-Neural Network for Content-based Medical Image Retrieval in a Brownfield IoMT Network",
+     "year": 2022,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 10,
+     "doi": "10.1145/3546194",
+     "authors": "Arti Tiwari, Millie Pant"
+    },
+    {
+     "title": "RCNNshift: Moving Object Tracking with Kernel and Training-Free Spiking Neural Network",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3773283",
+     "authors": "Haoran Liu, Peng Li, Mingzhe Liu, Yiran Chen, Rui Yao"
+    },
+    {
+     "title": "Neural Network Assisted Depth Map Packing for Compression Using Standard Hardware Video Codecs",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 4,
+     "doi": "10.1145/3588440",
+     "authors": "Matti Siekkinen, Teemu Kämäräinen"
+    },
+    {
+     "title": "Semantic Explanation for Deep Neural Networks Using Feature Interactions",
+     "year": 2021,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3474557",
+     "authors": "Bohui Xia, Xueting Wang, Toshihiko Yamasaki"
+    },
+    {
+     "title": "Synthetic Data for Object Detection with Neural Networks: State-of-the-Art Survey of Domain Randomisation Techniques",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 15,
+     "doi": "10.1145/3637064",
+     "authors": "Adam Westerski, Wee Teck Fong"
+    },
+    {
+     "title": "Mimicking Individual Media Quality Perception with Neural Network based Artificial Observers",
+     "year": 2022,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 10,
+     "doi": "10.1145/3464393",
+     "authors": "Lohic Fotio Tiotsop, Tomas Mizdos, Marcus Barkowsky, Peter Pocta, Antonio Servetti, Enrico Masala"
+    },
+    {
+     "title": "NNFMAC: A Neural Network Fingerprinting-Based Model Authentication Code Scheme",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3778121",
+     "authors": "Haiyu Deng, Xu Wang, Guangsheng Yu, Wei Ni, Ying He, Tanzeela Altaf"
+    },
+    {
+     "title": "Video Decolorization Based on the CNN and LSTM Neural Network",
+     "year": 2021,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 6,
+     "doi": "10.1145/3446619",
+     "authors": "Shiguang Liu, Huixin Wang, Xiaoli Zhang"
+    },
+    {
+     "title": "Facial-expression-aware Emotional Color Transfer Based on Convolutional Neural Network",
+     "year": 2022,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 6,
+     "doi": "10.1145/3464382",
+     "authors": "Shiguang Liu, Huixin Wang, Min Pei"
+    },
+    {
+     "title": "Quality Enhancement of Compressed 360-Degree Videos Using Viewport-based Deep Neural Networks",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 5,
+     "doi": "10.1145/3551641",
+     "authors": "Qipu Qin, Cheolkon Jung"
+    },
+    {
+     "title": "Residual-guided In-loop Filter Using Convolution Neural Network",
+     "year": 2021,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 8,
+     "doi": "10.1145/3460820",
+     "authors": "Wei Jia, Li Li, Zhu Li, Xiang Zhang, Shan Liu"
+    },
+    {
+     "title": "Neural-Network-Based Cross-Channel Intra Prediction",
+     "year": 2021,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 8,
+     "doi": "10.1145/3434250",
+     "authors": "Yue Li, Yan Yi, Dong Liu, Li Li, Zhu Li, Houqiang Li"
+    },
+    {
+     "title": "A Reconfigurable Framework for Neural Network Based Video In-Loop Filtering",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 4,
+     "doi": "10.1145/3640467",
+     "authors": "Yichi Zhang, Dandan Ding, Zhan Ma, Zhu Li"
+    },
+    {
+     "title": "Doctor's Dilemma: Evaluating an Explainable Subtractive Spatial Lightweight Convolutional Neural Network for Brain Tumor Diagnosis",
+     "year": 2021,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 35,
+     "doi": "10.1145/3457187",
+     "authors": "Ambeshwar Kumar, Ramachandran Manikandan, Utku Kose, Deepak Gupta, Suresh C. Satapathy"
+    },
+    {
+     "title": "GAT-NeRF: Geometry-Aware-Transformer-Enhanced Neural Radiance Fields for High-Fidelity 4D Facial Avatars",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 3,
+     "doi": "10.1145/3770086",
+     "authors": "Zhe Chang, Haodong Jin, Yan Song, Ying Sun, Hui Yu"
+    },
+    {
+     "title": "Garment-Aware Neural Radiance Fields for Generalizable 3D Human Digitization",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3798043",
+     "authors": "Wei Yin, Li Liu, Xiaodong Fu, Lijun Liu, Wei Peng"
+    },
+    {
+     "title": "Advanced Neural Network-Based Video Coding Technologies for Intra Prediction and In-Loop Filtering",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 5,
+     "doi": "10.1145/3733108",
+     "authors": "Yue Li, Junru Li, Chaoyi Lin, Kai Zhang, Li Zhang, Franck Galpin"
+    },
+    {
+     "title": "Continuous Image Outpainting with Neural ODE",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 4,
+     "doi": "10.1145/3648367",
+     "authors": "Penglei Gao, Xi Yang, Rui Zhang, Kaizhu Huang"
+    },
+    {
+     "title": "Adaptive Neural In-Loop Filtering via Boundary-Aware Skipping and Time-Distortion Optimization",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3816143",
+     "authors": "Hyukmin Kwon, Juyeon Seo, Donghyun Kim, Sung-Chang Lim, Hyunsuk Ko"
+    },
+    {
+     "title": "Robust and Secure Hashing Towards Pirated Neural Network Model Detection",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3747297",
+     "authors": "Cheng Xiong, Chuan Qin, Zhenxing Qian, Xiaolong Li, Xinpeng Zhang"
+    },
+    {
+     "title": "Wavelength-based Attributed Deep Neural Network for Underwater Image Restoration",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 182,
+     "doi": "10.1145/3511021",
+     "authors": "Prasen Sharma, Ira Bisht, Arijit Sur"
+    },
+    {
+     "title": "CrowdGraph: Weakly supervised Crowd Counting via Pure Graph Neural Network",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 16,
+     "doi": "10.1145/3638774",
+     "authors": "Chengyang Zhang, Yong Zhang, Bo Li, Xinglin Piao, Baocai Yin"
+    },
+    {
+     "title": "BiRe-ID: Binary Neural Network for Efficient Person Re-ID",
+     "year": 2022,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 8,
+     "doi": "10.1145/3473340",
+     "authors": "Sheng Xu, Chang Liu, Baochang Zhang, Jinhu Lü, Guodong Guo, David Doermann"
+    },
+    {
+     "title": "ECCNAS: Efficient Crowd Counting Neural Architecture Search",
+     "year": 2022,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 19,
+     "doi": "10.1145/3465455",
+     "authors": "Yabin Wang, Zhiheng Ma, Xing Wei, Shuai Zheng, Yaowei Wang, Xiaopeng Hong"
+    },
+    {
+     "title": "An Efficient Hybrid Cascade Tracker with Spiking Neural Networks for Event Domain Tracking",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3795518",
+     "authors": "Yun Zhou, Hongfu Yin, Chunyu Tan, Qiaoyun Wu, Changyin Sun, Richang Hong"
+    },
+    {
+     "title": "A Convolutional Neural Network Model Using Weighted Loss Function to Detect Diabetic Retinopathy",
+     "year": 2022,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 16,
+     "doi": "10.1145/3470976",
+     "authors": "Mehedi Masud, Mohammed F. Alhamid, Yin Zhang"
+    },
+    {
+     "title": "Reference-based In-loop Filter with Robust Neural Feature Transfer for Video Coding",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3702643",
+     "authors": "Nayoung Kim, Jung-Kyung Lee, Je-Won Kang"
+    },
+    {
+     "title": "Dual-Scale Transformer with Variable Bitrate Synchronization for Neural Video Compression",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 4,
+     "doi": "10.1145/3801159",
+     "authors": "Yiming Wang, Yaojun Wu, Zhaobin Zhang, Qian Huang, Bin Tang, Zhangjing Yang"
+    },
+    {
+     "title": "GD-NeRF: Generative Detail Compensation for One-shot Generalizable Neural Radiance Fields",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3748331",
+     "authors": "Xiao Pan, Zongxin Yang, Shuai Bai, Yi Yang"
+    },
+    {
+     "title": "RePC: A Novel Neural Video Quality Enhancement System Framework for ABR Streaming of VBR-encoded Videos",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 1,
+     "doi": "10.1145/3727879",
+     "authors": "Mengyu Shi, Miao Wang, Yujun Zhang"
+    },
+    {
+     "title": "Understanding Image Retrieval Re-Ranking: A Graph Neural Network Perspective",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3803010",
+     "authors": "Xuanmeng Zhang, Minyue Jiang, Zhedong Zheng, Xiao Tan, Yi Yang"
+    },
+    {
+     "title": "A Geometrical Approach to Evaluate the Adversarial Robustness of Deep Neural Networks",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 3,
+     "doi": "10.1145/3587936",
+     "authors": "Yang Wang, Bo Dong, Ke Xu, Haiyin Piao, Yufei Ding, Baocai Yin"
+    },
+    {
+     "title": "TT-TSVD: A Multi-modal Tensor Train Decomposition with Its Application in Convolutional Neural Networks for Smart Healthcare",
+     "year": 2022,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 13,
+     "doi": "10.1145/3491223",
+     "authors": "Debin Liu, Laurence T. Yang, Puming Wang, Ruonan Zhao, Qingchen Zhang"
+    },
+    {
+     "title": "Audio-Visual Saliency Prediction Model with Implicit Neural Representation",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 2,
+     "doi": "10.1145/3698881",
+     "authors": "Nana Zhang, Min Xiong, Dandan Zhu, Kun Zhu, Guangtao Zhai, Xiaokang Yang"
+    },
+    {
+     "title": "Perceptual Hashing of Deep Convolutional Neural Networks for Model Copy Detection",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 27,
+     "doi": "10.1145/3572777",
+     "authors": "Haozhe Chen, Hang Zhou, Jie Zhang, Dongdong Chen, Weiming Zhang, Kejiang Chen"
+    },
+    {
+     "title": "TEC-CNN: Toward Efficient Compressing of Convolutional Neural Nets with Low-rank Tensor Decomposition",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 4,
+     "doi": "10.1145/3702641",
+     "authors": "Yifan Wang, Liang Feng, Fenglin Cai, Lusi Li, Rui Wu, Jie Li"
+    },
+    {
+     "title": "WTRPNet: An Explainable Graph Feature Convolutional Neural Network for Epileptic EEG Classification",
+     "year": 2021,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 22,
+     "doi": "10.1145/3460522",
+     "authors": "Qi Xin, Shaohao Hu, Shuaiqi Liu, Ling Zhao, Shuihua Wang"
+    },
+    {
+     "title": "Towards Energy-efficient Audio-visual Classification via Multimodal Interactive Spiking Neural Network",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 6,
+     "doi": "10.1145/3721981",
+     "authors": "Xu Liu, Na Xia, Jinxing Zhou, Zhangbin Li, Dan Guo"
+    }
+   ]
+  },
+  "on-device inference": {
+   "total": 8067,
+   "kept": 12,
+   "papers": [
+    {
+     "title": "Backpropagation-Free Multi-modal On-Device Model Adaptation via Cloud-Device Collaboration",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 4,
+     "doi": "10.1145/3706422",
+     "authors": "Wei Ji, Li Li, Zheqi Lv, Wenqiao Zhang, Mengze Li, Zhen Wan"
+    },
+    {
+     "title": "An Empirical Method for Causal Inference of Constructs for QoE in Haptic–Audiovisual Communications",
+     "year": 2022,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 6,
+     "doi": "10.1145/3473986",
+     "authors": "Shuji Tasaka"
+    },
+    {
+     "title": "LIME: High-Performance Private Inference with\n                    <u>L</u>\n                    ightweight\n                    <u>M</u>\n                    odel and Batch\n                    <u>E</u>\n                    ncryption",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3779221",
+     "authors": "Huan-Chih Wang, Ja-Ling Wu"
+    },
+    {
+     "title": "Bottom-up and Top-down Object Inference Networks for Image Captioning",
+     "year": 2022,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 11,
+     "doi": "10.1145/3580366",
+     "authors": "Yingwei Pan, Yehao Li, Ting Yao, Tao Mei"
+    },
+    {
+     "title": "Realizing Efficient On-Device Language-based Image Retrieval",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3649896",
+     "authors": "Zhiming Hu, Mete Kemertas, Lan Xiao, Caleb Phillips, Iqbal Mohomed, Afsaneh Fazly"
+    },
+    {
+     "title": "Multi-Source Knowledge Reasoning Graph Network for Multi-Modal Commonsense Inference",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 5,
+     "doi": "10.1145/3573201",
+     "authors": "Xuan Ma, Xiaoshan Yang, Changsheng Xu"
+    },
+    {
+     "title": "Causal Inference with Knowledge Distilling and Curriculum Learning for Unbiased VQA",
+     "year": 2022,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 29,
+     "doi": "10.1145/3487042",
+     "authors": "Yonghua Pan, Zechao Li, Liyan Zhang, Jinhui Tang"
+    },
+    {
+     "title": "Unbiased Embodied Visual Representation Learning with Causal Inference and Cross-Modality Alignment",
+     "year": 2025,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3760261",
+     "authors": "Jiaxu Kang, Bolei Chen, Ping Zhong, Yifei Wang, Haonan Yang, Yu Sheng"
+    },
+    {
+     "title": "Transformer-Based Relational Inference Network for Complex Visual Relational Reasoning",
+     "year": 2023,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 6,
+     "doi": "10.1145/3605781",
+     "authors": "Mingkui Tan, Zhiquan Wen, Leyuan Fang, Qi Wu"
+    },
+    {
+     "title": "HTMA-CL: A Hierarchical Tokenization and Multiscale Attention Framework for Compressive Domain Multimedia Inference",
+     "year": 2026,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 0,
+     "doi": "10.1145/3820057",
+     "authors": "Yanhao Jing, Xiangjun Wu, Datao You, Hui Wang, Zhe Hu, Haibin Kan"
+    },
+    {
+     "title": "Graph Pooling Inference Network for Text-based VQA",
+     "year": 2024,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 17,
+     "doi": "10.1145/3634918",
+     "authors": "Sheng Zhou, Dan Guo, Xun Yang, Jianfeng Dong, Meng Wang"
+    },
+    {
+     "title": "Secure Chaff-less Fuzzy Vault for Face Identification Systems",
+     "year": 2021,
+     "venue": "ACM Transactions on Multimedia Computing, Communications, and Applications",
+     "citationCount": 28,
+     "doi": "10.1145/3442198",
+     "authors": "Xingbo Dong, Soohyong Kim, Zhe Jin, Jung Yeon Hwang, Sangrae Cho, Andrew Beng Jin Teoh"
+    }
+   ]
+  }
+ }
+}

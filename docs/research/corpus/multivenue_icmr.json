@@ -1,0 +1,277 @@
+{
+ "venue": "ICMR",
+ "category": "multimedia",
+ "canonical_venue_string": "ACM International Conference on Multimedia Retrieval",
+ "wave": "B",
+ "generated_at": "2026-09-29 01:22:20",
+ "topics": [
+  "multimodal agent",
+  "audio language model",
+  "sound event detection",
+  "neural codec",
+  "on-device inference"
+ ],
+ "request_budget": {
+  "successful": 17,
+  "limit": 300,
+  "attempts": 5
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "multimodal agent": {
+   "total": 29352,
+   "kept": 6,
+   "papers": [
+    {
+     "title": "Dual-Stream Multimodal Learning for Topic-Adaptive Video Highlight Detection",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3591106.3592286",
+     "authors": "Ziwei Xiong, Han Wang"
+    },
+    {
+     "title": "MuseHash: Supervised Bayesian Hashing for Multimodal Image Representation",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 6,
+     "doi": "10.1145/3591106.3592228",
+     "authors": "Maria Pegia, Björn Þór Jónsson, Anastasia Moumtzidou, Ilias Gialampoukidis, Stefanos Vrochidis, Ioannis Kompatsiaris"
+    },
+    {
+     "title": "MMSF: A Multimodal Sentiment-Fused Method to Recognize Video Speaking Style",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 2,
+     "doi": "10.1145/3591106.3592219",
+     "authors": "Beibei Zhang, Yaqun Fang, Fan Yu, Jia Bei, Tongwei Ren"
+    },
+    {
+     "title": "Improving Generalization for Multimodal Fake News Detection",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 14,
+     "doi": "10.1145/3591106.3592230",
+     "authors": "Sahar Tahmasebi, Sherzod Hakimov, Ralph Ewerth, Eric Müller-Budack"
+    },
+    {
+     "title": "Multimodal Topic Segmentation of Podcast Shows with Pre-trained Neural Encoders",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 7,
+     "doi": "10.1145/3591106.3592270",
+     "authors": "Iacopo Ghinassi, Lin Wang, Chris Newell, Matthew Purver"
+    },
+    {
+     "title": "A Dual-branch Enhanced Multi-task Learning Network for Multimodal Sentiment Analysis",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 2,
+     "doi": "10.1145/3591106.3592260",
+     "authors": "Wenxiu Geng, Xiangxian Li, Yulong Bian"
+    }
+   ]
+  },
+  "audio language model": {
+   "total": 159192,
+   "kept": 8,
+   "papers": [
+    {
+     "title": "CLAP: Contrastive Language-Audio Pre-training Model for Multi-modal Sentiment Analysis",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 15,
+     "doi": "10.1145/3591106.3592296",
+     "authors": "Tianqi Zhao, Ming Kong, Tian Liang, Qiang Zhu, Kun Kuang, Fei Wu"
+    },
+    {
+     "title": "Framing the News: From Human Perception to Large Language Model Inferences",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 15,
+     "doi": "10.1145/3591106.3592278",
+     "authors": "David Alonso del Barrio, Daniel Gatica-Perez"
+    },
+    {
+     "title": "AVForensics: Audio-driven Deepfake Video Detection with Masking Strategy in Self-supervision",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 11,
+     "doi": "10.1145/3591106.3592218",
+     "authors": "Yizhe Zhu, Jialin Gao, Xi Zhou"
+    },
+    {
+     "title": "Cross-Language Music Recommendation Exploration",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 3,
+     "doi": "10.1145/3591106.3592274",
+     "authors": "Stefanos Stoikos, David Kauchak, Douglas Turnbull, Alexandra Papoutsaki"
+    },
+    {
+     "title": "Reproducibility Companion Paper: MeTILDA - Platform for Melodic Transcription in Language Documentation and Application",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 0,
+     "doi": "10.1145/3591106.3592277",
+     "authors": "Mitchell Lee, Chris Lee, Sanjay Penmetsa, Min Chen, Mizuki Miyashita, Naatosi Fish"
+    },
+    {
+     "title": "TAGM: Task-Aware Graph Model for Few-shot Node Classification",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3591106.3592293",
+     "authors": "Feng Zhao, Min Zhang, Tiancheng Huang, Donglin Wang"
+    },
+    {
+     "title": "Learning From Expert: Vision-Language Knowledge Distillation for Unsupervised Cross-Modal Hashing Retrieval",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 17,
+     "doi": "10.1145/3591106.3592242",
+     "authors": "Lina Sun, Yewen Li, Yumin Dong"
+    },
+    {
+     "title": "A Unified Model for Video Understanding and Knowledge Embedding with Heterogeneous Knowledge Graph Dataset",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 2,
+     "doi": "10.1145/3591106.3592258",
+     "authors": "Jiaxin Deng, Dong Shen, Haojie Pan, Xiangyu Wu, Ximan Liu, Gaofeng Meng"
+    }
+   ]
+  },
+  "sound event detection": {
+   "total": 149452,
+   "kept": 8,
+   "papers": [
+    {
+     "title": "Dual-Stream Multimodal Learning for Topic-Adaptive Video Highlight Detection",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 1,
+     "doi": "10.1145/3591106.3592286",
+     "authors": "Ziwei Xiong, Han Wang"
+    },
+    {
+     "title": "TNOD: Transformer Network with Object Detection for Tag Recommendation",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 2,
+     "doi": "10.1145/3591106.3592246",
+     "authors": "Kai Feng, Tao Liu, Heng Zhang, Zihao Meng, Zemin Miao"
+    },
+    {
+     "title": "AVForensics: Audio-driven Deepfake Video Detection with Masking Strategy in Self-supervision",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 11,
+     "doi": "10.1145/3591106.3592218",
+     "authors": "Yizhe Zhu, Jialin Gao, Xi Zhou"
+    },
+    {
+     "title": "Multi-modal Fake News Detection on Social Media via Multi-grained Information Fusion",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 69,
+     "doi": "10.1145/3591106.3592271",
+     "authors": "Yangming Zhou, Yuzhou Yang, Qichao Ying, Zhenxing Qian, Xinpeng Zhang"
+    },
+    {
+     "title": "Graph Interactive Network with Adaptive Gradient for Multi-Modal Rumor Detection",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 21,
+     "doi": "10.1145/3591106.3592250",
+     "authors": "Tiening Sun, Zhong Qian, Peifeng Li, Qiaoming Zhu"
+    },
+    {
+     "title": "Improving Generalization for Multimodal Fake News Detection",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 14,
+     "doi": "10.1145/3591106.3592230",
+     "authors": "Sahar Tahmasebi, Sherzod Hakimov, Ralph Ewerth, Eric Müller-Budack"
+    },
+    {
+     "title": "SIGMA-DF: Single-Side Guided Meta-Learning for Deepfake Detection",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 5,
+     "doi": "10.1145/3591106.3592282",
+     "authors": "Bing Han, Jianshu Li, Wenqi Ren, Man Luo, Jian Liu, Xiaochun Cao"
+    },
+    {
+     "title": "FaceLivePlus: A Unified System for Face Liveness Detection and Face Verification",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 7,
+     "doi": "10.1145/3591106.3592289",
+     "authors": "Ying Zhang, Lilei Zheng, Vrizlynn L.L. Thing, Roger Zimmermann, Bin Guo, Zhiwen Yu"
+    }
+   ]
+  },
+  "neural codec": {
+   "total": 68221,
+   "kept": 5,
+   "papers": [
+    {
+     "title": "Predicting Tweet Engagement with Graph Neural Networks",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 14,
+     "doi": "10.1145/3591106.3592294",
+     "authors": "Marco Arazzi, Marco Cotogni, Antonino Nocera, Luca Virgili"
+    },
+    {
+     "title": "Multi-channel Convolutional Neural Network for Precise Meme Classification",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 3,
+     "doi": "10.1145/3591106.3592275",
+     "authors": "Victoria Sherratt, Kevin Pimbblet, Nina Dethlefs"
+    },
+    {
+     "title": "A Recurrent Neural Network based Generative Adversarial Network for Long Multivariate Time Series Forecasting",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 3,
+     "doi": "10.1145/3591106.3592306",
+     "authors": "Peiwang Tang, Qinghua Zhang, Xianchao Zhang"
+    },
+    {
+     "title": "Multimodal Topic Segmentation of Podcast Shows with Pre-trained Neural Encoders",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 7,
+     "doi": "10.1145/3591106.3592270",
+     "authors": "Iacopo Ghinassi, Lin Wang, Chris Newell, Matthew Purver"
+    },
+    {
+     "title": "RIP-NeRF: Learning Rotation-Invariant Point-based Neural Radiance Field for Fine-grained Editing and Compositing",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 24,
+     "doi": "10.1145/3591106.3592276",
+     "authors": "Yuze Wang, Junyi Wang, Yansong Qu, Yue Qi"
+    }
+   ]
+  },
+  "on-device inference": {
+   "total": 19439,
+   "kept": 1,
+   "papers": [
+    {
+     "title": "Knowledge-Aware Causal Inference Network for Visual Dialog",
+     "year": 2023,
+     "venue": "Proceedings of the 2023 ACM International Conference on Multimedia Retrieval",
+     "citationCount": 8,
+     "doi": "10.1145/3591106.3592272",
+     "authors": "Zefan Zhang, Yi Ji, Chunping Liu"
+    }
+   ]
+  }
+ }
+}

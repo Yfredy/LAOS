@@ -443,3 +443,35 @@ class TestCrossrefBackend(unittest.TestCase):
         ]}}
         papers = crossref_papers(obj, "SLT")
         self.assertEqual(len(papers), 1)
+
+    def test_crossref_conference_container_variants(self):
+        """波 B 实测的真实容器变体：年份前缀、(缩写) 尾缀、卷号后缀、
+        Proceedings 前缀——都必须命中；且 ICME/ICMR 不得误标为 ACMMM。"""
+        from scripts.crawl_multivenue import crossref_papers
+        cases = [
+            ("2025 IEEE International Conference on Multimedia and Expo (ICME)", "ICME", 1),
+            ("Proceedings of the 32nd ACM International Conference on Multimedia", "ACMMM", 1),
+            ("Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining", "KDD", 1),
+            ("Proceedings of the ACM Web Conference 2024", "WWW", 1),
+            ("Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval", "SIGIR", 1),
+            ("Advances in Neural Information Processing Systems 38", "NeurIPS", 1),
+            ("2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)", "CVPR", 1),
+            ("Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing", None, 0),  # NLP 会不归 crossref 误标
+        ]
+        for container, want_key, want_n in cases:
+            obj = {"message": {"items": [
+                {"title": ["T"], "DOI": "10.1/t", "container-title": [container],
+                 "issued": {"date-parts": [[2024]]}}]}}
+            got = crossref_papers(obj, want_key) if want_key else None
+            if want_key:
+                self.assertEqual(len(got), want_n, f"{container} -> {want_key}")
+
+    def test_crossref_expo_and_retrieval_not_acmmm(self):
+        from scripts.crawl_multivenue import crossref_papers
+        for container in ("2025 IEEE International Conference on Multimedia and Expo (ICME)",
+                          "Proceedings of the 2024 International Conference on Multimedia Retrieval"):
+            obj = {"message": {"items": [
+                {"title": ["T"], "DOI": "10.1/t", "container-title": [container],
+                 "issued": {"date-parts": [[2024]]}}]}}
+            self.assertEqual(crossref_papers(obj, "ACMMM"), [],
+                             f"{container} 不得标为 ACMMM")

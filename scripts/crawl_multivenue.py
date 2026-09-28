@@ -148,12 +148,14 @@ CANDIDATES: dict[str, list[str]] = {
     # -- CV（可选类，仅音视主题）--
     "CVPR": [
         "CVPR",
+        "Conference on Computer Vision and Pattern Recognition",
         "IEEE/CVF Conference on Computer Vision and Pattern Recognition",
         "IEEE Conference on Computer Vision and Pattern Recognition",
     ],
-    "ECCV": ["ECCV", "European Conference on Computer Vision"],
+    "ECCV": ["ECCV", "European Conference on Computer Vision", "European Conference on Computer Vision"],
     "ICCV": [
         "ICCV",
+        "International Conference on Computer Vision",
         "IEEE/CVF International Conference on Computer Vision",
         "International Conference on Computer Vision",
     ],
@@ -162,6 +164,7 @@ CANDIDATES: dict[str, list[str]] = {
     # -- 多媒体 --
     "ACMMM": [
         "ACM Multimedia",
+        "International Conference on Multimedia",
         "Proceedings of the ACM International Conference on Multimedia",
         "ACM International Conference on Multimedia",
     ],
@@ -182,11 +185,12 @@ CANDIDATES: dict[str, list[str]] = {
     "SIGIR": [
         "SIGIR",
         "International ACM SIGIR Conference on Research and Development in Information Retrieval",
+        "Research and Development in Information Retrieval",
     ],
-    "KDD": ["KDD", "Knowledge Discovery and Data Mining"],
-    "WWW": ["WWW", "The Web Conference", "World Wide Web"],
-    "WSDM": ["WSDM", "ACM International Conference on Web Search and Data Mining"],
-    "RecSys": ["RecSys", "ACM Conference on Recommender Systems"],
+    "KDD": ["KDD", "Knowledge Discovery and Data Mining", "Knowledge Discovery and Data Mining"],
+    "WWW": ["WWW", "The Web Conference", "ACM Web Conference", "The Web Conference", "World Wide Web"],
+    "WSDM": ["WSDM", "Web Search and Data Mining", "ACM International Conference on Web Search and Data Mining"],
+    "RecSys": ["RecSys", "Conference on Recommender Systems", "ACM Conference on Recommender Systems"],
 }
 
 # ---------------------------------------------------------------------------
@@ -335,12 +339,19 @@ def venue_of_fuzzy(paper: dict) -> str | None:
 
 
 def canonical_string(venue_key: str) -> str:
-    """venue 短名 -> 探测解析的规范串（未解析/未探测时用第一候选串）。"""
+    """venue 短名 -> 用作 query.container-title 检索提示的串。
+
+    Crossref 的 container-title 参数是相关性加权不是过滤——缩写串
+    （"MMSys"/"ICMR"/"KDD"）召回太差，真容器排不进 top100（波 B v2
+    实测：SIGIR 全称提示 267 kept，缩写提示 0）。故取**最长**候选串
+    作提示（信息量最大），resolved 规范串仅当其更长时优先。
+    """
     resolved = _STRINGS.get("resolved") or {}
     canon = resolved.get(venue_key)
+    pool = list(CANDIDATES.get(venue_key, []))
     if isinstance(canon, str) and canon:
-        return canon
-    return CANDIDATES[venue_key][0]
+        pool.append(canon)
+    return max(pool, key=len) if pool else venue_key
 
 
 def slice_query(venue: str, topic: str) -> str:
@@ -572,11 +583,28 @@ def crossref_papers(obj: dict, venue_key: str) -> list[dict]:
             continue
         if year < CROSSREF_FROM_YEAR:
             continue
-        # Crossref 的 container-title 常带年份前缀（"2024 IEEE ... (SLT)"）——
-        # 剥离前导年份后再匹配别名集
-        c_norm = _norm_venue(container)
-        c_noyear = _norm_venue(_YEAR_PREFIX_RE.sub("", container))
-        if c_norm not in aliases and c_noyear not in aliases:
+        # 波 B 实测的容器变体全家桶：年份前缀（"2024 IEEE ... (SLT)"）、
+        # 尾缀缩写（"... (ICME)"）、Proceedings 前缀、卷号尾（"... Systems 38"）
+        # ——统一剥后先精确，再用长别名（>=12 字符）双向子串兜底；
+        # _CROSSREF_EXCLUDE 排他防近邻误标（ICME "...Multimedia and Expo" 与
+        # ICMR "...Multimedia Retrieval" 都含 "International Conference on Multimedia"）
+        c = _YEAR_PREFIX_RE.sub("", container)
+        c = re.sub(r"\s*\([^)]{2,12}\)\s*$", "", c)
+        c = re.sub(r"^(in\s+)?proceedings\s+of(\s+the)?\s+", "", c,
+                   flags=re.IGNORECASE)
+        c = re.sub(r"\s+\d{1,3}$", "", c)
+        n = _norm_venue(c)
+        n_raw = _norm_venue(container)
+        if any(e in n_raw or e in n
+               for e in _CROSSREF_EXCLUDE.get(venue_key, ())):
+            continue
+        hit = n in aliases or n_raw in aliases
+        if not hit:
+            for a in aliases:
+                if len(a) >= 12 and (a in n or n in a):
+                    hit = True
+                    break
+        if not hit:
             continue
         authors = ", ".join(
             f"{a.get('given', '')} {a.get('family', '')}".strip()
@@ -820,6 +848,17 @@ def run_probe(limit_requests: int, dry_run: bool, wall_s: float = PROBE_WALL_S,
 # ---------------------------------------------------------------------------
 # --wave：主题切片爬取（round-3 式耐心重扫）
 # ---------------------------------------------------------------------------
+_CROSSREF_EXCLUDE: dict[str, tuple[str, ...]] = {
+    "ACMMM": ("expo", "retrieval", "systems conference", "rim", "pacific"),
+    "PCM": ("expo", "retrieval"),
+    "ICCV": ("pattern",),
+    "CVPR": ("international conference on computer vision",),
+    "WASPAA": ("spoken language",),
+    "SLT": ("applications of signal processing",),
+    "ASRU": ("spoken language technology", "applications of signal processing"),
+}
+
+
 JOURNAL_KEYS = frozenset({
     "TASLP", "EURASIP", "TACL", "CL", "JMLR", "TPAMI", "IJCV", "TMM", "TOMM",
 })

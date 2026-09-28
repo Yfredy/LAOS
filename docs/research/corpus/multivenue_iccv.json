@@ -1,0 +1,1632 @@
+{
+ "venue": "ICCV",
+ "category": "cv",
+ "canonical_venue_string": "ICCV",
+ "wave": "B",
+ "generated_at": "2026-09-29 01:20:11",
+ "topics": [
+  "audio-visual",
+  "audio language model"
+ ],
+ "request_budget": {
+  "successful": 69,
+  "limit": 300,
+  "attempts": 2
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "audio-visual": {
+   "total": 397,
+   "kept": 100,
+   "papers": [
+    {
+     "title": "MUG: Pseudo Labeling Augmented Audio-Visual Mamba Network for Audio-Visual Video Parsing",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.01919",
+     "authors": "Langyu Wang, Bingke Zhu, Yingying Chen, Yiyuan Zhang, Ming Tang, Jinqiao Wang"
+    },
+    {
+     "title": "Be Everywhere - Hear Everything (BEE): Audio Scene Reconstruction by Sparse Audio-Visual Samples",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 10,
+     "doi": "10.1109/iccv51070.2023.00722",
+     "authors": "Mingfei Chen, Kun Su, Eli Shlizerman"
+    },
+    {
+     "title": "Joint Audio-Visual Deepfake Detection",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 192,
+     "doi": "10.1109/iccv48922.2021.01453",
+     "authors": "Yipin Zhou, Ser-Nam Lim"
+    },
+    {
+     "title": "Audio-Visual Class-Incremental Learning",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 40,
+     "doi": "10.1109/iccv51070.2023.00717",
+     "authors": "Weiguo Pian, Shentong Mo, Yunhui Guo, Yapeng Tian"
+    },
+    {
+     "title": "Move2Hear: Active Audio-Visual Source Separation",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 33,
+     "doi": "10.1109/iccv48922.2021.00034",
+     "authors": "Sagnik Majumder, Ziad Al-Halah, Kristen Grauman"
+    },
+    {
+     "title": "On the Audio-visual Synchronization for Lip-to-Speech Synthesis",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 5,
+     "doi": "10.1109/iccv51070.2023.00721",
+     "authors": "Zhe Niu, Brian Mak"
+    },
+    {
+     "title": "Lip2Vec: Efficient and Robust Visual Speech Recognition via Latent-to-Latent Visual to Audio Representation Mapping",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 9,
+     "doi": "10.1109/iccv51070.2023.01268",
+     "authors": "Yasser Abdelaziz Dahou Djilali, Sanath Narayan, Haithem Boussaid, Ebtessam Almazrouei, Merouane Debbah"
+    },
+    {
+     "title": "Class-Incremental Grouping Network for Continual Audio-Visual Learning",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 20,
+     "doi": "10.1109/iccv51070.2023.00716",
+     "authors": "Shentong Mo, Weiguo Pian, Yapeng Tian"
+    },
+    {
+     "title": "Boosting Positive Segments for Weakly-Supervised Audio-Visual Video Parsing",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 13,
+     "doi": "10.1109/iccv51070.2023.00935",
+     "authors": "Kranthi Kumar Rachavarapu, Rajagopalan A. N."
+    },
+    {
+     "title": "Joint Visual and Audio Learning for Video Highlight Detection",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 76,
+     "doi": "10.1109/iccv48922.2021.00802",
+     "authors": "Taivanbat Badamdorj, Mrigank Rochan, Yang Wang, Li Cheng"
+    },
+    {
+     "title": "Audio-Visual Glance Network for Efficient Video Recognition",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 4,
+     "doi": "10.1109/iccv51070.2023.00931",
+     "authors": "Muhammad Adi Nugroho, Sangmin Woo, Sumin Lee, Changick Kim"
+    },
+    {
+     "title": "CogCM: Cognition-Inspired Contextual Modeling for Audio-Visual Speech Enhancement",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 0,
+     "doi": "10.1109/iccv51701.2025.01988",
+     "authors": "Feixiang Wang, Shuang Yang, Shiguang Shan, Xilin Chen"
+    },
+    {
+     "title": "Localize to Binauralize: Audio Spatialization from Visual Sound Source Localization",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 25,
+     "doi": "10.1109/iccv48922.2021.00194",
+     "authors": "Kranthi Kumar Rachavarapu, Aakanksha Aakanksha, Vignesh Sundaresha, Rajagopalan A. N"
+    },
+    {
+     "title": "Audio-Visual Floorplan Reconstruction",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 28,
+     "doi": "10.1109/iccv48922.2021.00122",
+     "authors": "Senthil Purushwalkam, Sebastia Vicenc Amengual Gari, Vamsi Krishna Ithapu, Carl Schissler, Philip Robinson, Abhinav Gupta"
+    },
+    {
+     "title": "How to Design a Three-Stage Architecture for Audio-Visual Active Speaker Detection in the Wild",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 44,
+     "doi": "10.1109/iccv48922.2021.00123",
+     "authors": "Okan Kopuklu, Maja Taseska, Gerhard Rigoll"
+    },
+    {
+     "title": "MixSpeech: Cross-Modality Self-Learning with Audio-Visual Stream Mixup for Visual Speech Translation and Recognition",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 15,
+     "doi": "10.1109/iccv51070.2023.01442",
+     "authors": "Xize Cheng, Tao Jin, Rongjie Huang, Linjun Li, Wang Lin, Zehan Wang"
+    },
+    {
+     "title": "Talking Head Generation with Probabilistic Audio-to-Visual Diffusion Priors",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 35,
+     "doi": "10.1109/iccv51070.2023.00703",
+     "authors": "Zhentao Yu, Zixin Yin, Deyu Zhou, Duomin Wang, Finn Wong, Baoyuan Wang"
+    },
+    {
+     "title": "$\\pi$-AVAS: Can Physics-Integrated Audio-Visual Modeling Boost Neural Acoustic Synthesis?",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.01294",
+     "authors": "Susan Liang, Chao Huang, Yunlong Tang, Zeliang Zhang, Chenliang Xu"
+    },
+    {
+     "title": "AV-Flow: Transforming Text to Audio-Visual Human-Like Interactions",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 2,
+     "doi": "10.1109/iccv51701.2025.01324",
+     "authors": "Aggelina Chatziagapi, Louis-Philippe Morency, Hongyu Gong, Michael Zollhöfer, Dimitris Samaras, Alexander Richard"
+    },
+    {
+     "title": "Hyperbolic Audio-visual Zero-shot Learning",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 24,
+     "doi": "10.1109/iccv51070.2023.00724",
+     "authors": "Jie Hong, Zeeshan Hayder, Junlin Han, Pengfei Fang, Mehrtash Harandi, Lars Petersson"
+    },
+    {
+     "title": "AVTrustBench: Assessing and Enhancing Reliability and Robustness in Audio-Visual LLMs",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.00156",
+     "authors": "Sanjoy Chowdhury, Sayan Nag, Subhrajyoti Dasgupta, Yaoting Wang, Mohamed Elhoseiny, Ruohan Gao"
+    },
+    {
+     "title": "Pano-AVQA: Grounded Audio-Visual Question Answering on 360° Videos",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 71,
+     "doi": "10.1109/iccv48922.2021.00204",
+     "authors": "Heeseung Yun, Youngjae Yu, Wonsuk Yang, Kangil Lee, Gunhee Kim"
+    },
+    {
+     "title": "Progressive Homeostatic and Plastic Prompt Tuning for Audio-Visual Multi-Task Incremental Learning",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 0,
+     "doi": "10.1109/iccv51701.2025.00196",
+     "authors": "Jiong Yin, Liang Li, Jiehua Zhang, Yuhan Gao, Chenggang Yan, Xichun Sheng"
+    },
+    {
+     "title": "VGGSounder: Audio-Visual Evaluations for Foundation Models",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.00103",
+     "authors": "Daniil Zverev, Thäddaus Wiedemer, Ameya Prabhu, Matthias Bethge, Wieland Brendel, A. Sophia Koepke"
+    },
+    {
+     "title": "Aurelia: Test-Time Reasoning Distillation in Audio-Visual LLMs",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.02126",
+     "authors": "Sanjoy Chowdhury, Hanan Gani, Nishit Anand, Sayan Nag, Ruohan Gao, Mohamed Elhoseiny"
+    },
+    {
+     "title": "Visual Scene Graphs for Audio Source Separation",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 24,
+     "doi": "10.1109/iccv48922.2021.00124",
+     "authors": "Moitreya Chatterjee, Jonathan Le Roux, Narendra Ahuja, Anoop Cherian"
+    },
+    {
+     "title": "What's Making That Sound Right Now? Video-Centric Audio-Visual Localization",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.01869",
+     "authors": "Hahyeon Choi, Junhoo Lee, Nojun Kwak"
+    },
+    {
+     "title": "Towards Omnimodal Expressions and Reasoning in Referring Audio-Visual Segmentation",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 5,
+     "doi": "10.1109/iccv51701.2025.02096",
+     "authors": "Kaining Ying, Henghui Ding, Guangquan Jie, Yu-Gang Jiang"
+    },
+    {
+     "title": "ACAV100M: Automatic Curation of Large-Scale Datasets for Audio-Visual Video Representation Learning",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 32,
+     "doi": "10.1109/iccv48922.2021.01011",
+     "authors": "Sangho Lee, Jiwan Chung, Youngjae Yu, Gunhee Kim, Thomas Breuel, Gal Chechik"
+    },
+    {
+     "title": "Intra-Modal and Cross-Modal Synchronization for Audio-Visual Deepfake Detection and Temporal Localization",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 0,
+     "doi": "10.1109/iccv51701.2025.01283",
+     "authors": "Ashutosh Anshul, Shreyas Gopal, Deepu Rajan, Eng Siong Chng"
+    },
+    {
+     "title": "The Right to Talk: An Audio-Visual Transformer Approach",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 29,
+     "doi": "10.1109/iccv48922.2021.00114",
+     "authors": "Thanh-Dat Truong, Chi Nhan Duong, The De Vu, Hoang Anh Pham, Bhiksha Raj, Ngan Le"
+    },
+    {
+     "title": "Audio-Visual Deception Detection: DOLOS Dataset and Parameter-Efficient Crossmodal Learning",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 37,
+     "doi": "10.1109/iccv51070.2023.02023",
+     "authors": "Xiaobao Guo, Nithish Muthuchamy Selvaraj, Zitong Yu, Adams Wai-Kin Kong, Bingquan Shen, Alex Kot"
+    },
+    {
+     "title": "How Do Optical Flow and Textual Prompts Collaborate to Assist in Audio-Visual Semantic Segmentation?",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 2,
+     "doi": "10.1109/iccv51701.2025.02167",
+     "authors": "Yujian Lee, Peng Gao, Yongqi Xu, Wentao Fan"
+    },
+    {
+     "title": "Multimodal Variational Auto-encoder based Audio-Visual Segmentation",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 53,
+     "doi": "10.1109/iccv51070.2023.00094",
+     "authors": "Yuxin Mao, Jing Zhang, Mochu Xiang, Yiran Zhong, Yuchao Dai"
+    },
+    {
+     "title": "Audio-Visual Controlled Video Diffusion with Masked Selective State Spaces Modeling for Natural Talking Head Generation",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 3,
+     "doi": "10.1109/iccv51701.2025.01166",
+     "authors": "Fa-Ting Hong, Zunnan Xu, Zixiang Zhou, Jun Zhou, Xiu Li, Qin Lin"
+    },
+    {
+     "title": "Temporal Cue Guided Video Highlight Detection with Low-Rank Audio-Visual Fusion",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 53,
+     "doi": "10.1109/iccv48922.2021.00785",
+     "authors": "Qinghao Ye, Xiyue Shen, Yuan Gao, Zirui Wang, Qi Bi, Ping Li"
+    },
+    {
+     "title": "Omnidirectional Information Gathering for Knowledge Transfer-based Audio-Visual Navigation",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 10,
+     "doi": "10.1109/iccv51070.2023.01009",
+     "authors": "Jinyu Chen, Wenguan Wang, Si Liu, Hongsheng Li, Yi Yang"
+    },
+    {
+     "title": "TAViS: Text-bridged Audio-Visual Segmentation with Foundation Models",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.02226",
+     "authors": "Ziyang Luo, Nian Liu, Xuguang Yang, Salman Khan, Rao Muhammad Anwer, Hisham Cholakkal"
+    },
+    {
+     "title": "Implicit Counterfactual Learning for Audio-Visual Segmentation",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 4,
+     "doi": "10.1109/iccv51701.2025.02075",
+     "authors": "Mingfeng Zha, Tianyu Li, Guoqing Wang, Peng Wang, Yangyang Wu, Yang Yang"
+    },
+    {
+     "title": "Zero-AVSR: Zero-Shot Audio-Visual Speech Recognition with LLMs by Learning Language-Agnostic Speech Representations",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 3,
+     "doi": "10.1109/iccv51701.2025.00630",
+     "authors": "Jeong Hun Yeo, Minsu Kim, Chae Won Kim, Stavros Petridis, Yong Man Ro"
+    },
+    {
+     "title": "AdVerb: Visually Guided Audio Dereverberation",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 7,
+     "doi": "10.1109/iccv51070.2023.00725",
+     "authors": "Sanjoy Chowdhury, Sreyan Ghosh, Subhrajyoti Dasgupta, Anton Ratnarajah, Utkarsh Tyagi, Dinesh Manocha"
+    },
+    {
+     "title": "FLOAT: Generative Motion Latent Flow Matching for Audio-Driven Talking Portrait",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 6,
+     "doi": "10.1109/iccv51701.2025.01364",
+     "authors": "Taekyung Ki, Dongchan Min, Gyeongsu Chae"
+    },
+    {
+     "title": "MODA: Mapping-Once Audio-driven Portrait Animation with Dual Attentions",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 22,
+     "doi": "10.1109/iccv51070.2023.02104",
+     "authors": "Yunfei Liu, Lijian Lin, Fei Yu, Changyin Zhou, Yu Li"
+    },
+    {
+     "title": "LLaVA-SP: Enhancing Visual Representation with Visual Spatial Tokens for MLLMs",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 2,
+     "doi": "10.1109/iccv51701.2025.02044",
+     "authors": "Haoran Lou, Chunxiao Fan, Ziyan Liu, Yuexin Wu, Xinliang Wang"
+    },
+    {
+     "title": "Visual Graph Memory with Unsupervised Representation for Visual Navigation",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 75,
+     "doi": "10.1109/iccv48922.2021.01559",
+     "authors": "Obin Kwon, Nuri Kim, Yunho Choi, Hwiyeon Yoo, Jeongho Park, Songhwai Oh"
+    },
+    {
+     "title": "Towards Visual Localization Interoperability: Cross-Feature for Collaborative Visual Localization and Mapping",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 2,
+     "doi": "10.1109/iccv51701.2025.02486",
+     "authors": "Alberto Jaenal, Paula Carbó Cubero, José Araujo, André Mateus"
+    },
+    {
+     "title": "Audio-Enhanced Text-to-Video Retrieval using Text-Conditioned Feature Alignment",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 38,
+     "doi": "10.1109/iccv51070.2023.01107",
+     "authors": "Sarah Ibrahimi, Xiaohang Sun, Pichao Wang, Amanmeet Garg, Ashutosh Sanan, Mohamed Omar"
+    },
+    {
+     "title": "AutoAD II: The Sequel – Who, When, and What in Movie Audio Description",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 39,
+     "doi": "10.1109/iccv51070.2023.01255",
+     "authors": "Tengda Han, Max Bain, Arsha Nagrani, Gül Varol, Weidi Xie, Andrew Zisserman"
+    },
+    {
+     "title": "AD-NeRF: Audio Driven Neural Radiance Fields for Talking Head Synthesis",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 391,
+     "doi": "10.1109/iccv48922.2021.00573",
+     "authors": "Yudong Guo, Keyu Chen, Sen Liang, Yong-Jin Liu, Hujun Bao, Juyong Zhang"
+    },
+    {
+     "title": "EMMN: Emotional Motion Memory Network for Audio-driven Emotional Talking Face Generation",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 44,
+     "doi": "10.1109/iccv51070.2023.02024",
+     "authors": "Shuai Tan, Bin Ji, Ye Pan"
+    },
+    {
+     "title": "VAFlow: Video-to-Audio Generation with Cross-Modality Flow Matching",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 0,
+     "doi": "10.1109/iccv51701.2025.01095",
+     "authors": "Xihua Wang, Xin Cheng, Yuyue Wang, Ruihua Song, Yunfeng Wang"
+    },
+    {
+     "title": "Efficient Emotional Adaptation for Audio-Driven Talking-Head Generation",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 85,
+     "doi": "10.1109/iccv51070.2023.02069",
+     "authors": "Yuan Gan, Zongxin Yang, Xihang Yue, Lingyun Sun, Yi Yang"
+    },
+    {
+     "title": "Beyond Text-Visual Attention: Exploiting Visual Cues for Effective Token Pruning in VLMs",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 11,
+     "doi": "10.1109/iccv51701.2025.01939",
+     "authors": "Qizhe Zhang, Aosong Cheng, Ming Lu, Renrui Zhang, Zhiyong Zhuo, Jiajun Cao"
+    },
+    {
+     "title": "Audio2Gestures: Generating Diverse Gestures from Speech Audio with Conditional Variational Autoencoders",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 131,
+     "doi": "10.1109/iccv48922.2021.01110",
+     "authors": "Jing Li, Di Kang, Wenjie Pei, Xuefei Zhe, Ying Zhang, Zhenyu He"
+    },
+    {
+     "title": "Shot-by-Shot: Film-Grammar-Aware Training-Free Audio Description Generation",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.01532",
+     "authors": "Junyu Xie, Tengda Han, Max Bain, Arsha Nagrani, Eshika Khandelwal, Gül Varol"
+    },
+    {
+     "title": "MemoryTalker: Personalized Speech-Driven 3D Facial Animation via Audio-Guided Stylization",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.01046",
+     "authors": "Hyung Kyu Kim, Sangmin Lee, Hak Gu Kim"
+    },
+    {
+     "title": "GaussianSpeech: Audio-Driven Personalized 3D Gaussian Avatars",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 4,
+     "doi": "10.1109/iccv51701.2025.01214",
+     "authors": "Shivangi Aneja, Artem Sevastopolsky, Tobias Kirschstein, Justus Thies, Angela Dai, Matthias Nießner"
+    },
+    {
+     "title": "DGTalker: Disentangled Generative Latent Space Learning for Audio-Driven Gaussian Talking Heads",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 0,
+     "doi": "10.1109/iccv51701.2025.01031",
+     "authors": "Xiaoxi Liang, Yanbo Fan, Qiya Yang, Xuan Wang, Wei Gao, Ge Li"
+    },
+    {
+     "title": "AV-Link: Temporally-Aligned Diffusion Features for Cross-Modal Audio-Video Generation",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 7,
+     "doi": "10.1109/iccv51701.2025.01801",
+     "authors": "Moayed Haji-Ali, Willi Menapace, Aliaksandr Siarohin, Ivan Skorokhodov, Alper Canberk, Kwot Sin Lee"
+    },
+    {
+     "title": "Visual-RFT: Visual Reinforcement Fine-Tuning",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 46,
+     "doi": "10.1109/iccv51701.2025.00197",
+     "authors": "Ziyu Liu, Zeyi Sun, Yuhang Zang, Xiaoyi Dong, Yuhang Cao, Haodong Duan"
+    },
+    {
+     "title": "TARO: Timestep-Adaptive Representation Alignment with Onset-Aware Conditioning for Synchronized Video-To-Audio Synthesis",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 2,
+     "doi": "10.1109/iccv51701.2025.01320",
+     "authors": "Tri Ton, Ji Woo Hong, Chang D. Yoo"
+    },
+    {
+     "title": "Generating Visual Scenes from Touch",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 24,
+     "doi": "10.1109/iccv51070.2023.02017",
+     "authors": "Fengyu Yang, Jiacheng Zhang, Andrew Owens"
+    },
+    {
+     "title": "The Power of Sound (TPoS): Audio Reactive Video Generation with Stable Diffusion",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 30,
+     "doi": "10.1109/iccv51070.2023.00719",
+     "authors": "Yujin Jeong, Wonjeong Ryoo, Seunghyun Lee, Dabin Seo, Wonmin Byeon, Sangpil Kim"
+    },
+    {
+     "title": "Exploring the Visual Feature Space for Multimodal Neural Decoding",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.00416",
+     "authors": "Weihao Xia, Cengiz Oztireli"
+    },
+    {
+     "title": "Generalizable Object Re-Identification via Visual in-Context Prompting",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 3,
+     "doi": "10.1109/iccv51701.2025.02093",
+     "authors": "Zhizhong Huang, Xiaoming Liu"
+    },
+    {
+     "title": "Toward Unsupervised Realistic Visual Question Answering",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 4,
+     "doi": "10.1109/iccv51070.2023.01431",
+     "authors": "Yuwei Zhang, Chih-Hui Ho, Nuno Vasconcelos"
+    },
+    {
+     "title": "Controllable Visual-Tactile Synthesis",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 13,
+     "doi": "10.1109/iccv51070.2023.00648",
+     "authors": "Ruihan Gao, Wenzhen Yuan, Jun-Yan Zhu"
+    },
+    {
+     "title": "Pose Invariant Topological Memory for Visual Navigation",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 5,
+     "doi": "10.1109/iccv48922.2021.01510",
+     "authors": "Asuto Taniguchi, Fumihiro Sasaki, Ryota Yamashina"
+    },
+    {
+     "title": "Semantic-Guided Camera Ray Regression for Visual Localization",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 0,
+     "doi": "10.1109/iccv51701.2025.02378",
+     "authors": "Yesheng Zhang, Xu Zhao"
+    },
+    {
+     "title": "Explainable Video Entailment with Grounded Visual Evidence",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 6,
+     "doi": "10.1109/iccv48922.2021.00203",
+     "authors": "Junwen Chen, Yu Kong Golisano"
+    },
+    {
+     "title": "Few-Shot Visual Relationship Co-Localization",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv48922.2021.01603",
+     "authors": "Revant Teotia, Vaibhav Mishra, Mayank Maheshwari, Anand Mishra"
+    },
+    {
+     "title": "AutoFormer: Searching Transformers for Visual Recognition",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 283,
+     "doi": "10.1109/iccv48922.2021.01205",
+     "authors": "Minghao Chen, Houwen Peng, Jianlong Fu, Haibin Ling"
+    },
+    {
+     "title": "Viewpoint Invariant Dense Matching for Visual Geolocalization",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 36,
+     "doi": "10.1109/iccv48922.2021.01195",
+     "authors": "Gabriele Berton, Carlo Masone, Valerio Paolicelli, Barbara Caputo"
+    },
+    {
+     "title": "MAVias: Mitigate any Visual Bias",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.00126",
+     "authors": "Ioannis Sarridis, Christos Koutlis, Symeon Papadopoulos, Christos Diou"
+    },
+    {
+     "title": "ViperGPT: Visual Inference via Python Execution for Reasoning",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 227,
+     "doi": "10.1109/iccv51070.2023.01092",
+     "authors": "Dídac Surís, Sachit Menon, Carl Vondrick"
+    },
+    {
+     "title": "Visual Explanations via Iterated Integrated Attributions",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 29,
+     "doi": "10.1109/iccv51070.2023.00198",
+     "authors": "Oren Barkan, Yehonatan Elisha, Yuval Asher, Amit Eshel, Noam Koenigstein"
+    },
+    {
+     "title": "Randomized Autoregressive Visual Generation",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 13,
+     "doi": "10.1109/iccv51701.2025.01713",
+     "authors": "Qihang Yu, Ju He, Xueqing Deng, Xiaohui Shen, Liang-Chieh Chen"
+    },
+    {
+     "title": "VALLR: Visual ASR Language Model for Lip Reading",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 7,
+     "doi": "10.1109/iccv51701.2025.00273",
+     "authors": "Marshall Thomas, Edward Fish, Richard Bowden"
+    },
+    {
+     "title": "The Animation Transformer: Visual Correspondence via Segment Matching",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 35,
+     "doi": "10.1109/iccv48922.2021.01113",
+     "authors": "Evan Casey, Victor Perez, Zhuoru Li"
+    },
+    {
+     "title": "Improving Unsupervised Visual Program Inference with Code Rewriting Families",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 7,
+     "doi": "10.1109/iccv51070.2023.01447",
+     "authors": "Aditya Ganeshan, R. Kenny Jones, Daniel Ritchie"
+    },
+    {
+     "title": "VisRL: Intention-Driven Visual Perception via Reinforced Reasoning",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 3,
+     "doi": "10.1109/iccv51701.2025.00245",
+     "authors": "Zhangquan Chen, Xufang Luo, Dongsheng Li"
+    },
+    {
+     "title": "EigenPlaces: Training Viewpoint Robust Models for Visual Place Recognition",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 141,
+     "doi": "10.1109/iccv51070.2023.01017",
+     "authors": "Gabriele Berton, Gabriele Trivigno, Barbara Caputo, Carlo Masone"
+    },
+    {
+     "title": "Concept Generalization in Visual Representation Learning",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 27,
+     "doi": "10.1109/iccv48922.2021.00949",
+     "authors": "Mert Bulent Sariyildiz, Yannis Kalantidis, Diane Larlus, Karteek Alahari"
+    },
+    {
+     "title": "MBA-VO: Motion Blur Aware Visual Odometry",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 33,
+     "doi": "10.1109/iccv48922.2021.00550",
+     "authors": "Peidong Liu, Xingxing Zuo, Viktor Larsson, Marc Pollefeys"
+    },
+    {
+     "title": "Keep CALM and Improve Visual Feature Attribution",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 15,
+     "doi": "10.1109/iccv48922.2021.00824",
+     "authors": "Jae Myung Kim, Junsuk Choe, Zeynep Akata, Seong Joon Oh"
+    },
+    {
+     "title": "Hallucination Improves the Performance of Unsupervised Visual Representation Learning",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 8,
+     "doi": "10.1109/iccv51070.2023.01478",
+     "authors": "Jing Wu, Jennifer Hobbs, Naira Hovakimyan"
+    },
+    {
+     "title": "DeePoint: Visual Pointing Recognition and Direction Estimation",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 10,
+     "doi": "10.1109/iccv51070.2023.01881",
+     "authors": "Shu Nakamura, Yasutomo Kawanishi, Shohei Nobuhara, Ko Nishino"
+    },
+    {
+     "title": "Cross-Descriptor Visual Localization and Mapping",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 31,
+     "doi": "10.1109/iccv48922.2021.00600",
+     "authors": "Mihai Dusmanu, Ondrej Miksik, Johannes L. Schonberger, Marc Pollefeys"
+    },
+    {
+     "title": "Unshuffling Data for Improved Generalization in Visual Question Answering",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 57,
+     "doi": "10.1109/iccv48922.2021.00145",
+     "authors": "Damien Teney, Ehsan Abbasnejad, Anton van den Hengel"
+    },
+    {
+     "title": "Glimpse-Attend-and-Explore: Self-Attention for Active Visual Exploration",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 7,
+     "doi": "10.1109/iccv48922.2021.01583",
+     "authors": "Soroush Seifi, Abhishek Jha, Tinne Tuytelaars"
+    },
+    {
+     "title": "DiffSim: Taming Diffusion Models for Evaluating Visual Similarity",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.01570",
+     "authors": "Yiren Song, Xiaokang Liu, Mike Zheng Shou"
+    },
+    {
+     "title": "VAGUE: Visual Contexts Clarify Ambiguous Expressions",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.00151",
+     "authors": "Heejeong Nam, Jinwoo Ahn, Keummin Ka, Jiwan Chung, Youngjae Yu"
+    },
+    {
+     "title": "Visual Alignment Constraint for Continuous Sign Language Recognition",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 200,
+     "doi": "10.1109/iccv48922.2021.01134",
+     "authors": "Yuecong Min, Aiming Hao, Xiujuan Chai, Xilin Chen"
+    },
+    {
+     "title": "NormalLoc: Visual Localization on Textureless 3D Models using Surface Normals",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 0,
+     "doi": "10.1109/iccv51701.2025.02358",
+     "authors": "Jiro Abe, Gaku Nakano, Kazumine Ogura"
+    },
+    {
+     "title": "Influence-Balanced Loss for Imbalanced Visual Classification",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 179,
+     "doi": "10.1109/iccv48922.2021.00077",
+     "authors": "Seulki Park, Jongin Lim, Younghan Jeon, Jin Young Choi"
+    },
+    {
+     "title": "Toward Multi-Granularity Decision-Making: Explicit Visual Reasoning with Hierarchical Knowledge",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51070.2023.00243",
+     "authors": "Yifeng Zhang, Shi Chen, Qi Zhao"
+    },
+    {
+     "title": "Efficient Visual Place Recognition Through Multimodal Semantic Knowledge Integration",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 3,
+     "doi": "10.1109/iccv51701.2025.00531",
+     "authors": "Sitao Zhang, Hongda Mao, Qingshuang Chen, Yelin Kim"
+    },
+    {
+     "title": "Causal Attention for Unbiased Visual Recognition",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 112,
+     "doi": "10.1109/iccv48922.2021.00308",
+     "authors": "Tan Wang, Chang Zhou, Qianru Sun, Hanwang Zhang"
+    },
+    {
+     "title": "Stable and Causal Inference for Discriminative Self-supervised Deep Visual Representations",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51070.2023.01476",
+     "authors": "Yuewei Yang, Hai Li, Yiran Chen"
+    },
+    {
+     "title": "Visual Saliency Transformer",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 520,
+     "doi": "10.1109/iccv48922.2021.00468",
+     "authors": "Nian Liu, Ni Zhang, Kaiyuan Wan, Ling Shao, Junwei Han"
+    }
+   ]
+  },
+  "audio language model": {
+   "total": 640,
+   "kept": 100,
+   "papers": [
+    {
+     "title": "Zero-AVSR: Zero-Shot Audio-Visual Speech Recognition with LLMs by Learning Language-Agnostic Speech Representations",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 3,
+     "doi": "10.1109/iccv51701.2025.00630",
+     "authors": "Jeong Hun Yeo, Minsu Kim, Chae Won Kim, Stavros Petridis, Yong Man Ro"
+    },
+    {
+     "title": "Be Everywhere - Hear Everything (BEE): Audio Scene Reconstruction by Sparse Audio-Visual Samples",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 10,
+     "doi": "10.1109/iccv51070.2023.00722",
+     "authors": "Mingfei Chen, Kun Su, Eli Shlizerman"
+    },
+    {
+     "title": "VALLR: Visual ASR Language Model for Lip Reading",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 7,
+     "doi": "10.1109/iccv51701.2025.00273",
+     "authors": "Marshall Thomas, Edward Fish, Richard Bowden"
+    },
+    {
+     "title": "MUG: Pseudo Labeling Augmented Audio-Visual Mamba Network for Audio-Visual Video Parsing",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.01919",
+     "authors": "Langyu Wang, Bingke Zhu, Yingying Chen, Yiyuan Zhang, Ming Tang, Jinqiao Wang"
+    },
+    {
+     "title": "AgroBench: Vision-Language Model Benchmark in Agriculture",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 12,
+     "doi": "10.1109/iccv51701.2025.00716",
+     "authors": "Risa Shinoda, Nakamasa Inoue, Hirokatsu Kataoka, Masaki Onishi, Yoshitaka Ushiku"
+    },
+    {
+     "title": "One Last Attention for Your Vision-Language Model",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 0,
+     "doi": "10.1109/iccv51701.2025.00144",
+     "authors": "Liang Chen, Ghazi Shazan Ahmad, Tianjun Yao, Lingqiao Liu, Zhiqiang Shen"
+    },
+    {
+     "title": "Interpretable Zero-Shot Learning with Locally-Aligned Vision-Language Model",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 3,
+     "doi": "10.1109/iccv51701.2025.00052",
+     "authors": "Shiming Chen, Bowen Duan, Salman Khan, Fahad Shahbaz Khan"
+    },
+    {
+     "title": "UrbanLLaVA: A Multi-Modal Large Language Model for Urban Intelligence",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 6,
+     "doi": "10.1109/iccv51701.2025.00586",
+     "authors": "Jie Feng, Shengyuan Wang, Tianhui Liu, Yanxin Xi, Yong Li"
+    },
+    {
+     "title": "NavQ: Learning a Q-Model for Foresighted Vision-and-Language Navigation",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 2,
+     "doi": "10.1109/iccv51701.2025.00597",
+     "authors": "Peiran Xu, Xicheng Gong, Yadong Mu"
+    },
+    {
+     "title": "Feather the Throttle: Revisiting Visual Token Pruning for Vision-Language Model Acceleration",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 4,
+     "doi": "10.1109/iccv51701.2025.02119",
+     "authors": "Mark Endo, Xiaohan Wang, Serena Yeung-Levy"
+    },
+    {
+     "title": "Distilling Large Vision-Language Model with Out-of-Distribution Generalizability",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 29,
+     "doi": "10.1109/iccv51070.2023.00236",
+     "authors": "Xuanlin Li, Yunhao Fang, Minghua Liu, Zhan Ling, Zhuowen Tu, Hao Su"
+    },
+    {
+     "title": "LangTraj: Diffusion Model and Dataset for Language-Conditioned Trajectory Simulation",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 5,
+     "doi": "10.1109/iccv51701.2025.02471",
+     "authors": "Wei-Jer Chang, Wei Zhan, Masayoshi Tomizuka, Manmohan Chandraker, Francesco Pittaluga"
+    },
+    {
+     "title": "Joint Audio-Visual Deepfake Detection",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 192,
+     "doi": "10.1109/iccv48922.2021.01453",
+     "authors": "Yipin Zhou, Ser-Nam Lim"
+    },
+    {
+     "title": "StylerDALLE: Language-Guided Style Transfer Using a Vector-Quantized Tokenizer of a Large-Scale Generative Model",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 13,
+     "doi": "10.1109/iccv51070.2023.00699",
+     "authors": "Zipeng Xu, Enver Sangineto, Nicu Sebe"
+    },
+    {
+     "title": "Does Your Vision-Language Model Get Lost in the Long Video Sampling Dilemma?",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 4,
+     "doi": "10.1109/iccv51701.2025.01942",
+     "authors": "Tianyuan Qu, Longxiang Tang, Bohao Peng, Senqiao Yang, Bei Yu, Jiaya Jia"
+    },
+    {
+     "title": "Visually-Prompted Language Model for Fine-Grained Scene Graph Generation in an Open World",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 35,
+     "doi": "10.1109/iccv51070.2023.01971",
+     "authors": "Qifan Yu, Juncheng Li, Yu Wu, Siliang Tang, Wei Ji, Yueting Zhuang"
+    },
+    {
+     "title": "Audio-Visual Class-Incremental Learning",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 40,
+     "doi": "10.1109/iccv51070.2023.00717",
+     "authors": "Weiguo Pian, Shentong Mo, Yunhui Guo, Yapeng Tian"
+    },
+    {
+     "title": "Move2Hear: Active Audio-Visual Source Separation",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 33,
+     "doi": "10.1109/iccv48922.2021.00034",
+     "authors": "Sagnik Majumder, Ziad Al-Halah, Kristen Grauman"
+    },
+    {
+     "title": "On the Audio-visual Synchronization for Lip-to-Speech Synthesis",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 5,
+     "doi": "10.1109/iccv51070.2023.00721",
+     "authors": "Zhe Niu, Brian Mak"
+    },
+    {
+     "title": "B-VLLM: A Vision Large Language Model with Balanced Spatio-Temporal Tokens",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.02276",
+     "authors": "Zhuqiang Lu, Zhenfei Yin, Mengwei He, Zhihui Wang, Zicheng Liu, Zhiyong Wang"
+    },
+    {
+     "title": "Mamba-3VL: Taming State Space Model for 3D Vision Language Learning",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 0,
+     "doi": "10.1109/iccv51701.2025.00592",
+     "authors": "Yuan Wang, Yuxin Chen, Zhongang Qi, Lijun Liu, Jile Jiao, Xuetao Feng"
+    },
+    {
+     "title": "ViLLa: Video Reasoning Segmentation with Large Language Model",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 5,
+     "doi": "10.1109/iccv51701.2025.02197",
+     "authors": "Rongkun Zheng, Lu Qi, Xi Chen, Yi Wang, Kun Wang, Hengshuang Zhao"
+    },
+    {
+     "title": "CalliReader: Contextualizing Chinese Calligraphy via an Embedding-Aligned Vision-Language Model",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 3,
+     "doi": "10.1109/iccv51701.2025.02138",
+     "authors": "Yuxuan Luo, Jiaqi Tang, Chenyi Huang, Feiyang Hao, Zhouhui Lian"
+    },
+    {
+     "title": "AirCache: Activating Inter-Modal Relevancy KV Cache Compression for Efficient Large Vision-Language Model Inference",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.02221",
+     "authors": "Kai Huang, Hao Zou, Bochen Wang, Ye Xi, Zhen Xie, Hao Wang"
+    },
+    {
+     "title": "Bayesian Prompt Learning for Image-Language Model Generalization",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 39,
+     "doi": "10.1109/iccv51070.2023.01398",
+     "authors": "Mohammad Mahdi Derakhshani, Enrique Sanchez, Adrian Bulat, Victor Guilherme Turrisi Da Costa, Cees G. M. Snoek, Georgios Tzimiropoulos"
+    },
+    {
+     "title": "AdVerb: Visually Guided Audio Dereverberation",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 7,
+     "doi": "10.1109/iccv51070.2023.00725",
+     "authors": "Sanjoy Chowdhury, Sreyan Ghosh, Subhrajyoti Dasgupta, Anton Ratnarajah, Utkarsh Tyagi, Dinesh Manocha"
+    },
+    {
+     "title": "DexVLG: Dexterous Vision-Language-Grasp Model at Scale",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 6,
+     "doi": "10.1109/iccv51701.2025.01322",
+     "authors": "Jiawei He, Danshi Li, Xinqiang Yu, Zekun Qi, Wenyao Zhang, Jiayi Chen"
+    },
+    {
+     "title": "Class-Incremental Grouping Network for Continual Audio-Visual Learning",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 20,
+     "doi": "10.1109/iccv51070.2023.00716",
+     "authors": "Shentong Mo, Weiguo Pian, Yapeng Tian"
+    },
+    {
+     "title": "Feature Decomposition-Recomposition in Large Vision-Language Model for Few-Shot Class-Incremental Learning",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 0,
+     "doi": "10.1109/iccv51701.2025.00302",
+     "authors": "Zongyao Xue, Meina Kan, Shiguang Shan, Xilin Chen"
+    },
+    {
+     "title": "Joint Visual and Audio Learning for Video Highlight Detection",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 76,
+     "doi": "10.1109/iccv48922.2021.00802",
+     "authors": "Taivanbat Badamdorj, Mrigank Rochan, Yang Wang, Li Cheng"
+    },
+    {
+     "title": "Player-Centric Multimodal Prompt Generation for Large Language Model Based Identity-Aware Basketball Video Captioning",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 3,
+     "doi": "10.1109/iccv51701.2025.02255",
+     "authors": "Zeyu Xi, Haoying Sun, Yaofei Wu, Junchi Yan, Haoran Zhang, Lifang Wu"
+    },
+    {
+     "title": "Boosting Positive Segments for Weakly-Supervised Audio-Visual Video Parsing",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 13,
+     "doi": "10.1109/iccv51070.2023.00935",
+     "authors": "Kranthi Kumar Rachavarapu, Rajagopalan A. N."
+    },
+    {
+     "title": "Robin3D Improving 3D Large Language Model via Robust Instruction Tuning",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 9,
+     "doi": "10.1109/iccv51701.2025.00372",
+     "authors": "Weitai Kang, Haifeng Huang, Yuzhang Shang, Mubarak Shah, Yan Yan"
+    },
+    {
+     "title": "Audio-Visual Glance Network for Efficient Video Recognition",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 4,
+     "doi": "10.1109/iccv51070.2023.00931",
+     "authors": "Muhammad Adi Nugroho, Sangmin Woo, Sumin Lee, Changick Kim"
+    },
+    {
+     "title": "Advancing Visual Large Language Model for Multi-Granular Versatile Perception",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.02057",
+     "authors": "Wentao Xiang, Haoxian Tan, Yujie Zhong, Cong Wei, Dengjie Li, Yujiu Yang"
+    },
+    {
+     "title": "SignBERT: Pre-Training of Hand-Model-Aware Representation for Sign Language Recognition",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 127,
+     "doi": "10.1109/iccv48922.2021.01090",
+     "authors": "Hezhen Hu, Weichao Zhao, Wengang Zhou, Yuechen Wang, Houqiang Li"
+    },
+    {
+     "title": "FLOAT: Generative Motion Latent Flow Matching for Audio-Driven Talking Portrait",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 6,
+     "doi": "10.1109/iccv51701.2025.01364",
+     "authors": "Taekyung Ki, Dongchan Min, Gyeongsu Chae"
+    },
+    {
+     "title": "WalkVLM: Aid Visually Impaired People Walking by Vision Language Model",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 3,
+     "doi": "10.1109/iccv51701.2025.00918",
+     "authors": "Zhiqiang Yuan, Ting Zhang, Yeshuang Zhu, Jiapei Zhang, Ying Deng, Zexi Jia"
+    },
+    {
+     "title": "MotionCtrl: A Real-Time Controllable Vision-Language-Motion Model",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.01139",
+     "authors": "Bin Cao, Sipeng Zheng, Ye Wang, Lujie Xia, Qianshan Wei, Qin Jin"
+    },
+    {
+     "title": "CogCM: Cognition-Inspired Contextual Modeling for Audio-Visual Speech Enhancement",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 0,
+     "doi": "10.1109/iccv51701.2025.01988",
+     "authors": "Feixiang Wang, Shuang Yang, Shiguang Shan, Xilin Chen"
+    },
+    {
+     "title": "Enhancing Few-Shot Vision-Language Classification With Large Multimodal Model Features",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 3,
+     "doi": "10.1109/iccv51701.2025.00265",
+     "authors": "Chancharik Mitra, Brandon Huang, Tianning Chai, Zhiqiu Lin, Assaf Arbelle, Rogerio Feris"
+    },
+    {
+     "title": "MODA: Mapping-Once Audio-driven Portrait Animation with Dual Attentions",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 22,
+     "doi": "10.1109/iccv51070.2023.02104",
+     "authors": "Yunfei Liu, Lijian Lin, Fei Yu, Changyin Zhou, Yu Li"
+    },
+    {
+     "title": "Localize to Binauralize: Audio Spatialization from Visual Sound Source Localization",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 25,
+     "doi": "10.1109/iccv48922.2021.00194",
+     "authors": "Kranthi Kumar Rachavarapu, Aakanksha Aakanksha, Vignesh Sundaresha, Rajagopalan A. N"
+    },
+    {
+     "title": "Audio-Visual Floorplan Reconstruction",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 28,
+     "doi": "10.1109/iccv48922.2021.00122",
+     "authors": "Senthil Purushwalkam, Sebastia Vicenc Amengual Gari, Vamsi Krishna Ithapu, Carl Schissler, Philip Robinson, Abhinav Gupta"
+    },
+    {
+     "title": "How to Design a Three-Stage Architecture for Audio-Visual Active Speaker Detection in the Wild",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 44,
+     "doi": "10.1109/iccv48922.2021.00123",
+     "authors": "Okan Kopuklu, Maja Taseska, Gerhard Rigoll"
+    },
+    {
+     "title": "Multimodal Large Language Model-Guided ISP Hyperparameter Optimization with Dynamic Preference Learning",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 0,
+     "doi": "10.1109/iccv51701.2025.00048",
+     "authors": "Xinyu Sun, Zhikun Zhao, Congyan Lang, Bing Li, Juan Wang"
+    },
+    {
+     "title": "AVAM: A Universal Training-Free Adaptive Visual Anchoring Embedded into Multimodal Large Language Model for Multi-Image Question Answering",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 0,
+     "doi": "10.1109/iccv51701.2025.00221",
+     "authors": "Kang Zeng, Guojin Zhong, Jintao Cheng, Jin Yuan, Zhiyong Li"
+    },
+    {
+     "title": "Borrowing Knowledge From Pre-trained Language Model: A New Data-efficient Visual Learning Paradigm",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 7,
+     "doi": "10.1109/iccv51070.2023.01722",
+     "authors": "Wenxuan Ma, Shuang Li, JinMing Zhang, Chi Harold Liu, Jingxuan Kang, Yulin Wang"
+    },
+    {
+     "title": "Talking Head Generation with Probabilistic Audio-to-Visual Diffusion Priors",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 35,
+     "doi": "10.1109/iccv51070.2023.00703",
+     "authors": "Zhentao Yu, Zixin Yin, Deyu Zhou, Duomin Wang, Finn Wong, Baoyuan Wang"
+    },
+    {
+     "title": "AV-Flow: Transforming Text to Audio-Visual Human-Like Interactions",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 2,
+     "doi": "10.1109/iccv51701.2025.01324",
+     "authors": "Aggelina Chatziagapi, Louis-Philippe Morency, Hongyu Gong, Michael Zollhöfer, Dimitris Samaras, Alexander Richard"
+    },
+    {
+     "title": "Audio-Enhanced Text-to-Video Retrieval using Text-Conditioned Feature Alignment",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 38,
+     "doi": "10.1109/iccv51070.2023.01107",
+     "authors": "Sarah Ibrahimi, Xiaohang Sun, Pichao Wang, Amanmeet Garg, Ashutosh Sanan, Mohamed Omar"
+    },
+    {
+     "title": "$\\pi$-AVAS: Can Physics-Integrated Audio-Visual Modeling Boost Neural Acoustic Synthesis?",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.01294",
+     "authors": "Susan Liang, Chao Huang, Yunlong Tang, Zeliang Zhang, Chenliang Xu"
+    },
+    {
+     "title": "Exploiting Vision Language Model for Training-Free 3D Point Cloud OOD Detection via Graph Score Propagation",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 0,
+     "doi": "10.1109/iccv51701.2025.02674",
+     "authors": "Tiankai Chen, Yushu Li, Adam Goodge, Fei Teng, Xulei Yang, Tianrui Li"
+    },
+    {
+     "title": "Structured Policy Optimization: Enhance Large Vision-Language Model via Self-Referenced Dialogue",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.00077",
+     "authors": "Guohao Sun, Can Qin, Yihao Feng, Zeyuan Chen, Ran Xu, Sohail Dianat"
+    },
+    {
+     "title": "AutoAD II: The Sequel – Who, When, and What in Movie Audio Description",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 39,
+     "doi": "10.1109/iccv51070.2023.01255",
+     "authors": "Tengda Han, Max Bain, Arsha Nagrani, Gül Varol, Weidi Xie, Andrew Zisserman"
+    },
+    {
+     "title": "AD-NeRF: Audio Driven Neural Radiance Fields for Talking Head Synthesis",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 391,
+     "doi": "10.1109/iccv48922.2021.00573",
+     "authors": "Yudong Guo, Keyu Chen, Sen Liang, Yong-Jin Liu, Hujun Bao, Juyong Zhang"
+    },
+    {
+     "title": "Hyperbolic Audio-visual Zero-shot Learning",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 24,
+     "doi": "10.1109/iccv51070.2023.00724",
+     "authors": "Jie Hong, Zeeshan Hayder, Junlin Han, Pengfei Fang, Mehrtash Harandi, Lars Petersson"
+    },
+    {
+     "title": "WSI-LLaVA: A Multimodal Large Language Model for Whole Slide Image",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 15,
+     "doi": "10.1109/iccv51701.2025.02109",
+     "authors": "Yuci Liang, Xinheng Lyu, Wenting Chen, Meidan Ding, Jipeng Zhang, Xiangjian He"
+    },
+    {
+     "title": "EMMN: Emotional Motion Memory Network for Audio-driven Emotional Talking Face Generation",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 44,
+     "doi": "10.1109/iccv51070.2023.02024",
+     "authors": "Shuai Tan, Bin Ji, Ye Pan"
+    },
+    {
+     "title": "VAFlow: Video-to-Audio Generation with Cross-Modality Flow Matching",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 0,
+     "doi": "10.1109/iccv51701.2025.01095",
+     "authors": "Xihua Wang, Xin Cheng, Yuyue Wang, Ruihua Song, Yunfeng Wang"
+    },
+    {
+     "title": "AVTrustBench: Assessing and Enhancing Reliability and Robustness in Audio-Visual LLMs",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.00156",
+     "authors": "Sanjoy Chowdhury, Sayan Nag, Subhrajyoti Dasgupta, Yaoting Wang, Mohamed Elhoseiny, Ruohan Gao"
+    },
+    {
+     "title": "Audio2Gestures: Generating Diverse Gestures from Speech Audio with Conditional Variational Autoencoders",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 131,
+     "doi": "10.1109/iccv48922.2021.01110",
+     "authors": "Jing Li, Di Kang, Wenjie Pei, Xuefei Zhe, Ying Zhang, Zhenyu He"
+    },
+    {
+     "title": "Aurelia: Test-Time Reasoning Distillation in Audio-Visual LLMs",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.02126",
+     "authors": "Sanjoy Chowdhury, Hanan Gani, Nishit Anand, Sayan Nag, Ruohan Gao, Mohamed Elhoseiny"
+    },
+    {
+     "title": "VGGSounder: Audio-Visual Evaluations for Foundation Models",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.00103",
+     "authors": "Daniil Zverev, Thäddaus Wiedemer, Ameya Prabhu, Matthias Bethge, Wieland Brendel, A. Sophia Koepke"
+    },
+    {
+     "title": "ACAV100M: Automatic Curation of Large-Scale Datasets for Audio-Visual Video Representation Learning",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 32,
+     "doi": "10.1109/iccv48922.2021.01011",
+     "authors": "Sangho Lee, Jiwan Chung, Youngjae Yu, Gunhee Kim, Thomas Breuel, Gal Chechik"
+    },
+    {
+     "title": "Progressive Homeostatic and Plastic Prompt Tuning for Audio-Visual Multi-Task Incremental Learning",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 0,
+     "doi": "10.1109/iccv51701.2025.00196",
+     "authors": "Jiong Yin, Liang Li, Jiehua Zhang, Yuhan Gao, Chenggang Yan, Xichun Sheng"
+    },
+    {
+     "title": "Visual Scene Graphs for Audio Source Separation",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 24,
+     "doi": "10.1109/iccv48922.2021.00124",
+     "authors": "Moitreya Chatterjee, Jonathan Le Roux, Narendra Ahuja, Anoop Cherian"
+    },
+    {
+     "title": "What's Making That Sound Right Now? Video-Centric Audio-Visual Localization",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.01869",
+     "authors": "Hahyeon Choi, Junhoo Lee, Nojun Kwak"
+    },
+    {
+     "title": "Efficient Emotional Adaptation for Audio-Driven Talking-Head Generation",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 85,
+     "doi": "10.1109/iccv51070.2023.02069",
+     "authors": "Yuan Gan, Zongxin Yang, Xihang Yue, Lingyun Sun, Yi Yang"
+    },
+    {
+     "title": "Pano-AVQA: Grounded Audio-Visual Question Answering on 360° Videos",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 71,
+     "doi": "10.1109/iccv48922.2021.00204",
+     "authors": "Heeseung Yun, Youngjae Yu, Wonsuk Yang, Kangil Lee, Gunhee Kim"
+    },
+    {
+     "title": "CombatVLA: An Efficient Vision-Language-Action Model for Combat Tasks in 3D Action Role-Playing Games",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.01016",
+     "authors": "Peng Chen, Pi Bu, Yingyao Wang, Xinyi Wang, Ziming Wang, Jie Guo"
+    },
+    {
+     "title": "Towards Omnimodal Expressions and Reasoning in Referring Audio-Visual Segmentation",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 5,
+     "doi": "10.1109/iccv51701.2025.02096",
+     "authors": "Kaining Ying, Henghui Ding, Guangquan Jie, Yu-Gang Jiang"
+    },
+    {
+     "title": "Shot-by-Shot: Film-Grammar-Aware Training-Free Audio Description Generation",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.01532",
+     "authors": "Junyu Xie, Tengda Han, Max Bain, Arsha Nagrani, Eshika Khandelwal, Gül Varol"
+    },
+    {
+     "title": "NavMorph: A Self-Evolving World Model for Vision-and-Language Navigation in Continuous Environments",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 9,
+     "doi": "10.1109/iccv51701.2025.00525",
+     "authors": "Xuan Yao, Junyu Gao, Changsheng Xu"
+    },
+    {
+     "title": "MemoryTalker: Personalized Speech-Driven 3D Facial Animation via Audio-Guided Stylization",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.01046",
+     "authors": "Hyung Kyu Kim, Sangmin Lee, Hak Gu Kim"
+    },
+    {
+     "title": "Lip2Vec: Efficient and Robust Visual Speech Recognition via Latent-to-Latent Visual to Audio Representation Mapping",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 9,
+     "doi": "10.1109/iccv51070.2023.01268",
+     "authors": "Yasser Abdelaziz Dahou Djilali, Sanath Narayan, Haithem Boussaid, Ebtessam Almazrouei, Merouane Debbah"
+    },
+    {
+     "title": "Intra-Modal and Cross-Modal Synchronization for Audio-Visual Deepfake Detection and Temporal Localization",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 0,
+     "doi": "10.1109/iccv51701.2025.01283",
+     "authors": "Ashutosh Anshul, Shreyas Gopal, Deepu Rajan, Eng Siong Chng"
+    },
+    {
+     "title": "GrowCLIP: Data-aware Automatic Model Growing for Large-scale Contrastive Language-Image Pre-training",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51070.2023.02027",
+     "authors": "Xinchi Deng, Han Shi, Runhui Huang, Changlin Li, Hang Xu, Jianhua Han"
+    },
+    {
+     "title": "GaussianSpeech: Audio-Driven Personalized 3D Gaussian Avatars",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 4,
+     "doi": "10.1109/iccv51701.2025.01214",
+     "authors": "Shivangi Aneja, Artem Sevastopolsky, Tobias Kirschstein, Justus Thies, Angela Dai, Matthias Nießner"
+    },
+    {
+     "title": "SmolDocling: An Ultra-Compact Vision-Language Model for End-To-End Multi-Modal Document Conversion",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 11,
+     "doi": "10.1109/iccv51701.2025.02040",
+     "authors": "Ahmed Nassar, Matteo Omenetti, Maksym Lysak, Nikolaos Livathinos, Christoph Auer, Lucas Morin"
+    },
+    {
+     "title": "DGTalker: Disentangled Generative Latent Space Learning for Audio-Driven Gaussian Talking Heads",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 0,
+     "doi": "10.1109/iccv51701.2025.01031",
+     "authors": "Xiaoxi Liang, Yanbo Fan, Qiya Yang, Xuan Wang, Wei Gao, Ge Li"
+    },
+    {
+     "title": "When Large Vision-Language Model Meets Large Remote Sensing Imagery: Coarse-to-Fine Text-Guided Token Pruning",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 3,
+     "doi": "10.1109/iccv51701.2025.00860",
+     "authors": "Junwei Luo, Yingying Zhang, Xue Yang, Kang Wu, Qi Zhu, Lei Liang"
+    },
+    {
+     "title": "How Do Optical Flow and Textual Prompts Collaborate to Assist in Audio-Visual Semantic Segmentation?",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 2,
+     "doi": "10.1109/iccv51701.2025.02167",
+     "authors": "Yujian Lee, Peng Gao, Yongqi Xu, Wentao Fan"
+    },
+    {
+     "title": "AV-Link: Temporally-Aligned Diffusion Features for Cross-Modal Audio-Video Generation",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 7,
+     "doi": "10.1109/iccv51701.2025.01801",
+     "authors": "Moayed Haji-Ali, Willi Menapace, Aliaksandr Siarohin, Ivan Skorokhodov, Alper Canberk, Kwot Sin Lee"
+    },
+    {
+     "title": "The Right to Talk: An Audio-Visual Transformer Approach",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 29,
+     "doi": "10.1109/iccv48922.2021.00114",
+     "authors": "Thanh-Dat Truong, Chi Nhan Duong, The De Vu, Hoang Anh Pham, Bhiksha Raj, Ngan Le"
+    },
+    {
+     "title": "Audio-Visual Deception Detection: DOLOS Dataset and Parameter-Efficient Crossmodal Learning",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 37,
+     "doi": "10.1109/iccv51070.2023.02023",
+     "authors": "Xiaobao Guo, Nithish Muthuchamy Selvaraj, Zitong Yu, Adams Wai-Kin Kong, Bingquan Shen, Alex Kot"
+    },
+    {
+     "title": "Multimodal Variational Auto-encoder based Audio-Visual Segmentation",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 53,
+     "doi": "10.1109/iccv51070.2023.00094",
+     "authors": "Yuxin Mao, Jing Zhang, Mochu Xiang, Yiran Zhong, Yuchao Dai"
+    },
+    {
+     "title": "Normal and Abnormal Pathology Knowledge-Augmented Vision-Language Model for Anomaly Detection in Pathology Images",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 0,
+     "doi": "10.1109/iccv51701.2025.02049",
+     "authors": "Jinsol Song, Jiamu Wang, Anh Tien Nguyen, Keunho Byeon, Sangjeong Ahn, Sung Hak Lee"
+    },
+    {
+     "title": "TARO: Timestep-Adaptive Representation Alignment with Onset-Aware Conditioning for Synchronized Video-To-Audio Synthesis",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 2,
+     "doi": "10.1109/iccv51701.2025.01320",
+     "authors": "Tri Ton, Ji Woo Hong, Chang D. Yoo"
+    },
+    {
+     "title": "Audio-Visual Controlled Video Diffusion with Masked Selective State Spaces Modeling for Natural Talking Head Generation",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 3,
+     "doi": "10.1109/iccv51701.2025.01166",
+     "authors": "Fa-Ting Hong, Zunnan Xu, Zixiang Zhou, Jun Zhou, Xiu Li, Qin Lin"
+    },
+    {
+     "title": "Temporal Cue Guided Video Highlight Detection with Low-Rank Audio-Visual Fusion",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 53,
+     "doi": "10.1109/iccv48922.2021.00785",
+     "authors": "Qinghao Ye, Xiyue Shen, Yuan Gao, Zirui Wang, Qi Bi, Ping Li"
+    },
+    {
+     "title": "Omnidirectional Information Gathering for Knowledge Transfer-based Audio-Visual Navigation",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 10,
+     "doi": "10.1109/iccv51070.2023.01009",
+     "authors": "Jinyu Chen, Wenguan Wang, Si Liu, Hongsheng Li, Yi Yang"
+    },
+    {
+     "title": "TAViS: Text-bridged Audio-Visual Segmentation with Foundation Models",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.02226",
+     "authors": "Ziyang Luo, Nian Liu, Xuguang Yang, Salman Khan, Rao Muhammad Anwer, Hisham Cholakkal"
+    },
+    {
+     "title": "Implicit Counterfactual Learning for Audio-Visual Segmentation",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 4,
+     "doi": "10.1109/iccv51701.2025.02075",
+     "authors": "Mingfeng Zha, Tianyu Li, Guoqing Wang, Peng Wang, Yangyang Wu, Yang Yang"
+    },
+    {
+     "title": "The Power of Sound (TPoS): Audio Reactive Video Generation with Stable Diffusion",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 30,
+     "doi": "10.1109/iccv51070.2023.00719",
+     "authors": "Yujin Jeong, Wonjeong Ryoo, Seunghyun Lee, Dabin Seo, Wonmin Byeon, Sangpil Kim"
+    },
+    {
+     "title": "MixSpeech: Cross-Modality Self-Learning with Audio-Visual Stream Mixup for Visual Speech Translation and Recognition",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 15,
+     "doi": "10.1109/iccv51070.2023.01442",
+     "authors": "Xize Cheng, Tao Jin, Rongjie Huang, Linjun Li, Wang Lin, Zehan Wang"
+    },
+    {
+     "title": "Gloss-free Sign Language Translation: Improving from Visual-Language Pretraining",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 99,
+     "doi": "10.1109/iccv51070.2023.01908",
+     "authors": "Benjia Zhou, Zhigang Chen, Albert Clapés, Jun Wan, Yanyan Liang, Sergio Escalera"
+    },
+    {
+     "title": "e-ViL: A Dataset and Benchmark for Natural Language Explanations in Vision-Language Tasks",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 42,
+     "doi": "10.1109/iccv48922.2021.00128",
+     "authors": "Maxime Kayser, Oana-Maria Camburu, Leonard Salewski, Cornelius Emde, Virginie Do, Zeynep Akata"
+    },
+    {
+     "title": "Improving Continuous Sign Language Recognition with Cross-Lingual Signs",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 32,
+     "doi": "10.1109/iccv51070.2023.02158",
+     "authors": "Fangyun Wei, Yutong Chen"
+    },
+    {
+     "title": "SAUCE: Selective Concept Unlearning in Vision-Language Models with Sparse Autoencoders",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF International Conference on Computer Vision (ICCV)",
+     "citationCount": 1,
+     "doi": "10.1109/iccv51701.2025.00290",
+     "authors": "Jiahui Geng, Qing Li"
+    }
+   ]
+  }
+ }
+}

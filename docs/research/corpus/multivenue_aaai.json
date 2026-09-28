@@ -1,0 +1,54 @@
+{
+ "venue": "AAAI",
+ "category": "ml",
+ "canonical_venue_string": "Proceedings of the AAAI Conference on Artificial Intelligence",
+ "wave": "B",
+ "generated_at": "2026-09-29 01:21:42",
+ "topics": [
+  "LLM agent tool use",
+  "agent memory",
+  "audio language model",
+  "multimodal agent",
+  "on-device inference",
+  "self-supervised speech"
+ ],
+ "request_budget": {
+  "successful": 6,
+  "limit": 300,
+  "attempts": 6
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "LLM agent tool use": {
+   "total": 42059,
+   "kept": 0,
+   "papers": []
+  },
+  "agent memory": {
+   "total": 23981,
+   "kept": 0,
+   "papers": []
+  },
+  "audio language model": {
+   "total": 147523,
+   "kept": 0,
+   "papers": []
+  },
+  "multimodal agent": {
+   "total": 27530,
+   "kept": 0,
+   "papers": []
+  },
+  "on-device inference": {
+   "total": 17010,
+   "kept": 0,
+   "papers": []
+  },
+  "self-supervised speech": {
+   "total": 54327,
+   "kept": 0,
+   "papers": []
+  }
+ }
+}

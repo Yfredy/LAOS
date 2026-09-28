@@ -1,0 +1,1512 @@
+{
+ "venue": "CVPR",
+ "category": "cv",
+ "canonical_venue_string": "Computer Vision and Pattern Recognition",
+ "wave": "B",
+ "generated_at": "2026-09-29 01:19:59",
+ "topics": [
+  "audio-visual",
+  "audio language model"
+ ],
+ "request_budget": {
+  "successful": 65,
+  "limit": 300,
+  "attempts": 2
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "audio-visual": {
+   "total": 3946,
+   "kept": 89,
+   "papers": [
+    {
+     "title": "AV2AV: Direct Audio-Visual Speech to Audio-Visual Speech Translation with Unified Audio-Visual Speech Representation",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 8,
+     "doi": "10.1109/cvpr52733.2024.02580",
+     "authors": "Jeongsoo Choi, Se Jin Park, Minsu Kim, Yong Man Ro"
+    },
+    {
+     "title": "Audio-Visual Semantic Graph Network for Audio-Visual Event Localization",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 2,
+     "doi": "10.1109/cvpr52734.2025.02231",
+     "authors": "Liang Liu, Shuaiyong Li, Yongqiang Zhu"
+    },
+    {
+     "title": "Audio-Visual Speech Codecs: Rethinking Audio-Visual Speech Enhancement by Re-Synthesis",
+     "year": 2022,
+     "venue": "2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 37,
+     "doi": "10.1109/cvpr52688.2022.00805",
+     "authors": "Karren Yang, Dejan Markovic, Steven Krenn, Vasu Agrawal, Alexander Richard"
+    },
+    {
+     "title": "Robust Audio-Visual Segmentation via Audio-Guided Visual Convergent Alignment",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 5,
+     "doi": "10.1109/cvpr52734.2025.02693",
+     "authors": "Chen Liu, Peike Li, Liying Yang, Dadong Wang, Lincheng Li, Xin Yu"
+    },
+    {
+     "title": "Foley-Flow: Coordinated Video-to-Audio Generation with Masked Audio-Visual Alignment and Dynamic Conditional Flows",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 2,
+     "doi": "10.1109/cvpr52734.2025.02692",
+     "authors": "Shentong Mo, Yibing Song"
+    },
+    {
+     "title": "Dynamic Derivation and Elimination: Audio Visual Segmentation with Enhanced Audio Semantics",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 5,
+     "doi": "10.1109/cvpr52734.2025.00298",
+     "authors": "Chen Liu, Liying Yang, Peike Li, Dadong Wang, Lincheng Li, Xin Yu"
+    },
+    {
+     "title": "Robust Audio-Visual Instance Discrimination",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 96,
+     "doi": "10.1109/cvpr46437.2021.01274",
+     "authors": "Pedro Morgado, Ishan Misra, Nuno Vasconcelos"
+    },
+    {
+     "title": "Sound to Visual Scene Generation by Audio-to-Visual Latent Alignment",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 40,
+     "doi": "10.1109/cvpr52729.2023.00622",
+     "authors": "Kim Sung-Bin, Arda Senocak, Hyunwoo Ha, Andrew Owens, Tae-Hyun Oh"
+    },
+    {
+     "title": "Semantic Audio-Visual Navigation",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 80,
+     "doi": "10.1109/cvpr46437.2021.01526",
+     "authors": "Changan Chen, Ziad Al-Halah, Kristen Grauman"
+    },
+    {
+     "title": "AVFace: Towards Detailed Audio-Visual 4D Face Reconstruction",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 5,
+     "doi": "10.1109/cvpr52729.2023.01619",
+     "authors": "Aggelina Chatziagapi, Dimitris Samaras"
+    },
+    {
+     "title": "Can audio-visual integration strengthen robustness under multimodal attacks?",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 23,
+     "doi": "10.1109/cvpr46437.2021.00555",
+     "authors": "Yapeng Tian, Chenliang Xu"
+    },
+    {
+     "title": "Audio-Visual Grouping Network for Sound Localization from Mixtures",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 53,
+     "doi": "10.1109/cvpr52729.2023.01018",
+     "authors": "Shentong Mo, Yapeng Tian"
+    },
+    {
+     "title": "VisualVoice: Audio-Visual Speech Separation with Cross-Modal Consistency",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 171,
+     "doi": "10.1109/cvpr46437.2021.01524",
+     "authors": "Ruohan Gao, Kristen Grauman"
+    },
+    {
+     "title": "Egocentric Audio-Visual Object Localization",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 39,
+     "doi": "10.1109/cvpr52729.2023.02194",
+     "authors": "Chao Huang, Yapeng Tian, Anurag Kumar, Chenliang Xu"
+    },
+    {
+     "title": "Audio-Visual Instance Discrimination with Cross-Modal Agreement",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 138,
+     "doi": "10.1109/cvpr46437.2021.01229",
+     "authors": "Pedro Morgado, Nuno Vasconcelos, Ishan Misra"
+    },
+    {
+     "title": "Exploring Heterogeneous Clues for Weakly-Supervised Audio-Visual Video Parsing",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 83,
+     "doi": "10.1109/cvpr46437.2021.00138",
+     "authors": "Yu Wu, Yi Yang"
+    },
+    {
+     "title": "Self-Supervised Video Forensics by Audio-Visual Anomaly Detection",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 97,
+     "doi": "10.1109/cvpr52729.2023.01011",
+     "authors": "Chao Feng, Ziyang Chen, Andrew Owens"
+    },
+    {
+     "title": "TSAM: Temporal SAM Augmented with Multimodal Prompts for Referring Audio-Visual Segmentation",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 3,
+     "doi": "10.1109/cvpr52734.2025.02230",
+     "authors": "Abduljalil Radman, Jorma Laaksonen"
+    },
+    {
+     "title": "Egocentric Deep Multi-Channel Audio-Visual Active Speaker Localization",
+     "year": 2022,
+     "venue": "2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 46,
+     "doi": "10.1109/cvpr52688.2022.01029",
+     "authors": "Hao Jiang, Calvin Murdock, Vamsi Krishna Ithapu"
+    },
+    {
+     "title": "AV-RIR: Audio-Visual Room Impulse Response Estimation",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 22,
+     "doi": "10.1109/cvpr52733.2024.02565",
+     "authors": "Anton Ratnarajah, Sreyan Ghosh, Sonal Kumar, Purva Chiniya, Dinesh Manocha"
+    },
+    {
+     "title": "Learning Spatial Features from Audio-Visual Correspondence in Egocentric Videos",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 8,
+     "doi": "10.1109/cvpr52733.2024.02555",
+     "authors": "Sagnik Majumder, Ziad Al-Halah, Kristen Grauman"
+    },
+    {
+     "title": "Collecting Cross-Modal Presence-Absence Evidence for Weakly-Supervised Audio- Visual Event Perception",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 47,
+     "doi": "10.1109/cvpr52729.2023.01805",
+     "authors": "Junyu Gao, Mengyuan Chen, Changsheng Xu"
+    },
+    {
+     "title": "Distilling Audio-Visual Knowledge by Compositional Contrastive Learning",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 66,
+     "doi": "10.1109/cvpr46437.2021.00694",
+     "authors": "Yanbei Chen, Yongqin Xian, A. Sophia Koepke, Ying Shan, Zeynep Akata"
+    },
+    {
+     "title": "Audio-Visual Segmentation via Unlabeled Frame Exploitation",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 17,
+     "doi": "10.1109/cvpr52733.2024.02487",
+     "authors": "Jinxiang Liu, Yikun Liu, Fei Zhang, Chen Ju, Ya Zhang, Yanfeng Wang"
+    },
+    {
+     "title": "Self-supervised object detection from audio-visual correspondence",
+     "year": 2022,
+     "venue": "2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 42,
+     "doi": "10.1109/cvpr52688.2022.01032",
+     "authors": "Triantafyllos Afouras, Yuki M. Asano, Francois Fagan, Andrea Vedaldi, Florian Metze"
+    },
+    {
+     "title": "Weakly-Supervised Audio-Visual Video Parsing with Prototype-Based Pseudo-Labeling",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 8,
+     "doi": "10.1109/cvpr52733.2024.01793",
+     "authors": "Kranthi Kumar Rachavarapu, Kalyan Ramakrishnan, Rajagopalan A. N."
+    },
+    {
+     "title": "Unveiling the Power of Audio-Visual Early Fusion Transformers with Dense Interactions Through Masked Modeling",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 29,
+     "doi": "10.1109/cvpr52733.2024.02567",
+     "authors": "Shentong Mo, Pedro Morgado"
+    },
+    {
+     "title": "Prompt the Missing: Efficient and Robust Audio-Visual Classification Under Uncertain Modalities",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)",
+     "citationCount": 0,
+     "doi": "10.1109/cvprw67362.2025.00153",
+     "authors": "Eunju Park"
+    },
+    {
+     "title": "Circumventing shortcuts in audio-visual deepfake detection datasets with unsupervised learning",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 11,
+     "doi": "10.1109/cvpr52734.2025.01753",
+     "authors": "Stefan Smeu, Dragos-Alexandru Boldisor, Dan Oneata, Elisabeta Oneata"
+    },
+    {
+     "title": "TIM: A Time Interval Machine for Audio-Visual Action Recognition",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 29,
+     "doi": "10.1109/cvpr52733.2024.01719",
+     "authors": "Jacob Chalk, Jaesung Huh, Evangelos Kazakos, Andrew Zisserman, Dima Damen"
+    },
+    {
+     "title": "iQuery: Instruments as Queries for Audio-Visual Sound Separation",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 19,
+     "doi": "10.1109/cvpr52729.2023.01410",
+     "authors": "Jiaben Chen, Renrui Zhang, Dongze Lian, Jiaqi Yang, Ziyao Zeng, Jianbo Shi"
+    },
+    {
+     "title": "Watch or Listen: Robust Audio-Visual Speech Recognition with Visual Corruption Modeling and Reliability Scoring",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 41,
+     "doi": "10.1109/cvpr52729.2023.01801",
+     "authors": "Joanna Hong, Minsu Kim, Jeongsoo Choi, Yong Man Ro"
+    },
+    {
+     "title": "Vision Transformers are Parameter-Efficient Audio-Visual Learners",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 93,
+     "doi": "10.1109/cvpr52729.2023.00228",
+     "authors": "Yan-Bo Lin, Yi-Lin Sung, Jie Lei, Mohit Bansal, Gedas Bertasius"
+    },
+    {
+     "title": "Flow-guided One-shot Talking Face Generation with a High-resolution Audio-visual Dataset",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 361,
+     "doi": "10.1109/cvpr46437.2021.00366",
+     "authors": "Zhimeng Zhang, Lincheng Li, Yu Ding, Changjie Fan"
+    },
+    {
+     "title": "Learning to Answer Questions in Dynamic Audio-Visual Scenarios",
+     "year": 2022,
+     "venue": "2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 119,
+     "doi": "10.1109/cvpr52688.2022.01852",
+     "authors": "Guangyao Li, Yake Wei, Yapeng Tian, Chenliang Xu, Ji-Rong Wen, Di Hu"
+    },
+    {
+     "title": "GLAVNet: Global-Local Audio-Visual Cues for Fine-Grained Material Recognition",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 6,
+     "doi": "10.1109/cvpr46437.2021.01420",
+     "authors": "Fengmin Shi, Jie Guo, Haonan Zhang, Shan Yang, Xiying Wang, Yanwen Guo"
+    },
+    {
+     "title": "Object-aware Sound Source Localization via Audio-Visual Scene Understanding",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 6,
+     "doi": "10.1109/cvpr52734.2025.00781",
+     "authors": "Sung Jin Um, Dongjin Kim, Sangmin Lee, Jung Uk Kim"
+    },
+    {
+     "title": "Benchmarking Audio Visual Segmentation for Long-Untrimmed Videos",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 1,
+     "doi": "10.1109/cvpr52733.2024.02143",
+     "authors": "Chen Liu, Peike Patrick Li, Qingtao Yu, Hongwei Sheng, Dadong Wang, Lincheng Li"
+    },
+    {
+     "title": "Towards Robust Multimodal AU Detection: STN-Enhanced Visual Encoding and Audio-Visual Spatial-Temporal Alignment",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)",
+     "citationCount": 1,
+     "doi": "10.1109/cvprw67362.2025.00571",
+     "authors": "Jun Yu, Yunxiang Zhang, Fengzhao Sun, Leilei Wang, Renjie Lu, Lingsi Zhu"
+    },
+    {
+     "title": "Crab: A Unified Audio-Visual Scene Understanding Model with Explicit Cooperation",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 4,
+     "doi": "10.1109/cvpr52734.2025.01752",
+     "authors": "Henghui Du, Guangyao Li, Chang Zhou, Chunjie Zhang, Alan Zhao, Di Hu"
+    },
+    {
+     "title": "Question-Aware Gaussian Experts for Audio-Visual Question Answering",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 8,
+     "doi": "10.1109/cvpr52734.2025.01277",
+     "authors": "Hongyeob Kim, Inyoung Jung, Dayoon Suh, Youjia Zhang, Sangmin Lee, Sungeun Hong"
+    },
+    {
+     "title": "Dense-Localizing Audio-Visual Events in Untrimmed Videos: A Large-Scale Benchmark and Baseline",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 38,
+     "doi": "10.1109/cvpr52729.2023.02197",
+     "authors": "Tiantian Geng, Teng Wang, Jinming Duan, Runmin Cong, Feng Zheng"
+    },
+    {
+     "title": "Adapting to the Unknown: Training-Free Audio-Visual Event Perception with Dynamic Thresholds",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 0,
+     "doi": "10.1109/cvpr52734.2025.00299",
+     "authors": "Eitan Shaar, Ariel Shaulov, Gal Chechik, Lior Wolf"
+    },
+    {
+     "title": "MA-AVT: Modality Alignment for Parameter-Efficient Audio-Visual Transformers",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)",
+     "citationCount": 5,
+     "doi": "10.1109/cvprw63382.2024.00798",
+     "authors": "Tanvir Mahmud, Shentong Mo, Yapeng Tian, Diana Marculescu"
+    },
+    {
+     "title": "Cross-modal Background Suppression for Audio-Visual Event Localization",
+     "year": 2022,
+     "venue": "2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 71,
+     "doi": "10.1109/cvpr52688.2022.01936",
+     "authors": "Yan Xia, Zhou Zhao"
+    },
+    {
+     "title": "The Audio-Visual Conversational Graph: From an Egocentric-Exocentric Perspective",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 12,
+     "doi": "10.1109/cvpr52733.2024.02493",
+     "authors": "Wenqi Jia, Miao Liu, Hao Jiang, Ishwarya Ananthabhotla, James M. Rehg, Vamsi Krishna Ithapu"
+    },
+    {
+     "title": "Pose-Controllable Talking Face Generation by Implicitly Modularized Audio-Visual Representation",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 338,
+     "doi": "10.1109/cvpr46437.2021.00416",
+     "authors": "Hang Zhou, Yasheng Sun, Wayne Wu, Chen Change Loy, Xiaogang Wang, Ziwei Liu"
+    },
+    {
+     "title": "UWAV: Uncertainty-Weighted Weakly-Supervised Audio-Visual Video Parsing",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 1,
+     "doi": "10.1109/cvpr52734.2025.01266",
+     "authors": "Yung-Hsuan Lai, Janek Ebbers, Yu-Chiang Frank Wang, Franc¸Ois Germain, Michael Jeffrey Jones, Moitreya Chatterjee"
+    },
+    {
+     "title": "Seeing Speech and Sound: Distinguishing and Locating Audio Sources in Visual Scenes",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 2,
+     "doi": "10.1109/cvpr52734.2025.01264",
+     "authors": "Hyeonggon Ryu, Seongyu Kim, Joon Son Chung, Arda Senocak"
+    },
+    {
+     "title": "Real Acoustic Fields: An Audio-Visual Room Acoustics Dataset and Benchmark",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 23,
+     "doi": "10.1109/cvpr52733.2024.02067",
+     "authors": "Ziyang Chen, Israel D. Gebru, Christian Richardt, Anurag Kumar, William Laney, Andrew Owens"
+    },
+    {
+     "title": "AVQACL: A Novel Benchmark for Audio-Visual Question Answering Continual Learning",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 2,
+     "doi": "10.1109/cvpr52734.2025.00309",
+     "authors": "Kaixuan Wu, Xinde Li, Xinling Li, Chuanfei Hu, Guoliang Wu"
+    },
+    {
+     "title": "Continuous Emotion Recognition using Visual-audio-linguistic Information: A Technical Report for ABAW3",
+     "year": 2022,
+     "venue": "2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)",
+     "citationCount": 26,
+     "doi": "10.1109/cvprw56347.2022.00265",
+     "authors": "Su Zhang, Ruyi An, Yi Ding, Cuntai Guan"
+    },
+    {
+     "title": "Towards Open-Vocabulary Audio-Visual Event Localization",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 12,
+     "doi": "10.1109/cvpr52734.2025.00783",
+     "authors": "Jinxing Zhou, Dan Guo, Ruohao Guo, Yuxin Mao, Jingjing Hu, Yiran Zhong"
+    },
+    {
+     "title": "RILA: Reflective and Imaginative Language Agent for Zero-Shot Semantic Audio-Visual Navigation",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 7,
+     "doi": "10.1109/cvpr52733.2024.01538",
+     "authors": "Zeyuan Yang, Jiageng Lin, Peihao Chen, Anoop Cherian, Tim K. Marks, Jonathan Le Roux"
+    },
+    {
+     "title": "Spoken Moments: Learning Joint Audio-Visual Representations from Video Descriptions",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 42,
+     "doi": "10.1109/cvpr46437.2021.01463",
+     "authors": "Mathew Monfort, SouYoung Jin, Alexander Liu, David Harwath, Rogerio Feris, James Glass"
+    },
+    {
+     "title": "Cooperation Does Matter: Exploring Multi-Order Bilateral Relations for Audio-Visual Segmentation",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 21,
+     "doi": "10.1109/cvpr52733.2024.02562",
+     "authors": "Qi Yang, Xing Nie, Tong Li, Pengfei Gao, Ying Guo, Cheng Zhen"
+    },
+    {
+     "title": "Unraveling Instance Associations: A Closer Look for Audio-Visual Segmentation",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 22,
+     "doi": "10.1109/cvpr52733.2024.02502",
+     "authors": "Yuanhong Chen, Yuyuan Liu, Hu Wang, Fengbei Liu, Chong Wang, Helen Frazer"
+    },
+    {
+     "title": "ES<sup>3</sup>: Evolving Self-Supervised Learning of Robust Audio-Visual Speech Representations",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 8,
+     "doi": "10.1109/cvpr52733.2024.02556",
+     "authors": "Yuanhang Zhang, Shuang Yang, Shiguang Shan, Xilin Chen"
+    },
+    {
+     "title": "Leveraging Lightweight Facial Models and Textual Modality in Audio-Visual Emotional Understanding in-the-Wild",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)",
+     "citationCount": 3,
+     "doi": "10.1109/cvprw67362.2025.00577",
+     "authors": "Andrey V. Savchenko, Lyudmila V. Savchenko"
+    },
+    {
+     "title": "Positive Sample Propagation along the Audio-Visual Event Line",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 115,
+     "doi": "10.1109/cvpr46437.2021.00833",
+     "authors": "Jinxing Zhou, Liang Zheng, Yiran Zhong, Shijie Hao, Meng Wang"
+    },
+    {
+     "title": "Language-Guided Audio-Visual Source Separation via Trimodal Consistency",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 13,
+     "doi": "10.1109/cvpr52729.2023.01019",
+     "authors": "Reuben Tan, Arijit Ray, Andrea Burns, Bryan A. Plummer, Justin Salamon, Oriol Nieto"
+    },
+    {
+     "title": "SAM2-LOVE: Segment Anything Model 2 in Language-aided Audio-Visual Scenes",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 6,
+     "doi": "10.1109/cvpr52734.2025.02694",
+     "authors": "Yuji Wang, Haoran Xu, Yong Liu, Jiaze Li, Yansong Tang"
+    },
+    {
+     "title": "Leveraging TCN and Transformer for effective visual-audio fusion in continuous emotion recognition",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)",
+     "citationCount": 33,
+     "doi": "10.1109/cvprw59228.2023.00610",
+     "authors": "Weiwei Zhou, Jiada Lu, Zhaolong Xiong, Weifeng Wang"
+    },
+    {
+     "title": "AVFF: Audio-Visual Feature Fusion for Video Deepfake Detection",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 83,
+     "doi": "10.1109/cvpr52733.2024.02559",
+     "authors": "Trevine Oorloff, Surya Koppisetti, Nicolò Bonettini, Divyaraj Solanki, Ben Colman, Yaser Yacoob"
+    },
+    {
+     "title": "Learning Audio-Visual Source Localization via False Negative Aware Contrastive Learning",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 52,
+     "doi": "10.1109/cvpr52729.2023.00621",
+     "authors": "Weixuan Sun, Jiayi Zhang, Jianyuan Wang, Zheyuan Liu, Yiran Zhong, Tianpeng Feng"
+    },
+    {
+     "title": "Towards Efficient Audio-Visual Learners via Empowering Pre-trained Vision Transformers with Cross-Modal Adaptation",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)",
+     "citationCount": 17,
+     "doi": "10.1109/cvprw63382.2024.00190",
+     "authors": "Kai Wang, Yapeng Tian, Dimitrios Hatzinakos"
+    },
+    {
+     "title": "Audio-Visual Generalized Zero-Shot Learning using Pre-Trained Large Multi-Modal Models",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)",
+     "citationCount": 6,
+     "doi": "10.1109/cvprw63382.2024.00269",
+     "authors": "David Kurzendörfer, Otniel-Bogdan Mercea, A. Sophia Koepke, Zeynep Akata"
+    },
+    {
+     "title": "Looking into Your Speech: Learning Cross-modal Affinity for Audio-visual Speech Separation",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 36,
+     "doi": "10.1109/cvpr46437.2021.00139",
+     "authors": "Jiyoung Lee, Soo-Whan Chung, Sunok Kim, Hong-Goo Kang, Kwanghoon Sohn"
+    },
+    {
+     "title": "Seeing and Hearing: Open-domain Visual-Audio Generation with Diffusion Latent Aligners",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 62,
+     "doi": "10.1109/cvpr52733.2024.00683",
+     "authors": "Yazhou Xing, Yingqing He, Zeyue Tian, Xintao Wang, Qifeng Chen"
+    },
+    {
+     "title": "Zero-Shot Audio-Visual Compound Expression Recognition Method based on Emotion Probability Fusion",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)",
+     "citationCount": 14,
+     "doi": "10.1109/cvprw63382.2024.00478",
+     "authors": "Elena Ryumina, Maxim Markitantov, Dmitry Ryumin, Heysem Kaya, Alexey Karpov"
+    },
+    {
+     "title": "Multi Event Localization by Audio-Visual Fusion with Omnidirectional Camera and Microphone Array",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)",
+     "citationCount": 6,
+     "doi": "10.1109/cvprw59228.2023.00255",
+     "authors": "Wenru Zheng, Ryota Yoshihashi, Rei Kawakami, Ikuro Sato, Asako Kanezaki"
+    },
+    {
+     "title": "CASP-Net: Rethinking Video Saliency Prediction from an Audio-Visual Consistency Perceptual Perspective",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 20,
+     "doi": "10.1109/cvpr52729.2023.00623",
+     "authors": "Junwen Xiong, Ganglai Wang, Peng Zhang, Wei Huang, Yufei Zha, Guangtao Zhai"
+    },
+    {
+     "title": "Audio-Visual Person-of-Interest DeepFake Detection",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)",
+     "citationCount": 93,
+     "doi": "10.1109/cvprw59228.2023.00101",
+     "authors": "Davide Cozzolino, Alessandro Pianese, Matthias Nießner, Luisa Verdoliva"
+    },
+    {
+     "title": "Revisiting Audio-Visual Segmentation with Vision-Centric Transformer",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 5,
+     "doi": "10.1109/cvpr52734.2025.00782",
+     "authors": "Shaofei Huang, Rui Ling, Tianrui Hui, Hongyu Li, Xu Zhou, Shifeng Zhang"
+    },
+    {
+     "title": "An LLM Framework for Long-Form Video Retrieval and Audio-Visual Question Answering Using Qwen2/2.5",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)",
+     "citationCount": 5,
+     "doi": "10.1109/cvprw67362.2025.00358",
+     "authors": "Damianos Galanopoulos, Andreas Goulas, Antonios Leventakis, Ioannis Patras, Vasileios Mezaris"
+    },
+    {
+     "title": "United We Stand, Divided We Fall: Handling Weak Complementarity for Audio-Visual Emotion Recognition in Valence-Arousal Space",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)",
+     "citationCount": 3,
+     "doi": "10.1109/cvprw67362.2025.00573",
+     "authors": "R. Gnana Praveen, Jahangir Alam, Eric Charton"
+    },
+    {
+     "title": "EchoTraffic: Enhancing Traffic Anomaly Understanding with Audio-Visual Insights",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 5,
+     "doi": "10.1109/cvpr52734.2025.01779",
+     "authors": "Zhenghao Xing, Hao Chen, Binzhu Xie, Jiaqi Xu, Ziyu Guo, Xuemiao Xu"
+    },
+    {
+     "title": "CrossMAE: Cross-Modality Masked Autoencoders for Region-Aware Audio-Visual Pre-Training",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 14,
+     "doi": "10.1109/cvpr52733.2024.02523",
+     "authors": "Yuxin Guo, Siyang Sun, Shuailei Ma, Kecheng Zheng, Xiaoyi Bao, Shijie Ma"
+    },
+    {
+     "title": "Finding Fallen Objects Via Asynchronous Audio-Visual Integration",
+     "year": 2022,
+     "venue": "2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 12,
+     "doi": "10.1109/cvpr52688.2022.01027",
+     "authors": "Chuang Gan, Yi Gu, Siyuan Zhou, Jeremy Schwartz, Seth Alter, James Traer"
+    },
+    {
+     "title": "Language-Guided Audio-Visual Learning for Long-Term Sports Assessment",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 16,
+     "doi": "10.1109/cvpr52734.2025.02232",
+     "authors": "Huangbiao Xu, Xiao Ke, Huanqi Wu, Rui Xu, Yuezhou Li, Wenzhong Guo"
+    },
+    {
+     "title": "Audio-Visual Speech Representation Expert for Enhanced Talking Face Video Generation and Evaluation",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)",
+     "citationCount": 13,
+     "doi": "10.1109/cvprw63382.2024.00607",
+     "authors": "Dogucan Yaman, Fevziye Irem Eyiokur, Leonard Bärmann, Seymanur Aktı, Hazım Kemal Ekenel, Alexander Waibel"
+    },
+    {
+     "title": "Expressive Talking Head Generation with Granular Audio-Visual Control",
+     "year": 2022,
+     "venue": "2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 114,
+     "doi": "10.1109/cvpr52688.2022.00338",
+     "authors": "Borong Liang, Yan Pan, Zhizhi Guo, Hang Zhou, Zhibin Hong, Xiaoguang Han"
+    },
+    {
+     "title": "CAV-MAE Sync: Improving Contrastive Audio-Visual Mask Autoencoders via Fine-Grained Alignment",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 8,
+     "doi": "10.1109/cvpr52734.2025.01751",
+     "authors": "Edson Araujo, Andrew Rouditchenko, Yuan Gong, Saurabhchand Bhati, Samuel Thomas, Brian Kingsbury"
+    },
+    {
+     "title": "Audio-Visual Instance Segmentation",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 9,
+     "doi": "10.1109/cvpr52734.2025.01265",
+     "authors": "Ruohao Guo, Xianghua Ying, Yaru Chen, Dantong Niu, Guangyao Li, Liao Qu"
+    },
+    {
+     "title": "AVF-MAE++: Scaling Affective Video Facial Masked Autoencoders via Efficient Audio-Visual Self-Supervised Learning",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 11,
+     "doi": "10.1109/cvpr52734.2025.00854",
+     "authors": "Xuecheng Wu, Heli Sun, Yifan Wang, Jiayu Nie, Jie Zhang, Yabing Wang"
+    },
+    {
+     "title": "A Study of Dropout-Induced Modality Bias on Robustness to Missing Video Frames for Audio-Visual Speech Recognition",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 15,
+     "doi": "10.1109/cvpr52733.2024.02591",
+     "authors": "Yusheng Dai, Hang Chen, Jun Du, Ruoyu Wang, Shihao Chen, Haotian Wang"
+    },
+    {
+     "title": "A Joint Cross-Attention Model for Audio-Visual Fusion in Dimensional Emotion Recognition",
+     "year": 2022,
+     "venue": "2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)",
+     "citationCount": 97,
+     "doi": "10.1109/cvprw56347.2022.00278",
+     "authors": "R Gnana Praveen, Wheidima Carneiro de Melo, Nasib Ullah, Haseeb Aslam, Osama Zeeshan, Théo Denorme"
+    },
+    {
+     "title": "Visual Programming: Compositional visual reasoning without training",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 207,
+     "doi": "10.1109/cvpr52729.2023.01436",
+     "authors": "Tanmay Gupta, Aniruddha Kembhavi"
+    },
+    {
+     "title": "VinTAGe: Joint Video and Text Conditioning for Holistic Audio Generation",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 8,
+     "doi": "10.1109/cvpr52734.2025.01263",
+     "authors": "Saksham Singh Kushwaha, Yapeng Tian"
+    }
+   ]
+  },
+  "audio language model": {
+   "total": 17992,
+   "kept": 96,
+   "papers": [
+    {
+     "title": "SAM2-LOVE: Segment Anything Model 2 in Language-aided Audio-Visual Scenes",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 6,
+     "doi": "10.1109/cvpr52734.2025.02694",
+     "authors": "Yuji Wang, Haoran Xu, Yong Liu, Jiaze Li, Yansong Tang"
+    },
+    {
+     "title": "LongVALE: Vision-Audio-Language-Event Benchmark Towards Time-Aware Omni-Modal Perception of Long Videos",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 5,
+     "doi": "10.1109/cvpr52734.2025.01766",
+     "authors": "Tiantian Geng, Jinrui Zhang, Qingni Wang, Teng Wang, Jinming Duan, Feng Zheng"
+    },
+    {
+     "title": "RILA: Reflective and Imaginative Language Agent for Zero-Shot Semantic Audio-Visual Navigation",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 7,
+     "doi": "10.1109/cvpr52733.2024.01538",
+     "authors": "Zeyuan Yang, Jiageng Lin, Peihao Chen, Anoop Cherian, Tim K. Marks, Jonathan Le Roux"
+    },
+    {
+     "title": "Language-Guided Audio-Visual Source Separation via Trimodal Consistency",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 13,
+     "doi": "10.1109/cvpr52729.2023.01019",
+     "authors": "Reuben Tan, Arijit Ray, Andrea Burns, Bryan A. Plummer, Justin Salamon, Oriol Nieto"
+    },
+    {
+     "title": "Unified-IO 2: Scaling Autoregressive Multimodal Models with Vision, Language, Audio, and Action",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 101,
+     "doi": "10.1109/cvpr52733.2024.02497",
+     "authors": "Jiasen Lu, Christopher Clark, Sangho Lee, Zichen Zhang, Savya Khosla, Ryan Marten"
+    },
+    {
+     "title": "Crab: A Unified Audio-Visual Scene Understanding Model with Explicit Cooperation",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 4,
+     "doi": "10.1109/cvpr52734.2025.01752",
+     "authors": "Henghui Du, Guangyao Li, Chang Zhou, Chunjie Zhang, Alan Zhao, Di Hu"
+    },
+    {
+     "title": "AV2AV: Direct Audio-Visual Speech to Audio-Visual Speech Translation with Unified Audio-Visual Speech Representation",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 8,
+     "doi": "10.1109/cvpr52733.2024.02580",
+     "authors": "Jeongsoo Choi, Se Jin Park, Minsu Kim, Yong Man Ro"
+    },
+    {
+     "title": "Audio-Visual Semantic Graph Network for Audio-Visual Event Localization",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 2,
+     "doi": "10.1109/cvpr52734.2025.02231",
+     "authors": "Liang Liu, Shuaiyong Li, Yongqiang Zhu"
+    },
+    {
+     "title": "NLX-GPT: A Model for Natural Language Explanations in Vision and Vision-Language Tasks",
+     "year": 2022,
+     "venue": "2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 48,
+     "doi": "10.1109/cvpr52688.2022.00814",
+     "authors": "Fawaz Sammani, Tanmoy Mukherjee, Nikos Deligiannis"
+    },
+    {
+     "title": "CASP: Consistency-aware Audio-induced Saliency Prediction Model for Omnidirectional Video",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 1,
+     "doi": "10.1109/cvpr52734.2025.01176",
+     "authors": "Zhaolin Wan, Han Qin, Zhiyang Li, Xiaopeng Fan, Wangmeng Zuo, Debin Zhao"
+    },
+    {
+     "title": "MAD: A Scalable Dataset for Language Grounding in Videos from Movie Audio Descriptions",
+     "year": 2022,
+     "venue": "2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 91,
+     "doi": "10.1109/cvpr52688.2022.00497",
+     "authors": "Mattia Soldan, Alejandro Pardo, Juan Leon Alcazar, Fabian Caba Heilbron, Chen Zhao, Silvio Giancola"
+    },
+    {
+     "title": "Language-Guided Audio-Visual Learning for Long-Term Sports Assessment",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 16,
+     "doi": "10.1109/cvpr52734.2025.02232",
+     "authors": "Huangbiao Xu, Xiao Ke, Huanqi Wu, Rui Xu, Yuezhou Li, Wenzhong Guo"
+    },
+    {
+     "title": "Foley-Flow: Coordinated Video-to-Audio Generation with Masked Audio-Visual Alignment and Dynamic Conditional Flows",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 2,
+     "doi": "10.1109/cvpr52734.2025.02692",
+     "authors": "Shentong Mo, Yibing Song"
+    },
+    {
+     "title": "Audio-Visual Speech Codecs: Rethinking Audio-Visual Speech Enhancement by Re-Synthesis",
+     "year": 2022,
+     "venue": "2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 37,
+     "doi": "10.1109/cvpr52688.2022.00805",
+     "authors": "Karren Yang, Dejan Markovic, Steven Krenn, Vasu Agrawal, Alexander Richard"
+    },
+    {
+     "title": "Robust Audio-Visual Segmentation via Audio-Guided Visual Convergent Alignment",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 5,
+     "doi": "10.1109/cvpr52734.2025.02693",
+     "authors": "Chen Liu, Peike Li, Liying Yang, Dadong Wang, Lincheng Li, Xin Yu"
+    },
+    {
+     "title": "Dynamic Derivation and Elimination: Audio Visual Segmentation with Enhanced Audio Semantics",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 5,
+     "doi": "10.1109/cvpr52734.2025.00298",
+     "authors": "Chen Liu, Liying Yang, Peike Li, Dadong Wang, Lincheng Li, Xin Yu"
+    },
+    {
+     "title": "Language in a Bottle: Language Model Guided Concept Bottlenecks for Interpretable Image Classification",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 172,
+     "doi": "10.1109/cvpr52729.2023.01839",
+     "authors": "Yue Yang, Artemis Panagopoulou, Shenghao Zhou, Daniel Jin, Chris Callison-Burch, Mark Yatskar"
+    },
+    {
+     "title": "Impact of Video Length Reduction due to Missing Landmarks on Sign Language Recognition Model",
+     "year": 2023,
+     "venue": "LatinX in AI at Computer Vision and Pattern Recognition Conference 2023",
+     "citationCount": 1,
+     "doi": "10.52591/lxai202306186",
+     "authors": "Carlos Vasquez, Gissella Bejarano"
+    },
+    {
+     "title": "CountLLM: Towards Generalizable Repetitive Action Counting via Large Language Model",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 6,
+     "doi": "10.1109/cvpr52734.2025.01783",
+     "authors": "Ziyu Yao, Xuxin Cheng, Zhiqi Huang, Lei Li"
+    },
+    {
+     "title": "CrowdCLIP: Unsupervised Crowd Counting via Vision-Language Model",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 92,
+     "doi": "10.1109/cvpr52729.2023.00283",
+     "authors": "Dingkang Liang, Jiahao Xie, Zhikang Zou, Xiaoqing Ye, Wei Xu, Xiang Bai"
+    },
+    {
+     "title": "Once-Tuning-Multiple-Variants: Tuning Once and Expanded as Multiple Vision-Language Model Variants",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 0,
+     "doi": "10.1109/cvpr52734.2025.01371",
+     "authors": "Chong Yu, Tao Chen, Zhongxue Gan"
+    },
+    {
+     "title": "Steering Away from Harm: An Adaptive Approach to Defending Vision Language Model Against Jailbreaks",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 7,
+     "doi": "10.1109/cvpr52734.2025.02787",
+     "authors": "Han Wang, Gang Wang, Huan Zhang"
+    },
+    {
+     "title": "Sniffer: Multimodal Large Language Model for Explainable Out-of-Context Misinformation Detection",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 87,
+     "doi": "10.1109/cvpr52733.2024.01240",
+     "authors": "Peng Qi, Zehong Yan, Wynne Hsu, Mong Li Lee"
+    },
+    {
+     "title": "Language Model Guided Interpretable Video Action Reasoning",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 7,
+     "doi": "10.1109/cvpr52733.2024.01786",
+     "authors": "Ning Wang, Guangming Zhu, HS Li, Liang Zhang, Syed Afaq Ali Shah, Mohammed Bennamoun"
+    },
+    {
+     "title": "Querying as Prompt: Parameter-Efficient Learning for Multimodal Language Model",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 5,
+     "doi": "10.1109/cvpr52733.2024.02536",
+     "authors": "Tian Liang, Jing Huang, Ming Kong, Luyuan Chen, Qiang Zhu"
+    },
+    {
+     "title": "LISA: Reasoning Segmentation via Large Language Model",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 459,
+     "doi": "10.1109/cvpr52733.2024.00915",
+     "authors": "Xin Lai, Zhuotao Tian, Yukang Chen, Yanwei Li, Yuhui Yuan, Shu Liu"
+    },
+    {
+     "title": "Driving Everywhere with Large Language Model Policy Adaptation",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 38,
+     "doi": "10.1109/cvpr52733.2024.01416",
+     "authors": "Boyi Li, Yue Wang, Jiageng Mao, Boris Ivanovic, Sushant Veer, Karen Leung"
+    },
+    {
+     "title": "GeoChat:Grounded Large Vision-Language Model for Remote Sensing",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 258,
+     "doi": "10.1109/cvpr52733.2024.02629",
+     "authors": "Kartik Kuckreja, Muhammad Sohail Danish, Muzammal Naseer, Abhijit Das, Salman Khan, Fahad Shahbaz Khan"
+    },
+    {
+     "title": "Robust Audio-Visual Instance Discrimination",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 96,
+     "doi": "10.1109/cvpr46437.2021.01274",
+     "authors": "Pedro Morgado, Ishan Misra, Nuno Vasconcelos"
+    },
+    {
+     "title": "LLM-Seg: Bridging Image Segmentation and Large Language Model Reasoning",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)",
+     "citationCount": 44,
+     "doi": "10.1109/cvprw63382.2024.00183",
+     "authors": "Junchi Wang, Lei Ke"
+    },
+    {
+     "title": "LION : Empowering Multimodal Large Language Model with Dual-Level Visual Knowledge",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 53,
+     "doi": "10.1109/cvpr52733.2024.02506",
+     "authors": "Gongwei Chen, Leyang Shen, Rui Shao, Xiang Deng, Liqiang Nie"
+    },
+    {
+     "title": "LocLLM: Exploiting Generalizable Human Keypoint Localization via Large Language Model",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 21,
+     "doi": "10.1109/cvpr52733.2024.00065",
+     "authors": "Dongkai Wang, Shiyu Xuan, Shiliang Zhang"
+    },
+    {
+     "title": "Align-KD: Distilling Cross-Modal Alignment Knowledge for Mobile Vision-Language Large Model Enhancement",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 13,
+     "doi": "10.1109/cvpr52734.2025.00395",
+     "authors": "Qianhan Feng, Wenshuo Li, Tong Lin, Xinghao Chen"
+    },
+    {
+     "title": "A Joint Cross-Attention Model for Audio-Visual Fusion in Dimensional Emotion Recognition",
+     "year": 2022,
+     "venue": "2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)",
+     "citationCount": 97,
+     "doi": "10.1109/cvprw56347.2022.00278",
+     "authors": "R Gnana Praveen, Wheidima Carneiro de Melo, Nasib Ullah, Haseeb Aslam, Osama Zeeshan, Théo Denorme"
+    },
+    {
+     "title": "Clover: Towards A Unified Video-Language Alignment and Fusion Model",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 34,
+     "doi": "10.1109/cvpr52729.2023.01427",
+     "authors": "Jingjia Huang, Yinan Li, Jiashi Feng, Xinglong Wu, Xiaoshuai Sun, Rongrong Ji"
+    },
+    {
+     "title": "BOLT: Boost Large Vision-Language Model Without Training for Long-Form Video Understanding",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 18,
+     "doi": "10.1109/cvpr52734.2025.00315",
+     "authors": "Shuming Liu, Chen Zhao, Tianqi Xu, Bernard Ghanem"
+    },
+    {
+     "title": "FLAVA: A Foundational Language And Vision Alignment Model",
+     "year": 2022,
+     "venue": "2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 466,
+     "doi": "10.1109/cvpr52688.2022.01519",
+     "authors": "Amanpreet Singh, Ronghang Hu, Vedanuj Goswami, Guillaume Couairon, Wojciech Galuba, Marcus Rohrbach"
+    },
+    {
+     "title": "GLUS: Global-Local Reasoning Unified into A Single Large Language Model for Video Segmentation",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 21,
+     "doi": "10.1109/cvpr52734.2025.00809",
+     "authors": "Lang Lin, Xueyang Yu, Ziqi Pang, Yu-Xiong Wang"
+    },
+    {
+     "title": "Semantic Audio-Visual Navigation",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 80,
+     "doi": "10.1109/cvpr46437.2021.01526",
+     "authors": "Changan Chen, Ziad Al-Halah, Kristen Grauman"
+    },
+    {
+     "title": "ReVisionLLM: Recursive Vision-Language Model for Temporal Grounding in Hour-Long Videos",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 5,
+     "doi": "10.1109/cvpr52734.2025.01771",
+     "authors": "Tanveer Hannan, Md Mohaiminul Islam, Jindong Gu, Thomas Seidl, Gedas Bertasius"
+    },
+    {
+     "title": "Your Large Vision-Language Model Only Needs A Few Attention Heads For Visual Grounding",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 16,
+     "doi": "10.1109/cvpr52734.2025.00872",
+     "authors": "Seil Kang, Jinyeong Kim, Junhyeok Kim, Seong Jae Hwang"
+    },
+    {
+     "title": "Rethinking Vision-Language Model in Face Forensics: Multi-Modal Interpretable Forged Face Detector",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 35,
+     "doi": "10.1109/cvpr52734.2025.00019",
+     "authors": "Xiao Guo, Xiufeng Song, Yue Zhang, Xiaohong Liu, Xiaoming Liu"
+    },
+    {
+     "title": "PartDistill: 3D Shape Part Segmentation by Vision-Language Model Distillation",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 20,
+     "doi": "10.1109/cvpr52733.2024.00333",
+     "authors": "Ardian Umam, Cheng-Kun Yang, Min-Hung Chen, Jen-Hui Chuang, Yen-Yu Lin"
+    },
+    {
+     "title": "HSI-GPT: A General-Purpose Large Scene-Motion-Language Model for Human Scene Interaction",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 0,
+     "doi": "10.1109/cvpr52734.2025.00670",
+     "authors": "Yuan Wang, Yali Li, Xiang Li, Shengjin Wang"
+    },
+    {
+     "title": "FAME-ViL: Multi-Tasking Vision-Language Model for Heterogeneous Fashion Tasks",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 51,
+     "doi": "10.1109/cvpr52729.2023.00262",
+     "authors": "Xiao Han, Xiatian Zhu, Licheng Yu, Li Zhang, Yi-Zhe Song, Tao Xiang"
+    },
+    {
+     "title": "MultiPLY: A Multisensory Object-Centric Embodied Large Language Model in 3D World",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 33,
+     "doi": "10.1109/cvpr52733.2024.02494",
+     "authors": "Yining Hong, Zishuo Zheng, Peihao Chen, Yian Wang, Junyan Li, Chuang Gan"
+    },
+    {
+     "title": "Multi-aspect Knowledge Distillation with Large Language Model",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)",
+     "citationCount": 3,
+     "doi": "10.1109/cvprw67362.2025.00199",
+     "authors": "Taegyeong Lee, Jinsik Bang, Soyeong Kwon, Taehwan Kim"
+    },
+    {
+     "title": "AVFace: Towards Detailed Audio-Visual 4D Face Reconstruction",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 5,
+     "doi": "10.1109/cvpr52729.2023.01619",
+     "authors": "Aggelina Chatziagapi, Dimitris Samaras"
+    },
+    {
+     "title": "Generalized Few-shot 3D Point Cloud Segmentation with Vision-Language Model",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 17,
+     "doi": "10.1109/cvpr52734.2025.01584",
+     "authors": "Zhaochong An, Guolei Sun, Yun Liu, Runjia Li, Junlin Han, Ender Konukoglu"
+    },
+    {
+     "title": "Period-LLM: Extending the Periodic Capability of Multimodal Large Language Model",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 9,
+     "doi": "10.1109/cvpr52734.2025.02722",
+     "authors": "Yuting Zhang, Hao Lu, Qingyong Hu, Yin Wang, Kaishen Yuan, Xin Liu"
+    },
+    {
+     "title": "Can audio-visual integration strengthen robustness under multimodal attacks?",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 23,
+     "doi": "10.1109/cvpr46437.2021.00555",
+     "authors": "Yapeng Tian, Chenliang Xu"
+    },
+    {
+     "title": "Egocentric Audio-Visual Object Localization",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 39,
+     "doi": "10.1109/cvpr52729.2023.02194",
+     "authors": "Chao Huang, Yapeng Tian, Anurag Kumar, Chenliang Xu"
+    },
+    {
+     "title": "IFSeg: Image-free Semantic Segmentation via Vision-Language Model",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 17,
+     "doi": "10.1109/cvpr52729.2023.00290",
+     "authors": "Sukmin Yun, Seong Hyeon Park, Paul Hongsuck Seo, Jinwoo Shin"
+    },
+    {
+     "title": "Audio-Visual Grouping Network for Sound Localization from Mixtures",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 53,
+     "doi": "10.1109/cvpr52729.2023.01018",
+     "authors": "Shentong Mo, Yapeng Tian"
+    },
+    {
+     "title": "Vision-Language Model IP Protection via Prompt-based Learning",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 2,
+     "doi": "10.1109/cvpr52734.2025.00887",
+     "authors": "Lianyu Wang, Meng Wang, Huazhu Fu, Daoqiang Zhang"
+    },
+    {
+     "title": "EgoLM: Multi-Modal Language Model of Egocentric Motions",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 8,
+     "doi": "10.1109/cvpr52734.2025.00503",
+     "authors": "Fangzhou Hong, Vladimir Guzov, Hyo Jin Kim, Yuting Ye, Richard Newcombe, Ziwei Liu"
+    },
+    {
+     "title": "CAD-Llama: Leveraging Large Language Models for Computer-Aided Design Parametric 3D Model Generation",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 35,
+     "doi": "10.1109/cvpr52734.2025.01730",
+     "authors": "Jiahao Li, Weijian Ma, Xueyang Li, Yunzhong Lou, Guichun Zhou, Xiangdong Zhou"
+    },
+    {
+     "title": "RegionGPT: Towards Region Understanding Vision Language Model",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 60,
+     "doi": "10.1109/cvpr52733.2024.01309",
+     "authors": "Qiushan Guo, Shalini De Mello, Hongxu Yin, Wonmin Byeon, Ka Chun Cheung, Yizhou Yu"
+    },
+    {
+     "title": "Audio-Visual Instance Discrimination with Cross-Modal Agreement",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 138,
+     "doi": "10.1109/cvpr46437.2021.01229",
+     "authors": "Pedro Morgado, Nuno Vasconcelos, Ishan Misra"
+    },
+    {
+     "title": "VisualVoice: Audio-Visual Speech Separation with Cross-Modal Consistency",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 171,
+     "doi": "10.1109/cvpr46437.2021.01524",
+     "authors": "Ruohan Gao, Kristen Grauman"
+    },
+    {
+     "title": "CoLLM: A Large Language Model for Composed Image Retrieval",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 6,
+     "doi": "10.1109/cvpr52734.2025.00378",
+     "authors": "Chuong Huynh, Jinyu Yang, Ashish Tawari, Mubarak Shah, Son Tran, Raffay Hamid"
+    },
+    {
+     "title": "Video Language Model Pretraining with Spatio-temporal Masking",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 2,
+     "doi": "10.1109/cvpr52734.2025.00800",
+     "authors": "Yue Wu, Zhaobo Qi, Junshu Sun, Yaowei Wang, Qingming Huang, Shuhui Wang"
+    },
+    {
+     "title": "VisionCube: 3D-Aware Vision-Language Model for Multi-Step Spatial Reasoning",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)",
+     "citationCount": 4,
+     "doi": "10.1109/cvprw67362.2025.00309",
+     "authors": "Feiyang Wang, Nan Luo, Wangyu Wu"
+    },
+    {
+     "title": "MambaVLT: Time-Evolving Multimodal State Space Model for Vision-Language Tracking",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 13,
+     "doi": "10.1109/cvpr52734.2025.00816",
+     "authors": "Xinqi Liu, Li Zhou, Zikun Zhou, Jianqiu Chen, Zhenyu He"
+    },
+    {
+     "title": "MAP: Multimodal Uncertainty-Aware Vision-Language Pre-training Model",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 48,
+     "doi": "10.1109/cvpr52729.2023.02228",
+     "authors": "Yatai Ji, Junjie Wang, Yuan Gong, Lin Zhang, Yanru Zhu, Hongfa Wang"
+    },
+    {
+     "title": "mPLUG-OwI2: Revolutionizing Multi-modal Large Language Model with Modality Collaboration",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 210,
+     "doi": "10.1109/cvpr52733.2024.01239",
+     "authors": "Qinghao Ye, Haiyang Xu, Jiabo Ye, Ming Yan, Anwen Hu, Haowei Liu"
+    },
+    {
+     "title": "Self-Supervised Video Forensics by Audio-Visual Anomaly Detection",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 97,
+     "doi": "10.1109/cvpr52729.2023.01011",
+     "authors": "Chao Feng, Ziyang Chen, Andrew Owens"
+    },
+    {
+     "title": "Neural Sign Actors: A diffusion model for 3D sign language production from text",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 50,
+     "doi": "10.1109/cvpr52733.2024.00194",
+     "authors": "Vasileios Baltatzis, Rolandos Alexandros Potamias, Evangelos Ververas, Guanxiong Sun, Jiankang Deng, Stefanos Zafeiriou"
+    },
+    {
+     "title": "Hallucination Augmented Contrastive Learning for Multimodal Large Language Model",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 101,
+     "doi": "10.1109/cvpr52733.2024.02553",
+     "authors": "Chaoya Jiang, Haiyang Xu, Mengfan Dong, Jiaxing Chen, Wei Ye, Ming Yan"
+    },
+    {
+     "title": "VinTAGe: Joint Video and Text Conditioning for Holistic Audio Generation",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 8,
+     "doi": "10.1109/cvpr52734.2025.01263",
+     "authors": "Saksham Singh Kushwaha, Yapeng Tian"
+    },
+    {
+     "title": "Coarse Correspondences Boost Spatial-Temporal Reasoning in Multimodal Language Model",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 0,
+     "doi": "10.1109/cvpr52734.2025.00358",
+     "authors": "Benlin Liu, Yuhao Dong, Yiqin Wang, Zixian Ma, Yansong Tang, Luming Tang"
+    },
+    {
+     "title": "Rugby Scene Classification Enhanced by Vision Language Model",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)",
+     "citationCount": 5,
+     "doi": "10.1109/cvprw63382.2024.00331",
+     "authors": "Naoki Nonaka, Ryo Fujihira, Toshiki Koshiba, Akira Maeda, Jun Seita"
+    },
+    {
+     "title": "Exploring Heterogeneous Clues for Weakly-Supervised Audio-Visual Video Parsing",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 83,
+     "doi": "10.1109/cvpr46437.2021.00138",
+     "authors": "Yu Wu, Yi Yang"
+    },
+    {
+     "title": "Distraction is All You Need for Multimodal Large Language Model Jailbreaking",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 13,
+     "doi": "10.1109/cvpr52734.2025.00884",
+     "authors": "Zuopeng Yang, Jiluan Fan, Anli Yan, Erdun Gao, Xin Lin, Tao Li"
+    },
+    {
+     "title": "Language-Assisted Debiasing and Smoothing for Foundation Model-Based Semi-Supervised Learning",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 1,
+     "doi": "10.1109/cvpr52734.2025.02394",
+     "authors": "Na Zheng, Xuemeng Song, Xue Dong, Aashish Nikhil Ghosh, Liqiang Nie, Roger Zimmermann"
+    },
+    {
+     "title": "Video-XL: Extra-Long Vision Language Model for Hour-Scale Video Understanding",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 47,
+     "doi": "10.1109/cvpr52734.2025.02436",
+     "authors": "Yan Shu, Zheng Liu, Peitian Zhang, Minghao Qin, Junjie Zhou, Zhengyang Liang"
+    },
+    {
+     "title": "TSAM: Temporal SAM Augmented with Multimodal Prompts for Referring Audio-Visual Segmentation",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 3,
+     "doi": "10.1109/cvpr52734.2025.02230",
+     "authors": "Abduljalil Radman, Jorma Laaksonen"
+    },
+    {
+     "title": "DiffAgent: Fast and Accurate Text-to-Image API Selection with Large Language Model",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 5,
+     "doi": "10.1109/cvpr52733.2024.00611",
+     "authors": "Lirui Zhao, Yue Yang, Kaipeng Zhang, Wenqi Shao, Yuxin Zhang, Yu Qiao"
+    },
+    {
+     "title": "TimeChat: A Time-sensitive Multimodal Large Language Model for Long Video Understanding",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 191,
+     "doi": "10.1109/cvpr52733.2024.01357",
+     "authors": "Shuhuai Ren, Linli Yao, Shicheng Li, Xu Sun, Lu Hou"
+    },
+    {
+     "title": "PLVM: A Tuning-Free Approach for Personalized Large Vision-Language Model",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)",
+     "citationCount": 1,
+     "doi": "10.1109/cvprw67362.2025.00348",
+     "authors": "Chau Pham, Hoang Phan, David Doermann, Yunjie Tian"
+    },
+    {
+     "title": "CogAgent: A Visual Language Model for GUI Agents",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 208,
+     "doi": "10.1109/cvpr52733.2024.01354",
+     "authors": "Wenyi Hong, Weihan Wang, Qingsong Lv, Jiazheng Xu, Wenmeng Yu, Junhui Ji"
+    },
+    {
+     "title": "Egocentric Deep Multi-Channel Audio-Visual Active Speaker Localization",
+     "year": 2022,
+     "venue": "2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 46,
+     "doi": "10.1109/cvpr52688.2022.01029",
+     "authors": "Hao Jiang, Calvin Murdock, Vamsi Krishna Ithapu"
+    },
+    {
+     "title": "LLAVIDAL : A Large LAnguage VIsion Model for Daily Activities of Living",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 5,
+     "doi": "10.1109/cvpr52734.2025.02263",
+     "authors": "Dominick Reilly, Rajatsubhra Chakraborty, Arkaprava Sinha, Manish Kumar Govind, Pu Wang, Francois Bremond"
+    },
+    {
+     "title": "You Need Multiple Exiting: Dynamic Early Exiting for Accelerating Unified Vision Language Model",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 33,
+     "doi": "10.1109/cvpr52729.2023.01038",
+     "authors": "Shengkun Tang, Yaqing Wang, Zhenglun Kong, Tianchi Zhang, Yao Li, Caiwen Ding"
+    },
+    {
+     "title": "L-MAGIC: Language Model Assisted Generation of Images with Coherence",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 4,
+     "doi": "10.1109/cvpr52733.2024.00673",
+     "authors": "Zhipeng Cai, Matthias Mueller, Reiner Birkl, Diana Wofk, Shao-Yen Tseng, Junda Cheng"
+    },
+    {
+     "title": "Learning Spatial Features from Audio-Visual Correspondence in Egocentric Videos",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 8,
+     "doi": "10.1109/cvpr52733.2024.02555",
+     "authors": "Sagnik Majumder, Ziad Al-Halah, Kristen Grauman"
+    },
+    {
+     "title": "V3LMA: Visual 3D-Enhanced Language Model for Autonomous Driving",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)",
+     "citationCount": 2,
+     "doi": "10.1109/cvprw67362.2025.00463",
+     "authors": "Jannik Lübberstedt, Esteban Rivera, Nico Uhlemann, Markus Lienkamp"
+    },
+    {
+     "title": "SeqAfford: Sequential 3D Affordance Reasoning via Multimodal Large Language Model",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 9,
+     "doi": "10.1109/cvpr52734.2025.00165",
+     "authors": "Chunlin Yu, Hanqing Wang, Ye Shi, Haoyang Luo, Sibei Yang, Jingyi Yu"
+    },
+    {
+     "title": "TCP: Textual-Based Class-Aware Prompt Tuning for Visual-Language Model",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 82,
+     "doi": "10.1109/cvpr52733.2024.02212",
+     "authors": "Hantao Yao, Rui Zhang, Changsheng Xu"
+    },
+    {
+     "title": "Multi-Resolution Pathology-Language Pre-training Model with Text-Guided Visual Representation",
+     "year": 2025,
+     "venue": "2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 7,
+     "doi": "10.1109/cvpr52734.2025.02413",
+     "authors": "Shahad Albastaki, Anabia Sohail, Iyyakutti Iyappan Ganapathi, Basit Alawode, Asim Khan, Sajid Javed"
+    },
+    {
+     "title": "Learning to Prompt for Open-Vocabulary Object Detection with Vision-Language Model",
+     "year": 2022,
+     "venue": "2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 332,
+     "doi": "10.1109/cvpr52688.2022.01369",
+     "authors": "Yu Du, Fangyun Wei, Zihe Zhang, Miaojing Shi, Yue Gao, Guoqi Li"
+    },
+    {
+     "title": "COTS: Collaborative Two-Stream Vision-Language Pre-Training Model for Cross-Modal Retrieval",
+     "year": 2022,
+     "venue": "2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 68,
+     "doi": "10.1109/cvpr52688.2022.01524",
+     "authors": "Haoyu Lu, Nanyi Fei, Yuqi Huo, Yizhao Gao, Zhiwu Lu, Ji-Rong Wen"
+    },
+    {
+     "title": "Distilling Audio-Visual Knowledge by Compositional Contrastive Learning",
+     "year": 2021,
+     "venue": "2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 66,
+     "doi": "10.1109/cvpr46437.2021.00694",
+     "authors": "Yanbei Chen, Yongqin Xian, A. Sophia Koepke, Ying Shan, Zeynep Akata"
+    },
+    {
+     "title": "Conditional Generation of Audio from Video via Foley Analogies",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 43,
+     "doi": "10.1109/cvpr52729.2023.00240",
+     "authors": "Yuexi Du, Ziyang Chen, Justin Salamon, Bryan Russell, Andrew Owens"
+    },
+    {
+     "title": "TrafficVLM: A Controllable Visual Language Model for Traffic Video Captioning",
+     "year": 2024,
+     "venue": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)",
+     "citationCount": 30,
+     "doi": "10.1109/cvprw63382.2024.00708",
+     "authors": "Quang Minh Dinh, Minh Khoi Ho, Anh Quan Dang, Hung Phong Tran"
+    },
+    {
+     "title": "Collecting Cross-Modal Presence-Absence Evidence for Weakly-Supervised Audio- Visual Event Perception",
+     "year": 2023,
+     "venue": "2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+     "citationCount": 47,
+     "doi": "10.1109/cvpr52729.2023.01805",
+     "authors": "Junyu Gao, Mengyuan Chen, Changsheng Xu"
+    }
+   ]
+  }
+ }
+}

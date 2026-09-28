@@ -1,0 +1,2598 @@
+{
+ "venue": "KDD",
+ "category": "cross",
+ "canonical_venue_string": "Knowledge Discovery and Data Mining",
+ "wave": "B",
+ "generated_at": "2026-09-29 01:23:59",
+ "topics": [
+  "LLM agent tool use",
+  "agent memory",
+  "multimodal agent",
+  "on-device inference"
+ ],
+ "request_budget": {
+  "successful": 31,
+  "limit": 300,
+  "attempts": 4
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "LLM agent tool use": {
+   "total": 2781,
+   "kept": 75,
+   "papers": [
+    {
+     "title": "Battery-Sim-Agent: Leveraging LLM-Agent for Inverse Battery Parameter Estimation",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 1,
+     "doi": "10.1145/3770855.3818856",
+     "authors": "Jiawei Chen, Xiaofan Gui, Shikai Fang, Shengyu Tao, Shun Zheng, Weiqing Liu"
+    },
+    {
+     "title": "Large Language Model (LLM) as an Excellent Reinforcement Learning Researcher in both Single-Agent and Multi-Agent Scenarios",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818940",
+     "authors": "Vincent Fu, Xinxin Xu, Weichen Xu, Ruilong Ren, Bowen Deng, Jue Chen"
+    },
+    {
+     "title": "Building Agentic AI Systems with LangGraph: From LLM Pipelines to Multi-Agent Decision Workflows",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3816469",
+     "authors": "Mohammad Amin Kuhail"
+    },
+    {
+     "title": "CryptoAnalystBench: Failures in Multi-Tool Long-Form LLM Analysis",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817585",
+     "authors": "Anushri Eswaran, Oleg Golev, Darshan Tank, Sidhant Rahi, Himanshu Tyagi"
+    },
+    {
+     "title": "Agent-Diff: Benchmarking LLM Agents on Enterprise API Tasks via Code Execution with State-Diff-Based Evaluation",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817555",
+     "authors": "Hubert M. Pyskło, Artem Zhuravel, Patrick D. Watson"
+    },
+    {
+     "title": "DiLA: Enhancing LLM Tool Learning with Differential Logic Layer",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 0,
+     "doi": "10.1145/3770854.3780224",
+     "authors": "Yu Zhang, Hui-Ling Zhen, Zehua Pei, Yingzhao Lian, Lihao Yin, Mingxuan Yuan"
+    },
+    {
+     "title": "Beyond End-to-End Video Models: An LLM-Based Multi-Agent System for Educational Video Generation",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 1,
+     "doi": "10.1145/3770855.3818323",
+     "authors": "Lingyong Yan, Jiulong Wu, Dong Xie, Weixian Shi, Deguo Xia, Jizhou Huang"
+    },
+    {
+     "title": "CheatAgent: Attacking LLM-Empowered Recommender Systems via LLM Agent",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 26,
+     "doi": "10.1145/3637528.3671837",
+     "authors": "Liang-bo Ning, Shijie Wang, Wenqi Fan, Qing Li, Xin Xu, Hao Chen"
+    },
+    {
+     "title": "G-STAR: Graph-based Scheduling with Trace-driven Adaptive Routing for Industrial LLM-based Multi-Agent Systems",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818421",
+     "authors": "Jiabao Song, Yu Xia, Beibei Kong, Lei Cheng, Chengxiang Zhuo, Zang Li"
+    },
+    {
+     "title": "LLM-based Few-Shot Early Rumor Detection with Imitation Agent",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 0,
+     "doi": "10.1145/3770854.3780315",
+     "authors": "Fengzhu Zeng, Qian Shao, Ling Cheng, Wei Gao, Shih-Fen Cheng, Jing Ma"
+    },
+    {
+     "title": "A Multimodal Foundation Agent for Financial Trading: Tool-Augmented, Diversified, and Generalist",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 83,
+     "doi": "10.1145/3637528.3671801",
+     "authors": "Wentao Zhang, Lingxuan Zhao, Haochong Xia, Shuo Sun, Jiaze Sun, Molei Qin"
+    },
+    {
+     "title": "Designing A Scalable LLM Agent Framework for Large-scale Urban Segregation Simulation",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818944",
+     "authors": "Qingbin Zeng, Yuwei Yan, Zhiheng Zheng, Jingzhe Yuan, Jun Zhang, Jie Feng"
+    },
+    {
+     "title": "ToolSQL: A Tool-Assisted Agent for SQL Verification and Refinement",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 3,
+     "doi": "10.1145/3711896.3737159",
+     "authors": "Zhongyuan Wang, Richong Zhang, Zhijie Nie, Jaein Kim"
+    },
+    {
+     "title": "Multi-Agent Proactive Information Seeking with Adaptive LLM Orchestration for Non-Factoid Question Answering",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 4,
+     "doi": "10.1145/3711896.3737249",
+     "authors": "Xinran Chen, Yuchen Li, Hengyi Cai, Zhuoran Ma, Xuanang Chen, Haoyi Xiong"
+    },
+    {
+     "title": "Enhancing On-Device LLM Inference with Historical Cloud-Based LLM Interactions",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 19,
+     "doi": "10.1145/3637528.3671679",
+     "authors": "Yucheng Ding, Chaoyue Niu, Fan Wu, Shaojie Tang, Chengfei Lyu, Guihai Chen"
+    },
+    {
+     "title": "Auctions with LLM Summaries",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 8,
+     "doi": "10.1145/3637528.3672022",
+     "authors": "Avinava Dubey, Zhe Feng, Rahul Kidambi, Aranyak Mehta, Di Wang"
+    },
+    {
+     "title": "StarVerus: LLM-Powered Multi-Agent Collaboration for Industrial Rust Code Verification Automation",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818485",
+     "authors": "Chao Jiang, Ding Wang, Dugang Liu, Zhiwu Xu, Cheng Wen, Zhong Ming"
+    },
+    {
+     "title": "Parallelizing LLM Agent Execution with Contrastive Task Allocation",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817872",
+     "authors": "Yuyang Peng, Yanling Xu, Shuyi Wang, Xiaofei Liao, Qinbin Li"
+    },
+    {
+     "title": "DARE to Diversify: DAta Driven and Diverse LLM REd Teaming",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 5,
+     "doi": "10.1145/3637528.3671444",
+     "authors": "Manish Nagireddy, Bernat Guillén Pegueroles, Ioana Baldini"
+    },
+    {
+     "title": "Self-Evolutionary Reinforced Knowledge Distillation for Multi-Modal Tool-Use Agents",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817780",
+     "authors": "Lei Shen, Chengyu Wang, Yuanjie Lyu, Yuanhao Yue, Jun Huang, Zhongmin Cai"
+    },
+    {
+     "title": "SpaCellAgent: A Self-Evolving LLM-Based Multi-Agent Framework for Trajectory Analysis",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818914",
+     "authors": "Songhan Wang, Haoang Chi, He Li, Zhiheng Zhang, Jiayan Yuan, Cheems Wang"
+    },
+    {
+     "title": "Fake News in Sheep's Clothing: Robust Fake News Detection Against LLM-Empowered Style Attacks",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 93,
+     "doi": "10.1145/3637528.3671977",
+     "authors": "Jiaying Wu, Jiafeng Guo, Bryan Hooi"
+    },
+    {
+     "title": "Intelligent Agents with LLM-based Process Automation",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 53,
+     "doi": "10.1145/3637528.3671646",
+     "authors": "Yanchu Guan, Dong Wang, Zhixuan Chu, Shiyu Wang, Feiyue Ni, Ruihua Song"
+    },
+    {
+     "title": "Towards Next-Generation Intelligent Assistants Leveraging LLM Techniques",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 70,
+     "doi": "10.1145/3580305.3599572",
+     "authors": "Xin Luna Dong, Seungwhan Moon, Yifan Ethan Xu, Kshitiz Malik, Zhou Yu"
+    },
+    {
+     "title": "Domain-Driven LLM Development: Insights into RAG and Fine-Tuning Practices",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 18,
+     "doi": "10.1145/3637528.3671445",
+     "authors": "José Cassio dos Santos Junior, Rachel Hu, Richard Song, Yunfei Bai"
+    },
+    {
+     "title": "Compass: Navigating Global Marine Lead Data Integration through Expert-Guided LLM Agent",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3819001",
+     "authors": "Yiming Liu, Bin Lu, Meng Jin, Ziyuan Sang, Shuo Jiang, Lei Zhou"
+    },
+    {
+     "title": "MAML-en-LLM: Model Agnostic Meta-Training of LLMs for Improved In-Context Learning",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 11,
+     "doi": "10.1145/3637528.3671905",
+     "authors": "Sanchit Sinha, Yuguang Yue, Victor Soto, Mayank Kulkarni, Jianhua Lu, Aidong Zhang"
+    },
+    {
+     "title": "AI for Education (AI4EDU): Advancing Personalized Education with LLM and Adaptive Learning",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 75,
+     "doi": "10.1145/3637528.3671498",
+     "authors": "Qingsong Wen, Jing Liang, Carles Sierra, Rose Luckin, Richard Tong, Zitao Liu"
+    },
+    {
+     "title": "LogParser-LLM: Advancing Efficient Log Parsing with Large Language Models",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 60,
+     "doi": "10.1145/3637528.3671810",
+     "authors": "Aoxiao Zhong, Dengyao Mo, Guiyang Liu, Jinbu Liu, Qingda Lu, Qi Zhou"
+    },
+    {
+     "title": "Thought-Augmented Planning for LLM-Powered Interactive Recommender Agent",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 2,
+     "doi": "10.1145/3770854.3780286",
+     "authors": "Haocheng Yu, Yaxiong Wu, Hao Wang, Wei Guo, Yong Liu, Yawen Li"
+    },
+    {
+     "title": "FedBiOT: LLM Local Fine-tuning in Federated Learning without Full Model",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 81,
+     "doi": "10.1145/3637528.3671897",
+     "authors": "Feijie Wu, Zitao Li, Yaliang Li, Bolin Ding, Jing Gao"
+    },
+    {
+     "title": "FederatedScope-LLM: A Comprehensive Package for Fine-tuning Large Language Models in Federated Learning",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 137,
+     "doi": "10.1145/3637528.3671573",
+     "authors": "Weirui Kuang, Bingchen Qian, Zitao Li, Daoyuan Chen, Dawei Gao, Xuchen Pan"
+    },
+    {
+     "title": "LEAP: Learning-Dynamics-Guided Open-Loop Pricing for LLM Data Acquisition",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817932",
+     "authors": "Zhiheng Wang, Xuehe Wang"
+    },
+    {
+     "title": "Mixture-of-Experts Knowledge Graph Retrieval-Augmented Generation for Multi-Agent LLM-based Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817630",
+     "authors": "Shijie Wang, Chengyi Liu, Yujuan Ding, Shanru Lin, See-Kiong Ng, Xu Xin"
+    },
+    {
+     "title": "Evaluation and Benchmarking of LLM Agents: A Survey",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 64,
+     "doi": "10.1145/3711896.3736570",
+     "authors": "Mahmoud Mohammadi, Yipeng Li, Jane Lo, Wendy Yip"
+    },
+    {
+     "title": "ChatPD: An LLM-driven Paper-Dataset Networking System",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 1,
+     "doi": "10.1145/3711896.3737202",
+     "authors": "Anjie Xu, Ruiqing Ding, Leye Wang"
+    },
+    {
+     "title": "Self-Regularization with Sparse Autoencoders for Controllable LLM-based Classification",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 2,
+     "doi": "10.1145/3711896.3737120",
+     "authors": "Xuansheng Wu, Wenhao Yu, Xiaoming Zhai, Ninghao Liu"
+    },
+    {
+     "title": "TnT-LLM: Text Mining at Scale with Large Language Models",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 58,
+     "doi": "10.1145/3637528.3671647",
+     "authors": "Mengting Wan, Tara Safavi, Sujay Kumar Jauhar, Yujin Kim, Scott Counts, Jennifer Neville"
+    },
+    {
+     "title": "CALM-TS: Risk-Controlled LLM Labeling for Time-Series via Calibrated Selective Gating",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817859",
+     "authors": "Yifan Xiao, Shijie Li, Yu Huang"
+    },
+    {
+     "title": "Holistic Data Scheduler for LLM Pre-training via Multi-Objective Reinforcement Learning",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 0,
+     "doi": "10.1145/3770854.3780325",
+     "authors": "Chenhao Dang, Jing Ma, Mingjie Liao"
+    },
+    {
+     "title": "Evidencing LLM Misuse: A Hands-on Forensic Tutorial on Copyright Infringement and Plagiarism Detection",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3816473",
+     "authors": "Denghui Zhang, Guangwei Zhang, Dongwon Lee"
+    },
+    {
+     "title": "VFLAIR-LLM: A Comprehensive Framework and Benchmark for Split Learning of LLMs",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 4,
+     "doi": "10.1145/3711896.3737411",
+     "authors": "Zixuan Gu, Qiufeng Fan, Long Sun, Yang Liu, Xiaojun Ye"
+    },
+    {
+     "title": "Unified Game Moderation: Soft-Prompting and LLM-Assisted Label Transfer for Resource-Efficient Toxicity Detection",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 2,
+     "doi": "10.1145/3711896.3737271",
+     "authors": "Zachary Yang, Domenico Tullo, Reihaneh Rabbany"
+    },
+    {
+     "title": "Can LLM-based Financial Investing Strategies Outperform the Market in Long Run?",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 1,
+     "doi": "10.1145/3770854.3785702",
+     "authors": "Weixian Waylon Li, Hyeonjun Kim, Mihai Cucuringu, Tiejun Ma"
+    },
+    {
+     "title": "FLAG: Fraud Detection with LLM-enhanced Graph Neural Network",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 6,
+     "doi": "10.1145/3711896.3737220",
+     "authors": "Chengdong Yang, Hongrui Liu, Daixin Wang, Zhiqiang Zhang, Cheng Yang, Chuan Shi"
+    },
+    {
+     "title": "Efficient Test-Time Scaling for LLM-based Time Series Forecasting",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818201",
+     "authors": "Xuan-May Le, Minh-Tuan Tran, Ling Luo, Uwe Aickelin, Dinh Phung, Trung Le"
+    },
+    {
+     "title": "HyFunc: Accelerating LLM-based Function Calls for Agentic AI through Hybrid-Model Cascade and Dynamic Templating",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 0,
+     "doi": "10.1145/3770854.3780283",
+     "authors": "Weibin Liao, Jian-Guang Lou, Haoyi Xiong"
+    },
+    {
+     "title": "Mapping LLM Capability Frontiers via Formalized and Calibrated Probes",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818029",
+     "authors": "Tianxi Gao, Yufan Cai, Yusi Yuan, Jin Song Dong"
+    },
+    {
+     "title": "Heaven-Sent or Hell-Bent? Benchmarking the Intelligence and Defectiveness of LLM Hallucinations",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 1,
+     "doi": "10.1145/3770854.3785704",
+     "authors": "Chengxu Yang, Jingling Yuan, Siqi Cai, Jiawei Jiang, Chuang Hu"
+    },
+    {
+     "title": "Step-TP: A Grounded, Step-Level Dataset with Chain-of-Thought Reasoning for LLM-Guided Tensor Program Optimization",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817484",
+     "authors": "Mengfan Liu, Da Zheng, Junwei Su, Chuan Wu"
+    },
+    {
+     "title": "LLM-based Evaluation Policy Extraction for Ecological Modeling",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3819033",
+     "authors": "Qi Cheng, Licheng Liu, Yixuan Chen, Qing Zhu, Runlong Yu, Zhenong Jin"
+    },
+    {
+     "title": "AIGP: An LLM-Based Framework for Long-Term Value Alignment in E-Commerce Pricing",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818316",
+     "authors": "Chennan Ma, Yanning Zhang, Siqi Hong, Xiuchong Wang, Fei Xiao, Keping Yang"
+    },
+    {
+     "title": "AnalogAgent: Self-Improving Analog Circuit Design Automation with LLM Agents",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818993",
+     "authors": "Zhixuan Bao, Zhuoyi Lin, Jiageng Wang, Jinhai Hu, Yuan Gao, Yaoxin Wu"
+    },
+    {
+     "title": "DREAM: LLM-based Dynamic Role-playing via Event-Aware Memory Graph",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818027",
+     "authors": "Zhihao Xiao, Mengting Li, Xintao Wang, Linfeng Li, Limin Shui, Mengqi Ji"
+    },
+    {
+     "title": "C\n                    <scp>al</scp>\n                    C\n                    <scp>o</scp>\n                    : A Hierarchical Bayesian Framework for Scalable Human-LLM Hybrid Labeling",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818140",
+     "authors": "Viet-An Nguyen, Xu Chen, Udi Weinsberg"
+    },
+    {
+     "title": "Exploring Recommender System Evaluation: A Multi-Modal LLM Agent Framework for A/B Testing",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 0,
+     "doi": "10.1145/3770854.3785688",
+     "authors": "Wenlin Zhang, Xiangyang Li, Qiyuan Ge, Kuicai Dong, Pengyue Jia, Xiaopeng Li"
+    },
+    {
+     "title": "EPMD: A Framework for LLM-Enhanced Ad Auctions",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818144",
+     "authors": "Bingzhe Wang, Bowei Zhang, Jiarui Gong, Changyuan Yu, Qi Qi"
+    },
+    {
+     "title": "Deciphering Fingerprints of 3D Molecular Surfaces For Accurate Epitope Prediction",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818825",
+     "authors": "Fang Wu, Weihao Xuan, Jure Leskovec, Yejin Choi, Li Erran Li"
+    },
+    {
+     "title": "CF-GODE: Continuous-Time Causal Inference for Multi-Agent Dynamical Systems",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 8,
+     "doi": "10.1145/3580305.3599272",
+     "authors": "Song Jiang, Zijie Huang, Xiao Luo, Yizhou Sun"
+    },
+    {
+     "title": "Efficient and Differentially Private Federated LLM Fine-Tuning on Heterogeneous Clients",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817914",
+     "authors": "Nan Yan, Yuqing Li, Xiong Wang, Jing Chen, Wei Wang, Kun He"
+    },
+    {
+     "title": "SHERLOCK: Towards Dynamic Knowledge Adaptation in LLM-enhanced E-commerce Risk Management",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818480",
+     "authors": "Nan Lu, Yurong Hu, Jiaquan Fang, Yan Liu, Rui Dong, Yiming Wang"
+    },
+    {
+     "title": "DICE: Dynamic In-Context Example Selection in LLM Agents via Efficient Knowledge Transfer",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818028",
+     "authors": "Ruoyu Wang, Junda Wu, Yu Xia, Tong Yu, Ryan A. Rossi, Julian McAuley"
+    },
+    {
+     "title": "Rejectors in the Wild: Deployment Barriers for LLM Rejectors",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817850",
+     "authors": "Erik Schönwälder, Claudio Hartmann, Wolfgang Lehner"
+    },
+    {
+     "title": "Ensembling LLM-Induced Decision Trees for Explainable and Robust Error Detection",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817642",
+     "authors": "Mengqi Wang, Jianwei Wang, Qing Liu, Xiwei Xu, Zhenchang Xing, Liming Zhu"
+    },
+    {
+     "title": "From Generic Intelligence to Personalized AI: A Tutorial on Foundations of LLM Personalization",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3816457",
+     "authors": "Ruijie Wang, Qingkai Zeng, Xuefei Wang, Yutong Ye, Li Sun, Jianxin Li"
+    },
+    {
+     "title": "WebGen-V Bench: Structured Representation for Enhancing Visual Design in LLM-based Web Generation and Evaluation",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817486",
+     "authors": "Kuang-Da Wang, Zhao Wang, Wei-Yao Wang, Yotaro Shimose, Shingo Takamatsu"
+    },
+    {
+     "title": "SafeCRS: Personalized Safety Alignment for LLM-Based Conversational Recommender Systems",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817807",
+     "authors": "Haochang Hao, Yifan Xu, Xinzhuo Li, Yingqiang Ge, Lu Cheng"
+    },
+    {
+     "title": "CoPersona: Collaborative Persona Graphs for Robust LLM Personalization",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817892",
+     "authors": "Yangtian Zhang, Leyao Wang, Hiren Madhu, Ngoc Bui, Walter Roznyatovskiy, Rex Ying"
+    },
+    {
+     "title": "UniRank: A Unified Framework for Efficient Multi-Objective LLM Ranking in Industrial Search",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818504",
+     "authors": "Dezhi Ye, Junwei Hu, Xiaoyang Chen, Kai Ma, Jie Liu, Haijin Liang"
+    },
+    {
+     "title": "The 2nd SeT-LLM Workshop on Secure and Trustworthy Large Language Models",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818247",
+     "authors": "Lu Lin, Jinghui Chen, Ting Wang, Jieyu Zhao, Chaowei Xiao, Jian Kang"
+    },
+    {
+     "title": "Neural Retrievers are Biased Towards LLM-Generated Content",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 34,
+     "doi": "10.1145/3637528.3671882",
+     "authors": "Sunhao Dai, Yuqi Zhou, Liang Pang, Weihao Liu, Xiaolin Hu, Yong Liu"
+    },
+    {
+     "title": "<i>COEF-VQ:</i>\n                    Cost-Efficient Video Quality Understanding through a Cascaded Multimodal LLM Framework",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 1,
+     "doi": "10.1145/3711896.3737203",
+     "authors": "Xin Dong, Sen Jia, Ming Rui Wang, Yan Li, Zhenheng Yang, Bingfeng Deng"
+    },
+    {
+     "title": "Multi-Agent Collaborative Reasoning with Tool-Augmented Evidence for Urban Region Profiling",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818068",
+     "authors": "Xixuan Hao, Yutian Jiang, Jiabo Liu, Yihang Yang, Guangyin Jin, Song Gao"
+    },
+    {
+     "title": "SKnow-LLM Workshop: Structured Knowledge for Large Language Models",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3711896.3737845",
+     "authors": "Qi Zhu, Xiusi Chen, Yu Zhang, Soji Adeshina, Costas Mavromatis, Zhen Han"
+    },
+    {
+     "title": "Mining Intrinsic Rewards from LLM Hidden States for Efficient Best-of-N Sampling",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 0,
+     "doi": "10.1145/3770854.3780302",
+     "authors": "Jizhou Guo, Zhaomin Wu, Hanchen Yang, Philip S. Yu"
+    }
+   ]
+  },
+  "agent memory": {
+   "total": 1485,
+   "kept": 86,
+   "papers": [
+    {
+     "title": "Advancing Multimodal Agent Reasoning with Long-Term Neuro-Symbolic Memory",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817643",
+     "authors": "Rongjie Jiang, Jianwei Wang, Gengda Zhao, Chengyang Luo, Kai Wang, Wenjie Zhang"
+    },
+    {
+     "title": "ClinicalAgents: Multi-Agent Orchestration for Clinical Decision Making with Dual-Memory",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818931",
+     "authors": "Zhuohan Ge, Haoyang Li, Yubo Wang, Nicole Hu, Chen Jason Zhang, Qing Li"
+    },
+    {
+     "title": "Hierarchical Long-Term Semantic Memory for LinkedIn's Hiring Agent",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818432",
+     "authors": "Zhentao Xu, Shangjin Zhang, Emirhan Poyraz, Yvonne Li, Ye Jin, Xie Lu"
+    },
+    {
+     "title": "FactorMiner: A Self-Evolving Agent with Skills and Experience Memory for Financial Alpha Discovery",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818978",
+     "authors": "Yanlong Wang, Jian Xu, Hongkang Zhang, Shao-Lun Huang, Danny Dongning Sun, Xiao-Ping Zhang"
+    },
+    {
+     "title": "U-EHR: A Self-Evolving EHR Agent with Step-Level Credit Assignment and UCB-Guided Memory Retrieval",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3819038",
+     "authors": "Hao Wu, Zihan Wang, Ziyang Rao, Heyi Lin, Jinjing Zhu, Qianyi Cai"
+    },
+    {
+     "title": "MemGraphRAG: Memory-based Multi-Agent System for Graph Retrieval-Augmented Generation",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818074",
+     "authors": "Chuanjie Wu, Zhishang Xiang, Yunbo Tang, Zerui Chen, Qinggang Zhang, Jinsong Su"
+    },
+    {
+     "title": "Battery-Sim-Agent: Leveraging LLM-Agent for Inverse Battery Parameter Estimation",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 1,
+     "doi": "10.1145/3770855.3818856",
+     "authors": "Jiawei Chen, Xiaofan Gui, Shikai Fang, Shengyu Tao, Shun Zheng, Weiqing Liu"
+    },
+    {
+     "title": "CF-GODE: Continuous-Time Causal Inference for Multi-Agent Dynamical Systems",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 8,
+     "doi": "10.1145/3580305.3599272",
+     "authors": "Song Jiang, Zijie Huang, Xiao Luo, Yizhou Sun"
+    },
+    {
+     "title": "Large Language Model (LLM) as an Excellent Reinforcement Learning Researcher in both Single-Agent and Multi-Agent Scenarios",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818940",
+     "authors": "Vincent Fu, Xinxin Xu, Weichen Xu, Ruilong Ren, Bowen Deng, Jue Chen"
+    },
+    {
+     "title": "Trustworthy Agent Network: Trust in Agent Networks Must Be Baked In, Not Bolted On",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818655",
+     "authors": "Yixiang Yao, Yuhang Yao, Xinyi Fan, Jiechao Gao, Jie Wang, Minjia Zhang"
+    },
+    {
+     "title": "TS-Memory: Plug-and-Play Memory for Time Series Foundation Models",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817614",
+     "authors": "Sisuo Lyu, Siru Zhong, Tiegang Chen, Weilin Ruan, Qingxiang Liu, Taiqiang Lv"
+    },
+    {
+     "title": "A Dual-Agent Scheduler for Distributed Deep Learning Jobs on Public Cloud via Reinforcement Learning",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 13,
+     "doi": "10.1145/3580305.3599241",
+     "authors": "Mingzhe Xing, Hangyu Mao, Shenglin Yin, Lichen Pan, Zhengchao Zhang, Zhen Xiao"
+    },
+    {
+     "title": "Topology-aware Embedding Memory for Continual Learning on Expanding Networks",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 17,
+     "doi": "10.1145/3637528.3671732",
+     "authors": "Xikun Zhang, Dongjin Song, Yixin Chen, Dacheng Tao"
+    },
+    {
+     "title": "HiMacMic: Hierarchical Multi-Agent Deep Reinforcement Learning with Dynamic Asynchronous Macro Strategy",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 5,
+     "doi": "10.1145/3580305.3599379",
+     "authors": "Hancheng Zhang, Guozheng Li, Chi Harold Liu, Guoren Wang, Jian Tang"
+    },
+    {
+     "title": "Learning Multi-Agent Intention-Aware Communication for Optimal Multi-Order Execution in Finance",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 10,
+     "doi": "10.1145/3580305.3599856",
+     "authors": "Yuchen Fang, Zhenggang Tang, Kan Ren, Weiqing Liu, Li Zhao, Jiang Bian"
+    },
+    {
+     "title": "MacroHFT: Memory Augmented Context-aware Reinforcement Learning On High Frequency Trading",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 4,
+     "doi": "10.1145/3637528.3672064",
+     "authors": "Chuqiao Zong, Chaojie Wang, Molei Qin, Lei Feng, Xinrun Wang, Bo An"
+    },
+    {
+     "title": "Ball Trajectory Inference from Multi-Agent Sports Contexts Using Set Transformer and Hierarchical Bi-LSTM",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 14,
+     "doi": "10.1145/3580305.3599779",
+     "authors": "Hyunsung Kim, Han-Jun Choi, Chang Jo Kim, Jinsung Yoon, Sang-Ki Ko"
+    },
+    {
+     "title": "Stabilizing Voltage in Power Distribution Networks via Multi-Agent Reinforcement Learning with Transformer",
+     "year": 2022,
+     "venue": "Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 15,
+     "doi": "10.1145/3534678.3539480",
+     "authors": "Minrui Wang, Mingxiao Feng, Wengang Zhou, Houqiang Li"
+    },
+    {
+     "title": "A Multimodal Foundation Agent for Financial Trading: Tool-Augmented, Diversified, and Generalist",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 83,
+     "doi": "10.1145/3637528.3671801",
+     "authors": "Wentao Zhang, Lingxuan Zhao, Haochong Xia, Shuo Sun, Jiaze Sun, Molei Qin"
+    },
+    {
+     "title": "DyPS: Dynamic Parameter Sharing in Multi-Agent Reinforcement Learning for Spatio-Temporal Resource Allocation",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 15,
+     "doi": "10.1145/3637528.3672052",
+     "authors": "Jingwei Wang, Qianyue Hao, Wenzhen Huang, Xiaochen Fan, Zhentao Tang, Bin Wang"
+    },
+    {
+     "title": "Building Agentic AI Systems with LangGraph: From LLM Pipelines to Multi-Agent Decision Workflows",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3816469",
+     "authors": "Mohammad Amin Kuhail"
+    },
+    {
+     "title": "Multi-Agent Debate based Concept Augmentation for Enhanced Cognitive Diagnosis",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 1,
+     "doi": "10.1145/3770854.3780196",
+     "authors": "Pengyang Shao, Lei Chen, Fei Liu, Yonghui Yang, Xun Yang, Meng Wang"
+    },
+    {
+     "title": "GAT-MF: Graph Attention Mean Field for Very Large Scale Multi-Agent Reinforcement Learning",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 23,
+     "doi": "10.1145/3580305.3599359",
+     "authors": "Qianyue Hao, Wenzhen Huang, Tao Feng, Jian Yuan, Yong Li"
+    },
+    {
+     "title": "Multi-Agent Graph Convolutional Reinforcement Learning for Dynamic Electric Vehicle Charging Pricing",
+     "year": 2022,
+     "venue": "Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 34,
+     "doi": "10.1145/3534678.3539416",
+     "authors": "Weijia Zhang, Hao Liu, Jindong Han, Yong Ge, Hui Xiong"
+    },
+    {
+     "title": "BethAgent: A Contract-Governed Multi-Agent Framework for Verified Cytology Super-Resolution with Safe Rollback",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817878",
+     "authors": "Wenzhe Chang, Jun Yin, Peilin Li"
+    },
+    {
+     "title": "REALM-Bench: A Benchmark for Evaluating Multi-Agent Systems on Real-world, Dynamic Planning and Scheduling Tasks",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 1,
+     "doi": "10.1145/3770854.3785692",
+     "authors": "Longling Geng, Edward Y. Chang"
+    },
+    {
+     "title": "BiVCoder: A Multi-Agent Framework for Code Generation via Bidirectional Code-Test Diagnosis",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818107",
+     "authors": "Xiaoyang Li, Jinhao Dong, Wenhang Shi, Wei Lu, Xiaoyong Du"
+    },
+    {
+     "title": "MemMap: An Adaptive and Latent Memory Structure for Dynamic Graph Learning",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 6,
+     "doi": "10.1145/3637528.3672060",
+     "authors": "Shuo Ji, Mingzhe Liu, Leilei Sun, Chuanren Liu, Tongyu Zhu"
+    },
+    {
+     "title": "Collaborative Memory Augmentation for Generative Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818179",
+     "authors": "Enze Liu, Zhen Tian, Wayne Xin Zhao"
+    },
+    {
+     "title": "AgentsKG: A Hierarchical Multi-Agent Framework for Open-Domain Knowledge Graph Construction",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818058",
+     "authors": "Shilong Liu, Yongqiang Liu, Jiye Liu, Xuan Guo, Tianpeng Li, Qiyao Peng"
+    },
+    {
+     "title": "MockLLM: A Multi-Agent Behavior Collaboration Framework for Online Job Seeking and Recruiting",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 4,
+     "doi": "10.1145/3711896.3737051",
+     "authors": "Hongda Sun, Hongzhan Lin, Haiyu Yan, Yang Song, Xin Gao, Rui Yan"
+    },
+    {
+     "title": "ToolSQL: A Tool-Assisted Agent for SQL Verification and Refinement",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 3,
+     "doi": "10.1145/3711896.3737159",
+     "authors": "Zhongyuan Wang, Richong Zhang, Zhijie Nie, Jaein Kim"
+    },
+    {
+     "title": "Agent-Diff: Benchmarking LLM Agents on Enterprise API Tasks via Code Execution with State-Diff-Based Evaluation",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817555",
+     "authors": "Hubert M. Pyskło, Artem Zhuravel, Patrick D. Watson"
+    },
+    {
+     "title": "DECKBench: Benchmarking Multi-Agent Frameworks for Academic Slide Generation and Editing",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 1,
+     "doi": "10.1145/3770855.3817525",
+     "authors": "Daesik Jang, Morgan Lindsay Heisler, Linzi Xing, Yifei Li, Edward Wang, Ying Xiong"
+    },
+    {
+     "title": "Beyond End-to-End Video Models: An LLM-Based Multi-Agent System for Educational Video Generation",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 1,
+     "doi": "10.1145/3770855.3818323",
+     "authors": "Lingyong Yan, Jiulong Wu, Dong Xie, Weixian Shi, Deguo Xia, Jizhou Huang"
+    },
+    {
+     "title": "Beyond Goodhart's Law: A Dynamic Benchmark for Evaluating Compliance in Multi-Agent Systems",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817590",
+     "authors": "Yiyang Zhao, Zhuo Zhang, Qingxuan Le, Lizhen Qu, Zenglin Xu"
+    },
+    {
+     "title": "Meta Multi-agent Exercise Recommendation: A Game Application Perspective",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 15,
+     "doi": "10.1145/3580305.3599429",
+     "authors": "Fei Liu, Xuegang Hu, Shuochen Liu, Chenyang Bu, Le Wu"
+    },
+    {
+     "title": "AutoWebGLM: A Large Language Model-based Web Navigating Agent",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 51,
+     "doi": "10.1145/3637528.3671620",
+     "authors": "Hanyu Lai, Xiao Liu, Iat Long Iong, Shuntian Yao, Yuxuan Chen, Pengbo Shen"
+    },
+    {
+     "title": "Breaking the Memory Wall for Heterogeneous Federated Learning via Progressive Training",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 4,
+     "doi": "10.1145/3690624.3709284",
+     "authors": "Yebo Wu, Li Li, Cheng-zhong Xu"
+    },
+    {
+     "title": "The 4th Workshop on AI Agent for Information Retrieval: Generating and Ranking",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 1,
+     "doi": "10.1145/3711896.3737849",
+     "authors": "Qingsong Wen, Yongfeng Zhang, Zhiwei Liu, Julian McAuley, Hua Wei, Linsey Pang"
+    },
+    {
+     "title": "G-STAR: Graph-based Scheduling with Trace-driven Adaptive Routing for Industrial LLM-based Multi-Agent Systems",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818421",
+     "authors": "Jiabao Song, Yu Xia, Beibei Kong, Lei Cheng, Chengxiang Zhuo, Zang Li"
+    },
+    {
+     "title": "Generating Realistic Human Mobility Data with Hybrid Large Language Model Agent",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 0,
+     "doi": "10.1145/3770854.3785685",
+     "authors": "Chenyang Shao, Bingbing Fan, Jingtao Ding, Yuan Yuan, Meng Wang, Fengli Xu"
+    },
+    {
+     "title": "The 5th Workshop on AI Agent for Information Retrieval: Generating and Ranking",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818251",
+     "authors": "Qingsong Wen, Prakhar Mehrotra, Yongfeng Zhang, Zhiwei Liu, Julian McAuley, Hua Wei"
+    },
+    {
+     "title": "Explicit v.s. Implicit Memory: Exploring Multi-hop Complex Reasoning Over Personalized Information",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 0,
+     "doi": "10.1145/3770854.3780184",
+     "authors": "Zeyu Zhang, Yang Zhang, Haoran Tan, Rui Li, Xu Chen"
+    },
+    {
+     "title": "StepFinder: A Temporal Semantic Framework for Failure Attribution in Multi-Agent Systems",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817991",
+     "authors": "Taiyu Zhu, Yifan Wu, Weilin Jin, Ying Li, Gang Huang"
+    },
+    {
+     "title": "LLM-based Few-Shot Early Rumor Detection with Imitation Agent",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 0,
+     "doi": "10.1145/3770854.3780315",
+     "authors": "Fengzhu Zeng, Qian Shao, Ling Cheng, Wei Gao, Shih-Fen Cheng, Jing Ma"
+    },
+    {
+     "title": "<scp>AgentGen:</scp>\n                    Enhancing Planning Abilities for Large Language Model based Agent via Environment and Task Generation",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 14,
+     "doi": "10.1145/3690624.3709321",
+     "authors": "Mengkang Hu, Pu Zhao, Can Xu, Qingfeng Sun, Jian-Guang Lou, Qingwei Lin"
+    },
+    {
+     "title": "LingxiDiagBench: A Multi-Agent Framework for Benchmarking LLMs in Chinese Psychiatric Consultation and Diagnosis",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817539",
+     "authors": "Shihao Xu, Tiancheng Zhou, Jiatong Ma, Ming Xiao, Yanli Ding, Yiming Yan"
+    },
+    {
+     "title": "Heterogeneous Multi-Agent Reinforcement Learning with Attention for Cooperative and Scalable Feature Transformation",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 0,
+     "doi": "10.1145/3770854.3780231",
+     "authors": "Tao Zhe, Huazhen Fang, Kunpeng Liu, Qian Lou, Tamzidul Hoque, Dongjie Wang"
+    },
+    {
+     "title": "CheatAgent: Attacking LLM-Empowered Recommender Systems via LLM Agent",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 26,
+     "doi": "10.1145/3637528.3671837",
+     "authors": "Liang-bo Ning, Shijie Wang, Wenqi Fan, Qing Li, Xin Xu, Hao Chen"
+    },
+    {
+     "title": "Partial Pre-Post Code Tree: A Memory-Efficient Tree Structure for Conjunctive Rule Mining",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 0,
+     "doi": "10.1145/3690624.3709303",
+     "authors": "Van Quoc Phuong Huynh, Florian Beck, Johannes Fürnkranz"
+    },
+    {
+     "title": "Cognitive Bifurcation: Dual-Progressive Causal Diffusion with Hippocampal Memory for Continual Graph Learning",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818129",
+     "authors": "Jiahao Liang, Carl Yang, Haoran Yang, Zhiwen Yu, Mengzhu Wang, Kaixiang Yang"
+    },
+    {
+     "title": "DREAM: LLM-based Dynamic Role-playing via Event-Aware Memory Graph",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818027",
+     "authors": "Zhihao Xiao, Mengting Li, Xintao Wang, Linfeng Li, Limin Shui, Mengqi Ji"
+    },
+    {
+     "title": "From Shallow Humor to Metaphor: Towards Label-Free Harmful Meme Detection via LMM Agent Self-Improvement",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 1,
+     "doi": "10.1145/3770854.3780213",
+     "authors": "Jian Lang, Rongpei Hong, Ting Zhong, Leiting Chen, Qiang Gao, Fan Zhou"
+    },
+    {
+     "title": "Combining Denoised Neural Network and Genetic Symbolic Regression for Memory Behavior Modeling via Dynamic Asynchronous Optimization",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3711896.3736886",
+     "authors": "Jianwen Sun, Qirong Chen, Zhenya Huang, Zhihai Hu, Ruxia Liang, Xiaoxuan Shen"
+    },
+    {
+     "title": "Generative Thinking, Corrective Action: User-Friendly Composed Image Retrieval via Automatic Multi-Agent Collaboration",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 9,
+     "doi": "10.1145/3711896.3736982",
+     "authors": "Zhangtao Cheng, Yuhao Ma, Jian Lang, Kunpeng Zhang, Ting Zhong, Yong Wang"
+    },
+    {
+     "title": "EvoDS: Self-Evolving Autonomous Data Science Agent with Skill Learning and Context Management",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818002",
+     "authors": "Zherui Yang, Fan Liu, Yansong Ning, Hao Liu"
+    },
+    {
+     "title": "FedKDD/FedMAS 2026: The 2026 International Joint Workshop on Federated Learning for Multi-agent Systems and Data Mining",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818248",
+     "authors": "Haozhao Wang, Zhuangdi Zhu, Zheng Xu, Yi Liu, Dongyuan Li, Ming Hu"
+    },
+    {
+     "title": "One Rounding Fits All: Memory-Efficient Approximation Algorithms for Partition-Constrained Influence Maximization",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817696",
+     "authors": "Qixin Zhang, Qirun Zeng, Hui Lu, Pingchuan Ma, Jinhang Zuo, Renqiang Luo"
+    },
+    {
+     "title": "Toward a Science of AI Agent Societies",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818651",
+     "authors": "Geon Lee, Fanchen Bu, Soo Yong Lee, Sunwoo Kim, Kijung Shin"
+    },
+    {
+     "title": "Designing A Scalable LLM Agent Framework for Large-scale Urban Segregation Simulation",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818944",
+     "authors": "Qingbin Zeng, Yuwei Yan, Zhiheng Zheng, Jingzhe Yuan, Jun Zhang, Jie Feng"
+    },
+    {
+     "title": "Evaluating Long-Horizon Memory for Multi-Party Collaborative Dialogues",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817589",
+     "authors": "Chuanrui Hu, Tong Li, Xingze Gao, Hongda Chen, Yi Bai, Dannong Xu"
+    },
+    {
+     "title": "S2RL",
+     "year": 2022,
+     "venue": "Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 6,
+     "doi": "10.1145/3534678.3539481",
+     "authors": "Shuang Luo, Yinchuan Li, Jiahui Li, Kun Kuang, Furui Liu, Yunfeng Shao"
+    },
+    {
+     "title": "From Compression to Exploration: Active Querying Agent for 3D Physical Field Understanding",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3819007",
+     "authors": "Chonghan Gao, Haoyi Zhou, Zhemeng Luo, Shengkai Jin, Qian Yu, Tianyu Chen"
+    },
+    {
+     "title": "Multi-Agent Proactive Information Seeking with Adaptive LLM Orchestration for Non-Factoid Question Answering",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 4,
+     "doi": "10.1145/3711896.3737249",
+     "authors": "Xinran Chen, Yuchen Li, Hengyi Cai, Zhuoran Ma, Xuanang Chen, Haoyi Xiong"
+    },
+    {
+     "title": "Systematic Diagnosis and Benchmarking of Memory Systems in Autonomous AI Research Agents: A Low-Resource Framework",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3816477",
+     "authors": "Nur Arifin Akbar, Rahool Dembani, Gregorius Airlangga, Ripto Mukti Wibowo, Biagio Lenzitti, Domenico Tegolo"
+    },
+    {
+     "title": "PilotANN: Memory-Bounded GPU Acceleration for Vector Search",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 2,
+     "doi": "10.1145/3770854.3780192",
+     "authors": "Yuntao Gui, Peiqi Yin, Xiao Yan, Chaorui Zhang, Weixi Zhang, James Cheng"
+    },
+    {
+     "title": "MSN: A Memory-based Sparse Activation Scaling Framework for Large-scale Industrial Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818451",
+     "authors": "Shikang Wu, Hui Lu, Jinqiu Jin, Zheng Chai, Shiyong Hong, Junjie Zhang"
+    },
+    {
+     "title": "CEAgent-GSL: Code-level Evolutionary Agent for Interpretable Graph Structure Learning on Omics",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3819043",
+     "authors": "Zhongyu Xing, Hanwen Luo, Maozu Guo, Ziwei Zhang, Quanming Yao, Wei Du"
+    },
+    {
+     "title": "MALLES: A Multi-agent LLMs-based Economic Sandbox with Consumer Preference Alignment",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818824",
+     "authors": "Yusen Wu, Yiran Liu, Wu Xin, Xiaotie Deng"
+    },
+    {
+     "title": "CoopRide: Cooperate All Grids in City-Scale Ride-Hailing Dispatching with Multi-Agent Reinforcement Learning",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 8,
+     "doi": "10.1145/3690624.3709205",
+     "authors": "Jingwei Wang, Qianyue Hao, Wenzhen Huang, Xiaochen Fan, Qin Zhang, Zhentao Tang"
+    },
+    {
+     "title": "M\n                    <sup>2</sup>\n                    -MFP: A Multi-Scale and Multi-Level Memory Failure Prediction Framework for Reliable Cloud Infrastructure",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 2,
+     "doi": "10.1145/3711896.3737243",
+     "authors": "Hongyi Xie, Min Zhou, Qiao Yu, Jialiang Yu, Zhenli Sheng, Hong Xie"
+    },
+    {
+     "title": "FlowXpert: Expertizing Troubleshooting Workflow Orchestration with Knowledge Base and Multi-Agent Coevolution",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 7,
+     "doi": "10.1145/3711896.3737221",
+     "authors": "Binpeng Shi, Yu Luo, Jingya Wang, Yongxin Zhao, Shenglin Zhang, Bowen Hao"
+    },
+    {
+     "title": "Drift-Aware Memory-Augmented Spatio-Temporal Graph Attention for Industrial Anomaly Detection",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818125",
+     "authors": "Yooshin Kim, Donghoon Shin"
+    },
+    {
+     "title": "StaR: Stateful Dynamic-Graph Root Cause Analysis through Memory-Enhanced Causality Discovery",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817863",
+     "authors": "Haiyu Huang, Man Tik Ng, Jiewei Lyu, Yujie Huang, Guangba Yu, Yilun Wang"
+    },
+    {
+     "title": "Interactive Recommendation Agent with Active User Commands",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817619",
+     "authors": "Jiakai Tang, Wen Chen, Yujie Luo, Xunke Xi, Yi Chao, Dian Chen"
+    },
+    {
+     "title": "GUI-Robust: A Comprehensive Dataset for Testing GUI Agent Robustness in Real-World Anomalies",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 0,
+     "doi": "10.1145/3770854.3785695",
+     "authors": "Jingqi Yang, Zhilong Song, Jiawei Chen, Mingli Song, Sheng Zhou, Linjun Sun"
+    },
+    {
+     "title": "Hyperbolic Learning for Structured Data, Knowledge, and Memory: A Tutorial",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3816467",
+     "authors": "Jiahong Liu, Menglin Yang, Irwin King"
+    },
+    {
+     "title": "Passing the Turing Test on Screen: A Benchmark for Mobile GUI Agent Humanization",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817471",
+     "authors": "Jiachen Zhu, Lingyu Yang, Rong Shan, Congmin Zheng, Zeyu Zheng, Weiwen Liu"
+    },
+    {
+     "title": "Learn to Refine: Synergistic Multi-Agent Path Optimization for Lifelong Conflict-Free Navigation of Autonomous Vehicles",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 2,
+     "doi": "10.1145/3711896.3737017",
+     "authors": "Junjun Li, Zeyuan Ma, Ting Huang, Yue-Jiao Gong"
+    },
+    {
+     "title": "Personalizing Large Language Models with User Profile Memory",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817930",
+     "authors": "Yangxu Liao, Yongheng Deng, Tianyuan Jiang, Ju Ren"
+    },
+    {
+     "title": "Parallelizing LLM Agent Execution with Contrastive Task Allocation",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817872",
+     "authors": "Yuyang Peng, Yanling Xu, Shuyi Wang, Xiaofei Liao, Qinbin Li"
+    },
+    {
+     "title": "StarVerus: LLM-Powered Multi-Agent Collaboration for Industrial Rust Code Verification Automation",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818485",
+     "authors": "Chao Jiang, Ding Wang, Dugang Liu, Zhiwu Xu, Cheng Wen, Zhong Ming"
+    },
+    {
+     "title": "Swarm Intelligence in Geo-Localization: A Multi-Agent Large Vision-Language Model Collaborative Framework",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 5,
+     "doi": "10.1145/3711896.3737141",
+     "authors": "Xiao Han, Chen Zhu, Hengshu Zhu, Xiangyu Zhao"
+    },
+    {
+     "title": "PeroMAS: A Multi-agent System of Perovskite Material Discovery",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 3,
+     "doi": "10.1145/3770855.3818858",
+     "authors": "Yishu Wang, Wei Liu, Yifan Li, Shengxiang Xu, Xujie Yuan, Ran Li"
+    },
+    {
+     "title": "SpaCellAgent: A Self-Evolving LLM-Based Multi-Agent Framework for Trajectory Analysis",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818914",
+     "authors": "Songhan Wang, Haoang Chi, He Li, Zhiheng Zhang, Jiayan Yuan, Cheems Wang"
+    }
+   ]
+  },
+  "multimodal agent": {
+   "total": 1986,
+   "kept": 92,
+   "papers": [
+    {
+     "title": "Advancing Multimodal Agent Reasoning with Long-Term Neuro-Symbolic Memory",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817643",
+     "authors": "Rongjie Jiang, Jianwei Wang, Gengda Zhao, Chengyang Luo, Kai Wang, Wenjie Zhang"
+    },
+    {
+     "title": "A Multimodal Foundation Agent for Financial Trading: Tool-Augmented, Diversified, and Generalist",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 83,
+     "doi": "10.1145/3637528.3671801",
+     "authors": "Wentao Zhang, Lingxuan Zhao, Haochong Xia, Shuo Sun, Jiaze Sun, Molei Qin"
+    },
+    {
+     "title": "International Workshop on Multimodal Learning - 2023 Theme: Multimodal Learning with Foundation Models",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 10,
+     "doi": "10.1145/3580305.3599208",
+     "authors": "Yuan Ling, Fanyou Wu, Shujing Dong, Yarong Feng, George Karypis, Chandan K. Reddy"
+    },
+    {
+     "title": "Classifying Multimodal Data Using Transformers",
+     "year": 2022,
+     "venue": "Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 3,
+     "doi": "10.1145/3534678.3542634",
+     "authors": "Watson W.K. Chua, Lu Li, Alvina Goh"
+    },
+    {
+     "title": "Multimodal AutoML for Image, Text and Tabular Data",
+     "year": 2022,
+     "venue": "Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 10,
+     "doi": "10.1145/3534678.3542616",
+     "authors": "Nick Erickson, Xingjian Shi, James Sharpnack, Alexander Smola"
+    },
+    {
+     "title": "MDVT: Enhancing Multimodal Recommendation with Model-Agnostic Multimodal-Driven Virtual Triplets",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 6,
+     "doi": "10.1145/3711896.3737042",
+     "authors": "Jinfeng Xu, Zheyu Chen, Jinze Li, Shuo Yang, Hewei Wang, Yijie Li"
+    },
+    {
+     "title": "When Graph Meets Multimodal: Benchmarking and Meditating on Multimodal Attributed Graph Learning",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 4,
+     "doi": "10.1145/3711896.3737404",
+     "authors": "Hao Yan, Chaozhuo Li, Jun Yin, Zhigang Yu, Weihao Han, Mingzheng Li"
+    },
+    {
+     "title": "Battery-Sim-Agent: Leveraging LLM-Agent for Inverse Battery Parameter Estimation",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 1,
+     "doi": "10.1145/3770855.3818856",
+     "authors": "Jiawei Chen, Xiaofan Gui, Shikai Fang, Shengyu Tao, Shun Zheng, Weiqing Liu"
+    },
+    {
+     "title": "Television Discourse Decoded: Comprehensive Multimodal Analytics at Scale",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 3,
+     "doi": "10.1145/3637528.3671532",
+     "authors": "Anmol Agarwal, Pratyush Priyadarshi, Shiven Sinha, Shrey Gupta, Hitkul Jangra, Ponnurangam Kumaraguru"
+    },
+    {
+     "title": "On Hierarchical Disentanglement of Interactive Behaviors for Multimodal Spatiotemporal Data with Incompleteness",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 3,
+     "doi": "10.1145/3580305.3599448",
+     "authors": "Jiayi Chen, Aidong Zhang"
+    },
+    {
+     "title": "Fusing Multimodal Signals on Hyper-complex Space for Extreme Abstractive Text Summarization (TL;DR) of Scientific Contents",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 7,
+     "doi": "10.1145/3580305.3599830",
+     "authors": "Yash Kumar Atri, Vikram Goyal, Tanmoy Chakraborty"
+    },
+    {
+     "title": "FedMSplit",
+     "year": 2022,
+     "venue": "Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 102,
+     "doi": "10.1145/3534678.3539384",
+     "authors": "Jiayi Chen, Aidong Zhang"
+    },
+    {
+     "title": "CommerceMM",
+     "year": 2022,
+     "venue": "Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 33,
+     "doi": "10.1145/3534678.3539151",
+     "authors": "Licheng Yu, Jun Chen, Animesh Sinha, Mengjiao Wang, Yu Chen, Tamara L. Berg"
+    },
+    {
+     "title": "Multimodal Pretraining, Adaptation, and Generation for Recommendation: A Survey",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 64,
+     "doi": "10.1145/3637528.3671473",
+     "authors": "Qijiong Liu, Jieming Zhu, Yanting Yang, Quanyu Dai, Zhaocheng Du, Xiao-Ming Wu"
+    },
+    {
+     "title": "MISP: A Multimodal-based Intelligent Server Failure Prediction Model for Cloud Computing Systems",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 11,
+     "doi": "10.1145/3637528.3671568",
+     "authors": "Xianting Lu, Yunong Wang, Yu Fu, Qi Sun, Xuhua Ma, Xudong Zheng"
+    },
+    {
+     "title": "CF-GODE: Continuous-Time Causal Inference for Multi-Agent Dynamical Systems",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 8,
+     "doi": "10.1145/3580305.3599272",
+     "authors": "Song Jiang, Zijie Huang, Xiao Luo, Yizhou Sun"
+    },
+    {
+     "title": "Large Language Model (LLM) as an Excellent Reinforcement Learning Researcher in both Single-Agent and Multi-Agent Scenarios",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818940",
+     "authors": "Vincent Fu, Xinxin Xu, Weichen Xu, Ruilong Ren, Bowen Deng, Jue Chen"
+    },
+    {
+     "title": "MMSep: Efficient Multimodal Long-Generation Reasoning via Multimodal Separator Compression",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817821",
+     "authors": "Mingjie Ma, Yichao Ma, Jiannan Cao, Changhong Li, Chuhang Hong, Zhong Yang"
+    },
+    {
+     "title": "FedMultimodal: A Benchmark for Multimodal Federated Learning",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 81,
+     "doi": "10.1145/3580305.3599825",
+     "authors": "Tiantian Feng, Digbalay Bose, Tuo Zhang, Rajat Hebbar, Anil Ramakrishna, Rahul Gupta"
+    },
+    {
+     "title": "Synthesizing Multimodal Electronic Health Records via Predictive Diffusion Models",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 3,
+     "doi": "10.1145/3637528.3671836",
+     "authors": "Yuan Zhong, Xiaochen Wang, Jiaqi Wang, Xiaokun Zhang, Yaqing Wang, Mengdi Huai"
+    },
+    {
+     "title": "Trustworthy Agent Network: Trust in Agent Networks Must Be Baked In, Not Bolted On",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818655",
+     "authors": "Yixiang Yao, Yuhang Yao, Xinyi Fan, Jiechao Gao, Jie Wang, Minjia Zhang"
+    },
+    {
+     "title": "Multi-Grained Multimodal Interaction Network for Entity Linking",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 29,
+     "doi": "10.1145/3580305.3599439",
+     "authors": "Pengfei Luo, Tong Xu, Shiwei Wu, Chen Zhu, Linli Xu, Enhong Chen"
+    },
+    {
+     "title": "Effective and Robust Multimodal Medical Image Analysis",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 1,
+     "doi": "10.1145/3770854.3780331",
+     "authors": "Joy Dhar, Nayyar Zaidi, Maryam Haghighat"
+    },
+    {
+     "title": "Graph Neural Networks for Multimodal Single-Cell Data Integration",
+     "year": 2022,
+     "venue": "Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 69,
+     "doi": "10.1145/3534678.3539213",
+     "authors": "Hongzhi Wen, Jiayuan Ding, Wei Jin, Yiqi Wang, Yuying Xie, Jiliang Tang"
+    },
+    {
+     "title": "L\n                    <scp>umos</scp>\n                    : Empowering Multimodal LLMs with Scene Text Recognition",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 5,
+     "doi": "10.1145/3637528.3671633",
+     "authors": "Ashish Shenoy, Yichao Lu, Srihari Jayakumar, Debojeet Chatterjee, Mohsen Moslehpour, Pierce Chuang"
+    },
+    {
+     "title": "Enhancing Multimodal Recommendation via Multimodal Representation Calibration in Spectral Domain",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 0,
+     "doi": "10.1145/3770854.3780208",
+     "authors": "Minghui Wang, Tingting Zhang, Yu Li, Yi Chang"
+    },
+    {
+     "title": "IonoFM: Multimodal Self-Supervised Learning for Ionospheric Monitoring and Prediction",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3819005",
+     "authors": "Ayush Prasad, Shristi Singh"
+    },
+    {
+     "title": "Retrieval-Augmented Hypergraph for Multimodal Social Media Popularity Prediction",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 28,
+     "doi": "10.1145/3637528.3672041",
+     "authors": "Zhangtao Cheng, Jienan Zhang, Xovee Xu, Goce Trajcevski, Ting Zhong, Fan Zhou"
+    },
+    {
+     "title": "Temporal Multimodal Multivariate Learning",
+     "year": 2022,
+     "venue": "Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 13,
+     "doi": "10.1145/3534678.3539159",
+     "authors": "Hyoshin Park, Justice Darko, Niharika Deshpande, Venktesh Pandey, Hui Su, Masahiro Ono"
+    },
+    {
+     "title": "A Dual-Agent Scheduler for Distributed Deep Learning Jobs on Public Cloud via Reinforcement Learning",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 13,
+     "doi": "10.1145/3580305.3599241",
+     "authors": "Mingzhe Xing, Hangyu Mao, Shenglin Yin, Lichen Pan, Zhengchao Zhang, Zhen Xiao"
+    },
+    {
+     "title": "Retrv-MoE: Scaling Unified Multimodal Retrieval with Sparse Mixture-of-Experts",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817958",
+     "authors": "Tongxu Lin, Jiayin Xiao"
+    },
+    {
+     "title": "Hierarchical Causal Model for Multimodal Single-cell Data Integration and Prediction",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818884",
+     "authors": "Jiayi Dong, Fei Wang"
+    },
+    {
+     "title": "Multimodal Indoor Localisation in Parkinson's Disease for Detecting Medication Use: Observational Pilot Study in a Free-Living Setting",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 5,
+     "doi": "10.1145/3580305.3599872",
+     "authors": "Ferdian Jovan, Catherine Morgan, Ryan McConville, Emma L. Tonkin, Ian Craddock, Alan Whone"
+    },
+    {
+     "title": "MLaGA: Multimodal Large Language and Graph Assistant",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818077",
+     "authors": "Dongzhe Fan, Jiajin Liu, Yi Fang, Djellel Difallah, Qiaoyu Tan"
+    },
+    {
+     "title": "DiffCrime: A Multimodal Conditional Diffusion Model for Crime Risk Map Inference",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 5,
+     "doi": "10.1145/3637528.3671843",
+     "authors": "Shuliang Wang, Xinyu Pan, Sijie Ruan, Haoyu Han, Ziyu Wang, Hanning Yuan"
+    },
+    {
+     "title": "M3Care: Learning with Missing Modalities in Multimodal Healthcare Data",
+     "year": 2022,
+     "venue": "Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 97,
+     "doi": "10.1145/3534678.3539388",
+     "authors": "Chaohe Zhang, Xu Chu, Liantao Ma, Yinghao Zhu, Yasha Wang, Jiangtao Wang"
+    },
+    {
+     "title": "MGMatch: Fast Matchmaking with Nonlinear Objective and Constraints via Multimodal Deep Graph Learning",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3637528.3671553",
+     "authors": "Yu Sun, Kai Wang, Zhipeng Hu, Runze Wu, Yaoxin Wu, Wen Song"
+    },
+    {
+     "title": "ECHO: Adaptive Community Search over Multimodal Graphs",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817876",
+     "authors": "Chengyang Luo, Zixing Ding, Qing Liu, Yifan Zhu, Yunjun Gao"
+    },
+    {
+     "title": "HiMacMic: Hierarchical Multi-Agent Deep Reinforcement Learning with Dynamic Asynchronous Macro Strategy",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 5,
+     "doi": "10.1145/3580305.3599379",
+     "authors": "Hancheng Zhang, Guozheng Li, Chi Harold Liu, Guoren Wang, Jian Tang"
+    },
+    {
+     "title": "Diagnosing Evidence Utilization in Multimodal Document Question Answering",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817956",
+     "authors": "Debolena Basak, Digbalay Bose, Koustava Goswami, Maunendra Sankar Desarkar"
+    },
+    {
+     "title": "Learning Multi-Agent Intention-Aware Communication for Optimal Multi-Order Execution in Finance",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 10,
+     "doi": "10.1145/3580305.3599856",
+     "authors": "Yuchen Fang, Zhenggang Tang, Kan Ren, Weiqing Liu, Li Zhao, Jiang Bian"
+    },
+    {
+     "title": "From Rows to Reasoning: A Retrieval-Augmented Multimodal Framework for Spreadsheet Understanding",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 1,
+     "doi": "10.1145/3770855.3817962",
+     "authors": "Anmol Gulati, Sahil Sen, Waqar Sarguroh, Kevin Paul"
+    },
+    {
+     "title": "Ball Trajectory Inference from Multi-Agent Sports Contexts Using Set Transformer and Hierarchical Bi-LSTM",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 14,
+     "doi": "10.1145/3580305.3599779",
+     "authors": "Hyunsung Kim, Han-Jun Choi, Chang Jo Kim, Jinsung Yoon, Sang-Ki Ko"
+    },
+    {
+     "title": "RJUA-MedDQA: A Multimodal Benchmark for Medical Document Question Answering and Clinical Reasoning",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 13,
+     "doi": "10.1145/3637528.3671644",
+     "authors": "Congyun Jin, Ming Zhang, Weixiao Ma, Yujiao Li, Yingbo Wang, Yabo Jia"
+    },
+    {
+     "title": "Stabilizing Voltage in Power Distribution Networks via Multi-Agent Reinforcement Learning with Transformer",
+     "year": 2022,
+     "venue": "Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 15,
+     "doi": "10.1145/3534678.3539480",
+     "authors": "Minrui Wang, Mingxiao Feng, Wengang Zhou, Houqiang Li"
+    },
+    {
+     "title": "ProductWebGen: Benchmarking Multimodal Product Webpage Generation",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817507",
+     "authors": "Zhihong Liu, Siqi Kou, Zheng Li, Ye Ma, Quan Chen, Peng Jiang"
+    },
+    {
+     "title": "Fine-tuning Multimodal Large Language Models for Product Bundling",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 10,
+     "doi": "10.1145/3690624.3709255",
+     "authors": "Xiaohao Liu, Jie Wu, Zhulin Tao, Yunshan Ma, Yinwei Wei, Tat-seng Chua"
+    },
+    {
+     "title": "MedDiTPro: A Prompt-Guided Diffusion Transformer for Multimodal Longitudinal Medical Data Synthesis",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3711896.3737045",
+     "authors": "Yuan Zhong, Xiaochen Wang, Jiaqi Wang, Xiaokun Zhang, Fenglong Ma"
+    },
+    {
+     "title": "SSE: Multimodal Semantic Data Selection and Enrichment for Industrial-scale Data Assimilation",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 1,
+     "doi": "10.1145/3690624.3709417",
+     "authors": "Maying Shen, Nadine Chang, Sifei Liu, Jose M. Alvarez"
+    },
+    {
+     "title": "UrbanGraphEmbeddings: Learning and Evaluating Spatially Grounded Multimodal Embeddings for Urban Environments",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817458",
+     "authors": "Jie Zhang, Xingtong Yu, Yuan Fang, Rudi Stouffs, Zdravko Trivic"
+    },
+    {
+     "title": "<scp>MedJudge:</scp>\n                    Medical Multimodal Reward Modeling",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3819019",
+     "authors": "Yunhong He, Kai Zhang, Jiarong Qian, Zhengqing Yuan, Yanfang Ye, Jing Huang"
+    },
+    {
+     "title": "FlexCare: Leveraging Cross-Task Synergy for Flexible Multimodal Healthcare Prediction",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 14,
+     "doi": "10.1145/3637528.3671974",
+     "authors": "Muhao Xu, Zhenfeng Zhu, Youru Li, Shuai Zheng, Yawei Zhao, Kunlun He"
+    },
+    {
+     "title": "Recognizing Unseen Objects via Multimodal Intensive Knowledge Graph Propagation",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 5,
+     "doi": "10.1145/3580305.3599486",
+     "authors": "Likang Wu, Zhi Li, Hongke Zhao, Zhefeng Wang, Qi Liu, Baoxing Huai"
+    },
+    {
+     "title": "A Foundation Model for Multimodal Event Sequences in Financial Applications",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818311",
+     "authors": "Nikita Rusakov, Vladislav Meshkov, Konstantin Zorin, Gleb Zaripov, Alexander Uglov, Alexey Vasilev"
+    },
+    {
+     "title": "Routing Evidence for Unseen Actions in Video Moment Retrieval",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 3,
+     "doi": "10.1145/3637528.3671693",
+     "authors": "Guolong Wang, Xun Wu, Zheng Qin, Liangliang Shi"
+    },
+    {
+     "title": "Learning Graph Rationales to Compress Long Chains of Thought in Multimodal Reasoning",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817627",
+     "authors": "Yizhi Wang, Linan Yue, Deng-Bao Wang, Tong Wei, Min-Ling Zhang"
+    },
+    {
+     "title": "Robust Multimodal Failure Detection for Microservice Systems",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 69,
+     "doi": "10.1145/3580305.3599902",
+     "authors": "Chenyu Zhao, Minghua Ma, Zhenyu Zhong, Shenglin Zhang, Zhiyuan Tan, Xiao Xiong"
+    },
+    {
+     "title": "UniNote: A Unified Embedding Model for Multimodal Representation and Ranking",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818503",
+     "authors": "Jinghan Zhao, Wenwei Jin, Anqi Li, Jintao Tong, Luya Mo, Jiawei Li"
+    },
+    {
+     "title": "LMID: A Comprehensive Multimodal Dataset for Failure Prediction in Cloud Computing Systems",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 0,
+     "doi": "10.1145/3770854.3785684",
+     "authors": "Lingfei Deng, Ruqiao Xu, Yunong Wang, Xiaoming Du, Xuhua Ma, Xudong Zheng"
+    },
+    {
+     "title": "Aligning and Balancing ID and Multimodal Representations for Recommendation",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 8,
+     "doi": "10.1145/3711896.3737275",
+     "authors": "Binrui Wu, Shisong Tang, Fan Li, Bing Han, Chang Meng, Jingyu Xiao"
+    },
+    {
+     "title": "Advancing Multimodal Fusion on Heterogeneous Medical Data with Hybrid Geometry Attention",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817885",
+     "authors": "Joy Dhar, Manish Kumar Pandey, Nayyar Zaidi, Chen Chen, Maryam Haghighat, Ferdous Sohel"
+    },
+    {
+     "title": "CLEAR: Addressing Representation Contamination in Multimodal Healthcare Analytics",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 1,
+     "doi": "10.1145/3690624.3709164",
+     "authors": "Ge Su, Kaiping Zheng, Tiancheng Zhao, Jianwei Yin"
+    },
+    {
+     "title": "Learning Multimodal Embeddings for Traffic Accident Prediction and Causal Estimation",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 0,
+     "doi": "10.1145/3770854.3785677",
+     "authors": "Ziniu Zhang, Minxuan Duan, Haris Koutsopoulos, Hongyang R. Zhang"
+    },
+    {
+     "title": "Edge-Cloud Collaborative Multimodal Dehazing for UAV Vision",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818393",
+     "authors": "Junwei Zhao, Qianchun Luo, Jie Wu"
+    },
+    {
+     "title": "VideoConviction: A Multimodal Benchmark for Human Conviction and Stock Market Recommendations",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 1,
+     "doi": "10.1145/3711896.3737417",
+     "authors": "Michael Galarnyk, Veer Kejriwal, Agam Shah, Yash Bhardwaj, Nicholas Watney Meyer, Anand Krishnan"
+    },
+    {
+     "title": "DyPS: Dynamic Parameter Sharing in Multi-Agent Reinforcement Learning for Spatio-Temporal Resource Allocation",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 15,
+     "doi": "10.1145/3637528.3672052",
+     "authors": "Jingwei Wang, Qianyue Hao, Wenzhen Huang, Xiaochen Fan, Zhentao Tang, Bin Wang"
+    },
+    {
+     "title": "SUDER: Self-Improving Unified Large Multimodal Models for Understanding and Generation with Dual Self-rewards",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817654",
+     "authors": "Jixiang Hong, Yiran Zhang, Guanzhong Wang, Yi Liu, Ji-Rong Wen, Rui Yan"
+    },
+    {
+     "title": "HAL: Accurate, Private, and Efficient Sample Alignment for Multimodal Federated Learning",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 0,
+     "doi": "10.1145/3770854.3780223",
+     "authors": "Xiaokai Zhou, Xiao Yan, Xinyan Li, Yuxiang Wang, Quanqing Xu, Chuang Hu"
+    },
+    {
+     "title": "Building Agentic AI Systems with LangGraph: From LLM Pipelines to Multi-Agent Decision Workflows",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3816469",
+     "authors": "Mohammad Amin Kuhail"
+    },
+    {
+     "title": "<i>COEF-VQ:</i>\n                    Cost-Efficient Video Quality Understanding through a Cascaded Multimodal LLM Framework",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 1,
+     "doi": "10.1145/3711896.3737203",
+     "authors": "Xin Dong, Sen Jia, Ming Rui Wang, Yan Li, Zhenheng Yang, Bingfeng Deng"
+    },
+    {
+     "title": "Multi-Agent Debate based Concept Augmentation for Enhanced Cognitive Diagnosis",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 1,
+     "doi": "10.1145/3770854.3780196",
+     "authors": "Pengyang Shao, Lei Chen, Fei Liu, Yonghui Yang, Xun Yang, Meng Wang"
+    },
+    {
+     "title": "GAT-MF: Graph Attention Mean Field for Very Large Scale Multi-Agent Reinforcement Learning",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 23,
+     "doi": "10.1145/3580305.3599359",
+     "authors": "Qianyue Hao, Wenzhen Huang, Tao Feng, Jian Yuan, Yong Li"
+    },
+    {
+     "title": "Multi-Agent Graph Convolutional Reinforcement Learning for Dynamic Electric Vehicle Charging Pricing",
+     "year": 2022,
+     "venue": "Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 34,
+     "doi": "10.1145/3534678.3539416",
+     "authors": "Weijia Zhang, Hao Liu, Jindong Han, Yong Ge, Hui Xiong"
+    },
+    {
+     "title": "MM-SpuBench: Towards Better Understanding of Spurious Biases in Multimodal LLMs",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 0,
+     "doi": "10.1145/3770854.3785678",
+     "authors": "Wenqian Ye, Bohan Liu, Guangtao Zheng, Di Wang, Xu Cao, Yunsheng Ma"
+    },
+    {
+     "title": "BethAgent: A Contract-Governed Multi-Agent Framework for Verified Cytology Super-Resolution with Safe Rollback",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817878",
+     "authors": "Wenzhe Chang, Jun Yin, Peilin Li"
+    },
+    {
+     "title": "REALM-Bench: A Benchmark for Evaluating Multi-Agent Systems on Real-world, Dynamic Planning and Scheduling Tasks",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 1,
+     "doi": "10.1145/3770854.3785692",
+     "authors": "Longling Geng, Edward Y. Chang"
+    },
+    {
+     "title": "EuraGovExam: A Multilingual Multimodal Benchmark from Real-World Civil Service Exams",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817532",
+     "authors": "Jaeseong Kim, Chaehwan Lim, Sang Hyun Gil, Suan Lee"
+    },
+    {
+     "title": "Preference-Optimized Retrieval and Ranking for Efficient Multimodal Recommendation",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 2,
+     "doi": "10.1145/3711896.3737088",
+     "authors": "Zhenrui Yue, Huimin Zeng, Yueqi Wang, Julian McAuley, Dong Wang"
+    },
+    {
+     "title": "CausalMoE: A Billion-Scale Multimodal Foundation Model for Granger Causal Discovery with Pattern-Routed Heterogeneous Experts",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818939",
+     "authors": "Bo Liu, Di Dai, Jingwei Liu, Jiarui Jin, Xiaocheng Fang, Guangkun Nie"
+    },
+    {
+     "title": "Traj-MLLM: Can Multimodal Large Language Models Reform Trajectory Data Mining?",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 0,
+     "doi": "10.1145/3770854.3780225",
+     "authors": "Shuo Liu, Di Yao, Yan Lin, Gao Cong, Jingping Bi"
+    },
+    {
+     "title": "EmergentBridge: Improving Zero-Shot Cross-Modal Transfer in Unified Multimodal Embedding Models",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818172",
+     "authors": "Jincheng Xie, Xingchen Xiao, Runheng Liu, Zhongyi Huang, Yu Zheng, Heyan Huang"
+    },
+    {
+     "title": "BiVCoder: A Multi-Agent Framework for Code Generation via Bidirectional Code-Test Diagnosis",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818107",
+     "authors": "Xiaoyang Li, Jinhao Dong, Wenhang Shi, Wei Lu, Xiaoyong Du"
+    },
+    {
+     "title": "Balanced Multimodal Federated Learning: An Efficient and Noise-Resilient Approach",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817662",
+     "authors": "Yan Zhang, Xiaoye Miao, Yanming Yu, Yongheng Shang"
+    },
+    {
+     "title": "ClinicalAgents: Multi-Agent Orchestration for Clinical Decision Making with Dual-Memory",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818931",
+     "authors": "Zhuohan Ge, Haoyang Li, Yubo Wang, Nicole Hu, Chen Jason Zhang, Qing Li"
+    },
+    {
+     "title": "HiBrain: Hierarchical Prototype Learning on Multimodal Brain Graphs for Stage-Aware Biomarker Discovery",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818900",
+     "authors": "Jing Ren, Kefan Yang, Nguyen Linh Dan Le, Jingjing Zhou, Xikun Zhang, Ziqi Xu"
+    },
+    {
+     "title": "RespMultimodal 2026: Responsible Multimodal Foundation Models for Knowledge Discovery",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818262",
+     "authors": "Seungbae Kim, Jinyoung Han, S. Shyam Sundar, Wei Wang, Haewoon Kwak, Jisun An"
+    },
+    {
+     "title": "MockLLM: A Multi-Agent Behavior Collaboration Framework for Online Job Seeking and Recruiting",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 4,
+     "doi": "10.1145/3711896.3737051",
+     "authors": "Hongda Sun, Hongzhan Lin, Haiyu Yan, Yang Song, Xin Gao, Rui Yan"
+    },
+    {
+     "title": "AgentsKG: A Hierarchical Multi-Agent Framework for Open-Domain Knowledge Graph Construction",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818058",
+     "authors": "Shilong Liu, Yongqiang Liu, Jiye Liu, Xuan Guo, Tianpeng Li, Qiyao Peng"
+    },
+    {
+     "title": "Medusa: Cross-Modal Transferable Adversarial Attacks on Multimodal Medical Retrieval-Augmented Generation",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 1,
+     "doi": "10.1145/3770854.3780277",
+     "authors": "Yingjia Shang, Yi Liu, Huimin Wang, Furong Li, Wenfang Sun, Chengyu Wu"
+    },
+    {
+     "title": "ToolSQL: A Tool-Assisted Agent for SQL Verification and Refinement",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 3,
+     "doi": "10.1145/3711896.3737159",
+     "authors": "Zhongyuan Wang, Richong Zhang, Zhijie Nie, Jaein Kim"
+    },
+    {
+     "title": "SatHealth: A Multimodal Public Health Dataset with Satellite-based Environmental Factors",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 2,
+     "doi": "10.1145/3711896.3737440",
+     "authors": "Yuanlong Wang, Pengqi Wang, Changchang Yin, Ping Zhang"
+    },
+    {
+     "title": "Agent-Diff: Benchmarking LLM Agents on Enterprise API Tasks via Code Execution with State-Diff-Based Evaluation",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817555",
+     "authors": "Hubert M. Pyskło, Artem Zhuravel, Patrick D. Watson"
+    }
+   ]
+  },
+  "on-device inference": {
+   "total": 882,
+   "kept": 66,
+   "papers": [
+    {
+     "title": "Enhancing On-Device LLM Inference with Historical Cloud-Based LLM Interactions",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 19,
+     "doi": "10.1145/3637528.3671679",
+     "authors": "Yucheng Ding, Chaoyue Niu, Fan Wu, Shaojie Tang, Chengfei Lyu, Guihai Chen"
+    },
+    {
+     "title": "Conformal Counterfactual Inference under Hidden Confounding",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 3,
+     "doi": "10.1145/3637528.3671976",
+     "authors": "Zonghao Chen, Ruocheng Guo, Jean-Francois Ton, Yang Liu"
+    },
+    {
+     "title": "ASPIRE",
+     "year": 2022,
+     "venue": "Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 5,
+     "doi": "10.1145/3534678.3539197",
+     "authors": "Abhirup Mondal, Anirban Majumder, Vineet Chaoji"
+    },
+    {
+     "title": "CF-GODE: Continuous-Time Causal Inference for Multi-Agent Dynamical Systems",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 8,
+     "doi": "10.1145/3580305.3599272",
+     "authors": "Song Jiang, Zijie Huang, Xiao Luo, Yizhou Sun"
+    },
+    {
+     "title": "Causal Inference via Style Transfer for Out-of-distribution Generalisation",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 9,
+     "doi": "10.1145/3580305.3599270",
+     "authors": "Toan Nguyen, Kien Do, Duc Thanh Nguyen, Bao Duong, Thin Nguyen"
+    },
+    {
+     "title": "Balancing Approach for Causal Inference at Scale",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 2,
+     "doi": "10.1145/3580305.3599778",
+     "authors": "Sicheng Lin, Meng Xu, Xi Zhang, Shih-Kang Chao, Ying-Kai Huang, Xiaolin Shi"
+    },
+    {
+     "title": "Lookahead: An Inference Acceleration Framework for Large Language Model with Lossless Generation Accuracy",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 12,
+     "doi": "10.1145/3637528.3671614",
+     "authors": "Yao Zhao, Zhitian Xie, Chen Liang, Chenyi Zhuang, Jinjie Gu"
+    },
+    {
+     "title": "Optimizing Traffic Control with Model-Based Learning: A Pessimistic Approach to Data-Efficient Policy Inference",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 5,
+     "doi": "10.1145/3580305.3599459",
+     "authors": "Mayuresh Kunjir, Sanjay Chawla, Siddarth Chandrasekar, Devika Jay, Balaraman Ravindran"
+    },
+    {
+     "title": "Multi-Temporal Relationship Inference in Urban Areas",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 10,
+     "doi": "10.1145/3580305.3599440",
+     "authors": "Shuangli Li, Jingbo Zhou, Ji Liu, Tong Xu, Enhong Chen, Hui Xiong"
+    },
+    {
+     "title": "Inference Optimization of Foundation Models on AI Accelerators",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 11,
+     "doi": "10.1145/3637528.3671465",
+     "authors": "Youngsuk Park, Kailash Budhathoki, Liangfu Chen, Jonas M. Kübler, Jiaji Huang, Matthäus Kleindessner"
+    },
+    {
+     "title": "2nd Workshop on Causal Inference and Machine Learning in Practice",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 1,
+     "doi": "10.1145/3637528.3671483",
+     "authors": "Jeong-Yoon Lee, Yifeng Wu, Totte Harinen, Jing Pan, Paul Lo, Zhenyu Zhao"
+    },
+    {
+     "title": "Ball Trajectory Inference from Multi-Agent Sports Contexts Using Set Transformer and Hierarchical Bi-LSTM",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 14,
+     "doi": "10.1145/3580305.3599779",
+     "authors": "Hyunsung Kim, Han-Jun Choi, Chang Jo Kim, Jinsung Yoon, Sang-Ki Ko"
+    },
+    {
+     "title": "DistPred: A Distribution-Free Probabilistic Inference Method for Regression and Forecasting",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 1,
+     "doi": "10.1145/3690624.3709286",
+     "authors": "Daojun Liang"
+    },
+    {
+     "title": "Preventing Strategic Behaviors in Collaborative Inference for Vertical Federated Learning",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 1,
+     "doi": "10.1145/3637528.3671663",
+     "authors": "Yidan Xing, Zhenzhe Zheng, Fan Wu"
+    },
+    {
+     "title": "Felicitas: Federated Learning in Distributed Cross Device Collaborative Frameworks",
+     "year": 2022,
+     "venue": "Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 6,
+     "doi": "10.1145/3534678.3539039",
+     "authors": "Qi Zhang, Tiancheng Wu, Peichen Zhou, Shan Zhou, Yuan Yang, Xiulang Jin"
+    },
+    {
+     "title": "Constraint-aware and Ranking-distilled Token Pruning for Efficient Transformer Inference",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 13,
+     "doi": "10.1145/3580305.3599284",
+     "authors": "Junyan Li, Li Lyna Zhang, Jiahang Xu, Yujing Wang, Shaoguang Yan, Yunqing Xia"
+    },
+    {
+     "title": "Causal Inference and Machine Learning in Practice: Use Cases for Product, Brand, Policy and Beyond",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 2,
+     "doi": "10.1145/3580305.3599221",
+     "authors": "Jeong-Yoon Lee, Yifeng Wu, Keith Battocchi, Fabio Vera, Zhenyu Zhao, Totte Harinen"
+    },
+    {
+     "title": "Practical Design of Performant Recommender Systems using Large-scale Linear Programming-based Global Inference",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3580305.3599183",
+     "authors": "Aman Gupta, S. Sathiya Keerthi, Ayan Acharya, Miao Cheng, Borja Ocejo Elizondo, Rohan Ramanath"
+    },
+    {
+     "title": "Device-cloud Collaborative Recommendation via Meta Controller",
+     "year": 2022,
+     "venue": "Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 14,
+     "doi": "10.1145/3534678.3539181",
+     "authors": "Jiangchao Yao, Feng Wang, Xichen Ding, Shaohu Chen, Bo Han, Jingren Zhou"
+    },
+    {
+     "title": "H4G: Unlocking Faithful Inference for Zero-Shot Graph Learning in Hyperbolic Space",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817675",
+     "authors": "Heng Zhang, Jin Huang"
+    },
+    {
+     "title": "From Causal Discovery to Dynamic Causal Inference in Neural Time Series",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818956",
+     "authors": "Dmitry Zaytsev, Valentina V. Kuskova, Michael Coppedge"
+    },
+    {
+     "title": "DiffCrime: A Multimodal Conditional Diffusion Model for Crime Risk Map Inference",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 5,
+     "doi": "10.1145/3637528.3671843",
+     "authors": "Shuliang Wang, Xinyu Pan, Sijie Ruan, Haoyu Han, Ziyu Wang, Hanning Yuan"
+    },
+    {
+     "title": "Variational Inference for Training Graph Neural Networks in Low-Data Regime through Joint Structure-Label Estimation",
+     "year": 2022,
+     "venue": "Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 8,
+     "doi": "10.1145/3534678.3539283",
+     "authors": "Danning Lao, Xinyu Yang, Qitian Wu, Junchi Yan"
+    },
+    {
+     "title": "Adaptive Domain Inference Attack with Concept Hierarchy",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 1,
+     "doi": "10.1145/3690624.3709332",
+     "authors": "Yuechun Gu, Jiajie He, Keke Chen"
+    },
+    {
+     "title": "FS-REAL: Towards Real-World Cross-Device Federated Learning",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 31,
+     "doi": "10.1145/3580305.3599829",
+     "authors": "Daoyuan Chen, Dawei Gao, Yuexiang Xie, Xuchen Pan, Zitao Li, Yaliang Li"
+    },
+    {
+     "title": "Estimate Level Adjustment For Inference With Proxies Under Random Distribution Shifts",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818094",
+     "authors": "Steven Wilkins-Reeves, Alexandra N. M. Darmon, Deeksha Sinha"
+    },
+    {
+     "title": "Causal Inference-Based Root Cause Analysis for Online Service Systems with Intervention Recognition",
+     "year": 2022,
+     "venue": "Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 99,
+     "doi": "10.1145/3534678.3539041",
+     "authors": "Mingjie Li, Zeyan Li, Kanglin Yin, Xiaohui Nie, Wenchi Zhang, Kaixin Sui"
+    },
+    {
+     "title": "A Population-to-individual Tuning Framework for Adapting Pretrained LM to On-device User Intent Prediction",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 7,
+     "doi": "10.1145/3637528.3671984",
+     "authors": "Jiahui Gong, Jingtao Ding, Fanjin Meng, Guilong Chen, Hong Chen, Shen Zhao"
+    },
+    {
+     "title": "Habitat Inference from Biodiversity Field Notes",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818941",
+     "authors": "Mahsa Hadikhah Mozhdehi, Steven Schockaert, Sarah E. Perkins, Christopher B. Jones"
+    },
+    {
+     "title": "p-Meta",
+     "year": 2022,
+     "venue": "Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 13,
+     "doi": "10.1145/3534678.3539293",
+     "authors": "Zhongnan Qu, Zimu Zhou, Yongxin Tong, Lothar Thiele"
+    },
+    {
+     "title": "KDD 2025 Workshop on Inference Optimization for Generative AI",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3711896.3737865",
+     "authors": "Panpan Xu, Youngsuk Park, Lin Lee Cheong, Yida Wang, Yiying Zhang, George Karypis"
+    },
+    {
+     "title": "A/B Test and Online Experiment Under Diminishing Marginal Effects: Regret Minimization and Statistical Inference",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3711896.3736826",
+     "authors": "Jingxu Xu, Yuhang Wu, Yingfei Wang, Chu Wang, Zeyu Zheng"
+    },
+    {
+     "title": "IPOC: An Adaptive Interval Prediction Model based on Online Chasing and Conformal Inference for Large-Scale Systems",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 7,
+     "doi": "10.1145/3580305.3599396",
+     "authors": "Jiadong Chen, Yang Luo, Xiuqi Huang, Fuxin Jiang, Yangguang Shi, Tieying Zhang"
+    },
+    {
+     "title": "SAInf: Stay Area Inference of Vehicles using Surveillance Camera Records",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 0,
+     "doi": "10.1145/3580305.3599952",
+     "authors": "Zhipeng Ma, Chuishi Meng, Huimin Ren, Sijie Ruan, Jie Bao, Xiaoting Wang"
+    },
+    {
+     "title": "Diffusion-Based Cloud-Edge-Device Collaborative Learning for Next POI Recommendations",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 30,
+     "doi": "10.1145/3637528.3671743",
+     "authors": "Jing Long, Guanhua Ye, Tong Chen, Yang Wang, Meng Wang, Hongzhi Yin"
+    },
+    {
+     "title": "Prior-Guided Multi-Omic Transformers for Single-Cell Gene Regulatory Network Inference",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818945",
+     "authors": "Tianyang Xu, Tianci Liu, Niraj Rayamajhi, Ryan Patrick, Kranthi Varala, Ying Li"
+    },
+    {
+     "title": "Causal Inference with Latent Variables: Recent Advances and Future Prospectives",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 8,
+     "doi": "10.1145/3637528.3671450",
+     "authors": "Yaochen Zhu, Yinhan He, Jing Ma, Mengxuan Hu, Sheng Li, Jundong Li"
+    },
+    {
+     "title": "NodeBits: A Plug-and-Play Framework for Accelerating Graph Inference by Post-Hoc Binary Quantization",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817681",
+     "authors": "Qihao Cheng, Tianhao Wu, Da Yan, Haoran Tang"
+    },
+    {
+     "title": "On-device Integrated Re-ranking with Heterogeneous Behavior Modeling",
+     "year": 2023,
+     "venue": "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 11,
+     "doi": "10.1145/3580305.3599878",
+     "authors": "Yunjia Xi, Weiwen Liu, Yang Wang, Ruiming Tang, Weinan Zhang, Yue Zhu"
+    },
+    {
+     "title": "HiFGL: A Hierarchical Framework for Cross-silo Cross-device Federated Graph Learning",
+     "year": 2024,
+     "venue": "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 15,
+     "doi": "10.1145/3637528.3671660",
+     "authors": "Zhuoning Guo, Duanyi Yao, Qiang Yang, Hao Liu"
+    },
+    {
+     "title": "3rd Workshop on Causal Inference and Machine Learning in Practice",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3711896.3737858",
+     "authors": "Jeong-Yoon Lee, Jing Pan, Yifeng Wu, Totte Harinen, Paul Lo, Zhenyu Zhao"
+    },
+    {
+     "title": "On-Device Learning for Model Personalization with Large-Scale Cloud-Coordinated Domain Adaption",
+     "year": 2022,
+     "venue": "Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 22,
+     "doi": "10.1145/3534678.3539263",
+     "authors": "Yikai Yan, Chaoyue Niu, Renjie Gu, Fan Wu, Shaojie Tang, Lifeng Hua"
+    },
+    {
+     "title": "<scp>ActivationBackdoor:</scp>\n                    Backdooring Large Language Models in Collaborative Inference via Intermediate Activations",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818136",
+     "authors": "Zichun Su, Mi Zhang, Xiaohan Zhang, Geng Hong, Xiaoyu You, Min Yang"
+    },
+    {
+     "title": "Breaking the Bottleneck: User-Specific Optimization and Real-Time Inference Integration for Sequential Recommendation",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 3,
+     "doi": "10.1145/3711896.3736865",
+     "authors": "Wenjia Xie, Hao Wang, Minghao Fang, Ruize Yu, Wei Guo, Yong Liu"
+    },
+    {
+     "title": "Lethe: Plasticity-aware Active Forgetting for Resource-Efficient On-Device Continual Learning",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817621",
+     "authors": "Haibo Liu, Chenxin Mao, Zhenzhe Zheng, Fan Wu, Guihai Chen, He Huang"
+    },
+    {
+     "title": "Fine-Grained Traffic Inference from Road to Lane via Spatio-Temporal Graph Node Generation",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 2,
+     "doi": "10.1145/3711896.3736961",
+     "authors": "Shuhao Li, Weidong Yang, Yue Cui, Xiaoxing Liu, Lingkai Meng, Lipeng Ma"
+    },
+    {
+     "title": "EARN: Efficient Inference Acceleration for LLM-based Generative Recommendation by Register Tokens",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 5,
+     "doi": "10.1145/3711896.3736919",
+     "authors": "Chaoqun Yang, Xinyu Lin, Wenjie Wang, Yongqi Li, Teng Sun, Xianjing Han"
+    },
+    {
+     "title": "APAO: Bridging the Training-Inference Gap in Generative Recommendation via Adaptive Prefix-Aware Optimization",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818052",
+     "authors": "Yuanqing Yu, Yifan Wang, Weizhi Ma, Zhiqiang Guo, Min Zhang"
+    },
+    {
+     "title": "C\n                    <sup>2</sup>\n                    KV: Compressed and Composable KV Cache Reuse for Efficient LLM Inference",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817715",
+     "authors": "Chuheng Du, Junyi Chen, Hanlin Tang, Kan Liu, Tao Lan, Lin Qu"
+    },
+    {
+     "title": "PathCRF: Ball-Free Soccer Event Detection via Possession Path Inference from Player Trajectories",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818152",
+     "authors": "Hyunsung Kim, Kunhee Lee, Sangwoo Seo, Sang-Ki Ko, Jinsung Yoon, Chanyoung Park"
+    },
+    {
+     "title": "How Much Reasoning Do Retrieval-Augmented Models Add beyond LLMs? A Benchmarking Framework for Multi-Hop Inference over Hybrid Knowledge",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817481",
+     "authors": "Junhong Lin, Bing Zhang, Song Wang, Ziyan Liu, Dan Gutfreund, Julian Shun"
+    },
+    {
+     "title": "Learn to Coordinate City-Scale Virtual Power Plants: A Reasoning-Guided Evolutionary Framework for Hierarchical Heterogeneous Device Scheduling",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3818440",
+     "authors": "Jinwei Zeng, Guozhen Zhang, Minbo Ma, Hongyuan Su, Yu Zheng, Jian Yuan"
+    },
+    {
+     "title": "Learned Lossless Image Compression with Interleaved Parallel Inference and Irregular Causal Reasoning",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817757",
+     "authors": "Lingdu Kong, Xiaochun Yang, Shuo Li, Tieying Li, Bin Wang, Chunhui Shen"
+    },
+    {
+     "title": "InfRL: Inference-time Reinforcement Learning for Research Idea Optimization",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3819029",
+     "authors": "Sikun Guo, Amir Hassan Shariatmadari, Jiuqi Wang, Albert Huang, Stefan Bekiranov, Shangtong Zhang"
+    },
+    {
+     "title": "Debiasing Learning for Membership Inference Attacks Against Recommender Systems",
+     "year": 2022,
+     "venue": "Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+     "citationCount": 27,
+     "doi": "10.1145/3534678.3539392",
+     "authors": "Zihan Wang, Na Huang, Fei Sun, Pengjie Ren, Zhumin Chen, Hengliang Luo"
+    },
+    {
+     "title": "Exploiting Student Parallelism for Low-latency GPU Inference of BERT-like Models in Online Services",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 1,
+     "doi": "10.1145/3711896.3736949",
+     "authors": "Weiyan Wang, Yilun Jin, Yiming Zhang, Victor Junqiu Wei, Han Tian, Li Chen"
+    },
+    {
+     "title": "Controlling Diversity at Inference: Guiding Diffusion Recommender Models with Targeted Category Preferences",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 0,
+     "doi": "10.1145/3690624.3709216",
+     "authors": "Gwangseok Han, Wonbin Kweon, Minsoo Kim, Hwanjo Yu"
+    },
+    {
+     "title": "SciHorizon-Gene: Benchmarking LLM for Life Sciences Inference from Gene Knowledge to Functional Understanding",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 1,
+     "doi": "10.1145/3770855.3817489",
+     "authors": "Xiaohan Huang, Meng Xiao, Chuan Qin, Qingqing Long, Jinmiao Chen, Yuanchun Zhou"
+    },
+    {
+     "title": "LLM4HAR: Generalizable On-device Human Activity Recognition with Pretrained LLMs",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 11,
+     "doi": "10.1145/3711896.3737226",
+     "authors": "Zhiqing Hong, Yiwei Song, Zelong Li, Anlan Yu, Shuxin Zhong, Yi Ding"
+    },
+    {
+     "title": "From Outcomes to Mechanisms: A Benchmark for Diagnosing LLM's Mechanism Hallucination on Data Inference Externalities",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817513",
+     "authors": "Xuanyi Li, Ankun Feng, Nianze Jing, Zeyan Li, Yaxin Li, Keman Huang"
+    },
+    {
+     "title": "LSRP: A Leader-Subordinate Retrieval Framework for Privacy-Preserving Cloud-Device Collaboration",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 4,
+     "doi": "10.1145/3711896.3737036",
+     "authors": "Yingyi Zhang, Pengyue Jia, Xianneng Li, Derong Xu, Maolin Wang, Yichao Wang"
+    },
+    {
+     "title": "Directional Time Series Editing via Retrieval-Guided Jacobian-Vector Inference",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817865",
+     "authors": "Yifan Bao, Yihao Ang, Qiang Huang, Anthony K. H. Tung, Zhiyong Huang"
+    },
+    {
+     "title": "Forward Once for All: Structural Parameterized Adaptation for Efficient Cloud-coordinated On-device Recommendation",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 4,
+     "doi": "10.1145/3690624.3709178",
+     "authors": "Kairui Fu, Zheqi Lv, Shengyu Zhang, Fan Wu, Kun Kuang"
+    },
+    {
+     "title": "Text-Twin-Translation (T\n                    <sup>3</sup>\n                    ): A Full-Stack Machine Learning Framework for Functional Material-Device Systems Discovery",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3819013",
+     "authors": "Rui Ding, Zixin Ding, Rodrigo Pires Ferreira, Yuxin Chen, Junhong Chen"
+    },
+    {
+     "title": "Accelerating Graph-Based RAG Retrieval via Locality-Aware Device-Cloud Collaboration",
+     "year": 2026,
+     "venue": "Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2",
+     "citationCount": 0,
+     "doi": "10.1145/3770855.3817674",
+     "authors": "Yongheng Deng, Tianyuan Jiang, Zhenya Ma, Hao Wu, Yongjian Fu, Hao Pan"
+    },
+    {
+     "title": "Collaboration of Large Language Models and Small Recommendation Models for Device-Cloud Recommendation",
+     "year": 2025,
+     "venue": "Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.1",
+     "citationCount": 10,
+     "doi": "10.1145/3690624.3709335",
+     "authors": "Zheqi Lv, Tianyu Zhan, Wenjie Wang, Xinyu Lin, Shengyu Zhang, Wenqiao Zhang"
+    }
+   ]
+  }
+ }
+}

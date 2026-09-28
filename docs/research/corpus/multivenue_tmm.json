@@ -1,0 +1,2637 @@
+{
+ "venue": "TMM",
+ "category": "multimedia",
+ "canonical_venue_string": "IEEE transactions on multimedia",
+ "wave": "B",
+ "generated_at": "2026-09-29 01:11:13",
+ "topics": [
+  "multimodal agent",
+  "audio language model",
+  "sound event detection",
+  "neural codec",
+  "on-device inference"
+ ],
+ "request_budget": {
+  "successful": 66,
+  "limit": 300,
+  "attempts": 5
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "multimodal agent": {
+   "total": 9486,
+   "kept": 95,
+   "papers": [
+    {
+     "title": "Dynamically Shifting Multimodal Representations via Hybrid-Modal Attention for Multimodal Sentiment Analysis",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 48,
+     "doi": "10.1109/tmm.2023.3303711",
+     "authors": "Ronghao Lin, Haifeng Hu"
+    },
+    {
+     "title": "Multimodal Information Bottleneck: Learning Minimal Sufficient Unimodal and Multimodal Representations",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 162,
+     "doi": "10.1109/tmm.2022.3171679",
+     "authors": "Sijie Mai, Ying Zeng, Haifeng Hu"
+    },
+    {
+     "title": "Multimodal Classification and Out-of-Distribution Detection for Multimodal Intent Understanding",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 8,
+     "doi": "10.1109/tmm.2025.3618541",
+     "authors": "Hanlei Zhang, Qianrui Zhou, Hua Xu, Jianhua Su, Roberto Evans, Kai Gao"
+    },
+    {
+     "title": "UniMF: A Unified Multimodal Framework for Multimodal Sentiment Analysis in Missing Modalities and Unaligned Multimodal Sequences",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 47,
+     "doi": "10.1109/tmm.2023.3338769",
+     "authors": "Ruohong Huan, Guowei Zhong, Peng Chen, Ronghua Liang"
+    },
+    {
+     "title": "Det-Agent: Open-Vocabulary Object Localization and Detection With Reinforcement Learning Agent",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3668516",
+     "authors": "Ruisong Zhang, Xin-Jian Wu, Chuang Wang, Cheng-Lin Liu"
+    },
+    {
+     "title": "EMERSK -Explainable Multimodal Emotion Recognition With Situational Knowledge",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 26,
+     "doi": "10.1109/tmm.2023.3304015",
+     "authors": "Mijanur Palash, Bharat Bhargava"
+    },
+    {
+     "title": "FAME: Mask-Guided Multimodal Fashion Attribute Editing",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3735627",
+     "authors": "Shumin Zhu, Xingxing Zou, Waikeung Wong"
+    },
+    {
+     "title": "MAOSTE: Multimodal Aspect-Object-Sentiment Triples Extraction",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3687735",
+     "authors": "Haomei Jia, Wenfeng Huang, Qi Chen, Minglu Zhao"
+    },
+    {
+     "title": "Improving Generative Modelling in VAEs Using Multimodal Prior",
+     "year": 2021,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 12,
+     "doi": "10.1109/tmm.2020.3008053",
+     "authors": "Vinayak Abrol, Pulkit Sharma, Arijit Patra"
+    },
+    {
+     "title": "Exposing and Resolving Spurious Isolation in Federated Multimodal Continual Learning",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3736516",
+     "authors": "Beining Wu, Zihao Ding, Jun Huang"
+    },
+    {
+     "title": "Hierarchical Structure Consistency Learning for Multimodal Emotion Recognition",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3694526",
+     "authors": "Boan Yang, Qinghongya Shi, Xiaofen Zong, Mang Ye"
+    },
+    {
+     "title": "Dual-Branch Multimodal Graph Learning for Contextual Semantic Enhanced Video Captioning",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3696136",
+     "authors": "Benhui Zhang, Junyu Gao, Yuan Yuan"
+    },
+    {
+     "title": "Distill-to-Fuse: A Text-Guided Knowledge Transfer Network for Multimodal Sentiment Detection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3712636",
+     "authors": "Yujie Shen, Bin Song"
+    },
+    {
+     "title": "Hierarchical Refinement of Universal Multimodal Attacks on Vision-Language Models",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3733500",
+     "authors": "Peng-Fei Zhang, Guangdong Bai, Zi Huang"
+    },
+    {
+     "title": "An Ordinal Learning Framework with Sentiment Decouple for Multimodal Sentiment Analysis",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3687019",
+     "authors": "Sijie Mai, Ronghao Lin, Haifeng Hu"
+    },
+    {
+     "title": "Multimodal Point Cloud Semantic Segmentation With Virtual Point Enhancement",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3734710",
+     "authors": "Zaipeng Duan, Xuzhong Hu, Pei An, Jie Ma"
+    },
+    {
+     "title": "MAVEN: A Memory Augmented Recurrent Approach for Multimodal Fusion",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 16,
+     "doi": "10.1109/tmm.2022.3164261",
+     "authors": "Md Mofijul Islam, Mohammad Samin Yasar, Tariq Iqbal"
+    },
+    {
+     "title": "Building Multimodal Knowledge Bases With Multimodal Computational Sequences and Generative Adversarial Networks",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 21,
+     "doi": "10.1109/tmm.2023.3291503",
+     "authors": "Donghua Chen, Runtong Zhang"
+    },
+    {
+     "title": "Dual-View Self-Supervised Multimodal Recommendation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3734782",
+     "authors": "Yiming Zhao, Jianhou Gan, Mingjie Wang, Juxiang Zhou, Wenqi Ren, Jiatian Mei"
+    },
+    {
+     "title": "Tuned Reverse Distillation: Enhancing Multimodal Industrial Anomaly Detection with Crossmodal Tuners",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3729129",
+     "authors": "Xinyue Liu, Jianyuan Wang, Biao Leng, Shuo Zhang"
+    },
+    {
+     "title": "MoPE: Mixture of Prompt Experts for Parameter-Efficient and Scalable Multimodal Fusion",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3700783",
+     "authors": "Ruixiang Jiang, Lingbo Liu, Chang Wen Chen"
+    },
+    {
+     "title": "VAMER: Visual-Anchored Multimodal Evidence Reasoning for Knowledge-based VQA",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3717466",
+     "authors": "Jiuxiang You, Zhenguo Yang, Xiaoping Li, Qing Li, Yi Yu"
+    },
+    {
+     "title": "Complementarity and Adaptive Fusion for Robust Multimodal Sentiment Analysis",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3714315",
+     "authors": "Aoqiang Zhu, Min Hu, Yan Xing, Jiaoyun Yang, Fuji Ren"
+    },
+    {
+     "title": "Multi-QuAD: Multi-Level Quality-Adaptive Dynamic Network for Reliable Multimodal Classification",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3701530",
+     "authors": "Shu Shen, C. L. Philip Chen, Tong Zhang"
+    },
+    {
+     "title": "CRNet: Context-Guided Recovering Network for Incomplete Multimodal Emotion Recognition in Conversation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3699029",
+     "authors": "Yijing Dai, Yingjian Li, Jinxing Li, Guangming Lu"
+    },
+    {
+     "title": "Fact-Sentiment Dual Uncertainty Framework for Multimodal Fake News Detection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3713781",
+     "authors": "Qiang Lu, Zhenfang Zhu, Yunfei Long, Hongli Pei, Dawei Zhao"
+    },
+    {
+     "title": "Multimodal Reasoning with LLM for Encrypted Traffic Interpretation: A Benchmark",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3730256",
+     "authors": "Longgang Zhang, Chenxu Zhang, Xiaowei Fu, Fuxiang Huang, Lei Zhang"
+    },
+    {
+     "title": "IGDMRec: Behavior Conditioned Item Graph Diffusion for Multimodal Recommendation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3679053",
+     "authors": "Ziyuan Guo, Jie Guo, Zhenghao Chen, Bin Song, Fei Richard Yu"
+    },
+    {
+     "title": "Can Multimodal Large Language Models Understand Graphic Design? A Comparative Study",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3684992",
+     "authors": "Jieru Lin, Danqing Huang, Tiejun Zhao, Dechen Zhan, Chin-Yew Lin"
+    },
+    {
+     "title": "FC-Det: Fine-grained Collaborative Detection Network for Multimodal Fake News Detection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3727169",
+     "authors": "Penghang Yu, Zhiyi Tan, Shengsheng Qian, Bing-Kun Bao"
+    },
+    {
+     "title": "Exploring Transferability of Multimodal Adversarial Samples for Vision-Language Pre-Training Models With Contrastive Learning",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 7,
+     "doi": "10.1109/tmm.2025.3581811",
+     "authors": "Youze Wang, Wenbo Hu, Yinpeng Dong, Hanwang Zhang, Hang Su, Richang Hong"
+    },
+    {
+     "title": "Families in Wild Multimedia: A Multimodal Database for Recognizing Kinship",
+     "year": 2022,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 17,
+     "doi": "10.1109/tmm.2021.3103074",
+     "authors": "Joseph P. Robinson, Zaid Khan, Yu Yin, Ming Shao, Yun Fu"
+    },
+    {
+     "title": "Video-Harmonizer: A Fast-Learning UHD Video Tokenizer for Multimodal LLMs",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3733826",
+     "authors": "Amin Amiri, Jingwei Zhong, Nafiseh Ghaffar Nia, Dalei Wu, Y. Liang"
+    },
+    {
+     "title": "Plug-and-Adapt: Multimodal Coreference Resolution at First Sight with a Pretrained Alignment Model",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3719817",
+     "authors": "Jinghan Wu, Jing Li, Ivor W. Tsang, Xuetao Zhang"
+    },
+    {
+     "title": "Cognitive Mechanism of Multimodal Social Media Popularity: A Social Simulator Approach",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3727176",
+     "authors": "Xiaowen Wang, Lanjun Wang, Hongshuo Tian, Mohan Kankanhalli, An-An Liu"
+    },
+    {
+     "title": "Modality-Incomplete Multimodal Federated Recommendation with Bidirectional Modality Reconstruction",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3689434",
+     "authors": "Shanfeng Wang, Lanyu Yao, Shanyang Gao, Zhao Wang, Ke Pan, Yu Zhou"
+    },
+    {
+     "title": "Multi-Agent Trajectory Prediction With Spatio-Temporal Sequence Fusion",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 32,
+     "doi": "10.1109/tmm.2021.3120535",
+     "authors": "Yu Wang, Shiwei Chen"
+    },
+    {
+     "title": "Multimodal Pre-Training Based on Graph Attention Network for Document Understanding",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 41,
+     "doi": "10.1109/tmm.2022.3214102",
+     "authors": "Zhenrong Zhang, Jiefeng Ma, Jun Du, Licheng Wang, Jianshu Zhang"
+    },
+    {
+     "title": "Efficient Composition of Modal Experts for Versatile Multimodal Large Language Models",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3695784",
+     "authors": "Tongtian Yue, Longteng Guo, Xuange Gao, Zijia Zhao, Hua Huang, Jing Liu"
+    },
+    {
+     "title": "Multimodal Marketing Intent Analysis for Effective Targeted Advertising",
+     "year": 2022,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 53,
+     "doi": "10.1109/tmm.2021.3073267",
+     "authors": "Lu Zhang, Jialie Shen, Jian Zhang, Jingsong Xu, Zhibin Li, Yazhou Yao"
+    },
+    {
+     "title": "Lightweight UAV Multimodal Detection via Feature Sensing and Dual-Domain Augmentation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3721323",
+     "authors": "Ying Yang, Bin Hu, Entong Zhu, Jieyang Zhou, Kehua Guo, Xiaokang Zhou"
+    },
+    {
+     "title": "Towards Discriminative Multimodal Entity Linking for Ambiguous Entities via Hard Negative Clustering",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3733559",
+     "authors": "Yitong Zhang, Xiu Tang, Sai Wu, Qirui Yang, Chang Yao, Gang Chen"
+    },
+    {
+     "title": "Micro-Video Popularity Prediction Via Multimodal Variational Information Bottleneck",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 40,
+     "doi": "10.1109/tmm.2021.3120537",
+     "authors": "Jiayi Xie, Yaochen Zhu, Zhenzhong Chen"
+    },
+    {
+     "title": "From Generator to Embedder: Harnessing Innate Abilities of Multimodal LLMs Via Building Zero-Shot Discriminative Embedding Model",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3733553",
+     "authors": "Yeong-Joon Ju, Seong-Whan Lee"
+    },
+    {
+     "title": "Cognidrive: Cognitive Autonomous Driving Understanding With Multistep Multimodal Chain-of-Thought Reasoning",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3694525",
+     "authors": "Xiangyi Qin, Xiaofei Zhang, Shuai Wang, Yuzhen Wei, Jinping Wang, Xiaojun Tan"
+    },
+    {
+     "title": "Disentangled Graph Variational Auto-Encoder for Multimodal Recommendation With Interpretability",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 49,
+     "doi": "10.1109/tmm.2024.3369875",
+     "authors": "Xin Zhou, Chunyan Miao"
+    },
+    {
+     "title": "Multimodal Industrial Anomaly Detection via Attention-Enhanced Memory-Guided Network",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1109/tmm.2025.3632646",
+     "authors": "Shuaibo Liu, Xiaoli Luan, Yueyang Li"
+    },
+    {
+     "title": "Uncertainty-Aware Audio-Visual Segmentation With Dynamic Fusion for Multimodal Alignment",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1109/tmm.2026.3651123",
+     "authors": "Ying Lv, Zhi Liu, Xiaojun Chang"
+    },
+    {
+     "title": "Reinforced Context Augmentation for Multimodal Emotion Analysis",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3673543",
+     "authors": "Ruyi Gan, Yuanhe Tian, Kunhao Pan, Yan Song, Yongdong Zhang"
+    },
+    {
+     "title": "GLP-fusion: A Hierarchical Multimodal Fusion Framework for Robust Student Engagement Prediction",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3685539",
+     "authors": "Zixuan Qin, Shuanghong Shen, Dengdi Sun, Keyu Zhu, Zhenya Huang, Qi Liu"
+    },
+    {
+     "title": "A 3D Self-Awareness Diffusion Network for Multimodal Classification",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1109/tmm.2025.3535295",
+     "authors": "Mengru Ma, Wenping Ma, Licheng Jiao, Lingling Li, Xu Liu, Fang Liu"
+    },
+    {
+     "title": "Unified Multimodal Learning with Synthetic Supervision and Gradient Perception for Image Change Captioning",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3730248",
+     "authors": "Jinhong Hu, Xiaofei Huo, Shuyin Huang, Xiaoping Wang, Guojin Zhong, Kai Lu"
+    },
+    {
+     "title": "Task-Aware Multimodal Large Language Models for Distributed Acoustic Sensing–Based Seismic Monitoring",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3705143",
+     "authors": "Honglin Guo, Zimeng Zhao, Chao Li, Yuting Su, Huayong Yang, Weizhi Nie"
+    },
+    {
+     "title": "Multimodal Enhancement and Transformation Alignment of Spatial, Visual, and Semantic Cues for 3D Pose Estimation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3735630",
+     "authors": "Wei Xu, Tengfei Li, Bo Hu, Bo Liu, Tingrui Pan, Kang Li"
+    },
+    {
+     "title": "PMPSR: Towards Real-World Image Super-Resolution with Pre-trained Multimodal Large Language Model Priors",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3687005",
+     "authors": "Detian Huang, Miaohua Ruan, Luanyuan Dai, Yaohui Guo, Zhenzhen Hu, Huanqiang Zeng"
+    },
+    {
+     "title": "Multimodal Reflective Synergy: Orchestrating Large-Small Model Collaboration for Knowledge-Based Visual Question Answering",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3731047",
+     "authors": "Zhongfan Sun, Kan Guo, Yongli Hu, Jiapu Wang, Daxin Tian, Baocai Yin"
+    },
+    {
+     "title": "A Hypergraph Based Contextual Relationship Modeling Method for Multimodal Emotion Recognition in Conversation",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 8,
+     "doi": "10.1109/tmm.2024.3521738",
+     "authors": "Nannan Lu, Zhiyuan Han, Zhen Tan"
+    },
+    {
+     "title": "Reinforcement and Complementary Space Search for Multimodal Black-Box Attack",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3664994",
+     "authors": "Jiaxu Li, Boyuan Zhang, Yucheng Shi, Yahong Han"
+    },
+    {
+     "title": "HonorDrive: A Multimodal Large Language Model for Autonomous Driving in Rainy Driving Conditions",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3712629",
+     "authors": "Yan Luo, Zhao Zhang, Zeyu Xiao, Jinbiao Zhao, Yang Zhao, Wei Jia"
+    },
+    {
+     "title": "Multimodal Hierarchical Graph Contrastive Learning With Diffusion-Enhanced for Multimedia-Based Recommendation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3700771",
+     "authors": "Xian Mo, Jun Pang, Haihua Zhao, Guanghua Ding, Rui Tang, Jintao Gao"
+    },
+    {
+     "title": "Multimodal Boosting: Addressing Noisy Modalities and Identifying Modality Contribution",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 23,
+     "doi": "10.1109/tmm.2023.3306489",
+     "authors": "Sijie Mai, Ya Sun, Aolin Xiong, Ying Zeng, Haifeng Hu"
+    },
+    {
+     "title": "Enhancing Weakly Supervised Multimodal Video Anomaly Detection Through Text Guidance",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1109/tmm.2026.3668927",
+     "authors": "Shengyang Sun, Jiashen Hua, Junyi Feng, Xiaojin Gong"
+    },
+    {
+     "title": "SAMA: Semantic Anchor-aligned Augmentation for Unified Low-Resource Multimodal Information Extraction",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3716760",
+     "authors": "Quanjiang Guo, Chong Mu, Jiazhou Pan, Ming Jia, Ling Tian, Hui Gao"
+    },
+    {
+     "title": "An EEG-Based Multimodal Sleep Modulation Approach Using Combined Non-invasive Electrical and Acoustic Stimulation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3726318",
+     "authors": "Yajun Lou, Ke Yang, Lu Zhou, Zhichao Shan, Yuheng Zhang, Zhiyu Qian"
+    },
+    {
+     "title": "Towards Heterogeneous Multimodal Sentiment Analysis with ASR Errors via Multi-Granularity Contrastive Coordination",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3702501",
+     "authors": "Qi Shen, Junchang Xin, Bing Tian Dai, Zhongming Yao, Xinyao Liu, Zhihong Huang"
+    },
+    {
+     "title": "Real-Time Prediction of Player Engagement From Multimodal Data",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3673558",
+     "authors": "Ammar Rashed, Shervin Shirmohammadi, Ihab Amer, Mohamed Hefeeda"
+    },
+    {
+     "title": "E2M-Fusion: An End-to-end Multi-level Model for Multimodal Image Fusion with Missing Data",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3701558",
+     "authors": "Yuqiao Zeng, Tengfei Liang, Shiqi Wang, Yidong Li, Yi Jin, Qiuqi Ruan"
+    },
+    {
+     "title": "Multimodal Diffusion Transformer with Memory Bank for Scalable Long-Duration Talking Video Generation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3723608",
+     "authors": "Haojie Zhang, Zhihao Liang, Ruibo Fu, Bingyan Liu, Zhengqi Wen, Xuefei Liu"
+    },
+    {
+     "title": "SMART: Shot-Aware Multimodal Video Moment Retrieval with Audio-Enhanced MLLM",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3723610",
+     "authors": "An Yu, Weiheng Lu, Jian Li, Zhenfei Zhang, Yunhang Shen, Felix X.-F. Ye"
+    },
+    {
+     "title": "Modeling Both Intra- and Inter-Modality Uncertainty for Multimodal Fake News Detection",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 24,
+     "doi": "10.1109/tmm.2022.3229966",
+     "authors": "Lingwei Wei, Dou Hu, Wei Zhou, Songlin Hu"
+    },
+    {
+     "title": "Revealing the Logic Behind the Black Box: A Benchmark Dataset for Explainable Multimodal Metaphor Detection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3668674",
+     "authors": "Qingbao Huang, Zhilong Zheng, Yixin Qian, Cheng Yang, Pijian Li, Xingmao Zhang"
+    },
+    {
+     "title": "REFD: Relation-aware Entity Feature Decoupling for Multimodal Knowledge Graph Completion",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3722103",
+     "authors": "Linjia Hao, Yongli Hu, Tong Bie, Huajie Jiang, Kan Guo, Tengfei Liu"
+    },
+    {
+     "title": "BezierSurv: Bezier-Based Distribution Representation and Multimodal Self-Paced Learning for Survival Analysis",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3718266",
+     "authors": "Lingzhi Tang, Haibo Shao, Zitian Zhang, Jinzhu Yang, Yong Feng, Qisen Wang"
+    },
+    {
+     "title": "Multimodal Large Language Models Assisted Hierarchical Image-Caption Fusion for Remote Sensing Image-Text Retrieval",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3675936",
+     "authors": "Teng Wang, Ruize Wang, Lingquan Meng, Changyin Sun"
+    },
+    {
+     "title": "Deep Auto-Encoders With Sequential Learning for Multimodal Dimensional Emotion Recognition",
+     "year": 2022,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 51,
+     "doi": "10.1109/tmm.2021.3063612",
+     "authors": "Dung Nguyen, Duc Thanh Nguyen, Rui Zeng, Thanh Thi Nguyen, Son N. Tran, Thin Nguyen"
+    },
+    {
+     "title": "Deep Multimodal Sequence Fusion by Regularized Expressive Representation Distillation",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 18,
+     "doi": "10.1109/tmm.2022.3142448",
+     "authors": "Xiaobao Guo, Adams Wai-Kin Kong, Alex Kot"
+    },
+    {
+     "title": "GFTLS-SLT: Gloss-Free Transformer Based Lexical and Semantic Awareness Framework for Multimodal Sign Language Translation",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1109/tmm.2025.3542990",
+     "authors": "Jiangtao Zhang, Qingshan Wang, Qi Wang"
+    },
+    {
+     "title": "Noise Imitation Based Adversarial Training for Robust Multimodal Sentiment Analysis",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 72,
+     "doi": "10.1109/tmm.2023.3267882",
+     "authors": "Ziqi Yuan, Yihe Liu, Hua Xu, Kai Gao"
+    },
+    {
+     "title": "MHPF-HSI: A Multimodal Framework for Hepatocellular Carcinoma Prognosis Prediction Integrating Microscopic Hyperspectral Imaging",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1109/tmm.2026.3680638",
+     "authors": "Boyuan Zhang, Song Qiu, Liang Xu, Xia Sheng, Qiongzhu Dong, Yan Wang"
+    },
+    {
+     "title": "Hyper-modal Imputation Diffusion Embedding with Dual-Distillation for Federated Multimodal Knowledge Graph Completion",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3705201",
+     "authors": "Ying Zhang, Yu Zhao, Xuhui Sui, Baohang Zhou, Xiangrui Cai, Li Shen"
+    },
+    {
+     "title": "Pace-Adaptive and Noise-Resistant Contrastive Learning for Multimodal Feature Fusion",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 15,
+     "doi": "10.1109/tmm.2023.3252270",
+     "authors": "Xiaobao Guo, Alex Kot, Adams Wai-Kin Kong"
+    },
+    {
+     "title": "Multimodal Core Tensor Factorization and its Applications to Low-Rank Tensor Completion",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 23,
+     "doi": "10.1109/tmm.2022.3216746",
+     "authors": "Haijin Zeng, Jize Xue, Hiêp Q. Luong, Wilfried Philips"
+    },
+    {
+     "title": "Mixture-of-Experts Multi-View Large Vision-Language Models for Multimodal Fake News Detection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1109/tmm.2026.3695787",
+     "authors": "Guofan Liu, Yannan Sun, Qiang Liu, Xiaolong Zhang, Zhe Zhao, Junfei Wu"
+    },
+    {
+     "title": "CoTrans: A Unified Framework for Enhancing Sparse-Agent Collaborative Perception",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1109/tmm.2026.3719166",
+     "authors": "Quanmin Wei, Penglin Dai, Ke Li, Wei Li, Xiao Wu, Zhaofei Yu"
+    },
+    {
+     "title": "ROSA: A Robust Self-Adaptive Model for Multimodal Emotion Recognition With Uncertain Missing Modalities",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 6,
+     "doi": "10.1109/tmm.2025.3590929",
+     "authors": "Ziming Li, Yaxin Liu, Chuanpeng Yang, Yan Zhou, Songlin Hu"
+    },
+    {
+     "title": "Category-Aware Multimodal Attention Network for Fashion Compatibility Modeling",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 27,
+     "doi": "10.1109/tmm.2023.3246796",
+     "authors": "Peiguang Jing, Kai Cui, Weili Guan, Liqiang Nie, Yuting Su"
+    },
+    {
+     "title": "ASR-Enhanced Multimodal Representation Learning for Cross-Domain Product Retrieval",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3651039",
+     "authors": "Ruixiang Zhao, Jian Jia, Yan Li, Xuehan Bai, Quan Chen, Han Li"
+    },
+    {
+     "title": "Heterogeneous Multimodal Federated Learning With Missing Modality via Mask-Restoration and Self-Guidance",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1109/tmm.2026.3654379",
+     "authors": "Zhibo Cao, Kuangrong Hao, Lingguang Hao, Bing Wei, Lihong Ren"
+    },
+    {
+     "title": "IMMPOI: An Interest-Aware Multimodal Adaptive Fusion Framework for POI Recommendations",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3651120",
+     "authors": "Zunlong Liu, Yang Xu, Lei Zhu, Jingwei Ma, Jingjing Li"
+    },
+    {
+     "title": "Hierarchy-Aware Multimodal Distillation for Recommendation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3651049",
+     "authors": "Meng Jian, Tuo Wang, Meijuan Yang, Lifang Wu"
+    },
+    {
+     "title": "RumorSphere: A Framework for Million-scale Agent-based Dynamic Simulation of Rumor Propagation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1109/tmm.2026.3733021",
+     "authors": "Yijun Liu, Wu Liu, Xiaoyan Gu, Hantao Yao, Jiebo Luo, Yongdong Zhang"
+    },
+    {
+     "title": "Forbid Your Attention: Fooling Multimodal Large Language Models by Selectively Removing Intrinsic Focus in Spectral Domain",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3730275",
+     "authors": "Daizong Liu, Junhao Dong, Zhiyuan Ma, Xiaoye Qu, Xiang Fang, Runwei Guan"
+    },
+    {
+     "title": "Isotropic Self-Supervised Learning for Driver Drowsiness Detection With Attention-Based Multimodal Fusion",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 47,
+     "doi": "10.1109/tmm.2021.3128738",
+     "authors": "Luntian Mou, Chao Zhou, Pengtao Xie, Pengfei Zhao, Ramesh Jain, Wen Gao"
+    },
+    {
+     "title": "Adapting Multimodal Large Language Models for Video Question Answering by Capturing Question-Critical and Coherent Moments",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1109/tmm.2025.3607780",
+     "authors": "Haibo Wang, Chenghang Lai, Weifeng Ge"
+    },
+    {
+     "title": "ConGMC: Consistency-Guided Multimodal Clustering via Mutual Information Maximin",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 6,
+     "doi": "10.1109/tmm.2023.3330093",
+     "authors": "Yiqiao Mao, Xiaoqiang Yan, Jiaming Liu, Yangdong Ye"
+    }
+   ]
+  },
+  "audio language model": {
+   "total": 41243,
+   "kept": 45,
+   "papers": [
+    {
+     "title": "LSA: Language as Semantic Anchors for Audio-Visual Event Localization",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3724726",
+     "authors": "Yiwei Huang, Yue Ming"
+    },
+    {
+     "title": "AKVSR: Audio Knowledge Empowered Visual Speech Recognition by Compressing Audio Knowledge of a Pretrained Model",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 19,
+     "doi": "10.1109/tmm.2024.3352388",
+     "authors": "Jeong Hun Yeo, Minsu Kim, Jeongsoo Choi, Dae Hoe Kim, Yong Man Ro"
+    },
+    {
+     "title": "Unified Audio-Visual Saliency Model for Omnidirectional Videos With Spatial Audio",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 15,
+     "doi": "10.1109/tmm.2023.3271022",
+     "authors": "Dandan Zhu, Kaiwei Zhang, Nana Zhang, Qiangqiang Zhou, Xiongkuo Min, Guangtao Zhai"
+    },
+    {
+     "title": "AGHCAV-QA: A Database and Model for AI-Generated Human-Activity-Centric Audio-Visual Content",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3736519",
+     "authors": "Yinan Sun, Xiongkuo Min, Yuqin Cao, Yixuan Gao, Fan Huang, Guangtao Zhai"
+    },
+    {
+     "title": "Point Linguist Model: Segment Any Object via Bridged Large 3D-Language Model",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3704928",
+     "authors": "Zhuoxu Huang, Mingqi Gao, Jungong Han"
+    },
+    {
+     "title": "C3SegMamba: Cross-Frame, Cross-Modal, and Cross-Window Scanning Visual State Space Model for Audio-Visual Segmentation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3710106",
+     "authors": "Ruixiang Yan, Shiguang Liu, Jiaqi Liu, Jun Zhao, Longquan Yan, Qi Zhang"
+    },
+    {
+     "title": "Acoustic Room Modelling Using 360 Stereo Cameras",
+     "year": 2021,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1109/tmm.2020.3037537",
+     "authors": "Hansung Kim, Luca Remaggi, Sam Fowler, Philip JB Jackson, Adrian Hilton"
+    },
+    {
+     "title": "MultiviewVLM: Unsupervised Multiview Contrastive Language-Image Joint Learning With Pseudo-Labeled Prompts via Vision-Language Model for 3D/4D Facial Expression Recognition",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3675961",
+     "authors": "Muzammil Behzad"
+    },
+    {
+     "title": "Vision-Controllable Language Model for Image-Guided Story Ending Generation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3679122",
+     "authors": "Dizhan Xue, Shengsheng Qian, Changsheng Xu"
+    },
+    {
+     "title": "Hierarchical Graph Frequency-Selective Diffusion Model for Personalized Sign Language Production",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3724351",
+     "authors": "Razieh Rastgoo, Kourosh Kiani, Sergio Escalera"
+    },
+    {
+     "title": "Audio Retrieval With Natural Language Queries: A Benchmark Study",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 59,
+     "doi": "10.1109/tmm.2022.3149712",
+     "authors": "A. Sophia Koepke, Andreea-Maria Oncescu, João F. Henriques, Zeynep Akata, Samuel Albanie"
+    },
+    {
+     "title": "DualSpec: Text-to-Spatial-Audio Generation via Dual-Spectrogram Guided Diffusion Model",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3673480",
+     "authors": "Lei Zhao, Sizhou Chen, Linfeng Feng, Jichao Zhang, Xiao-Lei Zhang, Chi Zhang"
+    },
+    {
+     "title": "Cloud-Edge Collaborative Adaptation for Vision-Language Model via Compact Prompt Optimization",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3724697",
+     "authors": "Letian Zhang, Wenhan Yang, Shuangming Ma, Han Chen, Ling-Yu Duan"
+    },
+    {
+     "title": "Task-Driven Generative Prompt Learning for Vision-Language Pretrained Model",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3703499",
+     "authors": "Qirui Wu, Shizhou Zhang, De Cheng, Yinghui Xing, Guoqiang Liang, Kairui Dang"
+    },
+    {
+     "title": "Black-Box Domain Adaptation for Cloud Vision-Language Model by Exploring Optimization Directions",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3718256",
+     "authors": "Shuaifeng Li, Mao Ye, Luping Ji, Lihua Zhou, Nianxin Li, Jian Yue"
+    },
+    {
+     "title": "PMPSR: Towards Real-World Image Super-Resolution with Pre-trained Multimodal Large Language Model Priors",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3687005",
+     "authors": "Detian Huang, Miaohua Ruan, Luanyuan Dai, Yaohui Guo, Zhenzhen Hu, Huanqiang Zeng"
+    },
+    {
+     "title": "HonorDrive: A Multimodal Large Language Model for Autonomous Driving in Rainy Driving Conditions",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3712629",
+     "authors": "Yan Luo, Zhao Zhang, Zeyu Xiao, Jinbiao Zhao, Yang Zhao, Wei Jia"
+    },
+    {
+     "title": "Learning Visual-Audio Dissonance for Moment Retrieval and Highlight Detection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3685800",
+     "authors": "Jin Yang, Ping Wei, Nanning Zheng"
+    },
+    {
+     "title": "CANARY: Collision-Free Audio Watermarking for Proactive Deepfake Detection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3724740",
+     "authors": "Qi Li, Jianbing Ni, Xiaodong Lin"
+    },
+    {
+     "title": "AV-Unified: A Unified Framework for Audio-Visual Scene Understanding",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1109/tmm.2026.3684369",
+     "authors": "Guangyao Li, Xin Wang, Wenwu Zhu"
+    },
+    {
+     "title": "Environmental Sound Classification Using Local Binary Pattern and Audio Features Collaboration",
+     "year": 2021,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 43,
+     "doi": "10.1109/tmm.2020.3035275",
+     "authors": "Ohini Kafui Toffa, Max Mignotte"
+    },
+    {
+     "title": "Enhanced Audio-Visual Speech Synthesis via Multi-Discriminative Learning",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2025.3645648",
+     "authors": "Subhayu Ghosh, Frank Zalkow, Nanda Dulal Jana"
+    },
+    {
+     "title": "Audio-Visual Tracking of Concurrent Speakers",
+     "year": 2022,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 30,
+     "doi": "10.1109/tmm.2021.3061800",
+     "authors": "Xinyuan Qian, Alessio Brutti, Oswald Lanz, Maurizio Omologo, Andrea Cavallaro"
+    },
+    {
+     "title": "FoleySpace: Vision-Aligned Binaural Spatial Audio Generation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3729388",
+     "authors": "Lei Zhao, Rujin Chen, Chi Zhang, Xiao-Lei Zhang, Xuelong Li"
+    },
+    {
+     "title": "Soundscape Captioning Using Sound Affective Quality Network and Large Language Model",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1109/tmm.2026.3651023",
+     "authors": "Yuanbo Hou, Qiaoqiao Ren, Andrew Mitchell, Wenwu Wang, Jian Kang, Tony Belpaeme"
+    },
+    {
+     "title": "GR-Net: Robust Gravitation &amp; Repulsion Fusion Network for End-to-End Audio-Visual Speech Recognition",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3724732",
+     "authors": "Ziwei Cheng, Zhenhua Tan"
+    },
+    {
+     "title": "Noise Aware Audio-Visual Speech Denoising",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3651080",
+     "authors": "Kranti Kumar Parida, Siddharth Srivastava, Gaurav Sharma"
+    },
+    {
+     "title": "Temporal-Aware Dynamic Memory Modulation for Audio-Visual Segmentation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3714591",
+     "authors": "Guanhong Wang, Pengyu Li, Jenq-Neng Hwang, Xi Li, Gaoang Wang"
+    },
+    {
+     "title": "Audio-Visual Segmentation via Depth-Guided Collaborative Modeling",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3705199",
+     "authors": "Zhaojin Fu, Yuyang Hong, Qi Yang, Zili Wang, Kun Ding, Shiming Xiang"
+    },
+    {
+     "title": "Audio-Visual Collaborative Learning for Weakly Supervised Video Anomaly Detection",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 15,
+     "doi": "10.1109/tmm.2025.3535377",
+     "authors": "Jingke Meng, Huilin Tian, Ge Lin, Jian-Fang Hu, Wei-Shi Zheng"
+    },
+    {
+     "title": "Progressive Audio-Visual Semantic Spatial-Aware Network for Panoramic Video Saliency Prediction",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3723614",
+     "authors": "Qihao Xiong, Chunmei Qing, Junpeng Tan, JianXiu Jin, Xiangmin Xu"
+    },
+    {
+     "title": "Contribution-aware Dynamic Multi-modal Balance for Audio-Visual Speech Separation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3654399",
+     "authors": "Xinmeng Xu, Weiping Tu, Yuhong Yang, Jizhen Li, Yiqun Zhang, Hongyang Chen"
+    },
+    {
+     "title": "AVadCLIP: Audio-Visual Collaboration for Robust Video Anomaly Detection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 7,
+     "doi": "10.1109/tmm.2026.3714328",
+     "authors": "Peng Wu, Wanshun Su, Guansong Pang, Yujia Sun, Qingsen Yan, Peng Wang"
+    },
+    {
+     "title": "Exploiting Temporal Audio-Visual Correlation Embedding for Audio-Driven One-Shot Talking Head Animation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2025.3618536",
+     "authors": "Zhihua Xu, Tianshui Chen, Zhijing Yang, Chunmei Qing, Keze Wang, Liang Lin"
+    },
+    {
+     "title": "Simultaneously Training and Compressing Vision-and-Language Pre-Training Model",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1109/tmm.2022.3233258",
+     "authors": "Qiaosong Qi, Aixi Zhang, Yue Liao, Wenyu Sun, Yongliang Wang, Xiaobo Li"
+    },
+    {
+     "title": "Prompt-Guided Contrastive Network: Efficient Audio-Visual Segmentation via Prompt Learning and Contrastive Learning",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1109/tmm.2026.3714324",
+     "authors": "Wujie Zhou, Yusen Wang, Xiaohong Qian, Yuanyuan Liu, Lu Yu"
+    },
+    {
+     "title": "AES-AUDIO: <u>A</u>n <u>E</u>ncryption <u>S</u>cheme for <u>Audio</u> Supporting Differentiated Decryption",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1109/tmm.2024.3521757",
+     "authors": "Ruoyu Zhao, Yushu Zhang, Junhao Ji, Shuang Yi, Wenying Wen, Rushi Lan"
+    },
+    {
+     "title": "FOSal: Fine-grained Semantic Auditory Guidance and Omni-scale Visual Perception for Audio-Visual Saliency Prediction",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3729395",
+     "authors": "Li Yu, Wanting He, Jimin Xiao, Huihui Bai"
+    },
+    {
+     "title": "Uncertainty-Aware Audio-Visual Segmentation With Dynamic Fusion for Multimodal Alignment",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1109/tmm.2026.3651123",
+     "authors": "Ying Lv, Zhi Liu, Xiaojun Chang"
+    },
+    {
+     "title": "Adaptive Proposal on Spatio-Temporal Graph in Audio-Visual Question Answering",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3714320",
+     "authors": "Zhuyang Xie, Yan Yang, Yankai Yu, Jie Wang, Bo Peng, Xiaofan Li"
+    },
+    {
+     "title": "TemLo: Temporal-Local Synergy Enhanced RWKV for Audio-Visual Segmentation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3694536",
+     "authors": "Yunzhi Zhuge, Mengyuan Zhu, Sitong Gong, Lu Zhang, Xu Jia, Qi Xu"
+    },
+    {
+     "title": "Parameter Efficient Emotional Transfer for Fine-Grained Emotional Audio-Driven Talking Portrait Generation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3699022",
+     "authors": "Yiguo Jiang, Xiaodong Cun, Yong Zhang, Tao He, Fan Tang, Chi-Man Pun"
+    },
+    {
+     "title": "A Robust Coverless Audio Steganography Based on Differential Privacy Clustering",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1109/tmm.2025.3543107",
+     "authors": "Yan Feng, Longting Xu, Xiaochen Lu, Guanglin Zhang, Wei Rao"
+    },
+    {
+     "title": "Knowledge Enhanced Vision and Language Model for Multi-Modal Fake News Detection",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 62,
+     "doi": "10.1109/tmm.2023.3330296",
+     "authors": "Xingyu Gao, Xi Wang, Zhenyu Chen, Wei Zhou, Steven C. H. Hoi"
+    },
+    {
+     "title": "SMART: Shot-Aware Multimodal Video Moment Retrieval with Audio-Enhanced MLLM",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3723610",
+     "authors": "An Yu, Weiheng Lu, Jian Li, Zhenfei Zhang, Yunhang Shen, Felix X.-F. Ye"
+    }
+   ]
+  },
+  "sound event detection": {
+   "total": 46851,
+   "kept": 67,
+   "papers": [
+    {
+     "title": "Cross-Referencing Self-Training Network for Sound Event Detection in Audio Mixtures",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 12,
+     "doi": "10.1109/tmm.2022.3178591",
+     "authors": "Sangwook Park, David K. Han, Mounya Elhilali"
+    },
+    {
+     "title": "WACP-Net: A Wavelet enhanced Adaptive Coordinate Perception Network for Event-Based Object Detection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3723598",
+     "authors": "Bolin Cai, Rui Dong, Ling Shen, Zhenzhen Hu, Xindi Wang, Xiangcheng Chen"
+    },
+    {
+     "title": "$\\rm {M}^{2}\\rm {C-EvDet}$: Multi-Domain Multi-Order Cross-Modal Knowledge Distillation for Event-based Object Detection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3714316",
+     "authors": "Wei Bao, Siqi Li, Shouan Pan, Yi Xie, Yue Gao"
+    },
+    {
+     "title": "Adversarial 3D Convolutional Auto-Encoder for Abnormal Event Detection in Videos",
+     "year": 2021,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 34,
+     "doi": "10.1109/tmm.2020.3023303",
+     "authors": "Che Sun, Yunde Jia, Hao Song, Yuwei Wu"
+    },
+    {
+     "title": "Towards Temporal Event Detection: A Dataset, Benchmarks and Challenges",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 7,
+     "doi": "10.1109/tmm.2023.3276523",
+     "authors": "Zhenguo Yang, Zhuopan Yang, Zhiwei Guo, Zehang Lin, Haizhong Zhu, Qing Li"
+    },
+    {
+     "title": "Zero-Shot Video Event Detection With High-Order Semantic Concept Discovery and Matching",
+     "year": 2022,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 10,
+     "doi": "10.1109/tmm.2021.3073624",
+     "authors": "Yang Jin, Wenhao Jiang, Yi Yang, Yadong Mu"
+    },
+    {
+     "title": "ESG-Net: Event-Aware Semantic Guided Network for Dense Audio-Visual Event Localization",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3668572",
+     "authors": "Huilai Li, Yonghao Dang, Ying Xing, Yiming Wang, Jianqin Yin"
+    },
+    {
+     "title": "Leveraging the Video-Level Semantic Consistency of Event for Audio-Visual Event Localization",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 22,
+     "doi": "10.1109/tmm.2023.3324498",
+     "authors": "Yuanyuan Jiang, Jianqin Yin, Yonghao Dang"
+    },
+    {
+     "title": "LSA: Language as Semantic Anchors for Audio-Visual Event Localization",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3724726",
+     "authors": "Yiwei Huang, Yue Ming"
+    },
+    {
+     "title": "Environmental Sound Classification Using Local Binary Pattern and Audio Features Collaboration",
+     "year": 2021,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 43,
+     "doi": "10.1109/tmm.2020.3035275",
+     "authors": "Ohini Kafui Toffa, Max Mignotte"
+    },
+    {
+     "title": "Human Mesh Reconstruction via Complementary Learning from Event Streams and Frames",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3714924",
+     "authors": "Liaogehao Chen, Zhenjun Zhang, Yaonan Wang"
+    },
+    {
+     "title": "AutoFoley: Artificial Synthesis of Synchronized Sound Tracks for Silent Videos With Deep Learning",
+     "year": 2021,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 43,
+     "doi": "10.1109/tmm.2020.3005033",
+     "authors": "Sanchita Ghose, John Jeffrey Prevost"
+    },
+    {
+     "title": "FoleyGAN: Visually Guided Generative Adversarial Network-Based Synchronous Sound Generation in Silent Videos",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 25,
+     "doi": "10.1109/tmm.2022.3177894",
+     "authors": "Sanchita Ghose, John J. Prevost"
+    },
+    {
+     "title": "Holistic Timestamp Alignment for Bidirectional Timestamp-Event Consistency in Video Temporal Grounding",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3734753",
+     "authors": "Bowei Pu, Chuanbin Liu, Zhiying Lu, Hongtao Xie"
+    },
+    {
+     "title": "Structure-Aware Spatio-Temporal Fusion for Event-Based Motion Deblurring",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3705891",
+     "authors": "Zhanwen Liu, Shuang Ma, Yang Wang, Nan Yang, Zhiyong Cui, Yanyong Zhang"
+    },
+    {
+     "title": "Dynamic Graph-enhanced Event Refinement for Temporal Sentence Grounding of Micro-moments",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3695790",
+     "authors": "Mingjin Kuai, You Qin, Xiang Fang, Yiming Wu, Wei Ji, Roger Zimmermann"
+    },
+    {
+     "title": "Zero-Shot Single-Microphone Sound Classification and Localization in a Building Via the Synthesis of Unseen Features",
+     "year": 2022,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1109/tmm.2021.3079705",
+     "authors": "Seungjun Lee, Haesang Yang, Hwiyong Choi, Woojae Seong"
+    },
+    {
+     "title": "An Event-triggered Parallel Chasing-CBC Encryption Scheme for Efficient Medical Image Protection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3734771",
+     "authors": "Wei Song, Xiaoshi Song, Chong Fu, Junxin Chen, Jun Mou, Zhenyu Guan"
+    },
+    {
+     "title": "FC-Det: Fine-grained Collaborative Detection Network for Multimodal Fake News Detection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3727169",
+     "authors": "Penghang Yu, Zhiyi Tan, Shengsheng Qian, Bing-Kun Bao"
+    },
+    {
+     "title": "StreamHawkes: A first Benchmark and Multi-View Neural Hawkes Process for Streaming Event Popularity Prediction",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3728675",
+     "authors": "Penghang Yu, Sisi You, Shengsheng Qian, Dizhan Xue, Bing-Kun Bao"
+    },
+    {
+     "title": "CausalVEE: Adaptive KeyFrame-Based Causal Temporal Modeling for Video Event Extraction",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3673517",
+     "authors": "Yang Liu, Fang Liu, Licheng Jiao, Qianyue Bao, Shuo Li, Lingling Li"
+    },
+    {
+     "title": "RA-SSU: Towards Fine-Grained Audio-Visual Learning with Region-Aware Sound Source Understanding",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3702530",
+     "authors": "Muyi Sun, Yixuan Wang, Hong Wang, Chen Su, Man Zhang, Xingqun Qi"
+    },
+    {
+     "title": "DeblurSplat: Traditional SfM-free 3D Gaussian Splatting with Event Camera for Robust Deblurring",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3712639",
+     "authors": "Pengteng Li, Pinhao Song, Weiyu Guo, Huizai Yao, Yunfan Lu, F. Richard Yu"
+    },
+    {
+     "title": "PSTTS: A Plug-and-Play Token Selector for Efficient Event-Based Spatio-Temporal Representation Modeling",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3724704",
+     "authors": "Xiangmo Zhao, Nan Yang, Zhanwen Liu, Yang Wang, Shangyu Xie, Chuan Hu"
+    },
+    {
+     "title": "Multimodal Disentangled Domain Adaption for Social Media Event Rumor Detection",
+     "year": 2021,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 63,
+     "doi": "10.1109/tmm.2020.3042055",
+     "authors": "Huaiwen Zhang, Shengsheng Qian, Quan Fang, Changsheng Xu"
+    },
+    {
+     "title": "Soundscape Captioning Using Sound Affective Quality Network and Large Language Model",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1109/tmm.2026.3651023",
+     "authors": "Yuanbo Hou, Qiaoqiao Ren, Andrew Mitchell, Wenwu Wang, Jian Kang, Tony Belpaeme"
+    },
+    {
+     "title": "Video Frame Interpolation With Stereo Event and Intensity Cameras",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 14,
+     "doi": "10.1109/tmm.2024.3387690",
+     "authors": "Chao Ding, Mingyuan Lin, Haijian Zhang, Jianzhuang Liu, Lei Yu"
+    },
+    {
+     "title": "EdinoGait: Transferring Large Visual Models to Event-Based Vision for Enhancing Gait Recognition",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2025.3623551",
+     "authors": "Liaogehao Chen, Zhenjun Zhang, Yaonan Wang"
+    },
+    {
+     "title": "Event-Aware Retrospective Learning for Knowledge-Based Image Captioning",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1109/tmm.2023.3327537",
+     "authors": "An-An Liu, Yingchen Zhai, Ning Xu, Hongshuo Tian, Weizhi Nie, Yongdong Zhang"
+    },
+    {
+     "title": "CSS-Net: A Consistent Segment Selection Network for Audio-Visual Event Localization",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 22,
+     "doi": "10.1109/tmm.2023.3270624",
+     "authors": "Fan Feng, Yue Ming, Nannan Hu, Hui Yu, Yuanan Liu"
+    },
+    {
+     "title": "Listen With Seeing: Cross-Modal Contrastive Learning for Audio-Visual Event Localization",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 18,
+     "doi": "10.1109/tmm.2025.3535359",
+     "authors": "Chao Sun, Min Chen, Chuanbo Zhu, Sheng Zhang, Ping Lu, Jincai Chen"
+    },
+    {
+     "title": "Attention Guided Relation Detection Approach for Video Visual Relation Detection",
+     "year": 2022,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1109/tmm.2021.3109430",
+     "authors": "Qianwen Cao, Heyan Huang"
+    },
+    {
+     "title": "Event-Based Low-Illumination Image Enhancement",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 48,
+     "doi": "10.1109/tmm.2023.3290432",
+     "authors": "Yu Jiang, Yuehang Wang, Siqi Li, Yongji Zhang, Minghao Zhao, Yue Gao"
+    },
+    {
+     "title": "E-MLB: Multilevel Benchmark for Event-Based Camera Denoising",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 47,
+     "doi": "10.1109/tmm.2023.3260638",
+     "authors": "Saizhe Ding, Jinze Chen, Yang Wang, Yu Kang, Weiguo Song, Jie Cheng"
+    },
+    {
+     "title": "EvCSLR: Event-Guided Continuous Sign Language Recognition and Benchmark",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 6,
+     "doi": "10.1109/tmm.2024.3521750",
+     "authors": "Yu Jiang, Yuehang Wang, Siqi Li, Yongji Zhang, Qianren Guo, Qi Chu"
+    },
+    {
+     "title": "Cross-Modal Complementary Learning and Template-Based Reasoning Chains for Future Event Prediction in Videos",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1109/tmm.2025.3599038",
+     "authors": "Chenghang Lai, Weifeng Ge, Xiangyang Xue"
+    },
+    {
+     "title": "Object Detection Made Simpler by Eliminating Heuristic NMS",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 30,
+     "doi": "10.1109/tmm.2023.3248966",
+     "authors": "Qiang Zhou, Chaohui Yu"
+    },
+    {
+     "title": "Boundary Information Progressive Guidance Network for Salient Object Detection",
+     "year": 2022,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 32,
+     "doi": "10.1109/tmm.2021.3115344",
+     "authors": "Zhaojian Yao, Luping Wang"
+    },
+    {
+     "title": "RD-VTA: Rule-Data Guided Video-to-Audio Generation for Fine-Grained Footstep Sound",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3703315",
+     "authors": "Qiutang Qi, Haonan Cheng, Hengyan Huang, Long Ye, Shaobin Li"
+    },
+    {
+     "title": "Dense Modality Interaction Network for Audio-Visual Event Localization",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 29,
+     "doi": "10.1109/tmm.2022.3150469",
+     "authors": "Shuo Liu, Weize Quan, Chaoqun Wang, Yuan Liu, Bin Liu, Dong-Ming Yan"
+    },
+    {
+     "title": "CANARY: Collision-Free Audio Watermarking for Proactive Deepfake Detection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3724740",
+     "authors": "Qi Li, Jianbing Ni, Xiaodong Lin"
+    },
+    {
+     "title": "Learning Visual-Audio Dissonance for Moment Retrieval and Highlight Detection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3685800",
+     "authors": "Jin Yang, Ping Wei, Nanning Zheng"
+    },
+    {
+     "title": "A Residual Learning Approach to Deblur and Generate High Frame Rate Video With an Event Camera",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 38,
+     "doi": "10.1109/tmm.2022.3199556",
+     "authors": "Haoyu Chen, Minggui Teng, Boxin Shi, Yizhou Wang, Tiejun Huang"
+    },
+    {
+     "title": "Distill-to-Fuse: A Text-Guided Knowledge Transfer Network for Multimodal Sentiment Detection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3712636",
+     "authors": "Yujie Shen, Bin Song"
+    },
+    {
+     "title": "Classification Committee for Active Deep Object Detection",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1109/tmm.2024.3521778",
+     "authors": "Lei Zhao, Bo Li, Jixiang Jiang, Xingxing Wei"
+    },
+    {
+     "title": "DACC: Domain Adaptation Based on Coupling Consistency for Semi-Supervised 3D Defect Detection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3730279",
+     "authors": "Ruiyun Yu, Ziming Zhao"
+    },
+    {
+     "title": "Revisiting Source-Free Domain Adaptation Object Detection in Thresholds",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1109/tmm.2025.3590905",
+     "authors": "Yuchen Dong, Chengeyang Li, Yongqiang Xie, Zhongbo Li"
+    },
+    {
+     "title": "Unified Attention Distillation with Decoupled Progressive Scheduling for Object Detection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3718631",
+     "authors": "Yaoye Song, Peng Zhang, Yanning Zhang, Yefeng Zheng"
+    },
+    {
+     "title": "Tuned Reverse Distillation: Enhancing Multimodal Industrial Anomaly Detection with Crossmodal Tuners",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3729129",
+     "authors": "Xinyue Liu, Jianyuan Wang, Biao Leng, Shuo Zhang"
+    },
+    {
+     "title": "Unsupervised Deepfake Detection via Camera Source Clustering and Temporal-Spatial Features",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3677617",
+     "authors": "Zhuang Li, Chenxu Lu, Zahid Akhtar, Tong Qiao"
+    },
+    {
+     "title": "FI-WSOD: Foreground Information Guided Weakly Supervised Object Detection",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 18,
+     "doi": "10.1109/tmm.2022.3198018",
+     "authors": "Yufei Yin, Jiajun Deng, Wengang Zhou, Li Li, Houqiang Li"
+    },
+    {
+     "title": "Incremental Learning for AI-Generated Image Detection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3716041",
+     "authors": "Zihao Cai, Xue Song, Xinghan Li, Bo Li, Haijun Shan, Jingjing Chen"
+    },
+    {
+     "title": "Prompt-based Task-conditioning Transformer for Low-quality Detection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3682155",
+     "authors": "Chengxu Liu, Yifan Zhang, Xinyi Lin, Yujie Dun, Xueming Qian"
+    },
+    {
+     "title": "MMFD: Modality-aware and Multi-scale Feature Fusion Network for Multispectral Fusion Detection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3726259",
+     "authors": "Cong Guo, Wenhao Lin, Kan Ren, Qian Chen"
+    },
+    {
+     "title": "Training-Free Zero-Shot Temporal Action Detection with Vision-Language Models",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1109/tmm.2026.3701531",
+     "authors": "Chaolei Han, Hongsong Wang, Jidong Kuang, Lei Zhang, Jie Gui"
+    },
+    {
+     "title": "Physically Interpretable Object Detection in Foggy Point Cloud",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3729394",
+     "authors": "Jinbiao Zhao, Zeyu Xiao, Zhao Zhang, Haijun Zhang, Yi Yang, Meng Wang"
+    },
+    {
+     "title": "Fact-Sentiment Dual Uncertainty Framework for Multimodal Fake News Detection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3713781",
+     "authors": "Qiang Lu, Zhenfang Zhu, Yunfei Long, Hongli Pei, Dawei Zhao"
+    },
+    {
+     "title": "Uncertainty-Guided Diffusion Model for Camouflaged Object Detection",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 11,
+     "doi": "10.1109/tmm.2025.3535290",
+     "authors": "Jinsheng Yang, Bineng Zhong, Qihua Liang, Zhiyi Mo, Shengping Zhang, Shuxiang Song"
+    },
+    {
+     "title": "Metadata Connector: Exploiting Hashtag and Tag for Cross-OSN Event Search",
+     "year": 2021,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1109/tmm.2020.2982047",
+     "authors": "Yuqi Gao, Jitao Sang, Chengpeng Fu, Zhengjia Wang, Tongwei Ren, Changsheng Xu"
+    },
+    {
+     "title": "Hierarchical Cross-Modal Reasoning for Visible-Infrared Camouflaged Object Detection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3705194",
+     "authors": "Cheng Liu, Zheng Wang, Yahong Han, Meijun Sun, Qinghua Hu"
+    },
+    {
+     "title": "Align R-CNN: A Pairwise Head Network for Visual Relationship Detection",
+     "year": 2022,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 6,
+     "doi": "10.1109/tmm.2021.3062543",
+     "authors": "Mitra Tajrobehkar, Kaihua Tang, Hanwang Zhang, Joo-Hwee Lim"
+    },
+    {
+     "title": "STENet: Superpixel Token Enhancing Network for RGB-D Salient Object Detection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1109/tmm.2026.3680601",
+     "authors": "Jianlin Chen, Gongyang Li, Zhijiang Zhang, Liang Chang, Dan Zeng"
+    },
+    {
+     "title": "DSC-Light: A Dual-Stream Complementary Structure for Lightweight Deepfake Detection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3724358",
+     "authors": "Gaoming Yang, Dongyu Han, Zhi Liu, Xiujun Wang, Wenbing Shi"
+    },
+    {
+     "title": "Enhancing Event-Based Video Reconstruction With Bidirectional Temporal Information",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1109/tmm.2025.3543010",
+     "authors": "Pinghai Gao, Longguang Wang, Sheng Ao, Ye Zhang, Yulan Guo"
+    },
+    {
+     "title": "Towards a Complete and Detail-Preserved Salient Object Detection",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 49,
+     "doi": "10.1109/tmm.2023.3325731",
+     "authors": "Yi Ke Yun, Weisi Lin"
+    },
+    {
+     "title": "FreDFT: Frequency Domain Fusion Transformer for Visible-Infrared Object Detection",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1109/tmm.2026.3712630",
+     "authors": "Wencong Wu, Xiuwei Zhang, Hanlin Yin, Shun Dai, Hongxi Zhang, Yanning Zhang"
+    },
+    {
+     "title": "Pose-Guided Tracking-by-Detection: Robust Multi-Person Pose Tracking",
+     "year": 2021,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 73,
+     "doi": "10.1109/tmm.2020.2980194",
+     "authors": "Qian Bao, Wu Liu, Yuhao Cheng, Boyan Zhou, Tao Mei"
+    }
+   ]
+  },
+  "neural codec": {
+   "total": 26873,
+   "kept": 92,
+   "papers": [
+    {
+     "title": "PC-NSVC: An End-to-End Neural Scalable Vibrotactile Codec With Psychohaptic Calibration",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1109/tmm.2025.3639938",
+     "authors": "Shengyu Zhang, Qi Zhang, Xinkun Zheng, Tao Jiang"
+    },
+    {
+     "title": "Towards Neural Codec-Empowered 360$^\\circ$ Video Streaming: A Saliency-Aided Synergistic Approach",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2024.3521770",
+     "authors": "Jianxin Shi, Miao Zhang, Linfeng Shen, Jiangchuan Liu, Lingjun Pu, Jingdong Xu"
+    },
+    {
+     "title": "Compressive Sensing Based Image Codec With Partial Pre-Calculation",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 11,
+     "doi": "10.1109/tmm.2023.3327534",
+     "authors": "Jiayao Xu, Jian Yang, Fuma Kimishima, Ittetsu Taniguchi, Jinjia Zhou"
+    },
+    {
+     "title": "High Efficiency Vibrotactile Codec Based on Gate Recurrent Network",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 29,
+     "doi": "10.1109/tmm.2022.3186440",
+     "authors": "Tiesong Zhao, Ying Fang, Kai Wang, Qian Liu, Yuzhen Niu"
+    },
+    {
+     "title": "An Efficient Implicit Neural Representation Image Codec Based on Mixed Autoregressive Model for Low-Complexity Decoding",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1109/tmm.2025.3604982",
+     "authors": "Xiang Liu, Jiahong Chen, Bin Chen, Zimo Liu, Baoyi An, Shu-Tao Xia"
+    },
+    {
+     "title": "Causality-Inspired Graph Neural Networks for Cross-Modal Retrieval",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1109/tmm.2026.3651028",
+     "authors": "Bo Li, Zhixin Li"
+    },
+    {
+     "title": "SpikeVFuse: Enhancing Infrared and Visible Image Fusion with Spiking Neural Networks",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3729390",
+     "authors": "Muhang Cheng, Hongwei Mo"
+    },
+    {
+     "title": "Visibility-Based Geometry Pruning of Neural Plenoptic Scene Representations",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2025.3618548",
+     "authors": "Davi R. Freitas, Ioan Tabus, Christine Guillemot"
+    },
+    {
+     "title": "PriPHiT: Privacy-Preserving Hierarchical Training of Deep Neural Networks",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1109/tmm.2025.3607801",
+     "authors": "Yamin Sepehri, Pedram Pad, Pascal Frossard, L. Andrea Dunbar"
+    },
+    {
+     "title": "Learning Diverse Fashion Collocation by Neural Graph Filtering",
+     "year": 2021,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 29,
+     "doi": "10.1109/tmm.2020.3018021",
+     "authors": "Xin Liu, Yongbin Sun, Ziwei Liu, Dahua Lin"
+    },
+    {
+     "title": "Exploiting Neural Speech Enhancement Models to Undermine Voice Watermarking",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3718252",
+     "authors": "Angel M. Gomez, Juan M. Martin-Donas, Antonio M. Peinado"
+    },
+    {
+     "title": "NEW-GPCC: A Configurable Neural Empowered Wrapper for Geometry-Based Point Cloud Compression",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3705208",
+     "authors": "Wanhao Ma, Wei Zhang, Shuai Wan, Fuzheng Yang"
+    },
+    {
+     "title": "Privacy-Preserving Image Acquisition for Neural Vision Systems",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1109/tmm.2022.3207018",
+     "authors": "Yamin Sepehri, Pedram Pad, Clément Kündig, Pascal Frossard, L. Andrea Dunbar"
+    },
+    {
+     "title": "Graph Neural Networks With Triple Attention for Few-Shot Learning",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 31,
+     "doi": "10.1109/tmm.2022.3233442",
+     "authors": "Hao Cheng, Joey Tianyi Zhou, Wee Peng Tay, Bihan Wen"
+    },
+    {
+     "title": "Anet: A Deep Neural Network for Automatic 3D Anthropometric Measurement Extraction",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 27,
+     "doi": "10.1109/tmm.2021.3132487",
+     "authors": "Nastaran Nourbakhsh Kaashki, Pengpeng Hu, Adrian Munteanu"
+    },
+    {
+     "title": "RVMark: Robust Video Watermarking in Frequency Coefficients via Invertible Neural Network",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3735635",
+     "authors": "Jianbin Ji, Dawen Xu, Li Dong, Lin Yang, Songhan He"
+    },
+    {
+     "title": "A Generalized Zero-Shot Quantization of Deep Convolutional Neural Networks Via Learned Weights Statistics",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 9,
+     "doi": "10.1109/tmm.2021.3134158",
+     "authors": "Prasen Kumar Sharma, Arun Abraham, Vikram Nelvoy Rajendiran"
+    },
+    {
+     "title": "Hi-LOAM: Hierarchical Implicit Neural Fields for LiDAR Odometry and Mapping",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3714326",
+     "authors": "Zhiliu Yang, Jianyuan Zhang, Lianhui Zhao, Jinyu Dai, Zhu Yang"
+    },
+    {
+     "title": "An Automated and Robust Image Watermarking Scheme Based on Deep Neural Networks",
+     "year": 2021,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 163,
+     "doi": "10.1109/tmm.2020.3006415",
+     "authors": "Xin Zhong, Pei-Chi Huang, Spyridon Mastorakis, Frank Y. Shih"
+    },
+    {
+     "title": "Reliable Multi-View Clustering with Graph Neural Network",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3695792",
+     "authors": "Bao Zeng, Jielong Lu, Yanxin Xie, Shunxin Xiao, Jianmin Li, Chaohui Tang"
+    },
+    {
+     "title": "Self-Adaptive Neural Module Transformer for Visual Question Answering",
+     "year": 2021,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 66,
+     "doi": "10.1109/tmm.2020.2995278",
+     "authors": "Huasong Zhong, Jingyuan Chen, Chen Shen, Hanwang Zhang, Jianqiang Huang, Xian-Sheng Hua"
+    },
+    {
+     "title": "CSP: Channel and Space Pruning for Compressing Deep Convolutional Neural Networks",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3654455",
+     "authors": "Yang Li, Liejun Wang, Minchi Kuang"
+    },
+    {
+     "title": "Image Compressed Sensing Using Non-Local Neural Network",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 90,
+     "doi": "10.1109/tmm.2021.3132489",
+     "authors": "Wenxue Cui, Shaohui Liu, Feng Jiang, Debin Zhao"
+    },
+    {
+     "title": "Novel Cuboid-guided Shape Co-segmentation with Group-driven Neural Implicit Fields",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3719172",
+     "authors": "Yi Quan, Changbo Wang, Chen Li, Jiaxu Liu, Sheng Qiu, Hong Qin"
+    },
+    {
+     "title": "Structure-Aware Pre-Selected Neural Rendering for Light Field Reconstruction",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1109/tmm.2024.3521784",
+     "authors": "Song Chang, Youfang Lin, Shuo Zhang"
+    },
+    {
+     "title": "When Multi-Focus Image Fusion Meets Nonlinear Spiking Neural P Systems",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1109/tmm.2025.3623493",
+     "authors": "Bo Li, Lingling Zhang, Tingting Bao, Yunkuo Lei, Xiaoqing Zhang, Jun Liu"
+    },
+    {
+     "title": "SANR: Scene-Aware Neural Representation for Light Field Image Compression with Rate-Distortion Optimization",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3686627",
+     "authors": "Gai Zhang, Xinfeng Zhang, Lv Tang, Hongyu An, Li Zhang, Qingming Huang"
+    },
+    {
+     "title": "Watermarking Deep Neural Networks with Invisible Trigger Pattern and Low-weight Masking Strategy",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3694596",
+     "authors": "Guangyong Gao, Kun Li, Yi Shen, Zhangjie Fu, Zhihua Xia, Yun-Qing Shi"
+    },
+    {
+     "title": "StreamHawkes: A first Benchmark and Multi-View Neural Hawkes Process for Streaming Event Popularity Prediction",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3728675",
+     "authors": "Penghang Yu, Sisi You, Shengsheng Qian, Dizhan Xue, Bing-Kun Bao"
+    },
+    {
+     "title": "$\\mathrm{Tri^{2}plane}$: Advancing Neural Implicit Surface Reconstruction for Indoor Scenes",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1109/tmm.2025.3565989",
+     "authors": "Yiping Xie, Haihong Xiao, Wenxiong Kang"
+    },
+    {
+     "title": "Fine-Grained Motion Compression and Selective Temporal Fusion for Neural B-Frame Video Coding",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3705889",
+     "authors": "Xihua Sheng, Peilin Chen, Meng Wang, Li Zhang, Shiqi Wang, Dapeng Oliver Wu"
+    },
+    {
+     "title": "ZeroW-NeRF: Uncertainty-driven Zero-watermark Copyright Protection for Neural Radiance Fields",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3688338",
+     "authors": "Xiaoqiang Zhu, Zongying Wang, Lihua You, Xiaosong Yang, Zhichao Sheng, Yixiao Gu"
+    },
+    {
+     "title": "QSAM-Net: Rain Streak Removal by Quaternion Neural Network With Self-Attention Module",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 20,
+     "doi": "10.1109/tmm.2023.3271829",
+     "authors": "Vladimir Frants, Sos Agaian, Karen Panetta"
+    },
+    {
+     "title": "Convolutional Neural Network-Based Occupancy Map Accuracy Improvement for Video-Based Point Cloud Compression",
+     "year": 2022,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 28,
+     "doi": "10.1109/tmm.2021.3079698",
+     "authors": "Wei Jia, Li Li, Anique Akhtar, Zhu Li, Shan Liu"
+    },
+    {
+     "title": "Contrastive Multi-Level Graph Neural Networks for Session-Based Recommendation",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 32,
+     "doi": "10.1109/tmm.2023.3250087",
+     "authors": "Fuyun Wang, Xingyu Gao, Zhenyu Chen, Lei Lyu"
+    },
+    {
+     "title": "Low-Distortion Steganography in Neural Networks",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3651012",
+     "authors": "Yunfei Xie, Zichi Wang"
+    },
+    {
+     "title": "Neural Network Coding of Difference Updates for Efficient Distributed Learning Communication",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 7,
+     "doi": "10.1109/tmm.2024.3357198",
+     "authors": "Daniel Becking, Karsten Müller, Paul Haase, Heiner Kirchhoffer, Gerhard Tech, Wojciech Samek"
+    },
+    {
+     "title": "BI-AVAN: A Brain-Inspired Adversarial Visual Attention Network for Characterizing Human Visual Attention From Neural Activity",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2024.3443623",
+     "authors": "Heng Huang, Lin Zhao, Haixing Dai, Lu Zhang, Xintao Hu, Dajiang Zhu"
+    },
+    {
+     "title": "Visualization Comparison of Vision Transformers and Convolutional Neural Networks",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 25,
+     "doi": "10.1109/tmm.2023.3294805",
+     "authors": "Rui Shi, Tianxing Li, Liguo Zhang, Yasushi Yamaguchi"
+    },
+    {
+     "title": "Does multi-modal fusion always work - a multi-modal decoupled learning neural network (MDLNN) for the detection of fake news",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3699021",
+     "authors": "Jiandong Lv, Pengyao Xu, Shujuan Ji, Chong Di, Zhirun Liu, Haojie Li"
+    },
+    {
+     "title": "Zero-Shot Text-Driven Dynamic Neural Radiance Fields Stylization",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2025.3565983",
+     "authors": "Wanlin Liang, Hongbin Xu, Wanshui Gan, Wenxiong Kang"
+    },
+    {
+     "title": "Multi-Scale Feature Compression via Multi-Receptive-Field Convolutional Neural Network for Machine Vision",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1109/tmm.2026.3668618",
+     "authors": "Zhaoqing Pan, Haihang Wang, Tiesong Zhao, Haoran Xie, Sam Kwong"
+    },
+    {
+     "title": "MorphNeRF: Text-Guided 3D-Aware Editing via Morphing Generative Neural Radiance Fields",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 10,
+     "doi": "10.1109/tmm.2024.3379888",
+     "authors": "Yingchen Yu, Rongliang Wu, Yifang Men, Shijian Lu, Miaomiao Cui, Xuansong Xie"
+    },
+    {
+     "title": "Composition-Guided Neural Network for Image Cropping Aesthetic Assessment",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 19,
+     "doi": "10.1109/tmm.2022.3215003",
+     "authors": "Shijia Ni, Feng Shao, Xiongli Chai, Hangwei Chen, Yo-Sung Ho"
+    },
+    {
+     "title": "CBARF: Cascaded Bundle-Adjusting Neural Radiance Fields From Imperfect Camera Poses",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 9,
+     "doi": "10.1109/tmm.2024.3388929",
+     "authors": "Hongyu Fu, Xin Yu, Lincheng Li, Li Zhang"
+    },
+    {
+     "title": "RVQ-NVC: Taming RVQ-VAE for High Fidelity Neural Vibrotactile Compression",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3654467",
+     "authors": "Dazhong He, Qian Liu"
+    },
+    {
+     "title": "Neural Logic Vision Language Explainer",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1109/tmm.2023.3310277",
+     "authors": "Xiaofeng Yang, Fayao Liu, Guosheng Lin"
+    },
+    {
+     "title": "Residual Quantization for Low Bit-Width Neural Networks",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 21,
+     "doi": "10.1109/tmm.2021.3124095",
+     "authors": "Zefan Li, Bingbing Ni, Xiaokang Yang, Wenjun Zhang, Wen Gao"
+    },
+    {
+     "title": "BI-CAM: Generating Explanations for Deep Neural Networks Using Bipolar Information",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 10,
+     "doi": "10.1109/tmm.2023.3267884",
+     "authors": "Yanshan Li, Huajie Liang, Rui Yu"
+    },
+    {
+     "title": "Advancing Generalizable Occlusion Modeling for Neural Human Radiance Field",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1109/tmm.2024.3521787",
+     "authors": "Bingzheng Liu, Jianjun Lei, Bo Peng, Zhe Zhang, Jie Zhu, Qingming Huang"
+    },
+    {
+     "title": "RandomViG: Random Vision Graph Neural Network for Image Classification",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2025.3604948",
+     "authors": "Xun Gong, Daisong Yan, Zhemin Zhang"
+    },
+    {
+     "title": "Towards Fast and Robust Real Image Denoising With Attentive Neural Network and PID Controller",
+     "year": 2022,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 44,
+     "doi": "10.1109/tmm.2021.3079697",
+     "authors": "Ruijun Ma, Shuyi Li, Bob Zhang, Zhengming Li"
+    },
+    {
+     "title": "DualGNN: Dual Graph Neural Network for Multimedia Recommendation",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 225,
+     "doi": "10.1109/tmm.2021.3138298",
+     "authors": "Qifan Wang, Yinwei Wei, Jianhua Yin, Jianlong Wu, Xuemeng Song, Liqiang Nie"
+    },
+    {
+     "title": "Dual Fusion-Propagation Graph Neural Network for Multi-View Clustering",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 63,
+     "doi": "10.1109/tmm.2023.3248173",
+     "authors": "Shunxin Xiao, Shide Du, Zhaoliang Chen, Yunhe Zhang, Shiping Wang"
+    },
+    {
+     "title": "Secure Neural Network Watermarking Protocol Against Evidence Exposure Attack",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1109/tmm.2025.3542975",
+     "authors": "Huixin Luo, Li Li, Xinpeng Zhang"
+    },
+    {
+     "title": "Rate-Adaptive Neural Network for Image Compressive Sensing",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 22,
+     "doi": "10.1109/tmm.2023.3301213",
+     "authors": "Chen Hui, Shengping Zhang, Wenxue Cui, Shaohui Liu, Feng Jiang, Debin Zhao"
+    },
+    {
+     "title": "Neural-Enhanced Rate Adaptation and Computation Distribution for Emerging mmWave Multi-User 3D Video Streaming Systems",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1109/tmm.2025.3590902",
+     "authors": "Babak Badnava, Jacob Chakareski, Morteza Hashemi"
+    },
+    {
+     "title": "Trunk Pruning: Highly Compatible Channel Pruning for Convolutional Neural Networks Without Fine-Tuning",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 22,
+     "doi": "10.1109/tmm.2023.3338052",
+     "authors": "Nam Joon Kim, Hyun Kim"
+    },
+    {
+     "title": "Neuromorphic Vision-Based Motion Segmentation With Graph Transformer Neural Network",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1109/tmm.2024.3521662",
+     "authors": "Yusra Alkendi, Rana Azzam, Sajid Javed, Lakmal Seneviratne, Yahya Zweiri"
+    },
+    {
+     "title": "Large Factor Image Super-Resolution With Cascaded Convolutional Neural Networks",
+     "year": 2021,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 23,
+     "doi": "10.1109/tmm.2020.3008041",
+     "authors": "Dongyang Zhang, Jie Shao, Zhenwen Liang, Lianli Gao, Heng Tao Shen"
+    },
+    {
+     "title": "SNH-SLAM: Implicit Dense SLAM Based on Scalable Neural-Hash Representation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1109/tmm.2026.3651044",
+     "authors": "Xiong Li, Zhenyu Wen, Zhanshuo Dong, Haoran Duan, Tianrun Chen, Zhen Hong"
+    },
+    {
+     "title": "Cellular Binary Neural Network for Accurate Image Classification and Semantic Segmentation",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 9,
+     "doi": "10.1109/tmm.2022.3233255",
+     "authors": "Xichuan Zhou, Rui Ding, Yuxiao Wang, Wenjia Wei, Haijun Liu"
+    },
+    {
+     "title": "Combining Deep Convolutional Neural Networks With Stochastic Ensemble Weight Optimization for Facial Expression Recognition in the Wild",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 24,
+     "doi": "10.1109/tmm.2021.3121547",
+     "authors": "Jae Young Choi, Bumshik Lee"
+    },
+    {
+     "title": "Understanding More About Human and Machine Attention in Deep Neural Networks",
+     "year": 2021,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 76,
+     "doi": "10.1109/tmm.2020.3007321",
+     "authors": "Qiuxia Lai, Salman Khan, Yongwei Nie, Hanqiu Sun, Jianbing Shen, Ling Shao"
+    },
+    {
+     "title": "Camera Motion-Conditioned Motion Estimation for Neural Video Coding for Cloud Gaming",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3668637",
+     "authors": "Yifan Wang, Fei Yang, Luka Murn, Juil Sock, Marc Gorriz Blanch, Shuai Wan"
+    },
+    {
+     "title": "Generalized Zero-Shot Learning Via Multi-Modal Aggregated Posterior Aligning Neural Network",
+     "year": 2022,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 20,
+     "doi": "10.1109/tmm.2020.3047546",
+     "authors": "Xingyu Chen, Jin Li, Xuguang Lan, Nanning Zheng"
+    },
+    {
+     "title": "NeuV-SLAM: Fast Neural Multiresolution Voxel Optimization for RGBD Dense SLAM",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1109/tmm.2025.3599100",
+     "authors": "Wenzhi Guo, Bing Wang, Lijun Chen"
+    },
+    {
+     "title": "Enhancing Neural Machine Translation With Dual-Side Multimodal Awareness",
+     "year": 2022,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 11,
+     "doi": "10.1109/tmm.2021.3092187",
+     "authors": "Yuqing Song, Shizhe Chen, Qin Jin, Wei Luo, Jun Xie, Fei Huang"
+    },
+    {
+     "title": "Interpreting Hidden Semantics in the Intermediate Layers of 3D Point Cloud Classification Neural Network",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 13,
+     "doi": "10.1109/tmm.2023.3345147",
+     "authors": "Weiquan Liu, Minghao Liu, Shijun Zheng, Siqi Shen, Xuesheng Bian, Yu Zang"
+    },
+    {
+     "title": "MF-GGNN: Crack Visual Reasoning CAPTCHA Holistically Using a Novel Multi-Feature Fusion-Based Graph Gated Neural Network",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2025.3645614",
+     "authors": "Botao Xu, Haizhou Wang, Wenxian Wang, Xingshu Chen"
+    },
+    {
+     "title": "ShadowNeRF: Learning Neural Radiance Field With Sight Degradation and Recovery",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3651081",
+     "authors": "Yu Zheng, Hongru Yan, Yueqi Duan, Jiwen Lu"
+    },
+    {
+     "title": "Post-Distillation via Neural Resuscitation",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 15,
+     "doi": "10.1109/tmm.2023.3306601",
+     "authors": "Zhiqiang Bao, Zihao Chen, Chang-Dong Wang, Wei-Shi Zheng, Zhenhua Huang, Yunwen Chen"
+    },
+    {
+     "title": "Boosting Universal Adversarial Attack on Deep Neural Networks",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3651134",
+     "authors": "Shaoxin Li, Xiaofeng Liao, Xin Che, Lingyang Chu"
+    },
+    {
+     "title": "CaptionNet: A Tailor-made Recurrent Neural Network for Generating Image Descriptions",
+     "year": 2021,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 48,
+     "doi": "10.1109/tmm.2020.2990074",
+     "authors": "Longyu Yang, Hanli Wang, Pengjie Tang, Qinyu Li"
+    },
+    {
+     "title": "Spatial Pyramid Attention for Deep Convolutional Neural Networks",
+     "year": 2021,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 52,
+     "doi": "10.1109/tmm.2021.3068576",
+     "authors": "Xu Ma, Jingda Guo, Andrew Sansom, Mara McGuire, Andrew Kalaani, Qi Chen"
+    },
+    {
+     "title": "Accurate Head Pose Estimation Using Image Rectification and a Lightweight Convolutional Neural Network",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 25,
+     "doi": "10.1109/tmm.2022.3144893",
+     "authors": "Xiao Li, Dong Zhang, Ming Li, Dah-Jye Lee"
+    },
+    {
+     "title": "Fast Multi-Type Tree Partitioning for Versatile Video Coding Using a Lightweight Neural Network",
+     "year": 2021,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 71,
+     "doi": "10.1109/tmm.2020.3042062",
+     "authors": "Sang-hyo Park, Je-Won Kang"
+    },
+    {
+     "title": "MIEGAN: Mobile Image Enhancement via a Multi-Module Cascade Neural Network",
+     "year": 2022,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 46,
+     "doi": "10.1109/tmm.2021.3054509",
+     "authors": "Zhaoqing Pan, Feng Yuan, Jianjun Lei, Wanqing Li, Nam Ling, Sam Kwong"
+    },
+    {
+     "title": "FP-AGL: Filter Pruning With Adaptive Gradient Learning for Accelerating Deep Convolutional Neural Networks",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 48,
+     "doi": "10.1109/tmm.2022.3189496",
+     "authors": "Nam Joon Kim, Hyun Kim"
+    },
+    {
+     "title": "Multi-Scale Invertible Neural Network for Wide-Range Variable-Rate Learned Image Compression",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 6,
+     "doi": "10.1109/tmm.2025.3607748",
+     "authors": "Hanyue Tu, Siqi Wu, Li Li, Wengang Zhou, Houqiang Li"
+    },
+    {
+     "title": "HNR-ISC: Hybrid Neural Representation for Image Set Compression",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1109/tmm.2024.3521715",
+     "authors": "Pingping Zhang, Shiqi Wang, Meng Wang, Peilin Chen, Wenhui Wu, Xu Wang"
+    },
+    {
+     "title": "ViDR-GNN: Vision Implicit Discriminative Reorganization Graph Neural Networks",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1109/tmm.2025.3639924",
+     "authors": "Zeyang Zhang, Xiaofeng Cao, Xiang Zhang, Li Peng, Lijia Ma, Jielong Yang"
+    },
+    {
+     "title": "Mix-Based Training Strategies for Learning Implicit Neural Representations",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1109/tmm.2025.3613162",
+     "authors": "Dongshen Han, Chaoning Zhang, Sheng Zheng, Fachrina Dewi Puspitasari, Yang Yang, Heng Tao Shen"
+    },
+    {
+     "title": "Exploring Kernel Transformations for Implicit Neural Representations",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1109/tmm.2025.3565979",
+     "authors": "Sheng Zheng, Chaoning Zhang, Dongshen Han, Fachrina Dewi Puspitasari, Xinhong Hao, Yang Yang"
+    },
+    {
+     "title": "Hierarchical Aggregated Graph Neural Network for Skeleton-Based Action Recognition",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 25,
+     "doi": "10.1109/tmm.2024.3428330",
+     "authors": "Pei Geng, Xuequan Lu, Wanqing Li, Lei Lyu"
+    },
+    {
+     "title": "COMO: Efficient Deep Neural Networks Expansion With COnvolutional MaxOut",
+     "year": 2021,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 9,
+     "doi": "10.1109/tmm.2020.3002614",
+     "authors": "Baoxin Zhao, Haoyi Xiong, Jiang Bian, Zhishan Guo, Cheng-Zhong Xu, Dejing Dou"
+    },
+    {
+     "title": "Enhancing Neural Adaptive Wireless Video Streaming via Cross-Layer Information Exposure and Online Tuning",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 2,
+     "doi": "10.1109/tmm.2024.3521820",
+     "authors": "Lingzhi Zhao, Ying Cui, Yuhang Jia, Yunfei Zhang, Klara Nahrstedt"
+    },
+    {
+     "title": "Steerable Graph Neural Network on Point Clouds via Second-Order Random Walks",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1109/tmm.2023.3330338",
+     "authors": "Xianglin Guo, Yifan Wang, Heng Liu, Haoran Xie, Gary Cheng, Fu Lee Wang"
+    },
+    {
+     "title": "One-Shot Human Motion Transfer via Occlusion-Robust Flow Prediction and Neural Texturing",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1109/tmm.2025.3535368",
+     "authors": "Yuzhu Ji, Chuanxia Zheng, Tat-Jen Cham"
+    },
+    {
+     "title": "Privacy Protection Based on Hopfield Cross Neural Network in WBANs for Medical Images",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 7,
+     "doi": "10.1109/tmm.2025.3604898",
+     "authors": "Xiuli Chai, Guoqiang Long, Yakun Ma, Changbo Li, Zhihua Gan, Yushu Zhang"
+    },
+    {
+     "title": "Neural Collaborative Preference Learning With Pairwise Comparisons",
+     "year": 2021,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1109/tmm.2020.3006373",
+     "authors": "Zhaopeng Li, Qianqian Xu, Yangbangyan Jiang, Ke Ma, Xiaochun Cao, Qingming Huang"
+    },
+    {
+     "title": "Self-Reflection Neural Network for Class-Incremental Object Counting",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2025.3613145",
+     "authors": "Shengqin Jiang, Linfei Li, Fengna Cheng, Yuankai Qi, Qingshan Liu"
+    }
+   ]
+  },
+  "on-device inference": {
+   "total": 11355,
+   "kept": 24,
+   "papers": [
+    {
+     "title": "Efficient Design and Control for Network-Assisted Device-to-Device Content Delivery Network",
+     "year": 2021,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1109/tmm.2020.3011330",
+     "authors": "Jihoon Sung, Dujeong Lee"
+    },
+    {
+     "title": "Deconfounding Causal Inference for Zero-Shot Action Recognition",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 17,
+     "doi": "10.1109/tmm.2023.3318300",
+     "authors": "Junyan Wang, Yiqi Jiang, Yang Long, Xiuyu Sun, Maurice Pagnucco, Yang Song"
+    },
+    {
+     "title": "Language-aware Counterfactual Inference for 3D Semi-supervised CT Cardiac Segmentation",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 0,
+     "doi": "10.1109/tmm.2026.3728650",
+     "authors": "Jinfeng Chen, Heye Zhang, Xiujian Liu, Juntao Zhong, Changzheng Shi, Zhihui Zhang"
+    },
+    {
+     "title": "A Novel Human Image Sequence Synthesis Method by Pose-Shape-Content Inference",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1109/tmm.2022.3209924",
+     "authors": "Naiyu Fang, Lemiao Qiu, Shuyou Zhang, Zili Wang, Kerui Hu, Liangyu Dong"
+    },
+    {
+     "title": "RQNet: Residual Quaternion CNN for Performance Enhancement in Low Complexity and Device Robust Acoustic Scene Classification",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 16,
+     "doi": "10.1109/tmm.2023.3241553",
+     "authors": "Aswathy Madhu, Suresh K"
+    },
+    {
+     "title": "Enhanced Reasoning via Multimodal LLMs and Collaborative Inference",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1109/tmm.2025.3590940",
+     "authors": "Zhiquan Wen, Mingkui Tan, Yaowei Wang, Qingyao Wu, Qi Wu"
+    },
+    {
+     "title": "Learning Low-Rank Sparse Representations With Robust Relationship Inference for Image Memorability Prediction",
+     "year": 2021,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1109/tmm.2020.3009485",
+     "authors": "Peiguang Jing, Yuechen Shang, Liqiang Nie, Yuting Su, Jing Liu, Meng Wang"
+    },
+    {
+     "title": "Multimodality Self-distillation for Fast Inference of Vision and Language Pretrained Models",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 6,
+     "doi": "10.1109/tmm.2024.3384060",
+     "authors": "Jun Kong, Jin Wang, Liang-Chih Yu, Xuejie Zhang"
+    },
+    {
+     "title": "Inference-Time Rule Eraser: Fair Recognition via Distilling and Removing Biased Rules",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1109/tmm.2026.3654438",
+     "authors": "Yi Zhang, Dongyuan Lu, Jitao Sang"
+    },
+    {
+     "title": "PG-VTON: A Novel Image-Based Virtual Try-On Method via Progressive Inference Paradigm",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 14,
+     "doi": "10.1109/tmm.2024.3354622",
+     "authors": "Naiyu Fang, Lemiao Qiu, Shuyou Zhang, Zili Wang, Kerui Hu"
+    },
+    {
+     "title": "Learning to Learn With Variational Inference for Cross-Domain Image Classification",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 6,
+     "doi": "10.1109/tmm.2022.3158072",
+     "authors": "Lei Zhang, Yingjun Du, Jiayi Shen, Xiantong Zhen"
+    },
+    {
+     "title": "KTransGAN: Variational Inference-Based Knowledge Transfer for Unsupervised Conditional Generative Learning",
+     "year": 2021,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 13,
+     "doi": "10.1109/tmm.2020.3023792",
+     "authors": "Mohamed Azzam, Wenhao Wu, Wenming Cao, Si Wu, Hau-San Wong"
+    },
+    {
+     "title": "Tackling Ambiguity From Perspectives of Uncertainty Inference and Affinity Diversification for Weakly Supervised Semantic Segmentation",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 7,
+     "doi": "10.1109/tmm.2025.3613165",
+     "authors": "Zhiwei Yang, Yucong Meng, Kexue Fu, Shuo Wang, Zhijian Song"
+    },
+    {
+     "title": "LININ: Logic Integrated Neural Inference Network for Explanatory Visual Question Answering",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 14,
+     "doi": "10.1109/tmm.2024.3521709",
+     "authors": "Dizhan Xue, Shengsheng Qian, Quan Fang, Changsheng Xu"
+    },
+    {
+     "title": "FedLive: A Federated Transmission Framework for Panoramic Livecast With Reinforced Variational Inference",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 9,
+     "doi": "10.1109/tmm.2023.3237325",
+     "authors": "Xingyan Chen, Mu Wang, Changqiao Xu, Yu Zhao, Yang Shujie, Ke Jiang"
+    },
+    {
+     "title": "Hyperspectral Image Super-Resolution via Boundary Perception and Topology Inference",
+     "year": 2026,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 1,
+     "doi": "10.1109/tmm.2026.3668557",
+     "authors": "Heng Wang, Cong Wang, Yuan Yuan"
+    },
+    {
+     "title": "Relation Inference Enhancement Network for Visual Commonsense Reasoning",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 4,
+     "doi": "10.1109/tmm.2024.3521725",
+     "authors": "Mengqi Yuan, Gengyun Jia, Bing-Kun Bao"
+    },
+    {
+     "title": "Cross-Receptive Focused Inference Network for Lightweight Image Super-Resolution",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 80,
+     "doi": "10.1109/tmm.2023.3272474",
+     "authors": "Wenjie Li, Juncheng Li, Guangwei Gao, Weihong Deng, Jiantao Zhou, Jian Yang"
+    },
+    {
+     "title": "Dual-Level Masked Semantic Inference for Semi-Supervised Semantic Segmentation",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 5,
+     "doi": "10.1109/tmm.2025.3535294",
+     "authors": "Qiankun Ma, Ziyao Zhang, Pengchong Qiao, Yu Wang, Rongrong Ji, Chang Liu"
+    },
+    {
+     "title": "CAA-Net: Conditional Atrous CNNs With Attention for Explainable Device-Robust Acoustic Scene Classification",
+     "year": 2021,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 27,
+     "doi": "10.1109/tmm.2020.3037534",
+     "authors": "Zhao Ren, Qiuqiang Kong, Jing Han, Mark D. Plumbley, Bjorn W. Schuller"
+    },
+    {
+     "title": "A Knowledge-Based Hierarchical Causal Inference Network for Video Action Recognition",
+     "year": 2024,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 26,
+     "doi": "10.1109/tmm.2024.3386339",
+     "authors": "Yang Liu, Fang Liu, Licheng Jiao, Qianyue Bao, Lingling Li, Yuwei Guo"
+    },
+    {
+     "title": "Attention Map Guided Transformer Pruning for Occluded Person Re-Identification on Edge Device",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 46,
+     "doi": "10.1109/tmm.2023.3265159",
+     "authors": "Junzhu Mao, Yazhou Yao, Zeren Sun, Xingguo Huang, Fumin Shen, Heng-Tao Shen"
+    },
+    {
+     "title": "CASIA-PR-V1: A Multi-Ethnic, Multi-Device and Cross-Spectral Dataset and a Multiscale Disentangled Model for Periocular Recognition",
+     "year": 2025,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 3,
+     "doi": "10.1109/tmm.2025.3599084",
+     "authors": "Wanting Zhou, Yiwei Ru, Yushan Han, Longteng Kong, Zijian Wang, Yong He"
+    },
+    {
+     "title": "Device-Edge-Cloud Collaborative Acceleration Method Towards Occluded Face Recognition in High-Traffic Areas",
+     "year": 2023,
+     "venue": "IEEE Transactions on Multimedia",
+     "citationCount": 13,
+     "doi": "10.1109/tmm.2023.3240884",
+     "authors": "Puning Zhang, Fengyi Huang, Dapeng Wu, Boran Yang, Zhigang Yang, Lei Tan"
+    }
+   ]
+  }
+ }
+}

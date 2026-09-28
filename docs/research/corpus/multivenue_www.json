@@ -1,0 +1,558 @@
+{
+ "venue": "WWW",
+ "category": "cross",
+ "canonical_venue_string": "The Web Conference",
+ "wave": "B",
+ "generated_at": "2026-09-29 01:24:13",
+ "topics": [
+  "LLM agent tool use",
+  "agent memory",
+  "multimodal agent",
+  "on-device inference"
+ ],
+ "request_budget": {
+  "successful": 35,
+  "limit": 300,
+  "attempts": 4
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "LLM agent tool use": {
+   "total": 41619,
+   "kept": 5,
+   "papers": [
+    {
+     "title": "LLM and AI Agent: Golden Rule is All We Need",
+     "year": 2026,
+     "venue": "Companion Proceedings of the ACM Web Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3774905.3795834",
+     "authors": "Djallel Bouneffouf"
+    },
+    {
+     "title": "Lang2Plan: An LLM-Powered Multi-Agent System for Building Layout Planning",
+     "year": 2026,
+     "venue": "Companion Proceedings of the ACM Web Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3774905.3793111",
+     "authors": "Fangyong Pan, Xi Chen, Weiqi Xu, Yifeng Xu, Haofen Wang"
+    },
+    {
+     "title": "LLM Use for Mental Health: Crowdsourcing Users' Sentiment-based Perspectives and Values from Social Discussions",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Web Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3774904.3793025",
+     "authors": "Lingyao Li, Xiaoshan Huang, Renkai Ma, Ben Zefeng Zhang, Haolun Wu, Fan Yang"
+    },
+    {
+     "title": "llm-tuna - Hyperparameter Optimization for LLM Inference",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Web Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3774904.3792953",
+     "authors": "Thameem Abbas Ibrahim Bathusha, Aanya Sharma, Andy Huynh, Rehan Samaratunga, Ashish Kamra"
+    },
+    {
+     "title": "PolicySim: An LLM-Based Agent Social Simulation Sandbox for Proactive Policy Optimization",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Web Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3774904.3792555",
+     "authors": "Renhong Huang, Ning Tang, Jiarong Xu, Yuxuan Cao, Qingqian Tu, Sheng Guo"
+    }
+   ]
+  },
+  "agent memory": {
+   "total": 23762,
+   "kept": 21,
+   "papers": [
+    {
+     "title": "GraphCogent: Mitigating LLMs' Working Memory Constraints via Multi-Agent Collaboration in Complex Graph Understanding",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Web Conference 2026",
+     "citationCount": 6,
+     "doi": "10.1145/3774904.3792314",
+     "authors": "Rongzheng Wang, Shuang Liang, Qizhi Chen, Yihong Huang, Muquan Li, Yizhuo Ma"
+    },
+    {
+     "title": "MACA: A Multi-Agent Cognitive Adaptation Framework for Human–Agent Collaborative Decision Making",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Web Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3774904.3792921",
+     "authors": "Youn Jun Seong, Ha Young Oh"
+    },
+    {
+     "title": "Multimodal Query Suggestion with Multi-Agent Reinforcement Learning from Human Feedback",
+     "year": 2024,
+     "venue": "Proceedings of the ACM Web Conference 2024",
+     "citationCount": 13,
+     "doi": "10.1145/3589334.3645365",
+     "authors": "Zheng Wang, Bingzheng Gan, Wei Shi"
+    },
+    {
+     "title": "Mitigating Cognitive Vulnerabilities in Code Generation via Multi-Agent Adversarial Debate",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Web Conference 2026",
+     "citationCount": 1,
+     "doi": "10.1145/3774904.3792557",
+     "authors": "Shuofu Liu, Quanjiang Guo, Xiao Liu, Ying Liu"
+    },
+    {
+     "title": "LLM and AI Agent: Golden Rule is All We Need",
+     "year": 2026,
+     "venue": "Companion Proceedings of the ACM Web Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3774905.3795834",
+     "authors": "Djallel Bouneffouf"
+    },
+    {
+     "title": "Unicoon: Hypergraph-based Multi-Agent Simulation of Information Cocoons",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Web Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3774904.3792486",
+     "authors": "Chunyu Wei, Yongsiqi Tu, Yunhai Wang"
+    },
+    {
+     "title": "Beyond Playtesting: A Generative Multi-Agent Simulation System for Massively Multiplayer Online Games",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Web Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3774904.3792901",
+     "authors": "Zhang Ran, Kun Ouyang, Tiancheng Ma, Yida Yang, Dong Fang"
+    },
+    {
+     "title": "PromptX: A Cognitive Agent Platform with Long-term Memory",
+     "year": 2026,
+     "venue": "Companion Proceedings of the ACM Web Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3774905.3793108",
+     "authors": "Binhao Wang, Jianglin Huang, Xiao Hu, Shan Jiang, Maolin Wang, Ching-Ho Yang"
+    },
+    {
+     "title": "Difficulty-Aware Agentic Orchestration for Query-Specific Multi-Agent Workflows",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Web Conference 2026",
+     "citationCount": 1,
+     "doi": "10.1145/3774904.3792240",
+     "authors": "Jinwei Su, Qizhen Lan, Yinghui Xia, Lifan Sun, Weiyou Tian, Tianyu Shi"
+    },
+    {
+     "title": "Traceable Latent Variable Discovery Based on Multi-Agent Collaboration",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Web Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3774904.3792244",
+     "authors": "Huaming Du, Tao Hu, Yijie Huang, Yu Zhao, Guisong Liu, Tao Gu"
+    },
+    {
+     "title": "MemStream: Memory-Based Streaming Anomaly Detection",
+     "year": 2022,
+     "venue": "Proceedings of the ACM Web Conference 2022",
+     "citationCount": 41,
+     "doi": "10.1145/3485447.3512221",
+     "authors": "Siddharth Bhatia, Arjit Jain, Shivin Srivastava, Kenji Kawaguchi, Bryan Hooi"
+    },
+    {
+     "title": "Multi-Agent Collaborative Filtering: Orchestrating Users and Items for Agentic Recommendations",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Web Conference 2026",
+     "citationCount": 3,
+     "doi": "10.1145/3774904.3792931",
+     "authors": "Yu Xia, Sungchul Kim, Tong Yu, Ryan A. Rossi, Julian McAuley"
+    },
+    {
+     "title": "What Is Your AI Agent Buying? Evaluation, Biases, Model Dependence, &amp; Emerging Implications of Agentic E-Commerce",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Web Conference 2026",
+     "citationCount": 7,
+     "doi": "10.1145/3774904.3792943",
+     "authors": "Amine Allouah, Omar Besbes, Josué D. Figueroa, Yash Kanoria, Akshit Kumar"
+    },
+    {
+     "title": "Socialbots on Fire: Modeling Adversarial Behaviors of Socialbots via Multi-Agent Hierarchical Reinforcement Learning",
+     "year": 2022,
+     "venue": "Proceedings of the ACM Web Conference 2022",
+     "citationCount": 12,
+     "doi": "10.1145/3485447.3512215",
+     "authors": "Thai Le, Long Tran-Thanh, Dongwon Lee"
+    },
+    {
+     "title": "LLMs as Orchestrators: Constraint-Compliant Multi-Agent Optimization for Recommendation Systems",
+     "year": 2026,
+     "venue": "Companion Proceedings of the ACM Web Conference 2026",
+     "citationCount": 1,
+     "doi": "10.1145/3774905.3795728",
+     "authors": "Guilin Zhang, Kai Zhao, Jeffrey Friedman, Xu Chu"
+    },
+    {
+     "title": "Bento: Fine-Grained Memory Isolation for COTS WebAssembly Binaries",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Web Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3774904.3792439",
+     "authors": "Oussama Draissi, Lucas Davi"
+    },
+    {
+     "title": "Unlocking the Non-deterministic Computing Power with Memory-Elastic Multi-Exit Neural Networks",
+     "year": 2024,
+     "venue": "Proceedings of the ACM Web Conference 2024",
+     "citationCount": 1,
+     "doi": "10.1145/3589334.3645340",
+     "authors": "Jiaming Huang, Yi Gao, Wei Dong"
+    },
+    {
+     "title": "Automating Computational Reproducibility in Social Science: Comparing Prompt-Based and Agent-Based Approaches",
+     "year": 2026,
+     "venue": "Companion Proceedings of the ACM Web Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3774905.3795485",
+     "authors": "Syed Mehtab Hussain Shah, Frank Hopfgartner, Arnim Bleier"
+    },
+    {
+     "title": "Causal Graph ODE: Continuous Treatment Effect Modeling in Multi-agent Dynamical Systems",
+     "year": 2024,
+     "venue": "Proceedings of the ACM Web Conference 2024",
+     "citationCount": 3,
+     "doi": "10.1145/3589334.3648148",
+     "authors": "Zijie Huang, Jeehyun Hwang, Junkai Zhang, Jinwoo Baik, Weitong Zhang, Dominik Wodarz"
+    },
+    {
+     "title": "A Large Language Model-based Agent for Automated Machine Learning Workflow Construction",
+     "year": 2026,
+     "venue": "Companion Proceedings of the ACM Web Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3774905.3793115",
+     "authors": "Yutian Xu, Yanhao Wang, Hui Li, Shengjie Xia, Shengtian Min"
+    },
+    {
+     "title": "<scp>TrustResearcher:</scp>\n                    Automating Knowledge-Grounded and Transparent Research Ideation with Multi-Agent Collaboration",
+     "year": 2026,
+     "venue": "Companion Proceedings of the ACM Web Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3774905.3793109",
+     "authors": "Jiawei Zhou, Ruicheng Zhu, Mengshi Chen, Jianwei Wang, Kai Wang"
+    }
+   ]
+  },
+  "multimodal agent": {
+   "total": 27074,
+   "kept": 17,
+   "papers": [
+    {
+     "title": "Multimodal Query Suggestion with Multi-Agent Reinforcement Learning from Human Feedback",
+     "year": 2024,
+     "venue": "Proceedings of the ACM Web Conference 2024",
+     "citationCount": 13,
+     "doi": "10.1145/3589334.3645365",
+     "authors": "Zheng Wang, Bingzheng Gan, Wei Shi"
+    },
+    {
+     "title": "RAMA: Retrieval-Augmented Multi-Agent Framework for Misinformation Detection in Multimodal Fact-Checking",
+     "year": 2026,
+     "venue": "Companion Proceedings of the ACM Web Conference 2026",
+     "citationCount": 3,
+     "doi": "10.1145/3774905.3796483",
+     "authors": "Shuo Yang, Zijian Yu, Zhenzhe Ying, Yuqin Dai, Guoqing Wang, Jun Lan"
+    },
+    {
+     "title": "TMMDA: A New Token Mixup Multimodal Data Augmentation for Multimodal Sentiment Analysis",
+     "year": 2023,
+     "venue": "Proceedings of the ACM Web Conference 2023",
+     "citationCount": 15,
+     "doi": "10.1145/3543507.3583406",
+     "authors": "Xianbing Zhao, Yixin Chen, Sicen Liu, Xuan Zang, Yang Xiang, Buzhou Tang"
+    },
+    {
+     "title": "Hyperbolic Multimodal Generative Representation Learning for Generalized Zero-Shot Multimodal Information Extraction",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Web Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3774904.3792311",
+     "authors": "Baohang Zhou, Kehui Song, Rize Jin, Yu Zhao, Xuhui Sui, Xinying Qian"
+    },
+    {
+     "title": "MemeCraft: Contextual and Stance-Driven Multimodal Meme Generation",
+     "year": 2024,
+     "venue": "Proceedings of the ACM Web Conference 2024",
+     "citationCount": 12,
+     "doi": "10.1145/3589334.3648151",
+     "authors": "Han Wang, Roy Ka-Wei Lee"
+    },
+    {
+     "title": "Contrastive Learning for Multimodal Classification of Crisis related Tweets",
+     "year": 2024,
+     "venue": "Proceedings of the ACM Web Conference 2024",
+     "citationCount": 15,
+     "doi": "10.1145/3589334.3648143",
+     "authors": "Bishwas Mandal, Sarthak Khanal, Doina Caragea"
+    },
+    {
+     "title": "MACA: A Multi-Agent Cognitive Adaptation Framework for Human–Agent Collaborative Decision Making",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Web Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3774904.3792921",
+     "authors": "Youn Jun Seong, Ha Young Oh"
+    },
+    {
+     "title": "Drifting with Intent: Generative Interest Trajectories for Multimodal Web Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Web Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3774904.3792375",
+     "authors": "Weilin Zhou, Hao Zhang, Guangxin Wu"
+    },
+    {
+     "title": "On Explaining Multimodal Hateful Meme Detection Models",
+     "year": 2022,
+     "venue": "Proceedings of the ACM Web Conference 2022",
+     "citationCount": 36,
+     "doi": "10.1145/3485447.3512260",
+     "authors": "Ming Shan Hee, Roy Ka-Wei Lee, Wen-Haw Chong"
+    },
+    {
+     "title": "IRAG: Robust Multimodal Retrieval-Augmented Generation via Hazard Separation",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Web Conference 2026",
+     "citationCount": 1,
+     "doi": "10.1145/3774904.3792319",
+     "authors": "Ruikun Luo, Zixiao Feng, Lin Gu, Xiaoyu Xia"
+    },
+    {
+     "title": "OSPC: Multimodal Harmful Content Detection using Fine-tuned Language Models",
+     "year": 2024,
+     "venue": "Companion Proceedings of the ACM Web Conference 2024",
+     "citationCount": 3,
+     "doi": "10.1145/3589335.3665997",
+     "authors": "Bill Cai"
+    },
+    {
+     "title": "MIDE: Multimodal Dialogue Emotion Recognition via Mutual Information Enhancement and Dynamic Modality Selection",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Web Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3774904.3792320",
+     "authors": "Zhibo Zhang, Jianjun Li, Zhiyuan Ma"
+    },
+    {
+     "title": "Asking Multimodal Clarifying Questions in Mixed-Initiative Conversational Search",
+     "year": 2024,
+     "venue": "Proceedings of the ACM Web Conference 2024",
+     "citationCount": 12,
+     "doi": "10.1145/3589334.3645483",
+     "authors": "Yifei Yuan, Clemencia Siro, Mohammad Aliannejadi, Maarten de Rijke, Wai Lam"
+    },
+    {
+     "title": "Query-Driven Knowledge Graph Construction using Question Answering and Multimodal Fusion",
+     "year": 2023,
+     "venue": "Companion Proceedings of the ACM Web Conference 2023",
+     "citationCount": 3,
+     "doi": "10.1145/3543873.3587567",
+     "authors": "Yang Peng"
+    },
+    {
+     "title": "DMAP: Human-Aligned Structural Document Map for Multimodal Document Understanding",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Web Conference 2026",
+     "citationCount": 1,
+     "doi": "10.1145/3774904.3792229",
+     "authors": "Shunliang Fu, Yanxin Zhang, Yixin Xiang, Xiaoyu Du, Jinhui Tang"
+    },
+    {
+     "title": "Interpreting wealth distribution via poverty map inference using multimodal data",
+     "year": 2023,
+     "venue": "Proceedings of the ACM Web Conference 2023",
+     "citationCount": 6,
+     "doi": "10.1145/3543507.3583862",
+     "authors": "Lisette Espín-Noboa, János Kertész, Márton Karsai"
+    },
+    {
+     "title": "GeoPBR: Multimodal-Guided PBR Material Generation from a Single View",
+     "year": 2026,
+     "venue": "Companion Proceedings of the ACM Web Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3774905.3795842",
+     "authors": "Luying Zhou, Guowu Yang"
+    }
+   ]
+  },
+  "on-device inference": {
+   "total": 16874,
+   "kept": 21,
+   "papers": [
+    {
+     "title": "WebGeoInfer: Structure-Free Multi-Stage Framework for Geolocation Inference from Exposed Device Web Interfaces",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Web Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3774904.3792341",
+     "authors": "Huipeng Yang, Li Yang, Lu Zhou, Lichuan Ma, Xinyue Wang, Junbo Jia"
+    },
+    {
+     "title": "Hierarchical Deep Neural Network Inference for Device-Edge-Cloud Systems",
+     "year": 2023,
+     "venue": "Companion Proceedings of the ACM Web Conference 2023",
+     "citationCount": 4,
+     "doi": "10.1145/3543873.3587370",
+     "authors": "Fatih Ilhan, Selim Furkan Tekin, Sihao Hu, Tiansheng Huang, Ka-Ho Chow, Ling Liu"
+    },
+    {
+     "title": "DL Inference and Training Optimization Towards Speed and Scale",
+     "year": 2021,
+     "venue": "Companion Proceedings of the Web Conference 2021",
+     "citationCount": 0,
+     "doi": "10.1145/3442442.3452297",
+     "authors": "Minjia Zhang"
+    },
+    {
+     "title": "Geometric and Topological Inference for Deep Representations of Complex Networks",
+     "year": 2022,
+     "venue": "Companion Proceedings of the Web Conference 2022",
+     "citationCount": 4,
+     "doi": "10.1145/3487553.3524194",
+     "authors": "Baihan Lin"
+    },
+    {
+     "title": "Multi-aspect Diffusion Network Inference",
+     "year": 2023,
+     "venue": "Proceedings of the ACM Web Conference 2023",
+     "citationCount": 8,
+     "doi": "10.1145/3543507.3583228",
+     "authors": "Hao Huang, Keqi Han, Beicheng Xu, Ting Gan"
+    },
+    {
+     "title": "EcoThink: A Green Adaptive Inference Framework for Sustainable and Accessible Agents",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Web Conference 2026",
+     "citationCount": 1,
+     "doi": "10.1145/3774904.3792995",
+     "authors": "Linxiao Li, Zhixiang Lu"
+    },
+    {
+     "title": "llm-tuna - Hyperparameter Optimization for LLM Inference",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Web Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3774904.3792953",
+     "authors": "Thameem Abbas Ibrahim Bathusha, Aanya Sharma, Andy Huynh, Rehan Samaratunga, Ashish Kamra"
+    },
+    {
+     "title": "A Method for Assessing Inference Patterns Captured by Embedding Models in Knowledge Graphs",
+     "year": 2024,
+     "venue": "Proceedings of the ACM Web Conference 2024",
+     "citationCount": 1,
+     "doi": "10.1145/3589334.3645505",
+     "authors": "Narayanan Asuri Krishnan, Carlos R. Rivero"
+    },
+    {
+     "title": "Interpreting wealth distribution via poverty map inference using multimodal data",
+     "year": 2023,
+     "venue": "Proceedings of the ACM Web Conference 2023",
+     "citationCount": 6,
+     "doi": "10.1145/3543507.3583862",
+     "authors": "Lisette Espín-Noboa, János Kertész, Márton Karsai"
+    },
+    {
+     "title": "Fograph: Enabling Real-Time Deep Graph Inference with Fog Computing",
+     "year": 2022,
+     "venue": "Proceedings of the ACM Web Conference 2022",
+     "citationCount": 23,
+     "doi": "10.1145/3485447.3511982",
+     "authors": "Liekang Zeng, Peng Huang, Ke Luo, Xiaoxi Zhang, Zhi Zhou, Xu Chen"
+    },
+    {
+     "title": "GraphNLI: A Graph-based Natural Language Inference Model for Polarity Prediction in Online Debates",
+     "year": 2022,
+     "venue": "Proceedings of the ACM Web Conference 2022",
+     "citationCount": 11,
+     "doi": "10.1145/3485447.3512144",
+     "authors": "Vibhor Agarwal, Sagar Joglekar, Anthony P. Young, Nishanth Sastry"
+    },
+    {
+     "title": "Enterprise-Scale Search: Accelerating Inference for Sparse Extreme Multi-Label Ranking Trees",
+     "year": 2022,
+     "venue": "Proceedings of the ACM Web Conference 2022",
+     "citationCount": 3,
+     "doi": "10.1145/3485447.3511973",
+     "authors": "Philip A. Etter, Kai Zhong, Hsiang-Fu Yu, Lexing Ying, Inderjit Dhillon"
+    },
+    {
+     "title": "<scp>LaTune</scp>\n                    : Lightweight and Adaptive Configuration Tuning for LLM Inference on Edge Devices",
+     "year": 2026,
+     "venue": "Proceedings of the ACM Web Conference 2026",
+     "citationCount": 0,
+     "doi": "10.1145/3774904.3792382",
+     "authors": "Siqi Zhong, Mugeng Liu, Haiyang Shen, Chongyang Pan, Yun Ma"
+    },
+    {
+     "title": "Mental Health Coping Stories on Social Media: A Causal-Inference Study of Papageno Effect",
+     "year": 2023,
+     "venue": "Proceedings of the ACM Web Conference 2023",
+     "citationCount": 29,
+     "doi": "10.1145/3543507.3583350",
+     "authors": "Yunhao Yuan, Koustuv Saha, Barbara Keller, Erkki Tapio Isometsä, Talayeh Aledavood"
+    },
+    {
+     "title": "FINGER: Fast Inference for Graph-based Approximate Nearest Neighbor Search",
+     "year": 2023,
+     "venue": "Proceedings of the ACM Web Conference 2023",
+     "citationCount": 30,
+     "doi": "10.1145/3543507.3583318",
+     "authors": "Patrick Chen, Wei-Cheng Chang, Jyun-Yu Jiang, Hsiang-Fu Yu, Inderjit Dhillon, Cho-Jui Hsieh"
+    },
+    {
+     "title": "DREW: Efficient Winograd CNN Inference with Deep Reuse",
+     "year": 2022,
+     "venue": "Proceedings of the ACM Web Conference 2022",
+     "citationCount": 13,
+     "doi": "10.1145/3485447.3511985",
+     "authors": "Ruofan Wu, Feng Zhang, Jiawei Guan, Zhen Zheng, Xiaoyong Du, Xipeng Shen"
+    },
+    {
+     "title": "Knowledge Distillation on Cross-Modal Adversarial Reprogramming for Data-Limited Attribute Inference",
+     "year": 2023,
+     "venue": "Companion Proceedings of the ACM Web Conference 2023",
+     "citationCount": 5,
+     "doi": "10.1145/3543873.3587313",
+     "authors": "Quan Li, Lingwei Chen, Shixiong Jing, Dinghao Wu"
+    },
+    {
+     "title": "Robust Federated Learning Mitigates Client-side Training Data Distribution Inference Attacks",
+     "year": 2024,
+     "venue": "Companion Proceedings of the ACM Web Conference 2024",
+     "citationCount": 5,
+     "doi": "10.1145/3589335.3651555",
+     "authors": "Yichang Xu, Ming Yin, Minghong Fang, Neil Zhenqiang Gong"
+    },
+    {
+     "title": "Physical Trajectory Inference Attack and Defense in Decentralized POI Recommendation",
+     "year": 2024,
+     "venue": "Proceedings of the ACM Web Conference 2024",
+     "citationCount": 12,
+     "doi": "10.1145/3589334.3645410",
+     "authors": "Jing Long, Tong Chen, Guanhua Ye, Kai Zheng, Quoc Viet Hung Nguyen, Hongzhi Yin"
+    },
+    {
+     "title": "Interaction-level Membership Inference Attack Against Federated Recommender Systems",
+     "year": 2023,
+     "venue": "Proceedings of the ACM Web Conference 2023",
+     "citationCount": 63,
+     "doi": "10.1145/3543507.3583359",
+     "authors": "Wei Yuan, Chaoqun Yang, Quoc Viet Hung Nguyen, Lizhen Cui, Tieke He, Hongzhi Yin"
+    },
+    {
+     "title": "TabTune: A Unified Library for Inference and Fine-Tuning Tabular Foundation Models",
+     "year": 2026,
+     "venue": "Companion Proceedings of the ACM Web Conference 2026",
+     "citationCount": 1,
+     "doi": "10.1145/3774905.3793137",
+     "authors": "Aditya Tanna, Pratinav Seth, Mohamed Bouadi, Vinay Kumar Sankarapu"
+    }
+   ]
+  }
+ }
+}

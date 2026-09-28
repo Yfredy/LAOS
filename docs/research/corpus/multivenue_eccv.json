@@ -1,0 +1,30 @@
+{
+ "venue": "ECCV",
+ "category": "cv",
+ "canonical_venue_string": "ECCV",
+ "wave": "B",
+ "generated_at": "2026-09-29 01:20:04",
+ "topics": [
+  "audio-visual",
+  "audio language model"
+ ],
+ "request_budget": {
+  "successful": 67,
+  "limit": 300,
+  "attempts": 2
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "audio-visual": {
+   "total": 0,
+   "kept": 0,
+   "papers": []
+  },
+  "audio language model": {
+   "total": 0,
+   "kept": 0,
+   "papers": []
+  }
+ }
+}

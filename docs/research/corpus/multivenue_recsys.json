@@ -1,0 +1,998 @@
+{
+ "venue": "RecSys",
+ "category": "cross",
+ "canonical_venue_string": "ACM Conference on Recommender Systems",
+ "wave": "B",
+ "generated_at": "2026-09-29 01:24:50",
+ "topics": [
+  "LLM agent tool use",
+  "agent memory",
+  "multimodal agent",
+  "on-device inference"
+ ],
+ "request_budget": {
+  "successful": 43,
+  "limit": 300,
+  "attempts": 4
+ },
+ "truncated_by": null,
+ "failed_queries": 0,
+ "queries": {
+  "LLM agent tool use": {
+   "total": 44185,
+   "kept": 61,
+   "papers": [
+    {
+     "title": "A Hybrid Multi-Agent Conversational Recommender System with LLM and Search Engine in E-commerce",
+     "year": 2024,
+     "venue": "18th ACM Conference on Recommender Systems",
+     "citationCount": 18,
+     "doi": "10.1145/3640457.3688061",
+     "authors": "Guangtao Nie, Rong Zhi, Xiaofan Yan, Yufan Du, Xiangyang Zhang, Jianwei Chen"
+    },
+    {
+     "title": "Which LLM to Fine-Tune? Agent-Driven Model Selection at Scale",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831880",
+     "authors": "Chen Luo, Yulin Liu, Yi Liu, Xuejing Lei, Yuchen Yan, Xin Zhang"
+    },
+    {
+     "title": "Melo: A Production LLM-Powered Music Recommendation Agent",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831935",
+     "authors": "Shijia Wang, Da Guo, Qiang Xiao, Fanghui Bi, Weisheng Li, Dongjing Wang"
+    },
+    {
+     "title": "Fairness Matters: A look at LLM-generated group recommendations",
+     "year": 2024,
+     "venue": "18th ACM Conference on Recommender Systems",
+     "citationCount": 12,
+     "doi": "10.1145/3640457.3688182",
+     "authors": "Antonela Tommasel"
+    },
+    {
+     "title": "Bayesian Optimization with LLM-Based Acquisition Functions for Natural Language Preference Elicitation",
+     "year": 2024,
+     "venue": "18th ACM Conference on Recommender Systems",
+     "citationCount": 7,
+     "doi": "10.1145/3640457.3688142",
+     "authors": "David Austin, Anton Korikov, Armin Toroghi, Scott Sanner"
+    },
+    {
+     "title": "Reproducibility of LLM-based Recommender Systems: the Case Study of P5 Paradigm",
+     "year": 2024,
+     "venue": "18th ACM Conference on Recommender Systems",
+     "citationCount": 10,
+     "doi": "10.1145/3640457.3688072",
+     "authors": "Pasquale Lops, Antonio Silletti, Marco Polignano, Cataldo Musto, Giovanni Semeraro"
+    },
+    {
+     "title": "Leveraging LLM generated labels to reduce bad matches in job recommendations",
+     "year": 2024,
+     "venue": "18th ACM Conference on Recommender Systems",
+     "citationCount": 4,
+     "doi": "10.1145/3640457.3688043",
+     "authors": "Yingchi Pei, Yi Wei Pang, Warren Cai, Nilanjan Sengupta, Dheeraj Toshniwal"
+    },
+    {
+     "title": "Loom: LLM-Powered Naturally Embedded Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3841284",
+     "authors": "Piriyakorn Piriyatamwong, Satvik Garg"
+    },
+    {
+     "title": "LADDER: LLM-Annotated Data for Dogfooded Evaluation of Rankings",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3705328.3748094",
+     "authors": "Mattia Ottoborgo"
+    },
+    {
+     "title": "In-Batch Negatives Can Silently Cripple LLM-Encoded Sequential Recommenders",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3841255",
+     "authors": "Younggue Bae"
+    },
+    {
+     "title": "Narrative-Driven Itinerary Recommendation: LLM Integration for Immersive Urban Walking",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3705328.3748751",
+     "authors": "Fabio Ferrero"
+    },
+    {
+     "title": "A Low-Code Tool Supporting the Development of Recommender Systems",
+     "year": 2021,
+     "venue": "Fifteenth ACM Conference on Recommender Systems",
+     "citationCount": 7,
+     "doi": "10.1145/3460231.3478885",
+     "authors": "Claudio Di Sipio, Juri Di Rocco, Davide Di Ruscio, Dr. Phuong Thanh Nguyen"
+    },
+    {
+     "title": "Right Tool, Right Job: Recommendation for Repeat and Exploration Consumption in Food Delivery",
+     "year": 2024,
+     "venue": "18th ACM Conference on Recommender Systems",
+     "citationCount": 5,
+     "doi": "10.1145/3640457.3688119",
+     "authors": "Jiayu Li, Aixin Sun, Weizhi Ma, Peijie Sun, Min Zhang"
+    },
+    {
+     "title": "How Faithful Is the Reasoning of LLM Recommenders? A Counterfactual Audit",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3841294",
+     "authors": "Arpita Vasant Shah"
+    },
+    {
+     "title": "Personalised Outfit Recommendations: Use Cases, Challenges and Opportunities",
+     "year": 2021,
+     "venue": "Fifteenth ACM Conference on Recommender Systems",
+     "citationCount": 1,
+     "doi": "10.1145/3460231.3474622",
+     "authors": "Nick Landia"
+    },
+    {
+     "title": "LLM Based Generation of Item-Description for Recommendation System",
+     "year": 2023,
+     "venue": "Proceedings of the 17th ACM Conference on Recommender Systems",
+     "citationCount": 110,
+     "doi": "10.1145/3604915.3610647",
+     "authors": "Arkadeep Acharya, Brijraj Singh, Naoyuki Onoe"
+    },
+    {
+     "title": "Scaling LLM-Enhanced Linear Autoencoders to Industrial-Size Catalogs",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831815",
+     "authors": "Maxim Skurikhin, Kiryl Liakhnovich, Oleg Lashinin"
+    },
+    {
+     "title": "LLM-Based Re-Ranking for Real Estate Search",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831907",
+     "authors": "Nkateko Ntimane, Rafael Guedes, Tiago Cunha, Pedro Nogueira"
+    },
+    {
+     "title": "Position Bias Undermines Preference Consistency in Listwise LLM-Based Reranking",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831801",
+     "authors": "Ethan Bito, Yongli Ren, Estrid He"
+    },
+    {
+     "title": "Revisiting Prompt Engineering: A Comprehensive Evaluation for LLM-based Personalized Recommendation",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 8,
+     "doi": "10.1145/3705328.3748159",
+     "authors": "Genki Kusano, Kosuke Akimoto, Kunihiro Takeoka"
+    },
+    {
+     "title": "Beyond Visit Trajectories: Enhancing POI Recommendation via LLM-Augmented Text and Image Representations",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 3,
+     "doi": "10.1145/3705328.3748014",
+     "authors": "Zehui Wang, Wolfram Höpken, Dietmar Jannach"
+    },
+    {
+     "title": "Biases in LLM-Generated Musical Taste Profiles for Recommendation",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 3,
+     "doi": "10.1145/3705328.3748030",
+     "authors": "Bruno Sguerra, Elena V. Epure, Harin Lee, Manuel Moussallam"
+    },
+    {
+     "title": "RePlay: a Recommendation Framework for Experimentation and Production Use",
+     "year": 2024,
+     "venue": "18th ACM Conference on Recommender Systems",
+     "citationCount": 9,
+     "doi": "10.1145/3640457.3691701",
+     "authors": "Alexey Vasilev, Anna Volodkevich, Denis Kulandin, Tatiana Bysheva, Anton Klenitskiy"
+    },
+    {
+     "title": "Lumi: An LLM-Grounded System for Safety-Aware POI Recommendations",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3841252",
+     "authors": "Maria Alon Kutsaya, Maria Naddaf, Ludovico Boratto, Adir Solomon"
+    },
+    {
+     "title": "Intent-Description Anchoring Bias in LLM-as-a-Judge Evaluation of Recommender Systems",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3841257",
+     "authors": "Himan Abdollahpouri, Kyle Kretschman, Mounia Lalmas"
+    },
+    {
+     "title": "LLM Reasoning for Subjective Tasks: Failure Modes, Mitigation, and Dynamic Reasoning Routing",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831929",
+     "authors": "Juncheng Dong, Ding Tong, Ishan Gupta, Yuyan Wang"
+    },
+    {
+     "title": "Consensus vs. Dissent: Dynamic LLM Modeling of Subjective Preferences in Group Recommenders",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831775",
+     "authors": "Cedric Waterschoot, Nava Tintarev, Francesco Barile"
+    },
+    {
+     "title": "Consistent Explainers or Unreliable Narrators? Understanding LLM-generated Group Recommendations",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 6,
+     "doi": "10.1145/3705328.3748015",
+     "authors": "Cedric Waterschoot, Nava Tintarev, Francesco Barile"
+    },
+    {
+     "title": "A Tutorial on Agentic LLM for Recommender Systems",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 2,
+     "doi": "10.1145/3705328.3748007",
+     "authors": "Chengkai Huang, Junda Wu, Tong Yu, Julian McAuley, Lina Yao"
+    },
+    {
+     "title": "Not Just What, But When: Integrating Irregular Intervals to LLM for Sequential Recommendation",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3705328.3748013",
+     "authors": "Wei-Wei Du, Takuma Udagawa, Kei Tateno"
+    },
+    {
+     "title": "Should I Be Polite to My LLM Relevance Judge? Tone as a Severity Operating-Point Shift",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3841249",
+     "authors": "Tian Zhang, Meng Li"
+    },
+    {
+     "title": "LLM-RecG: A Semantic Bias-Aware Framework for Zero-Shot Sequential Recommendation",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 7,
+     "doi": "10.1145/3705328.3748077",
+     "authors": "Yunzhe Li, Junting Wang, Hari Sundaram, Zhining Liu"
+    },
+    {
+     "title": "Heterogeneous User Modeling for LLM-based Recommendation",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 5,
+     "doi": "10.1145/3705328.3748085",
+     "authors": "Honghui Bao, Wenjie Wang, Xinyu Lin, Fengbin Zhu, Teng Sun, Fuli Feng"
+    },
+    {
+     "title": "Self-Evolving Recommendation System: End-To-End Autonomous Model Optimization With LLM Agents",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831919",
+     "authors": "Haochen Wang, Yi Wu, Daryl Chang, Li Wei, Lukasz Heldt"
+    },
+    {
+     "title": "LLM-as-a-Judge for Evaluating System Responses in Conversational Music Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 1,
+     "doi": "10.1145/3773078.3831800",
+     "authors": "Seungheon Doh, Bruno Sguerra, Sergio Oramas, Elena V. Epure, Juhan Nam"
+    },
+    {
+     "title": "GradSup: Gradient Superposition for Personalised and Scalable LLM Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831758",
+     "authors": "Kanishka Dandeniya, Chirath Dasanayaka, Daswin De Silva, Sam Saltis, Shalinka Jayatilleke, Nishan Mills"
+    },
+    {
+     "title": "SlateLLM: Distilling LLM Semantics into Session-Aware Slate Recommendation without Inference Overhead",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 1,
+     "doi": "10.1145/3705328.3759306",
+     "authors": "Aayush Roy, Elias Tragos, Aonghus Lawlor, Neil Hurley"
+    },
+    {
+     "title": "A Media Content Recommendation Method for Playlist Curators using LLM-Based Query Expansion",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 1,
+     "doi": "10.1145/3705328.3748129",
+     "authors": "Yuta Hagio, Chigusa Yamamura, Hiromu Ogawa, Hisayuki Ohmata, Arisa Fujii"
+    },
+    {
+     "title": "Heterogeneous Knowledge Fusion: A Novel Approach for Personalized Recommendation via LLM",
+     "year": 2023,
+     "venue": "Proceedings of the 17th ACM Conference on Recommender Systems",
+     "citationCount": 37,
+     "doi": "10.1145/3604915.3608874",
+     "authors": "Bin Yin, Junjie Xie, Yu Qin, Zixiang Ding, Zhichao Feng, Xiang Li"
+    },
+    {
+     "title": "Beyond Fixed Depths and Widths: Optimizing Textual Decoding Tries in LLM-based Generative Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831786",
+     "authors": "Jingzhe Liu, Hanbing Wang, Jiliang Tang, Liam Collins, Tong Zhao, Neil Shah"
+    },
+    {
+     "title": "A Tool for Explainable Pension Fund Recommendations using Large Language Models",
+     "year": 2024,
+     "venue": "18th ACM Conference on Recommender Systems",
+     "citationCount": 1,
+     "doi": "10.1145/3640457.3691699",
+     "authors": "Eduardo Alves da Silva, Leandro Balby Marinho, Edleno Silva de Moura, Altigran Soares da Silva"
+    },
+    {
+     "title": "Privacy Risks of LLM-Empowered Recommender Systems: An Inversion Attack Perspective",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 6,
+     "doi": "10.1145/3705328.3748158",
+     "authors": "Yubo Wang, Min Tang, Nuo Shen, Shujie Cui, Weiqing Wang"
+    },
+    {
+     "title": "The Underrated Catalyst: Advancing Critiquing Towards Steerable and Next-Generation LLM Recommendations.",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831763",
+     "authors": "Huanyu Zhang, Xiaoxuan Shen, Baolin Yi, Yinao Xie"
+    },
+    {
+     "title": "User-Controlled Intent Layers for LLM-Mediated Personalization: A Research Agenda for Recommender Systems",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831743",
+     "authors": "Jiahao Liu, Mingzhe Han, Guanming Liu, Weihang Wang, Dongsheng Li, Hansu Gu"
+    },
+    {
+     "title": "VL-CLIP: Enhancing Multimodal Recommendations via Visual Grounding and LLM-Augmented CLIP Embeddings",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 7,
+     "doi": "10.1145/3705328.3748064",
+     "authors": "Ramin Giahi, Kehui Yao, Sriram Kollipara, Kai Zhao, Vahid Mirjalili, Jianpeng Xu"
+    },
+    {
+     "title": "Evaluating Podcast Recommendations with Profile-Aware LLM-as-a-Judge",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 8,
+     "doi": "10.1145/3705328.3759305",
+     "authors": "Francesco Fabbri, Gustavo Penha, Edoardo D'Amico, Alice Wang, Marco De Nadai, Jackie Doremus"
+    },
+    {
+     "title": "Balancing Fine-tuning and RAG: A Hybrid Strategy for Dynamic LLM Recommendation Updates",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 5,
+     "doi": "10.1145/3705328.3748105",
+     "authors": "Changping Meng, Hongyi Ling, Jianling Wang, Yifan Liu, Shuzhou Zhang, Dapeng Hong"
+    },
+    {
+     "title": "LLM-Powered Nuanced Video Attribute Annotation for Enhanced Recommendations",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 2,
+     "doi": "10.1145/3705328.3748103",
+     "authors": "Boyuan Long, Yueqi Wang, Hiloni Mehta, Mick Zomnir, Omkar Pathak, Changping Meng"
+    },
+    {
+     "title": "Shape Your Feed: An LLM-based Agentic System for Conversational Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831877",
+     "authors": "Ziyun Xu, Bosen Ding, Yue Zhang, Ji Qi, Qingyuan Song, Jizhou Huang"
+    },
+    {
+     "title": "Tokens are All You Need: Dual-purpose Semantic IDs for Achieving LLM-Level I/O Efficiency in Recommendation Systems",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831900",
+     "authors": "Baolei Li, Yiping Yuan, Yilin Zheng, Likang Yin, Ling Liu, Fabio Soldo"
+    },
+    {
+     "title": "Structure-Preserving Projection for Mitigating Modality Bias in LLM-Based Sequential Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831768",
+     "authors": "Tzu-Wei Chiu, Song-Duo Ma, Hsin-Yu Lin, Pu-Jen Cheng"
+    },
+    {
+     "title": "LLM-Based User Personas for Recommendations at Scale",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831903",
+     "authors": "Haoting Wang, Haokai Lu, Zheyun Feng, Jenny Huang, Yifat Amir, Gregory Hinkson"
+    },
+    {
+     "title": "EGR: Embedding-Native Generative Retrieval with a Shared LLM",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831916",
+     "authors": "Xiaodong Liu, Congfei Zhang, Hsiang-Wei Chao, Siman Wang, Tong Zhao, Xiao Bai"
+    },
+    {
+     "title": "SMART: LLM-Augmented Hybrid Retrieval for Dynamic Product Ads",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831922",
+     "authors": "Congfei Zhang, Jingxiao Ma, Xiaodong Liu, Hsiang-Wei Chao, Siman Wang, Ge Liu"
+    },
+    {
+     "title": "LANCE: Exploration and Reflection for LLM-based Textual Attacks on News Recommender Systems",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 2,
+     "doi": "10.1145/3705328.3748081",
+     "authors": "Yuyue Zhao, Jin Huang, Shuchang Liu, Jiancan Wu, Xiang Wang, Maarten de Rijke"
+    },
+    {
+     "title": "Flights Pricelock Fee Recommendation on Online Travel Agent Platform",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3705328.3759339",
+     "authors": "Akash Khetan, Narasimha Medeme, Deepak Yadav, Anmol Porwal"
+    },
+    {
+     "title": "Attacking and Defending Multi-Agent Collaborative Filtering Systems Through Connectivity",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831748",
+     "authors": "Anjun Hu, Hanting Xie, Saranya Govindan, Jas Kandola, Kurt Cutajar"
+    },
+    {
+     "title": "Composing Agents, Compounding Risks: A Tutorial on Robustness and Alignment in Multi-Agent Recommender Systems",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831750",
+     "authors": "Kurt Cutajar, Jas Kandola, Anjun Hu, Yashar Deldjoo"
+    },
+    {
+     "title": "Tasteprint: Cross-Platform Recommendation Agent",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3841271",
+     "authors": "Rongjie Zhu, Tianjun Wei, Cong Zhang, Guibing Guo, Zhu Sun"
+    },
+    {
+     "title": "RecEvolve: A Knowledge-Driven Autonomous Agent System for Recommender Systems",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831898",
+     "authors": "Weidi Pan, He Ma, Shuhao Ye, Palaksh Rungta, David McPeek, Junyi Jiao"
+    },
+    {
+     "title": "scikit-rec: A Unified, Extensible Recommendation Library with scikit-rec-agent, a Conversational Interface",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831851",
+     "authors": "Shankar Sankararaman, Ivelin Angelov, Tin Nguyen, Jingyuan Zhang, Shivani Gowrishankar, Jaspreet Singh"
+    }
+   ]
+  },
+  "agent memory": {
+   "total": 26266,
+   "kept": 15,
+   "papers": [
+    {
+     "title": "Denoising User-aware Memory Network for Recommendation",
+     "year": 2021,
+     "venue": "Fifteenth ACM Conference on Recommender Systems",
+     "citationCount": 32,
+     "doi": "10.1145/3460231.3474237",
+     "authors": "Zhi Bian, Shaojun Zhou, Hao Fu, Qihong Yang, Zhenqi Sun, Junjie Tang"
+    },
+    {
+     "title": "A Hybrid Multi-Agent Conversational Recommender System with LLM and Search Engine in E-commerce",
+     "year": 2024,
+     "venue": "18th ACM Conference on Recommender Systems",
+     "citationCount": 18,
+     "doi": "10.1145/3640457.3688061",
+     "authors": "Guangtao Nie, Rong Zhi, Xiaofan Yan, Yufan Du, Xiangyang Zhang, Jianwei Chen"
+    },
+    {
+     "title": "Flights Pricelock Fee Recommendation on Online Travel Agent Platform",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3705328.3759339",
+     "authors": "Akash Khetan, Narasimha Medeme, Deepak Yadav, Anmol Porwal"
+    },
+    {
+     "title": "Composing Agents, Compounding Risks: A Tutorial on Robustness and Alignment in Multi-Agent Recommender Systems",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831750",
+     "authors": "Kurt Cutajar, Jas Kandola, Anjun Hu, Yashar Deldjoo"
+    },
+    {
+     "title": "Attacking and Defending Multi-Agent Collaborative Filtering Systems Through Connectivity",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831748",
+     "authors": "Anjun Hu, Hanting Xie, Saranya Govindan, Jas Kandola, Kurt Cutajar"
+    },
+    {
+     "title": "Tasteprint: Cross-Platform Recommendation Agent",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3841271",
+     "authors": "Rongjie Zhu, Tianjun Wei, Cong Zhang, Guibing Guo, Zhu Sun"
+    },
+    {
+     "title": "RecEvolve: A Knowledge-Driven Autonomous Agent System for Recommender Systems",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831898",
+     "authors": "Weidi Pan, He Ma, Shuhao Ye, Palaksh Rungta, David McPeek, Junyi Jiao"
+    },
+    {
+     "title": "Which LLM to Fine-Tune? Agent-Driven Model Selection at Scale",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831880",
+     "authors": "Chen Luo, Yulin Liu, Yi Liu, Xuejing Lei, Yuchen Yan, Xin Zhang"
+    },
+    {
+     "title": "Melo: A Production LLM-Powered Music Recommendation Agent",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831935",
+     "authors": "Shijia Wang, Da Guo, Qiang Xiao, Fanghui Bi, Weisheng Li, Dongjing Wang"
+    },
+    {
+     "title": "scikit-rec: A Unified, Extensible Recommendation Library with scikit-rec-agent, a Conversational Interface",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831851",
+     "authors": "Shankar Sankararaman, Ivelin Angelov, Tin Nguyen, Jingyuan Zhang, Shivani Gowrishankar, Jaspreet Singh"
+    },
+    {
+     "title": "TinyKG: Memory-Efficient Training Framework for Knowledge Graph Neural Recommender Systems",
+     "year": 2022,
+     "venue": "Proceedings of the 16th ACM Conference on Recommender Systems",
+     "citationCount": 7,
+     "doi": "10.1145/3523227.3546760",
+     "authors": "Huiyuan Chen, Xiaoting Li, Kaixiong Zhou, Xia Hu, Chin-Chia Michael Yeh, Yan Zheng"
+    },
+    {
+     "title": "Beyond Passive Preference Inference: User-Governed Preference Memory and Calibrated Initiative in Recommender Systems",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831841",
+     "authors": "Kaiwen Deng, Hao Jiang, Jiaxin Cheng, Wenming Yang"
+    },
+    {
+     "title": "\"Beyond the past\": Leveraging Audio and Human Memory for Sequential Music Recommendation",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 2,
+     "doi": "10.1145/3705328.3748018",
+     "authors": "Viet Anh Tran, Bruno Sguerra, Gabriel Meseguer-Brocal, Lea Briand, Manuel Moussallam"
+    },
+    {
+     "title": "Improving Group Recommendations using Personality, Dynamic Clustering and Multi-Agent MicroServices",
+     "year": 2023,
+     "venue": "Proceedings of the 17th ACM Conference on Recommender Systems",
+     "citationCount": 8,
+     "doi": "10.1145/3604915.3610653",
+     "authors": "Patrícia Alves, André Martins, Paulo Novais, Goreti Marreiros"
+    },
+    {
+     "title": "BiLPR: Bidirectional Teacher-Student Agent Interaction for Context-Aware Learning Path Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831772",
+     "authors": "Zejun Chen, Weiwei Chen, Suojuan Zhang, Zhi Zheng, Dawei Jin, Ziwei Zhao"
+    }
+   ]
+  },
+  "multimodal agent": {
+   "total": 28544,
+   "kept": 31,
+   "papers": [
+    {
+     "title": "Multimodal Representation Learning for High-Quality Recommendations in Cold-Start and Beyond-Accuracy",
+     "year": 2024,
+     "venue": "18th ACM Conference on Recommender Systems",
+     "citationCount": 2,
+     "doi": "10.1145/3640457.3688009",
+     "authors": "Marta Moscati"
+    },
+    {
+     "title": "A Multimodal Single-Branch Embedding Network for Recommendation in Cold-Start and Missing Modality Scenarios",
+     "year": 2024,
+     "venue": "18th ACM Conference on Recommender Systems",
+     "citationCount": 25,
+     "doi": "10.1145/3640457.3688138",
+     "authors": "Christian Ganhör, Marta Moscati, Anna Hausberger, Shah Nawaz, Markus Schedl"
+    },
+    {
+     "title": "A Hybrid Multi-Agent Conversational Recommender System with LLM and Search Engine in E-commerce",
+     "year": 2024,
+     "venue": "18th ACM Conference on Recommender Systems",
+     "citationCount": 18,
+     "doi": "10.1145/3640457.3688061",
+     "authors": "Guangtao Nie, Rong Zhi, Xiaofan Yan, Yufan Du, Xiangyang Zhang, Jianwei Chen"
+    },
+    {
+     "title": "MDSBR: Multimodal Denoising for Session-based Recommendation",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 2,
+     "doi": "10.1145/3705328.3748061",
+     "authors": "Yutong Li, Xinyi Zhang"
+    },
+    {
+     "title": "Minimize Negative Experiences in Video Recommendation Systems with Multimodal Large Language Models",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 1,
+     "doi": "10.1145/3705328.3748102",
+     "authors": "Suman Malani, Youwei Zhang, Liang Liu"
+    },
+    {
+     "title": "Describe What You See with Multimodal Large Language Models to Enhance Video Recommendations",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 2,
+     "doi": "10.1145/3705328.3759303",
+     "authors": "Marco De Nadai, Andreas Damianou, Mounia Lalmas"
+    },
+    {
+     "title": "Learning Sparse Representations of Multimodal Content for Enhanced Cold Item Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831760",
+     "authors": "Gregor Meehan, Johan Pauwels"
+    },
+    {
+     "title": "Recommender Systems for Digital Humanities and Archives: Multistakeholder Evaluation, Scholarly Information Needs, and Multimodal Similarity",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3705328.3748761",
+     "authors": "Florian Atzenhofer-Baumgartner"
+    },
+    {
+     "title": "Hybrid Retrieval and Multimodal Reranking for Item-to-Item Recommendation in a C2C Marketplace",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831894",
+     "authors": "Yusuke Shido, Ryo Watanabe, Yuta Ueno, Yuki Yada, Shinya Yaginuma"
+    },
+    {
+     "title": "Second International Workshop on Data Quality-Aware Multimodal Recommendation (DaQuaMRec)",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831729",
+     "authors": "Claudio Pomo, Daniele Malitesta, Alberto Carlo Maria Mancino, Marta Moscati, Dietmar Jannach, Yubin Kim"
+    },
+    {
+     "title": "Flights Pricelock Fee Recommendation on Online Travel Agent Platform",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3705328.3759339",
+     "authors": "Akash Khetan, Narasimha Medeme, Deepak Yadav, Anmol Porwal"
+    },
+    {
+     "title": "First International Workshop on Data Quality-Aware Multimodal Recommendation (DaQuaMRec)",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 2,
+     "doi": "10.1145/3705328.3748001",
+     "authors": "Claudio Pomo, Dietmar Jannach, Yubin Kim, Daniele Malitesta, Alberto Carlo Maria Mancino, Julian McAuley"
+    },
+    {
+     "title": "Standard Practices for Data Processing and Multimodal Feature Extraction in Recommendation with DataRec and Ducho (D&amp;D4Rec)",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 3,
+     "doi": "10.1145/3705328.3748009",
+     "authors": "Alberto Carlo Maria Mancino, Matteo Attimonelli, Angela Di Fazio, Daniele Malitesta, Tommaso Di Noia"
+    },
+    {
+     "title": "Attacking and Defending Multi-Agent Collaborative Filtering Systems Through Connectivity",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831748",
+     "authors": "Anjun Hu, Hanting Xie, Saranya Govindan, Jas Kandola, Kurt Cutajar"
+    },
+    {
+     "title": "Composing Agents, Compounding Risks: A Tutorial on Robustness and Alignment in Multi-Agent Recommender Systems",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831750",
+     "authors": "Kurt Cutajar, Jas Kandola, Anjun Hu, Yashar Deldjoo"
+    },
+    {
+     "title": "How Powerful are LLMs to Support Multimodal Recommendation? A Reproducibility Study of LLMRec",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 3,
+     "doi": "10.1145/3705328.3748154",
+     "authors": "Maria Lucia Fioretti, Nicola Laterza, Alessia Preziosa, Daniele Malitesta, Claudio Pomo, Fedelucio Narducci"
+    },
+    {
+     "title": "Binge Watch: Reproducible Multimodal Benchmark Datasets for Large-Scale Movie Recommendation on MovieLens-10M and 20M",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831852",
+     "authors": "Giuseppe Spillo, Alessandro Petruzzelli, Cataldo Musto, Marco de Gemmis, Pasquale Lops, Giovanni Semeraro"
+    },
+    {
+     "title": "See the Movie, Hear the Song, Read the Book: Extending MovieLens-1M, Last.fm-2K, and DBbook with Multimodal Data",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 5,
+     "doi": "10.1145/3705328.3748162",
+     "authors": "Giuseppe Spillo, Elio Musacchio, Cataldo Musto, Marco de Gemmis, Pasquale Lops, Giovanni Semeraro"
+    },
+    {
+     "title": "Tasteprint: Cross-Platform Recommendation Agent",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3841271",
+     "authors": "Rongjie Zhu, Tianjun Wei, Cong Zhang, Guibing Guo, Zhu Sun"
+    },
+    {
+     "title": "FLUID: From Ephemeral IDs to Multimodal Semantic Codes for Billion-Scale Livestreaming Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831918",
+     "authors": "Xinhang Yuan, Zexi Huang, Anjia Cao, Xudong Lu, Zikai Wang, Penghao Zhou"
+    },
+    {
+     "title": "IDProxy: CTR Prediction with Multimodal LLMs for Cold-Start Recommendation at Xiaohongshu",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831874",
+     "authors": "Yubin Zhang, Haiming Xu, Guillaume Salha-Galvan, Ruiyan Han, Feiyang Xiao, Yanhua Huang"
+    },
+    {
+     "title": "VL-CLIP: Enhancing Multimodal Recommendations via Visual Grounding and LLM-Augmented CLIP Embeddings",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 7,
+     "doi": "10.1145/3705328.3748064",
+     "authors": "Ramin Giahi, Kehui Yao, Sriram Kollipara, Kai Zhao, Vahid Mirjalili, Jianpeng Xu"
+    },
+    {
+     "title": "RecEvolve: A Knowledge-Driven Autonomous Agent System for Recommender Systems",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831898",
+     "authors": "Weidi Pan, He Ma, Shuhao Ye, Palaksh Rungta, David McPeek, Junyi Jiao"
+    },
+    {
+     "title": "Which LLM to Fine-Tune? Agent-Driven Model Selection at Scale",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831880",
+     "authors": "Chen Luo, Yulin Liu, Yi Liu, Xuejing Lei, Yuchen Yan, Xin Zhang"
+    },
+    {
+     "title": "Just Ask for Music (JAM): Multimodal and Personalized Natural Language Music Recommendation",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 5,
+     "doi": "10.1145/3705328.3748020",
+     "authors": "Alessandro B. Melchiorre, Elena V. Epure, Shahed Masoudian, Gustavo Escobedo, Anna Hausberger, Manuel Moussallam"
+    },
+    {
+     "title": "Melo: A Production LLM-Powered Music Recommendation Agent",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831935",
+     "authors": "Shijia Wang, Da Guo, Qiang Xiao, Fanghui Bi, Weisheng Li, Dongjing Wang"
+    },
+    {
+     "title": "scikit-rec: A Unified, Extensible Recommendation Library with scikit-rec-agent, a Conversational Interface",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831851",
+     "authors": "Shankar Sankararaman, Ivelin Angelov, Tin Nguyen, Jingyuan Zhang, Shivani Gowrishankar, Jaspreet Singh"
+    },
+    {
+     "title": "Do We Really Need LLMs to Augment All? A Selective Augmentation Framework with Lightweight Language Models for Multimodal CTR Prediction",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831810",
+     "authors": "Ziyun Chen, Yuhan Wang, Honghao Li, Mengzi Tang, Qing Xie, Yongjian Liu"
+    },
+    {
+     "title": "Improving Group Recommendations using Personality, Dynamic Clustering and Multi-Agent MicroServices",
+     "year": 2023,
+     "venue": "Proceedings of the 17th ACM Conference on Recommender Systems",
+     "citationCount": 8,
+     "doi": "10.1145/3604915.3610653",
+     "authors": "Patrícia Alves, André Martins, Paulo Novais, Goreti Marreiros"
+    },
+    {
+     "title": "Choosing What Matters: Query-Aware Multimodal Routing for Conversational Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831803",
+     "authors": "Piao Huilin, Seoin Choi, Junbo Shim, Hayoung Oh"
+    },
+    {
+     "title": "BiLPR: Bidirectional Teacher-Student Agent Interaction for Context-Aware Learning Path Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831772",
+     "authors": "Zejun Chen, Weiwei Chen, Suojuan Zhang, Zhi Zheng, Dawei Jin, Ziwei Zhao"
+    }
+   ]
+  },
+  "on-device inference": {
+   "total": 18399,
+   "kept": 12,
+   "papers": [
+    {
+     "title": "Efficient Inference of Sub-Item Id-based Sequential Recommendation Models with Millions of Items",
+     "year": 2024,
+     "venue": "18th ACM Conference on Recommender Systems",
+     "citationCount": 3,
+     "doi": "10.1145/3640457.3688168",
+     "authors": "Aleksandr Vladimirovich Petrov, Craig Macdonald, Nicola Tonellotto"
+    },
+    {
+     "title": "Counterfactual Inference under Thompson Sampling",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 2,
+     "doi": "10.1145/3705328.3748011",
+     "authors": "Olivier Jeunen"
+    },
+    {
+     "title": "Popularity‑Bias Vulnerability: Semi‑Supervised Label Inference Attack on Federated Recommender Systems",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3705328.3748024",
+     "authors": "Kenji Shinoda, Takeyuki Sasai, Shintaro Fukushima"
+    },
+    {
+     "title": "What Reasoning Should a Recommender Have? Designing Reasoning for Inference-Time Scaling in Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831944",
+     "authors": "Wenhao Deng"
+    },
+    {
+     "title": "hoploy: a Plugin-Based Inference Layer for Path-Based Explainable Recommendation over Knowledge Graphs",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831856",
+     "authors": "Ludovico Boratto, Gianni Fenu, Mirko Marras, Giacomo Medda, Alessio Sechi"
+    },
+    {
+     "title": "Beyond Passive Preference Inference: User-Governed Preference Memory and Calibrated Initiative in Recommender Systems",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831841",
+     "authors": "Kaiwen Deng, Hao Jiang, Jiaxin Cheng, Wenming Yang"
+    },
+    {
+     "title": "A GPU-specialized Inference Parameter Server for Large-Scale Deep Recommendation Models",
+     "year": 2022,
+     "venue": "Proceedings of the 16th ACM Conference on Recommender Systems",
+     "citationCount": 21,
+     "doi": "10.1145/3523227.3546765",
+     "authors": "Yingcan Wei, Matthias Langer, Fan Yu, Minseok Lee, Jie Liu, Ji Shi"
+    },
+    {
+     "title": "SlateLLM: Distilling LLM Semantics into Session-Aware Slate Recommendation without Inference Overhead",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 1,
+     "doi": "10.1145/3705328.3759306",
+     "authors": "Aayush Roy, Elias Tragos, Aonghus Lawlor, Neil Hurley"
+    },
+    {
+     "title": "Membership Inference Attacks on In-Context Learning Recommendation",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831733",
+     "authors": "Jiajie He, Min-Chun Chen, Xintong Chen, Xinyang Fang, Yuechun Gu, Keke Chen"
+    },
+    {
+     "title": "Merlin HugeCTR: GPU-accelerated Recommender System Training and Inference",
+     "year": 2022,
+     "venue": "Proceedings of the 16th ACM Conference on Recommender Systems",
+     "citationCount": 33,
+     "doi": "10.1145/3523227.3547405",
+     "authors": "Zehuan Wang, Yingcan Wei, Minseok Lee, Matthias Langer, Fan Yu, Jie Liu"
+    },
+    {
+     "title": "Fine-tuning for Inference-efficient Calibrated Recommendations",
+     "year": 2025,
+     "venue": "Proceedings of the Nineteenth ACM Conference on Recommender Systems",
+     "citationCount": 4,
+     "doi": "10.1145/3705328.3759319",
+     "authors": "Oleg Lesota, Adrian Bajko, Max Walder, Matthias Wenzel, Antonela Tommasel, Markus Schedl"
+    },
+    {
+     "title": "PriCoRec: A Privacy-Aware Cloud–Device Collaborative Framework for Ad Recommendation under Feature Constraints",
+     "year": 2026,
+     "venue": "Proceedings of the 20th ACM Conference on Recommender Systems",
+     "citationCount": 0,
+     "doi": "10.1145/3773078.3831838",
+     "authors": "Dairui Liu, Zhongyi Lu, Jitao Lu, Aghiles Salah, Mete Sertkan, Roger Zhe Li"
+    }
+   ]
+  }
+ }
+}
