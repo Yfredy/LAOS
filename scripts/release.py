@@ -15,6 +15,9 @@
     fix   → patch+1
     仅 docs / chore（及其他非 feat·fix 类型）→ 不发版，返回 current
 
+注意：BREAKING 请务必在 subject 上用 "!" 标注（如 feat!: / fix(kernel)!:）——
+本脚本只读取提交 subject（%s），body/footer 形态的 BREAKING CHANGE 检测不到。
+
 当前版本口径：主树 laos/__init__.py 的 __version__（应与最新 git tag 一致）；
 提交范围口径：最新 tag..HEAD（--since 可覆盖）。
 

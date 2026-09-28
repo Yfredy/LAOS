@@ -14,6 +14,8 @@ python bin/laosweb.py                  # 启动内核 + Web 交互面板 (http:/
 python -m unittest discover -s tests   # 288 项回归测试
 ```
 
+> 当前版本 **v0.7.0**（主库 328 测试 + 隔离区 279）｜ 版本史见 [CHANGELOG.md](CHANGELOG.md) · [Releases](https://github.com/Yfredy/LAOS/releases)
+
 ---
 
 ## 这个项目是什么（30 秒版）
@@ -461,3 +463,46 @@ Brain 的快问快答通道（`laos/judge.py`）：给定 (context, question)，
 **装配与降级**：`bin/laosd.py` 在 `BACKEND != none` 时构造后端并用 `SafeJudge` 包裹再注入 kernel/memory/context/skills 四个消费点——后端抛异常（缺 key、网络故障、响应不合契约）时 fail-open 到 `JudgeResult("allow", 0.0, {"error": …})`，即回落"无 judge"的既有行为，链路不炸。
 
 **局限**：`judge.py` 的 `_post_curl` 无法区分 HTTP 429（限流）与坏 JSON——curl 退出码 0 时只做整体 `json.loads`，429 的 HTML/文本错误页与真正坏响应都表现为同一个"响应不是合法 JSON"的 `JudgeError`，装配层也就无法据此做差异化重试/熔断，只能由 `SafeJudge` 一刀切 fail-open（待后续把 HTTP 状态码带进错误信息再细分）。
+
+---
+
+## 十二、版本与发布
+
+### 版本语义
+
+遵循 [SemVer 2.0](https://semver.org/spec/v2.0.0.html)，tag 带 `v` 前缀（如 `v0.7.0`）。**0.x 阶段的特别约定**：minor 即功能波次——一个需求波次落地就 +0.1.0，breaking change 也**不升 major**（视作波次的一部分升 minor）；到 1.0 语义冻结后 breaking 才恢复常规的升 major。
+
+### 多少提交算一个版本
+
+不按提交数切，按**需求波次**切：
+
+| 变更形态 | 版本动作 |
+|---|---|
+| 一个完整需求波次（识别特征：**新模块 / 新驱动 / 新文档域 / 新能力面**落地） | **MINOR**（+0.x.0） |
+| 波次内或 review 闭环的 bug 修复（`fix:`） | **PATCH**（+0.0.x） |
+| 纯 docs / chore（文档、格式、杂务，无能力变化） | **不发版**（并入下个波次） |
+
+本仓库前 7 个版本的实际切分（提交数 = 该 tag 区间的 git 提交数，v0.1.0 为初始压缩提交）：
+
+| 版本 | 日期 | 提交数 | 主题 |
+|---|---|---|---|
+| v0.1.0 | 2026-09-04 | 1 | 基线：薄内核语义层 + 三驱动 + 强制层骨架 + 研究文档 |
+| v0.2.0 | 2026-09-05 | 51 | 内核强制层大波次：seccomp / CoW / eBPF / FleetLedger / MCP Tasks / 信箱 / laosweb |
+| v0.3.0 | 2026-09-09 | 11 | laosweb 交互控制台 + NPU 驱动 |
+| v0.4.0 | 2026-09-11 | 46 | 听觉 + 记忆 + 日记波次：手机五层感官驱动 + 强制层 OSAL 化 |
+| v0.5.0 | 2026-09-11 | 9 | 常开录音内核能力 + 双沙箱并行 + 情感/事件模型地图 |
+| v0.6.0 | 2026-09-18 | 30 | 调研语料库波次：19,792 篇论文 + 3,724 个 OSS 仓库 + 分域模型地图 |
+| v0.7.0 | 2026-09-28 | 31 | Jev 判断层四闸门 + selfcheck 加固 + 调研资产总纲收束 |
+
+波次有大有小（9–51 个提交），共同点是都落地了"新能力面"；波次之间的零散 docs 修正被吸收进最近的波次，从不单独发版。
+
+### 发布流程（四步）
+
+1. **需求完成**：波次的全部提交进入 master，遵循 conventional commits（`feat:` / `fix:` / `docs:` / `chore:`）。
+2. **推导版本号**：`python scripts/release.py --apply`——从 `最新tag..HEAD` 的提交 subject 自动推导下一版本号、同步三棵树（`laos/` + 两个隔离区）的 `__version__`、打印 CHANGELOG 草稿段（默认 dry-run 只看不写）。
+3. **誊写 CHANGELOG**：把草稿段人工誊入 `CHANGELOG.md` 的 Unreleased，改标题为 `## [v0.x.y] - YYYY-MM-DD` 并补一句波次主题，提交。
+4. **打 tag 并推送**：`git tag -a v0.x.y -m "一句话波次主题" && git push origin master --tags`。GitHub Release 页在网页上建，notes 直接粘贴 CHANGELOG 对应段落。
+
+### breaking 标注约定
+
+**BREAKING CHANGE 请写在 subject 上、用 `!` 标注**（如 `feat!:` / `fix(kernel)!:`）；`scripts/release.py` 只读提交 subject（`%s`），**body / footer 形态的 `BREAKING CHANGE:` 当前检测不到**——写在那里会被当作普通提交，可能漏升版本。
