@@ -1,9 +1,24 @@
 {
  "venue": "COLING",
  "category": "nlp",
- "canonical_venue_string": "COLING",
- "wave": "A",
- "generated_at": "2026-09-29 00:50:15",
+ "backend": "openalex",
+ "canonical_venue_string": "International Conference on Computational Linguistics",
+ "wave": "A补",
+ "generated_at": "2026-09-29 01:05:54",
+ "sources": [
+  {
+   "id": "S4306419219",
+   "name": "International Conference on Computational Linguistics",
+   "year": 0,
+   "works": 1663
+  },
+  {
+   "id": "S4363608852",
+   "name": "Proceedings of the 17th international conference on Computational linguistics -",
+   "year": 0,
+   "works": 239
+  }
+ ],
  "topics": [
   "LLM agent tool use",
   "agent memory",
@@ -14,51 +29,78 @@
   "paralinguistic",
   "neural codec"
  ],
- "request_budget": {
-  "successful": 134,
-  "limit": 300,
-  "attempts": 8
- },
- "truncated_by": null,
- "failed_queries": 0,
  "queries": {
   "LLM agent tool use": {
-   "total": 57,
+   "total": 0,
    "kept": 0,
    "papers": []
   },
   "agent memory": {
-   "total": 8,
+   "total": 0,
    "kept": 0,
    "papers": []
   },
   "audio language model": {
-   "total": 2125,
-   "kept": 0,
-   "papers": []
+   "total": 1,
+   "kept": 1,
+   "papers": [
+    {
+     "title": "A Study on Using Transfer Learning to Improve BERT Model for Emotional Classification of Chinese Lyrics.",
+     "year": 2021,
+     "venue": "International Conference on Computational Linguistics",
+     "citationCount": 1,
+     "doi": "",
+     "authors": ""
+    }
+   ]
   },
   "multimodal agent": {
-   "total": 63,
+   "total": 0,
    "kept": 0,
    "papers": []
   },
   "on-device inference": {
-   "total": 11,
+   "total": 0,
    "kept": 0,
    "papers": []
   },
   "emotion recognition": {
-   "total": 103,
-   "kept": 0,
-   "papers": []
+   "total": 3,
+   "kept": 3,
+   "papers": [
+    {
+     "title": "Speech Emotion Recognition Based on CNN+LSTM Model.",
+     "year": 2021,
+     "venue": "International Conference on Computational Linguistics",
+     "citationCount": 0,
+     "doi": "",
+     "authors": ""
+    },
+    {
+     "title": "A Study on Using Transfer Learning to Improve BERT Model for Emotional Classification of Chinese Lyrics.",
+     "year": 2021,
+     "venue": "International Conference on Computational Linguistics",
+     "citationCount": 1,
+     "doi": "",
+     "authors": ""
+    },
+    {
+     "title": "Using Valence and Arousal-infused Bi-LSTM for Sentiment Analysis in Social Media Product Reviews",
+     "year": 2021,
+     "venue": "International Conference on Computational Linguistics",
+     "citationCount": 1,
+     "doi": "",
+     "authors": ""
+    }
+   ]
   },
   "paralinguistic": {
-   "total": 1,
+   "total": 0,
    "kept": 0,
    "papers": []
   },
   "neural codec": {
-   "total": 47,
+   "total": 0,
    "kept": 0,
    "papers": []
   }

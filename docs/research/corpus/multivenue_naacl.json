@@ -1,9 +1,24 @@
 {
  "venue": "NAACL",
  "category": "nlp",
- "canonical_venue_string": "NAACL",
- "wave": "A",
- "generated_at": "2026-09-29 00:49:52",
+ "backend": "openalex",
+ "canonical_venue_string": "North American Chapter of the Association for Computational Linguistics",
+ "wave": "A补",
+ "generated_at": "2026-09-29 01:08:00",
+ "sources": [
+  {
+   "id": "S4363608774",
+   "name": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+   "year": 2022,
+   "works": 442
+  },
+  {
+   "id": "S4306420633",
+   "name": "North American Chapter of the Association for Computational Linguistics",
+   "year": 0,
+   "works": 231
+  }
+ ],
  "topics": [
   "LLM agent tool use",
   "agent memory",
@@ -14,43 +29,1481 @@
   "paralinguistic",
   "neural codec"
  ],
- "request_budget": {
-  "successful": 126,
-  "limit": 300,
-  "attempts": 8
- },
- "truncated_by": null,
- "failed_queries": 0,
  "queries": {
   "LLM agent tool use": {
-   "total": 71,
+   "total": 0,
    "kept": 0,
    "papers": []
   },
   "agent memory": {
-   "total": 24,
-   "kept": 0,
-   "papers": []
+   "total": 46,
+   "kept": 46,
+   "papers": [
+    {
+     "title": "Robust Conversational Agents against Imperceptible Toxicity Triggers",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2022.naacl-main.204",
+     "authors": ""
+    },
+    {
+     "title": "Towards a Progression-Aware Autonomous Dialogue Agent",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 3,
+     "doi": "10.18653/v1/2022.naacl-main.87",
+     "authors": ""
+    },
+    {
+     "title": "COGMEN: COntextualized GNN based Multimodal Emotion recognitioN",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 154,
+     "doi": "10.18653/v1/2022.naacl-main.306",
+     "authors": ""
+    },
+    {
+     "title": "On the Origin of Hallucinations in Conversational Models: Is it the Datasets or the Models?",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 117,
+     "doi": "10.18653/v1/2022.naacl-main.387",
+     "authors": ""
+    },
+    {
+     "title": "KAT: A Knowledge Augmented Transformer for Vision-and-Language",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 117,
+     "doi": "10.18653/v1/2022.naacl-main.70",
+     "authors": ""
+    },
+    {
+     "title": "DEGREE: A Data-Efficient Generation-Based Event Extraction Model",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 137,
+     "doi": "10.18653/v1/2022.naacl-main.138",
+     "authors": ""
+    },
+    {
+     "title": "Re2G: Retrieve, Rerank, Generate",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 92,
+     "doi": "10.18653/v1/2022.naacl-main.194",
+     "authors": ""
+    },
+    {
+     "title": "Meta Learning for Natural Language Processing: A Survey",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 41,
+     "doi": "10.18653/v1/2022.naacl-main.49",
+     "authors": ""
+    },
+    {
+     "title": "Diagnosing Vision-and-Language Navigation: What Really Matters",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 33,
+     "doi": "10.18653/v1/2022.naacl-main.438",
+     "authors": ""
+    },
+    {
+     "title": "Learning to Transfer Prompts for Text Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 28,
+     "doi": "10.18653/v1/2022.naacl-main.257",
+     "authors": ""
+    },
+    {
+     "title": "A Shoulder to Cry on: Towards A Motivational Virtual Assistant for Assuaging Mental Agony",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 26,
+     "doi": "10.18653/v1/2022.naacl-main.174",
+     "authors": ""
+    },
+    {
+     "title": "Commonsense and Named Entity Aware Knowledge Grounded Dialogue Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 16,
+     "doi": "10.18653/v1/2022.naacl-main.95",
+     "authors": ""
+    },
+    {
+     "title": "FOAM: A Follower-aware Speaker Model For Vision-and-Language Navigation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 15,
+     "doi": "10.18653/v1/2022.naacl-main.322",
+     "authors": ""
+    },
+    {
+     "title": "TVShowGuess: Character Comprehension in Stories as Speaker Guessing",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 13,
+     "doi": "10.18653/v1/2022.naacl-main.317",
+     "authors": ""
+    },
+    {
+     "title": "Towards Process-Oriented, Modular, and Versatile Question Generation that Meets Educational Needs",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 18,
+     "doi": "10.18653/v1/2022.naacl-main.22",
+     "authors": ""
+    },
+    {
+     "title": "Meet Your Favorite Character: Open-domain Chatbot Mimicking Fictional Characters with only a Few Utterances",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 21,
+     "doi": "10.18653/v1/2022.naacl-main.377",
+     "authors": ""
+    },
+    {
+     "title": "Enhancing Knowledge Selection for Grounded Dialogues via Document Semantic Graphs",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 18,
+     "doi": "10.18653/v1/2022.naacl-main.202",
+     "authors": ""
+    },
+    {
+     "title": "Disentangling Categorization in Multi-agent Emergent Communication",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 0,
+     "doi": "10.18653/v1/2022.naacl-main.335",
+     "authors": ""
+    },
+    {
+     "title": "EmpHi: Generating Empathetic Responses with Human-like Intents",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 31,
+     "doi": "10.18653/v1/2022.naacl-main.78",
+     "authors": ""
+    },
+    {
+     "title": "CHAI: A CHatbot AI for Task-Oriented Dialogue with Offline Reinforcement Learning",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 16,
+     "doi": "10.18653/v1/2022.naacl-main.332",
+     "authors": ""
+    },
+    {
+     "title": "VGNMN: Video-grounded Neural Module Networks for Video-Grounded Dialogue Systems",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 15,
+     "doi": "10.18653/v1/2022.naacl-main.247",
+     "authors": ""
+    },
+    {
+     "title": "Learning Dialogue Representations from Consecutive Utterances",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2022.naacl-main.55",
+     "authors": ""
+    },
+    {
+     "title": "Explaining Toxic Text via Knowledge Enhanced Text Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 24,
+     "doi": "10.18653/v1/2022.naacl-main.59",
+     "authors": ""
+    },
+    {
+     "title": "Revisit Overconfidence for OOD Detection: Reassigned Contrastive Learning with Adaptive Class-dependent Threshold",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 18,
+     "doi": "10.18653/v1/2022.naacl-main.307",
+     "authors": ""
+    },
+    {
+     "title": "Guiding Visual Question Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 14,
+     "doi": "10.18653/v1/2022.naacl-main.118",
+     "authors": ""
+    },
+    {
+     "title": "Improving Multi-Document Summarization through Referenced Flexible Extraction with Credit-Awareness",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 19,
+     "doi": "10.18653/v1/2022.naacl-main.120",
+     "authors": ""
+    },
+    {
+     "title": "Partner Personas Generation for Dialogue Response Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 9,
+     "doi": "10.18653/v1/2022.naacl-main.382",
+     "authors": ""
+    },
+    {
+     "title": "Persona-Guided Planning for Controlling the Protagonist’s Persona in Story Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 14,
+     "doi": "10.18653/v1/2022.naacl-main.245",
+     "authors": ""
+    },
+    {
+     "title": "Multimodal Dialogue State Tracking",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2022.naacl-main.248",
+     "authors": ""
+    },
+    {
+     "title": "ConfliBERT: A Pre-trained Language Model for Political Conflict and Violence",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 34,
+     "doi": "10.18653/v1/2022.naacl-main.400",
+     "authors": ""
+    },
+    {
+     "title": "Learning to Express in Knowledge-Grounded Conversation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2022.naacl-main.164",
+     "authors": ""
+    },
+    {
+     "title": "Stylized Knowledge-Grounded Dialogue Generation via Disentangled Template Rewriting",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2022.naacl-main.241",
+     "authors": ""
+    },
+    {
+     "title": "Learning as Conversation: Dialogue Systems Reinforced for Information Acquisition",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2022.naacl-main.352",
+     "authors": ""
+    },
+    {
+     "title": "Long-term Control for Dialogue Generation: Methods and Evaluation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2022.naacl-main.54",
+     "authors": ""
+    },
+    {
+     "title": "Multi-Relational Graph Transformer for Automatic Short Answer Grading",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 5,
+     "doi": "10.18653/v1/2022.naacl-main.146",
+     "authors": ""
+    },
+    {
+     "title": "Label Definitions Improve Semantic Role Labeling",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2022.naacl-main.411",
+     "authors": ""
+    },
+    {
+     "title": "What Factors Should Paper-Reviewer Assignments Rely On? Community Perspectives on Issues and Ideals in Conference Peer-Review",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 4,
+     "doi": "10.18653/v1/2022.naacl-main.354",
+     "authors": ""
+    },
+    {
+     "title": "DREAM: Improving Situational QA by First Elaborating the Situation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 12,
+     "doi": "10.18653/v1/2022.naacl-main.82",
+     "authors": ""
+    },
+    {
+     "title": "A Dataset for N-ary Relation Extraction of Drug Combinations",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 9,
+     "doi": "10.18653/v1/2022.naacl-main.233",
+     "authors": ""
+    },
+    {
+     "title": "Neural Language Taskonomy: Which NLP Tasks are the most Predictive of fMRI Brain Activity?",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 5,
+     "doi": "10.18653/v1/2022.naacl-main.235",
+     "authors": ""
+    },
+    {
+     "title": "Disentangling Indirect Answers to Yes-No Questions in Real Conversations",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 4,
+     "doi": "10.18653/v1/2022.naacl-main.345",
+     "authors": ""
+    },
+    {
+     "title": "RSTGen: Imbuing Fine-Grained Interpretable Control into Long-FormText Generators",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 5,
+     "doi": "10.18653/v1/2022.naacl-main.133",
+     "authors": ""
+    },
+    {
+     "title": "Disentangled Action Recognition with Knowledge Bases",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2022.naacl-main.41",
+     "authors": ""
+    },
+    {
+     "title": "Efficient Constituency Tree based Encoding for Natural Language to Bash Translation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 2,
+     "doi": "10.18653/v1/2022.naacl-main.230",
+     "authors": ""
+    },
+    {
+     "title": "A Computational Acquisition Model for Multimodal Word Categorization",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 3,
+     "doi": "10.18653/v1/2022.naacl-main.280",
+     "authors": ""
+    },
+    {
+     "title": "Exploiting Inductive Bias in Transformers for Unsupervised Disentanglement of Syntax and Semantics with VAEs",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 0,
+     "doi": "10.18653/v1/2022.naacl-main.423",
+     "authors": ""
+    }
+   ]
   },
   "audio language model": {
-   "total": 319,
-   "kept": 0,
-   "papers": []
+   "total": 39,
+   "kept": 39,
+   "papers": [
+    {
+     "title": "Meta Learning for Natural Language Processing: A Survey",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 41,
+     "doi": "10.18653/v1/2022.naacl-main.49",
+     "authors": ""
+    },
+    {
+     "title": "Connecting the Dots between Audio and Text without Parallel Data through Visual Knowledge Transfer",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 16,
+     "doi": "10.18653/v1/2022.naacl-main.333",
+     "authors": ""
+    },
+    {
+     "title": "Exposing the Limits of Video-Text Models through Contrast Sets",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 22,
+     "doi": "10.18653/v1/2022.naacl-main.261",
+     "authors": ""
+    },
+    {
+     "title": "COGMEN: COntextualized GNN based Multimodal Emotion recognitioN",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 154,
+     "doi": "10.18653/v1/2022.naacl-main.306",
+     "authors": ""
+    },
+    {
+     "title": "Label Anchored Contrastive Learning for Language Understanding",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 13,
+     "doi": "10.18653/v1/2022.naacl-main.103",
+     "authors": ""
+    },
+    {
+     "title": "The Why and The How: A Survey on Natural Language Interaction in Visualization",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 14,
+     "doi": "10.18653/v1/2022.naacl-main.27",
+     "authors": ""
+    },
+    {
+     "title": "Sort by Structure: Language Model Ranking as Dependency Probing",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 4,
+     "doi": "10.18653/v1/2022.naacl-main.93",
+     "authors": ""
+    },
+    {
+     "title": "Residue-Based Natural Language Adversarial Attack Detection",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2022.naacl-main.281",
+     "authors": ""
+    },
+    {
+     "title": "Textless Speech-to-Speech Translation on Real Data",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 99,
+     "doi": "10.18653/v1/2022.naacl-main.63",
+     "authors": ""
+    },
+    {
+     "title": "Quantifying Language Variation Acoustically with Few Resources",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 3,
+     "doi": "10.18653/v1/2022.naacl-main.273",
+     "authors": ""
+    },
+    {
+     "title": "TRUE: Re-evaluating Factual Consistency Evaluation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 58,
+     "doi": "10.18653/v1/2022.naacl-main.287",
+     "authors": ""
+    },
+    {
+     "title": "Cross-modal Contrastive Learning for Speech Translation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 73,
+     "doi": "10.18653/v1/2022.naacl-main.376",
+     "authors": ""
+    },
+    {
+     "title": "Natural Language Inference with Self-Attention for Veracity Assessment of Pandemic Claims",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 3,
+     "doi": "10.18653/v1/2022.naacl-main.107",
+     "authors": ""
+    },
+    {
+     "title": "VGNMN: Video-grounded Neural Module Networks for Video-Grounded Dialogue Systems",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 15,
+     "doi": "10.18653/v1/2022.naacl-main.247",
+     "authors": ""
+    },
+    {
+     "title": "Cross-Domain Detection of GPT-2-Generated Technical Text",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 39,
+     "doi": "10.18653/v1/2022.naacl-main.88",
+     "authors": ""
+    },
+    {
+     "title": "Learning to Transfer Prompts for Text Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 28,
+     "doi": "10.18653/v1/2022.naacl-main.257",
+     "authors": ""
+    },
+    {
+     "title": "User-Driven Research of Medical Note Generation Software",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 20,
+     "doi": "10.18653/v1/2022.naacl-main.29",
+     "authors": ""
+    },
+    {
+     "title": "Putting the Con in Context: Identifying Deceptive Actors in the Game of Mafia",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2022.naacl-main.11",
+     "authors": ""
+    },
+    {
+     "title": "Proposition-Level Clustering for Multi-Document Summarization",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 20,
+     "doi": "10.18653/v1/2022.naacl-main.128",
+     "authors": ""
+    },
+    {
+     "title": "Mapping the Design Space of Human-AI Interaction in Text Summarization",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 22,
+     "doi": "10.18653/v1/2022.naacl-main.33",
+     "authors": ""
+    },
+    {
+     "title": "Meet Your Favorite Character: Open-domain Chatbot Mimicking Fictional Characters with only a Few Utterances",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 21,
+     "doi": "10.18653/v1/2022.naacl-main.377",
+     "authors": ""
+    },
+    {
+     "title": "NeuS: Neutral Multi-News Summarization for Mitigating Framing Bias",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 17,
+     "doi": "10.18653/v1/2022.naacl-main.228",
+     "authors": ""
+    },
+    {
+     "title": "Revisit Overconfidence for OOD Detection: Reassigned Contrastive Learning with Adaptive Class-dependent Threshold",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 18,
+     "doi": "10.18653/v1/2022.naacl-main.307",
+     "authors": ""
+    },
+    {
+     "title": "CHAI: A CHatbot AI for Task-Oriented Dialogue with Offline Reinforcement Learning",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 16,
+     "doi": "10.18653/v1/2022.naacl-main.332",
+     "authors": ""
+    },
+    {
+     "title": "Sentence-Level Resampling for Named Entity Recognition",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 14,
+     "doi": "10.18653/v1/2022.naacl-main.156",
+     "authors": ""
+    },
+    {
+     "title": "Generative Cross-Domain Data Augmentation for Aspect and Opinion Co-Extraction",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 26,
+     "doi": "10.18653/v1/2022.naacl-main.312",
+     "authors": ""
+    },
+    {
+     "title": "Beyond Emotion: A Multi-Modal Dataset for Human Desire Understanding",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 16,
+     "doi": "10.18653/v1/2022.naacl-main.108",
+     "authors": ""
+    },
+    {
+     "title": "On the Use of External Data for Spoken Named Entity Recognition",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2022.naacl-main.53",
+     "authors": ""
+    },
+    {
+     "title": "A Word is Worth A Thousand Dollars: Adversarial Attack on Tweets Fools Stock Prediction",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 16,
+     "doi": "10.18653/v1/2022.naacl-main.43",
+     "authors": ""
+    },
+    {
+     "title": "NewsEdits: A News Article Revision Dataset and a Novel Document-Level Reasoning Challenge",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2022.naacl-main.10",
+     "authors": ""
+    },
+    {
+     "title": "TIE: Topological Information Enhanced Structural Reading Comprehension on Web Pages",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 4,
+     "doi": "10.18653/v1/2022.naacl-main.132",
+     "authors": ""
+    },
+    {
+     "title": "Label Definitions Improve Semantic Role Labeling",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2022.naacl-main.411",
+     "authors": ""
+    },
+    {
+     "title": "D2U: Distance-to-Uniform Learning for Out-of-Scope Detection",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 5,
+     "doi": "10.18653/v1/2022.naacl-main.152",
+     "authors": ""
+    },
+    {
+     "title": "Empathic Machines: Using Intermediate Features as Levers to Emulate Emotions in Text-To-Speech Systems",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 1,
+     "doi": "10.18653/v1/2022.naacl-main.26",
+     "authors": ""
+    },
+    {
+     "title": "Cross-document Misinformation Detection based on Event Graph Reasoning",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 22,
+     "doi": "10.18653/v1/2022.naacl-main.40",
+     "authors": ""
+    },
+    {
+     "title": "Towards Process-Oriented, Modular, and Versatile Question Generation that Meets Educational Needs",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 18,
+     "doi": "10.18653/v1/2022.naacl-main.22",
+     "authors": ""
+    },
+    {
+     "title": "Multimodal Dialogue State Tracking",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2022.naacl-main.248",
+     "authors": ""
+    },
+    {
+     "title": "What Makes a Good and Useful Summary? Incorporating Users in Automatic Summarization Research",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 2,
+     "doi": "10.18653/v1/2022.naacl-main.4",
+     "authors": ""
+    },
+    {
+     "title": "Are All the Datasets in Benchmark Necessary? A Pilot Study of Dataset Evaluation for Text Classification",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 0,
+     "doi": "10.18653/v1/2022.naacl-main.213",
+     "authors": ""
+    }
+   ]
   },
   "multimodal agent": {
-   "total": 42,
-   "kept": 0,
-   "papers": []
+   "total": 30,
+   "kept": 30,
+   "papers": [
+    {
+     "title": "COGMEN: COntextualized GNN based Multimodal Emotion recognitioN",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 154,
+     "doi": "10.18653/v1/2022.naacl-main.306",
+     "authors": ""
+    },
+    {
+     "title": "Multimodal Dialogue State Tracking",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2022.naacl-main.248",
+     "authors": ""
+    },
+    {
+     "title": "A Computational Acquisition Model for Multimodal Word Categorization",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 3,
+     "doi": "10.18653/v1/2022.naacl-main.280",
+     "authors": ""
+    },
+    {
+     "title": "KAT: A Knowledge Augmented Transformer for Vision-and-Language",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 117,
+     "doi": "10.18653/v1/2022.naacl-main.70",
+     "authors": ""
+    },
+    {
+     "title": "Symbolic Knowledge Distillation: from General Language Models to Commonsense Models",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 159,
+     "doi": "10.18653/v1/2022.naacl-main.341",
+     "authors": ""
+    },
+    {
+     "title": "Diagnosing Vision-and-Language Navigation: What Really Matters",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 33,
+     "doi": "10.18653/v1/2022.naacl-main.438",
+     "authors": ""
+    },
+    {
+     "title": "CoSIm: Commonsense Reasoning for Counterfactual Scene Imagination",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 3,
+     "doi": "10.18653/v1/2022.naacl-main.66",
+     "authors": ""
+    },
+    {
+     "title": "A Shoulder to Cry on: Towards A Motivational Virtual Assistant for Assuaging Mental Agony",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 26,
+     "doi": "10.18653/v1/2022.naacl-main.174",
+     "authors": ""
+    },
+    {
+     "title": "VGNMN: Video-grounded Neural Module Networks for Video-Grounded Dialogue Systems",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 15,
+     "doi": "10.18653/v1/2022.naacl-main.247",
+     "authors": ""
+    },
+    {
+     "title": "TRUE: Re-evaluating Factual Consistency Evaluation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 58,
+     "doi": "10.18653/v1/2022.naacl-main.287",
+     "authors": ""
+    },
+    {
+     "title": "The Why and The How: A Survey on Natural Language Interaction in Visualization",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 14,
+     "doi": "10.18653/v1/2022.naacl-main.27",
+     "authors": ""
+    },
+    {
+     "title": "Meta Learning for Natural Language Processing: A Survey",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 41,
+     "doi": "10.18653/v1/2022.naacl-main.49",
+     "authors": ""
+    },
+    {
+     "title": "EmpHi: Generating Empathetic Responses with Human-like Intents",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 31,
+     "doi": "10.18653/v1/2022.naacl-main.78",
+     "authors": ""
+    },
+    {
+     "title": "Imagination-Augmented Natural Language Understanding",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 16,
+     "doi": "10.18653/v1/2022.naacl-main.326",
+     "authors": ""
+    },
+    {
+     "title": "Guiding Visual Question Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 14,
+     "doi": "10.18653/v1/2022.naacl-main.118",
+     "authors": ""
+    },
+    {
+     "title": "FOAM: A Follower-aware Speaker Model For Vision-and-Language Navigation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 15,
+     "doi": "10.18653/v1/2022.naacl-main.322",
+     "authors": ""
+    },
+    {
+     "title": "Mapping the Design Space of Human-AI Interaction in Text Summarization",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 22,
+     "doi": "10.18653/v1/2022.naacl-main.33",
+     "authors": ""
+    },
+    {
+     "title": "Commonsense and Named Entity Aware Knowledge Grounded Dialogue Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 16,
+     "doi": "10.18653/v1/2022.naacl-main.95",
+     "authors": ""
+    },
+    {
+     "title": "Putting the Con in Context: Identifying Deceptive Actors in the Game of Mafia",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2022.naacl-main.11",
+     "authors": ""
+    },
+    {
+     "title": "Do Trajectories Encode Verb Meaning?",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 1,
+     "doi": "10.18653/v1/2022.naacl-main.206",
+     "authors": ""
+    },
+    {
+     "title": "Disentangling Categorization in Multi-agent Emergent Communication",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 0,
+     "doi": "10.18653/v1/2022.naacl-main.335",
+     "authors": ""
+    },
+    {
+     "title": "Identifying Implicitly Abusive Remarks about Identity Groups using a Linguistically Informed Approach",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 14,
+     "doi": "10.18653/v1/2022.naacl-main.410",
+     "authors": ""
+    },
+    {
+     "title": "Database Search Results Disambiguation for Task-Oriented Dialog Systems",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2022.naacl-main.85",
+     "authors": ""
+    },
+    {
+     "title": "Social Norms Guide Reference Resolution",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2022.naacl-main.1",
+     "authors": ""
+    },
+    {
+     "title": "Few-shot Subgoal Planning with Language Models",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 9,
+     "doi": "10.18653/v1/2022.naacl-main.402",
+     "authors": ""
+    },
+    {
+     "title": "Stylized Knowledge-Grounded Dialogue Generation via Disentangled Template Rewriting",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2022.naacl-main.241",
+     "authors": ""
+    },
+    {
+     "title": "Learning to Express in Knowledge-Grounded Conversation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2022.naacl-main.164",
+     "authors": ""
+    },
+    {
+     "title": "Interactive Symbol Grounding with Complex Referential Expressions",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 2,
+     "doi": "10.18653/v1/2022.naacl-main.358",
+     "authors": ""
+    },
+    {
+     "title": "Neural Language Taskonomy: Which NLP Tasks are the most Predictive of fMRI Brain Activity?",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 5,
+     "doi": "10.18653/v1/2022.naacl-main.235",
+     "authors": ""
+    },
+    {
+     "title": "Empathic Machines: Using Intermediate Features as Levers to Emulate Emotions in Text-To-Speech Systems",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 1,
+     "doi": "10.18653/v1/2022.naacl-main.26",
+     "authors": ""
+    }
+   ]
   },
   "on-device inference": {
-   "total": 23,
-   "kept": 0,
-   "papers": []
+   "total": 34,
+   "kept": 34,
+   "papers": [
+    {
+     "title": "Embarrassingly Simple Performance Prediction for Abductive Natural Language Inference",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 3,
+     "doi": "10.18653/v1/2022.naacl-main.441",
+     "authors": ""
+    },
+    {
+     "title": "FNet: Mixing Tokens with Fourier Transforms",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 527,
+     "doi": "10.18653/v1/2022.naacl-main.319",
+     "authors": ""
+    },
+    {
+     "title": "KAT: A Knowledge Augmented Transformer for Vision-and-Language",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 117,
+     "doi": "10.18653/v1/2022.naacl-main.70",
+     "authors": ""
+    },
+    {
+     "title": "On the Origin of Hallucinations in Conversational Models: Is it the Datasets or the Models?",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 117,
+     "doi": "10.18653/v1/2022.naacl-main.387",
+     "authors": ""
+    },
+    {
+     "title": "Meta Learning for Natural Language Processing: A Survey",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 41,
+     "doi": "10.18653/v1/2022.naacl-main.49",
+     "authors": ""
+    },
+    {
+     "title": "Context-Aware Abbreviation Expansion Using Large Language Models",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 23,
+     "doi": "10.18653/v1/2022.naacl-main.91",
+     "authors": ""
+    },
+    {
+     "title": "MoEBERT: from BERT to Mixture-of-Experts via Importance-Guided Adaptation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 28,
+     "doi": "10.18653/v1/2022.naacl-main.116",
+     "authors": ""
+    },
+    {
+     "title": "MOVER: Mask, Over-generate and Rank for Hyperbole Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 3,
+     "doi": "10.18653/v1/2022.naacl-main.440",
+     "authors": ""
+    },
+    {
+     "title": "Generative Cross-Domain Data Augmentation for Aspect and Opinion Co-Extraction",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 26,
+     "doi": "10.18653/v1/2022.naacl-main.312",
+     "authors": ""
+    },
+    {
+     "title": "FactPEGASUS: Factuality-Aware Pre-training and Fine-tuning for Abstractive Summarization",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 53,
+     "doi": "10.18653/v1/2022.naacl-main.74",
+     "authors": ""
+    },
+    {
+     "title": "Zero-shot Sonnet Generation with Discourse-level Planning and Aesthetics Features",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 13,
+     "doi": "10.18653/v1/2022.naacl-main.262",
+     "authors": ""
+    },
+    {
+     "title": "Towards Process-Oriented, Modular, and Versatile Question Generation that Meets Educational Needs",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 18,
+     "doi": "10.18653/v1/2022.naacl-main.22",
+     "authors": ""
+    },
+    {
+     "title": "Adaptable Adapters",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 9,
+     "doi": "10.18653/v1/2022.naacl-main.274",
+     "authors": ""
+    },
+    {
+     "title": "KroneckerBERT: Significant Compression of Pre-trained Language Models Through Kronecker Decomposition and Knowledge Distillation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 12,
+     "doi": "10.18653/v1/2022.naacl-main.154",
+     "authors": ""
+    },
+    {
+     "title": "UserIdentifier: Implicit User Representations for Simple and Effective Personalized Sentiment Analysis",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 18,
+     "doi": "10.18653/v1/2022.naacl-main.252",
+     "authors": ""
+    },
+    {
+     "title": "Cross-document Misinformation Detection based on Event Graph Reasoning",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 22,
+     "doi": "10.18653/v1/2022.naacl-main.40",
+     "authors": ""
+    },
+    {
+     "title": "Leaner and Faster: Two-Stage Model Compression for Lightweight Text-Image Retrieval",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2022.naacl-main.300",
+     "authors": ""
+    },
+    {
+     "title": "Event Schema Induction with Double Graph Autoencoders",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 13,
+     "doi": "10.18653/v1/2022.naacl-main.147",
+     "authors": ""
+    },
+    {
+     "title": "Teaching BERT to Wait: Balancing Accuracy and Latency for Streaming Disfluency Detection",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 12,
+     "doi": "10.18653/v1/2022.naacl-main.60",
+     "authors": ""
+    },
+    {
+     "title": "The Why and The How: A Survey on Natural Language Interaction in Visualization",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 14,
+     "doi": "10.18653/v1/2022.naacl-main.27",
+     "authors": ""
+    },
+    {
+     "title": "ConfliBERT: A Pre-trained Language Model for Political Conflict and Violence",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 34,
+     "doi": "10.18653/v1/2022.naacl-main.400",
+     "authors": ""
+    },
+    {
+     "title": "Learning to Win Lottery Tickets in BERT Transfer via Task-agnostic Mask Training",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2022.naacl-main.428",
+     "authors": ""
+    },
+    {
+     "title": "Go Back in Time: Generating Flashbacks in Stories with Event Temporal Prompts",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2022.naacl-main.104",
+     "authors": ""
+    },
+    {
+     "title": "Mapping the Design Space of Human-AI Interaction in Text Summarization",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 22,
+     "doi": "10.18653/v1/2022.naacl-main.33",
+     "authors": ""
+    },
+    {
+     "title": "Dynamic Gazetteer Integration in Multilingual Models for Cross-Lingual and Cross-Domain Named Entity Recognition",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 16,
+     "doi": "10.18653/v1/2022.naacl-main.200",
+     "authors": ""
+    },
+    {
+     "title": "Sparse Distillation: Speeding Up Text Classification by Using Bigger Student Models",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 2,
+     "doi": "10.18653/v1/2022.naacl-main.169",
+     "authors": ""
+    },
+    {
+     "title": "SURF: Semantic-level Unsupervised Reward Function for Machine Translation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 4,
+     "doi": "10.18653/v1/2022.naacl-main.334",
+     "authors": ""
+    },
+    {
+     "title": "Machine-in-the-Loop Rewriting for Creative Image Captioning",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2022.naacl-main.42",
+     "authors": ""
+    },
+    {
+     "title": "Boosted Dense Retriever",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 9,
+     "doi": "10.18653/v1/2022.naacl-main.226",
+     "authors": ""
+    },
+    {
+     "title": "GRAM: Fast Fine-tuning of Pre-trained Language Models for Content-based Collaborative Filtering",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 5,
+     "doi": "10.18653/v1/2022.naacl-main.61",
+     "authors": ""
+    },
+    {
+     "title": "Empathic Machines: Using Intermediate Features as Levers to Emulate Emotions in Text-To-Speech Systems",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 1,
+     "doi": "10.18653/v1/2022.naacl-main.26",
+     "authors": ""
+    },
+    {
+     "title": "DynamicTOC: Persona-based Table of Contents for Consumption of Long Documents",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 1,
+     "doi": "10.18653/v1/2022.naacl-main.378",
+     "authors": ""
+    },
+    {
+     "title": "Unsupervised Slot Schema Induction for Task-oriented Dialog",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2022.naacl-main.86",
+     "authors": ""
+    },
+    {
+     "title": "What Makes a Good and Useful Summary? Incorporating Users in Automatic Summarization Research",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 2,
+     "doi": "10.18653/v1/2022.naacl-main.4",
+     "authors": ""
+    }
+   ]
   },
   "emotion recognition": {
-   "total": 19,
-   "kept": 0,
-   "papers": []
+   "total": 31,
+   "kept": 31,
+   "papers": [
+    {
+     "title": "COGMEN: COntextualized GNN based Multimodal Emotion recognitioN",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 154,
+     "doi": "10.18653/v1/2022.naacl-main.306",
+     "authors": ""
+    },
+    {
+     "title": "CoMPM: Context Modeling with Speaker’s Pre-trained Memory Tracking for Emotion Recognition in Conversation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 82,
+     "doi": "10.18653/v1/2022.naacl-main.416",
+     "authors": ""
+    },
+    {
+     "title": "Beyond Emotion: A Multi-Modal Dataset for Human Desire Understanding",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 16,
+     "doi": "10.18653/v1/2022.naacl-main.108",
+     "authors": ""
+    },
+    {
+     "title": "Empathic Machines: Using Intermediate Features as Levers to Emulate Emotions in Text-To-Speech Systems",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 1,
+     "doi": "10.18653/v1/2022.naacl-main.26",
+     "authors": ""
+    },
+    {
+     "title": "MetaICL: Learning to Learn In Context",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 148,
+     "doi": "10.18653/v1/2022.naacl-main.201",
+     "authors": ""
+    },
+    {
+     "title": "PPL-MCTS: Constrained Textual Generation Through Discriminator-Guided MCTS Decoding",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 14,
+     "doi": "10.18653/v1/2022.naacl-main.215",
+     "authors": ""
+    },
+    {
+     "title": "TWEETSPIN: Fine-grained Propaganda Detection in Social Media Using Multi-View Representations",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 17,
+     "doi": "10.18653/v1/2022.naacl-main.251",
+     "authors": ""
+    },
+    {
+     "title": "DiffCSE: Difference-based Contrastive Learning for Sentence Embeddings",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 166,
+     "doi": "10.18653/v1/2022.naacl-main.311",
+     "authors": ""
+    },
+    {
+     "title": "Textless Speech-to-Speech Translation on Real Data",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 99,
+     "doi": "10.18653/v1/2022.naacl-main.63",
+     "authors": ""
+    },
+    {
+     "title": "EmpHi: Generating Empathetic Responses with Human-like Intents",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 31,
+     "doi": "10.18653/v1/2022.naacl-main.78",
+     "authors": ""
+    },
+    {
+     "title": "You Don’t Know My Favorite Color: Preventing Dialogue Representations from Revealing Speakers’ Private Personas",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 16,
+     "doi": "10.18653/v1/2022.naacl-main.429",
+     "authors": ""
+    },
+    {
+     "title": "SwahBERT: Language Model of Swahili",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 25,
+     "doi": "10.18653/v1/2022.naacl-main.23",
+     "authors": ""
+    },
+    {
+     "title": "Residue-Based Natural Language Adversarial Attack Detection",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2022.naacl-main.281",
+     "authors": ""
+    },
+    {
+     "title": "Multimodal Dialogue State Tracking",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2022.naacl-main.248",
+     "authors": ""
+    },
+    {
+     "title": "IDPG: An Instance-Dependent Prompt Generation Method",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 36,
+     "doi": "10.18653/v1/2022.naacl-main.403",
+     "authors": ""
+    },
+    {
+     "title": "Optimising Equal Opportunity Fairness in Model Training",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 18,
+     "doi": "10.18653/v1/2022.naacl-main.299",
+     "authors": ""
+    },
+    {
+     "title": "DREAM: Improving Situational QA by First Elaborating the Situation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 12,
+     "doi": "10.18653/v1/2022.naacl-main.82",
+     "authors": ""
+    },
+    {
+     "title": "Persona-Guided Planning for Controlling the Protagonist’s Persona in Story Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 14,
+     "doi": "10.18653/v1/2022.naacl-main.245",
+     "authors": ""
+    },
+    {
+     "title": "Mitigating Toxic Degeneration with Empathetic Data: Exploring the Relationship Between Toxicity and Empathy",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2022.naacl-main.363",
+     "authors": ""
+    },
+    {
+     "title": "Cross-Domain Detection of GPT-2-Generated Technical Text",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 39,
+     "doi": "10.18653/v1/2022.naacl-main.88",
+     "authors": ""
+    },
+    {
+     "title": "The Why and The How: A Survey on Natural Language Interaction in Visualization",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 14,
+     "doi": "10.18653/v1/2022.naacl-main.27",
+     "authors": ""
+    },
+    {
+     "title": "What company do words keep? Revisiting the distributional semantics of J.R. Firth & Zellig Harris",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 12,
+     "doi": "10.18653/v1/2022.naacl-main.327",
+     "authors": ""
+    },
+    {
+     "title": "Machine-in-the-Loop Rewriting for Creative Image Captioning",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2022.naacl-main.42",
+     "authors": ""
+    },
+    {
+     "title": "User-Driven Research of Medical Note Generation Software",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 20,
+     "doi": "10.18653/v1/2022.naacl-main.29",
+     "authors": ""
+    },
+    {
+     "title": "DocTime: A Document-level Temporal Dependency Graph Parser",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 10,
+     "doi": "10.18653/v1/2022.naacl-main.73",
+     "authors": ""
+    },
+    {
+     "title": "Go Back in Time: Generating Flashbacks in Stories with Event Temporal Prompts",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2022.naacl-main.104",
+     "authors": ""
+    },
+    {
+     "title": "Representation Learning for Conversational Data using Discourse Mutual Information Maximization",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 4,
+     "doi": "10.18653/v1/2022.naacl-main.124",
+     "authors": ""
+    },
+    {
+     "title": "Deconstructing NLG Evaluation: Evaluation Practices, Assumptions, and Their Implications",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 15,
+     "doi": "10.18653/v1/2022.naacl-main.24",
+     "authors": ""
+    },
+    {
+     "title": "CoSIm: Commonsense Reasoning for Counterfactual Scene Imagination",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 3,
+     "doi": "10.18653/v1/2022.naacl-main.66",
+     "authors": ""
+    },
+    {
+     "title": "Generating Repetitions with Appropriate Repeated Words",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 2,
+     "doi": "10.18653/v1/2022.naacl-main.62",
+     "authors": ""
+    },
+    {
+     "title": "Explaining Why: How Instructions and User Interfaces Impact Annotator Rationales When Labeling Text Data",
+     "year": 2022,
+     "venue": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+     "citationCount": 1,
+     "doi": "10.18653/v1/2022.naacl-main.38",
+     "authors": ""
+    }
+   ]
   },
   "paralinguistic": {
    "total": 0,
@@ -58,7 +1511,7 @@
    "papers": []
   },
   "neural codec": {
-   "total": 14,
+   "total": 0,
    "kept": 0,
    "papers": []
   }

@@ -1,9 +1,18 @@
 {
  "venue": "CoNLL",
  "category": "nlp",
- "canonical_venue_string": "CoNLL",
- "wave": "A",
- "generated_at": "2026-09-29 00:50:32",
+ "backend": "openalex",
+ "canonical_venue_string": "Conference on Computational Natural Language Learning",
+ "wave": "A补",
+ "generated_at": "2026-09-29 01:07:11",
+ "sources": [
+  {
+   "id": "S4306418031",
+   "name": "Conference on Computational Natural Language Learning",
+   "year": 0,
+   "works": 46
+  }
+ ],
  "topics": [
   "LLM agent tool use",
   "agent memory",
@@ -14,13 +23,6 @@
   "paralinguistic",
   "neural codec"
  ],
- "request_budget": {
-  "successful": 142,
-  "limit": 300,
-  "attempts": 8
- },
- "truncated_by": null,
- "failed_queries": 0,
  "queries": {
   "LLM agent tool use": {
    "total": 0,
@@ -28,12 +30,12 @@
    "papers": []
   },
   "agent memory": {
-   "total": 1,
+   "total": 0,
    "kept": 0,
    "papers": []
   },
   "audio language model": {
-   "total": 69,
+   "total": 0,
    "kept": 0,
    "papers": []
   },
@@ -53,12 +55,10 @@
    "papers": []
   },
   "paralinguistic": {
-   "total": 0,
-   "kept": 0,
-   "papers": []
+   "error": "openalex miss"
   },
   "neural codec": {
-   "total": 8,
+   "total": 0,
    "kept": 0,
    "papers": []
   }

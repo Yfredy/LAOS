@@ -1,9 +1,18 @@
 {
  "venue": "ACL",
  "category": "nlp",
+ "backend": "openalex",
  "canonical_venue_string": "Annual Meeting of the Association for Computational Linguistics",
- "wave": "A",
- "generated_at": "2026-09-29 00:49:12",
+ "wave": "A补",
+ "generated_at": "2026-09-29 01:03:20",
+ "sources": [
+  {
+   "id": "S4363608652",
+   "name": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+   "year": 0,
+   "works": 603
+  }
+ ],
  "topics": [
   "LLM agent tool use",
   "agent memory",
@@ -14,53 +23,2046 @@
   "paralinguistic",
   "neural codec"
  ],
- "request_budget": {
-  "successful": 110,
-  "limit": 300,
-  "attempts": 8
- },
- "truncated_by": null,
- "failed_queries": 0,
  "queries": {
   "LLM agent tool use": {
-   "total": 6760,
-   "kept": 0,
-   "papers": []
+   "total": 1,
+   "kept": 1,
+   "papers": [
+    {
+     "title": "SafetyKit: First Aid for Measuring Safety in Open-domain Conversational Systems",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 32,
+     "doi": "10.18653/v1/2022.acl-long.284",
+     "authors": ""
+    }
+   ]
   },
   "agent memory": {
-   "total": 2682,
-   "kept": 0,
-   "papers": []
+   "total": 69,
+   "kept": 69,
+   "papers": [
+    {
+     "title": "Beyond Goldfish Memory: Long-Term Open-Domain Conversation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 115,
+     "doi": "10.18653/v1/2022.acl-long.356",
+     "authors": ""
+    },
+    {
+     "title": "∞-former: Infinite Memory Transformer-former: Infinite Memory Transformer",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 15,
+     "doi": "10.18653/v1/2022.acl-long.375",
+     "authors": ""
+    },
+    {
+     "title": "Improving Meta-learning for Low-resource Text Classification and Generation via Memory Imitation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 18,
+     "doi": "10.18653/v1/2022.acl-long.44",
+     "authors": ""
+    },
+    {
+     "title": "There Are a Thousand Hamlets in a Thousand People’s Eyes: Enhancing Knowledge-grounded Dialogue with Personal Memory",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 17,
+     "doi": "10.18653/v1/2022.acl-long.270",
+     "authors": ""
+    },
+    {
+     "title": "Learning to Mediate Disparities Towards Pragmatic Communication",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2022.acl-long.202",
+     "authors": ""
+    },
+    {
+     "title": "Vision-and-Language Navigation: A Survey of Tasks, Methods, and Future Directions",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 103,
+     "doi": "10.18653/v1/2022.acl-long.524",
+     "authors": ""
+    },
+    {
+     "title": "Continual Prompt Tuning for Dialog State Tracking",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 38,
+     "doi": "10.18653/v1/2022.acl-long.80",
+     "authors": ""
+    },
+    {
+     "title": "TruthfulQA: Measuring How Models Mimic Human Falsehoods",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 717,
+     "doi": "10.18653/v1/2022.acl-long.229",
+     "authors": ""
+    },
+    {
+     "title": "SimKGC: Simple Contrastive Knowledge Graph Completion with Pre-trained Language Models",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 263,
+     "doi": "10.18653/v1/2022.acl-long.295",
+     "authors": ""
+    },
+    {
+     "title": "A Model-agnostic Data Manipulation Method for Persona-based Dialogue Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 41,
+     "doi": "10.18653/v1/2022.acl-long.550",
+     "authors": ""
+    },
+    {
+     "title": "Internet-Augmented Dialogue Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 179,
+     "doi": "10.18653/v1/2022.acl-long.579",
+     "authors": ""
+    },
+    {
+     "title": "When did you become so smart, oh wise one?! Sarcasm Explanation in Multi-modal Multi-party Dialogues",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 30,
+     "doi": "10.18653/v1/2022.acl-long.411",
+     "authors": ""
+    },
+    {
+     "title": "Vision-Language Pre-Training for Multimodal Aspect-Based Sentiment Analysis",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 135,
+     "doi": "10.18653/v1/2022.acl-long.152",
+     "authors": ""
+    },
+    {
+     "title": "Multi-Task Pre-Training for Plug-and-Play Task-Oriented Dialogue System",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 79,
+     "doi": "10.18653/v1/2022.acl-long.319",
+     "authors": ""
+    },
+    {
+     "title": "SPoT: Better Frozen Model Adaptation through Soft Prompt Transfer",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 178,
+     "doi": "10.18653/v1/2022.acl-long.346",
+     "authors": ""
+    },
+    {
+     "title": "MISC: A Mixed Strategy-Aware Model integrating COMET for Emotional Support Conversation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 80,
+     "doi": "10.18653/v1/2022.acl-long.25",
+     "authors": ""
+    },
+    {
+     "title": "Achieving Reliable Human Assessment of Open-Domain Dialogue Systems",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 58,
+     "doi": "10.18653/v1/2022.acl-long.445",
+     "authors": ""
+    },
+    {
+     "title": "M3ED: Multi-modal Multi-scene Multi-label Emotional Dialogue Database",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 68,
+     "doi": "10.18653/v1/2022.acl-long.391",
+     "authors": ""
+    },
+    {
+     "title": "Compression of Generative Pre-trained Language Models via Quantization",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 47,
+     "doi": "10.18653/v1/2022.acl-long.331",
+     "authors": ""
+    },
+    {
+     "title": "LexGLUE: A Benchmark Dataset for Legal Language Understanding in English",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 196,
+     "doi": "10.18653/v1/2022.acl-long.297",
+     "authors": ""
+    },
+    {
+     "title": "MemSum: Extractive Summarization of Long Documents Using Multi-Step Episodic Markov Decision Processes",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 36,
+     "doi": "10.18653/v1/2022.acl-long.450",
+     "authors": ""
+    },
+    {
+     "title": "Discriminative Marginalized Probabilistic Neural Method for Multi-Document Summarization of Medical Literature",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 39,
+     "doi": "10.18653/v1/2022.acl-long.15",
+     "authors": ""
+    },
+    {
+     "title": "JointCL: A Joint Contrastive Learning Framework for Zero-Shot Stance Detection",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 73,
+     "doi": "10.18653/v1/2022.acl-long.7",
+     "authors": ""
+    },
+    {
+     "title": "Multimodal Dialogue Response Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 31,
+     "doi": "10.18653/v1/2022.acl-long.204",
+     "authors": ""
+    },
+    {
+     "title": "DialogVED: A Pre-trained Latent Variable Encoder-Decoder Model for Dialog Response Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 37,
+     "doi": "10.18653/v1/2022.acl-long.333",
+     "authors": ""
+    },
+    {
+     "title": "It is AI’s Turn to Ask Humans a Question: Question-Answer Pair Generation for Children’s Story Books",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 31,
+     "doi": "10.18653/v1/2022.acl-long.54",
+     "authors": ""
+    },
+    {
+     "title": "Dynamic Schema Graph Fusion Network for Multi-Domain Dialogue State Tracking",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 42,
+     "doi": "10.18653/v1/2022.acl-long.10",
+     "authors": ""
+    },
+    {
+     "title": "HIBRIDS: Attention with Hierarchical Biases for Structure-aware Long Document Summarization",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 36,
+     "doi": "10.18653/v1/2022.acl-long.58",
+     "authors": ""
+    },
+    {
+     "title": "UniTranSeR: A Unified Transformer Semantic Representation Framework for Multimodal Task-Oriented Dialog System",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 24,
+     "doi": "10.18653/v1/2022.acl-long.9",
+     "authors": ""
+    },
+    {
+     "title": "DialFact: A Benchmark for Fact-Checking in Dialogue",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 46,
+     "doi": "10.18653/v1/2022.acl-long.263",
+     "authors": ""
+    },
+    {
+     "title": "Neural Machine Translation with Phrase-Level Universal Visual Representations",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 39,
+     "doi": "10.18653/v1/2022.acl-long.390",
+     "authors": ""
+    },
+    {
+     "title": "Label Semantic Aware Pre-training for Few-shot Text Classification",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 33,
+     "doi": "10.18653/v1/2022.acl-long.570",
+     "authors": ""
+    },
+    {
+     "title": "Your Answer is Incorrect... Would you like to know why? Introducing a Bilingual Short Answer Feedback Dataset",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 32,
+     "doi": "10.18653/v1/2022.acl-long.587",
+     "authors": ""
+    },
+    {
+     "title": "ConTinTin: Continual Learning from Task Instructions",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 17,
+     "doi": "10.18653/v1/2022.acl-long.218",
+     "authors": ""
+    },
+    {
+     "title": "The AI Doctor Is In: A Survey of Task-Oriented Dialogue Systems for Healthcare Applications",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 38,
+     "doi": "10.18653/v1/2022.acl-long.458",
+     "authors": ""
+    },
+    {
+     "title": "Educational Question Generation of Children Storybooks via Question Type Distribution Learning and Event-centric Summarization",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 42,
+     "doi": "10.18653/v1/2022.acl-long.348",
+     "authors": ""
+    },
+    {
+     "title": "SalesBot: Transitioning from Chit-Chat to Task-Oriented Dialogues",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 22,
+     "doi": "10.18653/v1/2022.acl-long.425",
+     "authors": ""
+    },
+    {
+     "title": "Visual-Language Navigation Pretraining via Prompt-based Environmental Self-exploration",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 25,
+     "doi": "10.18653/v1/2022.acl-long.332",
+     "authors": ""
+    },
+    {
+     "title": "Beyond the Granularity: Multi-Perspective Dialogue Collaborative Selection for Dialogue State Tracking",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 25,
+     "doi": "10.18653/v1/2022.acl-long.165",
+     "authors": ""
+    },
+    {
+     "title": "Length Control in Abstractive Summarization by Pretraining Information Selection",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 27,
+     "doi": "10.18653/v1/2022.acl-long.474",
+     "authors": ""
+    },
+    {
+     "title": "Structural Characterization for Dialogue Disentanglement",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 26,
+     "doi": "10.18653/v1/2022.acl-long.23",
+     "authors": ""
+    },
+    {
+     "title": "Spurious Correlations in Reference-Free Evaluation of Text Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 16,
+     "doi": "10.18653/v1/2022.acl-long.102",
+     "authors": ""
+    },
+    {
+     "title": "Language-Agnostic Meta-Learning for Low-Resource Text-to-Speech with Articulatory Features",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 28,
+     "doi": "10.18653/v1/2022.acl-long.472",
+     "authors": ""
+    },
+    {
+     "title": "SHIELD: Defending Textual Neural Networks against Multiple Black-Box Adversarial Attacks with Stochastic Multi-Expert Patcher",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 17,
+     "doi": "10.18653/v1/2022.acl-long.459",
+     "authors": ""
+    },
+    {
+     "title": "GlobalWoZ: Globalizing MultiWoZ to Develop Multilingual Task-Oriented Dialogue Systems",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 22,
+     "doi": "10.18653/v1/2022.acl-long.115",
+     "authors": ""
+    },
+    {
+     "title": "Sentence-aware Contrastive Learning for Open-Domain Passage Retrieval",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 18,
+     "doi": "10.18653/v1/2022.acl-long.76",
+     "authors": ""
+    },
+    {
+     "title": "Improving Compositional Generalization with Self-Training for Data-to-Text Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 18,
+     "doi": "10.18653/v1/2022.acl-long.289",
+     "authors": ""
+    },
+    {
+     "title": "QAConv: Question Answering on Informative Conversations",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 17,
+     "doi": "10.18653/v1/2022.acl-long.370",
+     "authors": ""
+    },
+    {
+     "title": "Learning When to Translate for Streaming Speech",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 15,
+     "doi": "10.18653/v1/2022.acl-long.50",
+     "authors": ""
+    },
+    {
+     "title": "LAGr: Label Aligned Graphs for Better Systematic Generalization in Semantic Parsing",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2022.acl-long.233",
+     "authors": ""
+    },
+    {
+     "title": "ProphetChat: Enhancing Dialogue Generation with Simulation of Future Conversation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 9,
+     "doi": "10.18653/v1/2022.acl-long.68",
+     "authors": ""
+    },
+    {
+     "title": "Requirements and Motivations of Low-Resource Speech Synthesis for Language Revitalization",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 12,
+     "doi": "10.18653/v1/2022.acl-long.507",
+     "authors": ""
+    },
+    {
+     "title": "Improving Event Representation via Simultaneous Weakly Supervised Contrastive Learning and Clustering",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 22,
+     "doi": "10.18653/v1/2022.acl-long.216",
+     "authors": ""
+    },
+    {
+     "title": "Searching for fingerspelled content in American Sign Language",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2022.acl-long.119",
+     "authors": ""
+    },
+    {
+     "title": "ChatMatch: Evaluating Chatbots by Autonomous Chat Tournaments",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2022.acl-long.522",
+     "authors": ""
+    },
+    {
+     "title": "Towards Comprehensive Patent Approval Predictions:Beyond Traditional Document Classification",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 4,
+     "doi": "10.18653/v1/2022.acl-long.28",
+     "authors": ""
+    },
+    {
+     "title": "Understanding Multimodal Procedural Knowledge by Sequencing Multimodal Instructional Manuals",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2022.acl-long.310",
+     "authors": ""
+    },
+    {
+     "title": "Rethinking Self-Supervision Objectives for Generalizable Coherence Modeling",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 5,
+     "doi": "10.18653/v1/2022.acl-long.418",
+     "authors": ""
+    },
+    {
+     "title": "A Comparison of Strategies for Source-Free Domain Adaptation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2022.acl-long.572",
+     "authors": ""
+    },
+    {
+     "title": "Lexical Knowledge Internalization for Neural Dialog Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 5,
+     "doi": "10.18653/v1/2022.acl-long.547",
+     "authors": ""
+    },
+    {
+     "title": "Generating Biographies on Wikipedia: The Impact of Gender Bias on the Retrieval-Based Generation of Women Biographies",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2022.acl-long.586",
+     "authors": ""
+    },
+    {
+     "title": "HOLM: Hallucinating Objects with Language Models for Referring Expression Recognition in Partially-Observed Scenes",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 3,
+     "doi": "10.18653/v1/2022.acl-long.373",
+     "authors": ""
+    },
+    {
+     "title": "On The Ingredients of an Effective Zero-shot Semantic Parser",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 5,
+     "doi": "10.18653/v1/2022.acl-long.103",
+     "authors": ""
+    },
+    {
+     "title": "Down and Across: Introducing Crossword-Solving as a New NLP Benchmark",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 2,
+     "doi": "10.18653/v1/2022.acl-long.189",
+     "authors": ""
+    },
+    {
+     "title": "Online Semantic Parsing for Latency Reduction in Task-Oriented Dialogue",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 4,
+     "doi": "10.18653/v1/2022.acl-long.110",
+     "authors": ""
+    },
+    {
+     "title": "An Interpretable Neuro-Symbolic Reasoning Framework for Task-Oriented Dialogue Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 1,
+     "doi": "10.18653/v1/2022.acl-long.338",
+     "authors": ""
+    },
+    {
+     "title": "Scheduled Multi-task Learning for Neural Chat Translation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 4,
+     "doi": "10.18653/v1/2022.acl-long.300",
+     "authors": ""
+    },
+    {
+     "title": "Modeling Syntactic-Semantic Dependency Correlations in Semantic Role Labeling Using Mixture Models",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 2,
+     "doi": "10.18653/v1/2022.acl-long.548",
+     "authors": ""
+    },
+    {
+     "title": "Speaker Information Can Guide Models to Better Inductive Biases: A Case Study On Predicting Code-Switching",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 0,
+     "doi": "10.18653/v1/2022.acl-long.267",
+     "authors": ""
+    }
+   ]
   },
   "audio language model": {
-   "total": 23737,
-   "kept": 0,
-   "papers": []
+   "total": 73,
+   "kept": 73,
+   "papers": [
+    {
+     "title": "Deduplicating Training Data Makes Language Models Better",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 288,
+     "doi": "10.18653/v1/2022.acl-long.577",
+     "authors": ""
+    },
+    {
+     "title": "Leveraging Unimodal Self-Supervised Learning for Multimodal Audio-Visual Speech Recognition",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 45,
+     "doi": "10.18653/v1/2022.acl-long.308",
+     "authors": ""
+    },
+    {
+     "title": "OpenHands: Making Sign Language Recognition Accessible with Pose-based Pretrained Models across Languages",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 59,
+     "doi": "10.18653/v1/2022.acl-long.150",
+     "authors": ""
+    },
+    {
+     "title": "Systematic Inequalities in Language Technology Performance across the World’s Languages",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 96,
+     "doi": "10.18653/v1/2022.acl-long.376",
+     "authors": ""
+    },
+    {
+     "title": "Vision-Language Pre-Training for Multimodal Aspect-Based Sentiment Analysis",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 135,
+     "doi": "10.18653/v1/2022.acl-long.152",
+     "authors": ""
+    },
+    {
+     "title": "Text-Free Prosody-Aware Generative Spoken Language Modeling",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 50,
+     "doi": "10.18653/v1/2022.acl-long.593",
+     "authors": ""
+    },
+    {
+     "title": "SpeechT5: Unified-Modal Encoder-Decoder Pre-Training for Spoken Language Processing",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 138,
+     "doi": "10.18653/v1/2022.acl-long.393",
+     "authors": ""
+    },
+    {
+     "title": "Cross-Lingual Ability of Multilingual Masked Language Models: A Study of Language Structure",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 12,
+     "doi": "10.18653/v1/2022.acl-long.322",
+     "authors": ""
+    },
+    {
+     "title": "How can NLP Help Revitalize Endangered Languages? A Case Study and Roadmap for the Cherokee Language",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 28,
+     "doi": "10.18653/v1/2022.acl-long.108",
+     "authors": ""
+    },
+    {
+     "title": "Local Languages, Third Spaces, and other High-Resource Scenarios",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 31,
+     "doi": "10.18653/v1/2022.acl-long.539",
+     "authors": ""
+    },
+    {
+     "title": "GPT-D: Inducing Dementia-related Linguistic Anomalies by Deliberate Degradation of Artificial Neural Language Models",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 17,
+     "doi": "10.18653/v1/2022.acl-long.131",
+     "authors": ""
+    },
+    {
+     "title": "Language-Agnostic Meta-Learning for Low-Resource Text-to-Speech with Articulatory Features",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 28,
+     "doi": "10.18653/v1/2022.acl-long.472",
+     "authors": ""
+    },
+    {
+     "title": "Probing Simile Knowledge from Pre-trained Language Models",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 9,
+     "doi": "10.18653/v1/2022.acl-long.404",
+     "authors": ""
+    },
+    {
+     "title": "Towards Afrocentric NLP for African Languages: Where We Are and Where We Can Go",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 37,
+     "doi": "10.18653/v1/2022.acl-long.265",
+     "authors": ""
+    },
+    {
+     "title": "From text to talk: Harnessing conversational corpora for humane and diversity-aware language technology",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 33,
+     "doi": "10.18653/v1/2022.acl-long.385",
+     "authors": ""
+    },
+    {
+     "title": "Phone-ing it in: Towards Flexible Multi-Modal Language Model Training by Phonetic Representations of Data",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 2,
+     "doi": "10.18653/v1/2022.acl-long.364",
+     "authors": ""
+    },
+    {
+     "title": "Requirements and Motivations of Low-Resource Speech Synthesis for Language Revitalization",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 12,
+     "doi": "10.18653/v1/2022.acl-long.507",
+     "authors": ""
+    },
+    {
+     "title": "Not always about you: Prioritizing community needs when developing endangered language technology",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 17,
+     "doi": "10.18653/v1/2022.acl-long.272",
+     "authors": ""
+    },
+    {
+     "title": "A Variational Hierarchical Model for Neural Cross-Lingual Summarization",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 28,
+     "doi": "10.18653/v1/2022.acl-long.148",
+     "authors": ""
+    },
+    {
+     "title": "DialogVED: A Pre-trained Latent Variable Encoder-Decoder Model for Dialog Response Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 37,
+     "doi": "10.18653/v1/2022.acl-long.333",
+     "authors": ""
+    },
+    {
+     "title": "Do self-supervised speech models develop human-like perception biases?",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 18,
+     "doi": "10.18653/v1/2022.acl-long.523",
+     "authors": ""
+    },
+    {
+     "title": "Searching for fingerspelled content in American Sign Language",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2022.acl-long.119",
+     "authors": ""
+    },
+    {
+     "title": "Multi-Task Pre-Training for Plug-and-Play Task-Oriented Dialogue System",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 79,
+     "doi": "10.18653/v1/2022.acl-long.319",
+     "authors": ""
+    },
+    {
+     "title": "Can Transformer be Too Compositional? Analysing Idiom Processing in Neural Machine Translation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 41,
+     "doi": "10.18653/v1/2022.acl-long.252",
+     "authors": ""
+    },
+    {
+     "title": "Multilingual Molecular Representation Learning via Contrastive Pre-training",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 33,
+     "doi": "10.18653/v1/2022.acl-long.242",
+     "authors": ""
+    },
+    {
+     "title": "STEMM: Self-learning with Speech-text Manifold Mixup for Speech Translation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 76,
+     "doi": "10.18653/v1/2022.acl-long.486",
+     "authors": ""
+    },
+    {
+     "title": "Pre-training and Fine-tuning Neural Topic Model: A Simple yet Effective Approach to Incorporating External Knowledge",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2022.acl-long.413",
+     "authors": ""
+    },
+    {
+     "title": "Revisiting Over-Smoothness in Text to Speech",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 37,
+     "doi": "10.18653/v1/2022.acl-long.564",
+     "authors": ""
+    },
+    {
+     "title": "When did you become so smart, oh wise one?! Sarcasm Explanation in Multi-modal Multi-party Dialogues",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 30,
+     "doi": "10.18653/v1/2022.acl-long.411",
+     "authors": ""
+    },
+    {
+     "title": "Knowledgeable Prompt-tuning: Incorporating Knowledge into Prompt Verbalizer for Text Classification",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 267,
+     "doi": "10.18653/v1/2022.acl-long.158",
+     "authors": ""
+    },
+    {
+     "title": "Weakly Supervised Word Segmentation for Computational Language Documentation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 1,
+     "doi": "10.18653/v1/2022.acl-long.510",
+     "authors": ""
+    },
+    {
+     "title": "Just Rank: Rethinking Evaluation with Word and Sentence Similarities",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 18,
+     "doi": "10.18653/v1/2022.acl-long.419",
+     "authors": ""
+    },
+    {
+     "title": "Under the Morphosyntactic Lens: A Multifaceted Evaluation of Gender Bias in Speech Translation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 13,
+     "doi": "10.18653/v1/2022.acl-long.127",
+     "authors": ""
+    },
+    {
+     "title": "SummScreen: A Dataset for Abstractive Screenplay Summarization",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 46,
+     "doi": "10.18653/v1/2022.acl-long.589",
+     "authors": ""
+    },
+    {
+     "title": "Direct Speech-to-Speech Translation With Discrete Units",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 109,
+     "doi": "10.18653/v1/2022.acl-long.235",
+     "authors": ""
+    },
+    {
+     "title": "Integrating Vectorized Lexical Constraints for Neural Machine Translation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2022.acl-long.487",
+     "authors": ""
+    },
+    {
+     "title": "Textomics: A Dataset for Genomics Data Summary Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2022.acl-long.335",
+     "authors": ""
+    },
+    {
+     "title": "AdapLeR: Speeding up Inference by Adaptive Length Reduction",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 19,
+     "doi": "10.18653/v1/2022.acl-long.1",
+     "authors": ""
+    },
+    {
+     "title": "SUPERB-SG: Enhanced Speech processing Universal PERformance Benchmark for Semantic and Generative Capabilities",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 74,
+     "doi": "10.18653/v1/2022.acl-long.580",
+     "authors": ""
+    },
+    {
+     "title": "Modeling Temporal-Modal Entity Graph for Procedural Multimodal Machine Comprehension",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 2,
+     "doi": "10.18653/v1/2022.acl-long.84",
+     "authors": ""
+    },
+    {
+     "title": "M3ED: Multi-modal Multi-scene Multi-label Emotional Dialogue Database",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 68,
+     "doi": "10.18653/v1/2022.acl-long.391",
+     "authors": ""
+    },
+    {
+     "title": "Unified Speech-Text Pre-training for Speech Translation and Recognition",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 66,
+     "doi": "10.18653/v1/2022.acl-long.105",
+     "authors": ""
+    },
+    {
+     "title": "Multitasking Framework for Unsupervised Simple Definition Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2022.acl-long.409",
+     "authors": ""
+    },
+    {
+     "title": "Guided Attention Multimodal Multitask Financial Forecasting with Inter-Company Relationships and Global and Local News",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 19,
+     "doi": "10.18653/v1/2022.acl-long.437",
+     "authors": ""
+    },
+    {
+     "title": "Multimodal fusion via cortical network inspired losses",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 14,
+     "doi": "10.18653/v1/2022.acl-long.83",
+     "authors": ""
+    },
+    {
+     "title": "Cross-Modal Discrete Representation Learning",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 42,
+     "doi": "10.18653/v1/2022.acl-long.215",
+     "authors": ""
+    },
+    {
+     "title": "Flow-Adapter Architecture for Unsupervised Machine Translation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 3,
+     "doi": "10.18653/v1/2022.acl-long.89",
+     "authors": ""
+    },
+    {
+     "title": "Bridging the Data Gap between Training and Inference for Unsupervised Neural Machine Translation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 9,
+     "doi": "10.18653/v1/2022.acl-long.456",
+     "authors": ""
+    },
+    {
+     "title": "Learning When to Translate for Streaming Speech",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 15,
+     "doi": "10.18653/v1/2022.acl-long.50",
+     "authors": ""
+    },
+    {
+     "title": "Human Evaluation and Correlation with Automatic Metrics in Consultation Note Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 38,
+     "doi": "10.18653/v1/2022.acl-long.394",
+     "authors": ""
+    },
+    {
+     "title": "Learning the Beauty in Songs: Neural Singing Voice Beautifier",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 14,
+     "doi": "10.18653/v1/2022.acl-long.549",
+     "authors": ""
+    },
+    {
+     "title": "Learning From Failure: Data Capture in an Australian Aboriginal Community",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 4,
+     "doi": "10.18653/v1/2022.acl-long.342",
+     "authors": ""
+    },
+    {
+     "title": "KNN-Contrastive Learning for Out-of-Domain Intent Classification",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 56,
+     "doi": "10.18653/v1/2022.acl-long.352",
+     "authors": ""
+    },
+    {
+     "title": "Multi-View Document Representation Learning for Open-Domain Dense Retrieval",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 42,
+     "doi": "10.18653/v1/2022.acl-long.414",
+     "authors": ""
+    },
+    {
+     "title": "Continual Sequence Generation with Adaptive Compositional Modules",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 19,
+     "doi": "10.18653/v1/2022.acl-long.255",
+     "authors": ""
+    },
+    {
+     "title": "Learning Adaptive Segmentation Policy for End-to-End Simultaneous Translation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 13,
+     "doi": "10.18653/v1/2022.acl-long.542",
+     "authors": ""
+    },
+    {
+     "title": "SummN: A Multi-Stage Summarization Framework for Long Input Dialogues and Documents: A Multi-Stage Summarization Framework for Long Input Dialogues and Documents",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 41,
+     "doi": "10.18653/v1/2022.acl-long.112",
+     "authors": ""
+    },
+    {
+     "title": "Interactive Word Completion for Plains Cree",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 3,
+     "doi": "10.18653/v1/2022.acl-long.232",
+     "authors": ""
+    },
+    {
+     "title": "MemSum: Extractive Summarization of Long Documents Using Multi-Step Episodic Markov Decision Processes",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 36,
+     "doi": "10.18653/v1/2022.acl-long.450",
+     "authors": ""
+    },
+    {
+     "title": "Using Context-to-Vector with Graph Retrofitting to Improve Word Embeddings",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 23,
+     "doi": "10.18653/v1/2022.acl-long.561",
+     "authors": ""
+    },
+    {
+     "title": "DYLE: Dynamic Latent Extraction for Abstractive Long-Input Summarization",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 34,
+     "doi": "10.18653/v1/2022.acl-long.118",
+     "authors": ""
+    },
+    {
+     "title": "BiTIIMT: A Bilingual Text-infilling Method for Interactive Machine Translation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 22,
+     "doi": "10.18653/v1/2022.acl-long.138",
+     "authors": ""
+    },
+    {
+     "title": "GlobalWoZ: Globalizing MultiWoZ to Develop Multilingual Task-Oriented Dialogue Systems",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 22,
+     "doi": "10.18653/v1/2022.acl-long.115",
+     "authors": ""
+    },
+    {
+     "title": "RELiC: Retrieving Evidence for Literary Claims",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2022.acl-long.517",
+     "authors": ""
+    },
+    {
+     "title": "Towards Making the Most of Cross-Lingual Transfer for Zero-Shot Neural Machine Translation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 19,
+     "doi": "10.18653/v1/2022.acl-long.12",
+     "authors": ""
+    },
+    {
+     "title": "CipherDAug: Ciphertext based Data Augmentation for Neural Machine Translation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 16,
+     "doi": "10.18653/v1/2022.acl-long.17",
+     "authors": ""
+    },
+    {
+     "title": "Self-supervised Semantic-driven Phoneme Discovery for Zero-resource Speech Recognition",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 2,
+     "doi": "10.18653/v1/2022.acl-long.553",
+     "authors": ""
+    },
+    {
+     "title": "Towards Abstractive Grounded Summarization of Podcast Transcripts",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2022.acl-long.302",
+     "authors": ""
+    },
+    {
+     "title": "Cree Corpus: A Collection of nêhiyawêwin Resources",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 5,
+     "doi": "10.18653/v1/2022.acl-long.440",
+     "authors": ""
+    },
+    {
+     "title": "Incorporating Stock Market Signals for Twitter Stance Detection",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 12,
+     "doi": "10.18653/v1/2022.acl-long.281",
+     "authors": ""
+    },
+    {
+     "title": "Cross-Utterance Conditioned VAE for Non-Autoregressive Text-to-Speech",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 4,
+     "doi": "10.18653/v1/2022.acl-long.30",
+     "authors": ""
+    },
+    {
+     "title": "Cross-Lingual Phrase Retrieval",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 2,
+     "doi": "10.18653/v1/2022.acl-long.288",
+     "authors": ""
+    },
+    {
+     "title": "Online Semantic Parsing for Latency Reduction in Task-Oriented Dialogue",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 4,
+     "doi": "10.18653/v1/2022.acl-long.110",
+     "authors": ""
+    }
+   ]
   },
   "multimodal agent": {
-   "total": 3190,
-   "kept": 0,
-   "papers": []
+   "total": 30,
+   "kept": 30,
+   "papers": [
+    {
+     "title": "Vision-Language Pre-Training for Multimodal Aspect-Based Sentiment Analysis",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 135,
+     "doi": "10.18653/v1/2022.acl-long.152",
+     "authors": ""
+    },
+    {
+     "title": "Multimodal Dialogue Response Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 31,
+     "doi": "10.18653/v1/2022.acl-long.204",
+     "authors": ""
+    },
+    {
+     "title": "When did you become so smart, oh wise one?! Sarcasm Explanation in Multi-modal Multi-party Dialogues",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 30,
+     "doi": "10.18653/v1/2022.acl-long.411",
+     "authors": ""
+    },
+    {
+     "title": "UniTranSeR: A Unified Transformer Semantic Representation Framework for Multimodal Task-Oriented Dialog System",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 24,
+     "doi": "10.18653/v1/2022.acl-long.9",
+     "authors": ""
+    },
+    {
+     "title": "Understanding Multimodal Procedural Knowledge by Sequencing Multimodal Instructional Manuals",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2022.acl-long.310",
+     "authors": ""
+    },
+    {
+     "title": "\"You might think about slightly revising the title”: Identifying Hedges in Peer-tutoring Interactions",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 10,
+     "doi": "10.18653/v1/2022.acl-long.153",
+     "authors": ""
+    },
+    {
+     "title": "Vision-and-Language Navigation: A Survey of Tasks, Methods, and Future Directions",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 103,
+     "doi": "10.18653/v1/2022.acl-long.524",
+     "authors": ""
+    },
+    {
+     "title": "MMCoQA: Conversational Question Answering over Text, Tables, and Images",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 29,
+     "doi": "10.18653/v1/2022.acl-long.290",
+     "authors": ""
+    },
+    {
+     "title": "Neural Machine Translation with Phrase-Level Universal Visual Representations",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 39,
+     "doi": "10.18653/v1/2022.acl-long.390",
+     "authors": ""
+    },
+    {
+     "title": "Analyzing Generalization of Vision and Language Navigation to Unseen Outdoor Areas",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 26,
+     "doi": "10.18653/v1/2022.acl-long.518",
+     "authors": ""
+    },
+    {
+     "title": "Beyond Goldfish Memory: Long-Term Open-Domain Conversation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 115,
+     "doi": "10.18653/v1/2022.acl-long.356",
+     "authors": ""
+    },
+    {
+     "title": "M3ED: Multi-modal Multi-scene Multi-label Emotional Dialogue Database",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 68,
+     "doi": "10.18653/v1/2022.acl-long.391",
+     "authors": ""
+    },
+    {
+     "title": "Dynamic Prefix-Tuning for Generative Template-based Event Extraction",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 97,
+     "doi": "10.18653/v1/2022.acl-long.358",
+     "authors": ""
+    },
+    {
+     "title": "The AI Doctor Is In: A Survey of Task-Oriented Dialogue Systems for Healthcare Applications",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 38,
+     "doi": "10.18653/v1/2022.acl-long.458",
+     "authors": ""
+    },
+    {
+     "title": "VALSE: A Task-Independent Benchmark for Vision and Language Models Centered on Linguistic Phenomena",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 55,
+     "doi": "10.18653/v1/2022.acl-long.567",
+     "authors": ""
+    },
+    {
+     "title": "From text to talk: Harnessing conversational corpora for humane and diversity-aware language technology",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 33,
+     "doi": "10.18653/v1/2022.acl-long.385",
+     "authors": ""
+    },
+    {
+     "title": "Achieving Reliable Human Assessment of Open-Domain Dialogue Systems",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 58,
+     "doi": "10.18653/v1/2022.acl-long.445",
+     "authors": ""
+    },
+    {
+     "title": "Learning to Mediate Disparities Towards Pragmatic Communication",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2022.acl-long.202",
+     "authors": ""
+    },
+    {
+     "title": "The Dangers of Underclaiming: Reasons for Caution When Reporting How NLP Systems Fail",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 44,
+     "doi": "10.18653/v1/2022.acl-long.516",
+     "authors": ""
+    },
+    {
+     "title": "Multi-Party Empathetic Dialogue Generation: A New Task for Dialog Systems",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 17,
+     "doi": "10.18653/v1/2022.acl-long.24",
+     "authors": ""
+    },
+    {
+     "title": "Generating Scientific Claims for Zero-Shot Scientific Fact Checking",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 32,
+     "doi": "10.18653/v1/2022.acl-long.175",
+     "authors": ""
+    },
+    {
+     "title": "∞-former: Infinite Memory Transformer-former: Infinite Memory Transformer",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 15,
+     "doi": "10.18653/v1/2022.acl-long.375",
+     "authors": ""
+    },
+    {
+     "title": "A Taxonomy of Empathetic Questions in Social Dialogs",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 13,
+     "doi": "10.18653/v1/2022.acl-long.211",
+     "authors": ""
+    },
+    {
+     "title": "Show Me More Details: Discovering Hierarchies of Procedures from Semi-structured Web Data",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 16,
+     "doi": "10.18653/v1/2022.acl-long.214",
+     "authors": ""
+    },
+    {
+     "title": "ProphetChat: Enhancing Dialogue Generation with Simulation of Future Conversation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 9,
+     "doi": "10.18653/v1/2022.acl-long.68",
+     "authors": ""
+    },
+    {
+     "title": "Where to Go for the Holidays: Towards Mixed-Type Dialogs for Clarification of User Goals",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2022.acl-long.73",
+     "authors": ""
+    },
+    {
+     "title": "HOLM: Hallucinating Objects with Language Models for Referring Expression Recognition in Partially-Observed Scenes",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 3,
+     "doi": "10.18653/v1/2022.acl-long.373",
+     "authors": ""
+    },
+    {
+     "title": "Misinfo Reaction Frames: Reasoning about Readers’ Reactions to News Headlines",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 29,
+     "doi": "10.18653/v1/2022.acl-long.222",
+     "authors": ""
+    },
+    {
+     "title": "Scheduled Multi-task Learning for Neural Chat Translation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 4,
+     "doi": "10.18653/v1/2022.acl-long.300",
+     "authors": ""
+    },
+    {
+     "title": "Lexical Knowledge Internalization for Neural Dialog Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 5,
+     "doi": "10.18653/v1/2022.acl-long.547",
+     "authors": ""
+    }
+   ]
   },
   "on-device inference": {
-   "total": 1864,
-   "kept": 0,
-   "papers": []
+   "total": 32,
+   "kept": 32,
+   "papers": [
+    {
+     "title": "Generating Data to Mitigate Spurious Correlations in Natural Language Inference Datasets",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 46,
+     "doi": "10.18653/v1/2022.acl-long.190",
+     "authors": ""
+    },
+    {
+     "title": "SkipBERT: Efficient Inference with Shallow Layer Skipping",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 18,
+     "doi": "10.18653/v1/2022.acl-long.503",
+     "authors": ""
+    },
+    {
+     "title": "AdapLeR: Speeding up Inference by Adaptive Length Reduction",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 19,
+     "doi": "10.18653/v1/2022.acl-long.1",
+     "authors": ""
+    },
+    {
+     "title": "E-LANG: Energy-Based Joint Inferencing of Super and Swift Language Models",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 5,
+     "doi": "10.18653/v1/2022.acl-long.359",
+     "authors": ""
+    },
+    {
+     "title": "OpenHands: Making Sign Language Recognition Accessible with Pose-based Pretrained Models across Languages",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 59,
+     "doi": "10.18653/v1/2022.acl-long.150",
+     "authors": ""
+    },
+    {
+     "title": "Unified Structure Generation for Universal Information Extraction",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 432,
+     "doi": "10.18653/v1/2022.acl-long.395",
+     "authors": ""
+    },
+    {
+     "title": "Bag-of-Words vs. Graph vs. Sequence in Text Classification: Questioning the Necessity of Text-Graphs and the Surprising Strength of a Wide MLP",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 42,
+     "doi": "10.18653/v1/2022.acl-long.279",
+     "authors": ""
+    },
+    {
+     "title": "Dynamic Global Memory for Document-level Argument Extraction",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 33,
+     "doi": "10.18653/v1/2022.acl-long.361",
+     "authors": ""
+    },
+    {
+     "title": "Structured Pruning Learns Compact and Accurate Models",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 129,
+     "doi": "10.18653/v1/2022.acl-long.107",
+     "authors": ""
+    },
+    {
+     "title": "Attention Temperature Matters in Abstractive Summarization Distillation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 12,
+     "doi": "10.18653/v1/2022.acl-long.11",
+     "authors": ""
+    },
+    {
+     "title": "Parallel Instance Query Network for Named Entity Recognition",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 73,
+     "doi": "10.18653/v1/2022.acl-long.67",
+     "authors": ""
+    },
+    {
+     "title": "Nested Named Entity Recognition with Span-level Graphs",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 60,
+     "doi": "10.18653/v1/2022.acl-long.63",
+     "authors": ""
+    },
+    {
+     "title": "Prompt-free and Efficient Few-shot Learning with Language Models",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 43,
+     "doi": "10.18653/v1/2022.acl-long.254",
+     "authors": ""
+    },
+    {
+     "title": "SUPERB-SG: Enhanced Speech processing Universal PERformance Benchmark for Semantic and Generative Capabilities",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 74,
+     "doi": "10.18653/v1/2022.acl-long.580",
+     "authors": ""
+    },
+    {
+     "title": "e-CARE: a New Dataset for Exploring Explainable Causal Reasoning",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 37,
+     "doi": "10.18653/v1/2022.acl-long.33",
+     "authors": ""
+    },
+    {
+     "title": "Your Answer is Incorrect... Would you like to know why? Introducing a Bilingual Short Answer Feedback Dataset",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 32,
+     "doi": "10.18653/v1/2022.acl-long.587",
+     "authors": ""
+    },
+    {
+     "title": "SummN: A Multi-Stage Summarization Framework for Long Input Dialogues and Documents: A Multi-Stage Summarization Framework for Long Input Dialogues and Documents",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 41,
+     "doi": "10.18653/v1/2022.acl-long.112",
+     "authors": ""
+    },
+    {
+     "title": "Compression of Generative Pre-trained Language Models via Quantization",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 47,
+     "doi": "10.18653/v1/2022.acl-long.331",
+     "authors": ""
+    },
+    {
+     "title": "LexGLUE: A Benchmark Dataset for Legal Language Understanding in English",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 196,
+     "doi": "10.18653/v1/2022.acl-long.297",
+     "authors": ""
+    },
+    {
+     "title": "KinyaBERT: a Morphology-aware Kinyarwanda Language Model",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 31,
+     "doi": "10.18653/v1/2022.acl-long.367",
+     "authors": ""
+    },
+    {
+     "title": "One Country, 700+ Languages: NLP Challenges for Underrepresented Languages and Dialects in Indonesia",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 82,
+     "doi": "10.18653/v1/2022.acl-long.500",
+     "authors": ""
+    },
+    {
+     "title": "Legal Judgment Prediction via Event Extraction with Constraints",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 67,
+     "doi": "10.18653/v1/2022.acl-long.48",
+     "authors": ""
+    },
+    {
+     "title": "Sparse Progressive Distillation: Resolving Overfitting under Pretrain-and-Finetune Paradigm",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 16,
+     "doi": "10.18653/v1/2022.acl-long.16",
+     "authors": ""
+    },
+    {
+     "title": "ClusterFormer: Neural Clustering Attention for Efficient and Effective Transformer",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2022.acl-long.170",
+     "authors": ""
+    },
+    {
+     "title": "Distributionally Robust Finetuning BERT for Covariate Drift in Spoken Language Understanding",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 9,
+     "doi": "10.18653/v1/2022.acl-long.139",
+     "authors": ""
+    },
+    {
+     "title": "Understanding Iterative Revision from Human-Written Text",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 27,
+     "doi": "10.18653/v1/2022.acl-long.250",
+     "authors": ""
+    },
+    {
+     "title": "Fine- and Coarse-Granularity Hybrid Self-Attention for Efficient BERT",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2022.acl-long.330",
+     "authors": ""
+    },
+    {
+     "title": "Learning From Failure: Data Capture in an Australian Aboriginal Community",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 4,
+     "doi": "10.18653/v1/2022.acl-long.342",
+     "authors": ""
+    },
+    {
+     "title": "Modeling U.S. State-Level Policies by Extracting Winners and Losers from Legislative Texts",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 4,
+     "doi": "10.18653/v1/2022.acl-long.22",
+     "authors": ""
+    },
+    {
+     "title": "RELiC: Retrieving Evidence for Literary Claims",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2022.acl-long.517",
+     "authors": ""
+    },
+    {
+     "title": "Adversarial Authorship Attribution for Deobfuscation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 5,
+     "doi": "10.18653/v1/2022.acl-long.509",
+     "authors": ""
+    },
+    {
+     "title": "Modeling Syntactic-Semantic Dependency Correlations in Semantic Role Labeling Using Mixture Models",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 2,
+     "doi": "10.18653/v1/2022.acl-long.548",
+     "authors": ""
+    }
+   ]
   },
   "emotion recognition": {
-   "total": 3124,
-   "kept": 0,
-   "papers": []
+   "total": 40,
+   "kept": 40,
+   "papers": [
+    {
+     "title": "Ethics Sheets for AI Tasks",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 17,
+     "doi": "10.18653/v1/2022.acl-long.573",
+     "authors": ""
+    },
+    {
+     "title": "Multimodal fusion via cortical network inspired losses",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 14,
+     "doi": "10.18653/v1/2022.acl-long.83",
+     "authors": ""
+    },
+    {
+     "title": "Leveraging Unimodal Self-Supervised Learning for Multimodal Audio-Visual Speech Recognition",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 45,
+     "doi": "10.18653/v1/2022.acl-long.308",
+     "authors": ""
+    },
+    {
+     "title": "SRL4E – Semantic Role Labeling for Emotions: A Unified Evaluation Framework",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 12,
+     "doi": "10.18653/v1/2022.acl-long.314",
+     "authors": ""
+    },
+    {
+     "title": "Multi-Party Empathetic Dialogue Generation: A New Task for Dialog Systems",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 17,
+     "doi": "10.18653/v1/2022.acl-long.24",
+     "authors": ""
+    },
+    {
+     "title": "M3ED: Multi-modal Multi-scene Multi-label Emotional Dialogue Database",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 68,
+     "doi": "10.18653/v1/2022.acl-long.391",
+     "authors": ""
+    },
+    {
+     "title": "SUPERB-SG: Enhanced Speech processing Universal PERformance Benchmark for Semantic and Generative Capabilities",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 74,
+     "doi": "10.18653/v1/2022.acl-long.580",
+     "authors": ""
+    },
+    {
+     "title": "Beyond Goldfish Memory: Long-Term Open-Domain Conversation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 115,
+     "doi": "10.18653/v1/2022.acl-long.356",
+     "authors": ""
+    },
+    {
+     "title": "One Country, 700+ Languages: NLP Challenges for Underrepresented Languages and Dialects in Indonesia",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 82,
+     "doi": "10.18653/v1/2022.acl-long.500",
+     "authors": ""
+    },
+    {
+     "title": "A Taxonomy of Empathetic Questions in Social Dialogs",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 13,
+     "doi": "10.18653/v1/2022.acl-long.211",
+     "authors": ""
+    },
+    {
+     "title": "Text-Free Prosody-Aware Generative Spoken Language Modeling",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 50,
+     "doi": "10.18653/v1/2022.acl-long.593",
+     "authors": ""
+    },
+    {
+     "title": "AlephBERT: Language Model Pre-training and Evaluation from Sub-Word to Sentence Level",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 32,
+     "doi": "10.18653/v1/2022.acl-long.4",
+     "authors": ""
+    },
+    {
+     "title": "MSCTD: A Multimodal Sentiment Chat Translation Dataset",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 15,
+     "doi": "10.18653/v1/2022.acl-long.186",
+     "authors": ""
+    },
+    {
+     "title": "Structural Characterization for Dialogue Disentanglement",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 26,
+     "doi": "10.18653/v1/2022.acl-long.23",
+     "authors": ""
+    },
+    {
+     "title": "CICERO: A Dataset for Contextualized Commonsense Inference in Dialogues",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 31,
+     "doi": "10.18653/v1/2022.acl-long.344",
+     "authors": ""
+    },
+    {
+     "title": "JointCL: A Joint Contrastive Learning Framework for Zero-Shot Stance Detection",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 73,
+     "doi": "10.18653/v1/2022.acl-long.7",
+     "authors": ""
+    },
+    {
+     "title": "Understanding and Improving Sequence-to-Sequence Pretraining for Neural Machine Translation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 26,
+     "doi": "10.18653/v1/2022.acl-long.185",
+     "authors": ""
+    },
+    {
+     "title": "Challenges and Strategies in Cross-Cultural NLP",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 94,
+     "doi": "10.18653/v1/2022.acl-long.482",
+     "authors": ""
+    },
+    {
+     "title": "Identifying Moments of Change from Longitudinal User Text",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 26,
+     "doi": "10.18653/v1/2022.acl-long.318",
+     "authors": ""
+    },
+    {
+     "title": "A Contrastive Framework for Learning Sentence Representations from Pairwise and Triple-wise Perspective in Angular Space",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 63,
+     "doi": "10.18653/v1/2022.acl-long.336",
+     "authors": ""
+    },
+    {
+     "title": "AraT5: Text-to-Text Transformers for Arabic Language Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 104,
+     "doi": "10.18653/v1/2022.acl-long.47",
+     "authors": ""
+    },
+    {
+     "title": "Effective Token Graph Modeling using a Novel Labeling Strategy for Structured Sentiment Analysis",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 78,
+     "doi": "10.18653/v1/2022.acl-long.291",
+     "authors": ""
+    },
+    {
+     "title": "Phone-ing it in: Towards Flexible Multi-Modal Language Model Training by Phonetic Representations of Data",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 2,
+     "doi": "10.18653/v1/2022.acl-long.364",
+     "authors": ""
+    },
+    {
+     "title": "When did you become so smart, oh wise one?! Sarcasm Explanation in Multi-modal Multi-party Dialogues",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 30,
+     "doi": "10.18653/v1/2022.acl-long.411",
+     "authors": ""
+    },
+    {
+     "title": "Multimodal Sarcasm Target Identification in Tweets",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 21,
+     "doi": "10.18653/v1/2022.acl-long.562",
+     "authors": ""
+    },
+    {
+     "title": "SummScreen: A Dataset for Abstractive Screenplay Summarization",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 46,
+     "doi": "10.18653/v1/2022.acl-long.589",
+     "authors": ""
+    },
+    {
+     "title": "Multimodal Dialogue Response Generation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 31,
+     "doi": "10.18653/v1/2022.acl-long.204",
+     "authors": ""
+    },
+    {
+     "title": "Image Retrieval from Contextual Descriptions",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 20,
+     "doi": "10.18653/v1/2022.acl-long.241",
+     "authors": ""
+    },
+    {
+     "title": "Local Languages, Third Spaces, and other High-Resource Scenarios",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 31,
+     "doi": "10.18653/v1/2022.acl-long.539",
+     "authors": ""
+    },
+    {
+     "title": "Scheduled Multi-task Learning for Neural Chat Translation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 4,
+     "doi": "10.18653/v1/2022.acl-long.300",
+     "authors": ""
+    },
+    {
+     "title": "Cluster & Tune: Boost Cold Start Performance in Text Classification",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 15,
+     "doi": "10.18653/v1/2022.acl-long.526",
+     "authors": ""
+    },
+    {
+     "title": "Learning Disentangled Textual Representations via Statistical Measures of Similarity",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 18,
+     "doi": "10.18653/v1/2022.acl-long.187",
+     "authors": ""
+    },
+    {
+     "title": "Identifying Chinese Opinion Expressions with Extremely-Noisy Crowdsourcing Annotations",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 9,
+     "doi": "10.18653/v1/2022.acl-long.200",
+     "authors": ""
+    },
+    {
+     "title": "Reports of personal experiences and stories in argumentation: datasets and analysis",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 9,
+     "doi": "10.18653/v1/2022.acl-long.379",
+     "authors": ""
+    },
+    {
+     "title": "ProphetChat: Enhancing Dialogue Generation with Simulation of Future Conversation",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 9,
+     "doi": "10.18653/v1/2022.acl-long.68",
+     "authors": ""
+    },
+    {
+     "title": "Premise-based Multimodal Reasoning: Conditional Inference on Joint Textual and Visual Clues",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2022.acl-long.66",
+     "authors": ""
+    },
+    {
+     "title": "Modeling Temporal-Modal Entity Graph for Procedural Multimodal Machine Comprehension",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 2,
+     "doi": "10.18653/v1/2022.acl-long.84",
+     "authors": ""
+    },
+    {
+     "title": "\"You might think about slightly revising the title”: Identifying Hedges in Peer-tutoring Interactions",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 10,
+     "doi": "10.18653/v1/2022.acl-long.153",
+     "authors": ""
+    },
+    {
+     "title": "Which side are you on? Insider-Outsider classification in conspiracy-theoretic social media",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2022.acl-long.341",
+     "authors": ""
+    },
+    {
+     "title": "Characterizing Idioms: Conventionality and Contingency",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 3,
+     "doi": "10.18653/v1/2022.acl-long.278",
+     "authors": ""
+    }
+   ]
   },
   "paralinguistic": {
-   "total": 11,
-   "kept": 0,
-   "papers": []
+   "total": 3,
+   "kept": 3,
+   "papers": [
+    {
+     "title": "Direct Speech-to-Speech Translation With Discrete Units",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 109,
+     "doi": "10.18653/v1/2022.acl-long.235",
+     "authors": ""
+    },
+    {
+     "title": "When did you become so smart, oh wise one?! Sarcasm Explanation in Multi-modal Multi-party Dialogues",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 30,
+     "doi": "10.18653/v1/2022.acl-long.411",
+     "authors": ""
+    },
+    {
+     "title": "Signal in Noise: Exploring Meaning Encoded in Random Character Sequences with Character-Aware Language Models",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 1,
+     "doi": "10.18653/v1/2022.acl-long.492",
+     "authors": ""
+    }
+   ]
   },
   "neural codec": {
-   "total": 4901,
-   "kept": 0,
-   "papers": []
+   "total": 1,
+   "kept": 1,
+   "papers": [
+    {
+     "title": "SpeechT5: Unified-Modal Encoder-Decoder Pre-Training for Spoken Language Processing",
+     "year": 2022,
+     "venue": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+     "citationCount": 138,
+     "doi": "10.18653/v1/2022.acl-long.393",
+     "authors": ""
+    }
+   ]
   }
  }
 }

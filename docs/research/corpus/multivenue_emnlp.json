@@ -1,9 +1,18 @@
 {
  "venue": "EMNLP",
  "category": "nlp",
- "canonical_venue_string": "EMNLP",
- "wave": "A",
- "generated_at": "2026-09-29 00:49:33",
+ "backend": "openalex",
+ "canonical_venue_string": "Conference on Empirical Methods in Natural Language Processing",
+ "wave": "A补",
+ "generated_at": "2026-09-29 01:04:34",
+ "sources": [
+  {
+   "id": "S4363608991",
+   "name": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+   "year": 2021,
+   "works": 847
+  }
+ ],
  "topics": [
   "LLM agent tool use",
   "agent memory",
@@ -14,53 +23,2337 @@
   "paralinguistic",
   "neural codec"
  ],
- "request_budget": {
-  "successful": 118,
-  "limit": 300,
-  "attempts": 8
- },
- "truncated_by": null,
- "failed_queries": 0,
  "queries": {
   "LLM agent tool use": {
-   "total": 336,
+   "total": 0,
    "kept": 0,
    "papers": []
   },
   "agent memory": {
-   "total": 96,
-   "kept": 0,
-   "papers": []
+   "total": 78,
+   "kept": 78,
+   "papers": [
+    {
+     "title": "BeliefBank: Adding Memory to a Pre-Trained Language Model for a Systematic Notion of Belief",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 23,
+     "doi": "10.18653/v1/2021.emnlp-main.697",
+     "authors": ""
+    },
+    {
+     "title": "Reference-Centric Models for Grounded Collaborative Dialogue",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 12,
+     "doi": "10.18653/v1/2021.emnlp-main.163",
+     "authors": ""
+    },
+    {
+     "title": "Efficient Dialogue Complementary Policy Learning via Deep Q-network Policy and Episodic Memory Policy",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 12,
+     "doi": "10.18653/v1/2021.emnlp-main.354",
+     "authors": ""
+    },
+    {
+     "title": "NDH-Full: Learning and Evaluating Navigational Agents on Full-Length Dialogue",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 12,
+     "doi": "10.18653/v1/2021.emnlp-main.518",
+     "authors": ""
+    },
+    {
+     "title": "The Effect of Efficient Messaging and Input Variability on Neural-Agent Iterated Language Learning",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 5,
+     "doi": "10.18653/v1/2021.emnlp-main.794",
+     "authors": ""
+    },
+    {
+     "title": "Multimodal Phased Transformer for Sentiment Analysis",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 60,
+     "doi": "10.18653/v1/2021.emnlp-main.189",
+     "authors": ""
+    },
+    {
+     "title": "Interactive Machine Comprehension with Dynamic Knowledge Graphs",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 1,
+     "doi": "10.18653/v1/2021.emnlp-main.540",
+     "authors": ""
+    },
+    {
+     "title": "Perspective-taking and Pragmatics for Generating Empathetic Responses Focused on Emotion Causes",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 58,
+     "doi": "10.18653/v1/2021.emnlp-main.170",
+     "authors": ""
+    },
+    {
+     "title": "MindCraft: Theory of Mind Modeling for Situated Dialogue in Collaborative Tasks",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 29,
+     "doi": "10.18653/v1/2021.emnlp-main.85",
+     "authors": ""
+    },
+    {
+     "title": "Multi-Modal Open-Domain Dialogue",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 34,
+     "doi": "10.18653/v1/2021.emnlp-main.398",
+     "authors": ""
+    },
+    {
+     "title": "Multi-granularity Textual Adversarial Attack with Behavior Cloning",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 30,
+     "doi": "10.18653/v1/2021.emnlp-main.371",
+     "authors": ""
+    },
+    {
+     "title": "Asking Questions Like Educational Experts: Automatically Generating Question-Answer Pairs on Real-World Examination Data",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 28,
+     "doi": "10.18653/v1/2021.emnlp-main.202",
+     "authors": ""
+    },
+    {
+     "title": "Editing Factual Knowledge in Language Models",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 174,
+     "doi": "10.18653/v1/2021.emnlp-main.522",
+     "authors": ""
+    },
+    {
+     "title": "End-to-End Learning of Flowchart Grounded Task-Oriented Dialogs",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 13,
+     "doi": "10.18653/v1/2021.emnlp-main.357",
+     "authors": ""
+    },
+    {
+     "title": "Continual Learning in Task-Oriented Dialogue Systems",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 72,
+     "doi": "10.18653/v1/2021.emnlp-main.590",
+     "authors": ""
+    },
+    {
+     "title": "A Bayesian Framework for Information-Theoretic Probing",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 16,
+     "doi": "10.18653/v1/2021.emnlp-main.229",
+     "authors": ""
+    },
+    {
+     "title": "Documenting Large Webtext Corpora: A Case Study on the Colossal Clean Crawled Corpus",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 285,
+     "doi": "10.18653/v1/2021.emnlp-main.98",
+     "authors": ""
+    },
+    {
+     "title": "Translation-based Supervision for Policy Generation in Simultaneous Neural Machine Translation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2021.emnlp-main.130",
+     "authors": ""
+    },
+    {
+     "title": "Narrative Theory for Computational Narrative Understanding",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 77,
+     "doi": "10.18653/v1/2021.emnlp-main.26",
+     "authors": ""
+    },
+    {
+     "title": "Dialogue State Tracking with a Language Model using Schema-Driven Prompting",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 89,
+     "doi": "10.18653/v1/2021.emnlp-main.404",
+     "authors": ""
+    },
+    {
+     "title": "CR-Walker: Tree-Structured Graph Reasoning and Dialog Acts for Conversational Recommendation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 48,
+     "doi": "10.18653/v1/2021.emnlp-main.139",
+     "authors": ""
+    },
+    {
+     "title": "Few-Shot Intent Detection via Contrastive Pre-Training and Fine-Tuning",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 70,
+     "doi": "10.18653/v1/2021.emnlp-main.144",
+     "authors": ""
+    },
+    {
+     "title": "Learning Neural Templates for Recommender Dialogue System",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 41,
+     "doi": "10.18653/v1/2021.emnlp-main.617",
+     "authors": ""
+    },
+    {
+     "title": "Highly Parallel Autoregressive Entity Linking with Discriminative Correction",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 33,
+     "doi": "10.18653/v1/2021.emnlp-main.604",
+     "authors": ""
+    },
+    {
+     "title": "CrossFit: A Few-shot Learning Challenge for Cross-task Generalization in NLP",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 104,
+     "doi": "10.18653/v1/2021.emnlp-main.572",
+     "authors": ""
+    },
+    {
+     "title": "The Devil is in the Detail: Simple Tricks Improve Systematic Generalization of Transformers",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 58,
+     "doi": "10.18653/v1/2021.emnlp-main.49",
+     "authors": ""
+    },
+    {
+     "title": "Effective Sequence-to-Sequence Dialogue State Tracking",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 29,
+     "doi": "10.18653/v1/2021.emnlp-main.593",
+     "authors": ""
+    },
+    {
+     "title": "Zero-Shot Dialogue State Tracking via Cross-Task Transfer",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 46,
+     "doi": "10.18653/v1/2021.emnlp-main.622",
+     "authors": ""
+    },
+    {
+     "title": "MRF-Chat: Improving Dialogue with Markov Random Fields",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 2,
+     "doi": "10.18653/v1/2021.emnlp-main.403",
+     "authors": ""
+    },
+    {
+     "title": "Neuro-Symbolic Reinforcement Learning with First-Order Logic",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 23,
+     "doi": "10.18653/v1/2021.emnlp-main.283",
+     "authors": ""
+    },
+    {
+     "title": "Paraphrase Generation: A Survey of the State of the Art",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 62,
+     "doi": "10.18653/v1/2021.emnlp-main.414",
+     "authors": ""
+    },
+    {
+     "title": "Cross Attention Augmented Transducer Networks for Simultaneous Translation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 28,
+     "doi": "10.18653/v1/2021.emnlp-main.4",
+     "authors": ""
+    },
+    {
+     "title": "Do Long-Range Language Models Actually Use Long-Range Context?",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 38,
+     "doi": "10.18653/v1/2021.emnlp-main.62",
+     "authors": ""
+    },
+    {
+     "title": "DIALKI: Knowledge Identification in Conversational Systems through Dialogue-Document Contextualization",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 23,
+     "doi": "10.18653/v1/2021.emnlp-main.140",
+     "authors": ""
+    },
+    {
+     "title": "Thinking Clearly, Talking Fast: Concept-Guided Non-Autoregressive Generation for Open-Domain Dialogue Systems",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 27,
+     "doi": "10.18653/v1/2021.emnlp-main.169",
+     "authors": ""
+    },
+    {
+     "title": "Conditional probing: measuring usable information beyond a baseline",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 26,
+     "doi": "10.18653/v1/2021.emnlp-main.122",
+     "authors": ""
+    },
+    {
+     "title": "Phrase Retrieval Learns Passage Retrieval, Too",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 27,
+     "doi": "10.18653/v1/2021.emnlp-main.297",
+     "authors": ""
+    },
+    {
+     "title": "The Stem Cell Hypothesis: Dilemma behind Multi-Task Learning with Transformer Encoders",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 116,
+     "doi": "10.18653/v1/2021.emnlp-main.451",
+     "authors": ""
+    },
+    {
+     "title": "Not All Negatives are Equal: Label-Aware Contrastive Loss for Fine-grained Text Classification",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 75,
+     "doi": "10.18653/v1/2021.emnlp-main.359",
+     "authors": ""
+    },
+    {
+     "title": "Fine-grained Entity Typing via Label Reasoning",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 29,
+     "doi": "10.18653/v1/2021.emnlp-main.378",
+     "authors": ""
+    },
+    {
+     "title": "Transferable Persona-Grounded Dialogues via Grounded Minimal Edits",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 14,
+     "doi": "10.18653/v1/2021.emnlp-main.183",
+     "authors": ""
+    },
+    {
+     "title": "Automated Generation of Accurate & Fluent Medical X-ray Reports",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 39,
+     "doi": "10.18653/v1/2021.emnlp-main.288",
+     "authors": ""
+    },
+    {
+     "title": "Neuro-Symbolic Approaches for Text-Based Policy Learning",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 12,
+     "doi": "10.18653/v1/2021.emnlp-main.245",
+     "authors": ""
+    },
+    {
+     "title": "CoLV: A Collaborative Latent Variable Model for Knowledge-Grounded Dialogue Generation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 15,
+     "doi": "10.18653/v1/2021.emnlp-main.172",
+     "authors": ""
+    },
+    {
+     "title": "Knowledge Enhanced Fine-Tuning for Better Handling Unseen Entities in Dialogue Generation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 19,
+     "doi": "10.18653/v1/2021.emnlp-main.179",
+     "authors": ""
+    },
+    {
+     "title": "A Role-Selected Sharing Network for Joint Machine-Human Chatting Handoff and Service Satisfaction Analysis",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2021.emnlp-main.767",
+     "authors": ""
+    },
+    {
+     "title": "Emotion Inference in Multi-Turn Conversations with Addressee-Aware Module and Ensemble Strategy",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 14,
+     "doi": "10.18653/v1/2021.emnlp-main.320",
+     "authors": ""
+    },
+    {
+     "title": "Domain-Lifelong Learning for Dialogue State Tracking via Knowledge Preservation Networks",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2021.emnlp-main.176",
+     "authors": ""
+    },
+    {
+     "title": "A Three-Stage Learning Framework for Low-Resource Knowledge-Grounded Dialogue Generation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 24,
+     "doi": "10.18653/v1/2021.emnlp-main.173",
+     "authors": ""
+    },
+    {
+     "title": "Don’t be Contradicted with Anything! CI-ToD: Towards Benchmarking Consistency for Task-oriented Dialogue System",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 9,
+     "doi": "10.18653/v1/2021.emnlp-main.182",
+     "authors": ""
+    },
+    {
+     "title": "Detecting Speaker Personas from Conversational Texts",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2021.emnlp-main.86",
+     "authors": ""
+    },
+    {
+     "title": "Reinforced Counterfactual Data Augmentation for Dual Sentiment Classification",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 19,
+     "doi": "10.18653/v1/2021.emnlp-main.24",
+     "authors": ""
+    },
+    {
+     "title": "Investigating Robustness of Dialog Models to Popular Figurative Language Constructs",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 17,
+     "doi": "10.18653/v1/2021.emnlp-main.592",
+     "authors": ""
+    },
+    {
+     "title": "Controllable Semantic Parsing via Retrieval Augmentation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 29,
+     "doi": "10.18653/v1/2021.emnlp-main.607",
+     "authors": ""
+    },
+    {
+     "title": "End-to-End Conversational Search for Online Shopping with Utterance Transfer",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2021.emnlp-main.280",
+     "authors": ""
+    },
+    {
+     "title": "GMH: A General Multi-hop Reasoning Model for KG Completion",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2021.emnlp-main.276",
+     "authors": ""
+    },
+    {
+     "title": "A Scalable Framework for Learning From Implicit User Feedback to Improve Natural Language Understanding in Large-Scale Conversational AI Systems",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 18,
+     "doi": "10.18653/v1/2021.emnlp-main.489",
+     "authors": ""
+    },
+    {
+     "title": "EARL: Informative Knowledge-Grounded Conversation Generation with Entity-Agnostic Representation Learning",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 12,
+     "doi": "10.18653/v1/2021.emnlp-main.184",
+     "authors": ""
+    },
+    {
+     "title": "A Label-Aware BERT Attention Network for Zero-Shot Multi-Intent Detection in Spoken Language Understanding",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 13,
+     "doi": "10.18653/v1/2021.emnlp-main.399",
+     "authors": ""
+    },
+    {
+     "title": "Generation and Extraction Combined Dialogue State Tracking with Hierarchical Ontology Integration",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2021.emnlp-main.171",
+     "authors": ""
+    },
+    {
+     "title": "Automatically Exposing Problems with Neural Dialog Models",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2021.emnlp-main.37",
+     "authors": ""
+    },
+    {
+     "title": "CATE: A Contrastive Pre-trained Model for Metaphor Detection with Semi-supervised Learning",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 16,
+     "doi": "10.18653/v1/2021.emnlp-main.316",
+     "authors": ""
+    },
+    {
+     "title": "Timeline Summarization based on Event Graph Compression via Time-Aware Optimal Transport",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 29,
+     "doi": "10.18653/v1/2021.emnlp-main.519",
+     "authors": ""
+    },
+    {
+     "title": "Language Modeling, Lexical Translation, Reordering: The Training Process of NMT through the Lens of Classical SMT",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2021.emnlp-main.667",
+     "authors": ""
+    },
+    {
+     "title": "Collaborative Learning of Bidirectional Decoders for Unsupervised Text Style Transfer",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2021.emnlp-main.729",
+     "authors": ""
+    },
+    {
+     "title": "Code-switched inspired losses for spoken dialog representations",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2021.emnlp-main.656",
+     "authors": ""
+    },
+    {
+     "title": "On the Transferability of Adversarial Attacks against Neural Text Classifier",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 19,
+     "doi": "10.18653/v1/2021.emnlp-main.121",
+     "authors": ""
+    },
+    {
+     "title": "Cross-lingual Intermediate Fine-tuning improves Dialogue State Tracking",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2021.emnlp-main.87",
+     "authors": ""
+    },
+    {
+     "title": "Inducing Transformer’s Compositional Generalization Ability via Auxiliary Sequence Prediction Tasks",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 15,
+     "doi": "10.18653/v1/2021.emnlp-main.505",
+     "authors": ""
+    },
+    {
+     "title": "Augmenting BERT-style Models with Predictive Coding to Improve Discourse-level Representations",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 4,
+     "doi": "10.18653/v1/2021.emnlp-main.240",
+     "authors": ""
+    },
+    {
+     "title": "Evaluation Paradigms in Question Answering",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2021.emnlp-main.758",
+     "authors": ""
+    },
+    {
+     "title": "Instance-adaptive training with noise-robust losses against noisy labels",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 9,
+     "doi": "10.18653/v1/2021.emnlp-main.457",
+     "authors": ""
+    },
+    {
+     "title": "Towards Making the Most of Dialogue Characteristics for Neural Chat Translation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 13,
+     "doi": "10.18653/v1/2021.emnlp-main.6",
+     "authors": ""
+    },
+    {
+     "title": "Iconary: A Pictionary-Based Game for Testing Multimodal Communication with Drawings and Text",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2021.emnlp-main.141",
+     "authors": ""
+    },
+    {
+     "title": "Generating Self-Contained and Summary-Centric Question Answer Pairs via Differentiable Reward Imitation Learning",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 2,
+     "doi": "10.18653/v1/2021.emnlp-main.416",
+     "authors": ""
+    },
+    {
+     "title": "Uncertainty Measures in Neural Belief Tracking and the Effects on Dialogue Policy Performance",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2021.emnlp-main.623",
+     "authors": ""
+    },
+    {
+     "title": "Different Strokes for Different Folks: Investigating Appropriate Further Pre-training Approaches for Diverse Dialogue Tasks",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 1,
+     "doi": "10.18653/v1/2021.emnlp-main.178",
+     "authors": ""
+    },
+    {
+     "title": "Hitting your MARQ: Multimodal ARgument Quality Assessment in Long Debate Video",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 0,
+     "doi": "10.18653/v1/2021.emnlp-main.515",
+     "authors": ""
+    }
+   ]
   },
   "audio language model": {
-   "total": 1254,
-   "kept": 0,
-   "papers": []
+   "total": 72,
+   "kept": 72,
+   "papers": [
+    {
+     "title": "CTAL: Pre-training Cross-modal Transformer for Audio-and-Language Representations",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 15,
+     "doi": "10.18653/v1/2021.emnlp-main.323",
+     "authors": ""
+    },
+    {
+     "title": "Vision Guided Generative Pre-trained Language Models for Multimodal Abstractive Summarization",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 67,
+     "doi": "10.18653/v1/2021.emnlp-main.326",
+     "authors": ""
+    },
+    {
+     "title": "Discretized Integrated Gradients for Explaining Language Models",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 36,
+     "doi": "10.18653/v1/2021.emnlp-main.805",
+     "authors": ""
+    },
+    {
+     "title": "Finnish Dialect Identification: The Effect of Audio and Text",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2021.emnlp-main.692",
+     "authors": ""
+    },
+    {
+     "title": "VideoCLIP: Contrastive Pre-training for Zero-shot Video-Text Understanding",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 447,
+     "doi": "10.18653/v1/2021.emnlp-main.544",
+     "authors": ""
+    },
+    {
+     "title": "SpellBERT: A Lightweight Pretrained Model for Chinese Spelling Check",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 35,
+     "doi": "10.18653/v1/2021.emnlp-main.287",
+     "authors": ""
+    },
+    {
+     "title": "Improving Multimodal Fusion with Hierarchical Mutual Information Maximization for Multimodal Sentiment Analysis",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 505,
+     "doi": "10.18653/v1/2021.emnlp-main.723",
+     "authors": ""
+    },
+    {
+     "title": "“So You Think You’re Funny?”: Rating the Humour Quotient in Standup Comedy",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 10,
+     "doi": "10.18653/v1/2021.emnlp-main.789",
+     "authors": ""
+    },
+    {
+     "title": "Semantic Novelty Detection in Natural Language Descriptions",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2021.emnlp-main.66",
+     "authors": ""
+    },
+    {
+     "title": "Speechformer: Reducing Information Loss in Direct Speech Translation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2021.emnlp-main.127",
+     "authors": ""
+    },
+    {
+     "title": "ValNorm Quantifies Semantics to Reveal Consistent Valence Biases Across Languages and Over Centuries",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 20,
+     "doi": "10.18653/v1/2021.emnlp-main.574",
+     "authors": ""
+    },
+    {
+     "title": "Definition Modelling for Appropriate Specificity",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 17,
+     "doi": "10.18653/v1/2021.emnlp-main.194",
+     "authors": ""
+    },
+    {
+     "title": "BERT, mBERT, or BiBERT? A Study on Contextualized Embeddings for Neural Machine Translation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 58,
+     "doi": "10.18653/v1/2021.emnlp-main.534",
+     "authors": ""
+    },
+    {
+     "title": "A Scalable Framework for Learning From Implicit User Feedback to Improve Natural Language Understanding in Large-Scale Conversational AI Systems",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 18,
+     "doi": "10.18653/v1/2021.emnlp-main.489",
+     "authors": ""
+    },
+    {
+     "title": "BPM_MT: Enhanced Backchannel Prediction Model using Multi-Task Learning",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2021.emnlp-main.277",
+     "authors": ""
+    },
+    {
+     "title": "COUGH: A Challenge Dataset and Models for COVID-19 FAQ Retrieval",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 18,
+     "doi": "10.18653/v1/2021.emnlp-main.305",
+     "authors": ""
+    },
+    {
+     "title": "Types of Out-of-Distribution Texts and How to Detect Them",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 52,
+     "doi": "10.18653/v1/2021.emnlp-main.835",
+     "authors": ""
+    },
+    {
+     "title": "Cross-lingual Aspect-based Sentiment Analysis with Aspect Term Code-Switching",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 44,
+     "doi": "10.18653/v1/2021.emnlp-main.727",
+     "authors": ""
+    },
+    {
+     "title": "Understanding and Overcoming the Challenges of Efficient Transformer Quantization",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 81,
+     "doi": "10.18653/v1/2021.emnlp-main.627",
+     "authors": ""
+    },
+    {
+     "title": "Gradient-based Adversarial Attacks against Text Transformers",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 106,
+     "doi": "10.18653/v1/2021.emnlp-main.464",
+     "authors": ""
+    },
+    {
+     "title": "SIMMC 2.0: A Task-oriented Dialog Dataset for Immersive Multimodal Conversations",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 57,
+     "doi": "10.18653/v1/2021.emnlp-main.401",
+     "authors": ""
+    },
+    {
+     "title": "Joint Multi-modal Aspect-Sentiment Analysis with Auxiliary Cross-modal Relation Detection",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 141,
+     "doi": "10.18653/v1/2021.emnlp-main.360",
+     "authors": ""
+    },
+    {
+     "title": "Multimodal Phased Transformer for Sentiment Analysis",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 60,
+     "doi": "10.18653/v1/2021.emnlp-main.189",
+     "authors": ""
+    },
+    {
+     "title": "Modeling Disclosive Transparency in NLP Application Descriptions",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 3,
+     "doi": "10.18653/v1/2021.emnlp-main.153",
+     "authors": ""
+    },
+    {
+     "title": "Aspect-Controllable Opinion Summarization",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 63,
+     "doi": "10.18653/v1/2021.emnlp-main.528",
+     "authors": ""
+    },
+    {
+     "title": "Residual Adapters for Parameter-Efficient ASR Adaptation to Atypical and Accented Speech",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 40,
+     "doi": "10.18653/v1/2021.emnlp-main.541",
+     "authors": ""
+    },
+    {
+     "title": "DiscoDVT: Generating Long Text with Discourse-Aware Discrete Variational Transformer",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 17,
+     "doi": "10.18653/v1/2021.emnlp-main.347",
+     "authors": ""
+    },
+    {
+     "title": "Improving Multimodal fusion via Mutual Dependency Maximisation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 32,
+     "doi": "10.18653/v1/2021.emnlp-main.21",
+     "authors": ""
+    },
+    {
+     "title": "Multilingual and Cross-Lingual Intent Detection from Spoken Data",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 23,
+     "doi": "10.18653/v1/2021.emnlp-main.591",
+     "authors": ""
+    },
+    {
+     "title": "Neuro-Symbolic Reinforcement Learning with First-Order Logic",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 23,
+     "doi": "10.18653/v1/2021.emnlp-main.283",
+     "authors": ""
+    },
+    {
+     "title": "A Fine-Grained Domain Adaption Model for Joint Word Segmentation and POS Tagging",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 3,
+     "doi": "10.18653/v1/2021.emnlp-main.291",
+     "authors": ""
+    },
+    {
+     "title": "StreamHover: Livestream Transcript Summarization and Annotation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 18,
+     "doi": "10.18653/v1/2021.emnlp-main.520",
+     "authors": ""
+    },
+    {
+     "title": "RankNAS: Efficient Neural Architecture Search by Pairwise Ranking",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 12,
+     "doi": "10.18653/v1/2021.emnlp-main.191",
+     "authors": ""
+    },
+    {
+     "title": "Dimensional Emotion Detection from Categorical Emotion",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 32,
+     "doi": "10.18653/v1/2021.emnlp-main.358",
+     "authors": ""
+    },
+    {
+     "title": "Perturbation CheckLists for Evaluating NLG Evaluation Metrics",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 34,
+     "doi": "10.18653/v1/2021.emnlp-main.575",
+     "authors": ""
+    },
+    {
+     "title": "RAST: Domain-Robust Dialogue Rewriting as Sequence Tagging",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 15,
+     "doi": "10.18653/v1/2021.emnlp-main.402",
+     "authors": ""
+    },
+    {
+     "title": "Parallel Refinements for Lexically Constrained Text Generation with BART",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 35,
+     "doi": "10.18653/v1/2021.emnlp-main.681",
+     "authors": ""
+    },
+    {
+     "title": "How to leverage the multimodal EHR data for better medical prediction?",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 22,
+     "doi": "10.18653/v1/2021.emnlp-main.329",
+     "authors": ""
+    },
+    {
+     "title": "GOLD: Improving Out-of-Scope Detection in Dialogues using Data Augmentation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 18,
+     "doi": "10.18653/v1/2021.emnlp-main.35",
+     "authors": ""
+    },
+    {
+     "title": "Unsupervised Neural Machine Translation with Universal Grammar",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 5,
+     "doi": "10.18653/v1/2021.emnlp-main.261",
+     "authors": ""
+    },
+    {
+     "title": "Back to the Basics: A Quantitative Analysis of Statistical and Graph-Based Term Weighting Schemes for Keyword Extraction",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 16,
+     "doi": "10.18653/v1/2021.emnlp-main.638",
+     "authors": ""
+    },
+    {
+     "title": "Towards Label-Agnostic Emotion Embeddings",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2021.emnlp-main.728",
+     "authors": ""
+    },
+    {
+     "title": "GupShup: Summarizing Open-Domain Code-Switched Conversations",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 13,
+     "doi": "10.18653/v1/2021.emnlp-main.499",
+     "authors": ""
+    },
+    {
+     "title": "Cross Attention Augmented Transducer Networks for Simultaneous Translation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 28,
+     "doi": "10.18653/v1/2021.emnlp-main.4",
+     "authors": ""
+    },
+    {
+     "title": "Uncertainty Measures in Neural Belief Tracking and the Effects on Dialogue Policy Performance",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2021.emnlp-main.623",
+     "authors": ""
+    },
+    {
+     "title": "It Is Not As Good As You Think! Evaluating Simultaneous Machine Translation on Interpretation Data",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2021.emnlp-main.537",
+     "authors": ""
+    },
+    {
+     "title": "Lying Through One’s Teeth: A Study on Verbal Leakage Cues",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 3,
+     "doi": "10.18653/v1/2021.emnlp-main.370",
+     "authors": ""
+    },
+    {
+     "title": "GFST: Gender-Filtered Self-Training for More Accurate Gender in Translation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2021.emnlp-main.123",
+     "authors": ""
+    },
+    {
+     "title": "End-to-End Conversational Search for Online Shopping with Utterance Transfer",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2021.emnlp-main.280",
+     "authors": ""
+    },
+    {
+     "title": "A Unified Speaker Adaptation Approach for ASR",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2021.emnlp-main.737",
+     "authors": ""
+    },
+    {
+     "title": "Transductive Learning for Unsupervised Text Style Transfer",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 20,
+     "doi": "10.18653/v1/2021.emnlp-main.195",
+     "authors": ""
+    },
+    {
+     "title": "Neuralizing Regular Expressions for Slot Filling",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 9,
+     "doi": "10.18653/v1/2021.emnlp-main.747",
+     "authors": ""
+    },
+    {
+     "title": "Learn to Copy from the Copying History: Correlational Copy Network for Abstractive Summarization",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2021.emnlp-main.336",
+     "authors": ""
+    },
+    {
+     "title": "Don’t be Contradicted with Anything! CI-ToD: Towards Benchmarking Consistency for Task-oriented Dialogue System",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 9,
+     "doi": "10.18653/v1/2021.emnlp-main.182",
+     "authors": ""
+    },
+    {
+     "title": "CSAGN: Conversational Structure Aware Graph Network for Conversational Semantic Role Labeling",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2021.emnlp-main.177",
+     "authors": ""
+    },
+    {
+     "title": "Transformer-based Lexically Constrained Headline Generation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2021.emnlp-main.335",
+     "authors": ""
+    },
+    {
+     "title": "Idiosyncratic but not Arbitrary: Learning Idiolects in Online Registers Reveals Distinctive yet Consistent Individual Styles",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 16,
+     "doi": "10.18653/v1/2021.emnlp-main.25",
+     "authors": ""
+    },
+    {
+     "title": "Weakly supervised discourse segmentation for multiparty oral conversations",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 1,
+     "doi": "10.18653/v1/2021.emnlp-main.104",
+     "authors": ""
+    },
+    {
+     "title": "Voice Query Auto Completion",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 2,
+     "doi": "10.18653/v1/2021.emnlp-main.68",
+     "authors": ""
+    },
+    {
+     "title": "Is “moby dick” a Whale or a Bird? Named Entities and Terminology in Speech Translation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 3,
+     "doi": "10.18653/v1/2021.emnlp-main.128",
+     "authors": ""
+    },
+    {
+     "title": "WhyAct: Identifying Action Reasons in Lifestyle Vlogs",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 4,
+     "doi": "10.18653/v1/2021.emnlp-main.392",
+     "authors": ""
+    },
+    {
+     "title": "On the Benefit of Syntactic Supervision for Cross-lingual Transfer in Semantic Role Labeling",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 1,
+     "doi": "10.18653/v1/2021.emnlp-main.503",
+     "authors": ""
+    },
+    {
+     "title": "Rethinking Data Augmentation for Low-Resource Neural Machine Translation: A Multi-Task Learning Approach",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 21,
+     "doi": "10.18653/v1/2021.emnlp-main.669",
+     "authors": ""
+    },
+    {
+     "title": "Refocusing on Relevance: Personalization in NLG",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 18,
+     "doi": "10.18653/v1/2021.emnlp-main.421",
+     "authors": ""
+    },
+    {
+     "title": "Neural Machine Translation with Heterogeneous Topic Knowledge Embeddings",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 2,
+     "doi": "10.18653/v1/2021.emnlp-main.256",
+     "authors": ""
+    },
+    {
+     "title": "Multitask Semi-Supervised Learning for Class-Imbalanced Discourse Classification",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 16,
+     "doi": "10.18653/v1/2021.emnlp-main.40",
+     "authors": ""
+    },
+    {
+     "title": "Multi-Sentence Resampling: A Simple Approach to Alleviate Dataset Length Bias and Beam-Search Degradation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 3,
+     "doi": "10.18653/v1/2021.emnlp-main.677",
+     "authors": ""
+    },
+    {
+     "title": "CodRED: A Cross-Document Relation Extraction Dataset for Acquiring Knowledge in the Wild",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 18,
+     "doi": "10.18653/v1/2021.emnlp-main.366",
+     "authors": ""
+    },
+    {
+     "title": "Unimodal and Crossmodal Refinement Network for Multimodal Sequence Fusion",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 4,
+     "doi": "10.18653/v1/2021.emnlp-main.720",
+     "authors": ""
+    },
+    {
+     "title": "One Source, Two Targets: Challenges and Rewards of Dual Decoding",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2021.emnlp-main.671",
+     "authors": ""
+    },
+    {
+     "title": "Local Word Discovery for Interactive Transcription",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 1,
+     "doi": "10.18653/v1/2021.emnlp-main.157",
+     "authors": ""
+    },
+    {
+     "title": "Hitting your MARQ: Multimodal ARgument Quality Assessment in Long Debate Video",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 0,
+     "doi": "10.18653/v1/2021.emnlp-main.515",
+     "authors": ""
+    }
+   ]
   },
   "multimodal agent": {
-   "total": 228,
-   "kept": 0,
-   "papers": []
+   "total": 28,
+   "kept": 28,
+   "papers": [
+    {
+     "title": "Multimodal Phased Transformer for Sentiment Analysis",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 60,
+     "doi": "10.18653/v1/2021.emnlp-main.189",
+     "authors": ""
+    },
+    {
+     "title": "SIMMC 2.0: A Task-oriented Dialog Dataset for Immersive Multimodal Conversations",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 57,
+     "doi": "10.18653/v1/2021.emnlp-main.401",
+     "authors": ""
+    },
+    {
+     "title": "Iconary: A Pictionary-Based Game for Testing Multimodal Communication with Drawings and Text",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2021.emnlp-main.141",
+     "authors": ""
+    },
+    {
+     "title": "NDH-Full: Learning and Evaluating Navigational Agents on Full-Length Dialogue",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 12,
+     "doi": "10.18653/v1/2021.emnlp-main.518",
+     "authors": ""
+    },
+    {
+     "title": "Multi-Modal Open-Domain Dialogue",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 34,
+     "doi": "10.18653/v1/2021.emnlp-main.398",
+     "authors": ""
+    },
+    {
+     "title": "MindCraft: Theory of Mind Modeling for Situated Dialogue in Collaborative Tasks",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 29,
+     "doi": "10.18653/v1/2021.emnlp-main.85",
+     "authors": ""
+    },
+    {
+     "title": "Reference-Centric Models for Grounded Collaborative Dialogue",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 12,
+     "doi": "10.18653/v1/2021.emnlp-main.163",
+     "authors": ""
+    },
+    {
+     "title": "Conversational Multi-Hop Reasoning with Neural Commonsense Knowledge and Symbolic Logic Rules",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2021.emnlp-main.588",
+     "authors": ""
+    },
+    {
+     "title": "WebSRC: A Dataset for Web-Based Structural Reading Comprehension",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 47,
+     "doi": "10.18653/v1/2021.emnlp-main.343",
+     "authors": ""
+    },
+    {
+     "title": "Systematic Generalization on gSCAN: What is Nearly Solved and What is Next?",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2021.emnlp-main.166",
+     "authors": ""
+    },
+    {
+     "title": "Region under Discussion for visual dialog",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 4,
+     "doi": "10.18653/v1/2021.emnlp-main.390",
+     "authors": ""
+    },
+    {
+     "title": "Automated Generation of Accurate & Fluent Medical X-ray Reports",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 39,
+     "doi": "10.18653/v1/2021.emnlp-main.288",
+     "authors": ""
+    },
+    {
+     "title": "A Large-Scale Dataset for Empathetic Response Generation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 37,
+     "doi": "10.18653/v1/2021.emnlp-main.96",
+     "authors": ""
+    },
+    {
+     "title": "Refocusing on Relevance: Personalization in NLG",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 18,
+     "doi": "10.18653/v1/2021.emnlp-main.421",
+     "authors": ""
+    },
+    {
+     "title": "Zero-Shot Dialogue State Tracking via Cross-Task Transfer",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 46,
+     "doi": "10.18653/v1/2021.emnlp-main.622",
+     "authors": ""
+    },
+    {
+     "title": "A Bag of Tricks for Dialogue Summarization",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 26,
+     "doi": "10.18653/v1/2021.emnlp-main.631",
+     "authors": ""
+    },
+    {
+     "title": "Hitting your MARQ: Multimodal ARgument Quality Assessment in Long Debate Video",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 0,
+     "doi": "10.18653/v1/2021.emnlp-main.515",
+     "authors": ""
+    },
+    {
+     "title": "BPM_MT: Enhanced Backchannel Prediction Model using Multi-Task Learning",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2021.emnlp-main.277",
+     "authors": ""
+    },
+    {
+     "title": "A Generative Framework for Simultaneous Machine Translation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 12,
+     "doi": "10.18653/v1/2021.emnlp-main.536",
+     "authors": ""
+    },
+    {
+     "title": "Emotion Inference in Multi-Turn Conversations with Addressee-Aware Module and Ensemble Strategy",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 14,
+     "doi": "10.18653/v1/2021.emnlp-main.320",
+     "authors": ""
+    },
+    {
+     "title": "Open-domain clarification question generation without question examples",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 14,
+     "doi": "10.18653/v1/2021.emnlp-main.44",
+     "authors": ""
+    },
+    {
+     "title": "Learn to Copy from the Copying History: Correlational Copy Network for Abstractive Summarization",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2021.emnlp-main.336",
+     "authors": ""
+    },
+    {
+     "title": "Looking for Confirmations: An Effective and Human-Like Visual Dialogue Strategy",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2021.emnlp-main.736",
+     "authors": ""
+    },
+    {
+     "title": "Code-switched inspired losses for spoken dialog representations",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2021.emnlp-main.656",
+     "authors": ""
+    },
+    {
+     "title": "Towards Making the Most of Dialogue Characteristics for Neural Chat Translation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 13,
+     "doi": "10.18653/v1/2021.emnlp-main.6",
+     "authors": ""
+    },
+    {
+     "title": "End-to-End Conversational Search for Online Shopping with Utterance Transfer",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2021.emnlp-main.280",
+     "authors": ""
+    },
+    {
+     "title": "Evaluation Paradigms in Question Answering",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2021.emnlp-main.758",
+     "authors": ""
+    },
+    {
+     "title": "Cross-Policy Compliance Detection via Question Answering",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 2,
+     "doi": "10.18653/v1/2021.emnlp-main.678",
+     "authors": ""
+    }
+   ]
   },
   "on-device inference": {
-   "total": 64,
-   "kept": 0,
-   "papers": []
+   "total": 48,
+   "kept": 48,
+   "papers": [
+    {
+     "title": "Multimodal Phased Transformer for Sentiment Analysis",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 60,
+     "doi": "10.18653/v1/2021.emnlp-main.189",
+     "authors": ""
+    },
+    {
+     "title": "AdapterDrop: On the Efficiency of Adapters in Transformers",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 180,
+     "doi": "10.18653/v1/2021.emnlp-main.626",
+     "authors": ""
+    },
+    {
+     "title": "HRKD: Hierarchical Relational Knowledge Distillation for Cross-domain Language Model Compression",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2021.emnlp-main.250",
+     "authors": ""
+    },
+    {
+     "title": "Understanding and Overcoming the Challenges of Efficient Transformer Quantization",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 81,
+     "doi": "10.18653/v1/2021.emnlp-main.627",
+     "authors": ""
+    },
+    {
+     "title": "Frequency Effects on Syntactic Rule Learning in Transformers",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 43,
+     "doi": "10.18653/v1/2021.emnlp-main.72",
+     "authors": ""
+    },
+    {
+     "title": "When Attention Meets Fast Recurrence: Training Language Models with Reduced Compute",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 29,
+     "doi": "10.18653/v1/2021.emnlp-main.602",
+     "authors": ""
+    },
+    {
+     "title": "Block Pruning For Faster Transformers",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 122,
+     "doi": "10.18653/v1/2021.emnlp-main.829",
+     "authors": ""
+    },
+    {
+     "title": "Learning Opinion Summarizers by Selecting Informative Reviews",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 27,
+     "doi": "10.18653/v1/2021.emnlp-main.743",
+     "authors": ""
+    },
+    {
+     "title": "Mind the Style of Text! Adversarial and Backdoor Attacks Based on Text Style Transfer",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 126,
+     "doi": "10.18653/v1/2021.emnlp-main.374",
+     "authors": ""
+    },
+    {
+     "title": "Inducing Transformer’s Compositional Generalization Ability via Auxiliary Sequence Prediction Tasks",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 15,
+     "doi": "10.18653/v1/2021.emnlp-main.505",
+     "authors": ""
+    },
+    {
+     "title": "MSˆ2: Multi-Document Summarization of Medical Studies",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 83,
+     "doi": "10.18653/v1/2021.emnlp-main.594",
+     "authors": ""
+    },
+    {
+     "title": "DILBERT: Customized Pre-Training for Domain Adaptation with Category Shift, with an Application to Aspect Extraction",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 27,
+     "doi": "10.18653/v1/2021.emnlp-main.20",
+     "authors": ""
+    },
+    {
+     "title": "Residual Adapters for Parameter-Efficient ASR Adaptation to Atypical and Accented Speech",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 40,
+     "doi": "10.18653/v1/2021.emnlp-main.541",
+     "authors": ""
+    },
+    {
+     "title": "Harms of Gender Exclusivity and Challenges in Non-Binary Representation in Language Technologies",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 121,
+     "doi": "10.18653/v1/2021.emnlp-main.150",
+     "authors": ""
+    },
+    {
+     "title": "Time-aware Graph Neural Network for Entity Alignment between Temporal Knowledge Graphs",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 49,
+     "doi": "10.18653/v1/2021.emnlp-main.709",
+     "authors": ""
+    },
+    {
+     "title": "Beyond Preserved Accuracy: Evaluating Loyalty and Robustness of BERT Compression",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 26,
+     "doi": "10.18653/v1/2021.emnlp-main.832",
+     "authors": ""
+    },
+    {
+     "title": "ConSeC: Word Sense Disambiguation as Continuous Sense Comprehension",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 61,
+     "doi": "10.18653/v1/2021.emnlp-main.112",
+     "authors": ""
+    },
+    {
+     "title": "What Changes Can Large-scale Language Models Bring? Intensive Study on HyperCLOVA: Billions-scale Korean Generative Pretrained Transformers",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 78,
+     "doi": "10.18653/v1/2021.emnlp-main.274",
+     "authors": ""
+    },
+    {
+     "title": "Weakly-Supervised Visual-Retriever-Reader for Knowledge-based Question Answering",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 57,
+     "doi": "10.18653/v1/2021.emnlp-main.517",
+     "authors": ""
+    },
+    {
+     "title": "One Source, Two Targets: Challenges and Rewards of Dual Decoding",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2021.emnlp-main.671",
+     "authors": ""
+    },
+    {
+     "title": "A Large-Scale Dataset for Empathetic Response Generation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 37,
+     "doi": "10.18653/v1/2021.emnlp-main.96",
+     "authors": ""
+    },
+    {
+     "title": "FLiText: A Faster and Lighter Semi-Supervised Text Classification with Convolution Networks",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 15,
+     "doi": "10.18653/v1/2021.emnlp-main.192",
+     "authors": ""
+    },
+    {
+     "title": "The Future is not One-dimensional: Complex Event Schema Induction by Graph Modeling for Event Prediction",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 31,
+     "doi": "10.18653/v1/2021.emnlp-main.422",
+     "authors": ""
+    },
+    {
+     "title": "Machine Translation Decoding beyond Beam Search",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 27,
+     "doi": "10.18653/v1/2021.emnlp-main.662",
+     "authors": ""
+    },
+    {
+     "title": "Distilling Linguistic Context for Language Model Compression",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 24,
+     "doi": "10.18653/v1/2021.emnlp-main.30",
+     "authors": ""
+    },
+    {
+     "title": "Shortcutted Commonsense: Data Spuriousness in Deep Learning of Commonsense Reasoning",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 29,
+     "doi": "10.18653/v1/2021.emnlp-main.113",
+     "authors": ""
+    },
+    {
+     "title": "Towards Zero-Shot Knowledge Distillation for Natural Language Processing",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 25,
+     "doi": "10.18653/v1/2021.emnlp-main.526",
+     "authors": ""
+    },
+    {
+     "title": "Universal-KD: Attention-based Output-Grounded Intermediate Layer Knowledge Distillation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 18,
+     "doi": "10.18653/v1/2021.emnlp-main.603",
+     "authors": ""
+    },
+    {
+     "title": "Improving Federated Learning for Aspect-based Sentiment Analysis via Topic Memories",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 19,
+     "doi": "10.18653/v1/2021.emnlp-main.321",
+     "authors": ""
+    },
+    {
+     "title": "CAPE: Context-Aware Private Embeddings for Private Language Learning",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 15,
+     "doi": "10.18653/v1/2021.emnlp-main.628",
+     "authors": ""
+    },
+    {
+     "title": "Will this Question be Answered? Question Filtering via Answer Model Distillation for Efficient Question Answering",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 15,
+     "doi": "10.18653/v1/2021.emnlp-main.583",
+     "authors": ""
+    },
+    {
+     "title": "A Secure and Efficient Federated Learning Framework for NLP",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2021.emnlp-main.606",
+     "authors": ""
+    },
+    {
+     "title": "DiscoDVT: Generating Long Text with Discourse-Aware Discrete Variational Transformer",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 17,
+     "doi": "10.18653/v1/2021.emnlp-main.347",
+     "authors": ""
+    },
+    {
+     "title": "Detecting Speaker Personas from Conversational Texts",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2021.emnlp-main.86",
+     "authors": ""
+    },
+    {
+     "title": "The World of an Octopus: How Reporting Bias Influences a Language Model’s Perception of Color",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 20,
+     "doi": "10.18653/v1/2021.emnlp-main.63",
+     "authors": ""
+    },
+    {
+     "title": "Reconstruction Attack on Instance Encoding for Language Understanding",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 9,
+     "doi": "10.18653/v1/2021.emnlp-main.154",
+     "authors": ""
+    },
+    {
+     "title": "Ultra-High Dimensional Sparse Representations with Binarization for Efficient Text Retrieval",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 13,
+     "doi": "10.18653/v1/2021.emnlp-main.78",
+     "authors": ""
+    },
+    {
+     "title": "Multi-stage Training with Improved Negative Contrast for Neural Passage Retrieval",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 21,
+     "doi": "10.18653/v1/2021.emnlp-main.492",
+     "authors": ""
+    },
+    {
+     "title": "Layer-wise Model Pruning based on Mutual Information",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2021.emnlp-main.246",
+     "authors": ""
+    },
+    {
+     "title": "End-to-End Learning of Flowchart Grounded Task-Oriented Dialogs",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 13,
+     "doi": "10.18653/v1/2021.emnlp-main.357",
+     "authors": ""
+    },
+    {
+     "title": "I Wish I Would Have Loved This One, But I Didn’t – A Multilingual Dataset for Counterfactual Detection in Product Review",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2021.emnlp-main.568",
+     "authors": ""
+    },
+    {
+     "title": "Chinese Opinion Role Labeling with Corpus Translation: A Pivot Study",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 5,
+     "doi": "10.18653/v1/2021.emnlp-main.796",
+     "authors": ""
+    },
+    {
+     "title": "Generating Self-Contained and Summary-Centric Question Answer Pairs via Differentiable Reward Imitation Learning",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 2,
+     "doi": "10.18653/v1/2021.emnlp-main.416",
+     "authors": ""
+    },
+    {
+     "title": "Classification-based Quality Estimation: Small and Efficient Models for Real-world Applications",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 1,
+     "doi": "10.18653/v1/2021.emnlp-main.474",
+     "authors": ""
+    },
+    {
+     "title": "DyLex: Incorporating Dynamic Lexicons into BERT for Sequence Labeling",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 5,
+     "doi": "10.18653/v1/2021.emnlp-main.211",
+     "authors": ""
+    },
+    {
+     "title": "Sequential Randomized Smoothing for Adversarially Robust Speech Recognition",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 4,
+     "doi": "10.18653/v1/2021.emnlp-main.514",
+     "authors": ""
+    },
+    {
+     "title": "What’s Hidden in a One-layer Randomly Weighted Transformer?",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 0,
+     "doi": "10.18653/v1/2021.emnlp-main.231",
+     "authors": ""
+    },
+    {
+     "title": "Learning grounded word meaning representations on similarity graphs",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 0,
+     "doi": "10.18653/v1/2021.emnlp-main.391",
+     "authors": ""
+    }
+   ]
   },
   "emotion recognition": {
-   "total": 105,
-   "kept": 0,
-   "papers": []
+   "total": 60,
+   "kept": 60,
+   "papers": [
+    {
+     "title": "Few-Shot Emotion Recognition in Conversation with Sequential Prototypical Networks",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2021.emnlp-main.549",
+     "authors": ""
+    },
+    {
+     "title": "Graph Based Network with Contextualized Representations of Turns in Dialogue",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 44,
+     "doi": "10.18653/v1/2021.emnlp-main.36",
+     "authors": ""
+    },
+    {
+     "title": "Dimensional Emotion Detection from Categorical Emotion",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 32,
+     "doi": "10.18653/v1/2021.emnlp-main.358",
+     "authors": ""
+    },
+    {
+     "title": "Perspective-taking and Pragmatics for Generating Empathetic Responses Focused on Emotion Causes",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 58,
+     "doi": "10.18653/v1/2021.emnlp-main.170",
+     "authors": ""
+    },
+    {
+     "title": "Improving Multimodal Fusion with Hierarchical Mutual Information Maximization for Multimodal Sentiment Analysis",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 505,
+     "doi": "10.18653/v1/2021.emnlp-main.723",
+     "authors": ""
+    },
+    {
+     "title": "Emotion Inference in Multi-Turn Conversations with Addressee-Aware Module and Ensemble Strategy",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 14,
+     "doi": "10.18653/v1/2021.emnlp-main.320",
+     "authors": ""
+    },
+    {
+     "title": "Towards Label-Agnostic Emotion Embeddings",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2021.emnlp-main.728",
+     "authors": ""
+    },
+    {
+     "title": "Not All Negatives are Equal: Label-Aware Contrastive Loss for Fine-grained Text Classification",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 75,
+     "doi": "10.18653/v1/2021.emnlp-main.359",
+     "authors": ""
+    },
+    {
+     "title": "A Large-Scale Dataset for Empathetic Response Generation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 37,
+     "doi": "10.18653/v1/2021.emnlp-main.96",
+     "authors": ""
+    },
+    {
+     "title": "SimCSE: Simple Contrastive Learning of Sentence Embeddings",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 2678,
+     "doi": "10.18653/v1/2021.emnlp-main.552",
+     "authors": ""
+    },
+    {
+     "title": "Joint Multi-modal Aspect-Sentiment Analysis with Auxiliary Cross-modal Relation Detection",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 141,
+     "doi": "10.18653/v1/2021.emnlp-main.360",
+     "authors": ""
+    },
+    {
+     "title": "Guilt by Association: Emotion Intensities in Lexical Representations",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 1,
+     "doi": "10.18653/v1/2021.emnlp-main.781",
+     "authors": ""
+    },
+    {
+     "title": "Vision Guided Generative Pre-trained Language Models for Multimodal Abstractive Summarization",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 67,
+     "doi": "10.18653/v1/2021.emnlp-main.326",
+     "authors": ""
+    },
+    {
+     "title": "Multimodal Phased Transformer for Sentiment Analysis",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 60,
+     "doi": "10.18653/v1/2021.emnlp-main.189",
+     "authors": ""
+    },
+    {
+     "title": "VideoCLIP: Contrastive Pre-training for Zero-shot Video-Text Understanding",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 447,
+     "doi": "10.18653/v1/2021.emnlp-main.544",
+     "authors": ""
+    },
+    {
+     "title": "CTAL: Pre-training Cross-modal Transformer for Audio-and-Language Representations",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 15,
+     "doi": "10.18653/v1/2021.emnlp-main.323",
+     "authors": ""
+    },
+    {
+     "title": "CrossFit: A Few-shot Learning Challenge for Cross-task Generalization in NLP",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 104,
+     "doi": "10.18653/v1/2021.emnlp-main.572",
+     "authors": ""
+    },
+    {
+     "title": "Improving Multimodal fusion via Mutual Dependency Maximisation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 32,
+     "doi": "10.18653/v1/2021.emnlp-main.21",
+     "authors": ""
+    },
+    {
+     "title": "What to Pre-Train on? Efficient Intermediate Task Selection",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 71,
+     "doi": "10.18653/v1/2021.emnlp-main.827",
+     "authors": ""
+    },
+    {
+     "title": "IndoBERTweet: A Pretrained Language Model for Indonesian Twitter with Effective Domain-Specific Vocabulary Initialization",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 89,
+     "doi": "10.18653/v1/2021.emnlp-main.833",
+     "authors": ""
+    },
+    {
+     "title": "Narrative Theory for Computational Narrative Understanding",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 77,
+     "doi": "10.18653/v1/2021.emnlp-main.26",
+     "authors": ""
+    },
+    {
+     "title": "Learning Implicit Sentiment in Aspect-based Sentiment Analysis with Supervised Contrastive Pre-Training",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 109,
+     "doi": "10.18653/v1/2021.emnlp-main.22",
+     "authors": ""
+    },
+    {
+     "title": "PRIDE: Predicting Relationships in Conversations",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 9,
+     "doi": "10.18653/v1/2021.emnlp-main.380",
+     "authors": ""
+    },
+    {
+     "title": "Cross-Domain Label-Adaptive Stance Detection",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 59,
+     "doi": "10.18653/v1/2021.emnlp-main.710",
+     "authors": ""
+    },
+    {
+     "title": "A Role-Selected Sharing Network for Joint Machine-Human Chatting Handoff and Service Satisfaction Analysis",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2021.emnlp-main.767",
+     "authors": ""
+    },
+    {
+     "title": "Towards Making the Most of Dialogue Characteristics for Neural Chat Translation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 13,
+     "doi": "10.18653/v1/2021.emnlp-main.6",
+     "authors": ""
+    },
+    {
+     "title": "Code-switched inspired losses for spoken dialog representations",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2021.emnlp-main.656",
+     "authors": ""
+    },
+    {
+     "title": "Unimodal and Crossmodal Refinement Network for Multimodal Sequence Fusion",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 4,
+     "doi": "10.18653/v1/2021.emnlp-main.720",
+     "authors": ""
+    },
+    {
+     "title": "CSAGN: Conversational Structure Aware Graph Network for Conversational Semantic Role Labeling",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2021.emnlp-main.177",
+     "authors": ""
+    },
+    {
+     "title": "Pairwise Supervised Contrastive Learning of Sentence Representations",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 46,
+     "doi": "10.18653/v1/2021.emnlp-main.467",
+     "authors": ""
+    },
+    {
+     "title": "SELFEXPLAIN: A Self-Explaining Architecture for Neural Text Classifiers",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 40,
+     "doi": "10.18653/v1/2021.emnlp-main.64",
+     "authors": ""
+    },
+    {
+     "title": "GradTS: A Gradient-Based Automatic Auxiliary Task Selection Method Based on Transformer Networks",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 4,
+     "doi": "10.18653/v1/2021.emnlp-main.455",
+     "authors": ""
+    },
+    {
+     "title": "STANKER: Stacking Network based on Level-grained Attention-masked BERT for Rumor Detection on Social Media",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 39,
+     "doi": "10.18653/v1/2021.emnlp-main.269",
+     "authors": ""
+    },
+    {
+     "title": "HypMix: Hyperbolic Interpolative Data Augmentation",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2021.emnlp-main.776",
+     "authors": ""
+    },
+    {
+     "title": "Diverse Distributions of Self-Supervised Tasks for Meta-Learning in NLP",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 27,
+     "doi": "10.18653/v1/2021.emnlp-main.469",
+     "authors": ""
+    },
+    {
+     "title": "CATE: A Contrastive Pre-trained Model for Metaphor Detection with Semi-supervised Learning",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 16,
+     "doi": "10.18653/v1/2021.emnlp-main.316",
+     "authors": ""
+    },
+    {
+     "title": "Beta Distribution Guided Aspect-aware Graph for Aspect Category Sentiment Analysis with Affective Knowledge",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 21,
+     "doi": "10.18653/v1/2021.emnlp-main.19",
+     "authors": ""
+    },
+    {
+     "title": "Automatic Text Evaluation through the Lens of Wasserstein Barycenters",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 26,
+     "doi": "10.18653/v1/2021.emnlp-main.817",
+     "authors": ""
+    },
+    {
+     "title": "Learning with Different Amounts of Annotation: From Zero to Many Labels",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 21,
+     "doi": "10.18653/v1/2021.emnlp-main.601",
+     "authors": ""
+    },
+    {
+     "title": "CHoRaL: Collecting Humor Reaction Labels from Millions of Social Media Users",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 9,
+     "doi": "10.18653/v1/2021.emnlp-main.364",
+     "authors": ""
+    },
+    {
+     "title": "“Was it “stated” or was it “claimed”?: How linguistic bias affects generative language models",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2021.emnlp-main.790",
+     "authors": ""
+    },
+    {
+     "title": "GupShup: Summarizing Open-Domain Code-Switched Conversations",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 13,
+     "doi": "10.18653/v1/2021.emnlp-main.499",
+     "authors": ""
+    },
+    {
+     "title": "Self-Supervised Curriculum Learning for Spelling Error Correction",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 14,
+     "doi": "10.18653/v1/2021.emnlp-main.281",
+     "authors": ""
+    },
+    {
+     "title": "Point-of-Interest Type Prediction using Text and Images",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 11,
+     "doi": "10.18653/v1/2021.emnlp-main.614",
+     "authors": ""
+    },
+    {
+     "title": "Identifying Morality Frames in Political Tweets using Relational Learning",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 23,
+     "doi": "10.18653/v1/2021.emnlp-main.783",
+     "authors": ""
+    },
+    {
+     "title": "Idiosyncratic but not Arbitrary: Learning Idiolects in Online Registers Reveals Distinctive yet Consistent Individual Styles",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 16,
+     "doi": "10.18653/v1/2021.emnlp-main.25",
+     "authors": ""
+    },
+    {
+     "title": "Efficient Dialogue Complementary Policy Learning via Deep Q-network Policy and Episodic Memory Policy",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 12,
+     "doi": "10.18653/v1/2021.emnlp-main.354",
+     "authors": ""
+    },
+    {
+     "title": "Math Word Problem Generation with Mathematical Consistency and Problem Context Constraints",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 36,
+     "doi": "10.18653/v1/2021.emnlp-main.484",
+     "authors": ""
+    },
+    {
+     "title": "Label-Enhanced Hierarchical Contextualized Representation for Sequential Metaphor Identification",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2021.emnlp-main.286",
+     "authors": ""
+    },
+    {
+     "title": "Don’t be Contradicted with Anything! CI-ToD: Towards Benchmarking Consistency for Task-oriented Dialogue System",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 9,
+     "doi": "10.18653/v1/2021.emnlp-main.182",
+     "authors": ""
+    },
+    {
+     "title": "Analyzing the Surprising Variability in Word Embedding Stability Across Languages",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2021.emnlp-main.476",
+     "authors": ""
+    },
+    {
+     "title": "On Classifying whether Two Texts are on the Same Side of an Argument",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 7,
+     "doi": "10.18653/v1/2021.emnlp-main.795",
+     "authors": ""
+    },
+    {
+     "title": "“So You Think You’re Funny?”: Rating the Humour Quotient in Standup Comedy",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 10,
+     "doi": "10.18653/v1/2021.emnlp-main.789",
+     "authors": ""
+    },
+    {
+     "title": "Detecting Health Advice in Medical Research Literature",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 8,
+     "doi": "10.18653/v1/2021.emnlp-main.486",
+     "authors": ""
+    },
+    {
+     "title": "Wasserstein Selective Transfer Learning for Cross-domain Text Mining",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 6,
+     "doi": "10.18653/v1/2021.emnlp-main.770",
+     "authors": ""
+    },
+    {
+     "title": "YASO: A Targeted Sentiment Analysis Evaluation Dataset for Open-Domain Reviews",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 12,
+     "doi": "10.18653/v1/2021.emnlp-main.721",
+     "authors": ""
+    },
+    {
+     "title": "Lying Through One’s Teeth: A Study on Verbal Leakage Cues",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 3,
+     "doi": "10.18653/v1/2021.emnlp-main.370",
+     "authors": ""
+    },
+    {
+     "title": "Chinese Opinion Role Labeling with Corpus Translation: A Pivot Study",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 5,
+     "doi": "10.18653/v1/2021.emnlp-main.796",
+     "authors": ""
+    },
+    {
+     "title": "Cross-Register Projection for Headline Part of Speech Tagging",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 1,
+     "doi": "10.18653/v1/2021.emnlp-main.521",
+     "authors": ""
+    },
+    {
+     "title": "Hitting your MARQ: Multimodal ARgument Quality Assessment in Long Debate Video",
+     "year": 2021,
+     "venue": "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+     "citationCount": 0,
+     "doi": "10.18653/v1/2021.emnlp-main.515",
+     "authors": ""
+    }
+   ]
   },
   "paralinguistic": {
-   "total": 1,
+   "total": 0,
    "kept": 0,
    "papers": []
   },
   "neural codec": {
-   "total": 94,
-   "kept": 0,
-   "papers": []
+   "error": "openalex miss"
   }
  }
 }
