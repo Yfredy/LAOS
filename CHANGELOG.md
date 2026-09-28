@@ -1,0 +1,142 @@
+# Changelog（laos）
+
+所有重要变更记录于此。本项目遵循 [Semantic Versioning](https://semver.org/spec/v2.0.0.html) 与 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)。
+0.x 阶段：minor 即功能波次，breaking 不升 major。
+
+## [Unreleased]
+
+## [v0.7.0] - 2026-09-28
+
+Jev 判断层四闸门 + selfcheck 加固 + 调研资产总纲收束。
+
+### Added
+
+- 可插拔 System-One 判断后端（judge backends）：rule 后端先行，live E2E 实测全链路（autogate 开启时 `rm -rf` 被拒并落 jev 审计）。
+- 高危 syscall jev 预审闸门（opt-in）：高风险调用先过判断层裁决再放行。
+- jev 过滤的记忆摄入与压缩（opt-in）：MemoryStore 入口与 compaction 均可挂判断闸（JevGatedMemory）。
+- 技能蒸馏 jev 质量闸门：任务轨迹升格为可复用技能前先经判断层把关。
+- 判断校准台（scripts/judge）：标注集 + 混淆矩阵 + 置信分桶，量化 judge 成色。
+- criteria 问句常量：instructions 与 true/false 判据两套问艺模板（源自 jev-chat-jarvis 评估的采纳项）。
+- memory `self_check`：JSONL 完整性 + 归一化 + 召回 sanity 三检（模式取自 jev-chat-jarvis KbSelfCheck，MIT）。
+- 调研收束三件：Jev System-One 版图（GitHub 778 仓库普查、8 类分类、端上实测 157.5ms 中位——证伪 README 15.6ms 旧口径）、jev-chat-jarvis 评估（拒绝伪装捕获红线，采纳校准/问艺/自检）、laos 落地总纲 capstone（全部调研资产按"来源→可取之处→落点→状态"映射为 59 份文档的主索引）。
+
+### Changed
+
+- README 测试计数对齐至 288（判断层并入后 253→288），判断层参数口径措辞同步修订。
+
+### Fixed
+
+- JevGatedMemory 的 judge 转发缝隙收敛，live E2E 验证通过（rule 后端 + autogate + rm-rf 拒绝带审计）。
+- selfcheck 两轮加固：先显式化 bad-line 丢弃副作用（docstring + stderr 警告）并容忍非标量 id；随后措辞精确化（仅不可解析行被移除）且 `_next_id` 容忍损坏记录（live 发现的 KeyError）。
+- 收尾杂修：autogate/rule 后端警告、校准台退出码、版图条目相邻锚点。
+- capstone / INDEX 计数与一致性修正：59 份文档总数对账、优先级一致、§G 与 README 对账、三棵树路径前缀、第 4 状态锚点。
+
+## [v0.6.0] - 2026-09-18
+
+调研语料库波次：19,792 篇双会议论文 + 3,724 个 OSS 仓库 + 分域模型地图。
+
+### Added
+
+- 19,792 篇统一论文语料库：ICASSP 2022–2026 五年全量 14,285 篇 + Interspeech 五年全量 5,507 篇（ISCA 档案逐篇枚举，回填 1,069 篇摘要、89.1% 成功率），统一语料带验证器。
+- OSS 版图：GitHub 音频/AI/Agent 仓库遍历 3,529 个，去噪 + 回填后 3,724 个清洁仓库（2,153 清洁 + 1,571 回填），14 类分类 + laos_fit 映射。
+- 语料工具链：ICASSP Crossref 枚举器（offset 分页 + DOI 前缀过滤）、GitHub 仓库爬虫（引号短语搜索）、研究表格共享 markdown lint。
+- 语音情感（SER）分档地图：edge / small（<30M）/ medium（30M–500M）/ large + 语音 LLM / multimodal 五轴，附交叉表、决策树与 HTML 全景；多模态轴裁决"不引入视觉模态"。
+- 语音前沿逐篇跟踪：说话人 / 前端 / 编解码-TTS / 副语言 51 篇（2024–2026），映射到 laos 用户可感知功能。
+- AlwaysOnRec-ZCode 隔离区语音前沿增量：PCEN VAD 前端、envelope-DTW 唤醒词（含易混淆词）、opt-in 音频归档、ear.assess 发音韵律评估、合规红线章节（279 测试全绿）。
+- 研究地图与索引：常开录音"漏斗 × 模型能力"路线图（含合规红线）嵌入 README 第 10 节，附研究索引与 2026-09 修订日志。
+
+### Changed
+
+- 五年遍历报告定稿：主题矩阵改为从源文件重算（ICASSP 的 jsonl 标签已损坏、不可信）。
+
+### Fixed
+
+- SER 档位表补正：SALMONN-7B/13B 遗漏行按裁决 3 记为 A 档。
+
+## [v0.5.0] - 2026-09-11
+
+常开录音内核能力 + 双沙箱并行推进 + 情感/事件模型地图。
+
+### Added
+
+- 麦克风能力阶梯：listen / record / transcribe / always_on 四级内核能力，逐级授权。
+- 常开录音模式：环形缓冲 + 回溯（rewind）；drv_rec Opus 编码（带回退链）+ 存储配额。
+- 双沙箱并行落地 Apple 基准增量：AlwaysOnRec-Trae 实现能力阶梯 / Opus 编码 / 常开模式三件，AlwaysOnRec-ZCode 隔离区实现 journal 标题 schema 与 mic `time:` 窗口作用域（261 测试全绿）。
+- 模型地图两份：SER 边缘-小-中-大-多模态五分类选型映射；音频事件识别（AED）+ AGC/语音增强五分类（以 DCASE'25 冠军 61.5% @122K 参数的蒸馏范式为端侧锚点，README 现有口径）。
+
+### Fixed
+
+- 常开录音调研报告终审修订（final review fixes）。
+
+## [v0.4.0] - 2026-09-11
+
+听觉 + 记忆 + 日记波次，手机五层感官驱动，强制层 OSAL 化。
+
+### Added
+
+- 听觉双驱动：drv_mic 显式录音（每次调用写 `event:mic` 审计）+ drv_ear SenseVoice 双通道转写。
+- MemoryStore 情景记忆 + `mem.*` 内建 syscall；每日日记（audit + memory 整合沉淀）与 laosweb 记忆 / 日记面板。
+- 手机五层感官驱动波次：drv_screen（adb + uiautomator 屏幕理解与操控，pkg 作用域）、drv_genie 双后端 LLM（QAIRT Genie / OpenAI 兼容）、drv_notify + drv_comms、drv_battery + 电池感知动态电力定价（风险乘数）、drv_events（端上传感写入记忆）。
+- 常开音频链路：零依赖流式 VAD（批 / 流一致性）→ drv_rec VAD 门控录音会话 → journal 管线（批量 ASR 分段入记忆、自动 GC）→ 日记"五、今天听到的"段落 + 每周心情报告。
+- 技能库：成功任务轨迹蒸馏为可复用技能。
+- 强制层 OSAL 化：linux / stub / android 三后端（含 Termux 检测）经 `LAOS_ENFORCEMENT` 运行时选择。
+- drv_npu 真机闭环：adb 设备传输层 + runbook；drv_audio 语音分离 / 回声消除（FLASepformer + JAEC AEC）+ RTX 4060 GPU 基准（线性复杂度验证）。
+- 调研波次：常开录音全景（产品 / OSS / 论文 / 功耗 / 隐私，21 篇论文归档 + arXiv 工具 + HTML 交付）、垂直应用与 Apple Watch S12 音频智能。
+
+### Changed
+
+- 强制层重构为 OSAL 骨架（linux / stub 后端原样迁移），多平台后端可插拔。
+
+### Fixed
+
+- 记忆与监听加固：MemoryStore 原子重写（temp+replace）、mic 拒绝时补写审计、监听线程加固。
+- 架构图重叠修复：容器标签固定置顶，audit / enforcement / adb 连线改走空白边距。
+
+## [v0.3.0] - 2026-09-09
+
+laosweb 交互控制台 + NPU 驱动。
+
+### Added
+
+- laosweb 交互端点：confirm 队列 / restart / kill / operator msg。
+- laosweb 控制台：确认横幅、重启、终止、操作员消息四类操作落地。
+- drv_npu 驱动：QNN 后端探测 + 计价推理，接入 demo act 4.6。
+- 调研：QNN / ADSP 真机集成路线研究（A / B / C 三条路）。
+
+### Fixed
+
+- laosweb confirm 不再读 stdin——面板场景默认拒绝（dashboard-safe default deny）。
+- 控制台交互两轮评审加固：fail-safe 重启、killed 状态守卫、调度器锁、double-get 修复。
+- laosweb v2 计划文档 fence 配对与接口契约修正。
+
+## [v0.2.0] - 2026-09-05
+
+内核强制层与语义扩展大波次：seccomp / CoW / eBPF / FleetLedger / MCP Tasks / 信箱 / laosweb。
+
+### Added
+
+- seccomp BPF 系统调用强制：纯 Python 零依赖 BPF 汇编器，接入驱动 spawn 全链路（含 cgroup 集成）。
+- CoW 文件系统隔离：原子 temp+replace 原语、硬链接 COW fork（零数据拷贝）、inode 快速 diff，覆盖驱动写入 / 追加路径。
+- eBPF 系统调用画像：bpftrace 后端（可选，缺依赖时优雅降级），接入 demo 与 `laosctl prof`。
+- FleetLedger 不可逆风险账本（Irreversibility Budget 2.0）：加权风险记账、每 Agent 风险上限、带舰队风险储备的 spawn 准入控制、`laosctl budget` 台账回放。
+- 陈旧上下文检测：上下文观察簿 + 内核失效接线 + Agent 循环通知注入与提交钩子。
+- AgentProf 语义画像：审计流 span 构建与启发式归因、OTLP / JSON 导出契约，接入 demo 与 laosctl。
+- 内核语义扩展套件：双向 MCP 请求（elicitation）+ MCP Tasks 异步工具调用（客户端轮询）、信箱 IPC `msg.send/recv/list` 内建 syscall（配额契约）、运行时能力委托（TTL + 可撤销）。
+- 调度语义与面板：每 Agent 可靠性预算（Patient Bytes）+ 意图驱动 task_scope 路径收窄 + laosweb 实时仪表盘（状态 API + 面板页）。
+
+### Fixed
+
+- seccomp 两轮修复：勘误 pivot_root / finit_module 的 x86_64 系统调用号；unshare 之后经 bootstrap shim 安装 seccomp（含 shim 测试断言与架构守卫）。
+- 驱动 PID 与审计修正：cgroup / 画像取真实驱动 PID、E2E 加固、mount API denylist 收口；固定测试环境旋钮、risk_cap 在 fork_child 传递、EDQUOT 判定先于风险闸。
+- 观测与调度修复：span 计时改用审计 t（每调用粒度，R206）、暂停 Agent 的调度等待上界（R307）、task_scope 路径匹配遍历加固。
+- laosweb 稳定性：面板原地刷新（消除每 tick 重复渲染）、内核状态无锁快照读（ctx 副本 + audit seq）。
+
+## [v0.1.0] - 2026-09-04
+
+基线：内核 + 强制层骨架 + 研究文档基线。
+
+### Added
+
+- 用户态薄内核 laosd 语义层骨架：进程表、能力表、驱动路由、审计（kernel / agent / brain / scheduler / sandbox / mcp 等 9 个模块）；不改内核，用 namespace / cgroup / seccomp / landlock 做强制层。
+- 首批驱动与工具：drv_fs / drv_proc / drv_sys 三驱动 + laosctl 控制台；零第三方依赖，macOS / Windows 自动降级为"仅能力表"。
+- 研究与测试基线：AgentOS 版图、AIOS 深读（docs/research）+ 回归测试起步，全仓 149 个文件。
