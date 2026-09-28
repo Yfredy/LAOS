@@ -245,6 +245,9 @@ class TestVenueOfFuzzy(unittest.TestCase):
         self.assertEqual(venue_of_fuzzy({"venue": "ICML"}), "ml")
         self.assertEqual(venue_of_fuzzy({"venue": "ACL"}), "nlp")
         self.assertEqual(venue_of_fuzzy({"venue": "CL"}), "nlp")
+        # 自足性：若把子串门槛降到 2，含 "cl" 子串的 "arXiv (cs.CL)" 会被劫到 nlp——
+        # 本用例须独立抓住该回归，不依赖 test_non_target_rejected
+        self.assertIsNone(venue_of_fuzzy({"venue": "arXiv (cs.CL)"}))
 
     def test_non_target_rejected(self):
         self.assertIsNone(venue_of_fuzzy({"venue": "ICASSP"}))
@@ -300,7 +303,7 @@ class TestHarvest(unittest.TestCase):
             {"title": "Neighbor Two", "year": 2024, "venue": "Some Neighbor Venue"},
         ]
 
-        def fake_fetch(url, counters):
+        def fake_fetch(url, counters, pacer=None):
             counters["attempts"] += 1
             return {"data": [dict(p) for p in payload], "total": len(payload)}
 
@@ -334,6 +337,41 @@ class TestHarvest(unittest.TestCase):
         self.assertEqual(rc, 0)
         self.assertIn("ICASSP", buf.getvalue())
         self.assertNotIn("EMNLP\n", buf.getvalue())  # 已收录串不出现在建议清单
+
+class TestRetryPacing(unittest.TestCase):
+    """⑦ s2_fetch 重试路径不得破坏 75s 请求间距下限（fake clock，无真实 sleep）。"""
+
+    def test_retry_waits_through_pacer(self):
+        class FakeTime:
+            def __init__(self):
+                self.t = 1000.0
+
+            def time(self):
+                return self.t
+
+            def sleep(self, s):
+                self.t += s
+
+        ft = FakeTime()
+        curl_at: list[float] = []
+
+        def fake_curl(url):
+            curl_at.append(ft.t)
+            return None  # 永远 miss，逼出重试路径
+
+        counters = {"attempts": 0, "used": 0}
+        pacer = crawl_multivenue.Pacer(gap_s=crawl_multivenue.REQUEST_GAP_S, enabled=True)
+        with mock.patch.object(crawl_multivenue, "time", ft), \
+             mock.patch.object(crawl_multivenue, "_curl_json", fake_curl):
+            pacer.wait()  # 模拟调用方首发前的 pacing
+            result = crawl_multivenue.s2_fetch(
+                "https://api.semanticscholar.org/graph/v1/paper/search?query=x",
+                counters, pacer=pacer,
+            )
+        self.assertIsNone(result)
+        self.assertEqual(counters["attempts"], 2)
+        # 首发与重试两次 curl 的间距必须 >= REQUEST_GAP_S(75)，不得只隔 35s
+        self.assertEqual(curl_at, [1000.0, 1000.0 + crawl_multivenue.REQUEST_GAP_S])
 
 
 if __name__ == "__main__":

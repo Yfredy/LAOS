@@ -18,7 +18,8 @@
 全部查询都失败的 venue 不写文件，下次运行自动重试。
 
 限流纪律（照搬 corpus/crawl_icassp_s2_round3.py 验证参数 + 耐心重扫）：
-    - 请求间最小间距 75s；429/miss 等 35s 重试一次；
+    - 请求间最小间距 75s，且重试同受此下限约束：429/miss 后经 pacer 等满
+      75s 才发第二次——任意两次 curl 间距 >= 75s；
     - 单次请求仍失败不放弃：按 round-3 的 sweep 语义，未完成的主题/候选串
       在后续轮次继续重试，直到预算或墙钟截止（如实在文件/strings.json 标注）；
     - 预算按**成功响应数**计（默认 probe=40、wave=90；429 空转不计入，
@@ -62,8 +63,7 @@ HARVEST_MIN_COUNT = 3    # --harvest 建议门槛：出现次数 >= 此值才提
 S2_SEARCH = "https://api.semanticscholar.org/graph/v1/paper/search"
 FIELDS = "title,year,venue,citationCount,externalIds,abstract"
 YEAR_WINDOW = "2021-2026"
-REQUEST_GAP_S = 75        # 请求间最小间距（round-3 验证的生存参数）
-RETRY_WAIT_S = 35         # 429/miss 后等待重试一次
+REQUEST_GAP_S = 75        # 请求间最小间距（round-3 验证的生存参数；重试路径同受约束）
 SWEEP_GAP_S = 30          # 无进展轮次之间的额外等待
 CURL_TIMEOUT_S = 45
 PROBE_WALL_S = 120 * 60   # 探测默认墙钟上限
@@ -516,16 +516,18 @@ def _curl_json(url: str) -> dict | None:
     return d if isinstance(d.get("data"), list) else None
 
 
-def s2_fetch(url: str, counters: dict) -> dict | None:
-    """单次请求；429/miss 等 35s 重试一次（attempts 计 curl 次数；成功由调用方计预算）。"""
+def s2_fetch(url: str, counters: dict, pacer: Pacer) -> dict | None:
+    """单次请求；429/miss 重试一次，且重试前经 pacer.wait() 等满 75s 间距下限——
+    任意两次 curl 间距 >= REQUEST_GAP_S（attempts 计 curl 次数；成功由调用方计预算）。"""
     for attempt in (1, 2):
         counters["attempts"] += 1
         d = _curl_json(url)
         if d is not None:
             return d
         if attempt == 1:
-            print(f"[429/miss] {RETRY_WAIT_S}s 后重试一次: {url[:100]}", flush=True)
-            time.sleep(RETRY_WAIT_S)
+            print(f"[429/miss] 等满 {REQUEST_GAP_S}s 间距下限后重试一次: {url[:100]}",
+                  flush=True)
+            pacer.wait()
     return None
 
 
@@ -627,7 +629,7 @@ def run_probe(limit_requests: int, dry_run: bool, wall_s: float = PROBE_WALL_S,
                 print(f"[DRY] probe {key} <- {cand!r}", flush=True)
                 continue
             pacer.wait()
-            d = s2_fetch(url, budget)
+            d = s2_fetch(url, budget, pacer)
             st["attempts"] += 1
             if cand not in st["tried"]:
                 st["tried"].append(cand)
@@ -754,7 +756,7 @@ def run_wave(wave: str, venue_filter: str | None, limit_requests: int, dry_run: 
                         print(f"[DRY] {key} ({venue_str!r}) <- {topic!r}\n       {url}", flush=True)
                         continue
                     pacer.wait()
-                    d = s2_fetch(url, budget)
+                    d = s2_fetch(url, budget, pacer)
                     attempts_this_venue += 1
                     if d is None:
                         queries[topic] = {"error": "429/miss after 1 retry (will re-sweep)"}
