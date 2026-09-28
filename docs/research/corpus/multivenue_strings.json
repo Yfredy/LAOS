@@ -1,0 +1,301 @@
+{
+ "probed_at": "2026-09-28 22:52:36",
+ "probe_method": "对每候选串跑 query=<串>&venue=<串>&limit=5，取返回 top5 的 venue 字段众数（>=2 票或唯一结果）为规范串",
+ "request_budget": {
+  "successful": 5,
+  "attempts": 87,
+  "limit": 40
+ },
+ "stop_reason": "wall-clock",
+ "resolved": {
+  "ACL": "Annual Meeting of the Association for Computational Linguistics",
+  "NeurIPS": "Neural Information Processing Systems",
+  "AAAI": "AAAI Conference on Artificial Intelligence",
+  "ACMMM": "ACM Multimedia",
+  "ICME": "IEEE International Conference on Multimedia and Expo",
+  "PCM": "Pacific Rim Conference on Multimedia",
+  "TMM": "IEEE transactions on multimedia",
+  "CVPR": "Computer Vision and Pattern Recognition"
+ },
+ "unresolved": {
+  "SLT": {
+   "tried": [
+    "IEEE Spoken Language Technology Workshop",
+    "IEEE Spoken Language Technology Workshop (SLT)"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 2
+  },
+  "ASRU": {
+   "tried": [
+    "IEEE Automatic Speech Recognition and Understanding Workshop",
+    "IEEE Automatic Speech Recognition and Understanding Workshop (ASRU)"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 2
+  },
+  "WASPAA": {
+   "tried": [
+    "IEEE Workshop on Applications of Signal Processing to Audio and Acoustics",
+    "IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 2
+  },
+  "CHiME": {
+   "tried": [
+    "CHiME",
+    "CHiME Challenge"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 2
+  },
+  "TASLP": {
+   "tried": [
+    "IEEE/ACM Transactions on Audio, Speech, and Language Processing",
+    "IEEE Transactions on Audio, Speech, and Language Processing"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 2
+  },
+  "EURASIP": {
+   "tried": [
+    "EURASIP Journal on Audio, Speech, and Music Processing"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 2
+  },
+  "EMNLP": {
+   "tried": [
+    "EMNLP",
+    "Conference on Empirical Methods in Natural Language Processing"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 2
+  },
+  "NAACL": {
+   "tried": [
+    "NAACL",
+    "North American Chapter of the Association for Computational Linguistics"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 2
+  },
+  "COLING": {
+   "tried": [
+    "COLING",
+    "International Conference on Computational Linguistics"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 2
+  },
+  "CoNLL": {
+   "tried": [
+    "CoNLL",
+    "Conference on Computational Natural Language Learning"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 2
+  },
+  "TACL": {
+   "tried": [
+    "Transactions of the Association for Computational Linguistics",
+    "TACL"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 2
+  },
+  "CL": {
+   "tried": [
+    "Computational Linguistics"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 2
+  },
+  "ICLR": {
+   "tried": [
+    "ICLR"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 1
+  },
+  "ICML": {
+   "tried": [
+    "ICML"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 1
+  },
+  "IJCAI": {
+   "tried": [
+    "IJCAI"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 1
+  },
+  "JMLR": {
+   "tried": [
+    "Journal of Machine Learning Research"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 1
+  },
+  "ICMR": {
+   "tried": [
+    "ICMR"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 1
+  },
+  "MMSys": {
+   "tried": [
+    "MMSys"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 1
+  },
+  "TOMM": {
+   "tried": [
+    "ACM Transactions on Multimedia Computing, Communications, and Applications"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 1
+  },
+  "SIGIR": {
+   "tried": [
+    "SIGIR"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 1
+  },
+  "KDD": {
+   "tried": [
+    "KDD"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 1
+  },
+  "WWW": {
+   "tried": [
+    "WWW"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 1
+  },
+  "WSDM": {
+   "tried": [
+    "WSDM"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 1
+  },
+  "RecSys": {
+   "tried": [
+    "RecSys"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 1
+  },
+  "ECCV": {
+   "tried": [
+    "ECCV"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 1
+  },
+  "ICCV": {
+   "tried": [
+    "ICCV"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 1
+  },
+  "TPAMI": {
+   "tried": [
+    "IEEE Transactions on Pattern Analysis and Machine Intelligence"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 1
+  },
+  "IJCV": {
+   "tried": [
+    "International Journal of Computer Vision"
+   ],
+   "observed_venues": [],
+   "reason": "wall-clock",
+   "attempts": 1
+  }
+ },
+ "detail": {
+  "ACL": {
+   "string": "Annual Meeting of the Association for Computational Linguistics",
+   "votes": "5/5",
+   "queried_with": "ACL"
+  },
+  "NeurIPS": {
+   "string": "Neural Information Processing Systems",
+   "votes": "carried-over",
+   "queried_with": null,
+   "carried_over": true
+  },
+  "AAAI": {
+   "string": "AAAI Conference on Artificial Intelligence",
+   "votes": "5/5",
+   "queried_with": "AAAI"
+  },
+  "ACMMM": {
+   "string": "ACM Multimedia",
+   "votes": "carried-over",
+   "queried_with": null,
+   "carried_over": true
+  },
+  "ICME": {
+   "string": "IEEE International Conference on Multimedia and Expo",
+   "votes": "carried-over",
+   "queried_with": null,
+   "carried_over": true
+  },
+  "PCM": {
+   "string": "Pacific Rim Conference on Multimedia",
+   "votes": "5/5",
+   "queried_with": "Pacific-Rim Conference on Multimedia"
+  },
+  "TMM": {
+   "string": "IEEE transactions on multimedia",
+   "votes": "5/5",
+   "queried_with": "IEEE Transactions on Multimedia"
+  },
+  "CVPR": {
+   "string": "Computer Vision and Pattern Recognition",
+   "votes": "5/5",
+   "queried_with": "CVPR"
+  }
+ }
+}
