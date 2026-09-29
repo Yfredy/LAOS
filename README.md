@@ -400,6 +400,8 @@ laos/
 | [docs/research/2026-09-11-ser-model-landscape.md](docs/research/2026-09-11-ser-model-landscape.md) | 语音情感模型五分类 + 2024-26 逐篇文献跟踪（17 篇） | MER2025 基线 WAF 78.6=SSL 特征+轻量头（验证 laos 路线）；Interspeech'25 自然条件挑战=情绪差分对标口径 |
 | [docs/research/2026-09-11-aed-agc-model-landscape.md](docs/research/2026-09-11-aed-agc-model-landscape.md) | 音频事件识别 + 自动增益五分类 + 文献跟踪（32 篇） | DCASE 2025 冠军 61.5% @122K 参数/29 MMACs（蒸馏范式）；AGC 主要是经典 DSP，ML 化刚起步（SE-AGCNet） |
 | [docs/research/2026-09-12-speech-model-frontiers.md](docs/research/2026-09-12-speech-model-frontiers.md) | 其余全部语音信号领域（说话人/前端触发/编解码/TTS/副语言学健康）51 篇 | 到达顺序说话人分离=不建声纹库的"谁的日记"；Mimi 1.1kbps=0.5MB/h 留存档；EU AI Act/PIPL 功能红线 |
+| [docs/research/2026-09-29-multivenue-survey.md](docs/research/2026-09-29-multivenue-survey.md) | 多顶会主题切片普查：NLP/ML/CV/语音近邻/多媒体/交叉 35 venue（29 有产出，9,908 条）+ 数据源结构性地图 | Crossref 覆盖 IEEE/ACM 系；ACL Anthology 走 OpenAlex；PMLR/OpenReview 结构性封闭；AAAI 须 ISSN 精确过滤 |
+| [docs/research/2026-09-29-mobile-mcp-assessment.md](docs/research/2026-09-29-mobile-mcp-assessment.md) | Mobile MCP（7k+★ 手机操控 MCP）评估：30 工具对照 laos 五层手机能力 | 无治理驱动的活广告——`kernel.load_driver()` 可直接外挂（遥测必关）；其工具清单=drv_screen 下轮差距分析 |
 
 ### 10.2 工作内容（AlwaysOnRec-ZCode 隔离实现区，全部 TDD）
 
