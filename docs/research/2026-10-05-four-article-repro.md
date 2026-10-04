@@ -64,7 +64,7 @@
 | 口径 | 论文 | 本复现（冒烟规模） |
 |---|---|---|
 | 训练规模 | 40,295 语句 × 200k 步（batch 16） | 120 语句 × 400 步（≈0.0006% 计算） |
-| 模拟 clean MAE | 19.9° | 见 var/sho_metrics.json（冒烟口径，仅验证管线方向性） |
+| 模拟 clean MAE | 19.9° | **train 9.1° / holdout 56.5°**（loss 0.51→0.03，247s CPU；证据 `Repro-ZCode/var/sho_metrics.json` + 分桶图） |
 | 个性化最优 | 11.3° | 未跑（协议代码路径已具备：房间/说话人固定采样接口在 sample_room） |
 | 消声室 ±90° 模糊 | 有（Fig.2a） | 未单独跑（bin 分析代码在 mae_by_bin） |
 
