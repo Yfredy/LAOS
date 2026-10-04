@@ -403,6 +403,7 @@ laos/
 | [docs/research/2026-09-29-multivenue-survey.md](docs/research/2026-09-29-multivenue-survey.md) | 多顶会主题切片普查：NLP/ML/CV/语音近邻/多媒体/交叉 35 venue（29 有产出，9,908 条）+ 数据源结构性地图 | Crossref 覆盖 IEEE/ACM 系；ACL Anthology 走 OpenAlex；PMLR/OpenReview 结构性封闭；AAAI 须 ISSN 精确过滤 |
 | [docs/research/2026-09-29-mobile-mcp-assessment.md](docs/research/2026-09-29-mobile-mcp-assessment.md) | Mobile MCP（7k+★ 手机操控 MCP）评估：30 工具对照 laos 五层手机能力 | 无治理驱动的活广告——`kernel.load_driver()` 可直接外挂（遥测必关）；其工具清单=drv_screen 下轮差距分析 |
 | [docs/research/2026-10-05-four-article-repro.md](docs/research/2026-10-05-four-article-repro.md) + [Repro-ZCode/](Repro-ZCode/README.md) | 六来源复现隔离区：BS.1770-4 响度 / FxLMS ANC / 头部朝向论文全管线 / PhaseCoder 麦位编码 / Pipecat 帧管道 / unique_lock 语义 | 71 项测试：R128 校准点 −23.00 LUFS ±0.1；MPE 对齐官方 JAX 源码；冒烟 holdout 56.5°；打断作废排队帧而系统帧穿管 |
+| [docs/research/2026-10-05-repro-adoption.md](docs/research/2026-10-05-repro-adoption.md) + [docs/ppt/README.md](docs/ppt/README.md) | **复现批次采纳执行书**（A 响度→`laos/loudness.py` 纯 stdlib + `ear.lufs` 工具；B Pipecat 两课→`laos/turnbuf.py`；C unique_lock→`laos/locks.py`+`_rpc` 协议事实记录；D 麦位约定文档化）+ 项目介绍 PPT ×5（五 skill 同底稿对比） | 打断即作废 + 只记已送达进 mem.*；"锁生命周期服从协议事实，不服从越窄越好的教条" |
 
 ### 10.2 工作内容（AlwaysOnRec-ZCode 隔离实现区，全部 TDD）
 
@@ -419,7 +420,7 @@ laos/
 | **发音韵律评估**：流利度/节奏两维零依赖 + `ear.assess` 工具（GOPT 后端插桩） | `laos/pronunciation.py` `drivers/drv_ear.py` | GOPT+speechocean762 |
 | **架构图**：九层全貌 + 四段漏斗高亮（docs/images/，修复 4 处重叠） | `docs/images/` | — |
 
-测试规模：主库 353 项 + 隔离区 AlwaysOnRec-ZCode 279 项 + 复现区 Repro-ZCode 71 项（2026-10-05 六来源复现：BS.1770 响度 / FxLMS ANC / 头部朝向论文管线 / PhaseCoder 编码 / Pipecat 帧管道 / unique_lock 语义）。
+测试规模：主库 378 项 + 隔离区 AlwaysOnRec-ZCode 279 项 + 复现区 Repro-ZCode 71 项（2026-10-05 六来源复现：BS.1770 响度 / FxLMS ANC / 头部朝向论文管线 / PhaseCoder 编码 / Pipecat 帧管道 / unique_lock 语义）。
 
 ### 10.3 修订内容（实现过程中修掉的问题）
 
