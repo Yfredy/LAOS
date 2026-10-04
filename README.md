@@ -402,6 +402,7 @@ laos/
 | [docs/research/2026-09-12-speech-model-frontiers.md](docs/research/2026-09-12-speech-model-frontiers.md) | 其余全部语音信号领域（说话人/前端触发/编解码/TTS/副语言学健康）51 篇 | 到达顺序说话人分离=不建声纹库的"谁的日记"；Mimi 1.1kbps=0.5MB/h 留存档；EU AI Act/PIPL 功能红线 |
 | [docs/research/2026-09-29-multivenue-survey.md](docs/research/2026-09-29-multivenue-survey.md) | 多顶会主题切片普查：NLP/ML/CV/语音近邻/多媒体/交叉 35 venue（29 有产出，9,908 条）+ 数据源结构性地图 | Crossref 覆盖 IEEE/ACM 系；ACL Anthology 走 OpenAlex；PMLR/OpenReview 结构性封闭；AAAI 须 ISSN 精确过滤 |
 | [docs/research/2026-09-29-mobile-mcp-assessment.md](docs/research/2026-09-29-mobile-mcp-assessment.md) | Mobile MCP（7k+★ 手机操控 MCP）评估：30 工具对照 laos 五层手机能力 | 无治理驱动的活广告——`kernel.load_driver()` 可直接外挂（遥测必关）；其工具清单=drv_screen 下轮差距分析 |
+| [docs/research/2026-10-05-four-article-repro.md](docs/research/2026-10-05-four-article-repro.md) + [Repro-ZCode/](Repro-ZCode/README.md) | 四来源复现隔离区：BS.1770-4 响度计量 / FxLMS 主动降噪 / 头部朝向论文全管线（ISM+STFT相位+CNN-BiGRU-MHSA）/ PhaseCoder 几何无关麦位编码 | 58 项测试：R128 校准点 −23.00 LUFS ±0.1；MPE 对齐官方 JAX 源码；冒烟训练 MAE<70° 优于随机 90° |
 
 ### 10.2 工作内容（AlwaysOnRec-ZCode 隔离实现区，全部 TDD）
 
@@ -418,7 +419,7 @@ laos/
 | **发音韵律评估**：流利度/节奏两维零依赖 + `ear.assess` 工具（GOPT 后端插桩） | `laos/pronunciation.py` `drivers/drv_ear.py` | GOPT+speechocean762 |
 | **架构图**：九层全貌 + 四段漏斗高亮（docs/images/，修复 4 处重叠） | `docs/images/` | — |
 
-测试规模：主库 328 项（253 基线 + 35 Jev 判断层 + 40 版本化与收尾）+ 隔离区 279 项。
+测试规模：主库 353 项 + 隔离区 AlwaysOnRec-ZCode 279 项 + 复现区 Repro-ZCode 58 项（2026-10-05 四来源复现：BS.1770 响度 / FxLMS ANC / 头部朝向论文管线 / PhaseCoder 编码）。
 
 ### 10.3 修订内容（实现过程中修掉的问题）
 

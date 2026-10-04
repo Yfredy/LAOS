@@ -1,9 +1,10 @@
 {
- "updated_at": "2026-09-29 01:24:50",
+ "updated_at": "2026-09-29 06:19:05",
  "note": "波次爬取机会式采集：S2 返回 paper 的 venue 字段串 -> 出现计数。用 --harvest 生成建议新增规范串（计数 >= 3 且 VENUES 未精确收录）。",
  "observed": {
   "IEEE/ACM Transactions on Audio, Speech, and Language Processing": 1155,
   "EURASIP Journal on Audio, Speech, and Music Processing": 770,
+  "Proceedings of the AAAI Conference on Artificial Intelligence": 600,
   "IEEE Transactions on Audio, Speech and Language Processing": 559,
   "Advances in Neural Information Processing Systems 38": 558,
   "2025 IEEE Automatic Speech Recognition and Understanding Workshop (ASRU)": 420,
