@@ -19,6 +19,8 @@ import subprocess
 import sys
 import threading
 from dataclasses import dataclass
+
+from .locks import UniqueLock
 from pathlib import Path
 from typing import Any, Callable
 
@@ -371,8 +373,16 @@ class MCPClient:
 
     # -- RPC --------------------------------------------------------------
     def _rpc(self, method: str, params: dict | None = None, notify: bool = False) -> dict:
+        """stdio JSON-RPC 调用。
+
+        锁生命周期（unique_lock 一课的落地记录）：id 配对要求"分配 id →
+        写请求 → 读到对应响应"**全程串行**——此处不能提前 unlock 收窄
+        临界区，多路并发会把响应配到错误的调用上。锁生命周期服从协议
+        事实，不服从"越窄越好"的教条；因此全程以 UniqueLock 持有，
+        notify 路径写完即随作用域释放。
+        """
         assert self._proc is not None, "driver not started"
-        with self._lock:
+        with UniqueLock(self._lock):
             self._id += 1
             req: dict[str, Any] = {"jsonrpc": "2.0", "id": self._id, "method": method}
             if params is not None:
