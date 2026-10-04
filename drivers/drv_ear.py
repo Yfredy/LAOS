@@ -25,6 +25,7 @@ status（find_spec 探测，不真正 import funasr）；缺依赖只在真用�
 
 from __future__ import annotations
 
+import array
 import importlib.util
 import json
 import os
@@ -227,3 +228,36 @@ def ear_status() -> str:
 if __name__ == "__main__":
     _install_protocol_guard()
     drv.serve_forever()
+
+
+@drv.tool(
+    "ear.lufs",
+    "录音响度计量（BS.1770-4 纯 stdlib 实现）：返回积分响度 LUFS / True Peak "
+    "dBTP / PLR —— journal 录音留档的响度口径（来源：复现采纳书 A 项）",
+    {"type": "object",
+     "properties": {"wav": {"type": "string", "description": "wav 文件路径（PCM16）"}},
+     "required": ["wav"]},
+)
+def ear_lufs(wav: str) -> str:
+    import wave
+
+    from laos.loudness import integrated_loudness, true_peak
+
+    path = Path(wav)
+    if not path.exists():
+        raise FileNotFoundError(f"ENOENT: no such wav: {wav}")
+    with wave.open(str(path), "rb") as w:
+        n_ch, sw, fr = w.getnchannels(), w.getsampwidth(), w.getframerate()
+        if sw != 2:
+            raise ValueError(f"EINVAL: expect PCM16 (sampwidth=2), got {sw}")
+        raw = w.readframes(w.getnframes())
+    samples = array.array("h")
+    samples.frombytes(raw)
+    step = n_ch
+    chans = [array.array("d", (s / 32768.0 for s in samples[c::step]))
+             for c in range(n_ch)]
+    i = integrated_loudness(chans, fr)
+    tp = true_peak(chans, fr)
+    return json.dumps({"wav": str(path), "sample_rate": fr, "channels": n_ch,
+                       "lufs": round(i, 2), "true_peak_dbtp": round(tp, 2),
+                       "plr": round(tp - i, 2)}, ensure_ascii=False)
