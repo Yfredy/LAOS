@@ -1,11 +1,11 @@
-# 四来源知识学习与复现报告（头部朝向 / PhaseCoder / 车载 ANC / LUFS）
+# 六来源知识学习与复现报告（头部朝向 / PhaseCoder / 车载 ANC / LUFS）
 
 > 日期：2026-10-05 ｜ 类型：学习 + 复现 ｜ 实现区：`Repro-ZCode/`（零主代码改动）
-> 来源：①[微信·STFT 相位头部朝向](https://mp.weixin.qq.com/s/AjVIIA6DZ-2RXJ2m7tT1Hw) + 论文 PDF（arXiv 2607.02129v1，Tampere，5 页全文） ②[微信·PhaseCoder](https://mp.weixin.qq.com/s/2LW0r534oYFb9ZFP8NvTwA)（[google-deepmind/phasecoder](https://github.com/google-deepmind/phasecoder)，ICML 2026，arXiv 2601.21124） ③[微信·车载主动降噪厂商集锦](https://mp.weixin.qq.com/s/nxRfX224KKmaLBweiKV6IQ) ④[微信·dB/RMS/LUFS/True Peak](https://mp.weixin.qq.com/s/nV_JJv_SlFIUWNWXS6jvSQ)
+> 来源：①[微信·STFT 相位头部朝向](https://mp.weixin.qq.com/s/AjVIIA6DZ-2RXJ2m7tT1Hw) + 论文 PDF（arXiv 2607.02129v1，Tampere，5 页全文） ②[微信·PhaseCoder](https://mp.weixin.qq.com/s/2LW0r534oYFb9ZFP8NvTwA)（[google-deepmind/phasecoder](https://github.com/google-deepmind/phasecoder)，ICML 2026，arXiv 2601.21124） ③[微信·车载主动降噪厂商集锦](https://mp.weixin.qq.com/s/nxRfX224KKmaLBweiKV6IQ) ④[微信·dB/RMS/LUFS/True Peak](https://mp.weixin.qq.com/s/nV_JJv_SlFIUWNWXS6jvSQ) ⑤[微信·Pipecat](https://mp.weixin.qq.com/s/viuSMBiWZIQtAloMBeE9bQ) ⑥[微信·C++ unique_lock](https://mp.weixin.qq.com/s/4nvqU7EZr1GhxZpuBDRptA)
 
 ## §0 一句话
 
-四个知识源里**可复现的全部落进 `Repro-ZCode/`**：论文①的完整管线（镜像源法房间仿真 + 6 麦环形阵 + STFT 相位特征 + CNN-BiGRU-MHSA 模型 + 环形 MAE 评测 + 个性化协议代码路径）、②的几何无关麦位相位调制编码（对齐 DeepMind JAX 源码）、③的 FxLMS 主动降噪（阶次参考 + 次级通路辨识 + 2×2 多通道）、④的 BS.1770-4 全套响度计量（K 计权/门控积分/M/S/LRA/True Peak/PLR）。
+六个知识源里**可复现的全部落进 `Repro-ZCode/`**（⑤⑥为 2026-10-05 第二批增补，71 测试）：论文①的完整管线（镜像源法房间仿真 + 6 麦环形阵 + STFT 相位特征 + CNN-BiGRU-MHSA 模型 + 环形 MAE 评测 + 个性化协议代码路径）、②的几何无关麦位相位调制编码（对齐 DeepMind JAX 源码）、③的 FxLMS 主动降噪（阶次参考 + 次级通路辨识 + 2×2 多通道）、④的 BS.1770-4 全套响度计量（K 计权/门控积分/M/S/LRA/True Peak/PLR）。
 
 ## 来源→复现物映射
 
@@ -47,9 +47,24 @@
 - **BS.1770-4 细节**：K 计权=高频搁置（+4dB@~1.7kHz，模仿头/耳传递）+ 高通 38Hz；块 400ms/步 100ms；绝对门 -70 LUFS + 相对门（均值-10LU）；M=400ms 滑窗、S=3s 滑窗；LRA=过 -20LU 相对门的 S 块 10-95 分位差；True Peak=4× 过采样重构峰值（样本峰会低估 intersample peak）；PLR=TP−I（响度战争度量）。
 - **对 laos 的启示**：journal/录音留档的响度归一化口径；AGC 目标该用 LUFS 而非 RMS；PLR 可作"录音动态健康"指标进日记。
 
+
+### ⑤ Pipecat（Daily 团队开源语音 Agent 框架，BSD-2，15k★）
+
+- **命题**："连 LiveKit 都只是它的传输层"——框架内核是**帧管道**（Frame Pipeline），传输（LiveKit/电话/WebSocket）、ASR/LLM/TTS 全是可换的处理器。与 LiveKit Agents（绑定 LiveKit 服务器）的架构分野。
+- **帧两分法**（文章核心拆解）：SystemFrame（控制/打断/指标——立即处理，**打断不清空**）vs DataFrame（音频/文本——排队，**打断即作废**）。用户一开口（VAD 起音），InterruptionFrame 穿管，沿途把还在排队的半句 TTS 音频全部扫掉——这就是"AI 不会自顾自说完"的机制。
+- **全程流式**：LLM 吐出第一句话 TTS 就开始播，不等全文（首响延迟的来源）。
+- **聚合器位置**：assistant 消息聚合器放 transport.output **之后**——只有实际播出的内容才进 LLM 上下文，被打断的尾巴不进（防上下文污染）。
+- **自定义处理器**（HandoffGuard 模式）：命中关键词吞帧+直接注入播报帧（"转人工"垫话），不必等 LLM。
+- 对 laos 的启示：Frame≈laos 事件/审计事件；Pipeline≈drv_mic→drv_ear→brain 链；InterruptionFrame≈四段漏斗"用户接管即作废"；聚合器位置≈mem.remember 只记实际发生的交互（与 laos 记忆闸门语义天然契合）。
+
+### ⑥ C++ 并发（三）：unique_lock
+
+- **一句话**：unique_lock = 可控版 lock_guard。lock_guard=RAII 作用域锁（简单安全）；unique_lock 增加：手动提前 unlock（收窄临界区）、defer_lock（进入不持锁，需要时再 lock）、try_lock（非阻塞尝试）、owns_lock。条件变量预告（unique_lock 可配合 cv.wait）。
+- laos 对照：`laos/mcp.py` 的 MCPClient._lock 手写 acquire/release 即 unique_lock 手动路径；`with lock:` 只覆盖 lock_guard 场景。长临界区（审计写入、stdio 帧收发）可用"提前 unlock"收窄——但 Python 场景下更常见的是把锁内工作变少而非延迟加锁。
+
 ## 实际复现结果（2026-10-05）
 
-**隔离区 `Repro-ZCode/`：58 项测试全绿**（主库 356 项不受影响，零主代码改动）。
+**隔离区 `Repro-ZCode/`：71 项测试全绿**（第一批 58 + 第二批 ⑤framepipe 6 + ⑥locks 7）（主库 356 项不受影响，零主代码改动）。
 
 | 模块 | 测试 | 关键锚点结果 |
 |---|---|---|
@@ -57,6 +72,8 @@
 | `repro/anc.py` | 8 | 音调参考收敛后 **>20 dB**（实测尾段 ~完全抵消）；宽带 RNC 形态 >6 dB；次级通路 LS 辨识恢复 FIR 到 **1e-6**；2×2 耦合版双误差点各 **~15 dB**（μ=0.002：耦合梯度等效步长翻倍，0.02 发散——记档） |
 | `repro/sho/`（论文①全管线） | 24 | ISM 消声直射径时延 ±1.5 样本、窗口幅度守恒 ±5%；**指向性前后能量比 >2×**（不加指向性则标签无声学对应物——这是论文必须用 VDP 的原因）；STFT 相位在信号 bin 遵循 −2πfτ 延迟律（误差 <0.1 rad）；扩散噪声相干拟合 sinc 目标（中频带均值差 <0.15）；ShoNet 前向/反传/变长全过 |
 | `repro/phasecoder.py` | 9 | MPE 与官方 JAX 源码**逐行对齐**（α=7/β=4/质心球坐标/Eq.2-3 双调制）；圆阵旋转 60° 编码集合严格置换（差 ~1e-15）；特征布局 (frames,129,2C) 与 token 化 258 维与源码一致 |
+| `repro/framepipe.py` | ⑤ Pipecat | 6 | 纯 asyncio 复现帧管道内核：打断后 Sink 收到的排队数据帧 <8 且 Metrics/Interruption 系统帧照常穿管；流式（LLM 未生成完 Sink 已收首句）；聚合器 transcript==实际穿管内容且不含被打断尾句；HandoffGuard 吞"转账"帧注入"转人工"播报、LLM 收不到原帧；Start/End 顺序保持 |
+| `repro/locks.py` | ⑥ unique_lock | 7 | RAII 自动释放；提前 unlock 后他线程 acquire(blocking=False) 成功；defer_lock 进入不持锁；try_lock 两路径；未持锁 unlock→RuntimeError；手动 unlock 后退出幂等 |
 | 快速训练冒烟（`test_quick_train_beats_random`） | 1 | 80 语句/300 步/CPU 2m38s：held-out **MAE < 70°**（断言过），显著优于随机 90°——管线可训练性成立 |
 
 **SHO 冒烟实验 vs 论文数字**（`scripts/run_sho_repro.py`）：
