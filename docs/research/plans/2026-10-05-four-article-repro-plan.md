@@ -629,3 +629,19 @@ def test_quick_train_beats_random():
 - **覆盖**：四来源全部有对应 Task；论文五要素（特征/仿真/模型/评测/个性化协议）→ Task 5/3·4·6/7/9；PhaseCoder 三编码→Task 8；FxLMS 全家→Task 2；BS.1770 全家→Task 1。缺口语：论文的"真实数据集[3]评估"（DoV 数据集公开但下载+8 分类微调超范围，记入不可复现清单）。
 - **占位符**：Task 8 的编码公式是**文章口径占位**，Step 1 明确要求执行期用克隆源码的真实公式替换后再写测试——这是有意的设计（防止我此刻凭二手文章臆造公式）。
 - **类型一致性**：`stft_phase_features` 输出 `(2C,T,128)` 被 Task 7 `ShoNet(2C=12)` 与 Task 9 消费；`oriented_room_dict`/`simulate_multichannel`/`angular_mae` 跨 Task 3/4/5/9 签名一致。
+
+---
+
+## 增补 Task 11-13（2026-10-05 第二批：来源⑤⑥）
+
+**来源：** ⑤[微信·Pipecat](https://mp.weixin.qq.com/s/viuSMBiWZIQtAloMBeE9bQ)（Daily 团队语音 Agent 框架，BSD-2，15k★）⑥[微信·C++ unique_lock](https://mp.weixin.qq.com/s/4nvqU7EZr1GhxZpuBDRptA)
+
+**可复现判定：** ⑤不装 pipecat（conda 红线），用纯 asyncio 复现其**架构内核**——帧分类（SystemFrame 立即处理/打断不清空 vs DataFrame 排队/打断清空）、InterruptionFrame 穿管作废、全程流式、assistant 聚合器放 output 之后（只记实际播出的内容）、HandoffGuard 自定义处理器模式。⑥laos 是 Python 项目，复现 unique_lock 的**语义**（RAII 自动释放 + 手动提前 unlock + defer_lock + try_lock + owns_lock）。
+
+### Task 11: `repro/framepipe.py` — Pipecat 帧管道架构复现（来源⑤）
+- 接口：`Frame/SystemFrame/DataFrame/InterruptionFrame/TranscriptionFrame/LLMTextFrame/TTSAudioFrame/TTSSpeakFrame/MetricsFrame`；`FrameProcessor.process_frame/push_frame(direction)`；`Pipeline(processors).run()`；`SourceProcessor/SinkCollector`
+- 测试断言（TDD 先行）：①打断后 Sink 不再收到排队的 DataFrame，但 SystemFrame（Metrics）照常穿管；②流式：Sink 在 LLM 还没生成完就收到第一段 TTS 输出；③聚合器在 output 之后：被打断的半句话不进上下文；④HandoffGuard：命中关键词吞帧+直接注入播报帧，LLM 收不到该帧；⑤上下游方向都通
+### Task 12: `repro/locks.py` — unique_lock 语义复现（来源⑥）
+- 接口：`UniqueLock(lock, defer_lock=False)`：`__enter__/__exit__/lock()/unlock()/try_lock()/owns_lock`
+- 测试断言：①作用域结束自动释放；②提前 unlock 后块内剩余部分不再持锁（他线程 acquire(blocking=False) 成功）；③defer_lock 进入时不持锁；④try_lock 两条路径；⑤未持锁 unlock → RuntimeError；⑥owns_lock 状态翻转
+### Task 13: 报告增补（⑤⑥两节学习笔记+复现结果）+ INDEX/README 行 + 发版（feat→MINOR）
