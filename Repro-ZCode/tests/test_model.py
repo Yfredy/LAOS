@@ -73,3 +73,38 @@ def test_overfit_tiny_smoke():
         opt.zero_grad(); loss.backward(); opt.step()
         losses.append(float(loss))
     assert losses[-1] < 0.5 * losses[0]
+
+
+@pytest.mark.slow
+def test_quick_train_beats_random():
+    """80 语句模拟集（order 4）/ 300 步 / CPU：held-out MAE 显著优于随机 90°。
+
+    论文 clean 19.9° 需 40,295 语句 × 200k 步（≈0.02% 计算量的冒烟口径）。
+    """
+    from repro.sho.speech import synth_speech, oriented_room_dict
+    from repro.sho.ism import simulate_multichannel
+    from repro.sho.features import stft_phase_features, angular_mae
+    rng = np.random.default_rng(2026)
+    feats, angs = [], []
+    for i in range(80):
+        s = synth_speech(1.0, 16000, rng)
+        rd = oriented_room_dict(rng)
+        y = simulate_multichannel(s, rd, 16000, max_order=4)
+        feats.append(stft_phase_features(y[:, :16000], 16000))
+        angs.append(rd["orientation_deg"])
+    T = min(f.shape[1] for f in feats)
+    X = np.stack([f[:, :T] for f in feats]).astype(np.float32)
+    Y = np.array(angs, dtype=np.float32)
+    model = ShoNet(6)
+    opt = torch.optim.Adam(model.parameters(), lr=4e-4)
+    sched = torch.optim.lr_scheduler.LinearLR(opt, 1.0, 0.1, total_iters=300)
+    for step in range(300):
+        idx = rng.integers(0, 64, 16)                 # 前 64 训练
+        xt = torch.from_numpy(X[idx])
+        th = torch.from_numpy(np.deg2rad(Y[idx]))
+        yt = torch.stack([torch.cos(th), torch.sin(th)], -1)
+        loss = torch.mean((model(xt) - yt) ** 2)
+        opt.zero_grad(); loss.backward(); opt.step(); sched.step()
+    pred = predict_degrees(model, X[64:])
+    mae = angular_mae(Y[64:], pred)
+    assert mae < 70.0, f"held-out MAE {mae:.1f}° 未显著优于随机 90°"

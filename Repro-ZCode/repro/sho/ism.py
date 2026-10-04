@@ -35,12 +35,22 @@ def rt60_sabine(room: tuple[float, float, float], absorption: float) -> float:
 
 def rir_ism(room: tuple[float, float, float], src: np.ndarray, mic: np.ndarray,
             fs: float, absorption: float, max_order: int,
-            rir_len: int | None = None) -> np.ndarray:
-    """单源单麦 RIR。镜像阶数截到 max_order，能量反射系数 R=√(1-α)。"""
+            rir_len: int | None = None,
+            orientation_rad: float | None = None,
+            directivity: tuple[float, float] | None = None) -> np.ndarray:
+    """单源单麦 RIR。镜像阶数截到 max_order，能量反射系数 R=√(1-α)。
+
+    指向性（可选）：orientation_rad = 声源面朝方位角（xy 平面），
+    directivity=(a,b) cardioid 族。每个镜像的贡献按 D(∠(朝向, 源→镜像方向))
+    加权——直达与反射都带指向性（论文 22 条实测 VDP 的替代实现）。
+    """
     Lx, Ly, Lz = room
     R = np.sqrt(1.0 - absorption)
     if rir_len is None:
         rir_len = int(0.3 * fs)
+    if orientation_rad is not None and directivity is not None:
+        orient = np.array([np.cos(orientation_rad), np.sin(orientation_rad), 0.0])
+        a, b = directivity
 
     rir = np.zeros(rir_len)
     idx_range = np.arange(-max_order, max_order + 1)
@@ -56,6 +66,14 @@ def rir_ism(room: tuple[float, float, float], src: np.ndarray, mic: np.ndarray,
                 img = np.array([img_x, img_y, img_z])
                 d = float(np.linalg.norm(img - mic))
                 amp = (R ** order) / (4 * np.pi * d)
+                if orientation_rad is not None and directivity is not None:
+                    u = img - src                        # 源→镜像 出射方向
+                    if order == 0:
+                        u = mic - src                    # 直射径：源→麦
+                    u_norm = np.linalg.norm(u)
+                    if u_norm > 1e-12:
+                        cos_ang = float(u @ orient / u_norm)
+                        amp *= a + b * cos_ang           # D(θ) = a + b·cos(θ)
                 delay = d / C_SOUND * fs
                 base = int(np.floor(delay))
                 frac = delay - base
@@ -98,12 +116,22 @@ def sample_room(rng: np.random.Generator) -> dict:
 
 
 def simulate_multichannel(speech: np.ndarray, room_dict: dict, fs: float,
-                          max_order: int = 6) -> np.ndarray:
-    """对每麦克风生成 RIR 后与语音卷积。返回 (C, N+rir_len-1)。"""
+                          max_order: int = 6,
+                          use_directivity: bool = True) -> np.ndarray:
+    """对每麦克风生成 RIR 后与语音卷积。返回 (C, N)。
+
+    room_dict 携带 orientation_deg 与 directivity=(a,b)（oriented_room_dict
+    产物）时按论文语义施加指向性；use_directivity=False 关闭（对照）。
+    """
     n_mic = room_dict["mics"].shape[0]
     out = np.zeros((n_mic, len(speech)))
+    kw = {}
+    if use_directivity and "orientation_deg" in room_dict and "directivity" in room_dict:
+        kw = dict(orientation_rad=np.deg2rad(room_dict["orientation_deg"]),
+                  directivity=(room_dict["directivity"]["a"],
+                               room_dict["directivity"]["b"]))
     for m in range(n_mic):
         rir = rir_ism(room_dict["room"], room_dict["src"], room_dict["mics"][m],
-                      fs, room_dict["absorption"], max_order)
+                      fs, room_dict["absorption"], max_order, **kw)
         out[m] = np.convolve(speech, rir)[: len(speech)]
     return out

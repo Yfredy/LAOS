@@ -83,3 +83,16 @@ def test_simulate_multichannel_shape_and_delay():
     first_idx = [int(np.argmax(np.abs(ch) > 0.002 * np.max(np.abs(y)))) for ch in y]
     corr = np.corrcoef(d_center, first_idx)[0, 1]
     assert corr > 0.8
+
+
+def test_directivity_front_mic_gets_more_energy():
+    """指向性加上后：朝向侧麦收能量 > 背向侧麦（消声、同距）。"""
+    src = np.array([2.0, 2.0, 1.5])
+    d = 1.0
+    front = src + np.array([d, 0, 0])          # 声源朝 +x
+    back = src + np.array([-d, 0, 0])
+    kw = dict(room=(4, 4, 3), fs=FS, absorption=0.9, max_order=0, rir_len=2048,
+              orientation_rad=0.0, directivity=(0.3, 0.7))
+    e_front = np.sum(rir_ism(src=src, mic=front, **kw) ** 2)
+    e_back = np.sum(rir_ism(src=src, mic=back, **kw) ** 2)
+    assert e_front > e_back * 2.0
