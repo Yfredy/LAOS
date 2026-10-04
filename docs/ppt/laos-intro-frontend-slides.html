@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>laos · Linux AgentOS — Field Note 01</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* ===========================================
+   THEME: Terminal Green (STYLE_PRESETS #10)
+   GitHub dark #0d1117 + terminal green #39d353
+   JetBrains Mono only · scan lines · blinking cursor
+   =========================================== */
+:root{
+  --bg-primary:#0d1117; --bg-panel:#161b22; --bg-deep:#010409;
+  --green:#39d353; --green-dim:#268641; --green-glow:rgba(57,211,83,.28);
+  --amber:#d29922; --red:#f85149; --blue:#58a6ff;
+  --text:#e6edf3; --text-dim:#8b949e;
+  --font:'JetBrains Mono',Consolas,monospace;
+  --slide-padding:64px; --ease:cubic-bezier(.16,1,.3,1); --dur:.55s;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+/* --- viewport-base.css (mandatory) --- */
+html,body{width:100%;height:100%;margin:0;overflow:hidden;background:var(--stage-bg,#000)}
+.deck-viewport{position:fixed;inset:0;overflow:hidden;background:var(--stage-bg,#000)}
+.deck-stage{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;transform-origin:0 0;background:var(--slide-bg,#0d1117)}
+.slide{position:absolute;inset:0;width:1920px;height:1080px;overflow:hidden;display:block;visibility:hidden;opacity:0;pointer-events:none;background:var(--bg-primary)}
+.slide.active{visibility:visible;opacity:1;pointer-events:auto}
+/* scan lines overlay */
+.slide::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:40;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 3px);}
+.slide-content{position:absolute;inset:0;padding:var(--slide-padding);display:flex;flex-direction:column}
+/* reveal animations */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease)}
+.slide.visible .reveal{opacity:1;transform:translateY(0)}
+.slide.visible .reveal:nth-child(1){transition-delay:.08s}
+.slide.visible .reveal:nth-child(2){transition-delay:.18s}
+.slide.visible .reveal:nth-child(3){transition-delay:.28s}
+.slide.visible .reveal:nth-child(4){transition-delay:.38s}
+.slide.visible .reveal:nth-child(5){transition-delay:.48s}
+.slide.visible .reveal:nth-child(6){transition-delay:.58s}
+/* terminal window chrome */
+.term{background:var(--bg-panel);border:1px solid #30363d;border-radius:10px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 40px var(--green-glow)}
+.term-bar{display:flex;align-items:center;gap:8px;padding:12px 18px;background:#010409;border-bottom:1px solid #30363d}
+.dot{width:13px;height:13px;border-radius:50%}
+.dot.r{background:#ff5f56}.dot.y{background:#ffbd2e}.dot.g{background:#27c93f}
+.term-title{margin-left:12px;color:var(--text-dim);font-size:20px}
+.term-body{padding:30px 36px;font-family:var(--font);color:var(--text);font-size:26px;line-height:1.65}
+.cursor{display:inline-block;width:13px;height:26px;background:var(--green);vertical-align:-4px;animation:blink 1.05s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.p{color:var(--green)} .c{color:var(--text-dim)} .a{color:var(--amber)} .b{color:var(--blue)} .err{color:var(--red)}
+.prompt{color:var(--green);font-weight:700}
+h1,h2,h3{font-family:var(--font)}
+.kicker{font-family:var(--font);color:var(--green-dim);letter-spacing:.28em;font-size:22px;text-transform:uppercase}
+.pagefoot{position:absolute;left:64px;right:64px;bottom:34px;display:flex;justify-content:space-between;color:#4d5966;font-family:var(--font);font-size:19px;z-index:50}
+.glowtitle{text-shadow:0 0 24px var(--green-glow)}
+table.t{border-collapse:collapse;width:100%;font-size:25px}
+table.t td,table.t th{border:1px solid #30363d;padding:10px 18px;text-align:left}
+table.t th{color:var(--green-dim);font-weight:400}
+/* edit mode (contract: included by default) */
+#editToggle{position:fixed;right:18px;top:18px;z-index:99;background:#161b22;color:#e6edf3;border:1px solid #30363d;border-radius:8px;font-family:var(--font);font-size:14px;padding:8px 12px;cursor:pointer;opacity:0;transition:opacity .2s;pointer-events:auto}
+#editToggle.show,#editToggle.active{opacity:1}
+.editable{outline:none}
+[contenteditable="true"]{background:rgba(57,211,83,.08);box-shadow:inset 0 0 0 1px var(--green-dim);border-radius:4px}
+#progress{position:fixed;left:0;bottom:0;height:4px;background:var(--green);z-index:99;transition:width .3s;box-shadow:0 0 12px var(--green-glow)}
+</style>
+</head>
+<body>
+<div class="deck-viewport">
+<main class="deck-stage" id="deckStage">
+
+<section class="slide active">
+  <div class="slide-content" style="justify-content:center;align-items:center">
+    <div class="term" style="width:1280px">
+      <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">yaoyue@arch — laosd boot</span></div>
+      <div class="term-body" style="font-size:25px">
+        <p class="reveal c">$ systemctl start laosd</p>
+        <h1 class="reveal p glowtitle" style="font-size:88px;margin:18px 0 6px">laos · Linux AgentOS</h1>
+        <p class="reveal" style="font-size:32px"><span class="p">[ OK ]</span> 给 AI Agent 一座操作系统 —— 内核强制的能力边界，而不是提示词恳求</p>
+        <p class="reveal c" style="margin-top:22px">v0.9.0 · GitHub Yfredy/LAOS · 703 tests green (主库353 + 隔离区350)</p>
+        <p class="reveal"><span class="prompt">~/laos $</span> <span class="cursor"></span></p>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · FIELD NOTE 01</span><span>01 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal">$ dmesg --level=err,warn | grep agent</p>
+    <div class="term reveal" style="margin-top:26px;flex:1">
+      <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">dmesg — agent runtime</span></div>
+      <div class="term-body" style="font-size:28px">
+        <p class="err">[    0.000001] AGENT: running with full user privileges — no boundary</p>
+        <p class="a">[    0.000042] TOOL: "rm -rf ~" executed (prompt said please don't)</p>
+        <p class="a">[    0.000108] MCP: malicious tool exfiltrated clipboard + notifications</p>
+        <p class="c">[    0.000201] PROMPT: "不要做危险的事" —— 恳求不是强制</p>
+        <p style="margin-top:30px">缺的不是更聪明的模型，是 <span class="p">操作系统</span>：<br>能力 · 调度 · 审计 · 记账 · 隔离</p>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · THE PROBLEM</span><span>02 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal">$ cat /usr/share/laos/THESIS.md</p>
+    <div class="term reveal" style="margin-top:26px;flex:1">
+      <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">THESIS.md</span></div>
+      <div class="term-body" style="font-size:31px">
+        <p class="p"># Linux AgentOS = Linux kernel + Agent + MCP</p>
+        <p style="margin-top:16px">不改内核<span class="a">一行代码</span>，复用四个强制原语：</p>
+        <p><span class="b">namespace</span>   隔离视图 — Agent 各自的 mount/pid/net</p>
+        <p><span class="b">cgroup v2</span>   资源上限 — CPU/内存，失控不拖垮宿主</p>
+        <p><span class="b">seccomp BPF</span> 系统调用白名单 — 真拦截，非君子协定</p>
+        <p><span class="b">Landlock</span>    路径沙箱 — 未授权目录不可见</p>
+        <p class="c" style="margin-top:20px"># laosd 是薄内核：只做语义层（能力/审计/记账），设备交给 MCP 驱动</p>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · THE THESIS</span><span>03 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal">$ diff linux laos --word-diff</p>
+    <div class="term reveal" style="margin-top:26px;flex:1">
+      <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">linux ↔ laos</span></div>
+      <div class="term-body" style="font-size:29px">
+        <table class="t">
+          <tr><th>Linux</th><th>laos</th></tr>
+          <tr><td>进程</td><td class="p">Agent（PCB · 能力集 · 预算）</td></tr>
+          <tr><td>系统调用 open/read/fork</td><td class="p">MCP tool call（JSON-RPC，每次过闸）</td></tr>
+          <tr><td>设备驱动</td><td class="p">MCP Server：drv_mic / drv_ear / drv_screen…</td></tr>
+          <tr><td>内核</td><td class="p">laosd 薄内核（语义层）</td></tr>
+          <tr><td>insmod</td><td class="p">load_driver（外挂任意 MCP 服务器）</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · ONE MAPPING</span><span>04 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal">$ laosctl trace --syscall</p>
+    <div class="term reveal" style="margin-top:26px;flex:1">
+      <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">the gate chain</span></div>
+      <div class="term-body" style="font-size:29px">
+        <p class="p">agent → capability | task_scope | schema | budget | ledger | jev | confirm | audit</p>
+        <p style="margin-top:22px"><span class="b">task_scope</span> 收窄到最小权限：路径前缀 · <span class="a">pkg:</span> 应用白名单 · <span class="a">time:</span> 时间窗</p>
+        <p><span class="b">EDQUOT</span> 预算见底即拒绝 · <span class="b">FleetLedger</span> 给不可逆操作计价</p>
+        <p><span class="b">Jev 预审</span>（opt-in）→ 确认横幅 → 派发 → 全量审计</p>
+        <p class="c" style="margin-top:22px"># 事后可完整回放：谁在何时用掉了什么权限</p>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · GATE CHAIN</span><span>05 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal">$ systemctl status laos-enforcement</p>
+    <div class="term reveal" style="margin-top:26px;flex:1">
+      <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">enforcement.target</span></div>
+      <div class="term-body" style="font-size:28px">
+        <p><span class="p">●</span> seccomp-bpf.service     <span class="p">loaded active running</span>  进程级 syscall 白名单</p>
+        <p><span class="p">●</span> cgroup-v2.service       <span class="p">loaded active running</span>  驱动子进程 CPU/内存上限</p>
+        <p><span class="p">●</span> ebpf-profiler.service   <span class="p">loaded active running</span>  行为画像 + CoW 执行隔离</p>
+        <p style="margin-top:30px">「强制」的意思：<span class="a">拦截发生在内核，不发生在上下文窗口</span>。</p>
+        <p class="c"># 驱动失控只死驱动，宿主与其它 Agent 不受牵连</p>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · ENFORCEMENT</span><span>06 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal">$ ls /laos/drivers/ -1</p>
+    <div class="term reveal" style="margin-top:26px;flex:1">
+      <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">drivers/</span></div>
+      <div class="term-body" style="font-size:28px;display:grid;grid-template-columns:1fr 1fr;gap:6px 40px">
+        <p><span class="p">drv_mic</span>     麦克风·录音只由显式 syscall 触发</p>
+        <p><span class="p">drv_ear</span>     本地 ASR + 发音韵律评估</p>
+        <p><span class="p">drv_screen</span>  adb 屏幕操控·pkg: 白名单</p>
+        <p><span class="p">drv_notify</span>  通知读取（敏感·可信闸）</p>
+        <p><span class="p">drv_comms</span>   短信收发·TTS 播报</p>
+        <p><span class="p">drv_npu</span>     端侧感知事件环形缓冲</p>
+        <p class="a" style="grid-column:1/3;margin-top:14px">load_driver("mobile", ["npx","mobile-mcp@latest"], 遥测必关)</p>
+        <p class="c" style="grid-column:1/3"># 一行把任意 MCP 服务器 insmod 成内核驱动——Mobile MCP 30 工具即成 laos syscall</p>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · DRIVERS AS DEVICES</span><span>07 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal">$ watch -n1 laosctl hearing --funnel</p>
+    <div class="term reveal" style="margin-top:26px;flex:1">
+      <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">always-on hearing</span></div>
+      <div class="term-body" style="font-size:28px">
+        <p><span class="p">01 常驻检测</span>  PCEN/VAD 低功耗常开 · 预算 <span class="a">µW 级</span></p>
+        <p><span class="p">02 触发捕获</span>  <span class="a">15s</span> 环形缓冲 + 私有唤醒词 DTW（模板纯 JSON，非声纹）</p>
+        <p><span class="p">03 即时蒸馏</span>  SenseVoice 全本地 ASR+情感 · <span class="a">零上云</span></p>
+        <p><span class="p">04 即焚</span>      默认 <span class="a">6h</span> 留存 · LAOS_REC=0 全局禁录 · 每次调用审计 event:"mic"</p>
+        <p style="margin-top:26px">Apple Watch S12 已验证同构路线；<span class="b">旁观者可见性</span>是 laos 差异化。</p>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · FOUR-STAGE FUNNEL</span><span>08 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal">$ pytest tests/test_judge.py -v --calibration</p>
+    <div class="term reveal" style="margin-top:26px;flex:1">
+      <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">jev judgment layer</span></div>
+      <div class="term-body" style="font-size:28px">
+        <p><span class="p">PASSED</span> 三判型: Noul(是非) · Choice(2-255 选项) · Score(2-10 级)</p>
+        <p><span class="p">PASSED</span> 四闸门: 高危预审 · 记忆过滤 · 压缩选择 · 技能质量</p>
+        <p><span class="err">FAILED</span> rule 后端校准: accuracy=<span class="err">0.519</span>, 高置信桶错误率 33%</p>
+        <p class="c" style="margin-top:16px">  → 结论：AUTOGATE 禁配 rule 后端；自动化之前，先跑校准。</p>
+        <p style="margin-top:24px">判断层可插拔：none / rule / cloud / local —— <span class="a">校准数据说了算</span>。</p>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · JEV GATES</span><span>09 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal">$ laosctl research --dashboard</p>
+    <div class="term reveal" style="margin-top:26px;flex:1">
+      <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">evidence corpus</span></div>
+      <div class="term-body" style="font-size:29px;display:flex;flex-direction:column;gap:20px">
+        <p><span class="p" style="font-size:56px">19,792</span> 篇双会议全量遍历（Interspeech 5,507 + ICASSP 14,285）</p>
+        <p><span class="p" style="font-size:44px">9,908</span> 条多顶会主题切片（35 venue · 29 有产出）</p>
+        <p><span class="p" style="font-size:44px">3,724</span> 个 GitHub 音频×AI×Agent 仓库普查</p>
+        <p><span class="p" style="font-size:44px">76</span> 条采纳总纲映射（落地 33 / 推荐 23 / 不做 20）</p>
+        <p class="c"># 每个设计决策都能溯源到 corpus/ 里的论文与仓库</p>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · EVIDENCE</span><span>10 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal">$ pytest Repro-ZCode/ -q</p>
+    <div class="term reveal" style="margin-top:26px;flex:1">
+      <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">repro zone</span></div>
+      <div class="term-body" style="font-size:27px">
+        <p><span class="p">repro/bs1770.py</span>      R128 校准点 −23.00 LUFS ±0.1 · True Peak 4×</p>
+        <p><span class="p">repro/anc.py</span>         FxLMS 发动机阶次收敛 &gt;20dB · 2×2 ~15dB</p>
+        <p><span class="p">repro/sho/</span>           头部朝向论文全管线 · 冒烟 holdout 56.5°</p>
+        <p><span class="p">repro/phasecoder.py</span>  MPE 与官方 JAX 源码逐行对齐</p>
+        <p><span class="p">repro/framepipe.py</span>   Pipecat 帧管道 · 打断作废排队帧</p>
+        <p><span class="p">repro/locks.py</span>       unique_lock 语义七测试</p>
+        <p style="margin-top:24px"><span class="p" style="font-size:40px">71 passed</span> <span class="c">in 175.95s</span></p>
+        <p class="c"># 方法论：TDD · 零新依赖 · 论文数字不作断言 · 偏差全记档</p>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · REPRO ZONE</span><span>11 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="slide-content" style="justify-content:center;align-items:center">
+    <div class="term" style="width:1280px">
+      <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">shutdown — v0.9.0</span></div>
+      <div class="term-body" style="font-size:28px">
+        <p class="reveal p" style="font-size:44px">能力边界写在内核里。<span class="cursor"></span></p>
+        <p class="reveal" style="margin-top:18px"><span class="p">[ OK ]</span> 语义化版本 v0.1 → v0.9 · 一个完整需求波次 = 一次 MINOR</p>
+        <p class="reveal"><span class="p">[ OK ]</span> 合规红线前置：EU AI Act 职场情绪禁令 · PIPL 声纹单独同意 · 拒绝伪装采集</p>
+        <p class="reveal"><span class="a">[NEXT]</span> drv_screen 多轮真机验收 → 外挂驱动 PoC(mobile-mcp) → bs1770 响度合入主库</p>
+        <p class="reveal c" style="margin-top:26px">github.com/Yfredy/LAOS · 26.10.05</p>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · END OF FIELD NOTE</span><span>12 / 12</span></div>
+</section>
+
+</main>
+</div>
+<button id="editToggle" title="Edit mode (E)">✏️ edit</button>
+<div id="progress"></div>
+<script>
+class SlidePresentation{
+  constructor(){
+    this.slides=document.querySelectorAll('.slide');
+    this.current=0;
+    this.stage=document.getElementById('deckStage');
+    this.editables=[];
+    this.setupScale();this.setupKeys();this.setupTouch();this.setupEdit();this.show(0);
+  }
+  setupScale(){
+    const scale=()=>{
+      const f=Math.min(window.innerWidth/1920,window.innerHeight/1080);
+      const x=(window.innerWidth-1920*f)/2,y=(window.innerHeight-1080*f)/2;
+      this.stage.style.transform=`translate(${x}px, ${y}px) scale(${f})`;
+    };
+    scale();window.addEventListener('resize',scale);
+  }
+  setupKeys(){
+    document.addEventListener('keydown',e=>{
+      if(e.target.isContentEditable)return;
+      if(['ArrowRight',' ','PageDown'].includes(e.key)){e.preventDefault();this.show(this.current+1)}
+      else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();this.show(this.current-1)}
+      else if(e.key==='Home')this.show(0);
+      else if(e.key==='End')this.show(this.slides.length-1);
+      else if(e.key.toLowerCase()==='e')this.toggleEdit();
+      else if(e.key.toLowerCase()==='s'&&this.editMode)this.saveFile();
+    });
+  }
+  setupTouch(){
+    let sx=0;
+    document.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+    document.addEventListener('touchend',e=>{
+      const dx=e.changedTouches[0].clientX-sx;
+      if(Math.abs(dx)>50)this.show(this.current+(dx<0?1:-1));
+    },{passive:true});
+  }
+  show(i){
+    this.current=Math.max(0,Math.min(i,this.slides.length-1));
+    this.slides.forEach((s,k)=>{
+      s.classList.toggle('active',k===this.current);
+      s.classList.toggle('visible',k===this.current);
+    });
+    document.getElementById('progress').style.width=((this.current+1)/this.slides.length*100)+'%';
+  }
+  setupEdit(){
+    const btn=document.getElementById('editToggle');
+    document.addEventListener('mousemove',e=>{if(e.clientY<90)btn.classList.add('show')});
+    btn.addEventListener('click',()=>this.toggleEdit());
+    this.editables=[...this.slides].map(s=>[...s.querySelectorAll('h1,h2,h3,p,td,th,li')]);
+    const saved=localStorage.getItem('laos-intro-frontend-edits');
+    if(saved){try{const m=JSON.parse(saved);this.editables.flat().forEach((el,i)=>{if(m[i]!=null)el.textContent=m[i]})}catch(e){}}
+  }
+  toggleEdit(){
+    this.editMode=!this.editMode;
+    document.getElementById('editToggle').classList.toggle('active',this.editMode);
+    this.editables.flat().forEach(el=>el.setAttribute('contenteditable',this.editMode));
+    if(!this.editMode){
+      const m={};this.editables.flat().forEach((el,i)=>m[i]=el.textContent);
+      localStorage.setItem('laos-intro-frontend-edits',JSON.stringify(m));
+    }
+  }
+  saveFile(){
+    const html='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));
+    a.download='laos-intro-frontend-slides.html';a.click();
+  }
+}
+new SlidePresentation();
+</script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>laos · Linux AgentOS — 工程蓝图</title>
+<link rel="stylesheet" href="html-ppt-assets/fonts.css">
+<link rel="stylesheet" href="html-ppt-assets/base.css">
+<link rel="stylesheet" href="html-ppt-assets/animations.css">
+<link rel="stylesheet" href="html-ppt-assets/themes/blueprint.css">
+<style>
+/* laos 定制层：蓝图网格背景 + 图例符号 */
+body{background-image:
+  linear-gradient(rgba(190,220,255,.05) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(190,220,255,.05) 1px,transparent 1px);
+  background-size:48px 48px;}
+.blueprint-box{border:1px solid var(--border-strong);background:var(--surface);padding:20px 24px;position:relative}
+.blueprint-box::before{content:attr(data-tag);position:absolute;top:-11px;left:14px;background:var(--bg);padding:0 8px;
+  font-size:12px;letter-spacing:.18em;color:var(--accent-2);font-family:var(--mono)}
+.gate-arrow{color:var(--accent-3);font-weight:700}
+.stamp{display:inline-block;border:2px solid var(--accent-3);color:var(--accent-3);padding:4px 14px;
+  transform:rotate(-4deg);letter-spacing:.2em;font-size:14px;font-family:var(--mono)}
+</style>
+</head>
+<body class="tpl-laos-blueprint">
+<div class="deck">
+
+<section class="slide full" data-title="封面">
+  <p class="kicker" data-anim="fade-up">PROJECT NO. LAOS-09 · REV v0.9.0 · 2026-10-05</p>
+  <h1 class="h1 mt-s" data-anim="fade-up">laos · Linux AgentOS<br><em>给 AI Agent 的用户态操作系统</em></h1>
+  <p class="lede mt-l" style="max-width:64ch">内核强制的能力边界，而不是提示词恳求。Linux kernel + Agent + MCP，不改内核一行代码。</p>
+  <div class="row mt-l" style="gap:14px">
+    <span class="pill">主库 353 tests</span>
+    <span class="pill">AlwaysOnRec 279</span>
+    <span class="pill">Repro 71</span>
+    <span class="stamp">APPROVED · 703 GREEN</span>
+  </div>
+  <div class="deck-footer"><span>GitHub · Yfredy/LAOS</span><span class="slide-number" data-current="1" data-total="12"></span></div>
+  <aside class="notes">开场一句话：Agent 很强，但它今天拿着我们的全部权限在裸奔。这个项目要做的，是给 Agent 一座真正的操作系统——而且不改动 Linux 内核一行代码。先看测试规模：七百零三项全绿，这不是概念稿，是每天在跑的工程。</aside>
+</section>
+
+<section class="slide" data-title="问题">
+  <p class="kicker">SHEET 02 · PROBLEM STATEMENT</p>
+  <h2 class="h2 mt-s">Agent 拿着 root 裸奔。</h2>
+  <div class="g3 mt-l">
+    <div class="blueprint-box" data-tag="RISK-01"><h4>rm -rf ~</h4><p class="dim">一句工具调用删光家目录；"请小心"写在提示词里——恳求不是强制。</p></div>
+    <div class="blueprint-box" data-tag="RISK-02"><h4>恶意 MCP 工具</h4><p class="dim">剪贴板、通知、短信直接外发；装一个工具等于开一扇门。</p></div>
+    <div class="blueprint-box" data-tag="RISK-03"><h4>不可逆无计价</h4><p class="dim">卸载、发送、删除与读取同权——没有记账，没有回放。</p></div>
+  </div>
+  <p class="lede mt-l">缺的不是更聪明的模型，是<b>操作系统</b>：能力 · 调度 · 审计 · 记账 · 隔离。</p>
+  <div class="deck-footer"><span>laos · Linux AgentOS</span><span class="slide-number" data-current="2" data-total="12"></span></div>
+  <aside class="notes">把风险说具体：删库、隐私外发、不可逆操作无门槛三张风险单。共同根因是 Agent 没有操作系统——所以解法不是更好的提示词，是能力边界。</aside>
+</section>
+
+<section class="slide" data-title="命题">
+  <p class="kicker">SHEET 03 · DESIGN THESIS</p>
+  <h2 class="h2 mt-s">Linux AgentOS = Linux kernel <span class="gate-arrow">+</span> Agent <span class="gate-arrow">+</span> MCP</h2>
+  <div class="g2 mt-l">
+    <div class="blueprint-box" data-tag="PRIMITIVES">
+      <div class="stack">
+        <p><b>namespace</b> — 隔离视图（mount/pid/net）</p>
+        <p><b>cgroup v2</b> — 资源上限，失控不拖垮宿主</p>
+        <p><b>seccomp BPF</b> — 系统调用白名单，真拦截</p>
+        <p><b>Landlock</b> — 路径沙箱，未授权不可见</p>
+      </div>
+    </div>
+    <div class="blueprint-box" data-tag="KERNEL">
+      <h4>laosd = 薄内核</h4>
+      <p class="dim">只做语义层：能力表、审计、记账、确认。设备全部交给 MCP 驱动；内核补丁数为零。</p>
+      <p class="mt-s"><span class="stamp">0 KERNEL PATCHES</span></p>
+    </div>
+  </div>
+  <div class="deck-footer"><span>laos · Linux AgentOS</span><span class="slide-number" data-current="3" data-total="12"></span></div>
+  <aside class="notes">核心公式一句话讲完。四个强制原语都是 Linux 现成的，我们一个都不改，只是组合；laosd 只做薄薄的语义层。零内核补丁意味着随时能跟上上游。</aside>
+</section>
+
+<section class="slide" data-title="词表映射">
+  <p class="kicker">SHEET 04 · TERMINOLOGY MAP</p>
+  <h2 class="h2 mt-s">Linux 的词表，Agent 的语义。</h2>
+  <div class="blueprint-box mt-l" data-tag="MAPPING TABLE">
+    <table style="width:100%;border-collapse:collapse;font-size:20px">
+      <tr style="color:var(--accent-2);letter-spacing:.1em"><th style="text-align:left;padding:10px">LINUX</th><th style="text-align:left;padding:10px">LAOS</th><th style="text-align:left;padding:10px">语义</th></tr>
+      <tr><td style="padding:10px;border-top:1px solid var(--border)">进程</td><td style="padding:10px;border-top:1px solid var(--border)"><b>Agent</b></td><td style="padding:10px;border-top:1px solid var(--border)" class="dim">PCB · 能力集 · 预算</td></tr>
+      <tr><td style="padding:10px;border-top:1px solid var(--border)">系统调用</td><td style="padding:10px;border-top:1px solid var(--border)"><b>MCP tool call</b></td><td style="padding:10px;border-top:1px solid var(--border)" class="dim">JSON-RPC，每次过闸</td></tr>
+      <tr><td style="padding:10px;border-top:1px solid var(--border)">设备驱动</td><td style="padding:10px;border-top:1px solid var(--border)"><b>MCP Server</b></td><td style="padding:10px;border-top:1px solid var(--border)" class="dim">drv_mic / drv_ear / drv_screen…</td></tr>
+      <tr><td style="padding:10px;border-top:1px solid var(--border)">insmod</td><td style="padding:10px;border-top:1px solid var(--border)"><b>load_driver</b></td><td style="padding:10px;border-top:1px solid var(--border)" class="dim">外挂任意 MCP 服务器</td></tr>
+    </table>
+  </div>
+  <div class="deck-footer"><span>laos · Linux AgentOS</span><span class="slide-number" data-current="4" data-total="12"></span></div>
+  <aside class="notes">用大家熟悉的 Linux 概念做映射：进程对应 Agent，系统调用对应工具调用，设备驱动对应 MCP 服务器。最下一行是彩蛋：insmod 对应 load_driver，后面第七页会展开。</aside>
+</section>
+
+<section class="slide" data-title="闸门链">
+  <p class="kicker">SHEET 05 · SYSCALL GATE CHAIN</p>
+  <h2 class="h2 mt-s">每一次工具调用，过七道闸。</h2>
+  <div class="blueprint-box mt-l" data-tag="PIPELINE">
+    <p class="mono" style="font-size:19px;line-height:2">
+      agent <span class="gate-arrow">→</span> 能力表 <span class="gate-arrow">→</span> task_scope <span class="gate-arrow">→</span> schema <span class="gate-arrow">→</span> EDQUOT预算 <span class="gate-arrow">→</span> FleetLedger <span class="gate-arrow">→</span> Jev预审 <span class="gate-arrow">→</span> 确认横幅 <span class="gate-arrow">→</span> 派发 <span class="gate-arrow">→</span> 审计
+    </p>
+  </div>
+  <div class="g3 mt-l">
+    <div class="blueprint-box" data-tag="SCOPE"><h4>task_scope</h4><p class="dim">路径前缀 · pkg: 应用白名单 · time: 时间窗，收到最小权限。</p></div>
+    <div class="blueprint-box" data-tag="BUDGET"><h4>EDQUOT + Ledger</h4><p class="dim">预算见底即拒绝；不可逆操作计价，超出弹确认横幅。</p></div>
+    <div class="blueprint-box" data-tag="AUDIT"><h4>全量审计</h4><p class="dim">事后可回放：谁在何时用掉了什么权限。</p></div>
+  </div>
+  <div class="deck-footer"><span>laos · Linux AgentOS</span><span class="slide-number" data-current="5" data-total="12"></span></div>
+  <aside class="notes">这是全项目最核心的一页。按箭头顺序走一遍七道闸，重点讲 task_scope 的三种收窄方式和审计回放能力——这两个是"操作系统感"最强的地方。</aside>
+</section>
+
+<section class="slide" data-title="强制层">
+  <p class="kicker">SHEET 06 · ENFORCEMENT SPEC</p>
+  <h2 class="h2 mt-s">强制发生在内核，不在上下文窗口。</h2>
+  <div class="g3 mt-l">
+    <div class="blueprint-box" data-tag="SPEC-01"><h4>seccomp BPF</h4><p class="dim">进程级系统调用白名单——拦截是真实的，不依赖模型自觉。</p></div>
+    <div class="blueprint-box" data-tag="SPEC-02"><h4>cgroup v2</h4><p class="dim">驱动子进程 CPU/内存上限；驱动失控只死驱动。</p></div>
+    <div class="blueprint-box" data-tag="SPEC-03"><h4>eBPF + CoW</h4><p class="dim">行为画像与执行隔离，给每个 Agent 建档案。</p></div>
+  </div>
+  <p class="lede mt-l">复用 Linux 强制原语 <span class="gate-arrow">×</span> 3 —— 不发明新机制，只做正确组合。</p>
+  <div class="deck-footer"><span>laos · Linux AgentOS</span><span class="slide-number" data-current="6" data-total="12"></span></div>
+  <aside class="notes">强调"真拦截"：这三件都是内核级机制，模型再聪明也绕不过。我们不发明新的安全机制，只是把 Linux 三十年积累的原语组合到 Agent 场景。</aside>
+</section>
+
+<section class="slide" data-title="驱动即设备">
+  <p class="kicker">SHEET 07 · DEVICE DRIVER MANIFEST</p>
+  <h2 class="h2 mt-s">MCP Server 就是设备驱动。</h2>
+  <div class="g3 mt-l">
+    <div class="card"><h4>drv_mic / drv_ear</h4><p class="dim">麦克风（显式 syscall 才录）· 本地 ASR + 韵律评估</p></div>
+    <div class="card"><h4>drv_screen</h4><p class="dim">adb 屏幕操控 · pkg: 应用白名单</p></div>
+    <div class="card"><h4>drv_notify / comms</h4><p class="dim">通知与短信 · 敏感数据走可信闸</p></div>
+    <div class="card"><h4>drv_npu / events</h4><p class="dim">端侧感知事件环形缓冲</p></div>
+    <div class="card"><h4>drv_battery 等</h4><p class="dim">手机五层能力的传感面</p></div>
+    <div class="card-accent"><h4>load_driver（外挂）</h4><p class="dim">一行把 mobile-mcp 这类任意 MCP 服务器 insmod 成驱动——遥测必须关</p></div>
+  </div>
+  <div class="deck-footer"><span>laos · Linux AgentOS</span><span class="slide-number" data-current="7" data-total="12"></span></div>
+  <aside class="notes">设备面一览。最后一格是外挂路线：load_driver 一行就能把社区现成的 MCP 服务器装进内核当驱动用，比如七千星的 Mobile MCP，装进来就自动过我们的七道闸。</aside>
+</section>
+
+<section class="slide" data-title="听觉漏斗">
+  <p class="kicker">SHEET 08 · ALWAYS-ON HEARING</p>
+  <h2 class="h2 mt-s">常开但克制的听觉管线。</h2>
+  <div class="blueprint-box mt-l" data-tag="FLOW DIAGRAM">
+    <div class="g4">
+      <div><p class="mono" style="color:var(--accent-3)">STAGE 01</p><h4>常驻检测</h4><p class="dim">PCEN/VAD · µW 级预算</p></div>
+      <div><p class="mono" style="color:var(--accent-3)">STAGE 02</p><h4>触发捕获</h4><p class="dim">15s 环形缓冲 · 唤醒词 DTW（非声纹）</p></div>
+      <div><p class="mono" style="color:var(--accent-3)">STAGE 03</p><h4>即时蒸馏</h4><p class="dim">SenseVoice 全本地 ASR+情感 · 零上云</p></div>
+      <div><p class="mono" style="color:var(--accent-3)">STAGE 04</p><h4>即焚</h4><p class="dim">默认 6h 留存 · LAOS_REC=0 禁录</p></div>
+    </div>
+  </div>
+  <p class="lede mt-l">红线：录音只由显式 syscall 触发 · 每次调用审计 event:"mic" · ASR 全本地。</p>
+  <div class="deck-footer"><span>laos · Linux AgentOS</span><span class="slide-number" data-current="8" data-total="12"></span></div>
+  <aside class="notes">四段漏斗每段一个锚点数：微瓦、十五秒、零上云、六小时。红线三件套必须念一遍——这是这个项目与"间谍录音笔"的本质区别，Apple S12 走的也是同一条克制路线。</aside>
+</section>
+
+<section class="slide" data-title="Jev 判断层">
+  <p class="kicker">SHEET 09 · JUDGMENT LAYER</p>
+  <h2 class="h2 mt-s">快问快答判断层，校准先行。</h2>
+  <div class="g3 mt-l">
+    <div class="blueprint-box" data-tag="TYPES"><h4>三判型</h4><p class="dim">Noul 是非 · Choice 2-255 选项 · Score 2-10 级</p></div>
+    <div class="blueprint-box" data-tag="GATES"><h4>四闸门</h4><p class="dim">高危预审 · 记忆过滤 · 压缩选择 · 技能质量</p></div>
+    <div class="blueprint-box" data-tag="CALIBRATION"><h4>校准教训</h4><p class="dim">rule 后端 accuracy <b style="color:var(--bad)">0.519</b>、高置信桶错误率 33% → AUTOGATE 禁配 rule</p></div>
+  </div>
+  <p class="lede mt-l">判断后端可插拔：none / rule / cloud / local —— <b>校准数据说了算，不是感觉说了算。</b></p>
+  <div class="deck-footer"><span>laos · Linux AgentOS</span><span class="slide-number" data-current="9" data-total="12"></span></div>
+  <aside class="notes">判断层负责语义闸门。这页要诚实讲失败：规则后端校准只有零点五一九，所以我们明令禁止它接管自动闸门——校准先于自动化，这是项目纪律。</aside>
+</section>
+
+<section class="slide" data-title="证据链">
+  <p class="kicker">SHEET 10 · EVIDENCE CORPUS</p>
+  <h2 class="h2 mt-s">设计不拍脑袋。</h2>
+  <div class="g4 mt-l">
+    <div class="card"><p class="mono" style="font-size:40px;color:var(--accent-2)">19,792</p><p class="dim">双会议全量论文遍历</p></div>
+    <div class="card"><p class="mono" style="font-size:40px;color:var(--accent-2)">9,908</p><p class="dim">多顶会主题切片（35 venue）</p></div>
+    <div class="card"><p class="mono" style="font-size:40px;color:var(--accent-2)">3,724</p><p class="dim">开源仓库普查</p></div>
+    <div class="card-accent"><p class="mono" style="font-size:40px">76</p><p class="dim">采纳总纲映射（落地33/推荐23/不做20）</p></div>
+  </div>
+  <p class="lede mt-l">每个模块背后是可溯源的论文与开源证据链 —— corpus/ 全量公开。</p>
+  <div class="deck-footer"><span>laos · Linux AgentOS</span><span class="slide-number" data-current="10" data-total="12"></span></div>
+  <aside class="notes">四个数字念一遍就好，重点在态度：两万篇论文不是装饰，七十六条映射里每一条都标了落地、推荐还是不做——包括明确"不做"的二十条，拒绝也是设计。</aside>
+</section>
+
+<section class="slide" data-title="复现区">
+  <p class="kicker">SHEET 11 · REPRO ZONE</p>
+  <h2 class="h2 mt-s">能复现的，全部复现。</h2>
+  <div class="g3 mt-l">
+    <div class="card"><h4>BS.1770-4 响度</h4><p class="dim">R128 校准点 −23.00 LUFS ±0.1</p></div>
+    <div class="card"><h4>FxLMS 主动降噪</h4><p class="dim">发动机阶次收敛 &gt;20dB</p></div>
+    <div class="card"><h4>头部朝向论文管线</h4><p class="dim">ISM+STFT相位+BiGRU · 冒烟 56.5°</p></div>
+    <div class="card"><h4>PhaseCoder 编码</h4><p class="dim">与官方 JAX 源码逐行对齐</p></div>
+    <div class="card-accent"><h4>Pipecat 帧管道</h4><p class="dim">打断作废排队帧 · 系统帧穿管</p></div>
+    <div class="card"><h4>unique_lock 语义</h4><p class="dim">RAII · defer · try_lock</p></div>
+  </div>
+  <p class="lede mt-l">六来源 71 项测试：TDD · 零新依赖 · 论文数字不作断言 · 偏差全记档。</p>
+  <div class="deck-footer"><span>laos · Linux AgentOS</span><span class="slide-number" data-current="11" data-total="12"></span></div>
+  <aside class="notes">复现区展示工程纪律：读到的每一篇重要文章，能复现的都写成测试。注意三条纪律——论文数字不作断言、零新依赖、偏差全记档，这让我们敢说"复现"两个字。</aside>
+</section>
+
+<section class="slide full" data-title="收尾">
+  <p class="kicker">SHEET 12 · AS-BUILT & NEXT</p>
+  <h2 class="h1 mt-s">能力边界写在内核里，<br><em>不写在提示词里。</em></h2>
+  <div class="g3 mt-l">
+    <div class="blueprint-box" data-tag="GOVERNANCE"><h4>v0.1 → v0.9</h4><p class="dim">语义化版本 · Keep a Changelog · GitHub Release 页；一个完整需求波次 = 一次 MINOR</p></div>
+    <div class="blueprint-box" data-tag="REDLINES"><h4>合规红线前置</h4><p class="dim">EU AI Act 职场情绪识别禁令 · PIPL 声纹单独同意 · 拒绝伪装采集链路</p></div>
+    <div class="blueprint-box" data-tag="ROADMAP"><h4>Next</h4><p class="dim">drv_screen 多轮真机验收 → 外挂驱动 PoC（mobile-mcp）→ bs1770 响度合入主库</p></div>
+  </div>
+  <div class="deck-footer"><span>github.com/Yfredy/LAOS · 26.10.05</span><span class="slide-number" data-current="12" data-total="12"></span></div>
+  <aside class="notes">收尾回到一句话：能力边界写在内核里。然后给三个可信的下一步——真机验收、外挂驱动验证、响度模块合入。欢迎来仓库看每一行代码和每一份调研。</aside>
+</section>
+
+</div>
+<script src="html-ppt-assets/runtime.js"></script>
+</body></html>

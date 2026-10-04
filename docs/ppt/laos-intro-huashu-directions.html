@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>laos 介绍 PPT · 三方向方向板（huashu-design 硬门产物）</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#141210;font-family:'Noto Sans SC',sans-serif;color:#ddd;padding:48px;display:flex;flex-direction:column;gap:40px}
+h1{font-size:26px;font-weight:600;letter-spacing:.06em}
+p.note{font-size:14px;color:#999;max-width:90ch;line-height:1.7}
+.row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.direction{aspect-ratio:16/9;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:34px;border-radius:6px}
+.direction .tag{font-family:monospace;font-size:12px;letter-spacing:.3em;opacity:.75}
+.d1{background:linear-gradient(160deg,#171310 0%,#0d0b09 100%);border:1px solid #3a332a;color:#efe6d4}
+.d1 h2{font-family:'Noto Serif SC',serif;font-size:56px;font-weight:600;letter-spacing:.04em}
+.d1 .gold{color:#d4a24e}
+.d2{background:#faf8f2;border:1px solid #d8d2c4;color:#16130e}
+.d2 h2{font-size:52px;font-weight:800;letter-spacing:-.03em}
+.d2 .red{color:#d5401e}
+.d3{background:#111;border:3px solid #ffe800;color:#111}
+.d3 .inner{background:#ffe800;margin:-31px -31px 0;padding:16px 22px;font-weight:900;font-size:20px;letter-spacing:.1em}
+.d3 h2{font-size:48px;font-weight:900;color:#fff;-webkit-text-stroke:0px}
+.d3 h2 b{color:#ffe800}
+.verdict{background:#1e1a14;border:1px solid #3a332a;padding:26px 30px;border-radius:6px;font-size:15px;line-height:1.9}
+.verdict b{color:#d4a24e}
+</style>
+</head>
+<body>
+<h1>laos · Linux AgentOS — 三方向方向板</h1>
+<p class="note">huashu-design 硬门要求：任何新设计 100% 先出三方向真实初稿。本板为三个封面级初稿（16:9 实际渲染）。自主模式下由艺术总监角色按"项目气质契合度"选定方向 A 交付完整 12 页；如需 B/C 完整版可基于本板再生成。</p>
+<div class="row">
+  <div class="direction d1">
+    <div><div class="tag">DIRECTION A · 档案黑金台账</div>
+      <h2 style="margin-top:18px">给 AI Agent<br>一座<span class="gold">操作系统</span></h2></div>
+    <div style="display:flex;justify-content:space-between;font-family:monospace;font-size:13px;opacity:.7">
+      <span>LAOS · FIELD NOTE 01</span><span>暖黑+象牙衬线+金</span></div>
+  </div>
+  <div class="direction d2">
+    <div><div class="tag" style="color:#8a8474">DIRECTION B · 纸感宣言红</div>
+      <h2 style="margin-top:18px">能力边界<br>写在<span class="red">内核</span>里</h2></div>
+    <div style="display:flex;justify-content:space-between;font-family:monospace;font-size:13px;color:#8a8474">
+      <span>LAOS · WHITEPAPER</span><span>米白+炭黑+信号红</span></div>
+  </div>
+  <div class="direction d3">
+    <div class="inner">DIRECTION C · 黑黄新粗野</div>
+    <h2 style="margin-top:14px">NO MORE<br><b>ROOT AGENTS</b></h2>
+    <div style="display:flex;justify-content:space-between;font-family:monospace;font-size:13px;color:#ffe800">
+      <span>LAOS · MANIFESTO</span><span>纯黑+荧光黄粗框</span></div>
+  </div>
+</div>
+<div class="verdict">
+  <b>艺术总监裁决：选 A（档案黑金台账）。</b>理由：① laos 的核心叙事是"审计/记账/台账"——每次调用可回放，黑金档案美学与内容同构；② 与同批四套 deck（瑞士白底 / 蓝图深蓝 / 终端绿 / 真 pptx）形成最大视觉区分度；③ B 的"纸感宣言红"叙事力集中在一句口号，适合 3 页以内的短 deck，12 页会稀释；C 的黑黄粗野冲击力强但幽默感偏广告，与"操作系统"的严肃信任感有张力错位。<br>
+  <b>字体系统：</b>Noto Serif SC（标题·象牙）+ JetBrains Mono（数据·金）+ Noto Sans SC（正文·暖灰）。
+</div>
+</body>
+</html>

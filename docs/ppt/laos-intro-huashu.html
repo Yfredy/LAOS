@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>laos · Linux AgentOS — 档案黑金台账</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@300;400;500&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+/* 方向 A · 档案黑金台账（方向板裁决选定）
+   暖黑 #171310 / 象牙 #efe6d4 / 金 #d4a24e / 台账 hairline #3a332a */
+:root{
+  --bg:#141110;--bg2:#1b1613;--ink:#efe6d4;--ink2:#b7ab93;--ink3:#7d7361;
+  --gold:#d4a24e;--gold2:#8a6a30;--line:#332c22;--red:#c96a4a;
+  --serif:'Noto Serif SC',serif;--sans:'Noto Sans SC',sans-serif;--mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#000}
+.stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;background:var(--bg)}
+.slide{position:absolute;inset:0;padding:84px 110px;display:none;flex-direction:column;
+  background:radial-gradient(1200px 700px at 78% -10%,#1d1713 0%,var(--bg) 55%)}
+.slide.active{display:flex}
+/* 台账纸感：极淡横线 + 页眉页脚 */
+.slide::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent 0 71px,rgba(212,162,78,.035) 71px 72px)}
+.eyebrow{font-family:var(--mono);font-size:20px;letter-spacing:.42em;color:var(--gold);text-transform:uppercase}
+.eyebrow small{color:var(--ink3);letter-spacing:.18em;margin-left:26px}
+h1{font-family:var(--serif);font-weight:700;color:var(--ink);font-size:118px;line-height:1.08;letter-spacing:.015em}
+h2{font-family:var(--serif);font-weight:700;color:var(--ink);font-size:64px;line-height:1.15;margin-top:14px}
+.gold{color:var(--gold)}
+.lede{font-family:var(--sans);font-weight:300;font-size:29px;color:var(--ink2);line-height:1.85;margin-top:26px;max-width:62ch}
+.hair{border:none;border-top:1px solid var(--line);margin:30px 0}
+.footer{position:absolute;left:110px;right:110px;bottom:44px;display:flex;justify-content:space-between;
+  font-family:var(--mono);font-size:17px;color:var(--ink3);letter-spacing:.14em}
+/* 台账条目 */
+.entry{display:grid;grid-template-columns:150px 1fr;gap:34px;padding:20px 0;border-bottom:1px solid var(--line)}
+.entry .no{font-family:var(--mono);font-size:26px;color:var(--gold);padding-top:4px}
+.entry h3{font-family:var(--sans);font-weight:500;font-size:29px;color:var(--ink)}
+.entry p{font-family:var(--sans);font-weight:300;font-size:21px;color:var(--ink2);line-height:1.7;margin-top:6px}
+/* 印章 */
+.stamp{display:inline-block;border:2px solid var(--red);color:var(--red);padding:8px 20px;
+  font-family:var(--mono);font-size:19px;letter-spacing:.3em;transform:rotate(-5deg)}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:60px}
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:34px}
+.card{border:1px solid var(--line);background:var(--bg2);padding:30px 32px}
+.card h4{font-family:var(--sans);font-weight:500;font-size:26px;color:var(--ink)}
+.card p{font-family:var(--sans);font-weight:300;font-size:20px;color:var(--ink2);line-height:1.7;margin-top:10px}
+.card .mono-tag{font-family:var(--mono);font-size:15px;color:var(--gold);letter-spacing:.24em}
+.bignum{font-family:var(--mono);font-weight:700;font-size:84px;color:var(--gold);line-height:1}
+table.map{width:100%;border-collapse:collapse;font-size:23px}
+table.map th{font-family:var(--mono);color:var(--ink3);font-weight:400;font-size:18px;letter-spacing:.2em;text-align:left;padding:12px 18px;border-bottom:1px solid var(--gold2)}
+table.map td{padding:15px 18px;border-bottom:1px solid var(--line);color:var(--ink2)}
+table.map td.k{color:var(--ink);font-weight:500;font-family:var(--sans)}
+table.map td.v{color:var(--gold);font-family:var(--mono)}
+.gates{font-family:var(--mono);font-size:26px;color:var(--ink);line-height:2.1}
+.gates b{color:var(--gold)}
+.gates i{font-style:normal;color:var(--gold2);padding:0 10px}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+<section class="slide active">
+  <div class="eyebrow">LAOS ARCHIVE <small>NO. 09 · REV v0.9.0 · 26.10.05</small></div>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+    <h1>给 AI Agent<br>一座<span class="gold">操作系统</span></h1>
+    <p class="lede">laos · Linux AgentOS —— 内核强制的能力边界，而不是提示词恳求。<br>Linux kernel + Agent + MCP，不改内核一行代码。</p>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:end">
+    <span class="stamp">703 TESTS GREEN</span>
+    <span style="font-family:var(--mono);font-size:19px;color:var(--ink3)">主库 353 · AlwaysOnRec 279 · Repro 71</span>
+  </div>
+  <div class="footer"><span>GITHUB · YFREDY/LAOS</span><span>01 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">SHEET 02 <small>PROBLEM · 风险台账</small></div>
+  <h2>Agent 拿着 root 裸奔。</h2>
+  <div style="margin-top:26px">
+    <div class="entry"><div class="no">R-01</div><div><h3>一条 rm -rf 删光家目录</h3><p>"请小心"写在提示词里——恳求不是强制，模型没有义务听。</p></div></div>
+    <div class="entry"><div class="no">R-02</div><div><h3>恶意 MCP 工具直通隐私</h3><p>剪贴板、通知、短信，装一个工具等于开一扇没有锁的门。</p></div></div>
+    <div class="entry"><div class="no">R-03</div><div><h3>不可逆操作无计价</h3><p>卸载、发送、删除与读取同权；没有记账，就没有回放与追责。</p></div></div>
+  </div>
+  <p class="lede">缺的不是更聪明的模型，是<b style="color:var(--gold)">操作系统</b>：能力 · 调度 · 审计 · 记账 · 隔离。</p>
+  <div class="footer"><span>LAOS ARCHIVE</span><span>02 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">SHEET 03 <small>THESIS · 设计命题</small></div>
+  <h2>Linux kernel + Agent + MCP<br><span class="gold">= Linux AgentOS</span></h2>
+  <div class="cols2" style="margin-top:40px">
+    <div>
+      <div class="entry" style="grid-template-columns:220px 1fr"><div class="no">namespace</div><div><p style="margin:0">隔离视图 —— 每个 Agent 自己的 mount / pid / net</p></div></div>
+      <div class="entry" style="grid-template-columns:220px 1fr"><div class="no">cgroup v2</div><div><p style="margin:0">资源上限 —— 失控的驱动只死自己</p></div></div>
+      <div class="entry" style="grid-template-columns:220px 1fr"><div class="no">seccomp BPF</div><div><p style="margin:0">系统调用白名单 —— 真拦截</p></div></div>
+      <div class="entry" style="grid-template-columns:220px 1fr"><div class="no">Landlock</div><div><p style="margin:0">路径沙箱 —— 未授权目录不可见</p></div></div>
+    </div>
+    <div class="card" style="align-self:start">
+      <div class="mono-tag">KERNEL</div>
+      <h4 style="margin-top:12px">laosd = 薄内核</h4>
+      <p>只做语义层：能力表、审计、记账、确认。设备全部交给 MCP 驱动。</p>
+      <p style="margin-top:22px"><span class="stamp" style="transform:rotate(-3deg)">0 KERNEL PATCHES</span></p>
+    </div>
+  </div>
+  <div class="footer"><span>LAOS ARCHIVE</span><span>03 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">SHEET 04 <small>TERMINOLOGY · 词表台账</small></div>
+  <h2>Linux 的词表，Agent 的语义。</h2>
+  <table class="map" style="margin-top:36px">
+    <tr><th>LINUX</th><th>LAOS</th><th>语义</th></tr>
+    <tr><td class="k">进程</td><td class="v">Agent</td><td>PCB · 能力集 · 预算</td></tr>
+    <tr><td class="k">系统调用</td><td class="v">MCP tool call</td><td>JSON-RPC，每次过闸</td></tr>
+    <tr><td class="k">设备驱动</td><td class="v">MCP Server</td><td>drv_mic / drv_ear / drv_screen …</td></tr>
+    <tr><td class="k">内核</td><td class="v">laosd 薄内核</td><td>只做语义层</td></tr>
+    <tr><td class="k">insmod</td><td class="v">load_driver</td><td>外挂任意 MCP 服务器</td></tr>
+  </table>
+  <div class="footer"><span>LAOS ARCHIVE</span><span>04 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">SHEET 05 <small>GATE CHAIN · 过闸台账</small></div>
+  <h2>每一次工具调用，过七道闸。</h2>
+  <div class="gates" style="margin-top:30px">
+    agent <i>→</i> <b>能力表</b> <i>→</i> <b>task_scope</b> <i>→</i> <b>schema</b> <i>→</i> <b>EDQUOT 预算</b> <i>→</i> <b>FleetLedger</b> <i>→</i> <b>Jev 预审</b> <i>→</i> <b>确认横幅</b> <i>→</i> 派发 <i>→</i> <b>审计</b>
+  </div>
+  <div class="cols3" style="margin-top:38px">
+    <div class="card"><div class="mono-tag">SCOPE</div><h4>task_scope 三种收窄</h4><p>路径前缀 · pkg: 应用白名单 · time: 时间窗，权限收到最小。</p></div>
+    <div class="card"><div class="mono-tag">BUDGET</div><h4>预算与计价</h4><p>EDQUOT 见底即拒；FleetLedger 给不可逆操作记账，超出弹确认。</p></div>
+    <div class="card"><div class="mono-tag">AUDIT</div><h4>可回放</h4><p>事后完整回答：谁、何时、用掉了什么权限。</p></div>
+  </div>
+  <div class="footer"><span>LAOS ARCHIVE</span><span>05 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">SHEET 06 <small>ENFORCEMENT · 强制规格</small></div>
+  <h2>强制发生在<span class="gold">内核</span>，不在上下文窗口。</h2>
+  <div class="cols3" style="margin-top:40px">
+    <div class="card"><div class="mono-tag">SPEC-01</div><h4>seccomp BPF</h4><p>进程级系统调用白名单——拦截是真实的，不依赖模型自觉。</p></div>
+    <div class="card"><div class="mono-tag">SPEC-02</div><h4>cgroup v2</h4><p>驱动子进程 CPU / 内存上限；驱动失控不拖垮宿主。</p></div>
+    <div class="card"><div class="mono-tag">SPEC-03</div><h4>eBPF + CoW</h4><p>行为画像与执行隔离，给每个 Agent 建立档案。</p></div>
+  </div>
+  <p class="lede">不发明新机制，只做 Linux 三十年强制原语的正确组合。</p>
+  <div class="footer"><span>LAOS ARCHIVE</span><span>06 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">SHEET 07 <small>DRIVERS · 设备清单</small></div>
+  <h2>MCP Server 就是设备驱动。</h2>
+  <div class="cols3" style="margin-top:34px">
+    <div class="card"><div class="mono-tag">AUDIO</div><h4>drv_mic / drv_ear</h4><p>录音只由显式 syscall 触发；本地 ASR + 韵律评估。</p></div>
+    <div class="card"><div class="mono-tag">PHONE</div><h4>drv_screen</h4><p>adb 屏幕操控 · pkg: 应用白名单收窄。</p></div>
+    <div class="card"><div class="mono-tag">COMMS</div><h4>drv_notify / comms</h4><p>通知与短信——敏感数据走可信闸。</p></div>
+    <div class="card"><div class="mono-tag">SENSE</div><h4>drv_npu / events</h4><p>端侧感知事件环形缓冲。</p></div>
+    <div class="card"><div class="mono-tag">POWER</div><h4>drv_battery 等</h4><p>手机五层能力的传感面。</p></div>
+    <div class="card" style="border-color:var(--gold2)"><div class="mono-tag">INSMOD</div><h4 class="gold">load_driver（外挂）</h4><p>一行把 mobile-mcp 等任意 MCP 服务器装成驱动——遥测必须关。</p></div>
+  </div>
+  <div class="footer"><span>LAOS ARCHIVE</span><span>07 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">SHEET 08 <small>HEARING · 听觉台账</small></div>
+  <h2>常开，但克制。</h2>
+  <div style="margin-top:24px">
+    <div class="entry"><div class="no">S-01</div><div><h3>常驻检测 · <span class="gold">µW 级</span></h3><p>PCEN/VAD 低功耗常开——功耗预算决定一切。</p></div></div>
+    <div class="entry"><div class="no">S-02</div><div><h3>触发捕获 · <span class="gold">15s 环形缓冲</span></h3><p>私有唤醒词 DTW 模板，纯 JSON 非声纹，不留指纹。</p></div></div>
+    <div class="entry"><div class="no">S-03</div><div><h3>即时蒸馏 · <span class="gold">零上云</span></h3><p>SenseVoice 全本地 ASR + 情感。</p></div></div>
+    <div class="entry"><div class="no">S-04</div><div><h3>即焚 · <span class="gold">6h</span></h3><p>默认六小时留存；LAOS_REC=0 全局禁录；每次调用审计 event:"mic"。</p></div></div>
+  </div>
+  <div class="footer"><span>LAOS ARCHIVE</span><span>08 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">SHEET 09 <small>JUDGMENT · 判断台账</small></div>
+  <h2>快问快答判断层，<span class="gold">校准先行</span>。</h2>
+  <div class="cols3" style="margin-top:36px">
+    <div class="card"><div class="mono-tag">TYPES</div><h4>三判型</h4><p>Noul 是非 · Choice 2-255 选项 · Score 2-10 级。</p></div>
+    <div class="card"><div class="mono-tag">GATES</div><h4>四闸门</h4><p>高危预审 · 记忆过滤 · 压缩选择 · 技能质量。</p></div>
+    <div class="card"><div class="mono-tag">CALIBRATION</div><h4>校准教训</h4><p>rule 后端 accuracy <b style="color:var(--red)">0.519</b>，高置信桶错误率 33%——AUTOGATE 禁配 rule 后端。</p></div>
+  </div>
+  <p class="lede">判断后端可插拔（none / rule / cloud / local）——校准数据说了算，不是感觉说了算。</p>
+  <div class="footer"><span>LAOS ARCHIVE</span><span>09 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">SHEET 10 <small>EVIDENCE · 证据台账</small></div>
+  <h2>设计不拍脑袋。</h2>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:34px;margin-top:44px">
+    <div><div class="bignum">19,792</div><hr class="hair"><p style="font-family:var(--sans);font-weight:300;font-size:21px;color:var(--ink2)">双会议全量论文遍历<br>Interspeech 5,507 + ICASSP 14,285</p></div>
+    <div><div class="bignum">9,908</div><hr class="hair"><p style="font-family:var(--sans);font-weight:300;font-size:21px;color:var(--ink2)">多顶会主题切片<br>35 venue · 29 有产出</p></div>
+    <div><div class="bignum">3,724</div><hr class="hair"><p style="font-family:var(--sans);font-weight:300;font-size:21px;color:var(--ink2)">开源仓库普查<br>音频 × AI × Agent</p></div>
+    <div><div class="bignum">76</div><hr class="hair"><p style="font-family:var(--sans);font-weight:300;font-size:21px;color:var(--ink2)">采纳总纲映射<br>落地 33 · 推荐 23 · 不做 20</p></div>
+  </div>
+  <div class="footer"><span>LAOS ARCHIVE</span><span>10 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">SHEET 11 <small>REPRO · 复现台账</small></div>
+  <h2>能复现的，全部复现。</h2>
+  <div style="margin-top:22px">
+    <div class="entry"><div class="no">F-01</div><div><h3>BS.1770-4 响度计量</h3><p>R128 校准点 −23.00 LUFS ±0.1 · True Peak 4× 过采样。</p></div></div>
+    <div class="entry"><div class="no">F-02</div><div><h3>FxLMS 主动降噪</h3><p>发动机阶次收敛 &gt;20dB · 次级通路辨识 · 2×2 多通道。</p></div></div>
+    <div class="entry"><div class="no">F-03</div><div><h3>头部朝向论文全管线</h3><p>镜像源法 + STFT 相位 + BiGRU-MHSA · 冒烟 holdout 56.5°。</p></div></div>
+    <div class="entry"><div class="no">F-04</div><div><h3>PhaseCoder 麦位编码</h3><p>与官方 JAX 源码逐行对齐（α=7 · β=4 · 质心球坐标）。</p></div></div>
+    <div class="entry"><div class="no">F-05</div><div><h3>Pipecat 帧管道 + unique_lock 语义</h3><p>打断作废排队帧而系统帧穿管；RAII · defer · try_lock。</p></div></div>
+  </div>
+  <div class="footer"><span>LAOS ARCHIVE · 71 TESTS</span><span>11 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">SHEET 12 <small>AS-BUILT · 竣工与下一步</small></div>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+    <h1 style="font-size:88px">能力边界写在内核里，<br><span class="gold">不写在提示词里。</span></h1>
+    <p class="lede">v0.1 → v0.9 语义化版本 · Keep a Changelog · GitHub Release 页——一个完整需求波次 = 一次 MINOR。<br>合规红线前置：EU AI Act 职场情绪识别禁令 · PIPL 声纹单独同意 · 拒绝伪装采集链路。</p>
+    <p style="font-family:var(--mono);font-size:22px;color:var(--gold);margin-top:34px">NEXT → drv_screen 真机验收 · 外挂驱动 PoC(mobile-mcp) · bs1770 响度合入主库</p>
+  </div>
+  <div class="footer"><span>GITHUB.COM/YFREDY/LAOS · 26.10.05 · ARCHIVE CLOSED</span><span>12 / 12</span></div>
+</section>
+
+</div>
+<script>
+(function(){
+  const stage=document.getElementById('stage');
+  const slides=[...document.querySelectorAll('.slide')];
+  let cur=0;
+  const fit=()=>{const f=Math.min(innerWidth/1920,innerHeight/1080);
+    stage.style.transform=`translate(${(innerWidth-1920*f)/2}px,${(innerHeight-1080*f)/2}px) scale(${f})`};
+  fit();addEventListener('resize',fit);
+  const show=i=>{cur=Math.max(0,Math.min(i,slides.length-1));
+    slides.forEach((s,k)=>s.classList.toggle('active',k===cur));
+    location.hash=cur+1};
+  addEventListener('keydown',e=>{
+    if(['ArrowRight',' ','PageDown'].includes(e.key)){e.preventDefault();show(cur+1)}
+    else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(cur-1)}
+    else if(e.key==='Home')show(0);else if(e.key==='End')show(slides.length-1)});
+  let sx=0;
+  addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+  addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;
+    if(Math.abs(dx)>50)show(cur+(dx<0?1:-1))},{passive:true});
+  show(parseInt(location.hash.slice(1))-1||0);
+})();
+</script>
+</body>
+</html>
