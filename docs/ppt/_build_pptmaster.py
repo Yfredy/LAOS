@@ -50,7 +50,7 @@ PAGES = []
 body = (
     f'<rect x="72" y="120" width="240" height="8" fill="{ACC}"/>'
     + kicker(72, 168, "LINUX AGENTOS · FIELD NOTE 01")
-    + title(72, 268, "给 AI Agent 一座操作系统", 60)
+    + title(72, 268, "Linux 内核的 Agent 治理层", 60)
     + body_t(72, 330, "内核强制的能力边界，而不是提示词恳求", 26, INK, 400)
     + body_t(72, 376, "Linux kernel + Agent + MCP —— 不改内核一行代码", 20)
     + f'<rect x="72" y="430" width="440" height="86" fill="{ACCSOFT}"/>'

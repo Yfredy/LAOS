@@ -19,7 +19,7 @@ SECTIONS.append(f'''
     {CHROME.format(n=1)}
     <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr auto;gap:2.6vh">
       <div data-anim="kicker" class="t-meta" style="color:rgba(255,255,255,.78);letter-spacing:.22em">LINUX AGENTOS · FIELD NOTE 01</div>
-      <h1 data-anim="title" style="align-self:center;font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(8.4vw,15vh);line-height:.96;letter-spacing:-.025em;color:#fff">给 AI Agent<br/>一座<span style="font-style:italic;font-weight:300">操作系统</span></h1>
+      <h1 data-anim="title" style="align-self:center;font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(8.4vw,15vh);line-height:.96;letter-spacing:-.025em;color:#fff">Linux 内核的<br/><span style="font-style:italic;font-weight:300">Agent 治理层</span></h1>
       <div data-anim="bottom" style="display:grid;grid-template-rows:auto auto;gap:1.6vh;border-top:1px solid rgba(255,255,255,.22);padding-top:2vh">
         <div data-anim="lead" class="lead" style="max-width:52ch;color:rgba(255,255,255,.86);font-weight:300">laos · Linux AgentOS v0.9.0 —— 用内核强制原语给 Agent 划出能力边界，而不是靠提示词恳求。主库 353 + 隔离区 350 = 703 项测试全绿。</div>
         <div style="display:flex;justify-content:space-between;align-items:end">
@@ -346,7 +346,7 @@ SECTIONS.append('''
 </section>''')
 
 NOTES = [
-    dict(id="cover", title="给 AI Agent 一座操作系统", section="开场", minutes=0.5,
+    dict(id="cover", title="Linux 内核的 Agent 治理层", section="开场", minutes=0.5,
          purpose="建立反差：Agent 很强但没有操作系统",
          talk=["一条 rm -rf 的例子开场", "提示词是恳求不是强制", "预告：闸门链 / 驱动 / 证据链"]),
     dict(id="problem", title="Agent 拿着 root 裸奔", section="问题", minutes=0.8,

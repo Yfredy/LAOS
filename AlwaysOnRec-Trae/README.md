@@ -18,7 +18,7 @@ python -m unittest discover -s tests   # 253 项回归测试
 
 ## 这个项目是什么（30 秒版）
 
-laos 是一个**给 AI Agent 用的"操作系统"**——站在 Linux/Android 内核之上，给 Agent 提供进程管理、权限控制、资源记账、记忆和感官，让多个 Agent 安全、可审计、越用越聪明地替你干活。它解决裸 Agent 的四个致命缺陷：
+laos 是 **Linux 内核的 Agent 治理扩展**——基座与核心是 Linux 内核，Agent 是新负载；laos 站在内核之上，给这个新负载提供进程管理、权限控制、资源记账、记忆和感官，让多个 Agent 安全、可审计、越用越聪明地替你干活。它解决裸 Agent 的四个致命缺陷：
 
 | 裸 Agent 的问题 | laos 的答案 |
 |---|---|

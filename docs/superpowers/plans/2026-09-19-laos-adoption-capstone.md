@@ -70,7 +70,7 @@
 - Modify: `docs/research/INDEX.md`（Task 1 的清单扩为含 capstone 的导航：按"想了解 X → 读 Y"组织）
 - Modify: `README.md`（§10.1 标题下加一行：`> 📌 **总入口**：[laos 采纳总纲](docs/research/2026-09-19-laos-adoption-capstone.md)——全部调研按 laos 架构的逐项映射与裁决。`）
 
-- [ ] **Step 1:** INDEX.md 按问题导航重排（"想做全天候录音→读哪三份""想选模型→读哪四份""想做 Agent 内核→读哪两份"…）
+- [ ] **Step 1:** INDEX.md 按问题导航重排（"想做全天候录音→读哪三份""想选模型→读哪四份""想做 Agent 治理层→读哪两份"…）
 - [ ] **Step 2:** README 加总入口行（仅此一行，不动其他）
 - [ ] **Step 3:** `git commit -m "docs: research INDEX navigation + README capstone entry"`
 

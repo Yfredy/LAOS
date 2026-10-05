@@ -37,7 +37,7 @@ SECTIONS.append(f'''
     {CHROME.format(n=1)}
     <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr auto;gap:2.6vh">
       <div data-anim="kicker" class="t-meta" style="color:rgba(255,255,255,.78);letter-spacing:.22em">LAOS · LINUX AGENTOS · FUNDING DECK</div>
-      <h1 data-anim="title" style="align-self:center;font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(7.6vw,13.5vh);line-height:.98;letter-spacing:-.025em;color:#fff">给 AI Agent<br/>装上<span style="font-style:italic;font-weight:300">治理内核</span></h1>
+      <h1 data-anim="title" style="align-self:center;font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(7.6vw,13.5vh);line-height:.98;letter-spacing:-.025em;color:#fff">Linux 内核的<br/><span style="font-style:italic;font-weight:300">Agent 治理层</span></h1>
       <div data-anim="bottom" style="display:grid;grid-template-rows:auto auto;gap:1.6vh;border-top:1px solid rgba(255,255,255,.22);padding-top:2vh">
         <div data-anim="lead" class="lead" style="max-width:54ch;color:rgba(255,255,255,.86);font-weight:300">laos v0.12.0 —— 8 环 syscall 闸门链 + 15 个设备驱动 + 全自研端侧听觉栈：模型负责想，laos 负责说「不」。</div>
         <div style="display:flex;justify-content:space-between;align-items:end">
@@ -71,7 +71,7 @@ SECTIONS.append(f'''
           </div>
           <div>
             <span class="t-cat" style="color:var(--accent)">方案</span>
-            <p style="font-size:max(18px,1.05vw);line-height:1.65;color:var(--text-secondary);margin-top:.8vh">laos = 用户态 Agent 内核：8 环 syscall 闸门链（能力→范围→校验→预算→计价→预审→确认→审计）。</p>
+            <p style="font-size:max(18px,1.05vw);line-height:1.65;color:var(--text-secondary);margin-top:.8vh">laos = Linux 内核的用户态治理延伸：8 环 syscall 闸门链（能力→范围→校验→预算→计价→预审→确认→审计）。</p>
           </div>
           <div>
             <span class="t-cat">进展</span>
@@ -168,7 +168,7 @@ SECTIONS.append(f'''
     {CHROME.format(n=5)}
     <div data-anim="line" style="display:flex;flex-direction:column;gap:1.2vh;padding-top:1vh">
       <span class="t-cat">The Product · Architecture</span>
-      <h2 class="h-xl" style="font-weight:200;font-size:min(4.6vw,8.2vh);line-height:1;letter-spacing:-.03em">三层结构：<br/>用户态 Agent 内核。</h2>
+      <h2 class="h-xl" style="font-weight:200;font-size:min(4.6vw,8.2vh);line-height:1;letter-spacing:-.03em">三层结构：<br/>Linux 内核的用户态 Agent 治理层。</h2>
     </div>
     <div class="stack-row" style="margin-top:3vh">
       <div class="stack-block b-grey">
@@ -562,7 +562,7 @@ SECTIONS.append(f'''
 </section>''')
 
 NOTES = [
-    dict(id="cover", title="给 AI Agent 装上治理内核", section="开场", minutes=0.5,
+    dict(id="cover", title="Linux 内核的 Agent 治理层", section="开场", minutes=0.5,
          purpose="定调：laos 是治理内核，融资版开场",
          talk=["一句话定位：模型负责想，laos 负责说不", "角标数字先立信任：v0.12.0 / 30 天 12 版本 / 765 测试", "预告三道壁垒与融资用途"],
          transition="从定位直接进入「只记一页」的总览"),
