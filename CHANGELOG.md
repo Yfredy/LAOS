@@ -5,6 +5,11 @@
 
 ## [Unreleased]
 
+## [v0.14.0] - 2026-10-06
+
+### Added
+- docs(research): Transformer 效率演进时间线（小红书视频笔记整理）——视频五路取件全失败（App-only+登录墙），按既有预案从可验证来源重构并作诚实声明；三大脉络 少算（稀疏/近似/MoE）→ 少搬（FlashAttention IO 感知/PagedAttention）→ 少存（MQA→GQA→MLA→DSA、int8→FP8）+ 跳出注意力（Mamba→混合架构→DeltaNet 回流），关键节点全部带 arXiv 编号；与 laos 关系全 ○/◐（PagedAttention=OS 分页反哺模型层的方向论印证；端侧 MoE 对 npu 配额按激活口径计价的远期含义）。纯文档波次，按 README 版本定义"新文档域=MINOR"发版（先例 v0.6.0 调研语料库）
+
 ## [v0.13.0] - 2026-10-06
 
 ### Added
