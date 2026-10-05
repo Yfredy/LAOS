@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>laos · Linux AgentOS — 详细技术深潜</title>
+<link rel="stylesheet" href="../html-ppt-assets/fonts.css">
+<link rel="stylesheet" href="../html-ppt-assets/base.css">
+<link rel="stylesheet" href="../html-ppt-assets/animations.css">
+<style>
+/* ============================================================
+ * deck theme: paper-vermilion · 纸墨朱批
+ * （wave2 详细深潜版专属；与 wave1 的 blueprint 主题完全不同）
+ * 机制与 themes/*.css 相同：仅覆盖 :root 令牌 + 少量组件规则。
+ * 纸色底 + 浓墨正文 + 靛青结构 + 朱批红强调，衬线大标题。
+ * ============================================================ */
+:root{
+  --bg:#faf6ee;--bg-soft:#f3ecdd;--surface:#fffdf8;--surface-2:#f5efe0;
+  --border:rgba(46,36,22,.15);--border-strong:rgba(46,36,22,.36);
+  --text-1:#221c12;--text-2:#5d5342;--text-3:#8f836c;
+  --accent:#1e4477;            /* 靛青：结构与正文强调 */
+  --accent-ink:#ffffff;        /* on --accent — 9.5:1 */
+  --accent-2:#7c6414;          /* 金褐：次级数据 */
+  --accent-3:#b1372f;          /* 朱批红：判断/红线/闸门箭头 */
+  --good:#2e6b45;--warn:#9a6b1c;--bad:#a12c22;
+  --grad:linear-gradient(135deg,#1e4477,#b1372f);
+  --grad-soft:linear-gradient(135deg,#f0e9d8,#f7f1e4);
+  --radius:6px;--radius-sm:4px;--radius-lg:10px;
+  --shadow:0 2px 10px rgba(46,36,22,.05);
+  --shadow-lg:0 18px 44px rgba(46,36,22,.12);
+  --font-sans:'Space Grotesk','Noto Sans SC',-apple-system,sans-serif;
+  --font-serif:'Playfair Display','Noto Serif SC',Georgia,serif;
+  --font-mono:'JetBrains Mono','IBM Plex Mono',SFMono-Regular,Menlo,monospace;
+  --font-display:var(--font-serif);
+}
+body{background:var(--bg)}
+.h1,.h2,h1.title,h2.title{font-weight:700}
+h1 em,h2 em,.h1 em,.h2 em{font-style:normal;color:var(--accent-3)}
+.kicker{font-family:var(--font-mono);font-size:13px}
+
+/* ---- 朱批角标卡：tag 印在边框上 ---- */
+.tag-card{background:var(--surface);border:1px solid var(--border-strong);padding:20px 24px;position:relative}
+.tag-card::before{content:attr(data-tag);position:absolute;top:-10px;left:14px;background:var(--bg);
+  padding:0 8px;font-size:11px;letter-spacing:.18em;color:var(--accent-3);font-family:var(--font-mono)}
+
+/* ---- 来源标注 / 数字统计 ---- */
+.src{font-family:var(--font-mono);font-size:13px;color:var(--text-3);letter-spacing:.02em}
+.stat-num{font-family:var(--font-mono);font-size:44px;font-weight:700;color:var(--accent);line-height:1}
+.stat-num small{font-size:18px;color:var(--text-2);font-weight:500}
+
+/* ---- 闸门链 ---- */
+.gnum{flex:none;width:30px;height:30px;border:1.5px solid var(--accent-3);color:var(--accent-3);
+  display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:14px;border-radius:4px}
+.gate{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px 18px}
+.gate h4{margin:0 0 4px;font-size:19px}
+.gate p{margin:0;font-size:15px;line-height:1.5;color:var(--text-2)}
+.garrow{color:var(--accent-3);font-weight:700}
+
+/* ---- 朱红线（红线/隐私/诚实数字） ---- */
+.redline{border-left:3px solid var(--accent-3);background:var(--surface-2);padding:14px 18px}
+
+/* ---- 分层架构 ---- */
+.layer{display:flex;align-items:baseline;gap:20px;border:1px solid var(--border-strong);
+  background:var(--surface);padding:14px 22px;border-radius:var(--radius)}
+.layer .tag{flex:none;width:118px;font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;color:var(--text-3)}
+.layer.hot{border:1.5px solid var(--accent);background:var(--surface-2)}
+.layer.hot .tag{color:var(--accent-3)}
+.layer h4{margin:0;font-size:21px}
+.layer p{margin:2px 0 0;font-size:15px;color:var(--text-2)}
+.larrow{text-align:center;color:var(--accent-3);font-size:16px;line-height:1.2;margin:2px 0}
+
+/* ---- 表格 / 时间线 ---- */
+.spec-table{width:100%;border-collapse:collapse;font-size:18px}
+.spec-table th{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--text-3);text-align:left;padding:8px 10px}
+.spec-table td{padding:9px 10px;border-top:1px solid var(--border);vertical-align:top}
+.tl{display:grid;grid-template-columns:104px 84px 1fr;gap:0 14px;padding:9px 0;border-bottom:1px solid var(--border);font-size:16px;align-items:baseline}
+.tl .v{font-family:var(--font-mono);font-weight:700;color:var(--accent)}
+.tl .d{font-family:var(--font-mono);font-size:13px;color:var(--text-3)}
+.tl .t{color:var(--text-2)}
+
+/* ---- 印章 ---- */
+.seal{display:inline-block;border:2px solid var(--accent-3);color:var(--accent-3);padding:5px 16px;
+  transform:rotate(-3deg);letter-spacing:.14em;font-size:14px;font-family:var(--font-mono)}
+
+/* ---- 驱动清单行 ---- */
+.drv{display:flex;gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--border);font-size:16px}
+.drv:last-child{border-bottom:none}
+.drv .n{flex:none;font-family:var(--font-mono);font-weight:700;color:var(--accent);width:128px}
+.drv .x{color:var(--text-2)}
+
+/* ---- 漏斗段 ---- */
+.fstage{display:flex;gap:14px;align-items:baseline}
+.fstage .fn{flex:none;font-family:var(--font-mono);font-size:12px;color:var(--accent-3);letter-spacing:.1em}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- ================= 01 · A1 封面 ================= -->
+<section class="slide" data-title="封面">
+  <p class="kicker" data-anim="fade-up">WAVE 2 · DETAILED TECHNICAL DEEP DIVE · 18 内容域</p>
+  <h1 class="h1 mt-s" data-anim="fade-up">laos · Linux AgentOS<br><em>面向 AI Agent 的用户态操作系统</em></h1>
+  <p class="mono mt-l" style="font-size:26px;color:var(--text-1)">
+    Linux AgentOS <span class="garrow">=</span> Linux kernel <span class="garrow">+</span> Agent <span class="garrow">+</span> MCP
+  </p>
+  <p class="lede mt-m">详细技术深潜版 —— 上一波 12 页概览的下钻：每一页都进到机制层。</p>
+  <div class="row mt-l" style="gap:14px">
+    <span class="pill pill-accent">765 测试全绿</span>
+    <span class="pill">15 个驱动</span>
+    <span class="pill">30 天 · 12 个 MINOR</span>
+    <span class="pill">47 份调研文档</span>
+    <span class="seal">v0.12.0 · 2026-10-05</span>
+  </div>
+  <div class="deck-footer"><span>github.com/Yfredy/LAOS</span><span class="slide-number" data-current="1" data-total="20"></span></div>
+  <aside class="notes">
+    <p><strong>开场定位</strong>：上一波十二页是"这个项目是什么"，今天这一场是"它是怎么做到的"。</p>
+    <p>一句话先把公式立住：<strong>Linux kernel + Agent + MCP</strong>——不发明新范式，只做正确组合。角上四个数字先报一遍：<strong>765 项测试全绿、15 个驱动、30 天发了 12 个 MINOR 版本、47 份调研文档</strong>，每个数字今天都会下钻到来源。</p>
+    <p><em>过渡句</em>：接下来一小时走五组十八个内容域，先给一张深潜地图。</p>
+  </aside>
+</section>
+
+<!-- ================= 02 · 深潜地图 ================= -->
+<section class="slide" data-title="深潜地图">
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <p class="kicker">§ 00 · DEEP-DIVE MAP · 五组十八域</p>
+  <h2 class="h2 mt-s">深潜地图：五组 · 18 个内容域。</h2>
+  <div class="mt-l" style="display:grid;grid-template-columns:repeat(5,1fr);gap:18px">
+    <div class="tag-card" data-tag="GROUP A · P3-4">
+      <h4>开场组 <span class="dim2">3 域</span></h4>
+      <p class="dim" style="font-size:15px">命题 A2<br>AgentOS 坐标 A3</p>
+    </div>
+    <div class="tag-card" data-tag="GROUP B · P5-8" style="border:1.5px solid var(--accent)">
+      <h4>内核组 <span class="dim2">4 域</span></h4>
+      <p class="dim" style="font-size:15px">架构分层 B1<br><b style="color:var(--accent-3)">★ 闸门链 B2</b><br>分支内存 B3 · Jev B4</p>
+    </div>
+    <div class="tag-card" data-tag="GROUP C · P9-13">
+      <h4>驱动生态组 <span class="dim2">4 域</span></h4>
+      <p class="dim" style="font-size:15px">15 驱动 C1<br>听觉栈 C2（两页）<br>全双工 C3 · 录音沙箱 C4</p>
+    </div>
+    <div class="tag-card" data-tag="GROUP D · P14-17">
+      <h4>质量文化组 <span class="dim2">4 域</span></h4>
+      <p class="dim" style="font-size:15px">测试 D1 · 版本史 D2<br>复现文化 D3<br>调研语料 D4</p>
+    </div>
+    <div class="tag-card" data-tag="GROUP E · P18-20">
+      <h4>收尾组 <span class="dim2">3 域</span></h4>
+      <p class="dim" style="font-size:15px">合规红线 E1<br>路线图 E2<br>收尾 E3</p>
+    </div>
+  </div>
+  <p class="lede mt-l">红色星标的一页是全片核心：<b>Syscall 闸门链（B2）</b>——它单独占一页，值得单独讲五分钟。</p>
+  <div class="deck-footer"><span>github.com/Yfredy/LAOS</span><span class="slide-number" data-current="2" data-total="20"></span></div>
+  <aside class="notes">
+    <p>给大家一张地图，方便随时知道自己在哪：A 组讲<em>为什么做</em>，B 组讲<strong>内核怎么运转</strong>，C 组讲外设生态，D 组讲质量与文化，E 组讲红线和路线。</p>
+    <p>重点预告一个：<strong>B2 闸门链是全片核心</strong>，其余十七个域都是它的上下文。如果中途要赶时间，B 组四页不能砍。</p>
+    <p><em>过渡句</em>：先从命题讲起——为什么说 Linux 已经是一个 AgentOS，只是没人把它组装起来。</p>
+  </aside>
+</section>
+
+<!-- ================= 03 · A2 命题 ================= -->
+<section class="slide" data-title="A2 命题">
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <p class="kicker">§ A2 · DESIGN THESIS · 命题</p>
+  <h2 class="h2 mt-s">不改一行内核代码，<em>把 Linux 变成 Agent 的操作系统。</em></h2>
+  <div class="g2 mt-l">
+    <div class="tag-card" data-tag="四件内核遗产 · 原样复用">
+      <div class="stack" style="font-size:19px">
+        <p><b>namespace</b> <span class="dim">— 隔离视图</span></p>
+        <p><b>cgroup</b> <span class="dim">— 资源配额</span></p>
+        <p><b>seccomp-BPF</b> <span class="dim">— 系统调用过滤</span></p>
+        <p><b>landlock</b> <span class="dim">— 文件沙箱</span></p>
+      </div>
+    </div>
+    <div class="tag-card" data-tag="词表映射 · OS 语义">
+      <table class="spec-table">
+        <tr><th>OS 概念</th><th>laos 对应</th></tr>
+        <tr><td>设备驱动</td><td><b>MCP Server</b></td></tr>
+        <tr><td>系统调用</td><td><b>tool call</b></td></tr>
+        <tr><td>内核</td><td><b>laosd</b>（薄内核）</td></tr>
+        <tr><td>权限位</td><td><b>能力表 caps</b></td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="redline mt-l" style="font-size:20px"><b>关键判断：</b>Agent 时代的"内核"不是重写调度器，而是<em style="color:var(--accent-3);font-style:normal"><b>给工具调用装上 syscall 语义</b></em>。</div>
+  <div class="deck-footer"><span>github.com/Yfredy/LAOS</span><span class="slide-number" data-current="3" data-total="20"></span></div>
+  <aside class="notes">
+    <p>命题一句话：<strong>Linux 早就准备好了，缺的只是语义层</strong>。四件遗产——namespace、cgroup、seccomp-BPF、landlock——全部原样复用，一行内核代码不改。</p>
+    <p>右边这张映射表是全场的心智模型：<strong>MCP Server 就是设备驱动，tool call 就是系统调用，laosd 是薄内核，能力表就是权限位</strong>。后面每一页都在这张表里。</p>
+    <p>落点是那句关键判断：Agent 时代的内核，<em>不是重写调度器，是给工具调用装上 syscall 语义</em>。</p>
+    <p><em>过渡句</em>：可是市面上一堆项目都叫 AgentOS，我们得先说清楚自己站在哪。</p>
+  </aside>
+</section>
+
+<!-- ================= 04 · A3 AgentOS 坐标 ================= -->
+<section class="slide" data-title="A3 AgentOS 坐标">
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <p class="kicker">§ A3 · LANDSCAPE POSITION · 与"AgentOS 八种含义"的坐标</p>
+  <h2 class="h2 mt-s">市面"AgentOS"至少 8 种含义，<em>laos 落在 L2。</em></h2>
+  <div class="mt-l" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+    <div style="border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;background:var(--surface)">
+      <p class="mono" style="font-size:13px;color:var(--text-3)">L0</p>
+      <h4 style="margin:4px 0">约定层</h4>
+      <p class="dim" style="font-size:15px">提示词与规范，无强制力</p>
+    </div>
+    <div style="border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;background:var(--surface)">
+      <p class="mono" style="font-size:13px;color:var(--text-3)">L1</p>
+      <h4 style="margin:4px 0">·</h4>
+      <p class="dim" style="font-size:15px">光谱中间档</p>
+    </div>
+    <div style="border:1.5px solid var(--accent);border-radius:var(--radius);padding:18px 20px;background:var(--accent);color:var(--accent-ink)">
+      <p class="mono" style="font-size:13px;opacity:.8">L2 ← laos</p>
+      <h4 style="margin:4px 0">用户态强制层</h4>
+      <p style="font-size:15px;opacity:.9">能力 · 预算 · 审计 · 判断，派发前完成</p>
+    </div>
+    <div style="border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;background:var(--surface)">
+      <p class="mono" style="font-size:13px;color:var(--text-3)">L3</p>
+      <h4 style="margin:4px 0">libOS 层</h4>
+      <p class="dim" style="font-size:15px">连运行时一起换掉</p>
+    </div>
+  </div>
+  <div class="g2 mt-l">
+    <div class="tag-card" data-tag="差异化">
+      <p style="font-size:19px">多数"AgentOS"是<b>框架 / 壳</b>；laos 是<b>治理内核</b>——四件事在派发前完成：<b>能力、预算、审计、判断</b>。</p>
+    </div>
+    <div class="tag-card" data-tag="结论出处">
+      <p class="dim" style="font-size:17px">调研结论：市面"AgentOS"至少指 8 种不同的东西。</p>
+      <p class="src mt-s">来源：docs/research/agentos-landscape-2026-08.md</p>
+    </div>
+  </div>
+  <div class="deck-footer"><span>github.com/Yfredy/LAOS</span><span class="slide-number" data-current="4" data-total="20"></span></div>
+  <aside class="notes">
+    <p>先把行业噪音说清楚：调研了整个 landscape 之后发现，<strong>"AgentOS"这个词至少指八种不同的东西</strong>——有的只是框架，有的干脆是个聊天壳。</p>
+    <p>所以我们给自己画了一条<strong>强制力光谱</strong>：L0 是约定层，靠提示词自觉；L3 是 libOS 层，连运行时都换掉。<strong>laos 落在 L2——用户态强制层</strong>。</p>
+    <p>差异化就一句：多数 AgentOS 是框架和壳，<em>laos 是治理内核</em>——能力、预算、审计、判断，四件事全部在派发之前完成，不是事后补救。</p>
+    <p><em>过渡句</em>：进入内核组，先看总体分层。</p>
+  </aside>
+</section>
+
+<!-- ================= 05 · B1 总体架构 ================= -->
+<section class="slide" data-title="B1 总体架构分层">
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <p class="kicker">§ B1 · ARCHITECTURE · 总体架构分层</p>
+  <h2 class="h2 mt-s">四层栈 + 三棵树，<em>重依赖只活在驱动子进程。</em></h2>
+  <div class="mt-l" style="display:grid;grid-template-columns:1.25fr .9fr;gap:28px;align-items:start">
+    <div>
+      <div class="layer">
+        <span class="tag">AGENT</span>
+        <div><h4>Agent（brain / agent）</h4><p>只发 tool call，不直接碰任何设备</p></div>
+      </div>
+      <p class="larrow">↓</p>
+      <div class="layer hot">
+        <span class="tag">LAOS KERNEL</span>
+        <div><h4>laos 内核 <span class="pill pill-accent" style="margin-left:8px">kernel.py 调度 + syscall 闸门链</span></h4><p>语义与治理层 —— B2 八环闸门在此执行</p></div>
+      </div>
+      <p class="larrow">↓</p>
+      <div class="layer">
+        <span class="tag">DRIVERS ×15</span>
+        <div><h4>驱动子进程（drv_*）</h4><p>重依赖隔离：任何一个驱动失控，只死驱动</p></div>
+      </div>
+      <p class="larrow">↓</p>
+      <div class="layer">
+        <span class="tag">DEVICES</span>
+        <div><h4>Linux / MCP / 外设</h4><p>真机器：屏幕、麦克风、NPU、文件系统</p></div>
+      </div>
+    </div>
+    <div class="stack">
+      <div class="tag-card" data-tag="核心承诺">
+        <h4>laos/ 目录零第三方依赖</h4>
+        <p class="dim">纯 Python stdlib。重依赖（adb、QNN、ASR）全部关在驱动子进程里——主库永远可审计。</p>
+      </div>
+      <div class="tag-card" data-tag="三棵树">
+        <table class="spec-table">
+          <tr><th>树</th><th>职责</th><th>测试</th></tr>
+          <tr><td><b>laos</b> 主库</td><td>内核 + 驱动</td><td class="mono">415</td></tr>
+          <tr><td><b>AlwaysOnRec</b></td><td>录音隔离区</td><td class="mono">279</td></tr>
+          <tr><td><b>Repro</b></td><td>论文复现区</td><td class="mono">71</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="deck-footer"><span>github.com/Yfredy/LAOS</span><span class="slide-number" data-current="5" data-total="20"></span></div>
+  <aside class="notes">
+    <p>架构从上往下四层：Agent 只发 tool call；<strong>laos 内核做调度和闸门</strong>；十五个驱动各自是子进程；最底下才是真机器。</p>
+    <p>这页最值钱的是右边第一条承诺：<strong>laos/ 主库零第三方依赖，纯 stdlib</strong>。adb、QNN 这些重依赖全部关在驱动子进程里——驱动失控只死驱动，主库永远可审计。</p>
+    <p>三棵树对应三种信任级别：主库、录音隔离区、复现区，<em>测试数分别是 415、279、71</em>，加起来 765，后面 D 组还会回来对账。</p>
+    <p><em>过渡句</em>：下一页就是全片核心——tool call 进内核之后，到底过哪几道闸。</p>
+  </aside>
+</section>
+
+<!-- ================= 06 · B2 闸门链（核心页） ================= -->
+<section class="slide" data-title="B2 Syscall 闸门链 ★核心">
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <p class="kicker">§ B2 · SYSCALL GATE CHAIN · 全片核心</p>
+  <h2 class="h2 mt-s">每一次 tool call，过八环闸门。<em>拒绝发生在派发之前。</em></h2>
+  <p class="mono mt-m" style="font-size:17px;color:var(--text-2)">agent → ①能力表 → ②task_scope → ③schema → ④EDQUOT → ⑤FleetLedger → ⑥Jev预审 → ⑦确认横幅 → ⑧派发+审计</p>
+  <div class="mt-m" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+    <div class="gate"><span class="gnum">1</span><div><h4>能力表 caps</h4><p>如 <span class="mono">screen.*</span>——未授权能力，第一环即拒</p></div></div>
+    <div class="gate"><span class="gnum">2</span><div><h4>task_scope</h4><p>路径前缀 / <span class="mono">pkg:</span> 应用白名单 / <span class="mono">time:</span> 时间窗</p></div></div>
+    <div class="gate"><span class="gnum">3</span><div><h4>schema 校验</h4><p>参数非法即拒——EINVAL 语义</p></div></div>
+    <div class="gate"><span class="gnum">4</span><div><h4>EDQUOT 预算</h4><p>配额耗尽即拒，不欠账</p></div></div>
+    <div class="gate"><span class="gnum">5</span><div><h4>FleetLedger 计价</h4><p>不可逆操作先扣账后派发，风险分扣减</p></div></div>
+    <div class="gate"><span class="gnum">6</span><div><h4>Jev 预审</h4><p>opt-in 判断层：值不值得做（B4 展开）</p></div></div>
+    <div class="gate"><span class="gnum">7</span><div><h4>确认横幅</h4><p>高危操作人审——最后一道是人</p></div></div>
+    <div class="gate"><span class="gnum">8</span><div><h4>派发 + 审计</h4><p>每笔 tool call 留痕，事后可回放</p></div></div>
+  </div>
+  <div class="redline mt-m" style="font-size:18px"><b>例：</b><span class="mono">screen.tap</span> 越过 <span class="mono">pkg:</span> 白名单 → <b style="color:var(--accent-3)">第 2 环即拒，不触 adb</b>——拒绝发生在任何真实副作用之前。</div>
+  <div class="deck-footer"><span>github.com/Yfredy/LAOS</span><span class="slide-number" data-current="6" data-total="20"></span></div>
+  <aside class="notes">
+    <p>全片最核心的一页，按编号顺序走：<strong>一能力表、二作用域、三 schema、四预算、五计价、六判断、七人审、八派发加审计</strong>。</p>
+    <p>前四环是"能不能"，第五环 FleetLedger 是"值不值"——<em>不可逆操作先扣账后派发，风险分扣减</em>，记账发生在副作用之前，这是和普通审计日志的本质区别。</p>
+    <p>底下这个例子请念出来：<strong>screen.tap 越过 pkg 白名单，第二环就拒了，adb 根本不会被触到</strong>——拒绝永远发生在真实副作用之前。</p>
+    <p><em>过渡句</em>：闸门管的是单次调用，Agent 的试错怎么办？靠分支。</p>
+  </aside>
+</section>
+
+<!-- ================= 07 · B3 分支与内存 ================= -->
+<section class="slide" data-title="B3 分支与内存模型">
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <p class="kicker">§ B3 · BRANCH & MEMORY · 分支与内存模型</p>
+  <h2 class="h2 mt-s">类 git 语义的 Agent 上下文：<em>分支试错，合并回主线。</em></h2>
+  <div class="g3 mt-l">
+    <div class="tag-card" data-tag="branch.py">
+      <h4>分支树</h4>
+      <p class="dim">Agent 可以在分支上试错——失败的就丢弃，上下文不被污染。</p>
+    </div>
+    <div class="tag-card" data-tag="cow.py">
+      <h4>写时复制上下文</h4>
+      <p class="dim">CoW：分支只复制要写的部分，试错的内存代价接近零。</p>
+    </div>
+    <div class="tag-card" data-tag="memory.py">
+      <h4>MemoryStore + 日记层</h4>
+      <p class="dim">diary / journal 两层日记；记忆闸门只记<b>实际发生的交互</b>。</p>
+    </div>
+  </div>
+  <div class="redline mt-l" style="font-size:19px"><b>语义对照：</b>git 的 branch / merge / CoW，搬进 Agent 上下文管理——<b>记忆不写想象，只写事实</b>。</div>
+  <div class="deck-footer"><span>github.com/Yfredy/LAOS</span><span class="slide-number" data-current="7" data-total="20"></span></div>
+  <aside class="notes">
+    <p>Agent 最贵的资源是上下文窗口。laos 的答案是把 <strong>git 语义搬进来</strong>：branch.py 开分支试错，cow.py 写时复制让试错几乎免费，成了再合并回主线。</p>
+    <p>右下这条是和 C3 呼应的伏笔：<strong>记忆闸门只记实际发生的交互</strong>——被丢弃的分支、没送达的响应，都不进记忆。</p>
+    <p><em>一句话总结</em>：试错可以大胆，因为代价被 CoW 压到接近零；记忆可以信任，因为它只写事实。</p>
+    <p><em>过渡句</em>：第六环那个"值不值得做"的判断层，现在展开。</p>
+  </aside>
+</section>
+
+<!-- ================= 08 · B4 Jev ================= -->
+<section class="slide" data-title="B4 判断层 Jev">
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <p class="kicker">§ B4 · JUDGMENT LAYER · 判断层 Jev</p>
+  <h2 class="h2 mt-s">闸门链第六环：<em>Jev 快问快答判断层。</em></h2>
+  <div class="g3 mt-l">
+    <div class="tag-card" data-tag="三判型">
+      <h4>Noul / Choice / Score</h4>
+      <p class="dim">是非题、选择题、评分题——判断被压成三种可校准的题型。</p>
+    </div>
+    <div class="tag-card" data-tag="四闸门决策模型">
+      <h4>11 处硬阈值映射</h4>
+      <p class="dim">laos 内 11 处硬阈值由 Jev 四闸门决策模型统一接管。</p>
+    </div>
+    <div class="tag-card" data-tag="judge 透传">
+      <h4>挂载点开放</h4>
+      <p class="dim mono" style="font-size:15px">TurnBuffer.commit<br>memory.remember</p>
+      <p class="dim mt-s">两处均可挂 judge——判断层可插拔。</p>
+    </div>
+  </div>
+  <div class="mt-l" style="display:flex;gap:18px;align-items:stretch">
+    <div class="redline" style="flex:1;font-size:18px"><b>端侧实测 median 157.5ms</b><br><span class="dim">README 宣称 15.6ms 被实测否证——慢 10×</span></div>
+    <div class="tag-card" data-tag="诚实数字" style="flex:1">
+      <p style="font-size:18px"><b>实测否证自己的 README</b>：慢 10× 也照写——校准与诚实优先于宣传。</p>
+    </div>
+  </div>
+  <div class="deck-footer"><span>github.com/Yfredy/LAOS</span><span class="slide-number" data-current="8" data-total="20"></span></div>
+  <aside class="notes">
+    <p>Jev 是闸门链第六环的"值不值得做"。设计上把判断压成<strong>三种题型：Noul 是非、Choice 选择、Score 评分</strong>——可校准、可比对。</p>
+    <p>它统一接管了 laos 里 <strong>11 处硬阈值</strong>；并且 judge 可透传挂载——TurnBuffer.commit 和 memory.remember 都能挂。</p>
+    <p>这页重点是下面这条诚实数字：<strong>端侧实测中位数 157.5 毫秒，README 里宣称的 15.6 毫秒被实测否证，慢了十倍，我们照写</strong>。<em>校准和诚实优先于宣传</em>——这句话后面 D 组还会反复出现。</p>
+    <p><em>过渡句</em>：内核讲完，去看外设——十五个驱动。</p>
+  </aside>
+</section>
+
+<!-- ================= 09 · C1 驱动全景 ================= -->
+<section class="slide" data-title="C1 驱动全景 · 15 驱动">
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <p class="kicker">§ C1 · DRIVER MANIFEST · 驱动全景</p>
+  <h2 class="h2 mt-s">15 个驱动 = 3 听觉 + 6 手机 + 6 系统。</h2>
+  <div class="mt-l" style="display:grid;grid-template-columns:1fr 1.35fr 1fr;gap:18px">
+    <div class="tag-card" data-tag="听觉 · 3">
+      <div class="drv"><span class="n">drv_mic</span><span class="x">录音——仅显式 syscall 触发</span></div>
+      <div class="drv"><span class="n">drv_ear</span><span class="x">转写 + LUFS</span></div>
+      <div class="drv"><span class="n">drv_rec</span><span class="x">录音编排</span></div>
+    </div>
+    <div class="tag-card" data-tag="手机 · 6">
+      <div class="drv"><span class="n">drv_screen</span><span class="x">tap · text · dump · key · longpress · doubletap · devices</span></div>
+      <div class="drv"><span class="n">drv_apps</span><span class="x">list · launch · close</span></div>
+      <div class="drv"><span class="n">drv_notify</span><span class="x">通知</span></div>
+      <div class="drv"><span class="n">drv_battery</span><span class="x">电量</span></div>
+      <div class="drv"><span class="n">drv_comms</span><span class="x">通信</span></div>
+      <div class="drv"><span class="n">drv_events</span><span class="x">事件</span></div>
+    </div>
+    <div class="tag-card" data-tag="系统 · 6">
+      <div class="drv"><span class="n">drv_fs</span><span class="x">文件系统</span></div>
+      <div class="drv"><span class="n">drv_proc</span><span class="x">进程</span></div>
+      <div class="drv"><span class="n">drv_sys</span><span class="x">系统信息</span></div>
+      <div class="drv"><span class="n">drv_npu</span><span class="x">QNN 真机推理</span></div>
+      <div class="drv"><span class="n">drv_audio</span><span class="x">音频</span></div>
+      <div class="drv"><span class="n">drv_genie</span><span class="x">生成</span></div>
+    </div>
+  </div>
+  <div class="redline mt-m" style="font-size:18px"><b>治理事实：</b><span class="mono">kernel.load_driver()</span> 外挂需过闸 · <span class="mono">apps.* / screen.*</span> 均受 <span class="mono">pkg:</span> 作用域闸门——<b>驱动越多，闸门不减</b>。</div>
+  <div class="deck-footer"><span>github.com/Yfredy/LAOS</span><span class="slide-number" data-current="9" data-total="20"></span></div>
+  <aside class="notes">
+    <p>驱动全景一眼扫完：<strong>听觉三个、手机六个、系统六个，一共十五个</strong>。注意 drv_screen 一个驱动就带七种操作，从 tap 到 devices。</p>
+    <p>两个治理事实比清单本身更重要：<strong>load_driver 外挂任何驱动都要过闸</strong>；<strong>apps 和 screen 全部受 pkg 白名单约束</strong>——驱动可以无限加，闸门一道不少。</p>
+    <p>drv_npu 值得点一句：QNN 是<strong>真机</strong>推理，不是模拟器数字。</p>
+    <p><em>过渡句</em>：十五个驱动里最深的是听觉，值得单独讲两页。</p>
+  </aside>
+</section>
+
+<!-- ================= 10 · C2a 听觉栈 · 前段 ================= -->
+<section class="slide" data-title="C2a 听觉栈 · VAD 与响度">
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <p class="kicker">§ C2 · HEARING STACK (1/2) · 端侧听觉栈前段</p>
+  <h2 class="h2 mt-s">先扔掉无声，再量准响度。</h2>
+  <div class="g2 mt-l">
+    <div class="tag-card" data-tag="vad.py · 漏斗口">
+      <h4>能量 + 滞回 VAD</h4>
+      <p class="dim">10ms 帧判定；无声即弃——<b>零存储</b>，常开不等于常录。</p>
+      <p class="mono mt-m" style="font-size:15px;color:var(--text-3)">无声帧 → 丢弃 · 有声段 → 进入 loudness</p>
+    </div>
+    <div class="tag-card" data-tag="loudness.py · BS.1770-4 全套">
+      <h4>响度全套实现</h4>
+      <div class="stack mt-s" style="font-size:17px">
+        <p>K 计权（48k Annex 精确系数）</p>
+        <p>门控积分 · LRA</p>
+        <p>True Peak（sinc 重构）· PLR</p>
+      </div>
+    </div>
+  </div>
+  <div class="mt-l" style="display:flex;gap:18px;align-items:stretch">
+    <div class="tag-card" data-tag="校准锚点" style="flex:1">
+      <p class="stat-num">−23.00 <small>LUFS ±0.1</small></p>
+      <p class="dim mt-s">R128 校准点——整套响度管线钉死在这个锚上。</p>
+    </div>
+    <div class="tag-card" data-tag="为什么重要" style="flex:1.4">
+      <p style="font-size:18px">响度不是音量条：它是<b>可校准、可复现、可对账</b>的物理量——也是 C4 隐私漏斗的计量基础。</p>
+    </div>
+  </div>
+  <div class="deck-footer"><span>github.com/Yfredy/LAOS</span><span class="slide-number" data-current="10" data-total="20"></span></div>
+  <aside class="notes">
+    <p>听觉栈前段两件事：<strong>先扔掉无声，再量准响度</strong>。</p>
+    <p>VAD 是能量加滞回，10 毫秒一帧，无声帧直接丢弃、<strong>零存储</strong>——常开检测不等于常开录音，这个区分等 C4 还要再强调。</p>
+    <p>loudness.py 是 <strong>ITU BS.1770-4 全套</strong>：K 计权用 48k Annex 精确系数，门控积分、LRA、True Peak 用 sinc 重构、还有 PLR。<em>校准锚点是 −23.00 LUFS，误差正负 0.1</em>——所有响度数字都钉在这个锚上，可复现。</p>
+    <p><em>过渡句</em>：前段管"听到多响"，后段管"声音从哪来"——空间音频。</p>
+  </aside>
+</section>
+
+<!-- ================= 11 · C2b 听觉栈 · 空间音频 ================= -->
+<section class="slide" data-title="C2b 听觉栈 · 空间音频">
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <p class="kicker">§ C2 · HEARING STACK (2/2) · 空间音频四件套</p>
+  <h2 class="h2 mt-s">从双耳线索到声场编码，<em>每件都对得上官方实现。</em></h2>
+  <div class="g4 mt-l">
+    <div class="tag-card" data-tag="binaural.py">
+      <h4>双耳线索</h4>
+      <p class="dim">Goertzel 逐频点 ILD / IPD。</p>
+      <p class="mono mt-s" style="font-size:14px;color:var(--text-3)">250 · 500 · 1k · 2k · 4k Hz</p>
+    </div>
+    <div class="tag-card" data-tag="micgeom.py">
+      <h4>麦克风几何 MPE</h4>
+      <p class="dim">与官方 JAX 源码逐行对齐。</p>
+      <p class="mt-s" style="font-size:20px;color:var(--accent-3);font-weight:700" class="mono">跨实现 diff 0.0</p>
+    </div>
+    <div class="tag-card" data-tag="foa.py">
+      <h4>一阶 Ambisonics</h4>
+      <p class="dim">编解码全套。</p>
+      <p class="mono mt-s" style="font-size:14px;color:var(--text-3)">SN3D / N3D + ACN</p>
+    </div>
+    <div class="tag-card" data-tag="ShoNet DOA · Repro 区">
+      <h4>声源方向复现</h4>
+      <p class="dim">STFT 相位特征 → CNN + BiGRU + MHSA。</p>
+      <p class="mt-s" style="font-size:20px;color:var(--accent-3);font-weight:700" class="mono">冒烟 holdout 56.5°</p>
+    </div>
+  </div>
+  <div class="redline mt-l" style="font-size:18px"><b>两个数字请记住：</b><span class="mono">diff 0.0</span>（跨实现逐行对齐）与 <span class="mono">56.5°</span>（冒烟 holdout）——一个证明<b>对得齐</b>，一个诚实标注<b>还差多远</b>。</div>
+  <div class="deck-footer"><span>github.com/Yfredy/LAOS</span><span class="slide-number" data-current="11" data-total="20"></span></div>
+  <aside class="notes">
+    <p>空间音频四件套，从近到远：双耳线索、麦克风几何、声场编码、声源方向。</p>
+    <p><strong>binaural 用 Goertzel 逐频点算 ILD 和 IPD</strong>，五个频点；<strong>foa 做一阶 Ambisonics 编解码，SN3D、N3D 加 ACN 规范全套</strong>。</p>
+    <p>两个数字必须念：<strong>micgeom 与官方 JAX 源码逐行对齐，跨实现 diff 是 0.0</strong>——对得齐；<strong>ShoNet 复现的冒烟 holdout 是 56.5 度</strong>——离生产还远，但诚实标注。一个证明能力，一个承认差距。</p>
+    <p><em>过渡句</em>：能听之后，最难的是"什么时候该说话"——全双工。</p>
+  </aside>
+</section>
+
+<!-- ================= 12 · C3 全双工三件套 ================= -->
+<section class="slide" data-title="C3 全双工轮转三件套">
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <p class="kicker">§ C3 · FULL-DUPLEX TURN-TAKING · 全双工轮转三件套</p>
+  <h2 class="h2 mt-s">什么时候说话，<em>是工程问题不是礼貌问题。</em></h2>
+  <div class="stack mt-l">
+    <div class="tag-card" data-tag="duplex.py · 度量">
+      <h4>事件时间线 → 四能力分解</h4>
+      <p class="dim" style="font-size:17px">响应延迟 · 打断响应 · 重叠率 · 抢话计数 —— Duplex-MPE 的四维评测框架</p>
+    </div>
+    <div class="tag-card" data-tag="turnpolicy.py · 策略">
+      <h4>speak / hold / stop 三态</h4>
+      <p class="dim" style="font-size:17px">三闸防过早响应：<span class="mono">min-speech 200ms</span> · <span class="mono">tail-silence 500ms</span> · <span class="mono">min-hold 250ms</span></p>
+    </div>
+    <div class="tag-card" data-tag="turnbuf.py · 缓冲">
+      <h4>打断即作废</h4>
+      <p class="dim" style="font-size:17px">未送达帧丢弃 · <b>只记已送达</b>（记忆不写想象）· interject 插队帧——慢系统结果无缝织入</p>
+    </div>
+  </div>
+  <div class="mt-l row" style="justify-content:space-between;align-items:baseline">
+    <p class="src">来源论文：Duplex-MPE · SALMONN-duo · Context Spanning（2026-09 周报波）</p>
+    <p style="font-size:19px"><b>三态 × 三闸 × 四测</b>——轮转策略全部可测、可调、可回归。</p>
+  </div>
+  <div class="deck-footer"><span>github.com/Yfredy/LAOS</span><span class="slide-number" data-current="12" data-total="20"></span></div>
+  <aside class="notes">
+    <p>全双工三件套按层讲：<strong>duplex 管度量，turnpolicy 管策略，turnbuf 管缓冲</strong>。</p>
+    <p>duplex 把对话画成事件时间线，导出<strong>响应延迟、打断响应、重叠率、抢话计数</strong>四个数——这是 Duplex-MPE 的能力分解，轮转好不好不再靠感觉。</p>
+    <p>turnpolicy 三态 speak、hold、stop，配<strong>三道时间闸：两百毫秒、五百毫秒、二百五十毫秒</strong>，专防过早响应抢话。</p>
+    <p>turnbuf 最妙的一条：<strong>打断即作废，只记已送达</strong>——和 B3 呼应，记忆永远不写想象；interject 让慢系统的结果插队织入。</p>
+    <p><em>过渡句</em>：说完了"怎么说"，下一个域是整个项目最敏感的——常开录音。</p>
+  </aside>
+</section>
+
+<!-- ================= 13 · C4 AlwaysOnRec ================= -->
+<section class="slide" data-title="C4 AlwaysOnRec 双沙箱">
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <p class="kicker">§ C4 · ALWAYS-ON REC · 常开录音双沙箱</p>
+  <h2 class="h2 mt-s">常开，但每一步都有牙齿。<em>四条红线一条都不能破。</em></h2>
+  <div class="mt-l" style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+    <div class="stack">
+      <div class="tag-card" data-tag="隔离区规模">
+        <p class="row" style="gap:18px"><span class="stat-num">279<small> 测试</small></span><span class="dim" style="font-size:16px">环形缓冲 + 端侧蒸馏 + 7 天即焚<br>范式对照：Apple Watch S12</span></p>
+      </div>
+      <div class="tag-card" data-tag="四段漏斗">
+        <div class="stack" style="font-size:17px">
+          <div class="fstage"><span class="fn">F1</span><p>VAD 常开（无声即弃）</p></div>
+          <div class="fstage"><span class="fn">F2</span><p>段落成段</p></div>
+          <div class="fstage"><span class="fn">F3</span><p>本地转写</p></div>
+          <div class="fstage"><span class="fn">F4</span><p>事件入记忆</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="tag-card" data-tag="隐私红线 · 不可协商" style="border:1.5px solid var(--accent-3)">
+      <div class="stack" style="font-size:18px">
+        <p><b>1.</b> 录音只由<b>显式 syscall</b> 触发</p>
+        <p><b>2.</b> <span class="mono">LAOS_REC=0</span> 全局禁录</p>
+        <p><b>3.</b> 每次调用审计 <span class="mono">event:"mic"</span></p>
+        <p><b>4.</b> ASR <b>全本地</b>，零上云</p>
+      </div>
+      <p class="src mt-m">音频永不出设备 · 事件而非波形进入记忆</p>
+    </div>
+  </div>
+  <div class="deck-footer"><span>github.com/Yfredy/LAOS</span><span class="slide-number" data-current="13" data-total="20"></span></div>
+  <aside class="notes">
+    <p>常开录音是全项目最敏感的域，所以它被关在独立沙箱里：<strong>279 项测试只管这一件事</strong>。</p>
+    <p>管线是四段漏斗：<strong>VAD 常开、段落成段、本地转写、事件入记忆</strong>——进入记忆的是事件，不是波形。留存策略是七天即焚，范式对照 Apple Watch S12。</p>
+    <p>右边四条红线请逐条念：<strong>录音只由显式 syscall 触发；LAOS_REC 等于零全局禁录；每次调用审计 event mic；ASR 全本地零上云</strong>。<em>这四条不是配置项，是硬约束，一条都不能破。</em></p>
+    <p><em>过渡句</em>：内核和驱动都讲完了，凭什么信这些代码？D 组：质量与文化。</p>
+  </aside>
+</section>
+
+<!-- ================= 14 · D1 测试与质量 ================= -->
+<section class="slide" data-title="D1 测试与质量">
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <p class="kicker">§ D1 · TEST & QUALITY · 测试与质量</p>
+  <h2 class="h2 mt-s">765 全绿，<em>每一项都是先红后绿。</em></h2>
+  <div class="g4 mt-l">
+    <div class="tag-card" data-tag="主库"><p class="stat-num">415</p><p class="dim mt-s">laos 内核 + 驱动</p></div>
+    <div class="tag-card" data-tag="录音隔离区"><p class="stat-num">279</p><p class="dim mt-s">AlwaysOnRec</p></div>
+    <div class="tag-card" data-tag="复现区"><p class="stat-num">71</p><p class="dim mt-s">Repro（D3 展开）</p></div>
+    <div class="tag-card" data-tag="合计" style="border:1.5px solid var(--accent)"><p class="stat-num">765 <small>GREEN</small></p><p class="dim mt-s">v0.12.0 全量</p></div>
+  </div>
+  <div class="g2 mt-l">
+    <div class="tag-card" data-tag="TDD 纪律">
+      <p style="font-size:18px"><b>先红后绿</b>——测试先行；<b>每任务一 commit</b>，历史可回放。</p>
+    </div>
+    <div class="tag-card" data-tag="版本纪律">
+      <p style="font-size:18px"><b>SemVer + conventional commits</b>——30 天 12 个 MINOR（v0.1.0 → v0.12.0），无一次破版。</p>
+    </div>
+  </div>
+  <div class="deck-footer"><span>github.com/Yfredy/LAOS</span><span class="slide-number" data-current="14" data-total="20"></span></div>
+  <aside class="notes">
+    <p>质量这页只讲数字和纪律。数字：<strong>415 加 279 加 71，等于 765 全绿</strong>——和 B1 三棵树逐一对得上账。</p>
+    <p>纪律两条：<strong>TDD 先红后绿，每任务一个 commit</strong>——所以 git 历史本身就是开发日志；<strong>SemVer 加 conventional commits</strong>，三十天发十二个 MINOR，没有一次破坏性变更混进去。</p>
+    <p><em>过渡句</em>：十二个版本一个月发完，每个版本做了什么？看时间线。</p>
+  </aside>
+</section>
+
+<!-- ================= 15 · D2 版本史 ================= -->
+<section class="slide" data-title="D2 版本史时间线">
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <p class="kicker">§ D2 · RELEASE TIMELINE · 30 天 12 个 MINOR</p>
+  <h2 class="h2 mt-s">09-04 到 10-05：<em>一个完整需求波次 = 一次 MINOR。</em></h2>
+  <div class="mt-l" style="display:grid;grid-template-columns:1fr 1fr;gap:0 40px">
+    <div>
+      <div class="tl"><span class="v">v0.1.0</span><span class="d">09-04</span><span class="t">baseline —— 149 文件</span></div>
+      <div class="tl"><span class="v">v0.2.0</span><span class="d">09-05</span><span class="t">强制层：seccomp + CoW + eBPF + FleetLedger</span></div>
+      <div class="tl"><span class="v">v0.3.0</span><span class="d">09-09</span><span class="t">AgentProf + MCP Tasks + 信箱 + laosweb + drv_npu</span></div>
+      <div class="tl"><span class="v">v0.4.0</span><span class="d">09-11</span><span class="t">听觉 + 记忆 + 日记</span></div>
+      <div class="tl"><span class="v">v0.5.0</span><span class="d">09-11</span><span class="t">五层手机能力 + 双沙箱</span></div>
+    </div>
+    <div>
+      <div class="tl"><span class="v">v0.6.0</span><span class="d">09-18</span><span class="t">语料库：19,792 论文 + 3,724 OSS</span></div>
+      <div class="tl"><span class="v">v0.7.0</span><span class="d">09-28</span><span class="t">Jev 四闸门判断层</span></div>
+      <div class="tl"><span class="v">v0.8–0.10</span><span class="d">10-05</span><span class="t">复现采纳三连：SHO / PhaseCoder / ANC / LUFS / Pipecat / unique_lock → loudness / turnbuf / locks + 五套 PPT</span></div>
+      <div class="tl"><span class="v">v0.11.0</span><span class="d">10-05</span><span class="t">手机操控四件套 + drv_apps + micgeom</span></div>
+      <div class="tl"><span class="v">v0.12.0</span><span class="d">10-05</span><span class="t">双工时序 + 轮转策略 + 双耳线索 + FOA</span></div>
+    </div>
+  </div>
+  <p class="mt-l" style="font-size:19px"><b>读法：</b>每个 MINOR 都是一个完整波次——先调研、再复现、再落库；<span class="dim">版本号就是项目节奏本身。</span></p>
+  <div class="deck-footer"><span>github.com/Yfredy/LAOS</span><span class="slide-number" data-current="15" data-total="20"></span></div>
+  <aside class="notes">
+    <p>时间线两栏十行，一个月走完。挑三个节点讲：</p>
+    <p><strong>v0.2.0 第五天就把强制层立起来了</strong>——seccomp、CoW、eBPF、FleetLedger，安全是地基不是补丁；<strong>v0.6.0 停下来一个月建语料库</strong>——两万篇论文的调研是后来所有判断的弹药；<strong>最后三天连发四个版本</strong>，复现采纳三连加双工全套。</p>
+    <p>给观众的读法：<em>一个 MINOR 等于一个完整需求波次，版本号就是项目节奏</em>。</p>
+    <p><em>过渡句</em>：时间线里反复出现"复现"两个字，它到底是什么文化？下一页。</p>
+  </aside>
+</section>
+
+<!-- ================= 16 · D3 复现文化 ================= -->
+<section class="slide" data-title="D3 复现文化 Repro-ZCode">
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <p class="kicker">§ D3 · REPRO CULTURE · 复现文化 Repro-ZCode</p>
+  <h2 class="h2 mt-s">能复现的论文，<em>全部复现成测试。</em></h2>
+  <div class="g3 mt-l">
+    <div class="tag-card" data-tag="复现清单 · 71 测试隔离区">
+      <div class="stack" style="font-size:17px">
+        <p>BS.1770 <b>响度</b></p>
+        <p>FxLMS <b>ANC</b> <span class="mono" style="color:var(--good)">&gt;20dB</span></p>
+        <p>ShoNet <b>DOA</b></p>
+        <p>PhaseCoder <b>MPE 逐行对齐</b></p>
+      </div>
+    </div>
+    <div class="tag-card" data-tag="诚实清单">
+      <p style="font-size:17px">跑不动的：<b>等比缩距并写明偏差</b>。</p>
+      <p class="mono mt-m" style="font-size:15px;color:var(--text-3)">40,295 样本 → 百样本冒烟</p>
+      <p class="dim mt-s" style="font-size:15px">偏差记录在案，不装作跑过。</p>
+    </div>
+    <div class="tag-card" data-tag="采纳漏斗">
+      <div class="stack" style="font-size:17px">
+        <p><span class="garrow">→</span> 复现</p>
+        <p><span class="garrow">→</span> 裁决：<span class="mono">●执行 / ◐基础件 / ○不做</span></p>
+        <p><span class="garrow">→</span> 主库落地</p>
+        <p><span class="garrow">→</span> 文档执行注记</p>
+      </div>
+    </div>
+  </div>
+  <div class="redline mt-l" style="font-size:19px">复现不是作业，是<b>采购流程</b>：论文是供应商，测试是验收单，<b>○不做也是裁决结果</b>。</div>
+  <div class="deck-footer"><span>github.com/Yfredy/LAOS</span><span class="slide-number" data-current="16" data-total="20"></span></div>
+  <aside class="notes">
+    <p>Repro 文化是这个项目的底色：<strong>读到的论文，能复现的全部写成测试</strong>，七十一项隔离在 Repro 区——响度、降噪、声源方向、编码对齐，四类全有硬数字。</p>
+    <p>更值得讲的是中间这张诚实清单：<strong>跑不动的就等比缩小规模，并且把偏差写明</strong>——四万零二百九十五个样本的实验，缩到百样本冒烟，偏差记档，不装作跑过。</p>
+    <p>右边采纳漏斗四步：<strong>复现、裁决、落地、注记</strong>——裁决三档里<em>"不做"也是正式结论</em>，拒绝同样是设计。</p>
+    <p><em>过渡句</em>：复现的弹药从哪来？语料库。</p>
+  </aside>
+</section>
+
+<!-- ================= 17 · D4 语料库 ================= -->
+<section class="slide" data-title="D4 调研语料库">
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <p class="kicker">§ D4 · EVIDENCE CORPUS · 调研语料库</p>
+  <h2 class="h2 mt-s">设计不拍脑袋：<em>两万篇论文 + 三千个仓库。</em></h2>
+  <div class="g3 mt-l">
+    <div class="tag-card" data-tag="调研文档">
+      <p class="stat-num">47<small> 份</small></p>
+      <p class="dim mt-s">capstone 采纳总账：每条记<b>来源 / 可取之处 / 落点 / 状态</b>。</p>
+    </div>
+    <div class="tag-card" data-tag="双会议论文 · 全量 100%">
+      <p class="stat-num">19,792<small> 篇</small></p>
+      <p class="dim mt-s mono" style="font-size:15px">ICASSP 2022-2026：14,285<br>Interspeech 2021-2025：5,507</p>
+    </div>
+    <div class="tag-card" data-tag="OSS 星标仓库 · 去噪后">
+      <p class="stat-num">3,724<small> 个</small></p>
+      <p class="dim mt-s mono" style="font-size:15px">core 132 · ref 2,864 · unrelated 728</p>
+    </div>
+  </div>
+  <div class="redline mt-l" style="font-size:19px"><b>规模的意义在于覆盖而非堆量：</b>全量遍历 = 没有 cherry-picking；每篇采纳都能沿总账回溯到<b>来源与落点</b>。</div>
+  <div class="deck-footer"><span>github.com/Yfredy/LAOS</span><span class="slide-number" data-current="17" data-total="20"></span></div>
+  <aside class="notes">
+    <p>三个数：四十七份调研文档、一万九千七百九十二篇论文、三千七百二十四个星标仓库。</p>
+    <p>强调<strong>全量百分百</strong>：ICASSP 五届一万四千二百八十五篇，Interspeech 五届五千五百零七篇，一篇不漏——<em>全量遍历意味着没有挑数据</em>。</p>
+    <p>仓库去噪后分三档：<strong>核心一百三十二、参考两千八百六十四、无关七百二十八</strong>；每一条采纳都在总账里记着来源、可取之处、落点、状态——<em>任何一个设计决定都能回溯到证据</em>。</p>
+    <p><em>过渡句</em>：证据链讲完，最后讲什么坚决不做。</p>
+  </aside>
+</section>
+
+<!-- ================= 18 · E1 红线 ================= -->
+<section class="slide" data-title="E1 安全与合规红线">
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <p class="kicker">§ E1 · RED LINES · 安全与合规红线</p>
+  <h2 class="h2 mt-s">能力可以有，<em>红线内的能力永远不做。</em></h2>
+  <div class="mt-l" style="display:grid;grid-template-columns:1.15fr 1fr;gap:24px">
+    <div class="tag-card" data-tag="拒绝清单 · 实证" style="border:1.5px solid var(--accent-3)">
+      <h4>jarvis 七文件，一行不碰</h4>
+      <div class="row wrap mt-s" style="gap:10px">
+        <span class="pill">伪装配置</span>
+        <span class="pill">聊天截获</span>
+        <span class="pill">屏幕捕获</span>
+        <span class="pill">常驻保活</span>
+      </div>
+      <p class="dim mt-m" style="font-size:16px">不是"暂时不做"——是判定为红线，代码层面拒绝实现。</p>
+    </div>
+    <div class="stack">
+      <div class="tag-card" data-tag="EU AI Act">
+        <h4>情绪识别禁令</h4>
+        <p class="dim">职场 / 教育场景情绪识别被禁——常开听觉的设计必须绕开这条线。</p>
+      </div>
+      <div class="tag-card" data-tag="PIPL">
+        <h4>声纹 = 敏感个人信息</h4>
+        <p class="dim">单独同意 required——所以 ASR 全本地、只留事件不留波形（C4）。</p>
+      </div>
+    </div>
+  </div>
+  <div class="redline mt-l" style="font-size:20px">红线不是产品约束，是<b>架构输入</b>：C4 四条红线、本页法条跟踪，都在版本史里留痕。</div>
+  <div class="deck-footer"><span>github.com/Yfredy/LAOS</span><span class="slide-number" data-current="18" data-total="20"></span></div>
+  <aside class="notes">
+    <p>红线页讲三件事。第一，<strong>拒绝清单有实证</strong>：jarvis 七个文件一行不碰——伪装配置、聊天截获、屏幕捕获、常驻保活，这些是判定为红线后代码层面拒绝实现的，不是待办。</p>
+    <p>第二，<strong>法条在跟踪</strong>：EU AI Act 禁了职场和教育场景的情绪识别；PIPL 把声纹归为敏感个人信息、要单独同意——<em>C4 只留事件不留波形，就是为了这两条</em>。</p>
+    <p>收口一句：<strong>能力可以有，红线内的能力永远不做</strong>——红线是架构输入，不是产品妥协。</p>
+    <p><em>过渡句</em>：守住红线之后，往前走哪？路线图。</p>
+  </aside>
+</section>
+
+<!-- ================= 19 · E2 路线图 ================= -->
+<section class="slide" data-title="E2 路线图">
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <p class="kicker">§ E2 · ROADMAP · 路线图</p>
+  <h2 class="h2 mt-s">近期补回归，中期开生态，<em>远期造参考机。</em></h2>
+  <div class="g3 mt-l">
+    <div class="tag-card" data-tag="近期 · v0.13+">
+      <div class="stack" style="font-size:17px">
+        <p><span class="garrow">·</span> FDGym 式<b>模拟用户回归</b></p>
+        <p><span class="garrow">·</span> <b>Bin2Ambi</b> 驱动</p>
+        <p><span class="garrow">·</span> FOA 评测钩子接 <b>RMS-AQA</b></p>
+      </div>
+    </div>
+    <div class="tag-card" data-tag="中期 · v1.0">
+      <div class="stack" style="font-size:17px">
+        <p><span class="garrow">·</span> <b>多 Agent 并发调度</b></p>
+        <p><span class="garrow">·</span> <b>驱动市场</b>——第三方 MCP 治理接入</p>
+      </div>
+      <p class="dim mt-s" style="font-size:15px">load_driver 已验证外挂可行性</p>
+    </div>
+    <div class="tag-card" data-tag="远期">
+      <div class="stack" style="font-size:17px">
+        <p><span class="garrow">·</span> 端侧完整<b>语音 Agent 参考机</b></p>
+        <p class="dim mono" style="font-size:15px">laosd + 听觉栈 + 全双工闭环</p>
+      </div>
+    </div>
+  </div>
+  <div class="redline mt-l" style="font-size:19px"><b>节奏原则不变：</b>仍是"调研 → 复现 → 裁决 → 落库"一个波次一个 MINOR——<b>不追新特性，追可验收</b>。</div>
+  <div class="deck-footer"><span>github.com/Yfredy/LAOS</span><span class="slide-number" data-current="19" data-total="20"></span></div>
+  <aside class="notes">
+    <p>路线图三段：<strong>近期 v0.13 加 FDGym 式模拟用户回归</strong>——给全双工这类交互能力补上可持续的回归测试，再加 Bin2Ambi 驱动和 RMS-AQA 评测钩子。</p>
+    <p><strong>中期 v1.0 两件事：多 Agent 并发调度、驱动市场</strong>——第三方 MCP 走治理接入，load_driver 已经验证了外挂路线可行。</p>
+    <p><strong>远期是端侧完整语音 Agent 参考机</strong>：laosd 加听觉栈加全双工闭环，一台能参考的整机。</p>
+    <p><em>过渡句</em>：最后一页，回到开场那句话。</p>
+  </aside>
+</section>
+
+<!-- ================= 20 · E3 收尾 ================= -->
+<section class="slide" data-title="E3 收尾">
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <p class="kicker">§ E3 · CLOSING · 收尾</p>
+  <h2 class="h1 mt-s" style="font-size:64px">Agent 需要的不是更强的模型，<br><em>是一个会说"不"的内核。</em></h2>
+  <div class="row mt-l" style="gap:14px">
+    <span class="pill pill-accent">github.com/Yfredy/LAOS</span>
+    <span class="pill">v0.12.0 · 2026-10-05</span>
+    <span class="seal">765 TESTS GREEN</span>
+  </div>
+  <p class="lede mt-l">今天十八个域讲完：八环闸门、十五个驱动、四条录音红线、七百六十五项测试——<b>欢迎来仓库验证每一个数字。</b></p>
+  <div class="deck-footer"><span>github.com/Yfredy/LAOS · 26.10.05</span><span class="slide-number" data-current="20" data-total="20"></span></div>
+  <aside class="notes">
+    <p>收尾就一句：<strong>Agent 需要的不是更强的模型，是一个会说不的内核。</strong></p>
+    <p>回顾十八域的骨架：A 组立命题和坐标，B 组八环闸门加分支加判断，C 组十五个驱动和听觉双工，D 组 765 测试和复现文化，E 组红线与路线。</p>
+    <p>最后邀请：<em>每个数字都在仓库里——765 项测试、十五个驱动、47 份调研，欢迎逐一对账。</em></p>
+    <p><strong>Q&amp;A 开场白</strong>：如果只记一页，记第六页闸门链；如果只挑战一件事，挑战我们的诚实数字。</p>
+  </aside>
+</section>
+
+</div>
+<script src="../html-ppt-assets/runtime.js"></script>
+</body></html>

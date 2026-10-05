@@ -2,6 +2,9 @@
 
 > 2026-10-05 ｜ 来源：[知乎《实测 5 个 PPT 神级 Skill，谁是真 PPT 之王？》](https://zhuanlan.zhihu.com/p/2042569361387415436)
 > 五个 skill 已安装于 `~/.agents/skills/`；同一份 12 页内容底稿（[laos-intro-outline.md](laos-intro-outline.md)）喂给五个 skill——同内容不同渲染，公平对比。
+>
+> **第二波（2026-10-05 下午）**：两个新题材各再跑五 skill + 一个 v6 合成版——
+> ①详细技术深潜版（底稿 [laos-detailed-outline.md](laos-detailed-outline.md)，18 内容域）；②创新融资版（底稿 [laos-funding-outline.md](laos-funding-outline.md)，15 页，诚实原则：进展数字全真、金额与市场规模标"示例"）。见文末"第二波"两节。
 
 ## 交付物
 
@@ -41,3 +44,41 @@
 - ppt-master 构建器：`_build_pptmaster.py`（12 页 SVG → 官方质检器 --canonical-authoring 通过 → `svg_to_pptx --quick-generate`）
 - ppt-master 工程目录：`~/.agents/projects/laos-intro-master_20261005/`（svg_output/ + spec_lock.md + validation 报告）
 - html-ppt 内嵌资产：`html-ppt-assets/`（MIT，来自 lewislulu/html-ppt-skill）
+
+---
+
+# 第二波 ①：详细技术深潜版（5 skill + v6 合成）
+
+交付物（`detailed/`，同底稿 18 内容域：A1-E3）：
+
+| Skill | 交付物 | 页数 | 质检 |
+|---|---|---|---|
+| ppt-master | [detailed/laos-detailed-ppt-master.pptx](detailed/laos-detailed-ppt-master.pptx) | 19 | final gate 19/19 零告警；423 个可编辑文本框；八环闸门链=原生流程图（downArrow×6） |
+| guizang | [detailed/laos-detailed-guizang.html](detailed/laos-detailed-guizang.html) | 19 | validate-swiss-deck PASS（含 Playwright 渲染测量）+ presenter 0 error；13 版式；构建器 `_build_detailed.mjs` |
+| frontend-slides | [detailed/laos-detailed-frontend-slides.html](detailed/laos-detailed-frontend-slides.html) | 19 | 31 事实逐项 grep 验证；八环终端流水线+拒绝 trace；E 键编辑 |
+| html-ppt | [detailed/laos-detailed-html-ppt.html](detailed/laos-detailed-html-ppt.html) | 20 | 令牌纪律 0 字面色、20 页备注全非空（agent 收尾被限速打断，成品经主线程验证完整） |
+| huashu | [detailed/laos-detailed-huashu.html](detailed/laos-detailed-huashu.html) + [方向板](detailed/laos-detailed-huashu-directions.html) | 19 | Playwright 逐页审计 0 溢出/0 越界；LEDGER CORRECTION 订正条（157.5ms 推翻 15.6ms） |
+
+**v6 合成版**：[laos-detailed-v6.html](laos-detailed-v6.html)（19 页）——取长板公式：
+ppt-master 字号角色体系+Hero breathing 大数字 ｜ guizang 12 列 Swiss 网格+`data-layout` 版式登记+accent 只承载治理事实 ｜ frontend-slides 1920×1080 舞台自缩放+E 键编辑+拒绝 trace ｜ html-ppt `:root` 令牌（内容区 0 字面色）+S 键演讲者四卡+逐字讲稿 ｜ huashu 台账母题+LEDGER CORRECTION 订正条。P02 是"裁决板"透明度页（每个长板可溯源）。视觉验收 6 关键页 PASS（Playwright 0 溢出 + visual-judge）。
+
+# 第二波 ②：创新融资版（5 skill + v6 合成）
+
+交付物（`funding/`，同底稿 P1-P15）：
+
+| Skill | 交付物 | 页数 | 质检 |
+|---|---|---|---|
+| ppt-master | [funding/laos-funding-ppt-master.pptx](funding/laos-funding-ppt-master.pptx) | 15 | final gate 15/15；323 可编辑文本框；用资环形图为原生 blockArc（角度逐段坐标校验） |
+| guizang | [funding/laos-funding-guizang.html](funding/laos-funding-guizang.html) | 15 | 验证器首轮 PASS + presenter 0 error；13 版式匹配数据形状（账单/象限/比例塔）；构建器 `_build_funding.py` |
+| frontend-slides | [funding/laos-funding-frontend-slides.html](funding/laos-funding-frontend-slides.html) | 15 | CDP 逐页渲染 0 溢出；P6 环② EPERM 戳+熄灭后六环 |
+| html-ppt | [funding/laos-funding-html-ppt.html](funding/laos-funding-html-ppt.html) | 15 | ledger-ink 主题（令牌 0 字面色）；15 页逐字路演稿含投资人 Q&A 预埋 |
+| huashu | [funding/laos-funding-huashu.html](funding/laos-funding-huashu.html) + [方向板](funding/laos-funding-huashu-directions.html) + gate 文件 | 15 | Playwright 0 溢出（修复 4 处后）；壹贰叁防涂改数字=台账母题同构 |
+
+**v6 合成版**：[laos-funding-v6.html](laos-funding-v6.html)（16 页 = 15 内容页 + 1 页 v6 出处附录）——同上公式，融资特化：huashu 壹贰叁痛点三柱、示例红章、诚实框正色；guizang 四象限/真比例用资塔；ppt-master 结论式标题+breathing 四大数（12/765/19,792/4）；每页 S 键逐字路演稿。视觉验收 11/12 直接过，P14 面板空置被判 fail → 已修（台账面板化）并复审。
+
+## 第二波裁决（增量结论）
+
+- **信息密度上限**：guizang（19 页塞 18 域仍可扫读——mono 锚点+accent 纪律是关键）；**故事密度上限**：huashu 融资版（壹贰叁/台账/订正条，形式即论证）。
+- **可交付给非技术方修改**：仍是 ppt-master 独占（两个 pptx 共 746 个可编辑文本框）。
+- **v6 的定位**：不是第六个风格，而是"引擎统一、母题各表"——两个 v6 共用同一舞台/键盘/令牌/演讲者引擎（互为拷贝可维护），detailed 用墨黑+瑞士蓝+账本金，funding 用墨蓝+金+衬线。E 键就地改字在两个 v6 里都是一等公民。
+- **限速教训**：10 个 skill agent 并发触发了账户速率限制（2 个折翼：html-ppt 详细版死在汇报前但成品完好、huashu 详细版重派成功）——下一波并发上限设 5。

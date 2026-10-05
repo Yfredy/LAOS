@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>laos · Linux AgentOS — Detailed Technical Dive</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<style>
+/* ===========================================
+   THEME: Terminal Green — Detailed Dive Edition
+   GitHub dark #0d1117 + terminal green #39d353
+   JetBrains Mono (labels/code) + Noto Sans SC (dense zh body)
+   Scan lines + faint blueprint grid · group-coded chips A–E
+   =========================================== */
+:root{
+  --bg-primary:#0d1117; --bg-panel:#161b22; --bg-deep:#010409; --bg-elev:#1b2230;
+  --green:#39d353; --green-dim:#268641; --green-glow:rgba(57,211,83,.28);
+  --amber:#d29922; --red:#f85149; --blue:#58a6ff; --purple:#bc8cff;
+  --text:#e6edf3; --text-dim:#8b949e; --border:#30363d;
+  --mono:'JetBrains Mono',Consolas,monospace;
+  --sans:'Noto Sans SC','JetBrains Mono',sans-serif;
+  --stage-bg:#000; --slide-bg:#0d1117;
+  --pad:56px; --ease:cubic-bezier(.16,1,.3,1); --dur:.55s;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+
+/* === VIEWPORT BASE (mandatory, full) === */
+html,body{width:100%;height:100%;margin:0;overflow:hidden;background:var(--stage-bg,#000)}
+.deck-viewport{position:fixed;inset:0;overflow:hidden;background:var(--stage-bg,#000)}
+.deck-stage{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;transform-origin:0 0;background:var(--slide-bg,#fff)}
+.slide{position:absolute;inset:0;width:1920px;height:1080px;overflow:hidden;display:block;visibility:hidden;opacity:0;pointer-events:none;background:var(--slide-bg,#fff)}
+.slide.active,.slide.visible{visibility:visible;opacity:1;pointer-events:auto;z-index:1}
+img,video,canvas,svg{max-width:100%;max-height:100%}
+.deck-controls{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:1000}
+@media print{
+  html,body{width:1920px;height:auto;overflow:visible;background:#fff}
+  .deck-viewport{position:static;overflow:visible;background:#fff}
+  .deck-stage{position:static;width:auto;height:auto;transform:none !important;background:none}
+  .slide{position:relative;display:block !important;visibility:visible !important;opacity:1 !important;pointer-events:auto !important;width:1920px;height:1080px;break-after:page;page-break-after:always}
+  .slide:last-child{break-after:auto;page-break-after:auto}
+  .deck-controls{display:none !important}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.2s !important}
+}
+
+/* === SLIDE SURFACE (grid atmosphere + scan lines) === */
+.slide{background:
+  linear-gradient(rgba(88,166,255,.028) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(88,166,255,.028) 1px,transparent 1px),
+  radial-gradient(ellipse 1200px 700px at 70% -10%,rgba(57,211,83,.05),transparent 60%),
+  var(--bg-primary);
+  background-size:64px 64px,64px 64px,auto,auto}
+.slide::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:40;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.024) 0 1px,transparent 1px 3px)}
+.slide-content{position:absolute;inset:0;padding:var(--pad);display:flex;flex-direction:column;z-index:2;padding-bottom:76px}
+
+/* === REVEAL ANIMATIONS === */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease)}
+.slide.visible .reveal{opacity:1;transform:translateY(0)}
+.slide.visible .reveal:nth-child(1){transition-delay:.08s}
+.slide.visible .reveal:nth-child(2){transition-delay:.16s}
+.slide.visible .reveal:nth-child(3){transition-delay:.24s}
+.slide.visible .reveal:nth-child(4){transition-delay:.32s}
+.slide.visible .reveal:nth-child(5){transition-delay:.40s}
+.slide.visible .reveal:nth-child(6){transition-delay:.48s}
+.slide.visible .reveal:nth-child(7){transition-delay:.56s}
+.slide.visible .reveal:nth-child(8){transition-delay:.64s}
+
+/* === TERMINAL WINDOW CHROME === */
+.term{background:var(--bg-panel);border:1px solid var(--border);border-radius:10px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 40px var(--green-glow)}
+.term-bar{display:flex;align-items:center;gap:8px;padding:11px 18px;background:#010409;border-bottom:1px solid var(--border)}
+.dot{width:12px;height:12px;border-radius:50%}
+.dot.r{background:#ff5f56}.dot.y{background:#ffbd2e}.dot.g{background:#27c93f}
+.term-title{margin-left:12px;color:var(--text-dim);font-family:var(--mono);font-size:19px}
+.term-body{padding:24px 30px;font-family:var(--sans);color:var(--text);font-size:24px;line-height:1.55}
+.cursor{display:inline-block;width:12px;height:24px;background:var(--green);vertical-align:-3px;animation:blink 1.05s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.mono{font-family:var(--mono)}
+.p{color:var(--green)}.c{color:var(--text-dim)}.a{color:var(--amber)}.b{color:var(--blue)}.r2{color:var(--red)}.pp{color:var(--purple)}
+.ok{color:var(--green);font-family:var(--mono)}
+.prompt{color:var(--green);font-weight:700;font-family:var(--mono)}
+.glowtitle{text-shadow:0 0 24px var(--green-glow)}
+
+/* === PAGE HEADER / KICKER / TITLE === */
+.kicker{display:flex;align-items:center;gap:16px;font-family:var(--mono)}
+.grp{padding:4px 14px;border:1px solid;border-radius:6px;font-size:19px;letter-spacing:.06em;white-space:nowrap}
+.grp.a{color:var(--green);border-color:var(--green-dim)}
+.grp.b{color:var(--blue);border-color:rgba(88,166,255,.45)}
+.grp.c{color:var(--amber);border-color:rgba(210,153,34,.5)}
+.grp.d{color:var(--purple);border-color:rgba(188,140,255,.45)}
+.grp.e{color:var(--red);border-color:rgba(248,81,73,.5)}
+.cmd{color:var(--text-dim);font-size:21px;letter-spacing:.02em}
+h2.pt{font-family:var(--mono);font-weight:700;font-size:42px;color:var(--text);margin-top:18px}
+h2.pt .hl{color:var(--green)}
+.sub{font-family:var(--sans);color:var(--text-dim);font-size:23px;margin-top:8px}
+.sub .m{font-family:var(--mono)}
+.body-zone{flex:1;margin-top:24px;min-height:0;display:flex;flex-direction:column}
+
+/* === GENERIC CARDS / PANELS / TABLES === */
+.card{background:var(--bg-panel);border:1px solid var(--border);border-radius:10px;padding:22px 26px}
+.card h3{font-family:var(--mono);font-size:24px;color:var(--green);margin-bottom:12px}
+.card.blue h3{color:var(--blue)} .card.amber h3{color:var(--amber)} .card.red h3{color:var(--red)} .card.purple h3{color:var(--purple)}
+.redline{border-color:rgba(248,81,73,.55);background:rgba(248,81,73,.05)}
+.banner{border:1px solid var(--green-dim);background:rgba(57,211,83,.07);border-radius:10px;padding:18px 28px;font-family:var(--sans);font-size:26px;line-height:1.5}
+.banner .q{color:var(--green)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px;min-height:0}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px;min-height:0}
+table.t{border-collapse:collapse;width:100%;font-size:23px;font-family:var(--sans)}
+table.t td,table.t th{border:1px solid var(--border);padding:10px 16px;text-align:left}
+table.t th{color:var(--green-dim);font-weight:400;font-family:var(--mono);font-size:21px}
+.mchip{display:inline-block;font-family:var(--mono);font-size:20px;color:var(--amber);border:1px solid rgba(210,153,34,.5);border-radius:6px;padding:3px 10px;white-space:nowrap}
+.tag{display:inline-block;font-family:var(--mono);font-size:19px;color:var(--text-dim);border:1px solid var(--border);border-radius:6px;padding:3px 10px;margin:3px 4px 3px 0}
+.klist p{margin:7px 0;font-size:23px}
+.klist .nm{font-family:var(--mono);font-weight:700;color:var(--green)}
+.pagefoot{position:absolute;left:56px;right:56px;bottom:26px;display:flex;justify-content:space-between;color:#4d5966;font-family:var(--mono);font-size:17px;z-index:50}
+.pagefoot .fnum{color:#5a6b80}
+
+/* === B2 GATE CHAIN (8-ring pipeline, terminal style) === */
+.chainhead{font-family:var(--mono);font-size:21px;color:var(--green-dim);margin-bottom:14px}
+.chain{position:relative;display:flex;flex-direction:column;gap:9px}
+.chain::before{content:"";position:absolute;left:44px;top:28px;bottom:28px;width:2px;
+  background:linear-gradient(180deg,var(--green),rgba(38,134,65,.12));opacity:.55}
+.ring{position:relative;display:flex;align-items:center;gap:16px;background:var(--bg-deep);
+  border:1px solid var(--border);border-left:3px solid var(--green-dim);border-radius:8px;padding:9px 16px 9px 10px;min-height:71px}
+.ring .no{flex:0 0 48px;height:48px;border-radius:50%;background:var(--bg-panel);border:2px solid var(--green);
+  color:var(--green);font:700 20px var(--mono);display:flex;align-items:center;justify-content:center;z-index:1}
+.ring .tx{min-width:0}
+.ring .nm{font:700 23px var(--mono);color:var(--green)}
+.ring .ds{font-family:var(--sans);color:var(--text-dim);font-size:20px;margin-top:2px}
+.ring.bad{border-color:rgba(248,81,73,.6);border-left-color:var(--red);background:rgba(248,81,73,.05)}
+.ring.bad .no{border-color:var(--red);color:var(--red)}
+.ring.bad .nm{color:var(--red)}
+.ring.bad .ex{float:right;font-family:var(--mono);font-size:18px;color:var(--red);border:1px dashed rgba(248,81,73,.6);border-radius:6px;padding:2px 8px;margin-left:10px}
+.slide.visible .ring{animation:ringIn .45s var(--ease) both}
+.slide.visible .ring:nth-of-type(1){animation-delay:.10s}
+.slide.visible .ring:nth-of-type(2){animation-delay:.19s}
+.slide.visible .ring:nth-of-type(3){animation-delay:.28s}
+.slide.visible .ring:nth-of-type(4){animation-delay:.37s}
+.slide.visible .ring:nth-of-type(5){animation-delay:.46s}
+.slide.visible .ring:nth-of-type(6){animation-delay:.55s}
+.slide.visible .ring:nth-of-type(7){animation-delay:.64s}
+.slide.visible .ring:nth-of-type(8){animation-delay:.73s}
+@keyframes ringIn{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:none}}
+
+/* === B1 LAYER STACK === */
+.layers{display:flex;flex-direction:column;justify-content:center;min-height:0}
+.layer{border:1px solid var(--border);background:var(--bg-panel);border-radius:10px;padding:14px 22px;text-align:center}
+.layer .lnm{font:700 25px var(--mono);color:var(--text)}
+.layer .lds{font-family:var(--sans);font-size:20px;color:var(--text-dim);margin-top:2px}
+.layer.kernel{border-color:var(--green);box-shadow:0 0 26px var(--green-glow);background:rgba(57,211,83,.06)}
+.layer.kernel .lnm{color:var(--green)}
+.layer.down{text-align:center;color:var(--green-dim);font-size:20px;line-height:1;padding:3px 0}
+.drvchips{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:9px}
+.drvchips span{font:15px var(--mono);color:var(--amber);border:1px solid rgba(210,153,34,.4);border-radius:5px;padding:2px 7px}
+
+/* === B3 GIT GRAPH === */
+.gitgraph{position:relative;height:190px;margin:10px 6px 4px}
+.gg-main{position:absolute;left:20px;right:20px;top:140px;height:3px;background:var(--green-dim)}
+.gg-dot{position:absolute;width:16px;height:16px;border-radius:50%;background:var(--bg-panel);border:3px solid var(--green);transform:translate(-8px,-7px)}
+.gg-branch{position:absolute;left:30%;width:32%;top:52px;height:3px;background:var(--blue)}
+.gg-bdot{position:absolute;width:14px;height:14px;border-radius:50%;background:var(--bg-panel);border:3px solid var(--blue);transform:translate(-7px,-6px)}
+.gg-up{position:absolute;width:3px;background:var(--blue);opacity:.7}
+.gg-lab{position:absolute;font:18px var(--mono);color:var(--text-dim)}
+
+/* === C2 FUNNEL === */
+.funnel{display:flex;flex-direction:column;gap:8px;align-items:center}
+.frow{display:flex;align-items:center;gap:18px;border:1px solid var(--border);border-left:3px solid var(--green-dim);
+  background:var(--bg-deep);border-radius:8px;padding:9px 18px;min-height:66px}
+.frow .fmod{font:700 22px var(--mono);color:var(--green);flex:0 0 190px}
+.frow .fds{font-family:var(--sans);color:var(--text-dim);font-size:20px;flex:1;line-height:1.35}
+.frow .fm{flex:0 0 auto}
+.f1{width:100%}.f2{width:94%}.f3{width:88%}.f4{width:82%}.f5{width:76%}.f6{width:70%}
+
+/* === C3 STATE MACHINE STRIP === */
+.stateline{display:flex;align-items:stretch;gap:0;margin:8px 0 42px}
+.seg{flex:1;padding:12px 14px;border:1px solid var(--border);text-align:center;position:relative}
+.seg .sn{font:700 21px var(--mono)}
+.seg .sv{font:17px var(--mono);color:var(--text-dim);margin-top:3px}
+.seg.speech{background:rgba(57,211,83,.10);border-color:var(--green-dim)}.seg.speech .sn{color:var(--green)}
+.seg.sil{background:rgba(139,148,158,.06)}.seg.sil .sn{color:var(--text-dim)}
+.seg.hold{background:rgba(210,153,34,.10);border-color:rgba(210,153,34,.5)}.seg.hold .sn{color:var(--amber)}
+.seg.out{background:rgba(88,166,255,.10);border-color:rgba(88,166,255,.5)}.seg.out .sn{color:var(--blue)}
+.seg+.seg{margin-left:26px}
+.seg+.seg::before{content:"▸";position:absolute;left:-22px;top:50%;transform:translateY(-50%);color:var(--green-dim);font-size:18px}
+.seg.first::after{content:"min-speech 200ms";position:absolute;left:50%;transform:translateX(-50%);bottom:-30px;font:16px var(--mono);color:var(--green-dim);white-space:nowrap}
+
+/* === D1 STACKED BAR / D4 BARS === */
+.stbar{display:flex;height:58px;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+.stbar div{display:flex;align-items:center;justify-content:center;font:700 22px var(--mono);color:#0d1117}
+.hbar{display:flex;align-items:center;gap:14px;margin:11px 0}
+.hbar .hl0{flex:0 0 190px;font:20px var(--mono);color:var(--text-dim);text-align:right}
+.hbar .htrack{flex:1;height:26px;background:var(--bg-deep);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.hbar .hfill{height:100%}
+.hbar .hval{flex:0 0 120px;font:20px var(--mono);color:var(--text)}
+
+/* === D2 TIMELINE === */
+.tline{display:grid;grid-template-columns:1fr 1fr;gap:12px 26px}
+.tl{display:flex;gap:14px;align-items:flex-start;background:var(--bg-panel);border:1px solid var(--border);border-radius:8px;padding:11px 16px}
+.tl .tv{flex:0 0 158px;font:700 20px var(--mono);color:var(--green)}
+.tl .tv .td{display:block;font-weight:400;font-size:17px;color:var(--text-dim)}
+.tl .tx2{font-family:var(--sans);font-size:20px;color:var(--text);line-height:1.4}
+
+/* === STAT CARDS === */
+.statcard{text-align:left}
+.statcard .big{font:700 54px var(--mono);color:var(--green);line-height:1.1}
+.statcard .big.blue{color:var(--blue)} .statcard .big.amber{color:var(--amber)} .statcard .big.purple{color:var(--purple)}
+.statcard .cap{font-family:var(--sans);font-size:20px;color:var(--text-dim);margin-top:6px;line-height:1.4}
+
+/* === E2 ROADMAP === */
+.roadcol{position:relative;padding-top:14px}
+.roadcol::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;border-radius:3px}
+.roadcol.near::before{background:var(--green)}
+.roadcol.mid::before{background:var(--blue)}
+.roadcol.far::before{background:var(--purple)}
+.roadcol h3{font:700 26px var(--mono);margin-bottom:4px}
+.roadcol .rk{font:19px var(--mono);color:var(--text-dim);margin-bottom:12px}
+.roadcol li{list-style:none;font-family:var(--sans);font-size:21px;color:var(--text);margin:9px 0;padding-left:18px;position:relative;line-height:1.4}
+.roadcol li::before{content:"›";position:absolute;left:0;color:var(--green-dim);font-family:var(--mono)}
+
+/* === MANIFEST PAGE === */
+.mfrow{display:flex;gap:20px;align-items:flex-start;padding:11px 0;border-bottom:1px dashed #21262d}
+.mfrow:last-child{border-bottom:none}
+.mfrow .grp{flex:0 0 250px;text-align:center;margin-top:3px}
+.mfrow .mfx{font-family:var(--sans);font-size:23px;line-height:1.65}
+.mfrow .mfx .pg{font-family:var(--mono);color:var(--text-dim);font-size:19px}
+
+/* === EDIT MODE CHROME (JS-controlled hotzone, never CSS ~) === */
+.edit-hotzone{position:fixed;top:0;left:0;width:88px;height:88px;z-index:10000;cursor:pointer}
+#editToggle{position:fixed;left:18px;top:18px;z-index:10001;background:#161b22;color:#e6edf3;border:1px solid var(--border);
+  border-radius:8px;font-family:var(--mono);font-size:14px;padding:8px 12px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .3s ease}
+#editToggle.show,#editToggle.active{opacity:1;pointer-events:auto}
+#editToggle.active{border-color:var(--green);color:var(--green)}
+[contenteditable="true"]{background:rgba(57,211,83,.08);box-shadow:inset 0 0 0 1px var(--green-dim);border-radius:4px;cursor:text}
+#progress{position:fixed;left:0;bottom:0;height:4px;background:var(--green);z-index:9999;transition:width .3s;box-shadow:0 0 12px var(--green-glow)}
+</style>
+</head>
+<body>
+<div class="deck-viewport">
+<main class="deck-stage" id="deckStage">
+
+<!-- === SLIDE 01 · A1 COVER === -->
+<section class="slide active">
+  <div class="slide-content" style="justify-content:center;align-items:center">
+    <div class="term" style="width:1520px">
+      <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">yaoyue@arch — laosd boot --verbose</span></div>
+      <div class="term-body" style="font-size:25px">
+        <p class="reveal c mono">$ laosd boot --verbose</p>
+        <p class="reveal"><span class="ok">[ OK ]</span> syscall 闸门链 · <span class="mono p">8</span> 环就绪（caps → audit）</p>
+        <p class="reveal"><span class="ok">[ OK ]</span> 驱动子进程 · <span class="mono p">15</span> × drv_* 重依赖隔离</p>
+        <p class="reveal"><span class="ok">[ OK ]</span> 测试 · <span class="mono p">765</span> green（主库 415 + 隔离区 279 + 复现区 71）</p>
+        <h1 class="reveal mono glowtitle" style="font-size:84px;color:var(--green);margin:22px 0 8px">laos · Linux AgentOS</h1>
+        <p class="reveal" style="font-size:30px">面向 AI Agent 的用户态操作系统 <span class="c">·</span> 详细技术深潜</p>
+        <p class="reveal mono" style="font-size:26px;color:var(--green);margin-top:16px">Linux AgentOS = Linux kernel + Agent + MCP</p>
+        <p class="reveal c mono" style="font-size:21px;margin-top:18px">v0.12.0 · 2026-10-05 · github.com/Yfredy/LAOS</p>
+        <p class="reveal"><span class="prompt">~/laos $</span> <span class="cursor"></span></p>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · BOOT</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 01 / 19</span></div>
+</section>
+
+<!-- === SLIDE 02 · MANIFEST (TOC) === -->
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal"><span class="grp a">MANIFEST</span><span class="cmd">$ cat /usr/share/laos/MANIFEST · 18 内容域 · A→E</span></p>
+    <h2 class="pt reveal">深潜路线图 <span class="hl">·</span> 五组十八域</h2>
+    <div class="term reveal" style="margin-top:22px;flex:1">
+      <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">MANIFEST — wave2 detailed dive</span></div>
+      <div class="term-body" style="padding-top:18px;padding-bottom:14px">
+        <div class="mfrow"><span class="grp a">A · 开场组</span><p class="mfx">A1 封面 <span class="pg">p.01</span> ── A2 命题 <span class="pg">p.03</span> ── A3 「AgentOS」八种含义坐标 <span class="pg">p.04</span></p></div>
+        <div class="mfrow"><span class="grp b">B · 内核组</span><p class="mfx">B1 架构分层 <span class="pg">p.05</span> ── B2 syscall 闸门链 <span class="pg p mono" style="font-size:21px">★ 全片核心 p.06</span> ── B3 分支与内存模型 <span class="pg">p.07</span> ── B4 判断层 Jev <span class="pg">p.08</span></p></div>
+        <div class="mfrow"><span class="grp c">C · 驱动生态组</span><p class="mfx">C1 驱动全景 ×15 <span class="pg">p.09</span> ── C2 端侧听觉栈 <span class="pg">p.10</span> ── C3 全双工轮转三件套 <span class="pg">p.11</span> ── C4 AlwaysOnRec 双沙箱 <span class="pg">p.12</span></p></div>
+        <div class="mfrow"><span class="grp d">D · 质量与文化组</span><p class="mfx">D1 测试与质量 <span class="pg">p.13</span> ── D2 版本史时间线 <span class="pg">p.14</span> ── D3 复现文化 Repro-ZCode <span class="pg">p.15</span> ── D4 调研语料库 <span class="pg">p.16</span></p></div>
+        <div class="mfrow"><span class="grp e">E · 收尾组</span><p class="mfx">E1 安全与合规红线 <span class="pg">p.17</span> ── E2 路线图 <span class="pg">p.18</span> ── E3 收尾 <span class="pg">p.19</span></p></div>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · MANIFEST</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 02 / 19</span></div>
+</section>
+
+<!-- === SLIDE 03 · A2 THESIS === -->
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal"><span class="grp a">A2 · 命题</span><span class="cmd">$ uname -o → laosd / user-space AgentOS on unmodified Linux</span></p>
+    <h2 class="pt reveal">不改<span class="hl">一行内核代码</span>，把 Linux 变成 Agent 的操作系统</h2>
+    <p class="sub reveal">复用四件内核遗产，在用户态组装出强制层；工具调用从此拥有 syscall 语义</p>
+    <div class="body-zone">
+      <div class="grid2" style="flex:1">
+        <div class="term reveal">
+          <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">kernel-legacy.list — 四件遗产</span></div>
+          <div class="term-body klist" style="font-size:24px">
+            <p><span class="nm">namespace</span> ── 隔离视图</p>
+            <p><span class="nm">cgroup</span> ── 资源配额</p>
+            <p><span class="nm">seccomp-BPF</span> ── 系统调用过滤</p>
+            <p><span class="nm">landlock</span> ── 文件沙箱</p>
+            <p class="c mono" style="font-size:20px;margin-top:14px"># 内核已备好强制原语，缺的只是把它们接给 Agent</p>
+          </div>
+        </div>
+        <div class="term reveal">
+          <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">os-mapping.tab — OS ↔ laos</span></div>
+          <div class="term-body">
+            <table class="t">
+              <tr><th>OS 概念</th><th>laos 语义</th></tr>
+              <tr><td>设备驱动</td><td class="p mono">MCP Server</td></tr>
+              <tr><td>系统调用</td><td class="p mono">tool call</td></tr>
+              <tr><td>内核</td><td class="p mono">laosd 薄内核</td></tr>
+              <tr><td>权限位</td><td class="p mono">能力表 caps</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="banner reveal" style="margin-top:22px">
+        关键判断 ── <span class="q">Agent 时代的「内核」不是重写调度器，而是给工具调用装上 syscall 语义</span>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · THESIS</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 03 / 19</span></div>
+</section>
+
+<!-- === SLIDE 04 · A3 LANDSCAPE === -->
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal"><span class="grp a">A3 · 坐标</span><span class="cmd">$ grep -c "AgentOS" docs/research/agentos-landscape-2026-08.md → ≥ 8 种含义</span></p>
+    <h2 class="pt reveal">「AgentOS」至少有 <span class="hl">8</span> 种含义 · laos 落在 <span class="hl">L2</span></h2>
+    <p class="sub reveal">调研结论：市面上的「AgentOS」至少指 8 种不同的东西（来源：<span class="m">docs/research/agentos-landscape-2026-08.md</span>）</p>
+    <div class="body-zone">
+      <div class="card reveal" style="position:relative;height:200px">
+        <h3 style="margin-bottom:2px">强制力光谱</h3>
+        <div style="position:absolute;left:60px;right:60px;top:104px;height:4px;border-radius:3px;background:linear-gradient(90deg,#8b949e,#39d353)"></div>
+        <div style="position:absolute;left:60px;top:92px;width:26px;height:26px;border-radius:50%;border:4px solid #8b949e;background:var(--bg-panel);transform:translateX(-13px)"></div>
+        <div style="position:absolute;left:65.5%;top:80px;width:46px;height:46px;border-radius:50%;border:4px solid var(--red);background:var(--bg-panel);transform:translateX(-23px);box-shadow:0 0 24px rgba(248,81,73,.5)"></div>
+        <div style="position:absolute;right:60px;top:92px;width:26px;height:26px;border-radius:50%;border:4px solid var(--green);background:var(--bg-panel);transform:translateX(-13px)"></div>
+        <p style="position:absolute;left:60px;top:140px" class="mono c">L0 约定层 <span style="font-size:17px">（提示词 · 君子协定）</span></p>
+        <p class="mono" style="position:absolute;left:65.5%;top:150px;transform:translateX(-50%);color:var(--red)">L2 用户态强制层 ← laos 在这里</p>
+        <p class="mono" style="position:absolute;right:60px;top:140px;color:var(--green)">L3 libOS 层</p>
+        <p style="position:absolute;left:34.4%;top:140px" class="mono c">L1</p>
+      </div>
+      <div class="grid2" style="margin-top:22px;flex:1">
+        <div class="card reveal">
+          <h3>多数「AgentOS」＝ 框架 / 壳</h3>
+          <div class="klist" style="font-size:23px">
+            <p>编排与提示词层的「约定」，不构成强制</p>
+            <p class="c">边界写在上下文窗口里，模型可以绕开</p>
+          </div>
+        </div>
+        <div class="card blue reveal">
+          <h3 style="color:var(--blue)">laos ＝ 治理内核：四件事在派发前完成</h3>
+          <p style="margin:6px 0 12px;font-size:22px">能力 <span class="mono b">caps</span> · 预算 <span class="mono b">EDQUOT</span> · 审计 <span class="mono b">audit</span> · 判断 <span class="mono b">Jev</span></p>
+          <p class="c" style="font-size:21px">工具调用真正发生之前，治理已经结束</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · LANDSCAPE</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 04 / 19</span></div>
+</section>
+
+<!-- === SLIDE 05 · B1 ARCHITECTURE === -->
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal"><span class="grp b">B1 · 架构</span><span class="cmd">$ laosctl top --layers</span></p>
+    <h2 class="pt reveal">总体架构 <span class="hl">·</span> 四层栈与三棵树</h2>
+    <p class="sub reveal">核心承诺：<span class="m">laos/</span> 目录零第三方依赖（纯 stdlib）—— 重依赖只活在驱动子进程</p>
+    <div class="body-zone" style="flex-direction:row;gap:24px">
+      <div class="layers reveal" style="flex:1.25">
+        <div class="layer">
+          <p class="lnm">Agent <span class="c" style="font-weight:400;font-size:20px">（brain / agent）</span></p>
+          <p class="lds">决策大脑 · 只见工具，不见设备</p>
+        </div>
+        <p class="down">▼ tool call</p>
+        <div class="layer kernel">
+          <p class="lnm">laos 内核</p>
+          <p class="lds" style="color:var(--text)">kernel.py 调度 + syscall 闸门链（8 环 · 下一页下钻）</p>
+        </div>
+        <p class="down">▼ 派发</p>
+        <div class="layer">
+          <p class="lnm">驱动子进程 <span class="a" style="font-weight:400;font-size:20px">× 15</span></p>
+          <div class="drvchips">
+            <span>drv_mic</span><span>drv_ear</span><span>drv_rec</span><span>drv_screen</span><span>drv_apps</span><span>drv_notify</span><span>drv_battery</span><span>drv_comms</span><span>drv_events</span><span>drv_fs</span><span>drv_proc</span><span>drv_sys</span><span>drv_npu</span><span>drv_audio</span><span>drv_genie</span>
+          </div>
+          <p class="lds">重依赖隔离：失控只死驱动，不伤宿主</p>
+        </div>
+        <p class="down">▼</p>
+        <div class="layer" style="background:var(--bg-deep)">
+          <p class="lnm mono" style="font-size:22px;color:var(--text-dim)">Linux · MCP · 外设</p>
+        </div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:20px;min-width:0">
+        <div class="card reveal" style="flex:1">
+          <h3>核心承诺 · 依赖卫生</h3>
+          <div class="klist" style="font-size:23px">
+            <p><span class="nm">laos/</span> 零第三方依赖 —— 纯 Python stdlib</p>
+            <p>重依赖<span class="a">只活在驱动子进程</span>，内核永远薄</p>
+          </div>
+        </div>
+        <div class="card blue reveal" style="flex:1.35">
+          <h3 style="color:var(--blue)">三棵树 · 三个测试区</h3>
+          <div class="klist" style="font-size:23px">
+            <p><span class="mono" style="color:var(--blue);font-weight:700">laos</span> 主库 <span class="c mono" style="font-size:19px">415 tests</span></p>
+            <p><span class="mono" style="color:var(--blue);font-weight:700">AlwaysOnRec</span> 隔离区 <span class="c mono" style="font-size:19px">279 tests</span></p>
+            <p><span class="mono" style="color:var(--blue);font-weight:700">Repro</span> 复现区 <span class="c mono" style="font-size:19px">71 tests</span></p>
+            <p class="c" style="font-size:20px">常驻录音与论文复现各自隔离，主库保持洁净</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · ARCHITECTURE</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 05 / 19</span></div>
+</section>
+
+<!-- === SLIDE 06 · B2 GATE CHAIN (CORE PAGE, 8-RING PIPELINE) === -->
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal"><span class="grp b">B2 · 闸门链 ★</span><span class="cmd">$ laosctl trace --gate-chain --verbose · 全片核心页</span></p>
+    <h2 class="pt reveal">syscall 闸门链 <span class="hl">·</span> 八环流水线</h2>
+    <p class="sub reveal">每一笔 tool call 依序过闸 —— 任一环即拒，八环全过才派发并留痕</p>
+    <div class="body-zone" style="flex-direction:row;gap:22px">
+      <div class="term reveal" style="flex:1.5;min-width:0">
+        <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">the gate chain — 8 rings</span></div>
+        <div class="term-body" style="padding-top:18px">
+          <p class="chainhead">caps → scope → schema → budget → ledger → jev → confirm → dispatch+audit</p>
+          <div class="chain">
+            <div class="ring"><span class="no">01</span><div class="tx"><p class="nm">能力表 caps</p><p class="ds">如 screen.* —— 表外能力对 Agent 不可见</p></div></div>
+            <div class="ring bad"><span class="no">02</span><div class="tx"><p class="nm">task_scope 作用域</p><p class="ds">路径前缀 / pkg: 应用白名单 / time: 时间窗</p></div><span class="ex">← 拒绝示例命中环</span></div>
+            <div class="ring"><span class="no">03</span><div class="tx"><p class="nm">schema 校验</p><p class="ds">参数非法即拒 —— EINVAL 语义</p></div></div>
+            <div class="ring"><span class="no">04</span><div class="tx"><p class="nm">EDQUOT 预算</p><p class="ds">配额耗尽即拒，资源不被吃光</p></div></div>
+            <div class="ring"><span class="no">05</span><div class="tx"><p class="nm">FleetLedger 不可逆计价</p><p class="ds">先扣账后派发 · 风险分扣减</p></div></div>
+            <div class="ring"><span class="no">06</span><div class="tx"><p class="nm">Jev 预审</p><p class="ds">opt-in 判断层：值不值得做</p></div></div>
+            <div class="ring"><span class="no">07</span><div class="tx"><p class="nm">确认横幅</p><p class="ds">高危操作交人审</p></div></div>
+            <div class="ring"><span class="no">08</span><div class="tx"><p class="nm">派发 + 审计</p><p class="ds">每笔 tool call 留痕，事后可追溯</p></div></div>
+          </div>
+        </div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:20px;min-width:0">
+        <div class="term reveal" style="flex:1">
+          <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">reject-trace.log — 第 2 环即拒</span></div>
+          <div class="term-body" style="font-size:23px">
+            <p class="c mono" style="font-size:21px">$ laosctl call screen.tap --pkg &lt;白名单外应用&gt;</p>
+            <p style="margin-top:12px"><span class="mono" style="color:var(--red);font-weight:700">[GATE 02]</span> task_scope<br><span class="mono" style="color:var(--red)">pkg: 白名单未命中 → REJECT</span></p>
+            <p class="c mono" style="font-size:21px;margin-top:12px">[ skip ] 03–08 环未执行</p>
+            <p style="margin-top:12px"><span class="ok">[ OK ]</span> <span class="mono">adb</span> 未被触达<br><span class="c">拒绝发生在内核侧语义层，成本止于第 2 环</span></p>
+          </div>
+        </div>
+        <div class="card amber reveal">
+          <h3 style="color:var(--amber)">为什么是「流水线」</h3>
+          <p style="font-size:22px;line-height:1.5">拒绝越早越便宜：作用域不匹配在第 <span class="mono a">02</span> 环挡下，预算与计价在 <span class="mono a">04/05</span> 环守门，人审与审计兜住尾部。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · GATE CHAIN</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 06 / 19</span></div>
+</section>
+
+<!-- === SLIDE 07 · B3 BRANCH & MEMORY === -->
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal"><span class="grp b">B3 · 上下文</span><span class="cmd">$ git -C laos/ context --branch --cow --memory</span></p>
+    <h2 class="pt reveal">分支与内存模型 <span class="hl">·</span> Agent 的 git 语义</h2>
+    <p class="sub reveal">试错在分支上发生，主线保持洁净；记忆只写实际发生的交互</p>
+    <div class="body-zone">
+      <div class="grid2" style="flex:1">
+        <div class="card reveal">
+          <h3>branch.py + cow.py · 分支树</h3>
+          <div class="gitgraph">
+            <div class="gg-branch"></div>
+            <div class="gg-bdot" style="left:30%;top:52px"></div>
+            <div class="gg-bdot" style="left:46%;top:52px"></div>
+            <div class="gg-bdot" style="left:62%;top:52px"></div>
+            <div class="gg-up" style="left:30%;top:52px;height:90px"></div>
+            <div class="gg-up" style="left:62%;top:52px;height:90px"></div>
+            <div class="gg-lab" style="left:33%;top:20px;color:var(--blue)">branch：试错分支（可丢弃）</div>
+            <div class="gg-main"></div>
+            <div class="gg-dot" style="left:10%;top:140px"></div>
+            <div class="gg-dot" style="left:30%;top:140px"></div>
+            <div class="gg-dot" style="left:62%;top:140px;border-color:var(--amber)"></div>
+            <div class="gg-dot" style="left:85%;top:140px"></div>
+            <div class="gg-dot" style="left:98%;top:140px"></div>
+            <div class="gg-lab" style="left:2%;top:165px;color:var(--green)">main 主线</div>
+            <div class="gg-lab" style="left:56%;top:165px;color:var(--amber)">merge 回主线</div>
+          </div>
+          <p class="c" style="font-size:20px;margin-top:6px">cow.py 写时复制上下文：写时才复制，分支共享未写历史</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
+          <div class="card blue reveal" style="flex:1">
+            <h3 style="color:var(--blue)">memory.py MemoryStore</h3>
+            <div class="klist" style="font-size:22px">
+              <p>+ diary / journal 日记层</p>
+              <p><span class="a">记忆闸门</span>：只记实际发生的交互</p>
+              <p class="c" style="font-size:20px">想象的、未送达的、被丢弃的 —— 一律不进记忆</p>
+            </div>
+          </div>
+          <div class="banner reveal" style="flex:0 0 auto">
+            Agent 可在分支上<span class="q">试错</span>，再<span class="q">合并回主线</span> —— 类似 git 语义的 Agent 上下文管理
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · BRANCH · MEMORY</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 07 / 19</span></div>
+</section>
+
+<!-- === SLIDE 08 · B4 JEV === -->
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal"><span class="grp b">B4 · 判断层</span><span class="cmd">$ python -m laos.jev --calibrate --on-device</span></p>
+    <h2 class="pt reveal">判断层 Jev <span class="hl">·</span> 派发之前，先问值不值得</h2>
+    <p class="sub reveal">闸门链第 6 环（opt-in）的决策模型 —— 不改变边界，只改变「做不做」</p>
+    <div class="body-zone">
+      <div class="grid3" style="flex:1">
+        <div class="card reveal">
+          <h3>四闸门决策模型</h3>
+          <p style="font-size:22px;margin-bottom:10px">三判型：</p>
+          <p><span class="tag" style="color:var(--green);border-color:var(--green-dim)">Noul</span><span class="tag" style="color:var(--green);border-color:var(--green-dim)">Choice</span><span class="tag" style="color:var(--green);border-color:var(--green-dim)">Score</span></p>
+          <p style="font-size:22px;margin-top:14px">laos <span class="mono p">11</span> 处硬阈值映射到 Jev</p>
+          <p class="c" style="font-size:20px;margin-top:8px">同一套判断语义，覆盖内核全部决策点</p>
+        </div>
+        <div class="card red redline reveal">
+          <h3 style="color:var(--red)">端侧实测 · 诚实数字</h3>
+          <p class="mono" style="font-size:20px;color:var(--text-dim)">median latency（端侧实测）</p>
+          <p class="mono" style="font-size:56px;color:var(--green);font-weight:700;line-height:1.15">157.5<span style="font-size:28px">ms</span></p>
+          <p class="mono" style="font-size:22px;color:var(--text-dim);margin-top:8px">README 宣称 <s style="color:var(--red)">15.6ms</s> → 被实测否证，慢 <span style="color:var(--red)">10×</span></p>
+          <p class="c" style="font-size:20px;margin-top:10px">校准数据说了算 —— 不护短，改文档</p>
+        </div>
+        <div class="card blue reveal">
+          <h3 style="color:var(--blue)">judge 透传 · 可插拔</h3>
+          <div class="klist" style="font-size:22px">
+            <p><span class="mono" style="color:var(--blue);font-weight:700">TurnBuffer.commit</span> 可挂 judge</p>
+            <p><span class="mono" style="color:var(--blue);font-weight:700">memory.remember</span> 可挂 judge</p>
+            <p class="c" style="font-size:20px">提交与记忆两个出口都能先过判断，再落账</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · JEV</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 08 / 19</span></div>
+</section>
+
+<!-- === SLIDE 09 · C1 DRIVERS === -->
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal"><span class="grp c">C1 · 驱动</span><span class="cmd">$ ls /laos/drivers/ -1 | wc -l → 15</span></p>
+    <h2 class="pt reveal">驱动全景 <span class="hl">·</span> 15 个 drv_* 子进程</h2>
+    <p class="sub reveal">听觉 3 · 手机 6 · 系统 6 —— 每个都是隔离的 MCP 驱动子进程</p>
+    <div class="body-zone">
+      <div class="grid3" style="flex:1">
+        <div class="term reveal">
+          <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">听觉 ×3</span></div>
+          <div class="term-body klist" style="font-size:22px">
+            <p><span class="nm">drv_mic</span><br><span class="c" style="font-size:20px">录音 · 只由显式 syscall 触发</span></p>
+            <p><span class="nm">drv_ear</span><br><span class="c" style="font-size:20px">转写 + LUFS</span></p>
+            <p><span class="nm">drv_rec</span></p>
+          </div>
+        </div>
+        <div class="term reveal">
+          <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">手机 ×6</span></div>
+          <div class="term-body klist" style="font-size:22px">
+            <p><span class="nm">drv_screen</span><br><span class="c mono" style="font-size:19px">tap / text / dump / key / longpress / doubletap / devices</span></p>
+            <p><span class="nm">drv_apps</span><br><span class="c mono" style="font-size:19px">list / launch / close</span></p>
+            <p><span class="nm">drv_notify</span> · <span class="nm">drv_battery</span></p>
+            <p><span class="nm">drv_comms</span> · <span class="nm">drv_events</span></p>
+          </div>
+        </div>
+        <div class="term reveal">
+          <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">系统 ×6</span></div>
+          <div class="term-body klist" style="font-size:22px">
+            <p><span class="nm">drv_fs</span> · <span class="nm">drv_proc</span> · <span class="nm">drv_sys</span></p>
+            <p><span class="nm">drv_npu</span><br><span class="c" style="font-size:20px">QNN 真机</span></p>
+            <p><span class="nm">drv_audio</span> · <span class="nm">drv_genie</span></p>
+          </div>
+        </div>
+      </div>
+      <div class="banner reveal" style="margin-top:22px">
+        治理事实 ── <span class="mono q">kernel.load_driver()</span> 外挂需过闸 · <span class="mono q">apps.* / screen.*</span> 均受 <span class="mono q">pkg:</span> 作用域闸门
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · DRIVERS</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 09 / 19</span></div>
+</section>
+
+<!-- === SLIDE 10 · C2 HEARING STACK (FUNNEL) === -->
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal"><span class="grp c">C2 · 听觉栈</span><span class="cmd">$ laosctl hearing --stack --funnel</span></p>
+    <h2 class="pt reveal">端侧听觉栈 <span class="hl">·</span> 六级信号漏斗</h2>
+    <p class="sub reveal">信号 → 测度 → 空间线索；每个数字都来自校准锚点或逐行对齐</p>
+    <div class="body-zone" style="justify-content:center">
+      <div class="funnel reveal">
+        <div class="frow f1"><span class="fmod">vad.py</span><span class="fds">能量 + 滞回 VAD · 无声即弃，零存储</span><span class="fm mchip">10ms 帧</span></div>
+        <div class="frow f2"><span class="fmod">loudness.py</span><span class="fds">BS.1770-4 全套：K 计权（48k Annex 精确系数）· 门控积分 · LRA · True Peak（sinc 重构）· PLR</span><span class="fm mchip">−23.00 LUFS ±0.1</span></div>
+        <div class="frow f3"><span class="fmod">binaural.py</span><span class="fds">Goertzel 逐频点 ILD / IPD 双耳线索</span><span class="fm mchip">250/500/1k/2k/4k Hz</span></div>
+        <div class="frow f4"><span class="fmod">micgeom.py</span><span class="fds">麦克风几何 MPE · 与官方 JAX 源码逐行对齐</span><span class="fm mchip">跨实现 diff 0.0</span></div>
+        <div class="frow f5"><span class="fmod">foa.py</span><span class="fds">一阶 Ambisonics 编解码</span><span class="fm mchip">SN3D / N3D + ACN</span></div>
+        <div class="frow f6"><span class="fmod">ShoNet DOA</span><span class="fds">复现（Repro 区）：STFT 相位特征 → CNN + BiGRU + MHSA</span><span class="fm mchip">冒烟 holdout 56.5°</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · HEARING STACK</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 10 / 19</span></div>
+</section>
+
+<!-- === SLIDE 11 · C3 DUPLEX TRIO === -->
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal"><span class="grp c">C3 · 全双工</span><span class="cmd">$ laosctl duplex --timeline --policy --buffer</span></p>
+    <h2 class="pt reveal">全双工轮转三件套 <span class="hl">·</span> 时序 / 策略 / 缓冲</h2>
+    <p class="sub reveal">时序可测 · 策略可调 · 记忆不写想象</p>
+    <div class="body-zone">
+      <div class="card reveal" style="padding-bottom:44px">
+        <h3>turnpolicy.py · speak / hold / stop 三态（示意）</h3>
+        <div class="stateline">
+          <div class="seg speech first"><p class="sn">用户语音</p><p class="sv">speech</p></div>
+          <div class="seg sil"><p class="sn">静音尾</p><p class="sv">tail-silence 500ms</p></div>
+          <div class="seg hold"><p class="sn">hold</p><p class="sv">min-hold 250ms</p></div>
+          <div class="seg out"><p class="sn">speak 输出</p><p class="sv">speak</p></div>
+        </div>
+        <p class="c mono" style="font-size:18px">三闸：min-speech 200ms / tail-silence 500ms / min-hold 250ms —— 防过早响应</p>
+      </div>
+      <div class="grid3" style="flex:1;margin-top:20px">
+        <div class="card reveal">
+          <h3>duplex.py · 时序测量</h3>
+          <p style="font-size:21px;line-height:1.55">事件时间线 →<br><span class="mono" style="font-size:20px">响应延迟 / 打断响应 / 重叠率 / 抢话计数</span></p>
+          <p class="c" style="font-size:20px;margin-top:10px">Duplex-MPE 四能力分解</p>
+        </div>
+        <div class="card amber reveal">
+          <h3 style="color:var(--amber)">turnbuf.py · 打断语义</h3>
+          <div class="klist" style="font-size:21px">
+            <p>打断即作废（未送达丢弃）</p>
+            <p>只记已送达</p>
+            <p><span class="mono a">interject</span> 插队帧无缝织入</p>
+          </div>
+          <p class="c" style="font-size:20px;margin-top:8px">慢系统结果迟到，也能织进对话</p>
+        </div>
+        <div class="card blue reveal">
+          <h3 style="color:var(--blue)">来源论文 · 2026-09 周报波</h3>
+          <div class="klist" style="font-size:21px">
+            <p class="mono" style="color:var(--blue)">Duplex-MPE</p>
+            <p class="mono" style="color:var(--blue)">SALMONN-duo</p>
+            <p class="mono" style="color:var(--blue)">Context Spanning</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · DUPLEX TRIO</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 11 / 19</span></div>
+</section>
+
+<!-- === SLIDE 12 · C4 ALWAYSONREC === -->
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal"><span class="grp c">C4 · 双沙箱</span><span class="cmd">$ systemctl status laos-alwaysonrec@isolation</span></p>
+    <h2 class="pt reveal">AlwaysOnRec 双沙箱 <span class="hl">·</span> 常开录音的笼子</h2>
+    <p class="sub reveal">环形缓冲 + 端侧蒸馏 + 7 天即焚 —— Apple Watch S12 范式对照</p>
+    <div class="body-zone" style="flex-direction:row;gap:24px">
+      <div class="term reveal" style="flex:1">
+        <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">four-stage funnel — 四段漏斗</span></div>
+        <div class="term-body" style="display:flex;flex-direction:column;justify-content:center;gap:10px;height:calc(100% - 46px)">
+          <p style="text-align:center;font-size:24px"><span class="mono p" style="font-weight:700">01</span> VAD 常开</p>
+          <p class="down" style="text-align:center;color:var(--green-dim);font-size:20px">▼</p>
+          <p style="text-align:center;font-size:24px"><span class="mono p" style="font-weight:700">02</span> 段落成段</p>
+          <p class="down" style="text-align:center;color:var(--green-dim);font-size:20px">▼</p>
+          <p style="text-align:center;font-size:24px"><span class="mono p" style="font-weight:700">03</span> 本地转写</p>
+          <p class="down" style="text-align:center;color:var(--green-dim);font-size:20px">▼</p>
+          <p style="text-align:center;font-size:24px"><span class="mono p" style="font-weight:700">04</span> 事件入记忆</p>
+        </div>
+      </div>
+      <div style="flex:1.35;display:flex;flex-direction:column;gap:20px;min-width:0">
+        <div class="card reveal">
+          <h3>隔离区 <span class="mono" style="font-size:34px">279</span> 测试</h3>
+          <p style="margin-top:6px"><span class="tag">环形缓冲</span><span class="tag">端侧蒸馏</span><span class="tag">7 天即焚</span></p>
+          <p class="c" style="font-size:20px;margin-top:8px">常驻录音能力整体住在沙箱里，与主库隔离</p>
+        </div>
+        <div class="card red redline reveal" style="flex:1">
+          <h3 style="color:var(--red)">隐私红线（一条都不能破）</h3>
+          <div class="klist" style="font-size:22px">
+            <p><span style="color:var(--red)">✕</span> 录音只由<span style="color:var(--red)">显式 syscall</span> 触发</p>
+            <p><span style="color:var(--red)">✕</span> <span class="mono" style="color:var(--red)">LAOS_REC=0</span> 全局禁录</p>
+            <p><span style="color:var(--red)">✕</span> 每次调用审计 <span class="mono" style="color:var(--red)">event:"mic"</span></p>
+            <p><span style="color:var(--red)">✕</span> ASR 全本地</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · ALWAYSONREC</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 12 / 19</span></div>
+</section>
+
+<!-- === SLIDE 13 · D1 QUALITY === -->
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal"><span class="grp d">D1 · 质量</span><span class="cmd">$ pytest -q --co | tail -1 → 765 collected · 765 passed</span></p>
+    <h2 class="pt reveal"><span class="hl">765</span> 测试全绿 <span class="hl">·</span> TDD 纪律</h2>
+    <p class="sub reveal">三个测试区各守一棵树 —— 主库 415 · 隔离区 279 · 复现区 71</p>
+    <div class="body-zone">
+      <div class="reveal">
+        <div class="stbar">
+          <div style="flex:54.2;background:var(--green)">415</div>
+          <div style="flex:36.5;background:var(--blue)">279</div>
+          <div style="flex:9.3;background:var(--purple)">71</div>
+        </div>
+        <p class="mono c" style="font-size:20px;margin-top:10px;text-align:center">laos 主库 415 · AlwaysOnRec 279 · Repro 71 ── 合计 <span style="color:var(--green)">765 全绿</span></p>
+      </div>
+      <div class="grid2" style="flex:1;margin-top:22px">
+        <div class="card reveal">
+          <h3>TDD 纪律</h3>
+          <div class="klist" style="font-size:23px">
+            <p>先红后绿 —— 测试先行，不见绿灯不合码</p>
+            <p>每任务一 commit</p>
+          </div>
+        </div>
+        <div class="card purple reveal">
+          <h3 style="color:var(--purple)">版本纪律</h3>
+          <div class="klist" style="font-size:23px">
+            <p>SemVer + conventional commits</p>
+            <p>30 天 <span class="mono pp" style="font-weight:700">12</span> 个 MINOR：v0.1.0 → v0.12.0</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · QUALITY</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 13 / 19</span></div>
+</section>
+
+<!-- === SLIDE 14 · D2 VERSION HISTORY === -->
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal"><span class="grp d">D2 · 版本史</span><span class="cmd">$ git log --oneline v0.1.0..v0.12.0 → 30 天 · 12 MINOR</span></p>
+    <h2 class="pt reveal">版本史时间线 <span class="hl">v0.1.0 → v0.12.0</span></h2>
+    <p class="sub reveal">2026-09-04 → 10-05：三十天，十二个 MINOR，一步一个需求波次</p>
+    <div class="body-zone">
+      <div class="tline reveal">
+        <div class="tl"><p class="tv">v0.1.0<span class="td">09-04</span></p><p class="tx2">baseline · 149 文件</p></div>
+        <div class="tl"><p class="tv">v0.2.0<span class="td">09-05</span></p><p class="tx2">强制层：seccomp + CoW + eBPF + FleetLedger</p></div>
+        <div class="tl"><p class="tv">v0.3.0<span class="td">09-09</span></p><p class="tx2">AgentProf + MCP Tasks + 信箱 + laosweb + drv_npu</p></div>
+        <div class="tl"><p class="tv">v0.4.0<span class="td">09-11</span></p><p class="tx2">听觉 + 记忆 + 日记</p></div>
+        <div class="tl"><p class="tv">v0.5.0<span class="td">09-11</span></p><p class="tx2">五层手机能力 + 双沙箱</p></div>
+        <div class="tl"><p class="tv">v0.6.0<span class="td">09-18</span></p><p class="tx2">语料库：19,792 论文 + 3,724 OSS</p></div>
+        <div class="tl"><p class="tv">v0.7.0<span class="td">09-28</span></p><p class="tx2">Jev 四闸门</p></div>
+        <div class="tl"><p class="tv">v0.8.0–v0.10.0<span class="td">10-05 · ×3</span></p><p class="tx2">复现采纳三连：SHO / PhaseCoder / ANC / LUFS / Pipecat / unique_lock → loudness / turnbuf / locks + 五套 PPT</p></div>
+        <div class="tl"><p class="tv">v0.11.0<span class="td">10-05</span></p><p class="tx2">手机操控四件套 + drv_apps + micgeom</p></div>
+        <div class="tl"><p class="tv">v0.12.0<span class="td">10-05</span></p><p class="tx2">双工时序 + 轮转策略 + 双耳线索 + FOA</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · VERSION HISTORY</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 14 / 19</span></div>
+</section>
+
+<!-- === SLIDE 15 · D3 REPRO CULTURE === -->
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal"><span class="grp d">D3 · 复现</span><span class="cmd">$ pytest Repro-ZCode/ -q → 71 passed · 能复现的全部复现</span></p>
+    <h2 class="pt reveal">复现文化 Repro-ZCode <span class="hl">·</span> 论文数字要过手</h2>
+    <p class="sub reveal">复现 → 裁决 → 落地 → 注记：一条不缺的采纳链</p>
+    <div class="body-zone">
+      <div class="grid2" style="flex:1">
+        <div class="card reveal">
+          <h3>复现清单 · 隔离区 71 测试</h3>
+          <div class="klist" style="font-size:23px">
+            <p><span class="nm">BS.1770</span> 响度 —— R128 校准锚点复算</p>
+            <p><span class="nm">FxLMS ANC</span> 收敛 &gt;20dB</p>
+            <p><span class="nm">ShoNet DOA</span> 全管线</p>
+            <p><span class="nm">PhaseCoder MPE</span> 与官方源码逐行对齐</p>
+          </div>
+        </div>
+        <div class="card red redline reveal">
+          <h3 style="color:var(--red)">诚实清单 · 偏差写明</h3>
+          <div class="klist" style="font-size:23px">
+            <p>跑不动的 → <span style="color:var(--red)">等比缩距</span>并写明偏差</p>
+            <p><span class="mono">40,295 样本 → 百样本冒烟</span></p>
+            <p class="c" style="font-size:20px">论文数字不作断言，复现边界全记档</p>
+          </div>
+        </div>
+      </div>
+      <div class="card purple reveal" style="margin-top:22px">
+        <h3 style="color:var(--purple)">采纳漏斗</h3>
+        <p style="font-size:24px;line-height:1.6">
+          <span class="mono pp" style="font-weight:700">复现</span>
+          <span class="c">──▶</span>
+          <span class="mono pp" style="font-weight:700">裁决</span>（● 执行 / ◐ 基础件 / ○ 不做）
+          <span class="c">──▶</span>
+          <span class="mono pp" style="font-weight:700">主库落地</span>
+          <span class="c">──▶</span>
+          <span class="mono pp" style="font-weight:700">文档执行注记</span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · REPRO CULTURE</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 15 / 19</span></div>
+</section>
+
+<!-- === SLIDE 16 · D4 CORPUS === -->
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal"><span class="grp d">D4 · 语料</span><span class="cmd">$ laosctl research --dashboard --full-corpus</span></p>
+    <h2 class="pt reveal">调研语料库 <span class="hl">·</span> 每个决策都可溯源</h2>
+    <p class="sub reveal">47 份调研文档 + capstone 采纳总账（每条：来源 / 可取之处 / 落点 / 状态）</p>
+    <div class="body-zone">
+      <div class="grid3 reveal">
+        <div class="card statcard">
+          <p class="big">47</p>
+          <p class="cap">份调研文档 · docs/research/</p>
+        </div>
+        <div class="card statcard">
+          <p class="big blue">19,792</p>
+          <p class="cap">篇双会议论文 · 全量 100% 遍历</p>
+        </div>
+        <div class="card statcard">
+          <p class="big amber">3,724</p>
+          <p class="cap">个 OSS 星标仓库（去噪后）</p>
+        </div>
+      </div>
+      <div class="grid2" style="flex:1;margin-top:22px">
+        <div class="card reveal">
+          <h3>论文构成 · ICASSP + Interspeech</h3>
+          <div class="hbar"><span class="hl0">ICASSP 2022–2026</span><div class="htrack"><div class="hfill" style="width:72.3%;background:var(--green)"></div></div><span class="hval">14,285</span></div>
+          <div class="hbar"><span class="hl0">Interspeech 2021–2025</span><div class="htrack"><div class="hfill" style="width:27.7%;background:var(--blue)"></div></div><span class="hval">5,507</span></div>
+          <p class="c mono" style="font-size:19px;margin-top:6px">14,285 + 5,507 = 19,792 · 全量 100%</p>
+        </div>
+        <div class="card reveal">
+          <h3>OSS 去噪构成 · 3,724 仓库</h3>
+          <div class="hbar"><span class="hl0">ref 参考</span><div class="htrack"><div class="hfill" style="width:76.9%;background:var(--green)"></div></div><span class="hval">2,864</span></div>
+          <div class="hbar"><span class="hl0">unrelated</span><div class="htrack"><div class="hfill" style="width:19.5%;background:var(--blue)"></div></div><span class="hval">728</span></div>
+          <div class="hbar"><span class="hl0">core 核心</span><div class="htrack"><div class="hfill" style="width:3.5%;min-width:10px;background:var(--amber)"></div></div><span class="hval">132</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · CORPUS</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 16 / 19</span></div>
+</section>
+
+<!-- === SLIDE 17 · E1 RED LINES === -->
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal"><span class="grp e">E1 · 红线</span><span class="cmd">$ laosctl policy --red-lines --enforced</span></p>
+    <h2 class="pt" style="color:var(--red)">安全与合规红线</h2>
+    <p class="sub reveal">能力清单可以长，红线清单永远不会短</p>
+    <div class="body-zone">
+      <div class="grid2" style="flex:1">
+        <div class="card red redline reveal">
+          <h3 style="color:var(--red)">拒绝清单实证 · jarvis 七文件一行不碰</h3>
+          <p style="margin:8px 0 12px">
+            <span class="tag" style="color:var(--red);border-color:rgba(248,81,73,.5)">伪装配置</span>
+            <span class="tag" style="color:var(--red);border-color:rgba(248,81,73,.5)">聊天截获</span>
+            <span class="tag" style="color:var(--red);border-color:rgba(248,81,73,.5)">屏幕捕获</span>
+            <span class="tag" style="color:var(--red);border-color:rgba(248,81,73,.5)">常驻保活</span>
+          </p>
+          <p class="c" style="font-size:21px">技术上做得到的越界能力，仓库里没有对应的一行实现</p>
+        </div>
+        <div class="card reveal">
+          <h3>法条跟踪</h3>
+          <div class="klist" style="font-size:22px">
+            <p><span class="mono b" style="font-weight:700">EU AI Act</span> —— 职场 / 教育情绪识别禁令</p>
+            <p><span class="mono b" style="font-weight:700">PIPL</span> —— 声纹 = 敏感个人信息 · 单独同意</p>
+            <p class="c" style="font-size:20px">法条演进持续跟踪，合规前置到设计期</p>
+          </div>
+        </div>
+      </div>
+      <div class="banner reveal" style="margin-top:22px;border-color:rgba(248,81,73,.5);background:rgba(248,81,73,.06)">
+        原则 ── <span style="color:var(--red)">能力可以有，红线内的能力永远不做</span>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · RED LINES</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 17 / 19</span></div>
+</section>
+
+<!-- === SLIDE 18 · E2 ROADMAP === -->
+<section class="slide">
+  <div class="slide-content">
+    <p class="kicker reveal"><span class="grp e">E2 · 路线</span><span class="cmd">$ laosctl roadmap --milestones</span></p>
+    <h2 class="pt reveal">路线图 <span class="hl">·</span> 近 / 中 / 远</h2>
+    <p class="sub reveal">从回归基建到参考机，治理内核始终是底座</p>
+    <div class="body-zone">
+      <div class="grid3" style="flex:1">
+        <div class="card roadcol near reveal">
+          <h3 style="color:var(--green)">近期</h3>
+          <p class="rk">v0.13+</p>
+          <ul>
+            <li>FDGym 式模拟用户回归</li>
+            <li>Bin2Ambi 驱动</li>
+            <li>FOA 评测钩子接 RMS-AQA</li>
+          </ul>
+        </div>
+        <div class="card roadcol mid reveal">
+          <h3 style="color:var(--blue)">中期</h3>
+          <p class="rk">v1.0</p>
+          <ul>
+            <li>多 Agent 并发调度</li>
+            <li>驱动市场 —— 第三方 MCP 治理接入</li>
+          </ul>
+        </div>
+        <div class="card roadcol far reveal">
+          <h3 style="color:var(--purple)">远期</h3>
+          <p class="rk">reference machine</p>
+          <ul>
+            <li>端侧完整语音 Agent 参考机</li>
+            <li>laosd + 听觉栈 + 全双工闭环</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · ROADMAP</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 18 / 19</span></div>
+</section>
+
+<!-- === SLIDE 19 · E3 CLOSING === -->
+<section class="slide">
+  <div class="slide-content" style="justify-content:center;align-items:center">
+    <div class="term" style="width:1460px">
+      <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">shutdown — detailed dive v0.12.0</span></div>
+      <div class="term-body" style="font-size:26px">
+        <p class="reveal mono glowtitle" style="font-size:52px;color:var(--green);line-height:1.35">Agent 需要的不是更强的模型，<br>是一个会说「不」的内核。</p>
+        <p class="reveal" style="margin-top:26px"><span class="ok">[ OK ]</span> v0.12.0 · 2026-10-05 · <span class="mono p">765</span> 测试 · <span class="mono p">15</span> 驱动 · <span class="mono p">12</span> 个 MINOR</p>
+        <p class="reveal"><span class="ok">[ OK ]</span> 18 内容域深潜完毕：闸门链 · 分支内存 · Jev · 听觉栈 · 全双工 · 复现文化</p>
+        <p class="reveal mono" style="margin-top:26px;color:var(--text-dim)">github.com/Yfredy/LAOS</p>
+        <p class="reveal"><span class="prompt">~/laos $</span> <span class="cursor"></span></p>
+      </div>
+    </div>
+  </div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · END</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 19 / 19</span></div>
+</section>
+
+</main>
+</div>
+
+<!-- edit-mode chrome: hotzone (JS hover w/ grace delay) + toggle + progress -->
+<div class="edit-hotzone" id="editHotzone" title="Edit mode (E)"></div>
+<button id="editToggle" title="Edit mode (E)">✏️ edit</button>
+<div id="progress"></div>
+
+<script>
+/* ===========================================
+   SLIDE PRESENTATION CONTROLLER
+   - Fixed 1920x1080 stage scaled to viewport
+   - Keys: ←/→, Space, PgUp/PgDn, Home/End
+   - E: toggle edit mode · Ctrl+S / S(edit): save file · Esc: exit edit
+   - Touch swipe + mouse wheel navigation
+   - Edit persistence: localStorage (innerHTML, keeps colored spans)
+   =========================================== */
+class SlidePresentation{
+  constructor(){
+    this.slides=document.querySelectorAll('.slide');
+    this.current=0;
+    this.stage=document.getElementById('deckStage');
+    this.editMode=false;
+    this.storeKey='laos-detailed-frontend-edits';
+    this.setupScale();this.setupKeys();this.setupTouch();this.setupWheel();
+    this.setupEdit();this.show(0);
+  }
+  /* --- uniform whole-stage scaling, letterbox allowed --- */
+  setupScale(){
+    const scale=()=>{
+      const f=Math.min(window.innerWidth/1920,window.innerHeight/1080);
+      const x=(window.innerWidth-1920*f)/2,y=(window.innerHeight-1080*f)/2;
+      this.stage.style.transform='translate('+x+'px, '+y+'px) scale('+f+')';
+    };
+    scale();window.addEventListener('resize',scale);
+  }
+  /* --- full keyboard map --- */
+  setupKeys(){
+    document.addEventListener('keydown',e=>{
+      const editing=e.target&&e.target.isContentEditable;
+      if(e.key==='Escape'&&this.editMode){this.toggleEdit();return;}
+      if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){
+        e.preventDefault();this.saveFile();return;
+      }
+      if(editing)return; /* typing in a slide: swallow nav keys */
+      if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();this.show(this.current+1);}
+      else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();this.show(this.current-1);}
+      else if(e.key==='Home'){e.preventDefault();this.show(0);}
+      else if(e.key==='End'){e.preventDefault();this.show(this.slides.length-1);}
+      else if(e.key.toLowerCase()==='e'){this.toggleEdit();}
+      else if(e.key.toLowerCase()==='s'&&this.editMode){this.saveFile();}
+    });
+  }
+  /* --- touch swipe --- */
+  setupTouch(){
+    let sx=0;
+    document.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;},{passive:true});
+    document.addEventListener('touchend',e=>{
+      const dx=e.changedTouches[0].clientX-sx;
+      if(Math.abs(dx)>50)this.show(this.current+(dx<0?1:-1));
+    },{passive:true});
+  }
+  /* --- mouse wheel with cooldown, disabled while editing --- */
+  setupWheel(){
+    let lock=0;
+    document.addEventListener('wheel',e=>{
+      if(this.editMode)return;
+      const now=Date.now();
+      if(now-lock<650||Math.abs(e.deltaY)<24)return;
+      lock=now;this.show(this.current+(e.deltaY>0?1:-1));
+    },{passive:true});
+  }
+  /* --- slide switching: .active/.visible only, never display --- */
+  show(i){
+    this.current=Math.max(0,Math.min(i,this.slides.length-1));
+    this.slides.forEach((s,k)=>{
+      s.classList.toggle('active',k===this.current);
+      s.classList.toggle('visible',k===this.current);
+    });
+    document.getElementById('progress').style.width=((this.current+1)/this.slides.length*100)+'%';
+  }
+  /* --- inline editing: collect text blocks, hotzone reveal with 400ms grace --- */
+  setupEdit(){
+    const btn=document.getElementById('editToggle');
+    const hot=document.getElementById('editHotzone');
+    let hideT=null;
+    const showBtn=()=>{clearTimeout(hideT);btn.classList.add('show');};
+    const hideBtn=()=>{hideT=setTimeout(()=>{if(!this.editMode)btn.classList.remove('show');},400);};
+    hot.addEventListener('mouseenter',showBtn);
+    hot.addEventListener('mouseleave',hideBtn);
+    btn.addEventListener('mouseenter',showBtn);
+    btn.addEventListener('mouseleave',hideBtn);
+    hot.addEventListener('click',()=>this.toggleEdit());
+    btn.addEventListener('click',()=>this.toggleEdit());
+    this.editables=[...this.slides].map(s=>[...s.querySelectorAll('h1,h2,h3,p,td,th,li')]);
+    const saved=localStorage.getItem(this.storeKey);
+    if(saved){
+      try{
+        const flat=this.editables.flat();const m=JSON.parse(saved);
+        flat.forEach((el,i)=>{if(m[i]!=null)el.innerHTML=m[i];});
+      }catch(err){/* corrupted store: ignore, keep original */}
+    }
+  }
+  toggleEdit(){
+    this.editMode=!this.editMode;
+    document.getElementById('editToggle').classList.toggle('active',this.editMode);
+    this.editables.flat().forEach(el=>{
+      if(this.editMode)el.setAttribute('contenteditable','true');
+      else el.removeAttribute('contenteditable');
+    });
+    if(this.editMode)document.getElementById('editToggle').classList.add('show');
+    else{
+      const flat=this.editables.flat();const m={};
+      flat.forEach((el,i)=>{m[i]=el.innerHTML;});
+      try{localStorage.setItem(this.storeKey,JSON.stringify(m));}catch(err){}
+    }
+  }
+  /* --- export current DOM as a standalone html file --- */
+  saveFile(){
+    const html='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));
+    a.download='laos-detailed-frontend-slides.html';a.click();
+  }
+}
+new SlidePresentation();
+</script>
+</body>
+</html>

@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>laos —— 创新融资项目介绍 v6（合成版）</title>
+<!--
+  laos 融资版 v6 —— 五 skill 取长补短合成版（wave2 第 6 版）
+  底稿：docs/ppt/laos-funding-outline.md（P1-P15，15 页 + 1 页 v6 出处附录）
+  诚实原则：进展数字全部真实；市场规模与融资金额为「示例」结构（红章标注）
+  合成公式（溯源）：
+    ppt-master      → 字号角色体系、结论式标题、Hero breathing 大数字、原生可编辑
+    guizang         → 12 列 Swiss 网格 + data-layout、版式匹配数据形状（象限/账单/比例塔）
+    frontend-slides → 1920×1080 固定舞台自缩放、E 键编辑（localStorage）、拒绝 trace
+    html-ppt        → :root 令牌主题（内容区 0 字面色）、S 键演讲者四卡、逐字路演讲稿
+    huashu          → 台账母题（FleetLedger→版式即论证）、壹贰叁防涂改数字、示例红章
+  单文件零外部依赖；← → Space Home End 翻页 · E 编辑 · S 演讲者 · P 打印
+-->
+<style>
+  :root{
+    --bg:#10141d; --panel:#181e2a; --panel-2:#1d2432; --line:#2c3547;
+    --ink:#e9e6dd; --dim:#949bab; --faint:#5f6878;
+    --gold:#d4af37; --gold-ink:#e8cd6f;
+    --blue:#7f95f0; --blue-deep:#3b5bdb;
+    --red:#c95045; --ok:#4aa06a;
+    --salmon:#c98f8a; --slate:#9aa4b8; --blue-ink:#8fa6f5; --mist:#aab7ee; --mist-2:#cdd7f8; --mist-3:#9fb0e6; --white:#ffffff; --cover-2:#16204e; --cover-2f:#22315c;
+    --mono:"Cascadia Code","JetBrains Mono",Consolas,"Courier New",monospace;
+    --serif:"Source Han Serif SC","Noto Serif SC","SimSun",serif;
+    --sans:"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+    --meta:17px; --chrome:18px; --kicker:20px; --caption:22px;
+    --body-s:24px; --body:26px; --h3:32px; --h2:38px; --mega:76px; --giga:148px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:var(--bg);color:var(--ink);font-family:var(--sans);overflow:hidden}
+  #viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+  #stage{width:1920px;height:1080px;position:relative;flex:none}
+  .slide{position:absolute;inset:0;padding:70px 84px 96px;display:none;flex-direction:column;background:var(--bg)}
+  .slide.active{display:flex}
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px;flex:1;min-height:0}
+  .c3{grid-column:span 3}.c4{grid-column:span 4}.c5{grid-column:span 5}.c6{grid-column:span 6}
+  .c7{grid-column:span 7}.c8{grid-column:span 8}.c9{grid-column:span 9}.c12{grid-column:span 12}
+
+  .kicker{font:var(--kicker)/1.2 var(--mono);letter-spacing:.28em;color:var(--dim);text-transform:uppercase}
+  h2{font:700 var(--h2)/1.28 var(--serif);margin:10px 0 6px}
+  h3{font:600 var(--h3)/1.3 var(--sans)}
+  .body{font:var(--body)/1.55 var(--sans)}
+  .body-s{font:var(--body-s)/1.5 var(--sans)}
+  .caption{font:var(--caption)/1.45 var(--sans);color:var(--dim)}
+  .mono{font-family:var(--mono)}.dim{color:var(--dim)}.gold{color:var(--gold-ink)}.blue{color:var(--blue)}.red{color:var(--red)}
+  .head{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:24px}
+  .foot{position:absolute;left:84px;right:84px;bottom:34px;display:flex;justify-content:space-between;
+        font:var(--meta)/1 var(--mono);color:var(--faint);border-top:1px solid var(--line);padding-top:12px}
+
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:22px 24px}
+  .panel-t{background:var(--panel-2);border:1px solid var(--line);border-radius:4px;padding:18px 20px}
+  .stamp{display:inline-block;border:1.5px solid var(--gold);color:var(--gold-ink);
+         font:var(--meta)/1 var(--mono);padding:6px 12px;border-radius:3px;letter-spacing:.12em}
+  .stamp.red{border-color:var(--red);color:var(--red)}
+  .accentbar{border-left:3px solid var(--gold);padding-left:16px}
+  .ledgerrow{display:grid;grid-template-columns:170px 1fr;gap:0 18px;align-items:baseline;
+             border-bottom:1px solid var(--line);padding:10px 2px}
+  .ledgerrow:last-child{border-bottom:none}
+  .ledgerrow .k{font:var(--body-s)/1.3 var(--mono);color:var(--gold-ink)}
+
+  .cover{background:radial-gradient(1300px 800px at 20% -10%,var(--cover-2f) 0%,var(--bg) 60%)}
+  .cover .title{font:800 120px/1.1 var(--serif);color:var(--white)}
+  .hero{align-items:center;justify-content:center;text-align:center;gap:26px}
+  .hero .n{font:800 var(--giga)/1 var(--serif);color:var(--gold-ink)}
+
+  /* 壹贰叁三柱（huashu 血统：中文账防涂改数字） */
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .pillar{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:26px;display:flex;flex-direction:column;gap:14px}
+  .pillar .num{font:700 84px/1 var(--serif);color:var(--gold-ink)}
+  .pillar h3{font-family:var(--serif)}
+  .pillar .scn{font:var(--caption)/1.5 var(--mono);color:var(--dim);border-top:1px dashed var(--line);padding-top:12px}
+
+  /* 四象限（guizang 版式匹配数据形状血统） */
+  .quad{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:14px;flex:1;min-height:0}
+  .q{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:20px 22px;display:flex;flex-direction:column;gap:8px}
+  .q .tag{font:var(--meta)/1 var(--mono);color:var(--faint);letter-spacing:.15em}
+  .q.win{border-color:var(--gold);background:linear-gradient(150deg,rgba(212,175,55,.12),var(--panel))}
+  .axes{display:grid;grid-template-columns:150px 1fr 150px;align-items:center;margin-top:2px}
+  .axes .cap{font:var(--meta)/1.3 var(--mono);color:var(--faint);text-align:center}
+
+  /* 用资比例塔（guizang S06 血统，真比例） */
+  .fundbar{display:flex;height:64px;border-radius:5px;overflow:hidden;border:1px solid var(--line);font-family:var(--mono)}
+  .fundbar div{display:flex;align-items:center;justify-content:center;font-size:var(--caption);color:#10141d;font-weight:700}
+
+  /* 嵌套 TAM/SAM/SOM */
+  .nest{position:relative;flex:1;min-height:420px}
+  .nest .box{position:absolute;border-radius:8px;display:flex;align-items:flex-start;justify-content:flex-start;padding:16px 20px}
+  .nest .lbl{font:var(--body-s)/1.2 var(--mono);font-weight:700}
+
+  .tri{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .trace{background:#0a0e15;border:1px solid var(--line);border-radius:5px;padding:16px 22px;
+         font:var(--body-s)/1.7 var(--mono);color:#a9d5b6}
+  .trace .p{color:var(--dim)} .trace .e{color:var(--red);font-weight:700}
+  .gates{display:grid;grid-template-columns:repeat(8,1fr);gap:10px}
+  .gate{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:12px 10px;position:relative;min-height:132px}
+  .gate .no{font:var(--meta)/1 var(--mono);color:var(--faint)}
+  .gate .nm{font:600 var(--body-s)/1.2 var(--sans);margin-top:5px}
+  .gate .ds{font:var(--caption)/1.3 var(--sans);color:var(--dim);margin-top:5px}
+  .gate.hit{border-color:var(--red);box-shadow:0 0 0 1px var(--red)}
+  .gate.end{border-color:var(--gold)}
+  .eperm{position:absolute;top:-15px;right:-9px;background:var(--red);color:var(--white);
+         font:700 var(--meta)/1 var(--mono);padding:4px 9px;border-radius:3px;transform:rotate(6deg)}
+
+  .sixstack{display:flex;flex-direction:column;gap:9px}
+  .sixstack .row{display:grid;grid-template-columns:200px 1fr;align-items:center;background:var(--panel);
+                 border:1px solid var(--line);border-radius:4px;padding:9px 16px;font:var(--body-s)/1.3 var(--mono)}
+
+  #speaker{position:fixed;inset:0;background:rgba(8,10,14,.96);display:none;z-index:60;
+           grid-template-columns:1fr 1fr;grid-template-rows:1fr auto;gap:14px;padding:22px}
+  #speaker.on{display:grid}
+  #speaker .card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:20px;overflow:auto}
+  #speaker .card h4{font:var(--body-s)/1 var(--mono);color:var(--gold-ink);letter-spacing:.2em;margin-bottom:12px}
+  #speaker .notes{font:var(--body-s)/1.6 var(--sans);white-space:pre-wrap}
+  #speaker .next{font:var(--body-s)/1.6 var(--sans)}
+  #speaker .stat{display:flex;gap:36px;align-items:center;font:var(--body-s)/1 var(--mono);color:var(--dim)}
+  #speaker .stat b{color:var(--ink);font-size:var(--h3)}
+  #speaker .bar{grid-column:1/3;height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+  #speaker .bar i{display:block;height:100%;background:var(--gold)}
+
+  .slide[contenteditable="true"]{outline:2px dashed var(--gold);outline-offset:-10px}
+  #edithint{position:fixed;top:14px;right:16px;z-index:70;display:none;background:var(--gold);
+            color:#141414;font:var(--meta)/1 var(--mono);padding:6px 12px;border-radius:3px}
+  body.editing #edithint{display:block}
+
+  @media print{
+    html,body{overflow:visible;background:#fff}
+    #viewport{position:static;display:block}
+    #stage{width:1920px;height:auto;transform:none!important}
+    .slide{display:flex!important;position:relative;page-break-after:always;height:1080px}
+    #speaker{display:none!important}
+  }
+</style>
+</head>
+<body>
+<div id="viewport"><div id="stage">
+
+<!-- P1 封面 -->
+<section class="slide cover" data-layout="V6F-COVER" id="s1">
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:32px">
+    <div class="kicker" style="color:var(--mist)">创新融资 · 项目介绍 · V6 合成版</div>
+    <div class="title">给 AI Agent 装上<br>操作系统的治理内核</div>
+    <div class="caption" style="font-size:var(--body)">laos —— 模型负责想，laos 负责说「不」</div>
+    <div style="display:flex;gap:14px">
+      <span class="stamp">v0.12.0</span><span class="stamp">30 天 · 12 个版本</span>
+      <span class="stamp">765 测试全绿</span><span class="stamp">15 个设备驱动</span>
+    </div>
+  </div>
+  <div class="foot" style="border-color:var(--line);color:var(--mist-3)"><span>2026-10</span><span>github.com/Yfredy/LAOS</span></div>
+  <aside class="notes" hidden>开场 30 秒：我们在做 Agent 的操作系统内核——不是又一个框架。四个印章全是可尽调的真实数字：30 天发了 12 个版本，765 个测试，15 个设备驱动。今天讲三件事：为什么必须有这一层、我们已经做到哪、这轮钱用来干什么。</aside>
+</section>
+
+<!-- P2 一页看懂 -->
+<section class="slide" data-layout="V6F-ONE-PAGER" id="s2">
+  <div class="head"><span class="kicker">P2 · 一页看懂</span><span class="kicker">02 / 16</span></div>
+  <h2>工具调用没有 syscall 层，这就是全部问题</h2>
+  <div class="grid" style="margin-top:16px;align-content:start;gap:14px">
+    <div class="c6 panel"><h3 class="blue mono" style="margin-bottom:10px">问题</h3><div class="body-s">Agent 直接拿工具——无预算、无审计、无回滚、无合规证据链。</div></div>
+    <div class="c6 panel"><h3 class="gold mono" style="margin-bottom:10px">方案</h3><div class="body-s">laos = 用户态内核：八环闸门链，能力→范围→校验→预算→计价→预审→确认→审计。</div></div>
+    <div class="c6 panel"><h3 class="mono" style="margin-bottom:10px">进展</h3><div class="body-s">开源 v0.12.0 · 15 驱动 · 端侧听觉栈全自研纯 stdlib · 19,792 篇论文语料。</div></div>
+    <div class="c6 panel-t accentbar"><div class="body" style="font-family:var(--serif)">模型负责想，laos 负责说「不」。</div></div>
+  </div>
+  <div class="foot"><span>§1 问题与时机</span><span>如果只记一页，记这一页</span></div>
+  <aside class="notes" hidden>投资人只记一页的话：左上问题——Agent 直接拿工具，四无；右上方案——八环闸门链；左下进展——全部真实可查；右下金句是产品哲学。后面 13 页都是这四格的展开。</aside>
+</section>
+
+<!-- P3 痛点三柱 壹贰叁 -->
+<section class="slide" data-layout="V6F-PILLARS" id="s3">
+  <div class="head"><span class="kicker">P3 · 痛点三柱</span><span class="kicker">03 / 16</span></div>
+  <h2>Agent 敢不敢用，卡在三件事上</h2>
+  <div class="pillars" style="margin-top:20px;flex:1;align-content:start">
+    <div class="pillar"><div class="num">壹</div><h3>失控成本</h3>
+      <div class="body-s">一次 tool call 就是一次不可逆操作：误删文件、超额扣费、并发写坏状态。现有框架在应用层 try-catch，挡不住。</div>
+      <div class="scn">场景：Agent「整理磁盘」删掉生产库——没人拦得住。</div></div>
+    <div class="pillar"><div class="num">贰</div><h3>合规黑洞</h3>
+      <div class="body-s">EU AI Act 已生效，PIPL 把声纹列为敏感个人信息。企业上 Agent 缺一层可审计的证据链。</div>
+      <div class="scn">场景：审计问「这次删除是谁批准的」——答不出。</div></div>
+    <div class="pillar"><div class="num">叁</div><h3>端侧碎片</h3>
+      <div class="body-s">手机/耳机的麦克风、屏幕、通知、NPU 各自为 SDK，Agent 接每一件都要重写一遍，且没有统一隐私闸。</div>
+      <div class="scn">场景：同一段录音逻辑，五个设备写五遍。</div></div>
+  </div>
+  <div class="foot"><span>§1 问题与时机</span><span>壹贰叁 —— 中文账本防涂改数字</span></div>
+  <aside class="notes" hidden>三柱用壹贰叁——中文账本的防涂改写法，呼应我们的账本母题。每柱一个真实场景。注意第三柱：端侧碎片不只是效率问题，是没有隐私闸的问题——这正是我们听觉栈的机会。</aside>
+</section>
+
+<!-- P4 为什么是现在 -->
+<section class="slide" data-layout="V6F-WHY-NOW" id="s4">
+  <div class="head"><span class="kicker">P4 · 为什么是现在</span><span class="kicker">04 / 16</span></div>
+  <h2>三浪叠加，窗口就在这 18 个月</h2>
+  <div class="grid" style="margin-top:18px;align-content:start;gap:14px">
+    <div class="c12 panel" style="display:flex;gap:24px;align-items:center">
+      <span class="mono gold" style="font-size:var(--h3)">浪一</span>
+      <span class="body"><b>MCP 成为事实标准</b>（2026-07-28 规范更新：Tasks / Elicitation / MRTR）——工具调用接口统一，治理层第一次有了统一切入点。</span></div>
+    <div class="c12 panel" style="display:flex;gap:24px;align-items:center">
+      <span class="mono gold" style="font-size:var(--h3)">浪二</span>
+      <span class="body"><b>Agent 从聊天走向执行</b>——企业开始让 Agent 动真实系统；「能干活」到「敢让它干活」之间，差的正是 OS 层。</span></div>
+    <div class="c12 panel" style="display:flex;gap:24px;align-items:center">
+      <span class="mono gold" style="font-size:var(--h3)">浪三</span>
+      <span class="body"><b>监管落地窗口</b>——EU AI Act 分阶段生效、国内生成式算法备案；合规是预算充足的用户。</span></div>
+  </div>
+  <div class="foot"><span>§1 问题与时机</span><span>接口统一 × 采用爆发 × 监管落地</span></div>
+  <aside class="notes" hidden>为什么是现在而不是两年前/两年后：两年前没有统一工具协议，治理层没处挂；两年后标准位被占完。MCP 2026 年 7 月底那次规范更新把 Tasks 和 Elicitation 定下来，切入点刚刚出现。</aside>
+</section>
+
+<!-- P5 产品 -->
+<section class="slide" data-layout="V6F-PRODUCT" id="s5">
+  <div class="head"><span class="kicker">P5 · 产品</span><span class="kicker">05 / 16</span></div>
+  <h2>laos 是什么：Agent 与工具之间的一层内核</h2>
+  <div class="grid" style="margin-top:14px;align-content:start;gap:12px">
+    <div class="c12 panel" style="display:flex;align-items:center;gap:24px"><span class="mono blue" style="font-size:var(--h3)">Agent</span><span class="body">想做什么（任意模型 / 任意框架之上）</span></div>
+    <div class="c12 panel-t accentbar" style="display:flex;align-items:center;gap:24px">
+      <span class="mono gold" style="font-size:var(--h3)">laos</span><span class="body"><b>内核</b>：八环闸门链 + 调度 + 分支 + 记忆 + 审计账本</span></div>
+    <div class="c12 panel" style="display:flex;align-items:center;gap:24px"><span class="mono blue" style="font-size:var(--h3)">驱动 ×15</span><span class="body">MCP Server = 设备驱动，子进程隔离</span></div>
+    <div class="c12 panel-t" style="display:flex;align-items:center;gap:24px"><span class="mono blue" style="font-size:var(--h3)">世界</span><span class="body">Linux · 手机 · 耳机 · NPU · 云端工具</span></div>
+    <div class="c12" style="display:flex;gap:14px">
+      <span class="stamp">tool call = 系统调用</span><span class="stamp">MCP Server = 设备驱动</span><span class="stamp">能力表 = 权限位</span>
+      <span class="stamp red">内核 0 第三方依赖</span>
+    </div>
+  </div>
+  <div class="foot"><span>§2 产品与壁垒</span><span>纯 stdlib —— 任何低端安卓都能跑</span></div>
+  <aside class="notes" hidden>一张图记住产品：Agent 在上，世界在下，laos 是中间那层。三个等式是词表。最右的红章是我们的部署优势——内核零依赖，一个低端安卓盒子就能跑，不挑环境。</aside>
+</section>
+
+<!-- P6 壁垒一：八环 -->
+<section class="slide" data-layout="V6F-GATE-CHAIN" id="s6">
+  <div class="head"><span class="kicker">P6 · 壁垒一</span><span class="kicker">06 / 16</span></div>
+  <h2>八环闸门链：现有方案是「建议」，laos 是「强制」</h2>
+  <div class="gates" style="margin-top:10px">
+    <div class="gate"><span class="no">01</span><div class="nm">能力表</div><div class="ds">caps</div></div>
+    <div class="gate hit"><span class="no">02</span><div class="nm">task_scope</div><div class="ds">pkg:/路径/时间窗</div><span class="eperm">EPERM</span></div>
+    <div class="gate"><span class="no">03</span><div class="nm">schema</div><div class="ds">EINVAL</div></div>
+    <div class="gate"><span class="no">04</span><div class="nm">EDQUOT</div><div class="ds">预算</div></div>
+    <div class="gate"><span class="no">05</span><div class="nm">FleetLedger</div><div class="ds">先扣账后派发</div></div>
+    <div class="gate"><span class="no">06</span><div class="nm">Jev 预审</div><div class="ds">值不值得</div></div>
+    <div class="gate"><span class="no">07</span><div class="nm">确认横幅</div><div class="ds">高危人审</div></div>
+    <div class="gate end"><span class="no">08</span><div class="nm">审计</div><div class="ds">全程留痕</div></div>
+  </div>
+  <div class="trace" style="margin-top:24px">
+    <span class="p">$ laosd&gt;</span> screen.tap pkg=<span class="e">com.denied</span> → <span class="p">ring-02</span> <span class="e">EPERM</span> <span class="p">· 后 6 环熄灭 · adb 未被触达</span>
+  </div>
+  <div class="caption" style="margin-top:14px">FleetLedger 不可逆计价：操作前风险已定价，事后不可抵赖——这是审计证据链的账本底座。</div>
+  <div class="foot"><span>§2 产品与壁垒</span><span>拒绝发生在第 ② 环，不在事后复盘</span></div>
+  <aside class="notes" hidden>核心壁垒页。三秒看懂的部分是下面这行 trace：越界调用第②环 EPERM，后面六环熄灭，驱动根本没被碰。对比市面 guardrail：它们是建议，贴在提示词旁边；我们是强制，挡在执行路径上。第五环账本先扣账后派发，不可抵赖。</aside>
+</section>
+
+<!-- P7 壁垒二：听觉栈 -->
+<section class="slide" data-layout="V6F-AUDIO" id="s7">
+  <div class="head"><span class="kicker">P7 · 壁垒二</span><span class="kicker">07 / 16</span></div>
+  <h2>端侧听觉栈：语音入口 + 隐私唯一安全区</h2>
+  <div class="sixstack" style="margin-top:14px">
+    <div class="row"><span class="gold">vad.py</span><span class="caption">VAD 常开 · 无声即弃零存储</span></div>
+    <div class="row"><span class="gold">loudness.py</span><span class="caption">BS.1770-4 响度 · 校准锚点 −23.00 LUFS ±0.1</span></div>
+    <div class="row"><span class="gold">binaural.py</span><span class="caption">Goertzel 双耳 ILD/IPD</span></div>
+    <div class="row"><span class="gold">micgeom.py</span><span class="caption">麦克风几何编码 · 与官方实现 diff 0.0</span></div>
+    <div class="row"><span class="gold">foa.py</span><span class="caption">一阶 Ambisonics 编解码</span></div>
+    <div class="row"><span class="gold">ShoNet(复现)</span><span class="caption">声源定位 · holdout 56.5°</span></div>
+  </div>
+  <div class="grid" style="margin-top:16px">
+    <div class="c8 panel-t"><span class="body-s">叠加全双工三件套（时序度量 / speak-hold-stop 轮转 / 打断即作废）——<b>端侧语音 Agent 的完整地基，零云端依赖</b>。</span></div>
+    <div class="c4 panel"><span class="body-s">为什么值钱：市面方案全部依赖云端大模型；端侧=合规唯一安全区。</span></div>
+  </div>
+  <div class="foot"><span>§2 产品与壁垒</span><span>六层全部纯 stdlib 自研</span></div>
+  <aside class="notes" hidden>第二个壁垒是听觉栈。每层都有锚点数字——响度校准到广播标准，几何编码与谷歌官方实现逐位一致。重点讲右下角：所有竞品语音方案都把音频送云端，而 PIPL 把声纹定为敏感个人信息——端侧是唯一安全区，我们恰好整套都在端侧。</aside>
+</section>
+
+<!-- P8 壁垒三：合规先发 -->
+<section class="slide" data-layout="V6F-COMPLIANCE" id="s8">
+  <div class="head"><span class="kicker">P8 · 壁垒三</span><span class="kicker">08 / 16</span></div>
+  <h2>合规不是加分项，是入场券——功课已做完</h2>
+  <div class="grid" style="margin-top:16px">
+    <div class="c7 panel"><h3 style="margin-bottom:12px">已完成的法条功课</h3>
+      <div class="ledgerrow"><span class="k">EU AI Act</span><span class="body-s">职场/教育情绪识别禁令清单</span></div>
+      <div class="ledgerrow"><span class="k">PIPL</span><span class="body-s">声纹 = 敏感个人信息 → 单独同意</span></div>
+      <div class="ledgerrow"><span class="k">录音四红线</span><span class="body-s">显式 syscall · LAOS_REC=0 · 全量审计 · ASR 本地</span></div>
+    </div>
+    <div class="c5 panel"><h3 style="margin-bottom:12px">拒绝清单实证</h3>
+      <div class="body-s">对标开源产品七个越界文件逐行分析后，<b>一行不抄</b>：伪装常驻 / 聊天截获 / 屏幕捕获 / 保活。</div>
+      <div class="caption" style="margin-top:12px">「知道边界在哪」本身是尽调资产。</div>
+    </div>
+  </div>
+  <div class="foot"><span>§2 产品与壁垒</span><span>红线是代码级的，不是 PPT 级的</span></div>
+  <aside class="notes" hidden>第三道壁垒最不性感但采购最认：企业买 Agent 基础设施时，可审计是入场券。我们不只是读了法条——拒绝清单是被逐行分析后写进代码约束的。尽调时这页每一条都能落到文件和测试。</aside>
+</section>
+
+<!-- P9 竞争格局 -->
+<section class="slide" data-layout="V6F-QUADRANT" id="s9">
+  <div class="head"><span class="kicker">P9 · 竞争格局</span><span class="kicker">09 / 16</span></div>
+  <h2>四派各占一角，强制+端侧+账本只有一格</h2>
+  <div class="axes">
+    <div class="cap">L0 约定层</div>
+    <div style="height:4px;background:linear-gradient(90deg,var(--panel),var(--gold),var(--panel))"></div>
+    <div class="cap">L3 libOS 层</div>
+  </div>
+  <div class="quad" style="margin-top:12px">
+    <div class="q"><span class="tag">框架派</span><h3>LangGraph 等</h3><div class="caption">编排强，治理是建议；不在执行路径上。</div></div>
+    <div class="q win"><span class="tag gold" style="color:var(--gold-ink)">LAOS · 唯一全 ✓</span><h3 class="gold" style="font-family:var(--serif)">执行路径强制</h3><div class="body-s">✓ 八环强制 &nbsp;✓ 端侧 15 驱动 &nbsp;✓ 不可逆账本 &nbsp;✓ 合规红线代码级</div></div>
+    <div class="q"><span class="tag">治理派</span><h3>策略引擎</h3><div class="caption">规则能写，但拦不住已发出的调用。</div></div>
+    <div class="q"><span class="tag">端侧派</span><h3>各家 SDK</h3><div class="caption">能力碎片，无 OS 语义，无统一隐私闸。</div></div>
+  </div>
+  <div class="caption" style="margin-top:12px">学术对照：Rutgers AIOS 调度优先，与 laos 互补不互竞（调研结论）。</div>
+  <div class="foot"><span>§3 竞争与验证</span><span>laos 落 L2——用户态强制层</span></div>
+  <aside class="notes" hidden>象限图看一眼就够：右上金框是我们，四个勾——强制、端侧、账本、红线——其他三派各只有一两个。被问"大厂做怎么办"：标准中立位置（L2 用户态）恰是大厂框架和 SDK 都不占的位置；学术侧 AIOS 与我们互补。</aside>
+</section>
+
+<!-- P10 里程碑 -->
+<section class="slide" data-layout="V6F-MILESTONES" id="s10">
+  <div class="head"><span class="kicker">P10 · 进展（全部真实）</span><span class="kicker">10 / 16</span></div>
+  <h2>一个人 + AI 协作流水线，30 天的产出</h2>
+  <div class="grid" style="margin-top:16px;align-content:start;gap:14px">
+    <div class="c3 panel" style="text-align:center"><div class="gold mono" style="font-size:64px;font-weight:800">12</div><div class="caption">个 MINOR 版本 / 30 天<br>每个有 tag+Release+CHANGELOG</div></div>
+    <div class="c3 panel" style="text-align:center"><div class="gold mono" style="font-size:64px;font-weight:800">765</div><div class="caption">测试全绿<br>415 主库 + 279 隔离 + 71 复现</div></div>
+    <div class="c3 panel" style="text-align:center"><div class="gold mono" style="font-size:64px;font-weight:800">19,792</div><div class="caption">篇双会议论文语料<br>ICASSP+Interspeech 全量</div></div>
+    <div class="c3 panel" style="text-align:center"><div class="gold mono" style="font-size:64px;font-weight:800">4</div><div class="caption">项论文级复现<br>与官方实现逐行对齐</div></div>
+    <div class="c12 panel-t" style="border-left:3px solid var(--gold)">
+      <span class="body-s"><b>诚实框：</b>开源一个月，社区尚冷启动——暂无外部贡献者；增长看 issue/PR 转化。47 份调研文档 + capstone 采纳总账全部开源可查。</span>
+    </div>
+  </div>
+  <div class="foot"><span>§3 竞争与验证</span><span>所有数字可对账，含不好看的那个</span></div>
+  <aside class="notes" hidden>四个大数字之后主动亮诚实框：社区还冷启动，没有外部贡献者。为什么自己先说——因为这轮投资买的是工程方法论的复制能力：一个人加 AI 流水线 30 天做到这个产出，钱进来是把它变成团队产出。</aside>
+</section>
+
+<!-- P11 商业模式 -->
+<section class="slide" data-layout="V6F-BIZMODEL" id="s11">
+  <div class="head"><span class="kicker">P11 · 商业模式</span><span class="kicker">11 / 16</span></div>
+  <h2>开源内核建标准，卖的是「敢用」</h2>
+  <div class="tri" style="margin-top:20px">
+    <div class="panel"><h3 class="mono gold">① 治理中间件</h3><div class="body-s" style="margin-top:12px">企业私有化：闸门链 + FleetLedger 打包进企业 MCP 网关。<br><span class="caption mono">License + SLA</span></div></div>
+    <div class="panel"><h3 class="mono gold">② 审计报表 SaaS</h3><div class="body-s" style="margin-top:12px">FleetLedger 数据 → 合规证据链导出。<br><span class="caption mono">按 Agent 数量订阅</span></div></div>
+    <div class="panel"><h3 class="mono gold">③ 端侧语音 SDK</h3><div class="body-s" style="margin-top:12px">零依赖听觉栈 + 全双工轮转授权设备厂。<br><span class="caption mono">OEM 按量授权</span></div></div>
+  </div>
+  <div class="panel-t accentbar" style="margin-top:18px"><span class="body-s">定价哲学：内核永远开源建标准；收费层是强制执行与证据链——企业为「敢用」付费，不为功能清单付费。</span></div>
+  <div class="foot"><span>§4 商业与融资</span><span>三条线一个账本底座</span></div>
+  <aside class="notes" hidden>三条收入线共享同一个底座：FleetLedger 账本。线一私有化中间件最快变现；线二 SaaS 是经常性收入；线三 SDK 是长尾。被问"开源怎么收钱"：收的是强制执行和证据链，不是功能——功能可以抄，账本的可信度抄不走。</aside>
+</section>
+
+<!-- P12 市场空间 -->
+<section class="slide" data-layout="V6F-MARKET" id="s12">
+  <div class="head"><span class="kicker">P12 · 市场空间</span><span class="kicker">12 / 16</span></div>
+  <h2>结构先行，数字随测算更新 <span class="stamp red">示例</span></h2>
+  <div class="nest" style="margin-top:16px">
+    <div class="box" style="inset:0;background:var(--panel);border:1px solid var(--line)"><span class="lbl dim">TAM · Agent 基础设施软件</span></div>
+    <div class="box" style="inset:70px 180px;background:var(--panel-2);border:1px solid var(--blue)"><span class="lbl blue">SAM · 企业 Agent 治理与审计（MCP 网关/策略执行）</span></div>
+    <div class="box" style="inset:150px 420px;background:rgba(212,175,55,.16);border:1px solid var(--gold)"><span class="lbl gold">SOM · 3 年可触达：私有化+报表+SDK 三线合计</span></div>
+  </div>
+  <div class="caption" style="margin-top:12px">本页为结构示意：正式投资人版将附测算模型（口径、来源、敏感性）。</div>
+  <div class="foot"><span>§4 商业与融资</span><span>不拿无来源的数字当卖点</span></div>
+  <aside class="notes" hidden>市场页我们故意只给结构不给数字——红章"示例"就是态度：这间屋子里的每个数字都应该能被追问出处。正式版会附完整测算模型。这个习惯本身请记住：我们对自己人也这么诚实。</aside>
+</section>
+
+<!-- P13 路线图 -->
+<section class="slide" data-layout="V6F-ROADMAP" id="s13">
+  <div class="head"><span class="kicker">P13 · 12 个月路线图</span><span class="kicker">13 / 16</span></div>
+  <h2>每季度一个可验证节点</h2>
+  <div class="grid" style="margin-top:18px;align-content:start;gap:14px">
+    <div class="c3 panel-t"><h3 class="mono gold">Q1</h3><div class="body-s" style="margin-top:10px">v1.0 内核稳定（多 Agent 并发）<br>首个企业试点 POC</div></div>
+    <div class="c3 panel-t"><h3 class="mono gold">Q2</h3><div class="body-s" style="margin-top:10px">审计报表 SaaS 内测<br>驱动市场：第三方 MCP 治理接入协议</div></div>
+    <div class="c3 panel-t"><h3 class="mono gold">Q3</h3><div class="body-s" style="margin-top:10px">端侧语音 SDK 落地 1-2 款设备<br>（Bin2Ambi / 空间音频进产品）</div></div>
+    <div class="c3 panel-t" style="border-color:var(--gold)"><h3 class="mono gold">Q4</h3><div class="body-s" style="margin-top:10px">A 轮叙事节点：可复制的「治理+听觉」打包案例</div></div>
+    <div class="c12 panel"><span class="body-s">团队扩张对齐路线：单人 + AI 流水线 → <b>+2 内核/端侧</b>（Q1-Q2）→ <b>+2 合规/BD</b>（Q3-Q4）。</span></div>
+  </div>
+  <div class="foot"><span>§4 商业与融资</span><span>节点可验证 = 融资里程碑可对赌</span></div>
+  <aside class="notes" hidden>四个季度四个可验证节点——注意每个都是能拿出东西的：版本号、试点合同、设备、案例。Q4 金框是 A 轮叙事节点。下面的团队扩张跟路线对齐，这轮钱的用途就在这张表里。</aside>
+</section>
+
+<!-- P14 融资方案 -->
+<section class="slide" data-layout="V6F-ASK" id="s14">
+  <div class="head"><span class="kicker">P14 · 融资方案</span><span class="kicker">14 / 16</span></div>
+  <h2>天使轮 <span class="gold mono">¥500 万</span> · 出让 <span class="gold mono">10%</span> <span class="stamp red">示例数字 · 可调</span></h2>
+  <div class="body" style="margin:14px 0 16px">用资拆分（真比例）：</div>
+  <div class="fundbar">
+    <div style="flex:40;background:var(--gold-ink)">40% 端侧真机验证</div>
+    <div style="flex:30;background:var(--blue-ink)">30% 生态适配</div>
+    <div style="flex:20;background:var(--salmon)">20% 合规认证与试点</div>
+    <div style="flex:10;background:var(--slate)">10% 运营</div>
+  </div>
+  <div class="grid" style="margin-top:26px;align-content:start;gap:16px">
+    <div class="c7 panel">
+      <h3 style="margin-bottom:12px">里程碑与资金动作</h3>
+      <div class="ledgerrow"><span class="k">对赌</span><span class="body-s">12 个月内 v1.0 + 首个付费试点</span></div>
+      <div class="ledgerrow"><span class="k">到账即办</span><span class="body-s">启动招人：内核 / 端侧 ×2</span></div>
+      <div class="ledgerrow"><span class="k">Q3 追加</span><span class="body-s">合规 / BD ×2，对齐路线图</span></div>
+      <div class="ledgerrow"><span class="k">披露</span><span class="body-s">FleetLedger 账本对投资人开放只读</span></div>
+    </div>
+    <div class="c5 panel-t" style="display:flex;flex-direction:column;gap:12px;justify-content:center">
+      <span class="body-s">金额与比例按正式 BP 测算更新；<b>结构不动</b>。</span>
+      <span class="caption mono">示例章 = 未定数字的诚实标注</span>
+    </div>
+    <div class="c12 panel-t accentbar" style="margin-top:6px">
+      <span class="body-s">每一笔资金支出同样过闸门链、进 FleetLedger——投资人的只读口令随 term sheet 发放。</span>
+    </div>
+  </div>
+  <div class="foot"><span>§4 商业与融资</span><span>40/30/20/10 —— 比例条即账目</span></div>
+  <aside class="notes" hidden>金额挂了示例红章——结构是真思考，数字等正式 BP。四段用资里最大一块给端侧真机验证，因为那是从开源项目变成产品最贵的一步。对赌条款写得直接：12 个月，1.0 加首个付费试点。</aside>
+</section>
+
+<!-- P15 团队与风险 -->
+<section class="slide" data-layout="V6F-TEAM-RISK" id="s15">
+  <div class="head"><span class="kicker">P15 · 团队与风险</span><span class="kicker">15 / 16</span></div>
+  <h2>单人 + AI 协作流水线——方法论即产品</h2>
+  <div class="grid" style="margin-top:16px">
+    <div class="c5 panel"><h3 style="margin-bottom:12px">团队（真实呈现）</h3>
+      <div class="body-s" style="line-height:1.8">独立开发者 · 30 天 12 版本 / 765 测试 / 47 份调研<br>「单人 + AI 流水线」本身就是产品方法论的证明<br>招人计划对齐路线图：+2 内核/端侧 → +2 合规/BD</div></div>
+    <div class="c7 panel"><h3 style="margin-bottom:12px">风险与对策</h3>
+      <div class="ledgerrow"><span class="k">标准竞争</span><span class="body-s">大厂占 MCP 生态位 → 深耕强制层与账本，标准中立</span></div>
+      <div class="ledgerrow"><span class="k">单人风险</span><span class="body-s">首要用资即团队化</span></div>
+      <div class="ledgerrow"><span class="k">销售周期</span><span class="body-s">先开发者后企业——开源漏斗</span></div>
+    </div>
+    <div class="c12 panel-t accentbar" style="text-align:center;margin-top:2px">
+      <span class="body" style="font-family:var(--serif)">模型负责想，laos 负责说「不」。</span>
+      <span class="caption mono" style="margin-left:18px">github.com/Yfredy/LAOS</span>
+    </div>
+  </div>
+  <div class="foot"><span>§5 团队与承诺</span><span>风险写明，对策可查</span></div>
+  <aside class="notes" hidden>团队页不装：一个人，但 30 天的交付节奏本身就是方法论的证明——这正是这轮钱要放大的东西。三个风险都给了对策，最诚实的对策是第二条：单人风险，所以第一笔支出就是招人。收尾金句，进 Q&A。</aside>
+</section>
+
+<!-- P16 附录：v6 出处 -->
+<section class="slide" data-layout="V6F-PROVENANCE" id="s16">
+  <div class="head"><span class="kicker">附录 · V6 出处（不参与路演）</span><span class="kicker">16 / 16</span></div>
+  <h2>本 deck 的五 skill 溯源</h2>
+  <div class="grid" style="margin-top:16px">
+    <div class="c12 panel">
+      <div class="ledgerrow"><span class="k">ppt-master</span><span class="body-s">字号角色体系 · 结论式标题 · breathing 大数字 · 原生可编辑文本</span></div>
+      <div class="ledgerrow"><span class="k">guizang</span><span class="body-s">12 列 Swiss 网格 · 版式匹配数据形状（象限/比例塔）· accent 纪律</span></div>
+      <div class="ledgerrow"><span class="k">frontend-slides</span><span class="body-s">1920×1080 固定舞台自缩放 · E 键编辑持久化 · 拒绝 trace</span></div>
+      <div class="ledgerrow"><span class="k">html-ppt</span><span class="body-s">:root 令牌主题（内容区 0 字面色）· S 键演讲者四卡 · 逐字路演讲稿</span></div>
+      <div class="ledgerrow"><span class="k">huashu</span><span class="body-s">台账母题（形式即论证）· 壹贰叁防涂改数字 · 示例红章 · 诚实框</span></div>
+    </div>
+    <div class="c12 panel-t"><span class="caption">同底稿五版实验（docs/ppt/funding/laos-funding-{ppt-master.pptx, guizang, frontend-slides, html-ppt, huashu}.html）→ 本合成版。讲稿见 S 键四卡。</span></div>
+  </div>
+  <div class="foot"><span>附录</span><span>内容底稿：docs/ppt/laos-funding-outline.md</span></div>
+  <aside class="notes" hidden>附录页只对内部/技术型投资人开放：这版 deck 本身是研发方法论的样品——五个自动化流水线各出一版，取长补短合成第六版。</aside>
+</section>
+
+</div></div>
+
+<div id="edithint">编辑中 · E 退出 · 改动自动保存</div>
+
+<div id="speaker">
+  <div class="card"><h4>NOTES · 路演逐字稿</h4><div class="notes" id="sp-notes"></div></div>
+  <div class="card"><h4>NEXT · 下一页</h4><div class="next" id="sp-next"></div></div>
+  <div class="card" style="grid-column:1/3"><h4>STATUS</h4>
+    <div class="stat"><span>页 <b id="sp-page">1/16</b></span><span>开始 <b id="sp-start">00:00</b></span><span>已用 <b id="sp-elapsed">00:00</b></span><span style="margin-left:auto" class="caption">S / Esc 关闭</span></div>
+    <div class="bar" style="margin-top:14px"><i id="sp-bar" style="width:0"></i></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var key='laos-funding-v6';
+  var cur=Math.min(parseInt(localStorage.getItem(key)||'1',10)||1,slides.length);
+  var start=Date.now();
+  if(sessionStorage.getItem(key+'-t')) start=parseInt(sessionStorage.getItem(key+'-t'),10);
+  else sessionStorage.setItem(key+'-t',start);
+  function show(n){
+    cur=Math.max(1,Math.min(slides.length,n));
+    slides.forEach(function(s,i){s.classList.toggle('active',i===cur-1)});
+    localStorage.setItem(key,cur);
+    var notes=(slides[cur-1].querySelector('.notes')||{}).textContent||'（无备注）';
+    document.getElementById('sp-notes').textContent=notes.trim();
+    var nx=slides[cur]?(slides[cur].querySelector('h2')||{}).textContent:'（末页）';
+    document.getElementById('sp-next').textContent=(cur<slides.length?('P'+(cur+1)+' · '):'')+nx;
+    document.getElementById('sp-page').textContent=cur+'/'+slides.length;
+  }
+  function fmt(ms){var s=Math.floor(ms/1000);return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+  function tick(){
+    document.getElementById('sp-elapsed').textContent=fmt(Date.now()-start);
+    document.getElementById('sp-bar').style.width=(cur/slides.length*100)+'%';
+  }
+  setInterval(tick,1000);
+  function fit(){var s=Math.min(innerWidth/1920,innerHeight/1080);
+    document.getElementById('stage').style.transform='scale('+s+')';}
+  addEventListener('resize',fit);fit();
+  function setEdit(on){
+    var sl=slides[cur-1];
+    sl.setAttribute('contenteditable',on?'true':'false');
+    document.body.classList.toggle('editing',on);
+    if(!on){localStorage.setItem(key+'-edit-'+cur,sl.innerHTML)}
+    else{var saved=localStorage.getItem(key+'-edit-'+cur);if(saved&&!sl.dataset.restored){sl.innerHTML=saved;sl.dataset.restored='1'}}
+  }
+  addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();show(cur+1)}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(cur-1)}
+    else if(e.key==='Home'){show(1)}else if(e.key==='End'){show(slides.length)}
+    else if(e.key==='e'||e.key==='E'){var on=slides[cur-1].getAttribute('contenteditable')==='true';setEdit(!on)}
+    else if(e.key==='s'||e.key==='S'){document.getElementById('speaker').classList.toggle('on')}
+    else if(e.key==='Escape'){document.getElementById('speaker').classList.remove('on');
+      if(slides[cur-1].getAttribute('contenteditable')==='true')setEdit(false)}
+    else if((e.key==='p'||e.key==='P')&&!e.ctrlKey){print()}
+  });
+  show(cur);tick();
+})();
+</script>
+</body>
+</html>

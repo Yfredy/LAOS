@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>laos · Linux AgentOS — 详细技术深潜 v6（合成版）</title>
+<!--
+  laos 详细版 v6 —— 五 skill 取长补短合成版（wave2 第 6 版）
+  底稿：docs/ppt/laos-detailed-outline.md（18 内容域，数字全部真实，v0.12.0 基准）
+  合成公式（溯源）：
+    ppt-master      → 字号角色体系（1280 舞台 11-52 ×1.5 → 17-78px）、Hero breathing 大数字页、全文本可编辑
+    guizang         → 12 列 Swiss 网格 + data-layout 版式登记、mono 锚点扫读表格、accent 只承载治理事实
+    frontend-slides → 1920×1080 固定舞台自缩放、E 键编辑（localStorage 持久化）、拒绝路径 trace
+    html-ppt        → :root 令牌主题（内容区 0 字面色）、S 键演讲者四卡、每页逐字讲稿
+    huashu          → 台账母题（FleetLedger→版式即论证）、LEDGER CORRECTION 订正条、诚实框正色
+  单文件零外部依赖；← → Space Home End 翻页 · E 编辑 · S 演讲者 · P 打印
+-->
+<style>
+  /* ---- 令牌层（html-ppt 血统：内容区只准 var()，不许字面色） ---- */
+  :root{
+    --bg:#0e1116; --panel:#161b22; --panel-2:#1b222c; --line:#2a323c;
+    --ink:#e8e4d8; --dim:#8a919c; --faint:#5c636d;
+    --gold:#c9a227; --gold-ink:#e3c766;         /* 账本金：Hero 数字 / 订正条 */
+    --ikb:#3b5bdb; --ikb-deep:#2440c8;          /* 瑞士蓝：治理事实专用 */
+    --red:#d4453a;                              /* EPERM / 红线专用 */
+    --ok:#3f9d63;
+    --blue-ink:#8fa6f5; --mist:#aab7ee; --mist-2:#cdd7f8; --mist-3:#9fb0e6; --white:#ffffff; --cover-2:#16204e; --cover-2f:#22315c;
+    --mono:"Cascadia Code","JetBrains Mono",Consolas,"Courier New",monospace;
+    --sans:"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+    --serif:"Source Han Serif SC","Noto Serif SC","SimSun",serif;
+    /* 字号角色（ppt-master 体系 ×1.5，1920 舞台） */
+    --meta:17px; --chrome:18px; --kicker:20px; --caption:22px;
+    --body-s:24px; --body:26px; --h3:32px; --h2:36px; --mega:78px; --giga:150px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:var(--bg);color:var(--ink);font-family:var(--sans);overflow:hidden}
+
+  /* ---- 舞台（frontend-slides 血统：1920×1080 固定，JS 自缩放） ---- */
+  #viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+  #stage{width:1920px;height:1080px;position:relative;flex:none}
+  .slide{position:absolute;inset:0;padding:72px 84px 96px;display:none;
+         flex-direction:column;background:var(--bg)}
+  .slide.active{display:flex}
+
+  /* ---- Swiss 网格（guizang 血统） ---- */
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px;flex:1;min-height:0}
+  .c3{grid-column:span 3}.c4{grid-column:span 4}.c5{grid-column:span 5}
+  .c6{grid-column:span 6}.c7{grid-column:span 7}.c8{grid-column:span 8}
+  .c9{grid-column:span 9}.c12{grid-column:span 12}
+
+  /* ---- 字号角色 ---- */
+  .kicker{font:var(--kicker)/1.2 var(--mono);letter-spacing:.28em;color:var(--dim);text-transform:uppercase}
+  h2{font:700 var(--h2)/1.25 var(--sans);letter-spacing:.01em;margin:10px 0 6px}
+  h3{font:600 var(--h3)/1.3 var(--sans)}
+  .body{font:var(--body)/1.55 var(--sans);color:var(--ink)}
+  .body-s{font:var(--body-s)/1.5 var(--sans);color:var(--ink)}
+  .caption{font:var(--caption)/1.45 var(--sans);color:var(--dim)}
+  .mono{font-family:var(--mono)}
+  .dim{color:var(--dim)}.gold{color:var(--gold-ink)}.ikb{color:var(--blue-ink)}.red{color:var(--red)}
+
+  /* ---- 页眉页脚 chrome ---- */
+  .head{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:26px}
+  .foot{position:absolute;left:84px;right:84px;bottom:34px;display:flex;justify-content:space-between;
+        font:var(--meta)/1 var(--mono);color:var(--faint);border-top:1px solid var(--line);padding-top:12px}
+
+  /* ---- 版式登记（guizang 血统：data-layout 声明，accent 只承载治理事实） ---- */
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:22px 24px}
+  .panel-t{background:var(--panel-2);border:1px solid var(--line);border-radius:4px;padding:18px 20px}
+  .stamp{display:inline-block;border:1.5px solid var(--gold);color:var(--gold-ink);
+         font:var(--meta)/1 var(--mono);padding:6px 12px;border-radius:3px;letter-spacing:.12em}
+  .stamp.red{border-color:var(--red);color:var(--red)}
+  .stamp.ikb{border-color:var(--ikb);color:var(--blue-ink)}
+  .accentbar{border-left:3px solid var(--ikb);padding-left:16px}
+  .ledgerrow{display:grid;grid-template-columns:150px 1fr;gap:0 18px;align-items:baseline;
+             border-bottom:1px solid var(--line);padding:10px 2px}
+  .ledgerrow:last-child{border-bottom:none}
+  .ledgerrow .k{font:var(--body-s)/1.3 var(--mono);color:var(--gold-ink)}
+  .vline{width:3px;background:var(--line);margin:0 8px;border-radius:2px}
+
+  /* 封面（guizang IKB 满屏血统 + huashu 印章组） */
+  .cover{background:linear-gradient(160deg,var(--ikb-deep) 0%,var(--cover-2) 58%,var(--bg) 100%)}
+  .cover .title{font:800 170px/1 var(--sans);letter-spacing:-.02em;color:var(--white)}
+  .cover .eq{font:var(--h3)/1.4 var(--mono);color:var(--mist-2)}
+
+  /* 闸门链（ppt-master 原生流程图血统 + frontend-slides trace + huashu EPERM 戳） */
+  .gates{display:grid;grid-template-columns:repeat(8,1fr);gap:12px;margin-top:8px}
+  .gate{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:14px 12px;position:relative;min-height:150px}
+  .gate .no{font:var(--meta)/1 var(--mono);color:var(--faint)}
+  .gate .nm{font:600 var(--body-s)/1.25 var(--sans);margin-top:6px}
+  .gate .ds{font:var(--caption)/1.35 var(--sans);color:var(--dim);margin-top:6px}
+  .gate.hit{border-color:var(--red);box-shadow:0 0 0 1px var(--red)}
+  .gate.end{border-color:var(--ikb)}
+  .eperm{position:absolute;top:-16px;right:-10px;background:var(--red);color:var(--white);
+         font:700 var(--meta)/1 var(--mono);padding:5px 10px;border-radius:3px;transform:rotate(6deg);letter-spacing:.1em}
+  .trace{background:#0a0d12;border:1px solid var(--line);border-radius:5px;padding:18px 22px;
+         font:var(--body-s)/1.7 var(--mono);color:#a9d5b6}
+  .trace .p{color:var(--dim)} .trace .e{color:var(--red);font-weight:700}
+
+  /* 订正条（huashu 血统） */
+  .correction{border:1.5px dashed var(--gold);background:rgba(201,162,39,.07);border-radius:4px;padding:16px 20px}
+  .correction .t{font:700 var(--body-s)/1 var(--mono);color:var(--gold-ink);letter-spacing:.18em}
+
+  /* 漏斗 */
+  .funnel{display:flex;flex-direction:column;gap:10px}
+  .ftier{display:grid;grid-template-columns:210px 1fr 330px;align-items:center;gap:16px;
+         background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:12px 18px}
+  .ftier .nm{font:600 var(--body-s)/1.2 var(--mono)}
+  .ftier .bar{height:12px;border-radius:3px;background:linear-gradient(90deg,var(--ikb),#7f95f0)}
+
+  /* 三闸时序 */
+  .tri{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .tri .panel-t h3{font-size:var(--body);font-family:var(--mono)}
+
+  /* Hero（ppt-master breathing 血统） */
+  .hero{align-items:center;justify-content:center;text-align:center;gap:26px}
+  .hero .n{font:800 var(--giga)/1 var(--sans);color:var(--gold-ink);letter-spacing:-.02em}
+  .hero .decomp{display:flex;gap:14px;align-items:center;font:var(--h3)/1 var(--mono);color:var(--dim)}
+  .hero .decomp b{color:var(--ink)}
+
+  /* 版本台账 */
+  .verled{display:grid;grid-template-columns:repeat(3,1fr);gap:0 34px}
+  .vrow{display:grid;grid-template-columns:96px 88px 1fr;gap:10px;align-items:baseline;
+        border-bottom:1px solid var(--line);padding:8.5px 2px}
+  .vrow .v{font:var(--body-s)/1.2 var(--mono);color:var(--gold-ink)}
+  .vrow .d{font:var(--caption)/1.2 var(--mono);color:var(--faint)}
+  .vrow .w{font:var(--caption)/1.35 var(--sans);color:var(--ink)}
+
+  /* 占比条（真实比例） */
+  .ratio{display:flex;height:34px;border-radius:4px;overflow:hidden;border:1px solid var(--line)}
+  .ratio div{display:flex;align-items:center;justify-content:center;font:var(--caption)/1 var(--mono);color:#0d1015}
+
+  /* 光谱 */
+  .spectrum{display:flex;height:120px;border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+  .spectrum div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+  .you{position:relative}
+  .you::after{content:"";position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+              border:8px solid transparent;border-top-color:var(--gold)}
+
+  /* 路线图三栏 */
+  .road{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .road .panel-t h3{color:var(--gold-ink)}
+
+  /* ---- 演讲者模式（html-ppt 血统：S 键四卡） ---- */
+  #speaker{position:fixed;inset:0;background:rgba(8,10,14,.96);display:none;z-index:60;
+           grid-template-columns:1fr 1fr;grid-template-rows:1fr auto;gap:14px;padding:22px}
+  #speaker.on{display:grid}
+  #speaker .card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:20px;overflow:auto}
+  #speaker .card h4{font:var(--body-s)/1 var(--mono);color:var(--gold-ink);letter-spacing:.2em;margin-bottom:12px}
+  #speaker .notes{font:var(--body-s)/1.6 var(--sans);white-space:pre-wrap}
+  #speaker .next{font:var(--body-s)/1.6 var(--sans)}
+  #speaker .stat{display:flex;gap:36px;align-items:center;font:var(--body-s)/1 var(--mono);color:var(--dim)}
+  #speaker .stat b{color:var(--ink);font-size:var(--h3)}
+  #speaker .bar{grid-column:1/3;height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+  #speaker .bar i{display:block;height:100%;background:var(--gold)}
+
+  /* ---- 编辑模式（frontend-slides 血统） ---- */
+  .slide[contenteditable="true"]{outline:2px dashed var(--gold);outline-offset:-10px}
+  #edithint{position:fixed;top:14px;right:16px;z-index:70;display:none;background:var(--gold);
+            color:#141414;font:var(--meta)/1 var(--mono);padding:6px 12px;border-radius:3px}
+  body.editing #edithint{display:block}
+
+  @media print{
+    html,body{overflow:visible;background:#fff}
+    #viewport{position:static;display:block}
+    #stage{width:1920px;height:auto;transform:none!important}
+    .slide{display:flex!important;position:relative;page-break-after:always;height:1080px}
+    #speaker{display:none!important}
+  }
+</style>
+</head>
+<body>
+<div id="viewport"><div id="stage">
+
+<!-- P01 封面 -->
+<section class="slide cover" data-layout="V6-COVER" id="s1">
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:34px">
+    <div class="kicker" style="color:var(--mist)">LINUX AGENTOS · 详细技术深潜 · V6 合成版</div>
+    <div class="title">laos</div>
+    <div class="eq">Linux AgentOS = Linux kernel + Agent + MCP</div>
+    <div style="display:flex;gap:16px">
+      <span class="stamp">v0.12.0</span><span class="stamp">765 tests</span>
+      <span class="stamp">15 drivers</span><span class="stamp">12 minors / 30 天</span>
+    </div>
+  </div>
+  <div class="foot" style="border-color:var(--line);color:var(--mist-3)">
+    <span>取五家之长 · 裁决见 P02</span><span>2026-10-05 · github.com/Yfredy/LAOS</span>
+  </div>
+  <aside class="notes" hidden>开场：一句等式定调——不改内核，把 Linux 变成 Agent 的操作系统。四个印章都是可对账的真实数字：12 个版本发在 30 天里，765 个测试每晚全绿。这版是五个 PPT skill 各出一版后的第 6 版合成版，下一页交代从每家取了什么板。</aside>
+</section>
+
+<!-- P02 裁决板 -->
+<section class="slide" data-layout="V6-VERDICT" id="s2">
+  <div class="head"><span class="kicker">V6 裁决板 · 本页是合成透明度页</span><span class="kicker">P02 / 19</span></div>
+  <h2>v6 = 五个 skill 版的长板拼接</h2>
+  <div class="grid" style="margin-top:18px;align-content:start">
+    <div class="c12 panel">
+      <div class="ledgerrow"><span class="k">ppt-master</span><span class="body-s">字号角色体系（17–78px）、Hero breathing 大数字页、全文本可编辑纪律</span></div>
+      <div class="ledgerrow"><span class="k">guizang</span><span class="body-s">12 列 Swiss 网格 + <span class="mono">data-layout</span> 版式登记、mono 锚点扫读表格、<span class="ikb">瑞士蓝只承载治理事实</span></span></div>
+      <div class="ledgerrow"><span class="k">frontend-slides</span><span class="body-s">1920×1080 固定舞台自缩放、E 键编辑（localStorage 持久化）、拒绝路径 trace</span></div>
+      <div class="ledgerrow"><span class="k">html-ppt</span><span class="body-s"><span class="mono">:root</span> 令牌主题（内容区零字面色）、S 键演讲者四卡、每页逐字讲稿</span></div>
+      <div class="ledgerrow"><span class="k">huashu</span><span class="body-s">台账母题（FleetLedger→版式即论证）、<span class="gold">LEDGER CORRECTION 订正条</span>、诚实框正色呈现</span></div>
+    </div>
+    <div class="c12 panel-t accentbar" style="margin-top:4px">
+      <span class="body-s dim">十版全部来自同一底稿 <span class="mono">docs/ppt/laos-detailed-outline.md</span>（18 内容域）；本页之后的内容页，版式元素均可按左表溯源。</span>
+    </div>
+  </div>
+  <div class="foot"><span>laos · v6 合成版</span><span>← → 翻页 · E 编辑 · S 演讲者</span></div>
+  <aside class="notes" hidden>透明度页：v6 不是第六个风格，而是十版实验后的收敛——排版体系、网格、舞台、令牌、母题各有出处。给观众的承诺：后面每一页的形式都能在这张表上找到来源，内容则全部来自同一份底稿，可对账。</aside>
+</section>
+
+<!-- P03 命题 -->
+<section class="slide" data-layout="V6-STATEMENT" id="s3">
+  <div class="head"><span class="kicker">A2 · 命题</span><span class="kicker">P03 / 19</span></div>
+  <h2>不改一行内核代码，把 Linux 变成 Agent 的操作系统</h2>
+  <div class="grid" style="margin-top:16px">
+    <div class="c6 panel"><h3 class="mono ikb" style="margin-bottom:14px">复用四件内核遗产</h3>
+      <div class="ledgerrow"><span class="k">namespace</span><span class="body-s">隔离——每个 Agent 一间机房</span></div>
+      <div class="ledgerrow"><span class="k">cgroup</span><span class="body-s">配额——CPU/内存有上限</span></div>
+      <div class="ledgerrow"><span class="k">seccomp-BPF</span><span class="body-s">系统调用过滤——白名单外的 syscall 直接拒绝</span></div>
+      <div class="ledgerrow"><span class="k">landlock</span><span class="body-s">文件沙箱——路径前缀外的文件不可见</span></div>
+    </div>
+    <div class="c6 panel"><h3 class="mono gold" style="margin-bottom:14px">词表映射</h3>
+      <div class="ledgerrow"><span class="k">MCP Server</span><span class="body-s">= 设备驱动</span></div>
+      <div class="ledgerrow"><span class="k">tool call</span><span class="body-s">= 系统调用</span></div>
+      <div class="ledgerrow"><span class="k">laosd</span><span class="body-s">= 薄内核</span></div>
+      <div class="ledgerrow"><span class="k">能力表</span><span class="body-s">= 权限位</span></div>
+    </div>
+    <div class="c12 panel-t accentbar" style="margin-top:2px">
+      <span class="body">关键判断：Agent 时代的「内核」不是重写调度器，而是给工具调用装上 <span class="mono ikb">syscall 语义</span>——能力、预算、审计、判断，四件事在派发之前完成。</span>
+    </div>
+  </div>
+  <div class="foot"><span>A · 开场组</span><span>laos v0.12.0</span></div>
+  <aside class="notes" hidden>左右两栏是同一件事的两面：左边是 Linux 已经给了什么，右边是 laos 把 Agent 世界翻译成 OS 世界的词表。加粗那句是全片立论——治理发生在派发之前，不是事后复盘。</aside>
+</section>
+
+<!-- P04 坐标 -->
+<section class="slide" data-layout="V6-SPECTRUM" id="s4">
+  <div class="head"><span class="kicker">A3 · 坐标</span><span class="kicker">P04 / 19</span></div>
+  <h2>「AgentOS」至少指 8 种不同的东西——laos 落在 L2</h2>
+  <div class="grid" style="margin-top:24px;align-content:start">
+    <div class="c12">
+      <div class="spectrum">
+        <div style="background:var(--panel)"><b class="mono" style="font-size:var(--h3)">L0</b><span class="caption">约定层<br>框架 / 提示词约定</span></div>
+        <div style="background:var(--panel-2)"><b class="mono" style="font-size:var(--h3)">L1</b><span class="caption">进程层<br>沙箱 / 运行时</span></div>
+        <div class="you" style="background:var(--ikb-deep)"><b class="mono" style="font-size:var(--h3);color:var(--white)">L2</b><span class="caption" style="color:var(--mist-2)">用户态强制层<br><b>laos 在这里</b></span></div>
+        <div style="background:var(--panel)"><b class="mono" style="font-size:var(--h3)">L3</b><span class="caption">libOS 层<br>改内核 / 虚拟化</span></div>
+      </div>
+    </div>
+    <div class="c8 panel-t" style="margin-top:14px"><span class="body-s">调研结论：市面「AgentOS」多为 L0 框架或壳；<span class="ikb">laos 是 L2——强制层</span>：越界请求到不了驱动。</span></div>
+    <div class="c4 panel-t"><span class="caption mono">docs/research/agentos-landscape-2026-08.md</span></div>
+  </div>
+  <div class="foot"><span>A · 开场组</span><span>强制力光谱</span></div>
+  <aside class="notes" hidden>这页回答"你和那些 AgentOS 什么关系"。光谱四档按强制力分：多数产品是 L0 的约定，laos 在 L2——用户态但强制，挡在驱动前面。金箭头就是我们的位置。</aside>
+</section>
+
+<!-- P05 架构 -->
+<section class="slide" data-layout="V6-ARCH" id="s5">
+  <div class="head"><span class="kicker">B1 · 总体架构</span><span class="kicker">P05 / 19</span></div>
+  <h2>四层栈，内核零依赖，重依赖只活在驱动子进程</h2>
+  <div class="grid" style="margin-top:16px;align-content:start">
+    <div class="c12 panel" style="display:flex;align-items:center;gap:26px">
+      <span class="mono" style="font-size:var(--h3);color:var(--blue-ink)">L4</span><span class="body">Agent（brain / agent）——想做什么</span></div>
+    <div class="c12 panel-t accentbar" style="display:flex;align-items:center;gap:26px">
+      <span class="mono" style="font-size:var(--h3);color:var(--blue-ink)">L3</span><span class="body"><b>laos 内核</b>：kernel.py 调度 + 八环闸门链 + branch/CoW + MemoryStore</span></div>
+    <div class="c12 panel" style="display:flex;align-items:center;gap:26px">
+      <span class="mono" style="font-size:var(--h3);color:var(--blue-ink)">L2</span><span class="body">驱动子进程 ×15（drv_*）——重依赖隔离，崩溃不伤内核</span></div>
+    <div class="c12 panel-t" style="display:flex;align-items:center;gap:26px">
+      <span class="mono" style="font-size:var(--h3);color:var(--blue-ink)">L1</span><span class="body">Linux / MCP / 外设</span></div>
+    <div class="c12" style="display:flex;gap:16px;margin-top:6px">
+      <span class="stamp ikb">laos/ 目录 0 第三方依赖</span>
+      <span class="stamp">三棵树：主库 · AlwaysOnRec 隔离区 · Repro 复现区</span>
+    </div>
+  </div>
+  <div class="foot"><span>B · 内核组</span><span>kernel.py → drivers → world</span></div>
+  <aside class="notes" hidden>架构一页：值得强调的是两条纪律——内核纯 stdlib（意味着任何有 Python 的低端设备都能跑），以及驱动全部子进程化（重依赖与崩溃都被隔离在内核之外）。三棵树是研发治理：主线、隔离实验、论文复现互不污染。</aside>
+</section>
+
+<!-- P06 闸门链（signature） -->
+<section class="slide" data-layout="V6-GATE-CHAIN" id="s6">
+  <div class="head"><span class="kicker">B2 · syscall 闸门链 —— 全片核心</span><span class="kicker">P06 / 19</span></div>
+  <h2>八环：每一笔 tool call 派发前过完</h2>
+  <div class="gates">
+    <div class="gate"><span class="no">01</span><div class="nm">能力表</div><div class="ds">caps 白名单</div></div>
+    <div class="gate hit"><span class="no">02</span><div class="nm">task_scope</div><div class="ds">路径 / pkg: / time:</div><span class="eperm">EPERM</span></div>
+    <div class="gate"><span class="no">03</span><div class="nm">schema</div><div class="ds">参数校验 EINVAL</div></div>
+    <div class="gate"><span class="no">04</span><div class="nm">EDQUOT</div><div class="ds">预算余量</div></div>
+    <div class="gate"><span class="no">05</span><div class="nm">FleetLedger</div><div class="ds">先扣账 后派发</div></div>
+    <div class="gate"><span class="no">06</span><div class="nm">Jev 预审</div><div class="ds">opt-in 值不值</div></div>
+    <div class="gate"><span class="no">07</span><div class="nm">确认横幅</div><div class="ds">高危人审</div></div>
+    <div class="gate end"><span class="no">08</span><div class="nm">派发+审计</div><div class="ds">全程留痕</div></div>
+  </div>
+  <div class="trace" style="margin-top:26px">
+    <span class="p">$ laosd&gt;</span> screen.tap x=360 y=1360 pkg=<span class="e">com.denied</span><br>
+    <span class="p">  ring-02 task_scope:</span> <span class="e">EPERM</span> — outside pkg:com.allowed &nbsp;·&nbsp; <span class="p">ring-08 skipped · driver never touched (adb 未被调用)</span>
+  </div>
+  <div class="foot"><span>B · 内核组</span><span>拒绝发生在第 ② 环</span></div>
+  <aside class="notes" hidden>全片 signature 页。八个环逐环讲一遍后，指下方 trace：一次越界的 screen.tap 在第②环就被 EPERM 拒掉，adb 根本没被唤醒——这就是 L2 强制层与 L0 建议 guardrail 的区别。环⑤ FleetLedger 先扣账后派发，账本不可逆。</aside>
+</section>
+
+<!-- P07 分支与内存 -->
+<section class="slide" data-layout="V6-BRANCH" id="s7">
+  <div class="head"><span class="kicker">B3 · 分支与内存模型</span><span class="kicker">P07 / 19</span></div>
+  <h2>Agent 的上下文，值得 git 级别的待遇</h2>
+  <div class="grid" style="margin-top:16px">
+    <div class="c7 panel">
+      <div class="mono caption" style="margin-bottom:12px;color:var(--dim)">main ──┬── agent/a · 试错分支</div>
+      <div class="mono caption" style="margin-bottom:12px;color:var(--dim)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── agent/b · CoW 上下文</div>
+      <div class="body-s">branch.py 分支树 + cow.py 写时复制：Agent 在分支上试错，合并回主线；上下文复制是懒的，只在写入时发生。</div>
+    </div>
+    <div class="c5 panel"><h3 style="margin-bottom:12px">MemoryStore + diary/journal</h3>
+      <div class="body-s">记忆闸门：<b>只记实际发生的交互</b>，不记想象的交互；diary/journal 把一天的事件流沉淀成可回放的日记。</div>
+    </div>
+    <div class="c12 panel-t accentbar"><span class="body-s">commit 水位语义：TurnBuffer 只把「已送达」的内容写进记忆——打断作废的尾部永远不进历史。</span></div>
+  </div>
+  <div class="foot"><span>B · 内核组</span><span>branch · cow · memory</span></div>
+  <aside class="notes" hidden>两件事：一是分支/CoW，让 Agent 敢试错——错了丢分支，不污染主线；二是记忆闸门，只记实际送达的交互。右下那句是 v0.10.0 从 Pipecat 复现里拿来的语义，打断即作废。</aside>
+</section>
+
+<!-- P08 Jev + 订正条 -->
+<section class="slide" data-layout="V6-JEV" id="s8">
+  <div class="head"><span class="kicker">B4 · 判断层 Jev</span><span class="kicker">P08 / 19</span></div>
+  <h2>判断层：值不值得做，先问再花</h2>
+  <div class="grid" style="margin-top:16px">
+    <div class="c6 panel"><h3 style="margin-bottom:12px">三判型 · 四闸门</h3>
+      <div class="ledgerrow"><span class="k">Noul</span><span class="body-s">是否——二元闸</span></div>
+      <div class="ledgerrow"><span class="k">Choice</span><span class="body-s">选哪个——枚举闸</span></div>
+      <div class="ledgerrow"><span class="k">Score</span><span class="body-s">打几分——阈值闸</span></div>
+      <div class="caption" style="margin-top:12px">laos 11 处硬阈值映射到判断层</div>
+    </div>
+    <div class="c6">
+      <div class="correction">
+        <div class="t">LEDGER CORRECTION · 订正条</div>
+        <div class="body" style="margin-top:12px">README 宣称 <s>15.6 ms</s> → 端侧实测 <b class="gold mono">median 157.5 ms</b>（慢 10×）</div>
+        <div class="caption" style="margin-top:10px">实测否证写入调研文档，deck 一律采用实测值。</div>
+      </div>
+      <div class="panel-t" style="margin-top:14px"><span class="body-s">judge 透传：syscall 预审、TurnBuffer.commit、memory.remember 都可挂 judge。</span></div>
+    </div>
+  </div>
+  <div class="foot"><span>B · 内核组</span><span>诚实数字是一等公民</span></div>
+  <aside class="notes" hidden>左边三判型，右边这条金色订正条是 v6 从 huashu 版继承的形态：把"官方宣称被实测推翻"直接做成账本订正——15.6 到 157.5 毫秒，慢十倍，我们用实测值。诚实数字是一等公民，这也是后面融资版的信用基础。</aside>
+</section>
+
+<!-- P09 驱动全景 -->
+<section class="slide" data-layout="V6-DRIVER-LEDGER" id="s9">
+  <div class="head"><span class="kicker">C1 · 驱动全景</span><span class="kicker">P09 / 19</span></div>
+  <h2>15 个驱动，三族台账</h2>
+  <div class="grid" style="margin-top:14px;align-content:start;gap:14px">
+    <div class="c4 panel" style="padding:16px 18px">
+      <h3 class="mono" style="font-size:var(--body);margin-bottom:8px">听觉 ×3</h3>
+      <div class="vrow" style="grid-template-columns:1fr"><span class="w"><span class="mono gold">drv_mic</span> · 录音——<span class="ikb">仅显式 syscall 可触发</span></span></div>
+      <div class="vrow" style="grid-template-columns:1fr"><span class="w"><span class="mono gold">drv_ear</span> · 转写 + ear.lufs 响度</span></div>
+      <div class="vrow" style="grid-template-columns:1fr"><span class="w"><span class="mono gold">drv_rec</span> · 段落录音管理</span></div>
+    </div>
+    <div class="c4 panel" style="padding:16px 18px">
+      <h3 class="mono" style="font-size:var(--body);margin-bottom:8px">手机 ×6</h3>
+      <div class="vrow" style="grid-template-columns:1fr"><span class="w"><span class="mono gold">drv_screen</span> · tap/dump/key/长按/双击</span></div>
+      <div class="vrow" style="grid-template-columns:1fr"><span class="w"><span class="mono gold">drv_apps</span> · list/launch/close</span></div>
+      <div class="vrow" style="grid-template-columns:1fr"><span class="w"><span class="mono gold">drv_notify</span> · 通知读取</span></div>
+      <div class="vrow" style="grid-template-columns:1fr"><span class="w"><span class="mono gold">drv_battery</span> / <span class="mono gold">drv_comms</span> / <span class="mono gold">drv_events</span></span></div>
+    </div>
+    <div class="c4 panel" style="padding:16px 18px">
+      <h3 class="mono" style="font-size:var(--body);margin-bottom:8px">系统 ×6</h3>
+      <div class="vrow" style="grid-template-columns:1fr"><span class="w"><span class="mono gold">drv_fs</span> / <span class="mono gold">drv_proc</span> / <span class="mono gold">drv_sys</span></span></div>
+      <div class="vrow" style="grid-template-columns:1fr"><span class="w"><span class="mono gold">drv_npu</span> · QNN 真机推理</span></div>
+      <div class="vrow" style="grid-template-columns:1fr"><span class="w"><span class="mono gold">drv_audio</span> / <span class="mono gold">drv_genie</span></span></div>
+    </div>
+    <div class="c12 panel-t accentbar"><span class="body-s">治理事实：<span class="mono">screen.* / apps.*</span> 全部过 <span class="mono ikb">pkg 作用域闸</span>（kernel.py 第②环）；外挂驱动必须经 <span class="mono">kernel.load_driver()</span> 注册。</span></div>
+  </div>
+  <div class="foot"><span>C · 驱动生态组</span><span>3 + 6 + 6 = 15</span></div>
+  <aside class="notes" hidden>表格页按 guizang 纪律做：mono 驱动名做锚点，每行一句话事实，蓝条只放治理事实——手机族全部过 pkg 闸，录音族只能显式触发。密度高，但可扫读。</aside>
+</section>
+
+<!-- P10 听觉栈 -->
+<section class="slide" data-layout="V6-AUDIO-FUNNEL" id="s10">
+  <div class="head"><span class="kicker">C2 · 端侧听觉栈</span><span class="kicker">P10 / 19</span></div>
+  <h2>六层漏斗，全自研纯 stdlib</h2>
+  <div class="funnel" style="margin-top:14px;flex:1;justify-content:start">
+    <div class="ftier"><span class="nm">vad.py</span><div class="bar" style="max-width:96%"></div><span class="caption mono">10ms 帧 · 无声即弃零存储</span></div>
+    <div class="ftier"><span class="nm">loudness.py</span><div class="bar" style="max-width:82%"></div><span class="caption mono">BS.1770-4 · −23.00 LUFS ±0.1</span></div>
+    <div class="ftier"><span class="nm">binaural.py</span><div class="bar" style="max-width:68%"></div><span class="caption mono">Goertzel ILD/IPD ×5 频点</span></div>
+    <div class="ftier"><span class="nm">micgeom.py</span><div class="bar" style="max-width:54%"></div><span class="caption mono">MPE · 跨实现 diff 0.0</span></div>
+    <div class="ftier"><span class="nm">foa.py</span><div class="bar" style="max-width:40%"></div><span class="caption mono">一阶 Ambisonics 编解码</span></div>
+    <div class="ftier"><span class="nm">ShoNet(Repro)</span><div class="bar" style="max-width:28%"></div><span class="caption mono">DOA 复现 · holdout 56.5°</span></div>
+  </div>
+  <div class="foot"><span>C · 驱动生态组</span><span>每层都有可对账的锚点数字</span></div>
+  <aside class="notes" hidden>从上往下：越深的层越贵、越接近空间理解。每一层右侧都有锚点数字——响度校准到广播标准 ±0.1 LU，MPE 与谷歌官方实现逐位一致，DOA 冒烟 56.5 度。这条栈是"论文周报→复现→采纳"流水线的直接产物。</aside>
+</section>
+
+<!-- P11 全双工 -->
+<section class="slide" data-layout="V6-DUPLEX" id="s11">
+  <div class="head"><span class="kicker">C3 · 全双工轮转</span><span class="kicker">P11 / 19</span></div>
+  <h2>何时说 / 何时沉默 / 何时停——时序可度量</h2>
+  <div class="tri" style="margin-top:16px">
+    <div class="panel-t"><h3>duplex.py</h3><div class="body-s" style="margin-top:10px">事件时间线 → 响应延迟 · 打断响应 · 重叠率 · 抢话计数（JSON 摘要）</div></div>
+    <div class="panel-t"><h3>turnpolicy.py</h3><div class="body-s" style="margin-top:10px">speak / hold / stop 三态<br><span class="mono caption">min-speech 200ms · tail-silence 500ms · min-hold 250ms</span></div></div>
+    <div class="panel-t"><h3>turnbuf.py</h3><div class="body-s" style="margin-top:10px">打断即作废 · 只记已送达 · interject 插队帧（慢系统结果织入当前轮）</div></div>
+  </div>
+  <div class="panel-t accentbar" style="margin-top:18px">
+    <span class="body-s">来源：本周语音 AI 论文波（Duplex-MPE 四能力分解 · SALMONN-duo 委托语义 · Context Spanning 原文注入）——<b>论文周报 → 42 测试 → v0.12.0</b>，全程一周。</span>
+  </div>
+  <div class="foot"><span>C · 驱动生态组</span><span>三个模块 · 26 测试</span></div>
+  <aside class="notes" hidden>三件套是上周刚落地的：度量模块把对话时序变成四个客观指标；策略模块三态决策带三道闸，防止抢话式过早响应；缓冲模块守住两条铁律——打断即作废、只记已送达。底部说明这是"读周报→复现→采纳"节奏的证据。</aside>
+</section>
+
+<!-- P12 双沙箱 -->
+<section class="slide" data-layout="V6-SANDBOX" id="s12">
+  <div class="head"><span class="kicker">C4 · AlwaysOnRec 双沙箱</span><span class="kicker">P12 / 19</span></div>
+  <h2>常开听觉，四段漏斗，红线先行</h2>
+  <div class="grid" style="margin-top:16px">
+    <div class="c7 panel">
+      <div class="ledgerrow"><span class="k">① VAD 常开</span><span class="body-s">能量+滞回，无声块即弃（零存储）</span></div>
+      <div class="ledgerrow"><span class="k">② 段落成段</span><span class="body-s">有声段成段落盘</span></div>
+      <div class="ledgerrow"><span class="k">③ 本地转写</span><span class="body-s">ASR 全本地，不出设备</span></div>
+      <div class="ledgerrow"><span class="k">④ 事件入记忆</span><span class="body-s">MemoryStore 事件化</span></div>
+      <div class="caption" style="margin-top:12px">范式对照：Apple Watch S12——环形缓冲 + 端侧蒸馏 + 7 天即焚</div>
+    </div>
+    <div class="c5 panel" style="border-color:var(--red)">
+      <h3 class="red" style="margin-bottom:12px">隐私红线 · 一条都不能破</h3>
+      <div class="body-s" style="line-height:1.9">① 录音只由<b>显式 syscall</b> 触发<br>② <span class="mono">LAOS_REC=0</span> 全局禁录<br>③ 每次调用审计 <span class="mono">event:"mic"</span><br>④ ASR 全本地</div>
+    </div>
+  </div>
+  <div class="foot"><span>C · 驱动生态组</span><span>隔离区 279 测试</span></div>
+  <aside class="notes" hidden>左边是四段漏斗，右边红框是红线——先讲不能做什么，再讲做了什么。范式对照苹果：端侧克制常开是唯一被市场验证过的路线。这个隔离区独立维护，279 个测试。</aside>
+</section>
+
+<!-- P13 Hero 765 -->
+<section class="slide hero" data-layout="V6-HERO-765" id="s13">
+  <div class="kicker">D1 · 质量与 文化</div>
+  <div class="n">765</div>
+  <div class="decomp"><b>415</b> 主库 <span class="vline"></span> <b>279</b> AlwaysOnRec <span class="vline"></span> <b>71</b> Repro</div>
+  <div class="caption" style="max-width:900px">三棵树全绿 · TDD 先红后绿 · 每晚 <span class="mono">unittest discover</span> 全量回归</div>
+  <div class="foot" style="border-color:var(--line)"><span>D · 质量文化组</span><span>765 = 415 + 279 + 71</span></div>
+  <aside class="notes" hidden>呼吸页，一个数字：765。拆成三棵树——主库、录音隔离区、论文复现区。TDD 纪律是先红后绿，任何一行产品代码都有先失败的测试。</aside>
+</section>
+
+<!-- P14 版本史 -->
+<section class="slide" data-layout="V6-VERSION-LEDGER" id="s14">
+  <div class="head"><span class="kicker">D2 · 版本史</span><span class="kicker">P14 / 19</span></div>
+  <h2>30 天，12 个 MINOR，每版本有 tag + Release + CHANGELOG</h2>
+  <div class="verled" style="margin-top:14px">
+    <div>
+      <div class="vrow"><span class="v">v0.1.0</span><span class="d">09-04</span><span class="w">baseline · 内核+强制层骨架</span></div>
+      <div class="vrow"><span class="v">v0.2.0</span><span class="d">09-05</span><span class="w">seccomp · CoW · eBPF · FleetLedger</span></div>
+      <div class="vrow"><span class="v">v0.3.0</span><span class="d">09-09</span><span class="w">AgentProf · MCP Tasks · 信箱 · laosweb</span></div>
+      <div class="vrow"><span class="v">v0.4.0</span><span class="d">09-11</span><span class="w">听觉双驱动 · MemoryStore · 日记</span></div>
+    </div>
+    <div>
+      <div class="vrow"><span class="v">v0.5.0</span><span class="d">09-11</span><span class="w">五层手机能力 · 双沙箱</span></div>
+      <div class="vrow"><span class="v">v0.6.0</span><span class="d">09-18</span><span class="w">语料库 19,792 论文 + 3,724 OSS</span></div>
+      <div class="vrow"><span class="v">v0.7.0</span><span class="d">09-28</span><span class="w">Jev 四闸门 · 校准台</span></div>
+      <div class="vrow"><span class="v">v0.8.0</span><span class="d">10-05</span><span class="w">SHO 复现 · PhaseCoder · ANC · LUFS</span></div>
+    </div>
+    <div>
+      <div class="vrow"><span class="v">v0.9.0</span><span class="d">10-05</span><span class="w">Pipecat 帧管道 · unique_lock 复现</span></div>
+      <div class="vrow"><span class="v">v0.10.0</span><span class="d">10-05</span><span class="w">loudness/turnbuf/locks 进主库 + 五套 PPT</span></div>
+      <div class="vrow"><span class="v">v0.11.0</span><span class="d">10-05</span><span class="w">手机操控四件套 · drv_apps · micgeom</span></div>
+      <div class="vrow"><span class="v gold" style="color:var(--gold-ink)">v0.12.0</span><span class="d">10-05</span><span class="w">duplex · turnpolicy · binaural · foa</span></div>
+    </div>
+  </div>
+  <div class="foot"><span>D · 质量文化组</span><span>一个完整需求波次 = 一次 MINOR</span></div>
+  <aside class="notes" hidden>台账式版本史：三栏十二行，每行版本号、日期、一句话。发版纪律写进 scripts/release.py——feat 集合推导 MINOR，纯 docs 不发版。最新 v0.12.0 金色标出。</aside>
+</section>
+
+<!-- P15 复现文化 -->
+<section class="slide" data-layout="V6-REPRO" id="s15">
+  <div class="head"><span class="kicker">D3 · 复现文化</span><span class="kicker">P15 / 19</span></div>
+  <h2>能复现的全部复现，跑不动就写明偏差</h2>
+  <div class="grid" style="margin-top:16px">
+    <div class="c7 panel"><h3 style="margin-bottom:12px">Repro-ZCode · 71 测试</h3>
+      <div class="ledgerrow"><span class="k">BS.1770-4</span><span class="body-s">响度全套 · R128 锚点 −23.00 ±0.1</span></div>
+      <div class="ledgerrow"><span class="k">FxLMS ANC</span><span class="body-s">音调 &gt;20dB · 2×2 耦合 ~15dB</span></div>
+      <div class="ledgerrow"><span class="k">ShoNet</span><span class="body-s">头部朝向 DOA 全管线</span></div>
+      <div class="ledgerrow"><span class="k">PhaseCoder</span><span class="body-s">MPE 与官方 JAX 逐行对齐</span></div>
+    </div>
+    <div class="c5 panel"><h3 style="margin-bottom:12px">采纳漏斗</h3>
+      <div class="body-s" style="line-height:2"><span class="mono gold">●</span> 执行——纯 stdlib 进主库<br><span class="mono gold">◐</span> 基础件/文档——留地基<br><span class="mono gold">○</span> 不做——写明理由</div>
+      <div class="correction" style="margin-top:16px;padding:12px 14px"><div class="caption">诚实清单：40,295 训练样本 ×200k 步 → 等比缩至百样本冒烟，偏差写进文档。</div></div>
+    </div>
+  </div>
+  <div class="foot"><span>D · 质量文化组</span><span>复现 → 裁决 → 落地 → 注记</span></div>
+  <aside class="notes" hidden>复现区是这套研发方法论的展示柜：四项论文级复现，全部与官方实现对齐；采纳漏斗三档裁决，做不做都有记录。右下诚实清单——跑不动的等比缩距并写明偏差，不装。</aside>
+</section>
+
+<!-- P16 语料库 -->
+<section class="slide" data-layout="V6-CORPUS" id="s16">
+  <div class="head"><span class="kicker">D4 · 调研语料库</span><span class="kicker">P16 / 19</span></div>
+  <h2>决策先有语料，语料可程序化再生成</h2>
+  <div class="grid" style="margin-top:16px;align-content:start">
+    <div class="c12 panel">
+      <div class="body" style="margin-bottom:10px">双会议论文 <b class="gold mono">19,792</b> 篇 = ICASSP 14,285 + Interspeech 5,507（全量 100%）</div>
+      <div class="ratio"><div style="flex:14285;background:var(--blue-ink)">72.2%</div><div style="flex:5507;background:var(--gold)">27.8%</div></div>
+    </div>
+    <div class="c12 panel" style="margin-top:4px">
+      <div class="body" style="margin-bottom:10px">OSS 星标库 <b class="gold mono">3,724</b> 个（去噪后：core 132 / ref 2,864 / unrelated 728）</div>
+      <div class="ratio"><div style="flex:132;background:var(--red)">132</div><div style="flex:2864;background:var(--blue-ink)">2,864</div><div style="flex:728;background:var(--faint)">728</div></div>
+    </div>
+    <div class="c12 panel-t" style="margin-top:4px"><span class="body-s">47 份调研文档 + capstone 采纳总账——每条回答「来源 · 可取之处 · laos 落点 · 状态」。</span></div>
+  </div>
+  <div class="foot"><span>D · 质量文化组</span><span>corpus/ · gen_final_report.py 程序化读数</span></div>
+  <aside class="notes" hidden>两个占比条都是真实数字算出来的比例，不是示意。语料库的意义：所有选型决策都能指着语料说依据，且 gen_final_report.py 可一键再生成——数字可复核。</aside>
+</section>
+
+<!-- P17 红线 -->
+<section class="slide" data-layout="V6-REDLINE" id="s17">
+  <div class="head"><span class="kicker">E1 · 安全与合规红线</span><span class="kicker">P17 / 19</span></div>
+  <h2 class="red">能力可以有，红线内的能力永远不做</h2>
+  <div class="grid" style="margin-top:16px">
+    <div class="c7 panel" style="border-color:var(--red)">
+      <h3 style="margin-bottom:12px">拒绝清单实证 · jarvis 七文件一行不碰</h3>
+      <div class="caption mono" style="line-height:1.9">SelectToSpeakService.kt · config_disguised.xml<br>ChatCaptureService.kt · ChatAppAdapter.kt<br>ScreenCapture.kt · OverlayController.kt · KeepAliveService.kt</div>
+    </div>
+    <div class="c5 panel"><h3 style="margin-bottom:12px">法条跟踪</h3>
+      <div class="body-s" style="line-height:1.9">EU AI Act——职场/教育情绪识别<b>禁令</b><br>PIPL——声纹=敏感个人信息，<b>单独同意</b></div>
+    </div>
+    <div class="c12 panel-t" style="margin-top:2px;border-left:3px solid var(--red)">
+      <span class="body-s">对标开源产品逐行分析后整链拒绝：伪装常驻、聊天截获、屏幕捕获、保活——不做，也不抄。</span>
+    </div>
+  </div>
+  <div class="foot"><span>E · 收尾组</span><span>红线是设计约束，不是免责声明</span></div>
+  <aside class="notes" hidden>红版式页。左边七个文件名是真实分析过的越界实现，一行代码没抄；右边两条法条是活约束。这张页在融资场合就是尽调预案：我们知道边界在哪，因为边界是代码级的。</aside>
+</section>
+
+<!-- P18 路线图 -->
+<section class="slide" data-layout="V6-ROADMAP" id="s18">
+  <div class="head"><span class="kicker">E2 · 路线图</span><span class="kicker">P18 / 19</span></div>
+  <h2>近期补证，中期成核，远期成机</h2>
+  <div class="road" style="margin-top:20px;flex:1;align-content:start">
+    <div class="panel-t"><h3 class="mono">近期 · v0.13+</h3>
+      <div class="body-s" style="margin-top:12px;line-height:1.8">FDGym 式模拟用户回归<br>Bin2Ambi 驱动（双耳→FOA）<br>RMS-AQA 空间评测钩子</div></div>
+    <div class="panel-t"><h3 class="mono">中期 · v1.0</h3>
+      <div class="body-s" style="margin-top:12px;line-height:1.8">多 Agent 并发调度<br>驱动市场——第三方 MCP 治理接入协议</div></div>
+    <div class="panel-t"><h3 class="mono">远期</h3>
+      <div class="body-s" style="margin-top:12px;line-height:1.8">端侧完整语音 Agent 参考机<br>laosd + 听觉栈 + 全双工闭环</div></div>
+  </div>
+  <div class="foot"><span>E · 收尾组</span><span>每一步都有对应测试计划</span></div>
+  <aside class="notes" hidden>三栏三段。近期的每一项都已经有复现地基——Bin2Ambi 上周刚落的 foa.py 就是它的地基。v1.0 的标志是多 Agent 并发和第三方驱动接入协议。</aside>
+</section>
+
+<!-- P19 收尾 -->
+<section class="slide cover" data-layout="V6-CLOSING" id="s19">
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:36px;text-align:center">
+    <div class="kicker" style="color:var(--mist)">E3 · 结案</div>
+    <div style="font:800 var(--mega)/1.3 var(--sans);color:var(--white);max-width:1500px">Agent 需要的不是更强的模型，<br>是一个会说「不」的内核</div>
+    <div class="eq" style="font-size:var(--body)">github.com/Yfredy/LAOS · v0.12.0 · 765 tests</div>
+    <div style="display:flex;gap:16px"><span class="stamp">闸门链 ×8</span><span class="stamp">驱动 ×15</span><span class="stamp">版本 ×12</span></div>
+  </div>
+  <aside class="notes" hidden>收尾回声：封面三个印章在这里变成三个名词。留一句话给观众——我们不是在做更聪明的模型，是在做敢把钥匙交给 Agent 之前的那把锁。Q&amp;A。</aside>
+</section>
+
+</div></div>
+
+<div id="edithint">编辑中 · E 退出 · 改动自动保存</div>
+
+<!-- 演讲者四卡（html-ppt 血统） -->
+<div id="speaker">
+  <div class="card"><h4>NOTES · 逐字讲稿</h4><div class="notes" id="sp-notes"></div></div>
+  <div class="card"><h4>NEXT · 下一页</h4><div class="next" id="sp-next"></div></div>
+  <div class="card" style="grid-column:1/3"><h4>STATUS</h4>
+    <div class="stat"><span>页 <b id="sp-page">1/19</b></span><span>开始 <b id="sp-start">00:00</b></span><span>已用 <b id="sp-elapsed">00:00</b></span><span style="margin-left:auto" class="caption">S / Esc 关闭</span></div>
+    <div class="bar" style="margin-top:14px"><i id="sp-bar" style="width:0"></i></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var key='laos-detailed-v6';
+  var cur=Math.min(parseInt(localStorage.getItem(key)||'1',10)||1,slides.length);
+  var start=Date.now();
+  if(sessionStorage.getItem(key+'-t')) start=parseInt(sessionStorage.getItem(key+'-t'),10);
+  else sessionStorage.setItem(key+'-t',start);
+
+  function show(n){
+    cur=Math.max(1,Math.min(slides.length,n));
+    slides.forEach(function(s,i){s.classList.toggle('active',i===cur-1)});
+    localStorage.setItem(key,cur);
+    var notes=(slides[cur-1].querySelector('.notes')||{}).textContent||'（无备注）';
+    document.getElementById('sp-notes').textContent=notes.trim();
+    var nx=slides[cur]?(slides[cur].querySelector('h2')||slides[cur].querySelector('.title')||{}).textContent:'（末页）';
+    document.getElementById('sp-next').textContent=(cur<slides.length?('P'+String(cur+1).padStart(2,'0')+' · '):'')+nx;
+    document.getElementById('sp-page').textContent=cur+'/'+slides.length;
+  }
+  function fmt(ms){var s=Math.floor(ms/1000);return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+  function tick(){
+    document.getElementById('sp-elapsed').textContent=fmt(Date.now()-start);
+    document.getElementById('sp-bar').style.width=(cur/slides.length*100)+'%';
+  }
+  setInterval(tick,1000);
+
+  // 舞台自缩放（frontend-slides 血统）
+  function fit(){
+    var s=Math.min(innerWidth/1920,innerHeight/1080);
+    document.getElementById('stage').style.transform='scale('+s+')';
+  }
+  addEventListener('resize',fit);fit();
+
+  // 编辑模式：E 进出，blur 存 localStorage（frontend-slides 血统）
+  function setEdit(on){
+    var sl=slides[cur-1];
+    sl.setAttribute('contenteditable',on?'true':'false');
+    document.body.classList.toggle('editing',on);
+    if(!on){localStorage.setItem(key+'-edit-'+cur,sl.innerHTML)}
+    else{var saved=localStorage.getItem(key+'-edit-'+cur);if(saved&&!sl.dataset.restored){sl.innerHTML=saved;sl.dataset.restored='1'}}
+  }
+  addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();show(cur+1)}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(cur-1)}
+    else if(e.key==='Home'){show(1)}else if(e.key==='End'){show(slides.length)}
+    else if(e.key==='e'||e.key==='E'){var on=slides[cur-1].getAttribute('contenteditable')==='true';setEdit(!on)}
+    else if(e.key==='s'||e.key==='S'){document.getElementById('speaker').classList.toggle('on')}
+    else if(e.key==='Escape'){document.getElementById('speaker').classList.remove('on');
+      if(slides[cur-1].getAttribute('contenteditable')==='true')setEdit(false)}
+    else if((e.key==='p'||e.key==='P')&&!e.ctrlKey){print()}
+  });
+  show(cur);tick();
+})();
+</script>
+</body>
+</html>

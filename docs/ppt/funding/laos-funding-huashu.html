@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>laos · 创新融资项目介绍 — 融资台账（黑金 2.0）</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@300;400;500&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+/* ============================================================
+   laos 创新融资项目介绍 · 方向 A「融资台账（黑金 2.0）」
+   三方向硬门产物：见 laos-funding-huashu-directions.html + direction-approved.md
+   内容唯一来源：docs/ppt/laos-funding-outline.md（P1-P15，不虚构业绩）
+   诚实原则：进展数字全部真实；「示例」数字必须带示例标注
+   母题：台账（FleetLedger）——壹贰叁大写数字=中文账防涂改，与「不可抵赖」同义
+   本地字体兜底：Noto Serif/Sans SC 与 Cascadia 已装机，离线不失真
+   ============================================================ */
+:root{
+  --bg:#161210;--bg2:#1D1813;--ink:#EFE6D4;--ink2:#B9AD95;--meta:#9C9080;
+  --gold:#D4A24E;--gold2:#8A6A30;--line:#332C22;--line2:#4A4130;--red:#C96A4A;
+  --serif:'Noto Serif SC','Source Han Serif SC',SimSun,serif;
+  --sans:'Noto Sans SC','Source Han Sans SC','Microsoft YaHei',sans-serif;
+  --mono:'JetBrains Mono','Cascadia Code','Cascadia Mono',Consolas,'Microsoft YaHei',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#000}
+.stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;background:var(--bg)}
+.slide{position:absolute;inset:0;padding:76px 110px 110px;display:none;flex-direction:column;
+  background:radial-gradient(1200px 700px at 78% -10%,#1E1813 0%,var(--bg) 55%)}
+.slide.active{display:flex}
+/* 台账纸感：极淡横线 */
+.slide::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent 0 71px,rgba(212,162,78,.035) 71px 72px)}
+.eyebrow{display:flex;justify-content:space-between;align-items:baseline;
+  font-family:var(--mono);font-size:19px;letter-spacing:.4em;color:var(--gold);text-transform:uppercase}
+.eyebrow small{color:var(--meta);letter-spacing:.18em;font-size:16px}
+h1{font-family:var(--serif);font-weight:700;color:var(--ink);font-size:104px;line-height:1.14;letter-spacing:.01em}
+h2{font-family:var(--serif);font-weight:700;color:var(--ink);font-size:56px;line-height:1.22;margin-top:16px}
+.gold{color:var(--gold)}
+.lede{font-family:var(--sans);font-weight:300;font-size:26px;color:var(--ink2);line-height:1.8;margin-top:24px;max-width:64ch}
+.lede b{color:var(--ink);font-weight:500}
+.hair{border:none;border-top:1px solid var(--line);margin:26px 0}
+.footer{position:absolute;left:110px;right:110px;bottom:42px;display:flex;justify-content:space-between;
+  font-family:var(--mono);font-size:16px;color:var(--meta);letter-spacing:.16em;border-top:1px solid var(--line);padding-top:16px}
+/* 台账条目 */
+.entry{display:grid;grid-template-columns:170px 1fr;gap:32px;padding:22px 0;border-bottom:1px solid var(--line)}
+.entry .no{font-family:var(--serif);font-size:44px;color:var(--gold);line-height:1;padding-top:2px}
+.entry .no small{display:block;font-family:var(--mono);font-size:15px;color:var(--meta);letter-spacing:.24em;margin-top:10px}
+.entry h3{font-family:var(--sans);font-weight:500;font-size:29px;color:var(--ink)}
+.entry p{font-family:var(--sans);font-weight:300;font-size:21px;color:var(--ink2);line-height:1.7;margin-top:8px}
+/* 印章 */
+.stamp{display:inline-block;border:2.5px solid var(--red);color:var(--red);padding:8px 22px;
+  font-family:var(--mono);font-size:19px;letter-spacing:.3em;transform:rotate(-5deg);white-space:nowrap}
+.stamp.gold{border-color:var(--gold);color:var(--gold)}
+/* 布局工具 */
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:52px}
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.card{border:1px solid var(--line);background:var(--bg2);padding:28px 30px}
+.card h4{font-family:var(--sans);font-weight:500;font-size:25px;color:var(--ink)}
+.card p{font-family:var(--sans);font-weight:300;font-size:20px;color:var(--ink2);line-height:1.7;margin-top:10px}
+.card .mono-tag{font-family:var(--mono);font-size:15px;color:var(--gold);letter-spacing:.26em}
+.bignum{font-family:var(--mono);font-weight:700;font-size:96px;color:var(--gold);line-height:1;letter-spacing:-.01em}
+.bignum small{font-size:34px;letter-spacing:.06em}
+table.map{width:100%;border-collapse:collapse;font-size:22px}
+table.map th{font-family:var(--mono);color:var(--meta);font-weight:400;font-size:16px;letter-spacing:.22em;text-align:left;padding:12px 18px;border-bottom:1px solid var(--gold2)}table.map td{padding:16px 18px;border-bottom:1px solid var(--line);color:var(--ink2)}
+table.map td.k{color:var(--ink);font-weight:500;font-family:var(--sans)}
+table.map td.v{color:var(--gold);font-family:var(--mono);font-weight:700}
+/* P6 闸门链 */
+.chain{display:flex;align-items:stretch;margin-top:44px}
+.node{flex:1;border:1px solid var(--line2);background:var(--bg2);padding:20px 8px 18px;text-align:center;position:relative}
+.node .n{font-family:var(--mono);font-size:16px;color:var(--meta);letter-spacing:.22em}
+.node .nm{font-family:var(--mono);font-size:21px;color:var(--ink);margin-top:10px;white-space:nowrap}
+.node .zh{font-size:18px;color:var(--gold);margin-top:8px;letter-spacing:.3em}
+.node .rej{position:absolute;top:-14px;right:6px;border:2px solid var(--red);color:var(--red);
+  font-family:var(--mono);font-size:15px;letter-spacing:.2em;padding:3px 10px;transform:rotate(6deg);background:var(--bg)}
+.arr{flex:none;width:34px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);color:var(--gold2);font-size:22px}
+/* P5 架构流 */
+.flow{display:flex;align-items:stretch;gap:0;margin-top:42px}
+.fbox{border:1px solid var(--line2);background:var(--bg2);padding:26px 22px;text-align:center;flex:1;
+  display:flex;flex-direction:column;justify-content:center;gap:10px}
+.fbox .t{font-family:var(--mono);font-size:22px;color:var(--ink)}
+.fbox .s{font-family:var(--sans);font-weight:300;font-size:17px;color:var(--meta)}
+.fbox.core{flex:1.7;border-color:var(--gold2)}
+.fbox.core .t{color:var(--gold);font-size:26px}
+.fbox .chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.fbox .chips span{border:1px solid var(--line2);font-family:var(--mono);font-size:15px;color:var(--ink2);padding:4px 10px;letter-spacing:.1em}
+/* P7 分层 */
+.strata{display:flex;flex-direction:column;gap:10px}
+.stratum{display:grid;grid-template-columns:74px 1fr;gap:20px;border:1px solid var(--line);background:var(--bg2);padding:15px 22px;align-items:center}
+.stratum .idx{font-family:var(--mono);font-size:18px;color:var(--gold);letter-spacing:.14em}
+.stratum .nm{font-family:var(--mono);font-size:22px;color:var(--ink)}
+.stratum .dt{font-family:var(--sans);font-weight:300;font-size:18px;color:var(--ink2);margin-top:4px}
+/* P12 嵌套 */
+.nest{position:relative;height:520px}
+.nest .box{position:absolute;border:1.5px solid var(--line2)}
+.nest .lab{position:absolute;top:14px;left:20px;font-family:var(--mono);font-size:17px;color:var(--ink);letter-spacing:.18em}
+.nest .lab small{display:block;font-family:var(--sans);font-weight:300;font-size:16px;color:var(--meta);letter-spacing:.06em;margin-top:6px}
+.nest .seal{position:absolute;top:14px;right:16px;border:2px solid var(--red);color:var(--red);
+  font-family:var(--mono);font-size:15px;letter-spacing:.22em;padding:3px 10px;transform:rotate(5deg)}
+/* P13 时间轴 */
+.qgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;margin-top:14px}
+.q{border-top:3px solid var(--line2);padding-top:18px}
+.q.hot{border-top-color:var(--gold)}
+.q .qt{font-family:var(--mono);font-size:19px;color:var(--gold);letter-spacing:.2em}
+.q h4{font-family:var(--sans);font-weight:500;font-size:23px;color:var(--ink);margin-top:12px;line-height:1.45}
+.q p{font-family:var(--sans);font-weight:300;font-size:18px;color:var(--ink2);line-height:1.65;margin-top:10px}
+/* P14 用资条 */
+.fundbar{display:flex;height:64px;margin-top:8px}
+.fundbar div{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:22px}
+.fundlabs{display:flex;margin-top:12px}
+.fundlabs div{font-family:var(--sans);font-weight:300;font-size:17px;color:var(--ink2);line-height:1.5;padding-right:14px}
+.fundlabs b{display:block;font-family:var(--mono);color:var(--gold);font-size:16px;margin-bottom:3px}
+/* 封面水印 */
+.wm{position:absolute;right:24px;bottom:110px;font-family:var(--mono);font-weight:700;font-size:330px;line-height:1;
+  color:transparent;-webkit-text-stroke:1px #2E271D;pointer-events:none;letter-spacing:-.02em}
+.chips{display:flex;gap:18px}
+.chip{border:1px solid var(--line2);padding:12px 22px;font-family:var(--mono);font-size:20px;color:var(--ink);background:rgba(29,24,19,.55)}
+.chip b{color:var(--gold);font-weight:700}
+/* 诚实框（P10）：不藏灰 */
+.honest{border:1px dashed var(--line2);background:rgba(29,24,19,.5);padding:18px 24px;
+  font-family:var(--sans);font-weight:300;font-size:19px;color:var(--ink);line-height:1.7}
+.honest .tg{font-family:var(--mono);font-size:15px;color:var(--red);letter-spacing:.26em;display:block;margin-bottom:8px}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+<!-- P1 封面 -->
+<section class="slide">
+  <div class="eyebrow"><span>LAOS · FUNDING LEDGER</span><small>创新融资 · 项目介绍 · 2026-10</small></div>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:1">
+    <h1>给 AI Agent 装上<br>操作系统的<span class="gold">「治理内核」</span></h1>
+    <p class="lede">模型负责想，laos 负责说「不」。</p>
+  </div>
+  <div class="wm">laos</div>
+  <div class="chips" style="margin-bottom:64px;position:relative;z-index:1">
+    <span class="chip">v<b>0.12.0</b></span>
+    <span class="chip">30 天 <b>12</b> 个版本</span>
+    <span class="chip"><b>765</b> 测试全绿</span>
+  </div>
+  <div class="footer"><span>GITHUB.COM/YFREDY/LAOS</span><span>01 / 15</span></div>
+</section>
+
+<!-- P2 一页看懂 -->
+<section class="slide">
+  <div class="eyebrow"><span>SHEET 02 · ONE PAGE</span><small>IF THEY REMEMBER ONE SLIDE</small></div>
+  <h2>如果只记住一页</h2>
+  <div style="margin-top:22px">
+    <div class="entry"><div class="no">问<small>PROBLEM</small></div><div>
+      <h3>Agent 直接拿工具，没有「系统调用」层</h3>
+      <p>无预算 · 无审计 · 无回滚 · 无合规——每一次 tool call 都在裸奔。</p></div></div>
+    <div class="entry"><div class="no">方<small>SOLUTION</small></div><div>
+      <h3>laos = 用户态 Agent 内核</h3>
+      <p>8 环 syscall 闸门链：能力 → 范围 → 校验 → 预算 → 计价 → 预审 → 确认 → 审计。</p></div></div>
+    <div class="entry" style="border-bottom:none"><div class="no">证<small>TRACTION</small></div><div>
+      <h3>开源 v0.12.0 · 15 个设备驱动 · 19,792 篇论文语料</h3>
+      <p>端侧听觉栈全自研、纯 stdlib；30 天 12 个版本、765 测试全绿。</p></div></div>
+  </div>
+  <div style="margin-top:auto;margin-bottom:26px;background:var(--gold);color:#171310;padding:26px 36px;display:flex;justify-content:space-between;align-items:center">
+    <span style="font-family:var(--serif);font-weight:700;font-size:40px;letter-spacing:.02em">模型负责想，laos 负责说「不」。</span>
+    <span style="font-family:var(--mono);font-size:17px;letter-spacing:.3em">THE ONE LINE</span>
+  </div>
+  <div class="footer"><span>LAOS FUNDING LEDGER · 2026-10</span><span>02 / 15</span></div>
+</section>
+
+<!-- P3 痛点三柱 -->
+<section class="slide">
+  <div class="eyebrow"><span>SHEET 03 · PAIN</span><small>三柱</small></div>
+  <h2>没有 syscall 层，三笔账同时失控</h2>
+  <div class="cols3" style="margin-top:44px;flex:1">
+    <div class="card" style="display:flex;flex-direction:column">
+      <div style="font-family:var(--serif);font-size:58px;color:var(--gold);line-height:1">壹</div>
+      <h4 style="margin-top:20px;font-size:28px">失控成本</h4>
+      <p style="font-size:20px">一次 tool call 就是一次不可逆操作——误删文件、超额扣费、并发写坏状态。现有框架（LangChain / MCP host 等）在应用层 try-catch，挡不住。</p>
+      <p style="margin-top:auto;font-family:var(--mono);font-size:17px;color:var(--red);letter-spacing:.04em;line-height:1.7">例：一句「清理临时文件」——<br>家目录没了。</p>
+    </div>
+    <div class="card" style="display:flex;flex-direction:column">
+      <div style="font-family:var(--serif);font-size:58px;color:var(--gold);line-height:1">贰</div>
+      <h4 style="margin-top:20px;font-size:28px">合规黑洞</h4>
+      <p style="font-size:20px">EU AI Act 已生效、PIPL 把声纹列为敏感个人信息——企业上 Agent，缺一层可审计的证据链。</p>
+      <p style="margin-top:auto;font-family:var(--mono);font-size:17px;color:var(--red);letter-spacing:.04em;line-height:1.7">例：一段员工声纹录音——<br>同意与留痕拿不出来。</p>
+    </div>
+    <div class="card" style="display:flex;flex-direction:column">
+      <div style="font-family:var(--serif);font-size:58px;color:var(--gold);line-height:1">叁</div>
+      <h4 style="margin-top:20px;font-size:28px">端侧碎片</h4>
+      <p style="font-size:20px">手机 / 耳机的麦克风、屏幕、通知、NPU 各自为 SDK——Agent 接入每一件都要重写一遍，且没有统一隐私闸。</p>
+      <p style="margin-top:auto;font-family:var(--mono);font-size:17px;color:var(--red);letter-spacing:.04em;line-height:1.7">例：换一台耳机——<br>麦克风层重写一遍。</p>
+    </div>
+  </div>
+  <div class="footer"><span>LAOS FUNDING LEDGER</span><span>03 / 15</span></div>
+</section>
+
+<!-- P4 为什么是现在 -->
+<section class="slide">
+  <div class="eyebrow"><span>SHEET 04 · TIMING</span><small>三浪叠加</small></div>
+  <h2>为什么是现在：三浪同时到岸</h2>
+  <div style="margin-top:30px">
+    <div class="entry" style="grid-template-columns:150px 1fr"><div class="no">壹<small>WAVE 1</small></div><div>
+      <h3>MCP 成为事实标准</h3>
+      <p>2026-07-28 规范更新：Tasks / Elicitation / MRTR——工具调用接口统一，<b style="color:var(--gold)">治理层有了统一切入点</b>。</p></div></div>
+    <div class="entry" style="grid-template-columns:150px 1fr"><div class="no">贰<small>WAVE 2</small></div><div>
+      <h3>Agent 从聊天走向执行</h3>
+      <p>企业开始让 Agent 动真实系统——从「能干活」到「敢让它干活」，<b style="color:var(--gold)">差的正是 OS 层</b>。</p></div></div>
+    <div class="entry" style="grid-template-columns:150px 1fr;border-bottom:none"><div class="no">叁<small>WAVE 3</small></div><div>
+      <h3>监管落地窗口</h3>
+      <p>EU AI Act 分阶段生效 / 国内生成式算法备案——<b style="color:var(--gold)">合规是预算充足的用户</b>。</p></div></div>
+  </div>
+  <div class="footer"><span>LAOS FUNDING LEDGER</span><span>04 / 15</span></div>
+</section>
+
+<!-- P5 产品 -->
+<section class="slide">
+  <div class="eyebrow"><span>SHEET 05 · PRODUCT</span><small>laos 是什么</small></div>
+  <h2>laos = 用户态 Agent 内核</h2>
+  <div class="flow">
+    <div class="fbox"><div class="t">Agent</div><div class="s">模型 · 想要动工具</div></div>
+    <div class="arr">⇄</div>
+    <div class="fbox core"><div class="t">laos 内核</div>
+      <div class="chips"><span>闸门链</span><span>调度</span><span>分支</span><span>记忆</span></div></div>
+    <div class="arr">⇄</div>
+    <div class="fbox"><div class="t">15 个驱动子进程</div><div class="s">mic · ear · screen · notify …</div></div>
+    <div class="arr">⇄</div>
+    <div class="fbox"><div class="t">Linux · MCP · 外设</div><div class="s">真实世界</div></div>
+  </div>
+  <div class="cols2" style="margin-top:40px;flex:1">
+    <div>
+      <table class="map">
+        <tr><th>AGENT 世界</th><th>OS 语义</th><th></th></tr>
+        <tr><td class="k">tool call</td><td class="v">= 系统调用</td><td>每次过闸</td></tr>
+        <tr><td class="k">MCP Server</td><td class="v">= 设备驱动</td><td>外挂即插</td></tr>
+        <tr><td class="k">能力表</td><td class="v">= 权限位</td><td>最小授权</td></tr>
+      </table>
+    </div>
+    <div class="card" style="align-self:start;display:flex;flex-direction:column">
+      <div class="mono-tag">ZERO-DEP PROMISE</div>
+      <h4 style="margin-top:12px">零依赖承诺</h4>
+      <p>内核纯 Python stdlib——可进任何低端安卓 / 边缘盒子的 Python 环境。</p>
+      <div style="margin-top:auto;padding-top:22px"><span class="stamp gold">PURE STDLIB</span></div>
+    </div>
+  </div>
+  <div class="footer"><span>LAOS FUNDING LEDGER</span><span>05 / 15</span></div>
+</section>
+
+<!-- P6 壁垒一：8 环闸门链 -->
+<section class="slide">
+  <div class="eyebrow"><span>SHEET 06 · BARRIER 1</span><small>8 环闸门链</small></div>
+  <h2>越界在第 <span class="gold">2</span> 环即拒，驱动根本不被触达</h2>
+  <div class="chain">
+    <div class="node"><div class="n">01</div><div class="nm">能力表</div><div class="zh">能力</div></div><div class="arr">→</div>
+    <div class="node" style="border-color:var(--red)"><span class="rej">拒</span><div class="n" style="color:var(--red)">02</div><div class="nm">task_scope</div><div class="zh">范围</div></div><div class="arr">→</div>
+    <div class="node"><div class="n">03</div><div class="nm">schema</div><div class="zh">校验</div></div><div class="arr">→</div>
+    <div class="node"><div class="n">04</div><div class="nm">EDQUOT</div><div class="zh">预算</div></div><div class="arr">→</div>
+    <div class="node" style="border-color:var(--gold2)"><div class="n" style="color:var(--gold)">05</div><div class="nm">FleetLedger</div><div class="zh">计价</div></div><div class="arr">→</div>
+    <div class="node"><div class="n">06</div><div class="nm">Jev 预审</div><div class="zh">预审</div></div><div class="arr">→</div>
+    <div class="node"><div class="n">07</div><div class="nm">确认横幅</div><div class="zh">确认</div></div><div class="arr">→</div>
+    <div class="node"><div class="n">08</div><div class="nm">审计</div><div class="zh">审计</div></div>
+  </div>
+  <div class="cols2" style="margin-top:48px;flex:1">
+    <div class="card">
+      <div class="mono-tag">IRREVERSIBLE LEDGER</div>
+      <h4 style="margin-top:10px">不可逆账本</h4>
+      <p>FleetLedger 先扣账、后派发——操作前风险已定价，<b style="color:var(--ink)">事后不可抵赖</b>。</p>
+    </div>
+    <div class="card">
+      <div class="mono-tag">建议 vs 强制</div>
+      <h4 style="margin-top:10px">现有方案是「建议」，laos 是「强制」</h4>
+      <p>应用层 guardrail / 策略文件不在执行路径上；laos 的闸门在内核——越界在第 2 环即拒。</p>
+    </div>
+  </div>
+  <div class="footer"><span>LAOS FUNDING LEDGER</span><span>06 / 15</span></div>
+</section>
+
+<!-- P7 壁垒二：端侧听觉栈 -->
+<section class="slide">
+  <div class="eyebrow"><span>SHEET 07 · BARRIER 2</span><small>端侧听觉栈 · 全自研</small></div>
+  <h2>语音是入口，端侧是唯一安全区</h2>
+  <div class="cols2" style="margin-top:36px;flex:1;grid-template-columns:1.25fr 1fr">
+    <div class="strata">
+      <div class="stratum"><div class="idx">L6</div><div><div class="nm">ShoNet 声源定位复现</div></div></div>
+      <div class="stratum"><div class="idx">L5</div><div><div class="nm">FOA 编解码</div></div></div>
+      <div class="stratum"><div class="idx">L4</div><div><div class="nm">麦克风几何 MPE</div></div></div>
+      <div class="stratum"><div class="idx">L3</div><div><div class="nm">Goertzel 双耳 ILD / IPD</div></div></div>
+      <div class="stratum"><div class="idx">L2</div><div><div class="nm">BS.1770-4 响度</div><div class="dt">校准锚点 −23.00 LUFS ±0.1</div></div></div>
+      <div class="stratum"><div class="idx">L1</div><div><div class="nm">VAD</div></div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:24px">
+      <div class="card">
+        <div class="mono-tag">FULL-DUPLEX</div>
+        <h4 style="margin-top:10px">全双工三件套</h4>
+        <p style="margin-top:14px;font-family:var(--mono);font-size:19px;line-height:2.1">— 时序度量<br>— speak-hold-stop 轮转策略<br>— 打断即作废轮缓冲</p>
+      </div>
+      <div class="card" style="flex:1;display:flex;flex-direction:column">
+        <div class="mono-tag">WHY IT PAYS</div>
+        <h4 style="margin-top:10px">为什么值钱</h4>
+        <p>语音是 Agent 最自然入口，<b style="color:var(--ink)">端侧 = 隐私合规的唯一安全区</b>——而市面方案全部依赖云端大模型。</p>
+        <div style="margin-top:auto;padding-top:18px"><span class="stamp gold">全自研 · 纯 STDLIB</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>LAOS FUNDING LEDGER</span><span>07 / 15</span></div>
+</section>
+
+<!-- P8 壁垒三：合规先发 -->
+<section class="slide">
+  <div class="eyebrow"><span>SHEET 08 · BARRIER 3</span><small>合规先发</small></div>
+  <h2>「可审计」是入场券，不是加分项</h2>
+  <div class="cols2" style="margin-top:36px;flex:1;grid-template-columns:1.3fr 1fr">
+    <div>
+      <div class="entry"><div class="no" style="font-family:var(--mono);font-size:26px;padding-top:8px">C-01</div><div>
+        <h3>EU AI Act 禁令清单</h3><p>已生效——禁区在哪，功课先做完。</p></div></div>
+      <div class="entry"><div class="no" style="font-family:var(--mono);font-size:26px;padding-top:8px">C-02</div><div>
+        <h3>PIPL：声纹 = 敏感个人信息</h3><p>单独同意——录音链路按最严口径设计。</p></div></div>
+      <div class="entry" style="border-bottom:none"><div class="no" style="font-family:var(--mono);font-size:26px;padding-top:8px">C-03</div><div>
+        <h3>录音触发四红线</h3><p>显式 syscall · LAOS_REC=0 · 全量审计 · ASR 本地。</p></div></div>
+    </div>
+    <div class="card" style="align-self:start;display:flex;flex-direction:column;height:100%">
+      <div class="mono-tag">REJECTION LIST · 实证</div>
+      <h4 style="margin-top:12px">拒绝清单</h4>
+      <p>对标开源产品的<b style="color:var(--ink)">七个越界文件</b>，逐行分析后——一行不抄。</p>
+      <div style="margin-top:auto;padding-top:26px;text-align:right"><span class="stamp">一行不抄</span></div>
+    </div>
+  </div>
+  <p class="lede" style="margin-top:6px">红线前置成内核默认值——企业采购 Agent 基础设施时，「可审计」是入场券，不是加分项。</p>
+  <div class="footer"><span>LAOS FUNDING LEDGER</span><span>08 / 15</span></div>
+</section>
+
+<!-- P9 竞争格局 -->
+<section class="slide">
+  <div class="eyebrow"><span>SHEET 09 · LANDSCAPE</span><small>竞争格局</small></div>
+  <h2>执行路径上的强制层，只有 laos</h2>
+  <div class="cols2" style="margin-top:40px;flex:1;grid-template-columns:1.15fr 1fr">
+    <div style="display:flex;flex-direction:column;justify-content:center">
+      <div style="position:relative;height:120px;margin:40px 30px 0">
+        <div style="position:absolute;left:0;right:0;top:26px;height:2px;background:var(--line2)"></div>
+        <div style="position:absolute;left:2%;top:0;font-family:var(--mono);font-size:17px;color:var(--meta)">L0</div>
+        <div style="position:absolute;left:2%;top:44px;font-family:var(--sans);font-weight:300;font-size:18px;color:var(--ink2)">约定层 · 框架 / 壳</div>
+        <div style="position:absolute;left:36%;top:0;font-family:var(--mono);font-size:17px;color:var(--meta)">L1</div>
+        <div style="position:absolute;left:66%;top:0;font-family:var(--mono);font-size:17px;color:var(--gold)">L2</div>
+        <div style="position:absolute;left:66%;top:-16px;transform:translateX(-38%);width:20px;height:20px;border:2px solid var(--gold);border-radius:50%;background:var(--bg)"></div>
+        <div style="position:absolute;left:66%;top:44px;transform:translateX(-42%);font-family:var(--sans);font-weight:500;font-size:20px;color:var(--gold);white-space:nowrap">laos · 用户态强制层</div>
+        <div style="position:absolute;right:0;top:0;font-family:var(--mono);font-size:17px;color:var(--meta)">L3</div>
+        <div style="position:absolute;right:0;top:44px;font-family:var(--sans);font-weight:300;font-size:18px;color:var(--ink2)">libOS 层</div>
+      </div>
+      <p style="font-family:var(--sans);font-weight:300;font-size:19px;color:var(--ink2);line-height:1.8;margin-top:44px;padding:0 30px">
+        学术对照：Rutgers AIOS 调度优先，与 laos <b style="color:var(--ink)">互补不互竞</b>（调研结论）。</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:20px">
+      <div class="card"><div class="mono-tag">框架派</div><h4 style="font-size:22px;margin-top:8px">LangGraph 等</h4><p>约定优先——<b style="color:var(--ink)">无强制</b>。</p></div>
+      <div class="card"><div class="mono-tag">治理派</div><h4 style="font-size:22px;margin-top:8px">策略引擎</h4><p><b style="color:var(--ink)">不在执行路径上</b>。</p></div>
+      <div class="card"><div class="mono-tag">端侧派</div><h4 style="font-size:22px;margin-top:8px">各家 SDK</h4><p>逐设备接入——<b style="color:var(--ink)">无 OS 语义</b>。</p></div>
+      <div class="card" style="border-color:var(--gold2);position:relative">
+        <div class="mono-tag">LAOS</div>
+        <h4 style="font-size:22px;margin-top:8px" class="gold">执行路径上的强制</h4>
+        <p>端侧驱动 + 审计账本。<span class="stamp" style="font-size:15px;padding:3px 12px;margin-left:6px">唯一</span></p></div>
+    </div>
+  </div>
+  <div class="footer"><span>LAOS FUNDING LEDGER</span><span>09 / 15</span></div>
+</section>
+
+<!-- P10 里程碑与进展 -->
+<section class="slide">
+  <div class="eyebrow"><span>SHEET 10 · TRACTION</span><small>全部真实</small></div>
+  <h2>30 天 12 版本，每一行可复核</h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:34px;margin-top:44px">
+    <div><div class="bignum">12</div><hr class="hair">
+      <p style="font-family:var(--sans);font-weight:300;font-size:20px;color:var(--ink2);line-height:1.7">MINOR 版本 / 30 天<br>v0.1.0 → v0.12.0，每版本 tag + Release + CHANGELOG</p></div>
+    <div><div class="bignum">765</div><hr class="hair">
+      <p style="font-family:var(--sans);font-weight:300;font-size:20px;color:var(--ink2);line-height:1.7">测试全绿 · TDD 先红后绿<br>主库 415 / 隔离区 279 / 复现区 71</p></div>
+    <div><div class="bignum">19,792</div><hr class="hair">
+      <p style="font-family:var(--sans);font-weight:300;font-size:20px;color:var(--ink2);line-height:1.7">篇双会议论文全量语料<br>+ 3,724 OSS 星标库分级 + 47 份调研文档</p></div>
+  </div>
+  <p style="font-family:var(--sans);font-weight:300;font-size:22px;color:var(--ink);margin-top:36px">
+    论文级复现实证 ×4——响度标准 / ANC / DOA / MPE，<span class="gold">与官方实现逐行对齐</span>。</p>
+  <div class="honest" style="margin-top:auto;margin-bottom:30px">
+    <span class="tg">HONEST NOTE · 诚实呈现</span>
+    开源一个月，社区冷启动期——<b>尚无外部贡献者</b>；增长曲线看 issue / PR 转化。
+  </div>
+  <div class="footer"><span>LAOS FUNDING LEDGER</span><span>10 / 15</span></div>
+</section>
+
+<!-- P11 商业模式 -->
+<section class="slide">
+  <div class="eyebrow"><span>SHEET 11 · BUSINESS</span><small>三条线</small></div>
+  <h2>三条收入线，卖同一个东西：「敢用」</h2>
+  <div style="margin-top:24px">
+    <div class="entry" style="grid-template-columns:150px 1fr 300px"><div class="no">壹<small>LINE 1</small></div><div>
+      <h3>企业私有化 Agent 治理中间件</h3>
+      <p>闸门链 + FleetLedger 账本，打包进企业 MCP 网关。</p></div>
+      <div style="font-family:var(--mono);font-size:19px;color:var(--gold);align-self:center;letter-spacing:.1em">LICENSE + SLA</div></div>
+    <div class="entry" style="grid-template-columns:150px 1fr 300px"><div class="no">贰<small>LINE 2</small></div><div>
+      <h3>审计合规报表 SaaS</h3>
+      <p>FleetLedger 数据 → 合规证据链导出，按 Agent 数量订阅。</p></div>
+      <div style="font-family:var(--mono);font-size:19px;color:var(--gold);align-self:center;letter-spacing:.1em">SAAS · 订阅</div></div>
+    <div class="entry" style="grid-template-columns:150px 1fr 300px;border-bottom:none"><div class="no">叁<small>LINE 3</small></div><div>
+      <h3>端侧语音 SDK 授权</h3>
+      <p>零依赖听觉栈 + 全双工轮转，OEM / 设备厂按量。</p></div>
+      <div style="font-family:var(--mono);font-size:19px;color:var(--gold);align-self:center;letter-spacing:.1em">SDK · 按量</div></div>
+  </div>
+  <div style="margin-top:auto;margin-bottom:26px;border-left:3px solid var(--gold);padding:6px 0 6px 28px">
+    <span style="font-family:var(--serif);font-size:30px;color:var(--ink)">定价哲学：先开源内核建标准，卖的是「敢用」——<span class="gold">强制层与证据链</span>。</span>
+  </div>
+  <div class="footer"><span>LAOS FUNDING LEDGER</span><span>11 / 15</span></div>
+</section>
+
+<!-- P12 市场空间（示意结构） -->
+<section class="slide">
+  <div class="eyebrow"><span>SHEET 12 · MARKET</span><small>结构示意 · 数字待替换</small></div>
+  <h2>市场空间：结构先行，不放虚数</h2>
+  <div class="cols2" style="margin-top:36px;flex:1;grid-template-columns:1.35fr 1fr">
+    <div class="nest">
+      <div class="box" style="inset:0">
+        <div class="lab">TAM · Agent 基础设施软件<small>示例口径 · 需替换为可辩护测算</small></div><span class="seal">示例</span>
+        <div class="box" style="inset:70px 60px 56px 60px">
+          <div class="lab">SAM · 企业 Agent 治理与审计<small>MCP 网关 / 策略执行细分</small></div><span class="seal">示例</span>
+          <div class="box" style="inset:74px 56px 52px 56px;border-color:var(--gold2);background:rgba(212,162,78,.05)">
+            <div class="lab" style="color:var(--gold)">SOM · 3 年可触达<small style="color:var(--ink2)">私有化 + 报表 + SDK 三线合计</small></div><span class="seal">示例</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:0;justify-content:center">
+      <div class="entry" style="grid-template-columns:110px 1fr;padding:18px 0"><div class="no" style="font-family:var(--mono);font-size:22px">TAM</div>
+        <p style="margin:0">Agent 基础设施软件总盘——接口标准化后，治理是新的必选层。</p></div>
+      <div class="entry" style="grid-template-columns:110px 1fr;padding:18px 0"><div class="no" style="font-family:var(--mono);font-size:22px">SAM</div>
+        <p style="margin:0">企业 Agent 治理与审计细分——MCP 网关 / 策略执行的执行路径部分。</p></div>
+      <div class="entry" style="grid-template-columns:110px 1fr;padding:18px 0;border-bottom:none"><div class="no" style="font-family:var(--mono);font-size:22px">SOM</div>
+        <p style="margin:0">3 年可触达——私有化 + 报表 + SDK 三条线合计。</p></div>
+      <div class="honest" style="margin-top:22px">
+        <span class="tg">示例 · NOTE</span>
+        本页数字为结构示意——正式投资人版将附测算模型。
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>LAOS FUNDING LEDGER</span><span>12 / 15</span></div>
+</section>
+
+<!-- P13 路线图 -->
+<section class="slide">
+  <div class="eyebrow"><span>SHEET 13 · ROADMAP</span><small>12 个月</small></div>
+  <h2>12 个月，走到可复制的 A 轮案例</h2>
+  <div class="qgrid" style="margin-top:48px">
+    <div class="q"><div class="qt">Q1</div><h4>v1.0 内核稳定</h4><p>多 Agent 并发调度；首个企业试点——治理中间件 POC。</p></div>
+    <div class="q"><div class="qt">Q2</div><h4>审计报表 SaaS 内测</h4><p>驱动市场——第三方 MCP 治理接入协议。</p></div>
+    <div class="q"><div class="qt">Q3</div><h4>端侧语音 SDK 上设备</h4><p>1-2 款设备落地；Bin2Ambi / 空间音频能力进产品。</p></div>
+    <div class="q hot"><div class="qt">Q4</div><h4 class="gold">A 轮叙事节点</h4><p>可复制的「治理 + 听觉」打包案例。</p></div>
+  </div>
+  <div style="margin-top:auto;margin-bottom:26px">
+    <div style="font-family:var(--mono);font-size:15px;color:var(--meta);letter-spacing:.26em;margin-bottom:16px">TEAM · 团队扩张</div>
+    <div style="font-family:var(--mono);font-size:22px;color:var(--ink);display:flex;align-items:center;gap:22px;flex-wrap:wrap">
+      <span>单人 + AI 协作流水线</span><span style="color:var(--gold2)">→</span>
+      <span>+2（内核 / 端侧）</span><span style="color:var(--gold2)">→</span>
+      <span>+2（合规 / BD）</span>
+    </div>
+  </div>
+  <div class="footer"><span>LAOS FUNDING LEDGER</span><span>13 / 15</span></div>
+</section>
+
+<!-- P14 融资方案（示例结构） -->
+<section class="slide">
+  <div class="eyebrow"><span>SHEET 14 · THE ASK</span><small>示例结构 · 数字待测算</small></div>
+  <h2>天使轮（示例）：<span class="gold">¥500 万</span>，买 12 个月确定性</h2>
+  <div class="cols2" style="margin-top:40px;flex:1;grid-template-columns:1fr 1.25fr">
+    <div style="display:flex;flex-direction:column;justify-content:center">
+      <div style="font-family:var(--mono);font-weight:700;font-size:150px;color:var(--gold);line-height:1">¥500<span style="font-size:64px">万</span></div>
+      <div style="display:flex;align-items:center;gap:22px;margin-top:30px">
+        <span style="font-family:var(--mono);font-size:26px;color:var(--ink)">出让 10%</span>
+        <span class="stamp" style="font-size:16px;padding:5px 14px">示例数字 · 可调</span>
+      </div>
+      <p style="font-family:var(--sans);font-weight:300;font-size:19px;color:var(--ink2);margin-top:26px;line-height:1.7">
+        里程碑对赌：12 个月内 <b style="color:var(--ink)">1.0 + 首个付费试点</b>。</p>
+    </div>
+    <div style="display:flex;flex-direction:column;justify-content:center">
+      <div style="font-family:var(--mono);font-size:15px;color:var(--meta);letter-spacing:.26em;margin-bottom:14px">USE OF FUNDS · 资金用途</div>
+      <div class="fundbar">
+        <div style="flex:40;background:var(--gold);color:#171310">40%</div>
+        <div style="flex:30;background:#B98A3D;color:#171310">30%</div>
+        <div style="flex:20;background:#8A6A30;color:var(--ink)">20%</div>
+        <div style="flex:10;background:#4A3D26;color:var(--ink2)">10%</div>
+      </div>
+      <div class="fundlabs">
+        <div style="flex:40"><b>40%</b>端侧真机验证</div>
+        <div style="flex:30"><b>30%</b>生态适配<br>MCP 生态 / 驱动市场</div>
+        <div style="flex:20"><b>20%</b>合规认证<br>与试点</div>
+        <div style="flex:10"><b>10%</b>运营</div>
+      </div>
+      <div class="honest" style="margin-top:36px">
+        <span class="tg">示例 · NOTE</span>
+        金额与比例按正式 BP 测算更新——本页结构先行，不渲染虚数。
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>LAOS FUNDING LEDGER</span><span>14 / 15</span></div>
+</section>
+
+<!-- P15 团队与风险 -->
+<section class="slide">
+  <div class="eyebrow"><span>SHEET 15 · TEAM &amp; RISK</span><small>末页</small></div>
+  <h2>单人 + AI 协作流水线：方法论即产品</h2>
+  <div class="cols2" style="margin-top:30px;flex:1;grid-template-columns:1fr 1.15fr">
+    <div class="card" style="display:flex;flex-direction:column">
+      <div class="mono-tag">TEAM · 真实呈现</div>
+      <h4 style="margin-top:12px">独立开发者</h4>
+      <p>30 天完成 <b style="color:var(--ink)">12 版本 / 765 测试 / 47 份调研</b>——这条 AI 协作流水线本身就是产品方法论证明。</p>
+      <p style="margin-top:14px">招人计划见路线图：+2（内核 / 端侧）→ +2（合规 / BD）。</p>
+    </div>
+    <div>
+      <div class="entry" style="padding:16px 0"><div class="no" style="font-family:var(--mono);font-size:22px">风险①</div><div>
+        <h3 style="font-size:23px">标准竞争——MCP 生态位被大厂占</h3>
+        <p style="margin-top:4px">→ 深耕强制层与账本，标准中立。</p></div></div>
+      <div class="entry" style="padding:16px 0"><div class="no" style="font-family:var(--mono);font-size:22px">风险②</div><div>
+        <h3 style="font-size:23px">单人风险</h3>
+        <p style="margin-top:4px">→ 首要融资用途即团队。</p></div></div>
+      <div class="entry" style="padding:16px 0;border-bottom:none"><div class="no" style="font-family:var(--mono);font-size:22px">风险③</div><div>
+        <h3 style="font-size:23px">长销售周期</h3>
+        <p style="margin-top:4px">→ 先开发者后企业——开源漏斗。</p></div></div>
+    </div>
+  </div>
+  <div style="margin-top:auto;margin-bottom:26px;display:flex;justify-content:space-between;align-items:end">
+    <div>
+      <div style="font-family:var(--serif);font-weight:700;font-size:52px;color:var(--ink);line-height:1.3">模型负责想，<br>laos 负责说<span class="gold">「不」</span>。</div>
+      <div style="font-family:var(--mono);font-size:20px;color:var(--gold);letter-spacing:.18em;margin-top:20px">GITHUB.COM/YFREDY/LAOS</div>
+    </div>
+    <span class="stamp gold" style="margin-bottom:8px">FUNDING LEDGER · 2026-10</span>
+  </div>
+  <div class="footer"><span>LAOS FUNDING LEDGER · 谢谢</span><span>15 / 15</span></div>
+</section>
+
+</div>
+<script>
+(function(){
+  const KEY='laos-funding-huashu-pos';
+  const stage=document.getElementById('stage');
+  const slides=[...document.querySelectorAll('.slide')];
+  let cur=0;
+  const fit=()=>{const f=Math.min(innerWidth/1920,innerHeight/1080);
+    stage.style.transform=`translate(${(innerWidth-1920*f)/2}px,${(innerHeight-1080*f)/2}px) scale(${f})`};
+  fit();addEventListener('resize',fit);
+  const show=i=>{cur=Math.max(0,Math.min(i,slides.length-1));
+    slides.forEach((s,k)=>s.classList.toggle('active',k===cur));
+    try{localStorage.setItem(KEY,cur)}catch(e){}
+    location.hash=cur+1};
+  addEventListener('keydown',e=>{
+    if(['ArrowRight',' ','PageDown'].includes(e.key)){e.preventDefault();show(cur+1)}
+    else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(cur-1)}
+    else if(e.key==='Home')show(0);else if(e.key==='End')show(slides.length-1)});
+  let sx=0;
+  addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+  addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;
+    if(Math.abs(dx)>50)show(cur+(dx<0?1:-1))},{passive:true});
+  let wt=0;
+  addEventListener('wheel',e=>{const now=Date.now();
+    if(now-wt<650||Math.abs(e.deltaY)<24)return;wt=now;
+    show(cur+(e.deltaY>0?1:-1))},{passive:true});
+  let h=parseInt(location.hash.slice(1));
+  if(!(h>=1&&h<=slides.length)){try{h=parseInt(localStorage.getItem(KEY))+1||1}catch(e){h=1}}
+  show(h-1);
+})();
+</script>
+</body>
+</html>

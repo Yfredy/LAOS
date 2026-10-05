@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>laos 详细版 · 三方向方向板（huashu-design 硬门产物 · 波次 2）</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#141210;font-family:'Noto Sans SC',sans-serif;color:#ddd;padding:48px;display:flex;flex-direction:column;gap:36px}
+h1{font-size:26px;font-weight:600;letter-spacing:.06em}
+p.note{font-size:14px;color:#999;max-width:96ch;line-height:1.75}
+.row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.direction{aspect-ratio:16/9;position:relative;overflow:hidden;display:flex;flex-direction:column;padding:30px 34px;border-radius:6px}
+.direction .tag{font-family:monospace;font-size:12px;letter-spacing:.3em;opacity:.75}
+.direction h2{margin-top:10px}
+.direction .demo{margin-top:auto}
+/* 方向 A：黑金台账密表预览 */
+.dA{background:linear-gradient(160deg,#171310 0%,#0d0b09 100%);border:1px solid #3a332a;color:#efe6d4}
+.dA h2{font-family:'Noto Serif SC',serif;font-size:38px;font-weight:600}
+.dA .gold{color:#d4a24e}
+.dA table{width:100%;border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:11.5px}
+.dA th{color:#8f8570;font-weight:400;letter-spacing:.2em;text-align:left;border-bottom:1px solid #8a6a30;padding:5px 8px}
+.dA td{color:#b7ab93;border-bottom:1px solid #332c22;padding:5.5px 8px}
+.dA td.n{color:#d4a24e}
+/* 方向 B：纸感宣言红 */
+.dB{background:#faf8f2;border:1px solid #d8d2c4;color:#16130e}
+.dB .tag{color:#8a8474}
+.dB h2{font-size:34px;font-weight:800;letter-spacing:-.03em}
+.dB .red{color:#d5401e}
+.dB table{width:100%;border-collapse:collapse;font-family:monospace;font-size:11.5px;margin-top:6px}
+.dB th{color:#8a8474;font-weight:400;letter-spacing:.2em;text-align:left;border-bottom:2px solid #16130e;padding:5px 8px}
+.dB td{border-bottom:1px solid #d8d2c4;padding:5.5px 8px;color:#3c372d}
+.dB td.n{color:#d5401e;font-weight:700}
+/* 方向 C：黑黄粗野 */
+.dC{background:#111;border:3px solid #ffe800;color:#eee}
+.dC .inner{background:#ffe800;margin:-27px -31px 14px;padding:12px 20px;font-weight:900;font-size:18px;letter-spacing:.1em;color:#111}
+.dC h2{font-size:32px;font-weight:900;color:#fff}
+.dC b{color:#ffe800}
+.dC .blk{margin-top:auto;border:2px solid #ffe800;padding:10px 14px;font-family:monospace;font-size:11.5px;color:#ffe800;letter-spacing:.08em;line-height:1.9}
+.verdict{background:#1e1a14;border:1px solid #3a332a;padding:26px 30px;border-radius:6px;font-size:15px;line-height:1.95}
+.verdict b{color:#d4a24e}
+</style>
+</head>
+<body>
+<h1>laos · Linux AgentOS 详细版 — 三方向方向板（波次 2）</h1>
+<p class="note">huashu-design 三方向硬门记录。本波为<b>已选定方向的迭代</b>：波次 1（laos-intro-huashu）已由用户裁定方向 A「档案黑金台账」，按 skill 豁免条款不重开选择门——本板按硬门形态对详细版 brief（18 内容域 · 密表格 · C1 十五驱动全景表 · D2 十二段版本史）重做三方向对比预演，并记录艺术总监再裁决。每个方向板渲染的是<b>本波真正的考验：密表格版式</b>，不是口号封面。</p>
+<div class="row">
+  <div class="direction dA">
+    <div><div class="tag">DIRECTION A · 档案黑金台账 · 深潜版（延续）</div>
+      <h2>十五个驱动，<span class="gold">全部过闸</span>。</h2></div>
+    <div class="demo"><table>
+      <tr><th>域</th><th>驱动</th><th>能力</th></tr>
+      <tr><td rowspan="3" style="color:#efe6d4">听觉</td><td class="n">drv_mic</td><td>录音 · 显式 syscall</td></tr>
+      <tr><td class="n">drv_ear</td><td>转写 + LUFS</td></tr>
+      <tr><td class="n">drv_rec</td><td>录音隔离区</td></tr>
+      <tr><td rowspan="2" style="color:#efe6d4">手机</td><td class="n">drv_screen</td><td>tap·text·dump·key…</td></tr>
+      <tr><td class="n">drv_apps</td><td>list·launch·close</td></tr>
+    </table></div>
+    <div style="display:flex;justify-content:space-between;font-family:monospace;font-size:12px;opacity:.65;margin-top:10px">
+      <span>LAOS ARCHIVE · VOL.II</span><span>暖黑+象牙衬线+金 hairline</span></div>
+  </div>
+  <div class="direction dB">
+    <div><div class="tag">DIRECTION B · 纸感宣言红 · 白皮书版</div>
+      <h2>十五个驱动，<span class="red">全部过闸</span>。</h2></div>
+    <div class="demo"><table>
+      <tr><th>域</th><th>驱动</th><th>能力</th></tr>
+      <tr><td rowspan="3" style="font-weight:700">听觉</td><td class="n">drv_mic</td><td>录音 · 显式 syscall</td></tr>
+      <tr><td class="n">drv_ear</td><td>转写 + LUFS</td></tr>
+      <tr><td class="n">drv_rec</td><td>录音隔离区</td></tr>
+      <tr><td rowspan="2" style="font-weight:700">手机</td><td class="n">drv_screen</td><td>tap·text·dump·key…</td></tr>
+      <tr><td class="n">drv_apps</td><td>list·launch·close</td></tr>
+    </table></div>
+    <div style="display:flex;justify-content:space-between;font-family:monospace;font-size:12px;color:#8a8474;margin-top:10px">
+      <span>LAOS WHITEPAPER</span><span>米白+炭黑+信号红</span></div>
+  </div>
+  <div class="direction dC">
+    <div class="inner">DIRECTION C · 黑黄新粗野 · 工程标语版</div>
+    <h2>15 DRIVERS.<br><b>0 BYPASS.</b></h2>
+    <div class="blk">mic / ear / rec / screen / apps / notify / battery / comms / events / fs / proc / sys / npu / audio / genie —— ALL GATED.</div>
+    <div style="display:flex;justify-content:space-between;font-family:monospace;font-size:12px;color:#ffe800;margin-top:10px">
+      <span>LAOS MANIFESTO</span><span>纯黑+荧光黄粗框</span></div>
+  </div>
+</div>
+<div class="verdict">
+  <b>艺术总监再裁决：延续方向 A（档案黑金台账 · Vol.II）。</b>理由：① <b>密表同构</b>——详细版的主角是台账式密表（驱动全景 15 行、版本史 10 行 12 段），「审计/记账/逐行留痕」正是台账美学的内容本体，hairline 行线与 mono 数据列天然承载高密度而不显拥挤；② <b>系列一致性</b>——波次 1 已交付 12 页黑金主 deck，Vol.II 换向即破坏同一档案系列的连续性；③ B 白底密表在 19 页深潜水密度下对比疲劳、宣言红只撑得住短 deck；C 粗野风的标语气质与「逐行可审计」的克制叙事错位，15 驱动列表在纯黑底上可读性最差。<br>
+  <b>Vol.II 密度对策（在 A 语境内升级，不改方向）：</b>表格正文 ≥16.5px 台账行（行高 44px 级）/ 组别竖排域标签 / dense 页收窄页边距（88px）/ 版本史用「日期-版本-一句话」三栏台账行 / 统一数字角标（V0.12.0 · 765 TESTS · 15 DRV · 12 MINOR）进每页页脚。<br>
+  <b>字体系统（不变）：</b>Noto Serif SC（标题·象牙）+ JetBrains Mono（数据·金）+ Noto Sans SC（正文·暖灰）。
+</div>
+</body>
+</html>

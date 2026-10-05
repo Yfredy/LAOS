@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>laos · Linux AgentOS — 详细技术深潜 · 档案黑金台账 Vol.II</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@300;400;500&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+/* 方向 A · 档案黑金台账 · Vol.II 详细深潜版（波次 1 已裁定方向，本波延续）
+   暖黑 #141110 / 象牙 #efe6d4 / 金 #d4a24e / 台账 hairline #332c22
+   密度对策：dense 页表格 ≥16.5px，行高 44px 台账行，组别竖排 */
+:root{
+  --bg:#141110;--bg2:#1b1613;--ink:#efe6d4;--ink2:#b7ab93;--ink3:#8f8570;
+  --gold:#d4a24e;--gold2:#8a6a30;--line:#332c22;--red:#c96a4a;
+  --serif:'Noto Serif SC',serif;--sans:'Noto Sans SC',sans-serif;--mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#000}
+.stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;background:var(--bg)}
+.slide{position:absolute;inset:0;padding:72px 100px 108px;display:none;flex-direction:column;
+  background:radial-gradient(1200px 700px at 78% -10%,#1d1713 0%,var(--bg) 55%)}
+.slide.dense{padding:54px 88px 96px}
+.slide.active{display:flex}
+/* 台账纸感：极淡横线 */
+.slide::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent 0 71px,rgba(212,162,78,.035) 71px 72px)}
+.eyebrow{font-family:var(--mono);font-size:19px;letter-spacing:.42em;color:var(--gold);text-transform:uppercase}
+.eyebrow small{color:var(--ink3);letter-spacing:.18em;margin-left:24px}
+h1{font-family:var(--serif);font-weight:700;color:var(--ink);font-size:104px;line-height:1.1;letter-spacing:.015em}
+h2{font-family:var(--serif);font-weight:700;color:var(--ink);font-size:52px;line-height:1.18;margin-top:12px}
+.dense h2{font-size:44px;margin-top:8px}
+.gold{color:var(--gold)}
+.lede{font-family:var(--sans);font-weight:300;font-size:24px;color:var(--ink2);line-height:1.8;margin-top:22px;max-width:74ch}
+.hair{border:none;border-top:1px solid var(--line);margin:24px 0}
+.footer{position:absolute;left:100px;right:100px;bottom:34px;display:flex;justify-content:space-between;align-items:baseline;
+  font-family:var(--mono);font-size:15px;color:var(--ink3);letter-spacing:.14em}
+.dense .footer{left:88px;right:88px}
+.footer .meta{color:var(--ink3);letter-spacing:.22em;font-size:14px}
+/* 台账条目 */
+.entry{display:grid;grid-template-columns:130px 1fr;gap:28px;padding:16px 0;border-bottom:1px solid var(--line)}
+.entry .no{font-family:var(--mono);font-size:23px;color:var(--gold);padding-top:3px}
+.entry h3{font-family:var(--sans);font-weight:500;font-size:25px;color:var(--ink)}
+.entry p{font-family:var(--sans);font-weight:300;font-size:19px;color:var(--ink2);line-height:1.65;margin-top:5px}
+/* 印章 */
+.stamp{display:inline-block;border:2px solid var(--red);color:var(--red);padding:7px 18px;
+  font-family:var(--mono);font-size:17px;letter-spacing:.28em;transform:rotate(-4deg)}
+.stamp.g{border-color:var(--gold);color:var(--gold)}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:52px}
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
+.card{border:1px solid var(--line);background:var(--bg2);padding:26px 28px}
+.card h4{font-family:var(--sans);font-weight:500;font-size:24px;color:var(--ink)}
+.card p{font-family:var(--sans);font-weight:300;font-size:18.5px;color:var(--ink2);line-height:1.68;margin-top:9px}
+.card .mono-tag{font-family:var(--mono);font-size:14px;color:var(--gold);letter-spacing:.24em}
+.bignum{font-family:var(--mono);font-weight:700;font-size:78px;color:var(--gold);line-height:1}
+/* 映射表 */
+table.map{width:100%;border-collapse:collapse;font-size:20px}
+table.map th{font-family:var(--mono);color:var(--ink3);font-weight:400;font-size:15px;letter-spacing:.2em;text-align:left;padding:10px 16px;border-bottom:1px solid var(--gold2)}
+table.map td{padding:13px 16px;border-bottom:1px solid var(--line);color:var(--ink2)}
+table.map td.k{color:var(--ink);font-weight:500;font-family:var(--sans)}
+table.map td.v{color:var(--gold);font-family:var(--mono)}
+/* 驱动全景表（C1） */
+table.drv{width:100%;border-collapse:collapse}
+table.drv th{font-family:var(--mono);color:var(--ink3);font-weight:400;font-size:14px;letter-spacing:.2em;text-align:left;padding:8px 14px;border-bottom:1px solid var(--gold2)}
+table.drv td{padding:8.5px 14px;border-bottom:1px solid var(--line);font-family:var(--sans);font-weight:300;font-size:17.5px;color:var(--ink2);line-height:1.45;vertical-align:middle}
+table.drv td.name{font-family:var(--mono);font-size:17px;color:var(--gold);white-space:nowrap}
+table.drv td.dom{border-right:1px solid var(--gold2);font-family:var(--serif);font-weight:700;font-size:22px;color:var(--ink);
+  writing-mode:vertical-rl;text-align:center;letter-spacing:.35em;padding:6px 10px}
+table.drv tr:last-child td{border-bottom:1px solid var(--gold2)}
+/* 闸门链（B2） */
+.chain{position:relative;display:grid;grid-template-columns:repeat(8,1fr);gap:18px;margin-top:46px}
+.chain::before{content:"";position:absolute;left:0;right:0;top:26px;height:1px;background:var(--gold2)}
+.node{position:relative;padding-top:0}
+.node .ring{position:relative;width:52px;height:52px;border:1.5px solid var(--gold);border-radius:50%;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:22px;color:var(--gold)}
+.node h4{font-family:var(--sans);font-weight:500;font-size:20.5px;color:var(--ink);margin-top:16px;line-height:1.3}
+.node p{font-family:var(--mono);font-size:14px;color:var(--ink2);line-height:1.62;margin-top:8px}
+.node.hot h4{color:var(--gold)}
+/* 时间线（D2） */
+.tl{margin-top:24px}
+.tl .row{display:grid;grid-template-columns:96px 168px 1fr;gap:26px;align-items:baseline;
+  padding:10.5px 0;border-bottom:1px solid var(--line)}
+.tl .row:last-child{border-bottom:1px solid var(--gold2)}
+.tl .date{font-family:var(--mono);font-size:15.5px;color:var(--ink3);letter-spacing:.08em}
+.tl .ver{font-family:var(--mono);font-weight:700;font-size:21px;color:var(--gold)}
+.tl .ver small{font-size:13.5px;font-weight:400;color:var(--gold);border:1px solid var(--gold2);padding:2px 8px;margin-left:10px;letter-spacing:.16em;vertical-align:2px}
+.tl .desc{font-family:var(--sans);font-weight:300;font-size:18px;color:var(--ink2);line-height:1.5}
+.tl .desc b{color:var(--ink);font-weight:500}
+/* 漏斗（C2 / C4） */
+.funnel{display:flex;flex-direction:column;gap:9px;margin-top:26px}
+.fbar{display:grid;grid-template-columns:340px 1fr;gap:26px;align-items:center}
+.fbar .fl{border:1px solid var(--gold2);background:linear-gradient(90deg,rgba(212,162,78,.16),rgba(212,162,78,.04));
+  padding:11px 18px;font-family:var(--mono);font-size:16.5px;color:var(--gold);text-align:right;white-space:nowrap}
+.fbar .fd{font-family:var(--sans);font-weight:300;font-size:17.5px;color:var(--ink2);line-height:1.55;border-bottom:1px solid var(--line);padding-bottom:9px}
+.fbar .fd b{color:var(--ink);font-weight:500;font-family:var(--mono);font-size:16.5px}
+/* 分段条 */
+.splitbar{height:46px;display:flex;border:1px solid var(--gold2);margin-top:14px}
+.splitbar div{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:15px;color:var(--ink);white-space:nowrap;overflow:visible}
+.splitbar .sg1{background:rgba(212,162,78,.30);color:var(--ink)}
+.splitbar .sg2{background:rgba(212,162,78,.14)}
+.splitbar .sg3{background:transparent;color:var(--ink3)}
+.legend{display:flex;gap:36px;font-family:var(--mono);font-size:15px;color:var(--ink3);margin-top:12px;letter-spacing:.06em}
+.legend b{color:var(--ink2);font-weight:400}
+/* 光谱（A3） */
+.spectrum{position:relative;margin:96px 40px 0;height:4px;background:linear-gradient(90deg,var(--line),var(--gold2),var(--line))}
+.spectrum .stop{position:absolute;top:-9px;width:22px;height:22px;border:1.5px solid var(--ink3);background:var(--bg);border-radius:50%;transform:translateX(-50%)}
+.spectrum .stop.now{border-color:var(--gold);box-shadow:0 0 0 5px rgba(212,162,78,.15)}
+.spectrum .lab{position:absolute;top:26px;transform:translateX(-50%);text-align:center;width:280px}
+.spectrum .lab .l1{font-family:var(--mono);font-size:16px;color:var(--ink);letter-spacing:.1em}
+.spectrum .lab .l2{font-family:var(--sans);font-weight:300;font-size:16.5px;color:var(--ink2);margin-top:4px}
+.spectrum .lab.pin .l1{color:var(--gold);font-weight:700}
+.spectrum .lab.up{top:auto;bottom:30px}
+/* 分层架构（B1） */
+.layers{display:flex;flex-direction:column;gap:12px}
+.layer{border:1px solid var(--line);background:var(--bg2);padding:16px 24px;display:grid;grid-template-columns:280px 1fr;gap:20px;align-items:center}
+.layer .ln{font-family:var(--mono);font-size:17px;color:var(--ink3);letter-spacing:.14em}
+.layer .lc{font-family:var(--sans);font-weight:300;font-size:18.5px;color:var(--ink2);line-height:1.6}
+.layer .lc b{color:var(--ink);font-weight:500}
+.layer.k{border-color:var(--gold2);background:linear-gradient(90deg,rgba(212,162,78,.10),var(--bg2) 70%)}
+.layer.k .ln{color:var(--gold)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{font-family:var(--mono);font-size:14px;color:var(--gold);border:1px solid var(--line);padding:4px 10px;background:var(--bg)}
+/* 三闸时序（C3） */
+.gates3{position:relative;margin-top:56px;padding:0 10px}
+.gates3 .axis{position:absolute;left:0;right:0;top:0;height:2px;background:var(--gold2)}
+.gates3 .g{position:absolute;top:-11px;width:22px;height:22px;border:1.5px solid var(--gold);background:var(--bg);border-radius:50%;transform:translateX(-50%)}
+.gates3 .glab{position:absolute;top:26px;transform:translateX(-50%);width:330px;text-align:center}
+.gates3 .glab .t{font-family:var(--mono);font-size:17px;color:var(--gold)}
+.gates3 .glab .d{font-family:var(--sans);font-weight:300;font-size:16px;color:var(--ink2);line-height:1.55;margin-top:5px}
+/* 红线 */
+.redline{border:1px solid var(--red);background:rgba(201,106,74,.06);padding:22px 28px}
+.redline .rh{font-family:var(--mono);font-size:16px;color:var(--red);letter-spacing:.3em}
+.redline p{font-family:var(--sans);font-weight:300;font-size:18.5px;color:var(--ink);line-height:1.75;margin-top:10px}
+.rl-entry{display:grid;grid-template-columns:44px 1fr;gap:16px;padding:12px 0;border-bottom:1px solid rgba(201,106,74,.28);align-items:baseline}
+.rl-entry .x{font-family:var(--mono);font-size:20px;color:var(--red)}
+.rl-entry h3{font-family:var(--sans);font-weight:500;font-size:22px;color:var(--ink)}
+.rl-entry p{font-family:var(--sans);font-weight:300;font-size:17.5px;color:var(--ink2);margin-top:3px;line-height:1.55}
+/* 索引页 */
+.idx{display:grid;grid-template-columns:104px 300px 1fr 190px;gap:26px;align-items:center;padding:19px 0;border-bottom:1px solid var(--line)}
+.idx .g{font-family:var(--serif);font-weight:700;font-size:52px;color:var(--gold);line-height:1}
+.idx .gn{font-family:var(--sans);font-weight:500;font-size:25px;color:var(--ink)}
+.idx .gc{font-family:var(--sans);font-weight:300;font-size:18px;color:var(--ink2);line-height:1.65}
+.idx .gs{font-family:var(--mono);font-size:15px;color:var(--ink3);letter-spacing:.12em;text-align:right}
+.idx .gc b{color:var(--gold);font-weight:500}
+/* 采纳漏斗 / 流程 */
+.flow{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:18px}
+.flow .fstep{border:1px solid var(--gold2);padding:10px 20px;font-family:var(--mono);font-size:16px;color:var(--ink)}
+.flow .arr{font-family:var(--mono);font-size:18px;color:var(--gold)}
+.sub{font-family:var(--mono);font-size:14.5px;color:var(--ink3);letter-spacing:.08em;margin-top:12px}
+.sub b{color:var(--gold);font-weight:400}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+<!-- ═══ S01 · A1 封面 ═══ -->
+<section class="slide active">
+  <div class="eyebrow">LAOS ARCHIVE · VOL. II <small>DEEP DIVE · REV v0.12.0 · 26.10.05</small></div>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+    <h1>laos —— Linux <span class="gold">AgentOS</span></h1>
+    <p class="lede">面向 AI Agent 的用户态操作系统 · 详细技术深潜<br>
+    <span style="font-family:var(--mono);font-size:22px;color:var(--ink2)">LINUX AGENTOS = LINUX KERNEL + AGENT + MCP</span></p>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:end">
+    <div style="display:flex;gap:22px;align-items:center">
+      <span class="stamp">765 TESTS GREEN</span>
+      <span class="stamp g" style="transform:rotate(-2deg)">15 DRIVERS</span>
+      <span class="stamp" style="transform:rotate(-6deg)">12 MINOR / 30 DAYS</span>
+    </div>
+    <span style="font-family:var(--mono);font-size:17px;color:var(--ink3)">主库 415 · AlwaysOnRec 279 · Repro 71</span>
+  </div>
+  <div class="footer"><span>LAOS ARCHIVE · DEEP DIVE</span><span class="meta">V0.12.0 · 765 TESTS · 15 DRV · 12 MINOR</span><span>01 / 19</span></div>
+</section>
+
+<!-- ═══ S02 · 台账索引 ═══ -->
+<section class="slide">
+  <div class="eyebrow">INDEX <small>总目录 · 五组 · 十八内容域</small></div>
+  <h2>深潜台账目录。</h2>
+  <div style="margin-top:26px">
+    <div class="idx"><div class="g">A</div><div class="gn">开场组</div><div class="gc">命题——不改内核一行代码 · 「AgentOS」八种含义与 L2 坐标</div><div class="gs">SHEET 03–04</div></div>
+    <div class="idx"><div class="g">B</div><div class="gn">内核组</div><div class="gc">总体架构分层 · <b>syscall 闸门链八环</b> · 分支与内存模型 · 判断层 Jev</div><div class="gs">SHEET 05–08</div></div>
+    <div class="idx"><div class="g">C</div><div class="gn">驱动生态组</div><div class="gc"><b>驱动全景十五驱动</b> · 端侧听觉栈漏斗 · 全双工轮转三件套 · AlwaysOnRec 双沙箱</div><div class="gs">SHEET 09–12</div></div>
+    <div class="idx"><div class="g">D</div><div class="gn">质量与文化组</div><div class="gc">765 测试全绿 · <b>版本史十二段</b> · 复现文化 Repro-ZCode · 调研语料库</div><div class="gs">SHEET 13–16</div></div>
+    <div class="idx"><div class="g">E</div><div class="gn">收尾组</div><div class="gc">安全与合规红线 · 路线图 · 结语</div><div class="gs">SHEET 17–19</div></div>
+  </div>
+  <p class="sub">★ 金标页 = 全片核心：<b>S06 闸门链</b> · <b>S09 驱动全景表</b> · <b>S14 版本史</b>　　版本基准 v0.12.0 · 数字角标全片统一</p>
+  <div class="footer"><span>LAOS ARCHIVE · DEEP DIVE</span><span class="meta">V0.12.0 · 765 TESTS · 15 DRV · 12 MINOR</span><span>02 / 19</span></div>
+</section>
+
+<!-- ═══ S03 · A2 命题 ═══ -->
+<section class="slide">
+  <div class="eyebrow">SHEET 03 <small>A2 · THESIS · 设计命题</small></div>
+  <h2>不改一行内核代码，<br>把 Linux 变成 <span class="gold">Agent 的操作系统</span>。</h2>
+  <div class="cols2" style="margin-top:34px">
+    <div>
+      <p class="sub" style="margin-top:0">复用四件内核遗产 —— 三十年强制原语，不是新发明</p>
+      <div class="entry"><div class="no">NS</div><div><h3>namespace · 隔离</h3><p>每个 Agent 自己的视图——mount / pid / net 互不可见。</p></div></div>
+      <div class="entry"><div class="no">CG</div><div><h3>cgroup · 配额</h3><p>资源上限：失控的驱动只死自己，不拖垮宿主。</p></div></div>
+      <div class="entry"><div class="no">SC</div><div><h3>seccomp-BPF · 系统调用过滤</h3><p>白名单真拦截，不依赖模型自觉。</p></div></div>
+      <div class="entry"><div class="no">LL</div><div><h3>landlock · 文件沙箱</h3><p>未授权路径直接不可见。</p></div></div>
+    </div>
+    <div>
+      <table class="map">
+        <tr><th>内核遗产</th><th>映射到 LAOS</th><th>语义</th></tr>
+        <tr><td class="k">MCP Server</td><td class="v">= 设备驱动</td><td>设备接入的唯一形态</td></tr>
+        <tr><td class="k">tool call</td><td class="v">= 系统调用</td><td>每次过闸，可拒绝</td></tr>
+        <tr><td class="k">laosd</td><td class="v">= 薄内核</td><td>只做语义层，不做重活</td></tr>
+        <tr><td class="k">能力表 caps</td><td class="v">= 权限位</td><td>没给的能力，不存在</td></tr>
+      </table>
+      <p class="lede" style="margin-top:26px;font-size:21px">关键判断：Agent 时代的「内核」不是重写调度器，<br>而是<b style="color:var(--gold)">给工具调用装上 syscall 语义</b>。</p>
+    </div>
+  </div>
+  <div class="footer"><span>LAOS ARCHIVE · DEEP DIVE</span><span class="meta">V0.12.0 · 765 TESTS · 15 DRV · 12 MINOR</span><span>03 / 19</span></div>
+</section>
+
+<!-- ═══ S04 · A3 坐标 ═══ -->
+<section class="slide">
+  <div class="eyebrow">SHEET 04 <small>A3 · LANDSCAPE · 坐标台账</small></div>
+  <h2>「AgentOS」至少有<span class="gold">八种含义</span>，laos 只占一个坐标。</h2>
+  <div class="spectrum">
+    <div class="stop" style="left:2%"></div>
+    <div class="lab" style="left:11%"><div class="l1">L0</div><div class="l2">约定层<br>提示词 · 软约束</div></div>
+    <div class="stop" style="left:34%"></div>
+    <div class="lab" style="left:34%"><div class="l1" style="color:var(--ink3)">L1</div><div class="l2" style="color:var(--ink3)">—</div></div>
+    <div class="stop now" style="left:62%"></div>
+    <div class="lab pin up" style="left:62%"><div class="l1">L2 · laos</div><div class="l2">用户态强制层<br>能力 · 预算 · 审计在派发前完成</div></div>
+    <div class="stop" style="left:95%"></div>
+    <div class="lab" style="left:88%"><div class="l1">L3</div><div class="l2">libOS 层<br>整个运行时重写</div></div>
+  </div>
+  <div class="cols2" style="margin-top:210px">
+    <div class="card">
+      <div class="mono-tag">LANDSCAPE</div>
+      <h4 style="margin-top:10px">调研结论</h4>
+      <p>市面上「AgentOS」至少指 8 种不同的东西——多数是框架或壳。来源：docs/research/agentos-landscape-2026-08.md</p>
+    </div>
+    <div class="card" style="border-color:var(--gold2)">
+      <div class="mono-tag">DIFFERENTIATOR</div>
+      <h4 style="margin-top:10px">laos 是治理内核，不是壳</h4>
+      <p>能力、预算、审计、判断四件事<b style="color:var(--gold)">在派发前完成</b>——强制发生在内核，不发生在上下文窗口。</p>
+    </div>
+  </div>
+  <div class="footer"><span>LAOS ARCHIVE · DEEP DIVE</span><span class="meta">V0.12.0 · 765 TESTS · 15 DRV · 12 MINOR</span><span>04 / 19</span></div>
+</section>
+
+<!-- ═══ S05 · B1 总体架构 ═══ -->
+<section class="slide">
+  <div class="eyebrow">SHEET 05 <small>B1 · ARCHITECTURE · 分层台账</small></div>
+  <h2>自上而下四层，重依赖只活在子进程。</h2>
+  <div class="cols2" style="margin-top:30px;grid-template-columns:1.25fr 1fr">
+    <div class="layers">
+      <div class="layer"><div class="ln">AGENT</div><div class="lc"><b>brain / agent</b> —— 规划与决策，不直接碰任何设备。</div></div>
+      <div class="layer k"><div class="ln">LAOS 内核</div><div class="lc"><b>kernel.py 调度 + syscall 闸门链</b> —— 能力 / 作用域 / 预算 / 计价 / 审计，全部在此裁决。</div></div>
+      <div class="layer"><div class="ln">驱动子进程</div><div class="lc"><b>15 个 drv_*</b>，重依赖隔离——驱动失控只死自己。
+        <div class="chips"><span class="chip">mic</span><span class="chip">ear</span><span class="chip">rec</span><span class="chip">screen</span><span class="chip">apps</span><span class="chip">notify</span><span class="chip">battery</span><span class="chip">comms</span><span class="chip">events</span><span class="chip">fs</span><span class="chip">proc</span><span class="chip">sys</span><span class="chip">npu</span><span class="chip">audio</span><span class="chip">genie</span></div></div></div>
+      <div class="layer"><div class="ln">底座</div><div class="lc"><b>Linux / MCP / 外设</b> —— 内核原语与真实世界。</div></div>
+    </div>
+    <div>
+      <div class="card" style="border-color:var(--gold2)">
+        <div class="mono-tag">CORE PROMISE</div>
+        <h4 style="margin-top:10px">laos/ 目录零第三方依赖</h4>
+        <p>纯 stdlib。重依赖只活在驱动子进程里——<b style="color:var(--gold)">0 KERNEL PATCHES</b>，audit 面保持最小。</p>
+        <p style="margin-top:20px"><span class="stamp g" style="transform:rotate(-3deg)">PURE STDLIB</span></p>
+      </div>
+      <div class="card" style="margin-top:26px">
+        <div class="mono-tag">THREE TREES</div>
+        <h4 style="margin-top:10px">三棵树</h4>
+        <p>laos 主库（内核+驱动）· AlwaysOnRec 隔离区（录音沙箱）· Repro 复现区（论文隔离复现）。</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>LAOS ARCHIVE · DEEP DIVE</span><span class="meta">V0.12.0 · 765 TESTS · 15 DRV · 12 MINOR</span><span>05 / 19</span></div>
+</section>
+
+<!-- ═══ S06 · B2 闸门链（全片核心）═══ -->
+<section class="slide">
+  <div class="eyebrow">SHEET 06 <small>B2 · GATE CHAIN · 闸门台账 ★ 全片核心</small></div>
+  <h2>每一次工具调用，过<span class="gold">八环闸门</span>。</h2>
+  <div class="chain">
+    <div class="node"><div class="ring">1</div><h4>能力表</h4><p>caps 白名单<br>如 screen.*<br>没给=不存在</p></div>
+    <div class="node hot"><div class="ring">2</div><h4>task_scope</h4><p>路径前缀 /<br>pkg: 应用白名单<br>time: 时间窗</p></div>
+    <div class="node"><div class="ring">3</div><h4>schema 校验</h4><p>参数非法即拒<br>EINVAL 语义</p></div>
+    <div class="node"><div class="ring">4</div><h4>EDQUOT 预算</h4><p>配额耗尽即拒<br>预算前置</p></div>
+    <div class="node"><div class="ring">5</div><h4>FleetLedger</h4><p>不可逆计价<br>先扣账后派发<br>风险分扣减</p></div>
+    <div class="node"><div class="ring">6</div><h4>Jev 预审</h4><p>opt-in 判断层<br>值不值得做</p></div>
+    <div class="node"><div class="ring">7</div><h4>确认横幅</h4><p>高危操作<br>人审放行</p></div>
+    <div class="node hot"><div class="ring">8</div><h4>派发 + 审计</h4><p>每笔 tool call<br>留痕可回放</p></div>
+  </div>
+  <div class="redline" style="margin-top:56px">
+    <div class="rh">REJECT EXAMPLE · 第 2 环即拒</div>
+    <p style="font-family:var(--mono);font-size:19px;color:var(--ink)">syscall screen.tap → <span style="color:var(--gold)">① 能力表 ✓</span> → <span style="color:var(--red)">② task_scope ✕ REJECT · pkg: 白名单外</span> —— 拒绝发生在触达 adb 之前，驱动根本不会被唤起。</p>
+  </div>
+  <p class="lede" style="margin-top:24px;font-size:21px">第 5 环 <b style="color:var(--gold)">先扣账后派发</b>：不可逆操作先付风险分，再谈执行——顺序本身就是安全边界。</p>
+  <div class="footer"><span>LAOS ARCHIVE · DEEP DIVE</span><span class="meta">V0.12.0 · 765 TESTS · 15 DRV · 12 MINOR</span><span>06 / 19</span></div>
+</section>
+
+<!-- ═══ S07 · B3 分支与内存 ═══ -->
+<section class="slide">
+  <div class="eyebrow">SHEET 07 <small>B3 · BRANCH &amp; MEMORY · 上下文台账</small></div>
+  <h2>上下文也能<span class="gold">写时复制</span>。</h2>
+  <div style="margin-top:40px;position:relative;height:120px">
+    <!-- 分支示意 -->
+    <div style="position:absolute;left:40px;right:40px;top:78px;height:2px;background:var(--gold)"></div>
+    <div style="position:absolute;left:40px;top:78px;width:2px;height:-40px"></div>
+    <div style="position:absolute;left:26%;top:78px;width:300px;height:52px;border:1.5px solid var(--gold2);border-bottom:none;border-radius:110px 110px 0 0/60px 60px 0 0"></div>
+    <span style="position:absolute;left:31%;top:14px;font-family:var(--mono);font-size:15.5px;color:var(--gold)">branch.py 试错分支</span>
+    <span style="position:absolute;left:6%;top:96px;font-family:var(--mono);font-size:15.5px;color:var(--ink3)">主线 MAIN</span>
+    <span style="position:absolute;left:63%;top:44px;font-family:var(--mono);font-size:15.5px;color:var(--gold)">cow.py 写时复制 → 合并回主线</span>
+  </div>
+  <div class="cols3" style="margin-top:26px">
+    <div class="card"><div class="mono-tag">BRANCH</div><h4 style="margin-top:10px">branch.py · 分支树</h4><p>Agent 在分支上试错，验证后再合并回主线——git 语义的 Agent 上下文管理。</p></div>
+    <div class="card"><div class="mono-tag">COW</div><h4 style="margin-top:10px">cow.py · 写时复制</h4><p>分支不复制全量上下文，只在写入时拷贝——试错成本从 O(n) 降到 O(diff)。</p></div>
+    <div class="card"><div class="mono-tag">MEMORY</div><h4 style="margin-top:10px">memory.py · MemoryStore</h4><p>diary / journal 日记层；记忆闸门只记实际发生的交互——记忆不写想象。</p></div>
+  </div>
+  <div class="footer"><span>LAOS ARCHIVE · DEEP DIVE</span><span class="meta">V0.12.0 · 765 TESTS · 15 DRV · 12 MINOR</span><span>07 / 19</span></div>
+</section>
+
+<!-- ═══ S08 · B4 判断层 Jev ═══ -->
+<section class="slide">
+  <div class="eyebrow">SHEET 08 <small>B4 · JUDGMENT · 判断台账</small></div>
+  <h2>判断层 Jev——派发之前，先问<span class="gold">值不值得</span>。</h2>
+  <div class="cols3" style="margin-top:34px">
+    <div class="card"><div class="mono-tag">MODEL</div><h4 style="margin-top:10px">四闸门决策模型</h4><p>高危预审、记忆过滤、压缩选择、技能质量——四个决策位统一走判断层。</p></div>
+    <div class="card"><div class="mono-tag">TYPES</div><h4 style="margin-top:10px">三判型</h4><p><span style="font-family:var(--mono);color:var(--gold)">Noul</span> 是非 · <span style="font-family:var(--mono);color:var(--gold)">Choice</span> 2–255 选项 · <span style="font-family:var(--mono);color:var(--gold)">Score</span> 2–10 级。</p></div>
+    <div class="card"><div class="mono-tag">MAPPING</div><h4 style="margin-top:10px">11 处硬阈值</h4><p>laos 11 处硬阈值映射到 Jev 决策位——阈值不是拍脑袋，逐处可查。</p></div>
+  </div>
+  <div class="redline" style="margin-top:36px">
+    <div class="rh">LEDGER CORRECTION · 诚实数字</div>
+    <p>README 宣称 15.6ms → 端侧实测 median <b style="font-family:var(--mono);color:var(--red)">157.5ms</b>——宣称被实测否证（慢 10×），照实记录在案，不做修饰。</p>
+  </div>
+  <p class="sub" style="margin-top:22px">judge 透传点：<b>TurnBuffer.commit</b> · <b>memory.remember</b> —— 两处都可挂 judge，判断插在提交前，不插在事后。</p>
+  <div class="footer"><span>LAOS ARCHIVE · DEEP DIVE</span><span class="meta">V0.12.0 · 765 TESTS · 15 DRV · 12 MINOR</span><span>08 / 19</span></div>
+</section>
+
+<!-- ═══ S09 · C1 驱动全景表（★ 密表）═══ -->
+<section class="slide dense">
+  <div class="eyebrow">SHEET 09 <small>C1 · DRIVER PANORAMA · 驱动全景 ★</small></div>
+  <h2>十五个驱动，全部过闸。</h2>
+  <table class="drv" style="margin-top:20px">
+    <tr><th style="width:64px">域</th><th style="width:250px">驱动</th><th>能力 / 事实</th></tr>
+    <tr><td class="dom" rowspan="3">听觉</td><td class="name">drv_mic</td><td>录音——只由显式 syscall 触发，无声不采</td></tr>
+    <tr><td class="name">drv_ear</td><td>转写 + LUFS 响度评估</td></tr>
+    <tr><td class="name">drv_rec</td><td>录音隔离区（详见 SHEET 12 双沙箱）</td></tr>
+    <tr><td class="dom" rowspan="6">手机</td><td class="name">drv_screen</td><td>tap · text · dump · key · longpress · doubletap · devices——七项屏幕操控</td></tr>
+    <tr><td class="name">drv_apps</td><td>list · launch · close——应用枚举与启停</td></tr>
+    <tr><td class="name">drv_notify</td><td>通知接入</td></tr>
+    <tr><td class="name">drv_battery</td><td>电量</td></tr>
+    <tr><td class="name">drv_comms</td><td>通信</td></tr>
+    <tr><td class="name">drv_events</td><td>感知事件</td></tr>
+    <tr><td class="dom" rowspan="6">系统</td><td class="name">drv_fs</td><td>文件系统</td></tr>
+    <tr><td class="name">drv_proc</td><td>进程</td></tr>
+    <tr><td class="name">drv_sys</td><td>系统信息</td></tr>
+    <tr><td class="name">drv_npu</td><td>NPU——QNN 真机推理</td></tr>
+    <tr><td class="name">drv_audio</td><td>音频输出</td></tr>
+    <tr><td class="name">drv_genie</td><td>—</td></tr>
+  </table>
+  <p class="sub" style="margin-top:18px">治理事实：<b>kernel.load_driver()</b> 外挂驱动同样需过闸 · <b>apps.* / screen.*</b> 均受 pkg 作用域闸门——表内没有任何一条旁路。</p>
+  <div class="footer"><span>LAOS ARCHIVE · DEEP DIVE</span><span class="meta">V0.12.0 · 765 TESTS · 15 DRV · 12 MINOR</span><span>09 / 19</span></div>
+</section>
+
+<!-- ═══ S10 · C2 听觉栈漏斗 ═══ -->
+<section class="slide">
+  <div class="eyebrow">SHEET 10 <small>C2 · HEARING STACK · 听觉台账</small></div>
+  <h2>端侧听觉栈——从空气到事件，<span class="gold">六层收窄</span>。</h2>
+  <div class="funnel">
+    <div class="fbar"><div class="fl" style="width:100%">vad.py</div><div class="fd"><b>能量 + 滞回 VAD</b> —— 10ms 帧，无声即弃、零存储：第一层就掐掉无价值音频。</div></div>
+    <div class="fbar"><div class="fl" style="width:93%">loudness.py</div><div class="fd"><b>BS.1770-4 全套</b> —— K 计权（48k Annex 精确系数）· 门控积分 · LRA · True Peak（sinc 重构）· PLR。</div></div>
+    <div class="fbar"><div class="fl" style="width:86%">binaural.py</div><div class="fd"><b>Goertzel 逐频点 ILD / IPD</b> —— 250 / 500 / 1k / 2k / 4k Hz 五频点双耳线索。</div></div>
+    <div class="fbar"><div class="fl" style="width:79%">micgeom.py</div><div class="fd"><b>麦克风几何 MPE</b> —— 与官方 JAX 源码逐行对齐，跨实现 <b>diff 0.0</b>。</div></div>
+    <div class="fbar"><div class="fl" style="width:72%">foa.py</div><div class="fd"><b>一阶 Ambisonics 编解码</b> —— SN3D / N3D + ACN 规约。</div></div>
+    <div class="fbar"><div class="fl" style="width:64%">ShoNet（Repro 区）</div><div class="fd"><b>DOA 复现</b> —— STFT 相位特征 → CNN + BiGRU + MHSA，冒烟 holdout <b>56.5°</b>。</div></div>
+  </div>
+  <p class="sub" style="margin-top:22px">校准锚点：<b>−23.00 LUFS ±0.1</b> —— 计量层不靠相对感觉，靠 R128 级绝对锚点。</p>
+  <div class="footer"><span>LAOS ARCHIVE · DEEP DIVE</span><span class="meta">V0.12.0 · 765 TESTS · 15 DRV · 12 MINOR</span><span>10 / 19</span></div>
+</section>
+
+<!-- ═══ S11 · C3 全双工轮转 ═══ -->
+<section class="slide">
+  <div class="eyebrow">SHEET 11 <small>C3 · DUPLEX · 轮转台账</small></div>
+  <h2>全双工轮转——会说话，也要会<span class="gold">让路</span>。</h2>
+  <div class="gates3">
+    <div class="axis"></div>
+    <div class="g" style="left:12%"></div>
+    <div class="glab" style="left:12%"><div class="t">min-speech ≥ 200ms</div><div class="d">开口确认闸<br>太短的声音不算说话</div></div>
+    <div class="g" style="left:50%"></div>
+    <div class="glab" style="left:50%"><div class="t">tail-silence ≥ 500ms</div><div class="d">说完判定闸<br>静音满窗才交出话轮</div></div>
+    <div class="g" style="left:88%"></div>
+    <div class="glab" style="left:88%"><div class="t">min-hold ≥ 250ms</div><div class="d">保持下限闸<br>防过早响应 / 抢话</div></div>
+  </div>
+  <div class="cols3" style="margin-top:210px">
+    <div class="card"><div class="mono-tag">duplex.py</div><h4 style="margin-top:10px">事件时间线</h4><p>响应延迟 · 打断响应 · 重叠率 · 抢话计数——Duplex-MPE 四能力分解。</p></div>
+    <div class="card"><div class="mono-tag">turnpolicy.py</div><h4 style="margin-top:10px">三态轮转</h4><p>speak / hold / stop 三态机，三闸阈值守门，话轮交接有据。</p></div>
+    <div class="card"><div class="mono-tag">turnbuf.py</div><h4 style="margin-top:10px">打断即作废</h4><p>未送达帧丢弃 · 只记已送达（记忆不写想象）· interject 插队帧无缝织入慢系统结果。</p></div>
+  </div>
+  <p class="sub" style="margin-top:20px">来源：<b>Duplex-MPE</b> · <b>SALMONN-duo</b> · <b>Context Spanning</b>（2026-09 周报波，docs/research/）</p>
+  <div class="footer"><span>LAOS ARCHIVE · DEEP DIVE</span><span class="meta">V0.12.0 · 765 TESTS · 15 DRV · 12 MINOR</span><span>11 / 19</span></div>
+</section>
+
+<!-- ═══ S12 · C4 AlwaysOnRec 双沙箱 ═══ -->
+<section class="slide">
+  <div class="eyebrow">SHEET 12 <small>C4 · SANDBOX · 录音隔离区</small></div>
+  <h2>AlwaysOnRec——常开的录音，<span class="gold">关在沙箱里</span>。</h2>
+  <div class="cols2" style="margin-top:32px;grid-template-columns:1.15fr 1fr">
+    <div>
+      <p class="sub" style="margin-top:0">隔离区 <b style="font-size:22px">279</b> 项测试 · 四段漏斗 · 7 天即焚（Apple Watch S12 范式对照）</p>
+      <div class="funnel" style="margin-top:18px">
+        <div class="fbar"><div class="fl" style="width:100%">VAD 常开</div><div class="fd">低功耗常开检测，不做任何留存。</div></div>
+        <div class="fbar"><div class="fl" style="width:85%">段落成段</div><div class="fd">只有成段语音进环形缓冲。</div></div>
+        <div class="fbar"><div class="fl" style="width:70%">本地转写</div><div class="fd">端侧蒸馏 ASR，零上云。</div></div>
+        <div class="fbar"><div class="fl" style="width:55%">事件入记忆</div><div class="fd">只有事件进记忆，音频本体 7 天即焚。</div></div>
+      </div>
+    </div>
+    <div class="redline" style="align-self:start">
+      <div class="rh">PRIVACY REDLINE · 一条都不能破</div>
+      <div class="rl-entry"><div class="x">01</div><div><h3>录音只由显式 syscall 触发</h3><p>没有调用，就没有采集。</p></div></div>
+      <div class="rl-entry"><div class="x">02</div><div><h3>LAOS_REC=0 全局禁录</h3><p>一个环境变量，一票否决。</p></div></div>
+      <div class="rl-entry"><div class="x">03</div><div><h3>每次调用审计 event:"mic"</h3><p>何时录、录多久，事后可查。</p></div></div>
+      <div class="rl-entry" style="border-bottom:none"><div class="x">04</div><div><h3>ASR 全本地</h3><p>语音不出设备。</p></div></div>
+    </div>
+  </div>
+  <div class="footer"><span>LAOS ARCHIVE · DEEP DIVE</span><span class="meta">V0.12.0 · 765 TESTS · 15 DRV · 12 MINOR</span><span>12 / 19</span></div>
+</section>
+
+<!-- ═══ S13 · D1 测试与质量 ═══ -->
+<section class="slide">
+  <div class="eyebrow">SHEET 13 <small>D1 · QUALITY · 质量台账</small></div>
+  <h2><span class="gold">765</span> 测试，全绿。</h2>
+  <div style="display:grid;grid-template-columns:420px 1fr;gap:56px;margin-top:34px;align-items:start">
+    <div>
+      <div class="bignum" style="font-size:120px">765</div>
+      <hr class="hair">
+      <p style="font-family:var(--sans);font-weight:300;font-size:19px;color:var(--ink2);line-height:1.7">全仓测试总数，任何一次提交前必须回到全绿。</p>
+    </div>
+    <div>
+      <p class="sub" style="margin-top:0">构成分解 —— 三个区，三种责任</p>
+      <div class="splitbar" style="height:56px">
+        <div class="sg1" style="width:54.2%">主库 415</div>
+        <div class="sg2" style="width:36.5%">AlwaysOnRec 279</div>
+        <div class="sg3" style="width:9.3%">Repro 71</div>
+      </div>
+      <div class="legend"><span><b>54.2%</b> 内核与驱动语义</span><span><b>36.5%</b> 录音沙箱</span><span><b>9.3%</b> 论文复现</span></div>
+      <div class="cols2" style="margin-top:34px">
+        <div class="card"><div class="mono-tag">TDD</div><h4 style="margin-top:10px">先红后绿</h4><p>每任务一 commit；测试先行，红不过夜。</p></div>
+        <div class="card"><div class="mono-tag">SEMVER</div><h4 style="margin-top:10px">版本纪律</h4><p>SemVer + conventional commits；30 天 12 个 MINOR（v0.1.0 → v0.12.0）。</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>LAOS ARCHIVE · DEEP DIVE</span><span class="meta">V0.12.0 · 765 TESTS · 15 DRV · 12 MINOR</span><span>13 / 19</span></div>
+</section>
+
+<!-- ═══ S14 · D2 版本史（★ 密表）═══ -->
+<section class="slide dense">
+  <div class="eyebrow">SHEET 14 <small>D2 · CHANGELOG · 版本台账 ★</small></div>
+  <h2>三十天，<span class="gold">十二个 MINOR</span>。</h2>
+  <div class="tl">
+    <div class="row"><div class="date">09-04</div><div class="ver">v0.1.0</div><div class="desc"><b>baseline</b> —— 149 文件，骨架落地。</div></div>
+    <div class="row"><div class="date">09-05</div><div class="ver">v0.2.0</div><div class="desc"><b>强制层</b> —— seccomp + CoW + eBPF + FleetLedger。</div></div>
+    <div class="row"><div class="date">09-09</div><div class="ver">v0.3.0</div><div class="desc"><b>AgentProf + MCP Tasks + 信箱 + laosweb + drv_npu</b>。</div></div>
+    <div class="row"><div class="date">09-11</div><div class="ver">v0.4.0</div><div class="desc"><b>听觉 + 记忆 + 日记</b>。</div></div>
+    <div class="row"><div class="date">09-11</div><div class="ver">v0.5.0</div><div class="desc"><b>五层手机能力 + 双沙箱</b>。</div></div>
+    <div class="row"><div class="date">09-18</div><div class="ver">v0.6.0</div><div class="desc"><b>语料库</b> —— 19,792 论文 + 3,724 OSS。</div></div>
+    <div class="row"><div class="date">09-28</div><div class="ver">v0.7.0</div><div class="desc"><b>Jev 四闸门</b> —— 判断层入场。</div></div>
+    <div class="row"><div class="date">10-05</div><div class="ver">v0.8.0–v0.10.0<small>×3</small></div><div class="desc"><b>复现采纳三连</b> —— SHO / PhaseCoder / ANC / LUFS / Pipecat / unique_lock→loudness / turnbuf / locks + 五套 PPT。</div></div>
+    <div class="row"><div class="date">10-05</div><div class="ver">v0.11.0</div><div class="desc"><b>手机操控四件套 + drv_apps + micgeom</b>。</div></div>
+    <div class="row"><div class="date">10-05</div><div class="ver">v0.12.0</div><div class="desc"><b>双工时序 + 轮转策略 + 双耳线索 + FOA</b> —— 本版基准。</div></div>
+  </div>
+  <div class="footer"><span>LAOS ARCHIVE · DEEP DIVE</span><span class="meta">V0.12.0 · 765 TESTS · 15 DRV · 12 MINOR</span><span>14 / 19</span></div>
+</section>
+
+<!-- ═══ S15 · D3 复现文化 ═══ -->
+<section class="slide">
+  <div class="eyebrow">SHEET 15 <small>D3 · REPRO · 复现台账</small></div>
+  <h2>能复现的论文，<span class="gold">全部复现</span>。</h2>
+  <div class="cols2" style="margin-top:28px;grid-template-columns:1.2fr 1fr">
+    <div>
+      <div class="entry"><div class="no">R-01</div><div><h3>BS.1770-4 响度计量</h3><p>R128 校准点 −23.00 LUFS ±0.1，跨实现 diff 0.0。</p></div></div>
+      <div class="entry"><div class="no">R-02</div><div><h3>FxLMS 主动降噪</h3><p>收敛 &gt;20dB，发动机阶次实测。</p></div></div>
+      <div class="entry"><div class="no">R-03</div><div><h3>ShoNet 头部朝向</h3><p>STFT 相位 + BiGRU-MHSA 全管线，冒烟 holdout 56.5°。</p></div></div>
+      <div class="entry"><div class="no">R-04</div><div><h3>PhaseCoder 麦位编码</h3><p>与官方 JAX 源码逐行对齐（α=7 · β=4 · 质心球坐标）。</p></div></div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="mono-tag">HONEST LEDGER · 诚实清单</div>
+        <h4 style="margin-top:10px">跑不动的，等比缩距并写明偏差</h4>
+        <p>40,295 样本 → 百样本冒烟：不是「跑通了」，是「冒烟通过、规模差异已记录」——两种说法都写在台账上。</p>
+      </div>
+      <div class="card" style="margin-top:24px">
+        <div class="mono-tag">ADOPTION FUNNEL · 采纳漏斗</div>
+        <div class="flow">
+          <span class="fstep">复现</span><span class="arr">→</span>
+          <span class="fstep" style="border-color:var(--gold);color:var(--gold)">裁决</span><span class="arr">→</span>
+          <span class="fstep">主库落地</span><span class="arr">→</span>
+          <span class="fstep">文档执行注记</span>
+        </div>
+        <p class="sub">裁决三态：<b>● 执行</b> · <b>◐ 基础件</b> · <b>○ 不做</b> —— 每条论文结论都有去处。</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>LAOS ARCHIVE · REPRO-ZCODE · 71 TESTS</span><span class="meta">V0.12.0 · 765 TESTS · 15 DRV · 12 MINOR</span><span>15 / 19</span></div>
+</section>
+
+<!-- ═══ S16 · D4 调研语料库 ═══ -->
+<section class="slide">
+  <div class="eyebrow">SHEET 16 <small>D4 · CORPUS · 证据台账</small></div>
+  <h2>设计不拍脑袋——<span class="gold">全量语料</span>打底。</h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:44px;margin-top:36px">
+    <div><div class="bignum">47</div><hr class="hair"><p style="font-family:var(--sans);font-weight:300;font-size:19px;color:var(--ink2);line-height:1.7">调研文档<br>+ capstone 采纳总账：每条含来源 / 可取之处 / 落点 / 状态</p></div>
+    <div><div class="bignum">19,792</div><hr class="hair"><p style="font-family:var(--sans);font-weight:300;font-size:19px;color:var(--ink2);line-height:1.7">双会议论文，全量 100%<br>ICASSP 2022–2026 + Interspeech 2021–2025</p></div>
+    <div><div class="bignum">3,724</div><hr class="hair"><p style="font-family:var(--sans);font-weight:300;font-size:19px;color:var(--ink2);line-height:1.7">OSS 星标仓库普查<br>音频 × AI × Agent，去噪三分类</p></div>
+  </div>
+  <div style="margin-top:44px">
+    <p class="sub" style="margin-top:0">论文构成 19,792 = 14,285 + 5,507</p>
+    <div class="splitbar"><div class="sg1" style="width:72.2%">ICASSP 2022–2026 · 14,285</div><div class="sg2" style="width:27.8%">Interspeech 2021–2025 · 5,507</div></div>
+    <p class="sub" style="margin-top:26px">OSS 去噪 3,724 = 132 + 2,864 + 728</p>
+    <div class="splitbar"><div class="sg1" style="width:3.5%">132</div><div class="sg2" style="width:76.9%">ref 2,864</div><div class="sg3" style="width:19.6%">unrelated 728</div></div>
+    <div class="legend"><span><b>core 132</b> 直接可用</span><span><b>ref 2,864</b> 参考件</span><span><b>unrelated 728</b> 排除</span></div>
+  </div>
+  <div class="footer"><span>LAOS ARCHIVE · DEEP DIVE</span><span class="meta">V0.12.0 · 765 TESTS · 15 DRV · 12 MINOR</span><span>16 / 19</span></div>
+</section>
+
+<!-- ═══ S17 · E1 安全与合规红线 ═══ -->
+<section class="slide">
+  <div class="eyebrow" style="color:var(--red)">SHEET 17 <small style="color:var(--ink3)">E1 · REDLINE · 红线台账</small></div>
+  <h2>能力可以有，<span style="color:var(--red)">红线内</span>的能力永远不做。</h2>
+  <div class="cols2" style="margin-top:30px;grid-template-columns:1.15fr 1fr">
+    <div class="redline" style="align-self:start">
+      <div class="rh">REFUSAL LEDGER · jarvis 七文件，一行不碰</div>
+      <div class="rl-entry"><div class="x">✕</div><div><h3>伪装配置</h3><p>把自己藏进系统配置的隐身术——不写。</p></div></div>
+      <div class="rl-entry"><div class="x">✕</div><div><h3>聊天截获</h3><p>读取他人会话记录——不碰。</p></div></div>
+      <div class="rl-entry"><div class="x">✕</div><div><h3>屏幕捕获</h3><p>未经确认的整屏采集——不做。</p></div></div>
+      <div class="rl-entry" style="border-bottom:none"><div class="x">✕</div><div><h3>常驻保活</h3><p>对抗系统清理的僵尸驻留——不实现。</p></div></div>
+    </div>
+    <div>
+      <div class="card"><div class="mono-tag">EU AI ACT</div><h4 style="margin-top:10px">法条跟踪 · 欧盟</h4><p>职场 / 教育场景情绪识别禁令——对应能力直接排除，不做「先做了再说」。</p></div>
+      <div class="card" style="margin-top:24px"><div class="mono-tag">PIPL</div><h4 style="margin-top:10px">法条跟踪 · 中国</h4><p>声纹 = 敏感个人信息——单独同意前置；唤醒词模板纯 JSON 非声纹，不留指纹。</p></div>
+    </div>
+  </div>
+  <div class="footer"><span>LAOS ARCHIVE · DEEP DIVE</span><span class="meta">V0.12.0 · 765 TESTS · 15 DRV · 12 MINOR</span><span>17 / 19</span></div>
+</section>
+
+<!-- ═══ S18 · E2 路线图 ═══ -->
+<section class="slide">
+  <div class="eyebrow">SHEET 18 <small>E2 · ROADMAP · 路线台账</small></div>
+  <h2>下一步，写在台账上。</h2>
+  <div class="cols3" style="margin-top:40px">
+    <div class="card" style="border-color:var(--gold2)">
+      <div class="mono-tag">NEAR · v0.13+</div>
+      <h4 style="margin-top:10px">近期</h4>
+      <p>FDGym 式模拟用户回归——用模拟用户给全链路做回归测试。</p>
+      <p>Bin2Ambi 驱动接入。</p>
+      <p>FOA 评测钩子接 RMS-AQA。</p>
+    </div>
+    <div class="card">
+      <div class="mono-tag">MID · v1.0</div>
+      <h4 style="margin-top:10px">中期</h4>
+      <p>多 Agent 并发调度——从单 Agent 走向进程组。</p>
+      <p>驱动市场——第三方 MCP 治理接入，外挂也要过闸。</p>
+    </div>
+    <div class="card">
+      <div class="mono-tag">FAR · REFERENCE</div>
+      <h4 style="margin-top:10px">远期</h4>
+      <p>端侧完整语音 Agent 参考机：laosd + 听觉栈 + 全双工闭环——一台说得清「不」的参考实现。</p>
+    </div>
+  </div>
+  <p class="lede" style="margin-top:34px;font-size:21px">节奏不变：一个完整需求波次 = 一个 MINOR，先红后绿，全绿再发。</p>
+  <div class="footer"><span>LAOS ARCHIVE · DEEP DIVE</span><span class="meta">V0.12.0 · 765 TESTS · 15 DRV · 12 MINOR</span><span>18 / 19</span></div>
+</section>
+
+<!-- ═══ S19 · E3 收尾 ═══ -->
+<section class="slide">
+  <div class="eyebrow">SHEET 19 <small>E3 · CLOSING · 结案</small></div>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+    <h1 style="font-size:86px">Agent 需要的不是更强的模型，<br>是一个会说<span class="gold">「不」</span>的内核。</h1>
+    <p style="font-family:var(--mono);font-size:22px;color:var(--ink2);margin-top:40px;letter-spacing:.06em">GITHUB.COM/YFREDY/LAOS · V0.12.0 · 26.10.05 · 765 TESTS</p>
+    <p style="margin-top:36px"><span class="stamp">ARCHIVE CLOSED</span></p>
+  </div>
+  <div class="footer"><span>LAOS ARCHIVE · VOL. II · DEEP DIVE</span><span class="meta">V0.12.0 · 765 TESTS · 15 DRV · 12 MINOR</span><span>19 / 19</span></div>
+</section>
+
+</div>
+<script>
+(function(){
+  const stage=document.getElementById('stage');
+  const slides=[...document.querySelectorAll('.slide')];
+  const KEY='laos-detailed-huashu-pos';
+  let cur=0;
+  const fit=()=>{const f=Math.min(innerWidth/1920,innerHeight/1080);
+    stage.style.transform=`translate(${(innerWidth-1920*f)/2}px,${(innerHeight-1080*f)/2}px) scale(${f})`};
+  fit();addEventListener('resize',fit);
+  const show=i=>{cur=Math.max(0,Math.min(i,slides.length-1));
+    slides.forEach((s,k)=>s.classList.toggle('active',k===cur));
+    location.hash=cur+1;try{localStorage.setItem(KEY,cur)}catch(e){}};
+  addEventListener('keydown',e=>{
+    if(['ArrowRight',' ','PageDown'].includes(e.key)){e.preventDefault();show(cur+1)}
+    else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(cur-1)}
+    else if(e.key==='Home')show(0);else if(e.key==='End')show(slides.length-1)});
+  let sx=0;
+  addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+  addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;
+    if(Math.abs(dx)>50)show(cur+(dx<0?1:-1))},{passive:true});
+  let start=parseInt(location.hash.slice(1))-1;
+  if(!(start>=0)){try{const v=parseInt(localStorage.getItem(KEY));if(v>=0)start=v}catch(e){}}
+  show(start||0);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>laos 创新融资 PPT · 三方向方向板（huashu-design 硬门产物）</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@300;400;500&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+/* ============================================================
+   三方向方向板 · huashu-design 硬门（100% 必走）产物
+   内容唯一来源：docs/ppt/laos-funding-outline.md（P1-P15）
+   形态：多页 deck → 每方向 2 页真实代表页（非截图、非文字描述）
+   板面底色刻意中性炭灰，不偏袒任何方向
+   ============================================================ */
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#121212;color:#C9C4B8;font-family:'Noto Sans SC','Microsoft YaHei',sans-serif;padding:56px 64px 80px;min-width:1240px}
+h1{font-size:25px;font-weight:600;letter-spacing:.05em;color:#E8E3D6}
+.note{font-size:13.5px;color:#8E897D;max-width:96ch;line-height:1.8;margin-top:12px}
+.spec{background:#191919;border:1px solid #2E2E2E;padding:22px 28px;margin-top:30px;font-size:13.5px;line-height:2.0;color:#B5B0A4}
+.spec b{color:#E8E3D6;font-weight:500}
+.spec .hd{font-family:'JetBrains Mono','Cascadia Code',Consolas,monospace;font-size:12px;letter-spacing:.3em;color:#8E897D}
+.direction{margin-top:56px}
+.dir-head{display:flex;align-items:baseline;gap:22px;border-bottom:1px solid #2E2E2E;padding-bottom:14px}
+.dir-head .id{font-family:'JetBrains Mono','Cascadia Code',Consolas,monospace;font-size:13px;letter-spacing:.28em;color:#8E897D}
+.dir-head h2{font-size:21px;font-weight:600;color:#E8E3D6}
+.dir-head .logic{font-size:13px;color:#8E897D;margin-left:auto;text-align:right;max-width:46ch;line-height:1.7}
+.pair{display:flex;flex-direction:column;gap:26px;margin-top:24px}
+.frame{width:1080px;height:608px;position:relative;overflow:hidden;flex:none}
+.caption{font-family:'JetBrains Mono','Cascadia Code',Consolas,monospace;font-size:11px;letter-spacing:.22em;color:#7C776B;margin:8px 2px 0}
+.verdict{margin-top:60px;background:#1A1710;border:1px solid #3A332A;padding:30px 36px;color:#CFC5B2;font-size:14.5px;line-height:2.0}
+.verdict b{color:#D4A24E;font-weight:600}
+.verdict .hd{font-family:'JetBrains Mono','Cascadia Code',Consolas,monospace;font-size:12px;letter-spacing:.3em;color:#8A8272;display:block;margin-bottom:8px}
+
+/* ---------- 方向 A · 融资台账（黑金 2.0）—— 与主 deck 同一套 grammar ---------- */
+.fa{background:#161210;color:#EFE6D4;padding:34px 44px;display:flex;flex-direction:column;
+  background-image:radial-gradient(760px 420px at 80% -8%,#1E1813 0%,#161210 60%)}
+.fa::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent 0 47px,rgba(212,162,78,.05) 47px 48px)}
+.fa .eb{font-family:'JetBrains Mono','Cascadia Code',Consolas,monospace;font-size:12px;letter-spacing:.4em;color:#D4A24E}
+.fa .eb small{color:#8A8272;letter-spacing:.16em;margin-left:16px;font-size:11px}
+.fa h2{font-family:'Noto Serif SC',SimSun,serif;font-weight:700;font-size:46px;line-height:1.22;margin-top:8px}
+.fa .gold{color:#D4A24E}
+.fa .ft{position:absolute;left:44px;right:44px;bottom:22px;display:flex;justify-content:space-between;
+  font-family:'JetBrains Mono','Cascadia Code',Consolas,monospace;font-size:11px;color:#9C9080;letter-spacing:.14em}
+.fa .chips{display:flex;gap:14px;margin-top:auto;padding-bottom:34px}
+.fa .chip{border:1px solid #3A332A;padding:9px 16px;font-family:'JetBrains Mono','Cascadia Code',Consolas,monospace;font-size:12.5px;color:#EFE6D4}
+.fa .chip b{color:#D4A24E;font-weight:700}
+.fa .chain{display:flex;align-items:stretch;gap:0;margin-top:20px}
+.fa .node{flex:1;border:1px solid #3A332A;background:#1D1813;padding:10px 6px;text-align:center}
+.fa .node .n{font-family:'JetBrains Mono','Cascadia Code',Consolas,monospace;font-size:10px;color:#8A8272;letter-spacing:.2em}
+.fa .node .nm{font-family:'JetBrains Mono','Cascadia Code',Consolas,monospace;font-size:12px;color:#EFE6D4;margin-top:5px;white-space:nowrap}
+.fa .node .zh{font-size:11px;color:#D4A24E;margin-top:3px}
+.fa .arr{flex:none;width:20px;display:flex;align-items:center;justify-content:center;
+  font-family:'JetBrains Mono','Cascadia Code',Consolas,monospace;color:#8A6A30;font-size:13px}
+.fa .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+.fa .card{border:1px solid #3A332A;background:#1D1813;padding:14px 18px}
+.fa .card .tg{font-family:'JetBrains Mono','Cascadia Code',Consolas,monospace;font-size:10px;color:#D4A24E;letter-spacing:.24em}
+.fa .card h4{font-size:15.5px;font-weight:500;margin-top:6px}
+.fa .card p{font-size:12.5px;font-weight:300;color:#B9AD95;line-height:1.7;margin-top:5px}
+.fa .stamp{display:inline-block;border:2px solid #C96A4A;color:#C96A4A;padding:3px 10px;
+  font-family:'JetBrains Mono','Cascadia Code',Consolas,monospace;font-size:10px;letter-spacing:.24em;transform:rotate(-4deg)}
+
+/* ---------- 方向 B · 投资备忘录（IC Memo · 纸感 + 红笔批注） ---------- */
+.fb{background:#F7F4EC;color:#1A1712;padding:34px 44px 30px 108px;display:flex;flex-direction:column;position:relative}
+.fb .margin{position:absolute;left:0;top:0;bottom:0;width:72px;border-right:1px solid #D8D2C2;
+  display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding:18px 8px;gap:14px}
+.fb .margin .mk{writing-mode:vertical-rl;font-family:'KaiTi','STKaiti',cursive;font-size:15px;color:#D5401E;letter-spacing:.2em}
+.fb .hd{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2.5px solid #1A1712;padding-bottom:10px}
+.fb .hd .t{font-family:'Noto Serif SC',SimSun,serif;font-weight:700;font-size:20px;letter-spacing:.14em}
+.fb .hd .no{font-family:'JetBrains Mono','Cascadia Code',Consolas,monospace;font-size:11px;color:#6B6455;letter-spacing:.2em}
+.fb .fields{display:flex;gap:34px;font-family:'JetBrains Mono','Cascadia Code',Consolas,monospace;font-size:11px;color:#6B6455;
+  letter-spacing:.12em;margin-top:12px}
+.fb .fields b{color:#1A1712;font-weight:700}
+.fb h2{font-family:'Noto Serif SC',SimSun,serif;font-weight:700;font-size:47px;line-height:1.3;margin-top:26px;max-width:24ch}
+.fb .red{color:#D5401E}
+.fb .lede{font-size:14.5px;line-height:1.9;color:#4A443A;margin-top:18px;max-width:64ch}
+.fb .proof{position:absolute;right:44px;top:120px;border:2px solid #D5401E;color:#D5401E;
+  font-family:'KaiTi','STKaiti',cursive;font-size:14px;padding:6px 14px;transform:rotate(6deg);letter-spacing:.12em}
+.fb .rows{margin-top:auto;margin-bottom:6px}
+.fb .r{display:grid;grid-template-columns:130px 1fr;gap:18px;border-top:1px solid #D8D2C2;padding:9px 0;font-size:13px}
+.fb .r .k{font-family:'JetBrains Mono','Cascadia Code',Consolas,monospace;font-size:10.5px;color:#6B6455;letter-spacing:.2em;padding-top:2px}
+.fb .r .v{color:#1A1712}
+.fb .r .v b{font-family:'JetBrains Mono','Cascadia Code',Consolas,monospace;font-weight:700}
+.fb .r .v b.red{color:#D5401E}
+.fb table.t{width:100%;border-collapse:collapse;margin-top:16px}
+.fb table.t th{font-family:'JetBrains Mono','Cascadia Code',Consolas,monospace;font-size:10px;letter-spacing:.22em;color:#6B6455;text-align:left;padding:7px 10px;border-bottom:1.5px solid #1A1712;font-weight:400}
+.fb table.t td{padding:8px 10px;border-bottom:1px solid #D8D2C2;font-size:13px;color:#1A1712}
+.fb table.t td.m{font-family:'JetBrains Mono','Cascadia Code',Consolas,monospace;font-weight:700}
+.fb .u{border-bottom:2px solid #D5401E;padding-bottom:1px}
+
+/* ---------- 方向 C · 清算终端（Clearing Terminal · 黑 + 琥珀） ---------- */
+.fc{background:#0A0A0A;color:#FFB000;padding:30px 40px;display:flex;flex-direction:column;
+  font-family:'JetBrains Mono','Cascadia Code',Consolas,monospace}
+.fc .box{border:1px solid #6B5313;flex:1;display:flex;flex-direction:column;position:relative}
+.fc .box::before{content:attr(data-t);position:absolute;top:-9px;left:18px;background:#0A0A0A;padding:0 10px;
+  font-size:11px;letter-spacing:.3em;color:#C98F00}
+.fc .ticker{display:flex;gap:26px;font-size:11px;letter-spacing:.1em;color:#C98F00;margin:16px 20px 0;white-space:nowrap;overflow:hidden}
+.fc .ticker b{color:#FFB000;font-weight:700}
+.fc h2{font-size:44px;font-weight:700;letter-spacing:.02em;line-height:1.2;color:#FFB000;margin:auto 20px 0}
+.fc h2 .zh{font-family:'Noto Sans SC','Microsoft YaHei',sans-serif;font-weight:500;font-size:26px;color:#E8D9B0;display:block;margin-top:10px;letter-spacing:.28em}
+.fc .dim{color:#C98F00}
+.fc .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:0 20px 18px;border-top:1px solid #6B5313}
+.fc .cell{padding:12px 14px 14px;border-right:1px solid #6B5313}
+.fc .cell:last-child{border-right:none}
+.fc .cell .k{font-size:10px;letter-spacing:.24em;color:#C98F00}
+.fc .cell .v{font-size:30px;font-weight:700;color:#FFB000;margin-top:6px}
+.fc .cell .s{font-size:10px;color:#8F6A10;margin-top:4px;letter-spacing:.06em}
+.fc .bar{margin:0 20px 8px}
+.fc .bar .lab{font-size:10.5px;letter-spacing:.2em;color:#C98F00;margin-bottom:8px}
+.fc .bar .seg{display:flex;height:34px;margin-top:4px}
+.fc .bar .seg div{border-right:2px solid #0A0A0A;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#0A0A0A}
+.fc .bar .seg div:last-child{border-right:none}
+.fc .rows{margin:6px 20px 18px;font-size:12px;line-height:2.0;color:#E8D9B0}
+.fc .rows .k{color:#C98F00}
+.fc .rows .warn{color:#FFB000}
+.fc .ft{display:flex;justify-content:space-between;font-size:10px;letter-spacing:.22em;color:#8F6A10;margin:0 20px 14px}
+.fc .blink{color:#FFB000}
+</style>
+</head>
+<body>
+
+<h1>laos · 创新融资项目介绍 — 三方向方向板</h1>
+<p class="note">huashu-design 硬门要求：任何新视觉设计 100% 先出三方向真实初稿，选定后才进入执行。本板为三方向 × 各 2 页真实代表页（多页 deck 按章程出代表页，非截图、非文字描述；三版同内容只换设计逻辑，布局骨架互异）。自主子代理模式下无中断等待窗口，由艺术总监角色按章程裁决并落档 <b style="color:#C9C4B8">direction-approved.md</b>（记录用户指令原话与裁决理由），方向板保留全部三方向供翻案。</p>
+
+<div class="spec">
+  <span class="hd">PHASE 3 · 设计 SPEC（三套逻辑的共同输入）</span><br>
+  <b>产出</b>：laos 创新融资项目介绍 deck · 15 页 · 1920×1080 · 单文件 HTML（交付形态按用户指令固定为两个文件，方向板 + 主 deck）。<br>
+  <b>受众与场景</b>：天使轮投资人 · 会议室投屏（3m）与笔记本细读（1m）两用。<br>
+  <b>核心信息</b>：问题（无 syscall 层）→ 时机（三浪叠加）→ 方案（用户态内核）→ 三壁垒（8 环闸门链 / 端侧听觉栈 / 合规先发）→ 竞争（L2 唯一）→ 真实进展 → 三条商业线 → 市场（示例结构）→ 路线图 → 融资方案（示例）→ 团队与风险。<br>
+  <b>语态（底稿硬约束）</b>：每页一个论点，标题=结论；数字大字化（30 天 12 版本 / 765 测试 / 8 环 / 15 驱动 / 19,792 论文）；<b>进展数字全部真实，市场规模与融资金额为示意结构且必须带「示例」标注</b>。<br>
+  <b>视觉母题假设</b>：台账 / 账本 —— laos 的核心资产叫 FleetLedger（先扣账后派发、不可抵赖）；一场融资本身就是资本的记账与问责。母题从产品长出来，不是风格贴皮。<br>
+  <b>事实边界</b>：内容唯一来源 docs/ppt/laos-funding-outline.md，不虚构业绩；第三方名称（LangGraph / MCP / Rutgers AIOS 等）以行文出现、不做 logo 并列展示（投资人物料惯例，避免商标误用），laos 自身标识 = 文字字标（wordmark）。
+</div>
+
+<!-- ============ 方向 A ============ -->
+<div class="direction">
+  <div class="dir-head">
+    <span class="id">DIRECTION A</span>
+    <h2>融资台账 · 黑金 2.0</h2>
+    <span class="logic">逻辑二（现实参照）+ wave-1 已选方向的资本场合重校准：暖黑 × 象牙衬线 × 金 × 大写数字壹贰叁（中文账防涂改数字）；台账行 × 金色合计 × 朱砂印</span>
+  </div>
+  <div class="pair">
+    <div>
+      <div class="frame fa">
+        <div class="eb">LAOS · FUNDING LEDGER <small>创新融资 · 项目介绍 · 2026-10</small></div>
+        <h2 style="margin-top:38px">给 AI Agent 装上<br>操作系统的<span class="gold">治理内核</span></h2>
+        <div class="chips">
+          <span class="chip">v<b>0.12.0</b></span>
+          <span class="chip">30 天 <b>12</b> 个版本</span>
+          <span class="chip"><b>765</b> 测试全绿</span>
+          <span class="chip"><b>15</b> 个设备驱动</span>
+        </div>
+        <div class="ft"><span>GITHUB.COM/YFREDY/LAOS</span><span>SHEET 01 / 15</span></div>
+      </div>
+      <div class="caption">A-1 · 封面（P1）— 台账首页：金色合计即进度数字</div>
+    </div>
+    <div>
+      <div class="frame fa">
+        <div class="eb">SHEET 06 <small>BARRIER 1 · 闸门链</small></div>
+        <h2 style="font-size:30px;margin-top:4px">越界在第 <span class="gold">2</span> 环即拒，驱动根本不被触达。</h2>
+        <div class="chain">
+          <div class="node"><div class="n">01</div><div class="nm">能力表</div><div class="zh">能力</div></div><div class="arr">→</div>
+          <div class="node" style="border-color:#C96A4A"><div class="n" style="color:#C96A4A">02</div><div class="nm">task_scope</div><div class="zh">范围</div></div><div class="arr">→</div>
+          <div class="node"><div class="n">03</div><div class="nm">schema</div><div class="zh">校验</div></div><div class="arr">→</div>
+          <div class="node"><div class="n">04</div><div class="nm">EDQUOT</div><div class="zh">预算</div></div><div class="arr">→</div>
+          <div class="node"><div class="n">05</div><div class="nm">FleetLedger</div><div class="zh">计价</div></div><div class="arr">→</div>
+          <div class="node"><div class="n">06</div><div class="nm">Jev 预审</div><div class="zh">预审</div></div><div class="arr">→</div>
+          <div class="node"><div class="n">07</div><div class="nm">确认横幅</div><div class="zh">确认</div></div><div class="arr">→</div>
+          <div class="node"><div class="n">08</div><div class="nm">审计</div><div class="zh">审计</div></div>
+        </div>
+        <div class="cards">
+          <div class="card"><div class="tg">LEDGER</div><h4>不可逆账本</h4><p>先扣账后派发——操作前风险已定价，事后不可抵赖。</p></div>
+          <div class="card"><div class="tg">VS</div><h4>「建议」与「强制」</h4><p>应用层 guardrail / 策略文件是建议；laos 在执行路径上强制。</p></div>
+        </div>
+        <div class="ft"><span>LAOS FUNDING LEDGER</span><span>06 / 15</span></div>
+      </div>
+      <div class="caption">A-2 · 壁垒一 8 环闸门链（P6）— 全 deck 的 signature 页</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 方向 B ============ -->
+<div class="direction">
+  <div class="dir-head">
+    <span class="id">DIRECTION B</span>
+    <h2>投资备忘录 · 纸感红笔</h2>
+    <span class="logic">逻辑三（最佳设计师）：向真实 IC Memo 文档学习——米白纸 × 墨 × 红笔批注 × 装订边；气质=尽调文件的克制与可勾验，骨架=文档+边注栏（与 A 的暗场台账行互异）</span>
+  </div>
+  <div class="pair">
+    <div>
+      <div class="frame fb">
+        <div class="margin"><div class="mk">本页所有进展数字，可逐一复核</div></div>
+        <div class="hd"><span class="t">投资备忘录 · MEMORANDUM</span><span class="no">W2-F · PAGE 01 / 15</span></div>
+        <div class="fields">
+          <span>TO / <b>投资委员会</b></span>
+          <span>RE / <b>LAOS · 天使轮</b></span>
+          <span>DATE / <b>2026-10</b></span>
+          <span>SRC / <b>v0.12.0</b></span>
+        </div>
+        <h2>给 AI Agent 装上<br>操作系统的<span class="red">治理内核</span></h2>
+        <p class="lede">模型负责想，laos 负责说「不」——8 环 syscall 闸门链，把预算、计价、预审、审计写进执行路径。</p>
+        <div class="proof">附：可复核证据清单</div>
+        <div class="rows">
+          <div class="r"><span class="k">RELEASES</span><span class="v">30 天 <b>12</b> 个 MINOR 版本，每版本 <b>tag + Release + CHANGELOG</b></span></div>
+          <div class="r"><span class="k">TESTS</span><span class="v"><b>765</b> 全绿（主库 415 · 隔离区 279 · 复现区 71），TDD 先红后绿</span></div>
+          <div class="r"><span class="k">CORPUS</span><span class="v"><b>19,792</b> 篇双会议论文全量语料 · <b>47</b> 份调研文档</span></div>
+        </div>
+      </div>
+      <div class="caption">B-1 · 封面（P1）— 备忘录抬头 + 装订边红批</div>
+    </div>
+    <div>
+      <div class="frame fb">
+        <div class="margin"><div class="mk">冷启动如实呈报</div></div>
+        <div class="hd"><span class="t">进展台账 · 全部真实</span><span class="no">PAGE 10 / 15</span></div>
+        <h2 style="font-size:34px">30 天，12 个版本：<br>每一行都<span class="red u">可复核</span>。</h2>
+        <table class="t">
+          <tr><th>科目</th><th>数值</th><th>凭证</th></tr>
+          <tr><td>MINOR 版本</td><td class="m">12</td><td>v0.1.0 → v0.12.0，每版本 tag + Release + CHANGELOG</td></tr>
+          <tr><td>测试</td><td class="m">765</td><td>主库 415 / 隔离区 279 / 复现区 71，TDD 先红后绿</td></tr>
+          <tr><td>论文语料</td><td class="m">19,792</td><td>双会议全量 + 3,724 星标库分级 + 47 份调研</td></tr>
+          <tr><td>论文级复现</td><td class="m">4 项</td><td>响度 / ANC / DOA / MPE，与官方实现逐行对齐</td></tr>
+          <tr><td>社区（如实）</td><td class="m red">冷启动</td><td>开源一个月，尚无外部贡献者；看 issue/PR 转化</td></tr>
+        </table>
+      </div>
+      <div class="caption">B-2 · 里程碑（P10）— 备忘录式「科目-数值-凭证」三栏，诚实行用红笔</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 方向 C ============ -->
+<div class="direction">
+  <div class="dir-head">
+    <span class="id">DIRECTION C</span>
+    <h2>清算终端 · 黑琥珀</h2>
+    <span class="logic">逻辑一（秒数轮盘落入终端/交易台账谱系）：纯黑 × 琥珀 mono × 行情条与清算分栏；气质=交易所清算所的硬与快，骨架=终端网格（与 A/B 互异）</span>
+  </div>
+  <div class="pair">
+    <div>
+      <div class="frame fc">
+        <div class="box" data-t="LAOS :: GOVERNANCE KERNEL">
+          <div class="ticker">[<b>V0.12.0</b>]&nbsp;[RELEASES <b>12/30D</b>]&nbsp;[TESTS <b>765 GREEN</b>]&nbsp;[DRIVERS <b>15</b>]&nbsp;[PAPERS <b>19,792</b>]&nbsp;[LEDGER <b>IRREVERSIBLE</b>]</div>
+          <h2>LAOS<span class="dim"> :: </span>GOVERNANCE KERNEL<span class="zh">给 AI Agent 装上操作系统的治理内核</span></h2>
+          <div class="grid" style="margin-top:auto">
+            <div class="cell"><div class="k">MODEL</div><div class="v">想</div><div class="s">MODEL THINKS</div></div>
+            <div class="cell"><div class="k">LAOS</div><div class="v">说不</div><div class="s">KERNEL SAYS NO</div></div>
+            <div class="cell"><div class="k">GATES</div><div class="v">×8</div><div class="s">EVERY SYSCALL</div></div>
+            <div class="cell"><div class="k">CLOUD</div><div class="v">×0</div><div class="s">PURE STDLIB</div></div>
+          </div>
+          <div class="ft"><span>GITHUB.COM/YFREDY/LAOS</span><span>FUNDING TERM 2026-10 · SHEET 01/15</span></div>
+        </div>
+      </div>
+      <div class="caption">C-1 · 封面（P1）— 行情条即进度，清算所开屏</div>
+    </div>
+    <div>
+      <div class="frame fc">
+        <div class="box" data-t="FUNDING :: ANGEL [DEMO FIGURES]">
+          <div class="ticker">[ROUND <b>ANGEL</b>]&nbsp;[AMOUNT <b>¥5,000,000</b> <span style="color:#8F6A10">DEMO</span>]&nbsp;[EQUITY <b>10%</b> <span style="color:#8F6A10">DEMO</span>]&nbsp;[HORIZON <b>12M</b>]</div>
+          <h2 style="font-size:34px">USE OF FUNDS<span class="zh" style="letter-spacing:.1em">资金用途：四段清算</span></h2>
+          <div class="bar" style="margin-top:22px">
+            <div class="lab">ALLOCATION / 40·30·20·10</div>
+            <div class="seg">
+              <div style="flex:40;background:#FFB000">40%</div>
+              <div style="flex:30;background:#D99B00">30%</div>
+              <div style="flex:20;background:#B37E00">20%</div>
+              <div style="flex:10;background:#8F6A10;color:#FFB000">10%</div>
+            </div>
+          </div>
+          <div class="rows" style="margin-top:14px">
+            <div><span class="k">40%</span> 端侧真机验证 · <span class="k">30%</span> 生态适配（MCP 生态 / 驱动市场） · <span class="k">20%</span> 合规认证与试点 · <span class="k">10%</span> 运营</div>
+            <div><span class="k">MILESTONE BET</span> 12 个月内 <span class="warn">1.0 + 首个付费试点</span></div>
+            <div><span class="k">NOTE</span> 金额与比例为示例数字——按正式 BP 测算更新，本板不渲染虚数</div>
+          </div>
+          <div class="ft"><span>LAOS FUNDING TERMINAL</span><span>SHEET 14/15</span></div>
+        </div>
+      </div>
+      <div class="caption">C-2 · 融资方案（P14）— 示例数字用暗色降级，不冒充真数</div>
+    </div>
+  </div>
+</div>
+
+<div class="verdict">
+  <span class="hd">ART DIRECTOR VERDICT · 艺术总监裁决（自主模式，落档 direction-approved.md）</span>
+  <b>选 A · 融资台账（黑金 2.0）</b>，四条理由按权重排序：<br>
+  ① <b>母题同构（决定性）</b>：laos 的核心资产叫 FleetLedger——先扣账后派发、不可抵赖；一场融资就是资本对团队的记账与问责。A 的台账行、金色合计、大写数字壹贰叁（中文账本防涂改数字）让「形式即论证」，这是别的项目抄不走的视觉资产；B 的纸感与 C 的终端都是可租赁的风格，A 的母题只能从这份内容里长出来。<br>
+  ② <b>资本场合温度</b>：黑金对应金库 / 审计所的权威与克制（不是赌场金）；会议室投屏多为暗环境，暗场金字的聚焦力优于白纸反光。B 的可读性最佳，但气质是「尽调文档」——15 页连续路演需要「场」，备忘录没有场。<br>
+  ③ <b>品牌连续性</b>：wave-1 介绍 deck（laos-intro-huashu.html）已用黑金台账；同一项目两份物料共享同一视觉资产 = 投资人侧的品牌记忆与信任复利。<br>
+  ④ <b>受众错位排除 C</b>：终端风是开发者暗号，投资人受众错位；且大面积琥珀的「快」与产品「审计的克制」性格相抵。<br>
+  <b>落选方向的吸收</b>：B 的红笔批注 → A 的「示例」红章与诚实呈现标注语法；C 的分栏清算条 → A 的 P14 用资分段条。<b>骨架互异声明</b>：A = 暗场台账行 + 衬线结论标题；B = 纸面文档 + 装订边注栏；C = 终端网格 + 行情条——三版结构性互异，非换皮。
+</div>
+
+</body>
+</html>
