@@ -1,6 +1,8 @@
 # 复现批次采纳执行书 —— 六来源 + 五 PPT skill 对 laos 的实际帮助
 
 > 2026-10-05 ｜ 性质：采纳裁决 + 执行记录（对 [复现报告](2026-10-05-four-article-repro.md) §落点建议的落地）
+> 2026-10-05 第二批执行（v0.11.0）：mobile-mcp 评估书采纳项 2/3/4/6 落地（screen.key/longpress/doubletap/devices + 新驱动 drv_apps）；本表 D 项从文档化升级为 `laos/micgeom.py` 实现。
+
 > 原则：**laos 核心零依赖承诺不破坏**（drv_audio 先例：重依赖只存在于驱动子进程）；每项采纳 TDD 进主库；不采纳的写明理由。
 
 ## §1 采纳裁决总表
@@ -10,7 +12,7 @@
 | A | ④ BS.1770-4 响度 | journal/录音的响度口径（LUFS/True Peak/PLR） | **● 执行** | `laos/loudness.py`（纯 stdlib 移植）+ `drivers/drv_ear.py` 新工具 `ear.lufs` |
 | B | ⑤ Pipecat 帧管道 | 打断即作废 + 聚合器放 output 之后（只记实际送达内容） | **● 执行** | `laos/turnbuf.py`（TurnBuffer：数据帧累积/送达水位/打断丢弃/只提交已送达部分进 mem.*） |
 | C | ⑥ unique_lock | 锁生命周期显式化（owns_lock/defer/try） | **● 执行** | `laos/locks.py`（UniqueLock）+ `laos/mcp.py` MCPClient._rpc 改用（并记录"为什么此处必须全 spans 持锁"的协议事实） |
-| D | ② PhaseCoder MPE | 几何无关麦位元数据约定 | **◐ 文档化** | 驱动文档约定：外挂音频驱动可携带 `(M,3)` 质心相对笛卡尔坐标（laos 沿用 PhaseCoder 口径）；实现留在 Repro 区 |
+| D | ② PhaseCoder MPE | 几何无关麦位元数据约定 + 纯 stdlib 实现 | **● 执行（v0.11.0 升级）** | `laos/micgeom.py`：球坐标 + MPE（相位/频率双调制，α=7/β=4），与 Repro 区 numpy 版逐值一致（max diff 0.0）；驱动约定：外挂音频驱动麦位元数据用 `(M,3)` 质心相对笛卡尔坐标 |
 | E | ③ FxLMS ANC | — | **○ 不做** | 车载域 DSP，与 laos 能力管控无交集；保留 Repro 区作语料 |
 | F | ① 头部朝向 SHO 全管线 | — | **○ 不做（现在）** | 依赖 torch 训练管线，违反零依赖；"指令定向"记入 drv_mic 远期路线（须过 mic.* 闸+审计+PIPL 声纹红线评估） |
 | G | 五 PPT skill | 项目介绍物料 + 方法论 | **◐ 已交付** | docs/ppt/ 五套 deck + 对比 README（上一轮完成）；ppt-master 的"质检门"方法论与本仓库 release 纪律同构，不再重复建设 |

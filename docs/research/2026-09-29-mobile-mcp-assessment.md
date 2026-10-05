@@ -77,11 +77,13 @@ laos 手机侧现有 15 个工具（五层）：`screen.dump/tap/swipe/text/back
 | # | 采纳项 | 落点 | 状态 |
 |---|---|---|---|
 | 1 | load_driver 外挂路径写入手机能力文档（mobile-mcp 作首个"外挂驱动"示例，遥测必关） | README §七 + drivers/ 文档 | ◐ |
-| 2 | `screen.key`（HOME/VOLUME_UP/VOLUME_DOWN/ENTER，`input keyevent`） | drv_screen.py + FakeAdb 用例 | ◐ |
-| 3 | `screen.longpress` / `screen.doubletap`（同点 swipe 600ms / 连续两 tap） | drv_screen.py + FakeAdb 用例 | ◐ |
-| 4 | `apps.list` / `apps.launch` / `apps.close`（`pm list packages` / `am start` / `am force-stop`，全部走 pkg: 白名单） | 新 drivers/drv_apps.py 或并入 drv_screen | ◐ |
+| 2 | `screen.key`（HOME/VOLUME_UP/VOLUME_DOWN/ENTER，`input keyevent`） | drv_screen.py + FakeAdb 用例 | ● v0.11.0 已落地 |
+
+> **2026-10-05 执行注记**：采纳项 2/3/4/6 已在 v0.11.0 落地——`screen.key/longpress/doubletap/devices` + 新驱动 `drivers/drv_apps.py`（apps.list/launch/close，内核 pkg 闸门同步扩展到 `apps.*` 前缀）；装卸 App（项 7）维持不实现。 |
+| 3 | `screen.longpress` / `screen.doubletap`（同点 swipe 600ms / 连续两 tap） | drv_screen.py + FakeAdb 用例 | ● v0.11.0 已落地 |
+| 4 | `apps.list` / `apps.launch` / `apps.close`（`pm list packages` / `monkey LAUNCHER` / `am force-stop`，全部走 pkg: 白名单） | 新 drivers/drv_apps.py | ● v0.11.0 已落地（含驱动层包名字符白名单防注入） |
 | 5 | `screen.record_start/record_stop`（`screenrecord`，时长上限 + 审计 `event:"screen"` + 仅显式 syscall 触发，对齐录音红线） | drv_screen.py | ◐ |
-| 6 | `screen.devices`（暴露现有 `Adb.devices()`，只读） | drv_screen.py | ◐ |
+| 6 | `screen.devices`（暴露现有 `Adb.devices()`，只读） | drv_screen.py | ● v0.11.0 已落地 |
 | 7 | `apps.install` / `apps.uninstall`（不可逆 → FleetLedger 高计价 + 确认横幅） | 新驱动 + kernel 风险表 | ◐（低优先，风险设计先行） |
 | 8 | logcat/崩溃报告（**按 pkg 过滤** `logcat --pid`，防跨应用泄漏） | drv_events.py 扩展 | ◐（低优先） |
 | 9 | 剪贴板读 | deny-by-default + Jev 预审 + 内容永不入 mem.*（密码/验证码载体） | ○（除非显式开闸，默认不做） |

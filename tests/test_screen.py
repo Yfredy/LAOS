@@ -180,3 +180,59 @@ class TestKernelPkgScope(unittest.TestCase):
 if __name__ == "__main__":
     unittest.main(verbosity=2)
 
+
+
+class TestDrvScreenV11(unittest.TestCase):
+    """mobile-mcp 采纳批次：key/longpress/doubletap/devices（评估书 ◐→●）。"""
+
+    def setUp(self):
+        import drv_screen
+        self.drv = drv_screen
+        self.fake = FakeAdb(responses={
+            "dumpsys window": DUMPSYS_SAMPLE,
+            "uiautomator dump": FIXTURE_XML,
+            "devices": "List of devices attached\n\tabc123\tdevice\n",
+        })
+        drv_screen.set_adb(self.fake)
+
+    def tearDown(self):
+        self.drv.set_adb(None)
+
+    # -- screen.key ------------------------------------------------------
+    def test_key_home_volume_back_enter(self):
+        for name, code in (("home", "3"), ("back", "4"),
+                           ("volume_up", "24"), ("volume_down", "25"), ("enter", "66")):
+            out = self.drv.screen_key(name, pkg="com.timnet.lpai")
+            self.assertIn("OK", out)
+            self.assertIn(["shell", "input", "keyevent", code], self.fake.calls)
+
+    def test_key_whitelist_rejects_unknown(self):
+        with self.assertRaises(ValueError) as cm:
+            self.drv.screen_key("power_long_press", pkg="com.timnet.lpai")
+        self.assertIn("EINVAL", str(cm.exception))
+
+    def test_key_foreground_mismatch_denied(self):
+        with self.assertRaises(PermissionError):
+            self.drv.screen_key("home", pkg="com.other.app")
+
+    # -- screen.longpress / doubletap ------------------------------------
+    def test_longpress_swipe_same_point(self):
+        self.drv.screen_longpress(360, 800, pkg="com.timnet.lpai")
+        self.assertIn(["shell", "input", "swipe", "360", "800", "360", "800", "650"],
+                      self.fake.calls)
+
+    def test_doubletap_two_taps(self):
+        self.drv.screen_doubletap(360, 800, pkg="com.timnet.lpai")
+        taps = [c for c in self.fake.calls if c[:4] == ["shell", "input", "tap", "360"]]
+        self.assertEqual(len(taps), 2)
+
+    def test_doubletap_mismatch_denied(self):
+        with self.assertRaises(PermissionError):
+            self.drv.screen_doubletap(1, 1, pkg="com.other.app")
+
+    # -- screen.devices ----------------------------------------------------
+    def test_devices_lists_readonly(self):
+        import json
+        out = self.drv.screen_devices()
+        data = json.loads(out)
+        self.assertEqual(data["devices"], ["abc123"])

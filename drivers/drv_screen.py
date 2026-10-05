@@ -141,5 +141,69 @@ def screen_shot() -> str:
     return f"OK shot -> {out}"
 
 
+# ---- mobile-mcp 采纳批次（评估书 ◐→●，docs/research/2026-09-29 §5） ----
+
+_KEYCODES = {"home": "3", "back": "4", "volume_up": "24", "volume_down": "25",
+             "enter": "66"}
+
+
+@drv.tool(
+    "screen.key", "按系统键（白名单：home/back/volume_up/volume_down/enter）",
+    {"type": "object",
+     "properties": {"key": {"type": "string",
+                            "enum": ["home", "back", "volume_up", "volume_down", "enter"]},
+                    "pkg": {"type": "string"}},
+     "required": ["key", "pkg"]},
+    reversible=False, risk="low", irreversibility_cost=1,
+)
+def screen_key(key: str, pkg: str) -> str:
+    adb = get_adb()
+    if key not in _KEYCODES:
+        raise ValueError(f"EINVAL: key must be one of {sorted(_KEYCODES)}, got {key!r}")
+    _require_pkg(adb, pkg)
+    adb.shell(["input", "keyevent", _KEYCODES[key]])
+    return f"OK key {key} in {pkg}"
+
+
+@drv.tool(
+    "screen.longpress", "长按（同点长按 swipe 实现）",
+    {"type": "object",
+     "properties": {"x": {"type": "integer"}, "y": {"type": "integer"},
+                    "ms": {"type": "integer"}, "pkg": {"type": "string"}},
+     "required": ["x", "y", "pkg"]},
+    reversible=False, risk="medium", irreversibility_cost=1,
+)
+def screen_longpress(x: int, y: int, ms: int = 650, pkg: str = "") -> str:
+    adb = get_adb()
+    if pkg:
+        _require_pkg(adb, pkg)
+    adb.shell(["input", "swipe", str(x), str(y), str(x), str(y), str(ms)])
+    return f"OK longpress ({x},{y}) {ms}ms"
+
+
+@drv.tool(
+    "screen.doubletap", "双击（两次快速 tap）",
+    {"type": "object",
+     "properties": {"x": {"type": "integer"}, "y": {"type": "integer"},
+                    "pkg": {"type": "string"}},
+     "required": ["x", "y", "pkg"]},
+    reversible=False, risk="medium", irreversibility_cost=1,
+)
+def screen_doubletap(x: int, y: int, pkg: str) -> str:
+    adb = get_adb()
+    _require_pkg(adb, pkg)
+    adb.shell(["input", "tap", str(x), str(y)])
+    time.sleep(0.08)
+    adb.shell(["input", "tap", str(x), str(y)])
+    return f"OK doubletap ({x},{y}) in {pkg}"
+
+
+@drv.tool("screen.devices", "列出可用 adb 设备（只读）",
+          {"type": "object", "properties": {}})
+def screen_devices() -> str:
+    adb = get_adb()
+    return json.dumps({"devices": adb.devices()}, ensure_ascii=False)
+
+
 if __name__ == "__main__":
     drv.serve_forever()

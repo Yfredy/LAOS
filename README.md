@@ -420,7 +420,7 @@ laos/
 | **发音韵律评估**：流利度/节奏两维零依赖 + `ear.assess` 工具（GOPT 后端插桩） | `laos/pronunciation.py` `drivers/drv_ear.py` | GOPT+speechocean762 |
 | **架构图**：九层全貌 + 四段漏斗高亮（docs/images/，修复 4 处重叠） | `docs/images/` | — |
 
-测试规模：主库 378 项 + 隔离区 AlwaysOnRec-ZCode 279 项 + 复现区 Repro-ZCode 71 项（2026-10-05 六来源复现：BS.1770 响度 / FxLMS ANC / 头部朝向论文管线 / PhaseCoder 编码 / Pipecat 帧管道 / unique_lock 语义）。
+测试规模：主库 398 项 + 隔离区 AlwaysOnRec-ZCode 279 项 + 复现区 Repro-ZCode 71 项（2026-10-05 六来源复现：BS.1770 响度 / FxLMS ANC / 头部朝向论文管线 / PhaseCoder 编码 / Pipecat 帧管道 / unique_lock 语义）。
 
 ### 10.3 修订内容（实现过程中修掉的问题）
 
