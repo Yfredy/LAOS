@@ -33,6 +33,20 @@ class TurnBuffer:
         with UniqueLock(self._lock):
             self._pending.append(text)
 
+    def interject(self, text: str) -> None:
+        """插队帧：外部结果插到待送达队列**头部**，下一次送达先送它。
+
+        语义来源（docs/research/2026-10-05-speech-weekly-spatial-duplex.md）：
+        SALMONN-duo——慢系统返回期间系统 1 保持说话，结果回来无缝织入当前轮；
+        Context Spanning——检索到的原文不经压缩直接注入。interrupt() 之后仍可
+        用（清场后新起一轮播报）。与 commit 的"只记已送达"正交：插队帧同样
+        只在实际送达后才进记忆。
+        """
+        if not text:
+            return
+        with UniqueLock(self._lock):
+            self._pending.insert(0, text)
+
     # -- 传输侧（推进送达水位） ------------------------------------------
     def deliver_more(self, delta: str) -> None:
         """增量标记已实际送出的内容：从待送达队列头部消费 delta 字符。"""

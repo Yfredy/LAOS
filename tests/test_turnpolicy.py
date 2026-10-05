@@ -12,12 +12,14 @@
 from __future__ import annotations
 
 import sys
+import threading
 import unittest
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
+from laos.turnbuf import TurnBuffer  # noqa: E402
 from laos.turnpolicy import TurnPolicy  # noqa: E402
 
 
@@ -75,6 +77,47 @@ class TestTurnPolicyDecide(unittest.TestCase):
         ev = [(0, "user_start"), (600, "user_end"),
               (1000, "agent_start"), (2000, "agent_end")]
         self.assertEqual(self.p.decide(ev, now_ms=3000), "hold")
+
+
+class TestInterject(unittest.TestCase):
+    """TurnBuffer.interject —— 插队帧（SALMONN-duo 委托返回 / Context Spanning 注入）。"""
+
+    def test_interject_goes_to_head_of_pending(self):
+        tb = TurnBuffer()
+        tb.append("A")
+        tb.interject("B")
+        tb.deliver_more("BA")
+        self.assertEqual(tb.delivered_text, "BA")
+        self.assertEqual(tb.pending_text, "")
+
+    def test_interject_works_after_interrupt(self):
+        tb = TurnBuffer()
+        tb.append("旧内容")
+        tb.interrupt()
+        tb.interject("查到了")
+        self.assertEqual(tb.pending_text, "查到了")
+        self.assertTrue(tb.interrupted)
+
+    def test_empty_interject_is_noop(self):
+        tb = TurnBuffer()
+        tb.append("A")
+        tb.interject("")
+        self.assertEqual(tb.pending_text, "A")
+
+    def test_concurrent_append_interject_thread_safe(self):
+        tb = TurnBuffer()
+
+        def appender():
+            for _ in range(500):
+                tb.append("a")
+
+        def interjector():
+            for _ in range(500):
+                tb.interject("b")
+
+        t1, t2 = threading.Thread(target=appender), threading.Thread(target=interjector)
+        t1.start(); t2.start(); t1.join(); t2.join()
+        self.assertEqual(len(tb.pending_text), 1000)
 
 
 if __name__ == "__main__":
