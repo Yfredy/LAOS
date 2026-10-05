@@ -1,7 +1,7 @@
 # docs/research 调研资产清单（INDEX）
 
 > laos 调研资产权威清单：每份文档一句话定位 + 关键数字（均抄自各文档自身原文，未凭文件名推断）。
-> 盘点日期：2026-10-05。共 66 份 .md（不含本文件，find 会数出 68 = 66 份资产 + capstone + 本文件）= 作者撰写的调研文档 47 份 + plans 计划 2 份 + corpus/ 语料快照 17 份。
+> 盘点日期：2026-10-06。共 68 份 .md（不含本文件，find 会数出 70 = 68 份资产 + capstone + 本文件）= 作者撰写的调研文档 49 份 + plans 计划 2 份 + corpus/ 语料快照 17 份。
 
 ## 导航：按问题找文档
 
@@ -38,7 +38,7 @@
 - [2026-09-14-audio-ai-agent-oss-landscape.md](2026-09-14-audio-ai-agent-oss-landscape.md) — 3,724 条 OSS 仓库的四段漏斗裁决表（core 132 / ref 2864 / unrelated 728），查项目适配结论看这份。
 - [corpus/（见第六节清单）](#六corpus-与数据语料数据文件只列规模) — 语料与爬虫本体：`papers_unified.jsonl`、各抓取脚本与 README 快照，回溯任何报告数字的最终出处。
 
-## 一、主报告（根目录，18 份）
+## 一、主报告（根目录，20 份）
 
 | 文件 | 一句话定位 | 关键数字 / 规模（抄原句） |
 |---|---|---|
@@ -60,6 +60,8 @@
 | [2026-10-05-four-article-repro.md](2026-10-05-four-article-repro.md) | 六来源复现报告：头部朝向论文（arXiv 2607.02129v1）/PhaseCoder/车载 ANC/LUFS/Pipecat 帧管道/C++ unique_lock——能复现的全部落进 `Repro-ZCode/`（71 测试） | "R128 校准点 I=−23.00 LUFS ±0.1"；FxLMS 音调 >20dB、2×2 ~15dB；PhaseCoder MPE 与官方 JAX 源码逐行对齐（α=7/β=4）；冒烟 120 语句×400 步 holdout 56.5°；Pipecat 打断作废排队帧而系统帧穿管 |
 | [2026-10-05-repro-adoption.md](2026-10-05-repro-adoption.md) | 复现批次采纳执行书：六来源+五 PPT skill 对 laos 的帮助裁决（●执行 3 / ◐文档 2 / ○不做 2）与落地 | "A 响度纯 stdlib 进主库 + ear.lufs；B TurnBuffer 打断即作废/只记已送达；C UniqueLock+`_rpc` 全程持锁的协议事实" |
 | [2026-10-05-speech-weekly-spatial-duplex.md](2026-10-05-speech-weekly-spatial-duplex.md) | 本周语音 AI 论文周报（8 篇：空间音频×4 + 全双工×4）学习与采纳评估——小红书登录墙后按"当周+双主题"从 arXiv 重构清单（诚实声明在文内） | Duplex-MPE 四能力分解（发起/准确/沉默/停止，MiniCPM-o 4.5 三项领先，Gemini 显隐式差 64.3pp）；SAIL 双耳相位差空间流；SALMONN-duo 快慢双系统；裁决 ●duplex/turnpolicy+binaural ◐foa |
+| [2026-10-06-four-wechat-articles.md](2026-10-06-four-wechat-articles.md) | 四篇微信文章学习与采纳：EdgeAI-KWS 双 MCU 端侧部署 / Foreground VAD（arXiv 2609.19856）/ kernel-internals.org / GitHub 2026-09 趋势榜 | 置信度三段分流 ">= 0.9 本地执行 / >= 0.7 云端校验 / 其余丢弃"→`laos/confgate.py`；"BG-FAR 单独看会被装死模型刷满，必须配 Foreground F1 闸门"→`laos/vadmetrics.py`；趋势榜十强过半为 Agent 基础设施且两个 MCP 原生 |
+| [2026-10-06-qnn-workspace-study.md](2026-10-06-qnn-workspace-study.md) | QNN 工作区（C:\Users\yaoyue\Downloads\QNN，22GB）通读学习：Explore 测绘 + 五份关键文件精读——固件层的"内核优先"同款动作（基座不动，SER 注册成 SEE 虚拟传感器常驻 SLPI） | 模型 rodata 符号级实测 **86,241B**；"AP 深睡时推理照常进行"；InferenceServer.kt 绑 127.0.0.1:8900 供 "laos AgentOS over adb forward"——npu.infer 的设备端对端；裁决 ●×1 ◐×4 ○×1 |
 | [2026-09-14-papers-oss-full-survey.md](2026-09-14-papers-oss-full-survey.md) | 论文 × 开源项目全量普查终版：数字全部由 `corpus/gen_final_report.py` 程序化读出 | "**统一语料 19,792 篇**"= ICASSP 2022-2026 共 14,285 + Interspeech 2021-2025 共 5,507；1,315 篇带摘要（Interspeech 摘要回填 89.1%） |
 | [2026-09-18-jev-landscape.md](2026-09-18-jev-landscape.md) | Jev System-One 生态研究报告：TypeSafe AI 决策模型语义、三判型、定价与开源生态 | 语料"从 30 条扩到 **68 条**，全部实抓 GitHub API 元数据"；Noul/Choice/Score 三判型；$0.042/MTok（output 免费）、36kr 折算 0.44s / $0.00035 每次 |
 | [2026-09-21-jev-decision-model-survey.md](2026-09-21-jev-decision-model-survey.md) | Jev 决策模型调研：技术实质、开源生态与 laos 落点（11 处硬阈值映射） | "GitHub Search API 全量抓取（1443 条原始 → 去噪 778 条）"；laos 11 处硬阈值/朴素相似度；edgejev 实测 3 题批量 median **157.5 ms**（README 宣称 15.6 ms 被否证，慢约 10×） |
