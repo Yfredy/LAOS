@@ -181,5 +181,13 @@ laos 已有 TurnBuffer（打断即作废）但**没有"该不该开口"的策略
 
 实施计划（writing-plans 格式，TDD）：`docs/research/plans/2026-10-05-speech-weekly-adoption.md`。
 
+> **执行注记（2026-10-05，v0.12.0）**：A/B/C/D 四项当波全部落地——`laos/duplex.py`
+> （11 测试）、`laos/turnpolicy.py`（11 测试，含计划外补的"已答话轮不重复触发
+> speak"守卫）、`TurnBuffer.interject()`（4 测试，与既有 turnbuf 8 测试不破）、
+> `laos/binaural.py`（8 测试；Goertzel 终值公式 X = e^{−iω(N−1)}·(s[N−1] − e^{−iω}·s[N−2])
+> 与直接 DFT 逐点互验）、`laos/foa.py`（8 测试；修正：ACN 一阶序是 W,Y,Z,X 而非
+> W,X,Y,Z，四角解码"正对最大/对侧为零"而非"独占"——W 全向贡献使然）。全量
+> 415 测试绿。
+
 **红线自查**：A-D 全部纯 stdlib（Goertzel/状态机/事件配对，无 numpy 依赖），不破 laos 核心零依赖
 承诺；不装任何包（conda 红线）；不触碰录音触发语义（LAOS_REC、显式 syscall、审计不变）。
