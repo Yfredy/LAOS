@@ -11,16 +11,16 @@
 python bin/laosd.py                    # 跑完整 demo（脚本化大脑，无需 API key）
 python bin/laosd.py --real             # 有 OPENAI_API_KEY 时用真 LLM
 python bin/laosweb.py                  # 启动内核 + Web 交互面板 (http://127.0.0.1:8800)
-python -m unittest discover -s tests   # 328 项回归测试
+python -m unittest discover -s tests   # 415 项回归测试
 ```
 
-> 当前版本 **v0.7.0**（主库 328 测试 + 隔离区 279）｜ 版本史见 [CHANGELOG.md](CHANGELOG.md) · [Releases](https://github.com/Yfredy/LAOS/releases)
+> 当前版本 **v0.12.0**（主库 415 测试 + 隔离区 279 + 复现区 71）｜ 版本史见 [CHANGELOG.md](CHANGELOG.md) · [Releases](https://github.com/Yfredy/LAOS/releases)
 
 ---
 
 ## 这个项目是什么（30 秒版）
 
-laos 是一个**给 AI Agent 用的"操作系统"**——站在 Linux/Android 内核之上，给 Agent 提供进程管理、权限控制、资源记账、记忆和感官，让多个 Agent 安全、可审计、越用越聪明地替你干活。它解决裸 Agent 的四个致命缺陷：
+laos 是 **Linux 内核的 Agent 治理扩展（Linux AgentOS 的用户态部分）**——基座与核心始终是 Linux 内核，Agent 只是内核之上的新负载（与进程同类）；laos 站在内核之上，给这个新负载提供进程管理、权限控制、资源记账、记忆和感官，让多个 Agent 安全、可审计、越用越聪明地替你干活。它解决裸 Agent 的四个致命缺陷：
 
 | 裸 Agent 的问题 | laos 的答案 |
 |---|---|
@@ -36,13 +36,13 @@ laos 是一个**给 AI Agent 用的"操作系统"**——站在 Linux/Android �
 ```
 laos/laos/        ★ 内核（语义层，纯标准库）：syscall 闸门链 / 记忆 / 风险账本 / 调度 /
                     分支(fork-COW) / seccomp / 强制层后端(linux|android|stub) / VAD / 剖析
-laos/drivers/     ★ 设备驱动（14 个 MCP Server 子进程）：fs / proc / sys / npu(QNN真机) /
+laos/drivers/     ★ 设备驱动（15 个 MCP Server 子进程）：fs / proc / sys / npu(QNN真机) /
                     audio(分离+AEC) / ear(ASR双通道) / mic / rec(听觉日志) / genie(端侧LLM) /
-                    screen(adb操控+pkg白名单) / notify / comms(短信TTS) / battery / events
+                    screen(adb操控+pkg白名单) / apps(启停) / notify / comms(短信TTS) / battery / events
 laos/bin/         ★ 用户入口：laosd(引导demo) / laosweb(实时面板+操控) / laosctl(审计回放) /
                     diary(日记) / journal(录音转写) / mood_report(情绪周报)
 laos/scripts/     termux_matrix(Android降级矩阵实测) / flasep_gpu_bench(GPU基准)
-laos/tests/       328 项回归测试（真录音/真 ASR 用例实测通过）
+laos/tests/       415 项回归测试（真录音/真 ASR 用例实测通过）
 laos/docs/        论文调研 / 真机 runbook / 面板教程 / 完整项目介绍(PROJECT_OVERVIEW.md)
 laos/docs/research/  调研库：全天候录音业界(6篇) / SER·AED·AGC·说话人·编解码·健康声学模型地图 / 40+篇arXiv论文库
 laos/AlwaysOnRec-ZCode/ 隔离实现区：全天候录音前沿增量（独立可跑，279 项测试）

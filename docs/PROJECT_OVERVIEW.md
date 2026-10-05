@@ -1,6 +1,6 @@
 # laos —— 运行在真实操作系统上的 AI Agent 操作系统
 
-> **一句话**：laos 是一个给 AI Agent 用的"操作系统"——它站在 Linux/Android 内核之上，给 Agent 提供进程管理、权限控制、资源记账、记忆和感官，让多个 Agent 安全、可审计、越用越聪明地替你干活。
+> **一句话**：laos 是 Linux 内核的 Agent 治理扩展——基座与核心是 Linux 内核，Agent 是内核之上的新负载；laos 站在内核之上，给这个新负载提供进程管理、权限控制、资源记账、记忆和感官，让多个 Agent 安全、可审计、越用越聪明地替你干活。
 >
 > **核心命题**：`Linux AgentOS = Linux kernel + Agent + MCP`。不改内核，用 Linux 已有的强制原语（seccomp/namespace/cgroup）做**强制层**，自己写用户态薄内核做**语义层**，用 MCP 协议做**驱动总线**。纯 Python 标准库实现（核心零第三方依赖），Windows/macOS 上自动降级运行，Linux 上开启真隔离。
 

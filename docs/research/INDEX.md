@@ -24,7 +24,7 @@
 - [2026-09-12-speech-model-frontiers.md](2026-09-12-speech-model-frontiers.md) — SER/AED/AGC 之外的六大语音领域（说话人/前端触发/编解码生成/副语言健康）51 篇逐篇跟踪。
 - [speech-emotion/2026-09-landscape.md](speech-emotion/2026-09-landscape.md) — SER 侧的交叉收敛篇：46 条记录只交叉不新增，选型前的最后一道核对。
 
-**想做 Agent 内核 / 判断层？**
+**想做 Agent 治理层（laosd 薄内核）/ 判断层？**
 
 - [agentos-landscape-2026-08.md](agentos-landscape-2026-08.md) — 「AgentOS」八种含义与 L0–L3 强制力光谱，内核语义层设计的坐标系。
 - [2026-09-21-jev-decision-model-survey.md](2026-09-21-jev-decision-model-survey.md) — 判断层选型：Jev 三判型技术实质 + laos 11 处硬阈值映射 + 端侧实测真数字（不用 README 宣称值）。
