@@ -1237,7 +1237,7 @@
     <header class="chrome-min"><div class="l">laos · Linux AgentOS · 创新融资项目介绍</div><div class="r">SS · 26.10.05 · 01 / 15</div></header>
     <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr auto;gap:2.6vh">
       <div data-anim="kicker" class="t-meta" style="color:rgba(255,255,255,.78);letter-spacing:.22em">LAOS · LINUX AGENTOS · FUNDING DECK</div>
-      <h1 data-anim="title" style="align-self:center;font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(7.6vw,13.5vh);line-height:.98;letter-spacing:-.025em;color:#fff">给 AI Agent<br/>装上<span style="font-style:italic;font-weight:300">治理内核</span></h1>
+      <h1 data-anim="title" style="align-self:center;font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(7.6vw,13.5vh);line-height:.98;letter-spacing:-.025em;color:#fff">Linux 内核的<br/><span style="font-style:italic;font-weight:300">Agent 治理层</span></h1>
       <div data-anim="bottom" style="display:grid;grid-template-rows:auto auto;gap:1.6vh;border-top:1px solid rgba(255,255,255,.22);padding-top:2vh">
         <div data-anim="lead" class="lead" style="max-width:54ch;color:rgba(255,255,255,.86);font-weight:300">laos v0.12.0 —— 8 环 syscall 闸门链 + 15 个设备驱动 + 全自研端侧听觉栈：模型负责想，laos 负责说「不」。</div>
         <div style="display:flex;justify-content:space-between;align-items:end">
@@ -1269,7 +1269,7 @@
           </div>
           <div>
             <span class="t-cat" style="color:var(--accent)">方案</span>
-            <p style="font-size:max(18px,1.05vw);line-height:1.65;color:var(--text-secondary);margin-top:.8vh">laos = 用户态 Agent 内核：8 环 syscall 闸门链（能力→范围→校验→预算→计价→预审→确认→审计）。</p>
+            <p style="font-size:max(18px,1.05vw);line-height:1.65;color:var(--text-secondary);margin-top:.8vh">laos = Linux 内核的用户态治理延伸：8 环 syscall 闸门链（能力→范围→校验→预算→计价→预审→确认→审计）。</p>
           </div>
           <div>
             <span class="t-cat">进展</span>
@@ -1339,7 +1339,7 @@
         <div style="display:flex;flex-direction:column;gap:1.2vh">
           <span class="t-cat">浪 02</span>
           <h3 style="font-weight:400;font-size:max(18px,1.35vw)">Agent 从聊天走向执行</h3>
-          <p style="font-size:max(16px,.95vw);color:var(--text-secondary);line-height:1.65">企业开始让 Agent 动真实系统——「能干活」到「敢让它干活」之间，差的正是 OS 层。</p>
+          <p style="font-size:max(16px,.95vw);color:var(--text-secondary);line-height:1.65">企业开始让 Agent 动真实系统——「能干活」到「敢让它干活」之间，差的正是内核治理的延伸。</p>
         </div>
         <span style="font-weight:200;font-size:6.6vw;line-height:.9;margin-top:auto">02</span>
       </div>
@@ -1360,7 +1360,7 @@
     <header class="chrome-min"><div class="l">laos · Linux AgentOS · 创新融资项目介绍</div><div class="r">SS · 26.10.05 · 05 / 15</div></header>
     <div data-anim="line" style="display:flex;flex-direction:column;gap:1.2vh;padding-top:1vh">
       <span class="t-cat">The Product · Architecture</span>
-      <h2 class="h-xl" style="font-weight:200;font-size:min(4.6vw,8.2vh);line-height:1;letter-spacing:-.03em">三层结构：<br/>用户态 Agent 内核。</h2>
+      <h2 class="h-xl" style="font-weight:200;font-size:min(4.6vw,8.2vh);line-height:1;letter-spacing:-.03em">三层结构：<br/>Linux 内核的用户态 Agent 治理层。</h2>
     </div>
     <div class="stack-row" style="margin-top:3vh">
       <div class="stack-block b-grey">
@@ -1745,7 +1745,7 @@
 <!-- 演讲备注：替换示例页时同步替换，id 必须与 section[data-slide-id] 一致。 -->
 <script>
 const SPEAKER_NOTES = [
-  { id: 'cover', title: '给 AI Agent 装上治理内核', section: '开场', minutes: 0.5, purpose: '定调：laos 是治理内核，融资版开场', talk: ['一句话定位：模型负责想，laos 负责说不', '角标数字先立信任：v0.12.0 / 30 天 12 版本 / 765 测试', '预告三道壁垒与融资用途'], transition: '从定位直接进入「只记一页」的总览' },
+  { id: 'cover', title: 'Linux 内核的 Agent 治理层', section: '开场', minutes: 0.5, purpose: '定调：基座是 Linux 内核，laos 是治理延伸层', talk: ['一句话定位：模型负责想，laos 负责说不', '角标数字先立信任：v0.12.0 / 30 天 12 版本 / 765 测试', '预告三道壁垒与融资用途'], transition: '从定位直接进入「只记一页」的总览' },
   { id: 'one-slide', title: '一页看懂', section: '开场', minutes: 1.0, purpose: '如果只记住一页：问题-方案-进展', talk: ['无 syscall 层的 tool call 四无：预算/审计/回滚/合规', '8 环闸门链一句话带过，细节在第 6 页', '进展锚点：15 驱动 / 纯 stdlib / 19,792 语料'], transition: '总览抛出问题，下一页把问题拆成三根柱子' },
   { id: 'problem', title: '痛点三柱', section: '问题', minutes: 1.2, purpose: '把三条断层说具体，每柱一个场景', talk: ['失控成本：一次 tool call 一次不可逆操作', '合规黑洞：EU AI Act / PIPL 声纹', '端侧碎片：每台设备重写一遍、无统一隐私闸', '强调应用层 try-catch 挡不住'], transition: '痛已经在场，下一页回答为什么是现在' },
   { id: 'why-now', title: '为什么是现在', section: '时机', minutes: 1.0, purpose: '三浪叠加证明窗口期', talk: ['MCP 事实标准给了统一切入点', 'Agent 从聊天走向执行，差的是敢用', '监管落地：合规是预算充足的用户'], transition: '窗口已开，下一页看产品怎么接住' },

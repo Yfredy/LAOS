@@ -142,15 +142,15 @@
 <section class="slide cover" data-layout="V6F-COVER" id="s1">
   <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:32px">
     <div class="kicker" style="color:var(--mist)">创新融资 · 项目介绍 · V6 合成版</div>
-    <div class="title">给 AI Agent 装上<br>操作系统的治理内核</div>
-    <div class="caption" style="font-size:var(--body)">laos —— 模型负责想，laos 负责说「不」</div>
+    <div class="title">Linux 内核的<br>Agent 治理层</div>
+    <div class="caption" style="font-size:var(--body)">基座不变，治理延伸 —— 内核是基座与核心，Agent 是上层新负载，laos 在用户态把 syscall 语义延伸到位</div>
     <div style="display:flex;gap:14px">
       <span class="stamp">v0.12.0</span><span class="stamp">30 天 · 12 个版本</span>
       <span class="stamp">765 测试全绿</span><span class="stamp">15 个设备驱动</span>
     </div>
   </div>
   <div class="foot" style="border-color:var(--line);color:var(--mist-3)"><span>2026-10</span><span>github.com/Yfredy/LAOS</span></div>
-  <aside class="notes" hidden>开场 30 秒：我们在做 Agent 的操作系统内核——不是又一个框架。四个印章全是可尽调的真实数字：30 天发了 12 个版本，765 个测试，15 个设备驱动。今天讲三件事：为什么必须有这一层、我们已经做到哪、这轮钱用来干什么。</aside>
+  <aside class="notes" hidden>开场 30 秒：基座与核心是 Linux 内核；Agent 只是内核之上的新负载，和进程同类。laos 做的是在用户态把内核的治理延伸到这个新负载——不是又一个框架，更不是给 Agent 外挂一个操作系统。四个印章全是可尽调的真实数字：30 天发了 12 个版本，765 个测试，15 个设备驱动。今天讲三件事：为什么必须有这一层、我们已经做到哪、这轮钱用来干什么。</aside>
 </section>
 
 <!-- P2 一页看懂 -->
@@ -159,7 +159,7 @@
   <h2>工具调用没有 syscall 层，这就是全部问题</h2>
   <div class="grid" style="margin-top:16px;align-content:start;gap:14px">
     <div class="c6 panel"><h3 class="blue mono" style="margin-bottom:10px">问题</h3><div class="body-s">Agent 直接拿工具——无预算、无审计、无回滚、无合规证据链。</div></div>
-    <div class="c6 panel"><h3 class="gold mono" style="margin-bottom:10px">方案</h3><div class="body-s">laos = 用户态内核：八环闸门链，能力→范围→校验→预算→计价→预审→确认→审计。</div></div>
+    <div class="c6 panel"><h3 class="gold mono" style="margin-bottom:10px">方案</h3><div class="body-s">laos = Linux 内核的用户态治理延伸：八环闸门链，能力→范围→校验→预算→计价→预审→确认→审计。</div></div>
     <div class="c6 panel"><h3 class="mono" style="margin-bottom:10px">进展</h3><div class="body-s">开源 v0.12.0 · 15 驱动 · 端侧听觉栈全自研纯 stdlib · 19,792 篇论文语料。</div></div>
     <div class="c6 panel-t accentbar"><div class="body" style="font-family:var(--serif)">模型负责想，laos 负责说「不」。</div></div>
   </div>
@@ -196,7 +196,7 @@
       <span class="body"><b>MCP 成为事实标准</b>（2026-07-28 规范更新：Tasks / Elicitation / MRTR）——工具调用接口统一，治理层第一次有了统一切入点。</span></div>
     <div class="c12 panel" style="display:flex;gap:24px;align-items:center">
       <span class="mono gold" style="font-size:var(--h3)">浪二</span>
-      <span class="body"><b>Agent 从聊天走向执行</b>——企业开始让 Agent 动真实系统；「能干活」到「敢让它干活」之间，差的正是 OS 层。</span></div>
+      <span class="body"><b>Agent 从聊天走向执行</b>——企业开始让 Agent 动真实系统；「能干活」到「敢让它干活」之间，差的正是内核治理的延伸。</span></div>
     <div class="c12 panel" style="display:flex;gap:24px;align-items:center">
       <span class="mono gold" style="font-size:var(--h3)">浪三</span>
       <span class="body"><b>监管落地窗口</b>——EU AI Act 分阶段生效、国内生成式算法备案；合规是预算充足的用户。</span></div>
@@ -208,11 +208,11 @@
 <!-- P5 产品 -->
 <section class="slide" data-layout="V6F-PRODUCT" id="s5">
   <div class="head"><span class="kicker">P5 · 产品</span><span class="kicker">05 / 16</span></div>
-  <h2>laos 是什么：Agent 与工具之间的一层内核</h2>
+  <h2>laos 是什么：Linux 内核之上的治理延伸层</h2>
   <div class="grid" style="margin-top:14px;align-content:start;gap:12px">
     <div class="c12 panel" style="display:flex;align-items:center;gap:24px"><span class="mono blue" style="font-size:var(--h3)">Agent</span><span class="body">想做什么（任意模型 / 任意框架之上）</span></div>
     <div class="c12 panel-t accentbar" style="display:flex;align-items:center;gap:24px">
-      <span class="mono gold" style="font-size:var(--h3)">laos</span><span class="body"><b>内核</b>：八环闸门链 + 调度 + 分支 + 记忆 + 审计账本</span></div>
+      <span class="mono gold" style="font-size:var(--h3)">laos</span><span class="body"><b>治理延伸层</b>（laosd 薄内核）：八环闸门链 + 调度 + 分支 + 记忆 + 审计账本</span></div>
     <div class="c12 panel" style="display:flex;align-items:center;gap:24px"><span class="mono blue" style="font-size:var(--h3)">驱动 ×15</span><span class="body">MCP Server = 设备驱动，子进程隔离</span></div>
     <div class="c12 panel-t" style="display:flex;align-items:center;gap:24px"><span class="mono blue" style="font-size:var(--h3)">世界</span><span class="body">Linux · 手机 · 耳机 · NPU · 云端工具</span></div>
     <div class="c12" style="display:flex;gap:14px">

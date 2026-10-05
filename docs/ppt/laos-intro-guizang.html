@@ -1237,7 +1237,7 @@
     <header class="chrome-min"><div class="l">laos · Linux AgentOS · Field Note 01</div><div class="r">SS · 26.10.05 · 01 / 12</div></header>
     <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr auto;gap:2.6vh">
       <div data-anim="kicker" class="t-meta" style="color:rgba(255,255,255,.78);letter-spacing:.22em">LINUX AGENTOS · FIELD NOTE 01</div>
-      <h1 data-anim="title" style="align-self:center;font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(8.4vw,15vh);line-height:.96;letter-spacing:-.025em;color:#fff">给 AI Agent<br/>一座<span style="font-style:italic;font-weight:300">操作系统</span></h1>
+      <h1 data-anim="title" style="align-self:center;font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(8.4vw,15vh);line-height:.96;letter-spacing:-.025em;color:#fff">Linux 内核的<br/><span style="font-style:italic;font-weight:300">Agent 治理层</span></h1>
       <div data-anim="bottom" style="display:grid;grid-template-rows:auto auto;gap:1.6vh;border-top:1px solid rgba(255,255,255,.22);padding-top:2vh">
         <div data-anim="lead" class="lead" style="max-width:52ch;color:rgba(255,255,255,.86);font-weight:300">laos · Linux AgentOS v0.9.0 —— 用内核强制原语给 Agent 划出能力边界，而不是靠提示词恳求。主库 353 + 隔离区 350 = 703 项测试全绿。</div>
         <div style="display:flex;justify-content:space-between;align-items:end">
@@ -1518,7 +1518,7 @@
 <!-- 演讲备注：替换示例页时同步替换，id 必须与 section[data-slide-id] 一致。 -->
 <script>
 const SPEAKER_NOTES = [
-  { id: 'cover', title: '给 AI Agent 一座操作系统', section: '开场', minutes: 0.5, purpose: '建立反差：Agent 很强但没有操作系统', talk: ['一条 rm -rf 的例子开场', '提示词是恳求不是强制', '预告：闸门链 / 驱动 / 证据链'] },
+  { id: 'cover', title: 'Linux 内核的 Agent 治理层', section: '开场', minutes: 0.5, purpose: '建立反差：Agent 很强但游离在内核治理之外', talk: ['一条 rm -rf 的例子开场', '提示词是恳求不是强制', '预告：闸门链 / 驱动 / 证据链'] },
   { id: 'problem', title: 'Agent 拿着 root 裸奔', section: '问题', minutes: 0.8, purpose: '把风险说具体', talk: ['删库与隐私外发两个场景', '缺的是 OS 五件套：能力/调度/审计/记账/隔离'] },
   { id: 'thesis', title: 'Linux AgentOS 命题', section: '命题', minutes: 1.0, purpose: '给出公式与不动内核的立场', talk: ['kernel + Agent + MCP', '四个强制原语点名', 'laosd 只做薄内核语义层'] },
   { id: 'analogy', title: 'Linux ↔ laos 词表', section: '架构', minutes: 1.0, purpose: '用熟悉概念映射新概念', talk: ['进程→Agent，syscall→tool call', '驱动→MCP Server', 'insmod→load_driver'] },

@@ -82,3 +82,16 @@ ppt-master 字号角色体系+Hero breathing 大数字 ｜ guizang 12 列 Swiss 
 - **可交付给非技术方修改**：仍是 ppt-master 独占（两个 pptx 共 746 个可编辑文本框）。
 - **v6 的定位**：不是第六个风格，而是"引擎统一、母题各表"——两个 v6 共用同一舞台/键盘/令牌/演讲者引擎（互为拷贝可维护），detailed 用墨黑+瑞士蓝+账本金，funding 用墨蓝+金+衬线。E 键就地改字在两个 v6 里都是一等公民。
 - **限速教训**：10 个 skill agent 并发触发了账户速率限制（2 个折翼：html-ppt 详细版死在汇报前但成品完好、huashu 详细版重派成功）——下一波并发上限设 5。
+
+## 定位修正（2026-10-05 晚，用户裁决）
+
+用户澄清并裁决叙事主客关系：**基座与核心是 Linux 内核；Agent 只是内核之上的上层补充/新负载；laos 是内核治理向 Agent 的用户态延伸**。此前两波 deck 中"给 AI Agent 装上操作系统（的治理内核）/ 用户态 Agent 内核 / 给 AI Agent 一座操作系统"等措辞把主客说反了（Agent 不是被安装 OS 的主体），已全部修正为内核优先表述：
+
+- 融资版封面 → "Linux 内核的 Agent 治理层：基座不变，治理延伸"
+- 方案格/产品页 → "laos = Linux 内核的用户态治理延伸""laosd 薄内核（治理延伸层）"
+- 第一波副题 → "Linux 内核的 Agent 治理层"
+- 两份底稿已写入"立场声明"作为全篇叙事基准（`laos-funding-outline.md` P1）
+
+保留不改的表述（方向正确）："把 Linux 变成 Agent 的操作系统"（主语是内核）、"给工具调用装上 syscall 语义"（宾语是工具调用）、"模型负责想，laos 负责说「不」"（主语是 laos）。
+
+**已知残留**：两个 pptx（`laos-funding-ppt-master.pptx`、`laos-detailed-ppt-master.pptx`）封面仍带旧口号（pptx 无法文本替换），演示前可在 PowerPoint 中直接改字，或下波用修正后底稿重新生成。

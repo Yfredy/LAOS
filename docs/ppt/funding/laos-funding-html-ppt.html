@@ -77,17 +77,17 @@
 <section class="slide" data-title="封面">
   <p class="kicker" data-anim="fade-up">创新融资 · 项目介绍 · 2026-10</p>
   <h1 class="h1 mt-s" data-anim="fade-up" style="font-size:64px">laos<span style="color:var(--accent)">.</span><br>
-    <em style="font-size:44px;font-weight:600">给 AI Agent 装上操作系统的治理内核</em></h1>
+    <em style="font-size:44px;font-weight:600">Linux 内核的 Agent 治理层 —— 基座不变，治理延伸</em></h1>
   <div class="divider-accent mt-m"></div>
   <p class="lede mt-m" style="font-size:26px">模型负责想，<span class="hl">laos 负责说"不"</span>。</p>
   <div class="row wrap mt-l" style="gap:14px">
     <span class="pill pill-accent">开源 v0.12.0</span>
     <span class="pill">30 天 · 12 个 MINOR 版本</span>
     <span class="pill">765 项测试全绿</span>
-    <span class="pill">用户态 Agent 内核</span>
+    <span class="pill">Linux 内核的用户态治理延伸</span>
   </div>
   <div class="deck-footer"><span>github.com/Yfredy/LAOS</span><span class="slide-number" data-current="1" data-total="15"></span></div>
-  <aside class="notes">各位好，我是 laos 的作者。今天不讲情怀，讲一个每家用 Agent 的企业都会撞上的问题，和我这三十天做出的答案。<b>laos 是给 AI Agent 装上操作系统的治理内核</b>。开场先立信任，角标三个数字全部公开可查：版本 v0.12.0、三十天十二个版本、七百六十五项测试全绿。今天十五页，五分钟讲清楚三件事——痛点为什么真实、壁垒为什么成立、这笔钱为什么现在进。</aside>
+  <aside class="notes">各位好，我是 laos 的作者。今天不讲情怀，讲一个每家用 Agent 的企业都会撞上的问题，和我这三十天做出的答案。<b>laos 是Linux 内核的 Agent 治理层 —— 基座不变，治理延伸</b>。开场先立信任，角标三个数字全部公开可查：版本 v0.12.0、三十天十二个版本、七百六十五项测试全绿。今天十五页，五分钟讲清楚三件事——痛点为什么真实、壁垒为什么成立、这笔钱为什么现在进。</aside>
 </section>
 
 <!-- ============ P2 一页看懂 ============ -->
@@ -101,7 +101,7 @@
     </div>
     <div class="card" data-anim="rise-in">
       <p class="box-label">方案</p>
-      <p>laos = 用户态 Agent 内核：<b>8 环 syscall 闸门链</b><br><span class="dim">能力 → 范围 → 校验 → 预算 → 计价 → 预审 → 确认 → 审计</span></p>
+      <p>laos = Linux 内核的用户态治理延伸：<b>8 环 syscall 闸门链</b><br><span class="dim">能力 → 范围 → 校验 → 预算 → 计价 → 预审 → 确认 → 审计</span></p>
     </div>
     <div class="card" data-anim="rise-in">
       <p class="box-label">进展</p>
@@ -177,7 +177,7 @@
 <!-- ============ P5 产品 ============ -->
 <section class="slide" data-title="产品">
   <p class="kicker" data-anim="fade-up">PRODUCT · WHAT IS LAOS</p>
-  <h2 class="h2 mt-s" data-anim="fade-up">用户态 Agent 内核，零依赖，纯 stdlib。</h2>
+  <h2 class="h2 mt-s" data-anim="fade-up">Linux 内核的用户态治理延伸，零依赖，纯 stdlib。</h2>
   <div class="arch mt-l" data-anim="rise-in">
     <div class="arch-node"><p class="box-label">用户态</p><h4>Agent</h4><p class="dim">模型 · 规划 · 记忆</p></div>
     <div class="arch-link">⇄</div>
@@ -195,7 +195,7 @@
   </div>
   <p class="lede mt-l">零依赖承诺：内核纯 Python stdlib —— <b>可进任何低端安卓 / 边缘盒子的 Python 环境</b>。</p>
   <div class="deck-footer"><span>laos · 创新融资项目介绍 · 2026-10</span><span class="slide-number" data-current="5" data-total="15"></span></div>
-  <aside class="notes">一句话定位：laos 是<b>用户态 Agent 内核</b>。看这条链路：Agent 的每次工具调用，先过内核的闸门链、调度、分支和记忆，再到十五个驱动子进程，最后才落到 Linux、MCP 和外设——真实世界永远在内核之后。三件内核语义请记住：工具调用就是系统调用，MCP Server 就是设备驱动，能力表就是权限位。还有一个硬承诺：内核纯 Python 标准库、零依赖，低端安卓和边缘盒子都能跑。这不是规划稿，是已经跑起来的 v0.12.0。过渡：壁垒在哪里？接下来三页。</aside>
+  <aside class="notes">一句话定位：laos 是<b>Linux 内核的用户态治理延伸</b>。看这条链路：Agent 的每次工具调用，先过内核的闸门链、调度、分支和记忆，再到十五个驱动子进程，最后才落到 Linux、MCP 和外设——真实世界永远在内核之后。三件内核语义请记住：工具调用就是系统调用，MCP Server 就是设备驱动，能力表就是权限位。还有一个硬承诺：内核纯 Python 标准库、零依赖，低端安卓和边缘盒子都能跑。这不是规划稿，是已经跑起来的 v0.12.0。过渡：壁垒在哪里？接下来三页。</aside>
 </section>
 
 <!-- ============ P6 壁垒一 8 环闸门链 ============ -->

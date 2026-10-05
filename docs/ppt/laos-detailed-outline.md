@@ -10,7 +10,7 @@
 
 **A1 封面**
 - 标题：laos —— Linux AgentOS
-- 副题：面向 AI Agent 的用户态操作系统 · 详细技术深潜
+- 副题：Linux 内核的 Agent 扩展（用户态 · 零内核改动）· 详细技术深潜
 - 一句话：Linux AgentOS = Linux kernel + Agent + MCP
 - 版本角标：v0.12.0 · 2026-10-05
 

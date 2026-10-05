@@ -5,7 +5,7 @@
 
 ## P1 封面
 - 标题：**laos · Linux AgentOS**
-- 副题：给 AI Agent 的用户态操作系统 —— 内核强制的能力边界，而不是提示词恳求
+- 副题：Linux 内核的 Agent 治理层 —— 内核强制的能力边界，而不是提示词恳求
 - 版本 v0.9.0 ｜ GitHub: Yfredy/LAOS ｜ 主库 353 + AlwaysOnRec 279 + Repro 71 = 703 项测试
 
 ## P2 问题
