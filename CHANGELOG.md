@@ -5,6 +5,45 @@
 
 ## [Unreleased]
 
+## [v0.11.0] - 2026-10-05
+
+### Added
+- feat(phone+micgeom): mobile-mcp borrowed features landed — screen.key/longpress/doubletap/devices + new drv_apps driver (apps.list/launch/close, kernel pkg gate extended to apps.*), laos/micgeom.py pure-stdlib MPE (cross-impl diff 0.0 vs numpy reference); adoption statuses updated
+
+## [v0.10.0] - 2026-10-05
+
+### Added
+- feat(turnbuf+locks): Pipecat two lessons + unique_lock semantics into core — TurnBuffer (interrupt drops undelivered; commit records only delivered waterline into mem.* with judge passthrough); UniqueLock util + MCPClient._rpc adopts it with protocol-fact lock-lifetime note (adoption items B/C)
+- feat(loudness): BS.1770-4 pure-stdlib adoption — K-weight/gated integrated/M/S/LRA + local-peak sinc true-peak; new ear.lufs driver tool (adoption item A from repro wave; calibration anchors -23.00 LUFS / mono -26.0 held)
+- feat(docs): laos intro deck x5 — one outline, five PPT skills (ppt-master editable pptx 12p/320 shapes via quality-gated SVG pipeline; guizang Swiss validated deck; frontend-slides terminal-green 16:9 stage + E-key edit; html-ppt blueprint theme + vendored MIT assets + presenter mode; huashu black-gold ledger + 3-direction board); comparison README
+
+## [v0.9.0] - 2026-10-05
+
+### Added
+- feat(repro): unique_lock semantics — RAII + early unlock + defer_lock + try_lock + owns_lock (Python contextmanager port of C++ article patterns)
+- feat(repro): Pipecat frame-pipeline architecture — SystemFrame/DataFrame split, InterruptionFrame drains queued data while system frames survive, streaming pass-through, aggregator-after-output, HandoffGuard swallow+inject
+
+## [v0.8.0] - 2026-10-05
+
+### Added
+- feat(repro): end-to-end SHO runner (sim→features→train→MAE-by-bin artifact) + per-image directivity in ISM (critical: orientation label needs VDP correlate) + four-module smoke aggregator
+- feat(repro): PhaseCoder numpy port — exact MPE (GI-DOAEnet Eq.2-3: phase/freq modulation, alpha*r scaling, centroid spherical), mag+phase STFT layout (256/128), (frame,mic) tokenization, hparams meta; aligned line-by-line to cloned JAX source
+- feat(repro): ShoNet — paper Fig.1 exact architecture (3xConv+2xBiGRU+2xMHSA+AdaMaxPool, cos/sin head)
+- feat(repro): isotropic diffuse-field noise via sinc-coherence Cholesky mixing (2607.02129 §3.1 noise aug)
+- feat(repro): pseudo-speech synth + cardioid VDP substitute + STFT phase sin/cos features (2CxTx128) + circular MAE
+- feat(repro): Allen-Berkley ISM room sim + 6-mic r=4.5cm circular array + paper-range room sampler (2607.02129 §3.1)
+- feat(repro): FxLMS ANC — engine-order reference synth, single-channel (>20dB tonal), LS secondary-path ID, mismatch robustness, coupled 2x2 multichannel (~15dB both error mics)
+- feat(repro): BS.1770-4 loudness — K-weighting (48k Annex + parametric dual-path), gated integrated, M/S, LRA, true peak, PLR; fixed in-place K-weight mutation (double-filtering bug caught by idempotence test)
+- feat(corpus): wave B v3 — longest-alias container hint unlocks KDD/WWW/WSDM/RecSys/MMSys/ICMR (8.8k papers, 24 yielding venues); ICLR/ICML/JMLR/CoNLL/ECCV/CHiME honest zeros (no Crossref registration)
+- feat(corpus): OpenAlex top-up for Crossref-absent venues — ACL/EMNLP/NAACL/COLING real yields, CoNLL honest zero (topic disjoint), CHiME no source
+- feat(corpus): multivenue wave A via Crossref backend — speech-adjacent venues rich (SLT/ASRU/WASPAA/TASLP/EURASIP), NLP confs structurally absent from Crossref (ACL Anthology), TACL/CL journals OK
+- feat(scripts): multivenue crawler + venue probe (8 resolved) + fuzzy venue_of + opportunistic harvest
+- feat(scripts): release helper — semver derivation from conventional commits, three-tree __version__ sync
+
+### Fixed
+- fix(corpus): AAAI unlocked via ISSN exact-filter route (600 papers) — relevance ranking drowns AAAI main proceedings; chime honest-zero restored; survey updated (29 yielding venues / 9,908 records)
+- fix(scripts): enforce 75s floor on retry path + self-sufficient anti-hijack test
+
 ## [v0.7.0] - 2026-09-28
 
 Jev 判断层四闸门 + selfcheck 加固 + 调研资产总纲收束。
