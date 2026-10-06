@@ -40,7 +40,28 @@
 
 ## 三、实测（2026-10-06，本机）
 
-### 文字级（var/asr_eval/refiner_cases.json，13 例：zh 8 + en 5）
+### 官方 AASR-Bench 全集（权威数字，var/asr_eval/aasr_bench/）
+
+ModelScope 镜像拉取官方 benchmark.jsonl（**917 例**：zh 510 / en 407，11 场景，
+oral/clean 成对）。laos.refiner（逗号域版）对 clean 计错（zh=CER / en=WER）：
+
+| 维度 | oral（不精炼） | refined | Δ |
+|---|---|---|---|
+| **微平均（917 例）** | 0.4571 | **0.3875** | **-0.0696（-15.2%）** |
+
+场景分解（Δ，负=改善）：zh/explanation **-0.649**、zh/voice_search -0.180、
+zh/navigation -0.128、zh/meeting -0.115、zh/dictation_memo -0.074、
+zh/vibe_coding -0.077、zh/daily_chat -0.058、en/customer_service -0.059、
+en/voice_search -0.030、en/dictation_memo -0.023、en/tech -0.012、
+en/meeting -0.008、en/academic -0.005、双 passthrough 0.000（干净语音零误伤）。
+仅 en/daily_chat +0.091 与 zh/academic +0.014 为正——后者即"整句谓语被替换"
+型纠正（旗舰例：'…换成 Cross Entropy，啊不对，应该是 Focal Loss'），规则版
+逗号域仍不可解，**用 laos 自己的数据复证了论文"学习型 Refiner 必要性"的论点**。
+
+> 注：官方基准的 clean 还含数字归一（"百分之二十二点五"→"22.5%"）与书面化
+> 改写，这些规则版不做——上面的 -15.2% 是纯"去不流利"维度的收益。
+
+### 文字级自构集（var/asr_eval/refiner_cases.json，13 例：zh 8 + en 5）
 
 | 类别 | n | raw 错误率 | refined | Δ |
 |---|---|---|---|---|
@@ -81,8 +102,8 @@
 | 驱动工具 `ear.refine` | `drivers/drv_ear.py`：ASR 后精炼独立 syscall 工具 | ✅ |
 | `ear.transcribe(refine=True)` | 同上：转写即精炼一步到位 | ✅ |
 | 评测资产 | `var/asr_eval/refiner_cases.json` + `disfluent_e2e.json` + 结果 JSON | ✅ |
-| 学习型 Refiner 通道 | genie 端侧 LLM prompt 版（对应论文 prompt-only 28.9 的起点），远期 LoRA | ◐ 远期 |
-| 官方代码/AASR-Bench | GitHub 克隆重试中（网络间歇），到手后对照补真值测试集 | ⏳ |
+| 学习型 Refiner 通道 | genie 端侧 LLM prompt 版（复用官方 prompts.json），远期 onnx-int4 | ◐ 远期 |
+| 官方代码/AASR-Bench | SSH 克隆到手（§六核对）+ ModelScope 全集 917 例实测（§三权威数字） | ✅ |
 
 **架构对照**：论文的"4B 微调打赢 560B 零样本"= laos 一直的立场——端侧小模型 +
 治理与管道编排胜过裸大模型；Refiner 作为 ASR 之后的独立负载，与 laos "Agent 是
@@ -95,10 +116,26 @@
 - 本波次新增 `laos/refiner.py`（核心层第 3 个 AgenticSR 件，与 confgate/vadmetrics
   同族：小而纯、零依赖、可独立进驱动子进程）。
 
-## 六、待办
+## 六、官方仓库核对（2026-10-06 SSH 克隆到手，订正与补充）
 
-1. GitHub 恢复后克隆官方仓库，用 AASR-Bench SA-ZH 480 句真值重跑本模块（替换
-   自构 13 例），并对照其 demo 的 Refiner 输出；
-2. genie 通道加 `refine` prompt 模式（学习型上界），与规则版同评测集对比，
-   复刻论文 prompt-only vs fine-tuned 消融；
+- **仓库**：github.com/AnXMuy/AgenticASR（研究代码 + 可复现核心；另有产品化桌面应用
+  VibeXASR、项目页 anxmuy.github.io）；
+- **AASR-Bench 规模订正**：**917 样本 + 6,637 条原子评分规则**（Content/Format/
+  Filter/Rephrase 四维；本档前述"SA-EN 558/SA-ZH 480"是论文正文口径，仓库 README
+  以 917 为准——已用 917 例全集实测）；
+- **训练配方**（refiner.yaml 实读）：LLaMA-Factory，**全参微调**（非 LoRA——论文
+  提及的 LoRA 是另一配置）、template=cpm4、lr 2e-5、5 epochs、packing、bf16；
+- **Refiner 发布物**：HF Andrew0425/AgenticASR-Refiner + ModelScope MuyuanJ/
+  AgenticASR-Refiner，含社区 **mlx-int4 / onnx-int4 变体**——onnx-int4 与本机
+  onnxruntime 1.27 兼容，学习型通道有现成宿主；
+- **在线模式**："continually replace a bounded active span as speech arrives"
+  ——有界活动窗的流式精炼（Context Spanning 同族），远期进 laos 流式管道；
+- pipeline/configs/prompts*.json：官方 prompt 资产，genie 学习型通道的直接素材。
+
+## 七、待办
+
+1. genie 通道加 `refine` prompt 模式（复用官方 prompts.json），与规则版同
+   AASR-Bench 对比，复刻论文 prompt-only vs fine-tuned 消融；
+2. onnx-int4 Refiner 经 onnxruntime 落地评估（模型 ~4B int4 ≈ 2-3GB，需评估
+   本机内存/时延）；
 3. journal.py 转写入库前接 refine=True（一次 syscall 级改动）。

@@ -11,9 +11,12 @@
 2. 口吃折叠：中文同一字连续 ≥3 折为 1（双叠是合法构词：谢谢/看看/想想）；
    英文同一词连续 ≥2 折为 1（英文双重复即口吃）。
 3. 自我纠正解析："不对/不是"须后随逗号或引导词才判为纠正标记（防"这个
-   不对需要修改"这类谓语用法误触发）；命中后按标记分段**取最后一段**——
-   "最终意图 = 最后一次说出口的内容"（末段与首段共享前缀时即完整重述，
-   取末段天然成立）。
+   不对需要修改"这类谓语用法误触发）；命中后**逗号域丢弃**——纠正片段通常
+   是标记前最后一个子句，丢弃 [头部最后一个子句边界, 标记) 并保留其前的
+   头部；头部无内部分句边界（整句重述）时退化为取末段——"最终意图 =
+   最后一次说出口的内容"。AASR-Bench 917 例实测：逗号域微平均 -0.006
+   （净赢）vs 纯取末段 +0.013；重度不流利场景 explanation -0.66 /
+   meeting -0.09 / navigation -0.07。
 4. 清理：重复标点、多余空白。
 
 **已知局限（即论文卖点）**：子句级替换型纠正（"发邮件给张三，不对，我是说
@@ -30,7 +33,7 @@ __all__ = ["refine", "CORRECTION_MARKERS"]
 _FILLERS_ZH = "呃嗯啊唉哦诶"
 _FILLERS_EN = {"uh", "um", "er", "ah", "hmm", "umm", "uhh", "erm"}
 
-#: 自我纠正分割标记（正则，命中即分段，取最后一段）。
+#: 自我纠正分割标记（正则，命中即进入逗号域丢弃逻辑）。
 CORRECTION_MARKERS = [
     # 须后随停顿/引导字，防"这个不对需要修改"这类谓语误触发（ASR 常丢标点，
     # 故 "不对是X" 无逗号形态也认——已知代价："不对，是错的"这类陈述会被当纠正）
@@ -67,18 +70,32 @@ def _fold_stutter_en(text: str) -> str:
     return re.sub(r"\b(\w+)( \1\b)+", r"\1", text, flags=re.IGNORECASE)
 
 
-def _resolve_correction(text: str) -> str:
-    """自我纠正：按标记分段，取最后一段（最终意图 = 最后说的内容）。
+#: 子句边界标点（中文顿号/逗号 + 英文逗号）
+_CLAUSE_BREAK = "，,、"
 
-    末段 <2 字（纠错标记后说半句/只剩残片）时回退前段。无标记原样返回。
+
+def _resolve_correction(text: str) -> str:
+    """自我纠正：逗号域丢弃。
+
+    纠正片段通常是标记前最后一个子句：丢弃 [头部最后一个子句边界, 标记)，
+    保留其前的头部 + 最后标记之后的全部尾部。头部无内部分句边界（整句
+    重述）时退化为取末段——"最终意图 = 最后一次说出口的内容"。
+    末段 <2 字（纠错标记后说半句/只剩残片）时回退原始文本。无标记原样返回。
     """
-    if not _MARKER_RE.search(text):
+    markers = list(_MARKER_RE.finditer(text))
+    if not markers:
         return text
-    segments = [s for s in _MARKER_RE.split(text) if s and s.strip()]
-    if not segments:
+    head = text[:markers[0].start()].rstrip(_CLAUSE_BREAK + " ")
+    b = max(head.rfind(c) for c in _CLAUSE_BREAK)
+    tail = text[markers[-1].end():]
+    if b >= 0:
+        result = head[:b + 1] + tail
+    else:
+        result = tail  # 整句重述：取末段
+    result = result.strip()
+    if len(result.replace("，", "").replace(",", "")) < 2:
         return text
-    tail = segments[-1].strip()
-    return tail if len(tail) >= 2 else segments[0].strip()
+    return result
 
 
 def refine(text: str) -> str:

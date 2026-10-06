@@ -79,6 +79,16 @@ class TestSelfCorrection(unittest.TestCase):
         # 完整重述型：末段本身含共享前缀，取末段即完整意图
         self.assertEqual(refine("meet at nine no wait meet at ten"), "meet at ten")
 
+    def test_comma_scope_keeps_prefix(self):
+        # 逗号域丢弃：纠正片段=标记前最后一个子句，其前的头部保留
+        # （AASR-Bench 实测微平均 -0.006 vs 纯取末段 +0.013）
+        self.assertEqual(refine("如果这样改，把损失函数，啊不对，换成交叉熵"),
+                         "如果这样改换成交叉熵")
+
+    def test_single_clause_correction_still_takes_tail(self):
+        # 头部无内部分句边界（整句重述）退化为取末段——已知局限（学习型领地）
+        self.assertEqual(refine("把会议改到周一不对我是说周二"), "周二")
+
     def test_no_correction_untouched(self):
         self.assertEqual(refine("这个不对需要修改"), "这个不对需要修改")
 
