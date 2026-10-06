@@ -1,7 +1,7 @@
 # docs/research 调研资产清单（INDEX）
 
 > laos 调研资产权威清单：每份文档一句话定位 + 关键数字（均抄自各文档自身原文，未凭文件名推断）。
-> 盘点日期：2026-10-06。共 73 份 .md（不含本文件，find 会数出 75 = 73 份资产 + capstone + 本文件）= 作者撰写的调研文档 54 份 + plans 计划 2 份 + corpus/ 语料快照 17 份。
+> 盘点日期：2026-10-06。共 74 份 .md（不含本文件，find 会数出 76 = 74 份资产 + capstone + 本文件）= 作者撰写的调研文档 55 份 + plans 计划 2 份 + corpus/ 语料快照 17 份。
 
 ## 导航：按问题找文档
 
@@ -38,7 +38,7 @@
 - [2026-09-14-audio-ai-agent-oss-landscape.md](2026-09-14-audio-ai-agent-oss-landscape.md) — 3,724 条 OSS 仓库的四段漏斗裁决表（core 132 / ref 2864 / unrelated 728），查项目适配结论看这份。
 - [corpus/（见第六节清单）](#六corpus-与数据语料数据文件只列规模) — 语料与爬虫本体：`papers_unified.jsonl`、各抓取脚本与 README 快照，回溯任何报告数字的最终出处。
 
-## 一、主报告（根目录，25 份）
+## 一、主报告（根目录，26 份）
 
 | 文件 | 一句话定位 | 关键数字 / 规模（抄原句） |
 |---|---|---|
@@ -67,6 +67,7 @@
 | [2026-10-06-agenticasr-adoption.md](2026-10-06-agenticasr-adoption.md) | 小红书《AgenticASR》复现与运用：arXiv 2607.28175（ASR→Refiner 解耦，Qwen3-4B+LoRA 微调打赢 560B 零样本 19.7 vs 25.8）——laos 规则版 AgenticSR Refiner + ear.refine/refine=True 落地 | **官方 AASR-Bench 917 例全集（ModelScope）：错误率 0.4571→0.3875（-15.2%），18 场景 17 改善/持平，passthrough 零误伤**；端到端（TTS 口吃语音→funasr→refiner）CER 1.563→0.042；重述型纠错天然容错 ASR 噪声；官方仓库核对：全参微调/template cpm4/917+6637 rubric/onnx-int4 变体 |
 | [2026-10-06-xhs-cuzz-audio-projects.md](2026-10-06-xhs-cuzz-audio-projects.md) | 小红书 up主 cuzz（语音学/音频工具向）音频项目清单 × laos 适配裁决：首屏采样 17 个音频项目（强制对齐 12 + 声学/语料 4 + ASR 1），诚实声明在文内（含 token 态不一致附注、TIFA/citationtone_hub 未核实） | 裁决 "**CrisperWhisper ●**（verbatim+词级时间戳→refiner 输入层与听觉记忆时间轴）/ **Qwen3-ASR ●**（zh 通道下一代候选，wer 框架可立即实测）/ charsiu ◐（zh 侧对齐）/ voicesauce ◐（副语言 DSP）"；其余对齐工具群 ○ 选型储备 |
 | [2026-10-06-voicenpu-adoption.md](2026-10-06-voicenpu-adoption.md) | 小红书《RK3576语音系统》复现与采纳：Gitee bravexyz/voicenpu_engine（AGPL-3.0，13 cpp 全源码通读）——RK3576 端侧全双工对话引擎，控制面五件语义复现进 laos（WakeGate 四态会话机/generation 打断+投机 prefill 窗口/bigram 知识库短路/LLM→TTS 切句清洗/双后端降级路由），72 例新增测试 + 9 例闭环 e2e | 上游硬数字：首音 1.44s/常驻 1951MB/ASR 端点→终稿 ~88ms/投机窗口 500ms+96ms 恢复下限+200ms 延长；裁决=纯逻辑 ● 已落地 / KWS·VAD·豆包协议 ◐ 驱动待实测 / RKNN·ALSA·AEC3 ○ 需真机（laos 有 funasr/whistle 替身）；TimsFM_FDformer 私有不可克隆 |
+| [2026-10-06-venue-expansion-survey.md](2026-10-06-venue-expansion-survey.md) | 顶会语料扩展普查（38 venue 整卷全量落库）：ACL Anthology bib dump + Crossref 期刊/会议双主通道 + DBLP/OpenReview 反爬实测证据 + laos 三主线交叉计数与覆盖缺口清单 | 合计 "**120,234 行**"= Anthology 42,939 + 期刊 19,860 + 会议 57,435；laos 命中 2,103（agent-os 880 / audio-speech 1,109 / spatial-privacy 114），"**窄治理分支仅 44 篇才是 laos 头条数**"；audio-speech 42% 为裸子串弱命中 |
 | [2026-09-14-papers-oss-full-survey.md](2026-09-14-papers-oss-full-survey.md) | 论文 × 开源项目全量普查终版：数字全部由 `corpus/gen_final_report.py` 程序化读出 | "**统一语料 19,792 篇**"= ICASSP 2022-2026 共 14,285 + Interspeech 2021-2025 共 5,507；1,315 篇带摘要（Interspeech 摘要回填 89.1%） |
 | [2026-09-18-jev-landscape.md](2026-09-18-jev-landscape.md) | Jev System-One 生态研究报告：TypeSafe AI 决策模型语义、三判型、定价与开源生态 | 语料"从 30 条扩到 **68 条**，全部实抓 GitHub API 元数据"；Noul/Choice/Score 三判型；$0.042/MTok（output 免费）、36kr 折算 0.44s / $0.00035 每次 |
 | [2026-09-21-jev-decision-model-survey.md](2026-09-21-jev-decision-model-survey.md) | Jev 决策模型调研：技术实质、开源生态与 laos 落点（11 处硬阈值映射） | "GitHub Search API 全量抓取（1443 条原始 → 去噪 778 条）"；laos 11 处硬阈值/朴素相似度；edgejev 实测 3 题批量 median **157.5 ms**（README 宣称 15.6 ms 被否证，慢约 10×） |

@@ -85,7 +85,7 @@
 **D1 测试与质量**
 - 765 测试全绿：主库 415 + AlwaysOnRec 279 + Repro 71
 - TDD 纪律：先红后绿，每任务一 commit
-- 版本纪律：SemVer + conventional commits；30 天 12 个 MINOR 版本（v0.1.0 → v0.17.0）
+- 版本纪律：SemVer + conventional commits；30 天 12 个 MINOR 版本（v0.1.0 → v0.18.0）
 
 **D2 版本史时间线（12 段，每段一句话）**
 - v0.1.0 (09-04) baseline 149 文件 / v0.2.0 (09-05) 强制层 seccomp+CoW+eBPF+FleetLedger / v0.3.0 (09-09) AgentProf+MCP Tasks+信箱+laosweb+drv_npu / v0.4.0 (09-11) 听觉+记忆+日记 / v0.5.0 (09-11) 五层手机能力+双沙箱 / v0.6.0 (09-18) 语料库 19,792 论文+3,724 OSS / v0.7.0 (09-28) Jev 四闸门 / v0.8.0-v0.10.0 (10-05) 复现采纳三连（SHO/PhaseCoder/ANC/LUFS/Pipecat/unique_lock→loudness/turnbuf/locks+五套 PPT）/ v0.11.0 (10-05) 手机操控四件套+drv_apps+micgeom / v0.12.0 (10-05) 双工时序+轮转策略+双耳线索+FOA

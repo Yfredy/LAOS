@@ -5,6 +5,14 @@
 
 ## [Unreleased]
 
+## [v0.18.0] - 2026-10-07
+
+### Added
+- feat(corpus): 顶会语料扩展普查波次——38 venue 整卷全量落库 **120,234 行**（ACL Anthology 42,939 = acl 14,599/emnlp 15,349/naacl 5,480/coling 5,676/conll 1,040/tacl 795；Crossref 期刊 19,860（8 刊，tpami 5,323/tmm 4,850/aaai 增量 4,920…；jmlr=Crossref 无缴存 0 行）；Crossref 会议 57,435（16 会，neurips 16,691/iccv 6,491/acmmm 5,383/ijcai 5,964…；pcm=Crossref 无容器名缺口））+ laos 三主线过滤命中 **2,103**（agent-os 880/audio-speech 1,109/spatial-privacy 114，跨文件去重剔 13）——注记：agent-os 宽分支 836 为泛 LLM-agent 论文，**窄治理分支仅 44 篇才是 laos 头条数**；audio-speech 42% 为裸子串弱命中（attack success rate 误标 68）。数据源结构性结论：Anthology bib dump + Crossref ISSN/container 模糊召回双主通道覆盖 36/38 venue；DBLP/OpenReview 实测 JS 反爬、PMLR 无 DOI（icml/iclr=deferred）；icassp/interspeech/asru/slt 为 2026-27 未来窗未缴存（--force 重跑即接）；TASLP 后继刊 ISSN 2998-4173（2329-9290 存量停 2024）；IEEE 三刊 abstract 不向 Crossref 缴存（置 None 是口径非 bug）；TUN 断窗以退避+断点续抓兜底。报告 docs/research/2026-10-06-venue-expansion-survey.md（INDEX 主报告 25→26 份）；61 例新增测试（registry 6 + anthology 14 + crossref 25 + filter 16），全套 634 全绿（573→634）
+
+### Fixed
+- fix(corpus): jsonl 写出转义 U+2028/U+2029/U+0085 行分隔符（ijcai 一行 title 内嵌 U+2028 会炸 splitlines 逐行读法；重写后 5,964 行逐行 json.loads 全通过，含回归测试）
+
 ## [v0.17.0] - 2026-10-06
 
 ### Added
