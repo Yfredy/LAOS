@@ -1,7 +1,7 @@
 # docs/research 调研资产清单（INDEX）
 
 > laos 调研资产权威清单：每份文档一句话定位 + 关键数字（均抄自各文档自身原文，未凭文件名推断）。
-> 盘点日期：2026-10-06。共 71 份 .md（不含本文件，find 会数出 73 = 71 份资产 + capstone + 本文件）= 作者撰写的调研文档 52 份 + plans 计划 2 份 + corpus/ 语料快照 17 份。
+> 盘点日期：2026-10-06。共 72 份 .md（不含本文件，find 会数出 74 = 72 份资产 + capstone + 本文件）= 作者撰写的调研文档 53 份 + plans 计划 2 份 + corpus/ 语料快照 17 份。
 
 ## 导航：按问题找文档
 
@@ -38,7 +38,7 @@
 - [2026-09-14-audio-ai-agent-oss-landscape.md](2026-09-14-audio-ai-agent-oss-landscape.md) — 3,724 条 OSS 仓库的四段漏斗裁决表（core 132 / ref 2864 / unrelated 728），查项目适配结论看这份。
 - [corpus/（见第六节清单）](#六corpus-与数据语料数据文件只列规模) — 语料与爬虫本体：`papers_unified.jsonl`、各抓取脚本与 README 快照，回溯任何报告数字的最终出处。
 
-## 一、主报告（根目录，23 份）
+## 一、主报告（根目录，24 份）
 
 | 文件 | 一句话定位 | 关键数字 / 规模（抄原句） |
 |---|---|---|
@@ -65,6 +65,7 @@
 | [2026-10-06-transformer-efficiency-timeline.md](2026-10-06-transformer-efficiency-timeline.md) | 小红书视频《55秒看完Transformer效率演进时间线》整理（视频五路取件全失败，按既有预案从可验证来源重构，诚实声明在文内） | 三大脉络"少算/少搬/少存"：FA-2/3 IO 感知、GQA "KV 缩至 1/8 几乎无损"、MLA 93.3%、PagedAttention=OS 分页思想反哺模型层；与 laos 关系全为 ○/◐（模型层治理与进程外配额分而治之） |
 | [2026-10-06-cactus-whistle-adoption.md](2026-10-06-cactus-whistle-adoption.md) | 小红书《16.9MB跑完端侧语音识别》复现与接入：Cactus Whistle——needle3 引擎（Windows 单文件 1.56MB）本机原生跑通，三通道 ASR 定局（zh 主力 funasr / 多语轻备 whistle / HTTP server） | **whistle en WER 10.8% vs SenseVoice 2.7%/zh CER 0%**；zh 实测英语幻觉（7 语无中文）；ttft 651ms/~300 tok/s；价值面=极小足迹（模型 16.9MB+引擎 1.56MB，全平台含 WASM/Android）非精度；WSL2+qemu aarch64 虚拟手机全程留档 |
 | [2026-10-06-agenticasr-adoption.md](2026-10-06-agenticasr-adoption.md) | 小红书《AgenticASR》复现与运用：arXiv 2607.28175（ASR→Refiner 解耦，Qwen3-4B+LoRA 微调打赢 560B 零样本 19.7 vs 25.8）——laos 规则版 AgenticSR Refiner + ear.refine/refine=True 落地 | **官方 AASR-Bench 917 例全集（ModelScope）：错误率 0.4571→0.3875（-15.2%），18 场景 17 改善/持平，passthrough 零误伤**；端到端（TTS 口吃语音→funasr→refiner）CER 1.563→0.042；重述型纠错天然容错 ASR 噪声；官方仓库核对：全参微调/template cpm4/917+6637 rubric/onnx-int4 变体 |
+| [2026-10-06-xhs-cuzz-audio-projects.md](2026-10-06-xhs-cuzz-audio-projects.md) | 小红书 up主 cuzz（语音学/音频工具向）音频项目清单 × laos 适配裁决：首屏采样 17 个音频项目（强制对齐 12 + 声学/语料 4 + ASR 1），诚实声明在文内（含 token 态不一致附注、TIFA/citationtone_hub 未核实） | 裁决 "**CrisperWhisper ●**（verbatim+词级时间戳→refiner 输入层与听觉记忆时间轴）/ **Qwen3-ASR ●**（zh 通道下一代候选，wer 框架可立即实测）/ charsiu ◐（zh 侧对齐）/ voicesauce ◐（副语言 DSP）"；其余对齐工具群 ○ 选型储备 |
 | [2026-09-14-papers-oss-full-survey.md](2026-09-14-papers-oss-full-survey.md) | 论文 × 开源项目全量普查终版：数字全部由 `corpus/gen_final_report.py` 程序化读出 | "**统一语料 19,792 篇**"= ICASSP 2022-2026 共 14,285 + Interspeech 2021-2025 共 5,507；1,315 篇带摘要（Interspeech 摘要回填 89.1%） |
 | [2026-09-18-jev-landscape.md](2026-09-18-jev-landscape.md) | Jev System-One 生态研究报告：TypeSafe AI 决策模型语义、三判型、定价与开源生态 | 语料"从 30 条扩到 **68 条**，全部实抓 GitHub API 元数据"；Noul/Choice/Score 三判型；$0.042/MTok（output 免费）、36kr 折算 0.44s / $0.00035 每次 |
 | [2026-09-21-jev-decision-model-survey.md](2026-09-21-jev-decision-model-survey.md) | Jev 决策模型调研：技术实质、开源生态与 laos 落点（11 处硬阈值映射） | "GitHub Search API 全量抓取（1443 条原始 → 去噪 778 条）"；laos 11 处硬阈值/朴素相似度；edgejev 实测 3 题批量 median **157.5 ms**（README 宣称 15.6 ms 被否证，慢约 10×） |
