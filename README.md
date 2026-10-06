@@ -11,10 +11,10 @@
 python bin/laosd.py                    # 跑完整 demo（脚本化大脑，无需 API key）
 python bin/laosd.py --real             # 有 OPENAI_API_KEY 时用真 LLM
 python bin/laosweb.py                  # 启动内核 + Web 交互面板 (http://127.0.0.1:8800)
-python -m unittest discover -s tests   # 496 项回归测试
+python -m unittest discover -s tests   # 501 项回归测试
 ```
 
-> 当前版本 **v0.16.0**（主库 496 测试 + 隔离区 279 + 复现区 71）｜ 版本史见 [CHANGELOG.md](CHANGELOG.md) · [Releases](https://github.com/Yfredy/LAOS/releases)
+> 当前版本 **v0.16.0**（主库 501 测试 + 隔离区 279 + 复现区 71）｜ 版本史见 [CHANGELOG.md](CHANGELOG.md) · [Releases](https://github.com/Yfredy/LAOS/releases)
 
 ---
 
@@ -42,7 +42,7 @@ laos/drivers/     ★ 设备驱动（15 个 MCP Server 子进程）：fs / proc 
 laos/bin/         ★ 用户入口：laosd(引导demo) / laosweb(实时面板+操控) / laosctl(审计回放) /
                     diary(日记) / journal(录音转写) / mood_report(情绪周报)
 laos/scripts/     termux_matrix(Android降级矩阵实测) / flasep_gpu_bench(GPU基准)
-laos/tests/       496 项回归测试（真录音/真 ASR 用例实测通过）
+laos/tests/       501 项回归测试（真录音/真 ASR 用例实测通过）
 laos/docs/        论文调研 / 真机 runbook / 面板教程 / 完整项目介绍(PROJECT_OVERVIEW.md)
 laos/docs/research/  调研库：全天候录音业界(6篇) / SER·AED·AGC·说话人·编解码·健康声学模型地图 / 40+篇arXiv论文库
 laos/AlwaysOnRec-ZCode/ 隔离实现区：全天候录音前沿增量（独立可跑，279 项测试）
@@ -351,7 +351,7 @@ laos/
     journal.py    录音蒸馏管线：批量转写 → mem.remember(kind=journal) → rec_gc 即焚（第③④段）
     mood_report.py 情绪周报：journal 情感标签按天聚合 → 字符堆积图
   tests/
-    test_*.py     496 项回归测试（laos / ipc / scope / seccomp / cow / profiling / npu / sandbox / enforcement / memory / diary / release / duplex / turnpolicy / binaural / foa / confgate / vadmetrics / wer / refiner 等）
+    test_*.py     501 项回归测试（laos / ipc / scope / seccomp / cow / profiling / npu / sandbox / enforcement / memory / diary / release / duplex / turnpolicy / binaural / foa / confgate / vadmetrics / wer / refiner 等）
   var/            运行期产物：audit.jsonl / memory.jsonl / branches/ / diary/ / ear/ / swap/
 ```
 
@@ -500,12 +500,15 @@ Brain 的快问快答通道（`laos/judge.py`）：给定 (context, question)，
 
 波次有大有小（9–51 个提交），共同点是都落地了"新能力面"；波次之间的零散 docs 修正被吸收进最近的波次，从不单独发版。
 
-### 发布流程（四步）
+### 发布流程（五步，第 2 步自动同步全部介绍文档）
 
 1. **需求完成**：波次的全部提交进入 master，遵循 conventional commits（`feat:` / `fix:` / `docs:` / `chore:`）。
-2. **推导版本号**：`python scripts/release.py --apply`——从 `最新tag..HEAD` 的提交 subject 自动推导下一版本号、同步三棵树（`laos/` + 两个隔离区）的 `__version__`、打印 CHANGELOG 草稿段（默认 dry-run 只看不写）。
+2. **推导版本号 + 全量文档同步**：`python scripts/release.py --apply`——先真跑主库测试套件（**不绿拒绝发版**），然后：三棵树（`laos/` + 两个隔离区）`__version__` 同步；**自动改写全部介绍性文件**（本 README、PROJECT_OVERVIEW、`docs/ppt/` 全部 md/html 牌组、隔离区 README）的版本号与测试计数锚点（封面 stamp / "开源 vX" / 页脚 / 版本跨度端点 / 计数；带日期的里程碑史不动），并打印 CHANGELOG 草稿段（默认 dry-run 只看不写）。
 3. **誊写 CHANGELOG**：把草稿段人工誊入 `CHANGELOG.md` 的 Unreleased，改标题为 `## [v0.x.y] - YYYY-MM-DD` 并补一句波次主题，提交。
 4. **打 tag 并推送**：`git tag -a v0.x.y -m "一句话波次主题" && git push origin master --tags`。GitHub Release 页在网页上建，notes 直接粘贴 CHANGELOG 对应段落。
+5. **核验**：确认 tag、Release 页、介绍文档版本三者一致（`release.py` 第 2 步的输出报告逐文件列了改动处数）。
+
+> 纪律来源：AGENTS.md「发版即全量文档同步」（2026-10-06 用户指令）。
 
 ### breaking 标注约定
 

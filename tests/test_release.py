@@ -22,13 +22,13 @@ from unittest import mock
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
+import scripts.release as release  # noqa: E402
 from scripts.release import (  # noqa: E402
     VERSION_FILES,
     changelog_section,
     commits_since,
     next_version,
-    sync_versions,
-)
+    sync_versions,)
 
 VERSION_RE = re.compile(r'^__version__ = "([^"]+)"$', re.MULTILINE)
 
@@ -121,6 +121,70 @@ class CommitsSince(unittest.TestCase):
             check=True,
         )
         self.assertEqual(subjects, ["feat: a", "fix: b", "docs: c"])  # 空行剔除
+
+
+class CountTestFunctions(unittest.TestCase):
+    def test_counts_def_test_methods(self):
+        import tempfile
+        td = Path(__import__("tempfile").mkdtemp())
+        try:
+            (td / "test_a.py").write_text(
+                "def test_one():\n    pass\ndef helper():\n    pass\n"
+                "def test_two():\n    pass\n", encoding="utf-8")
+            (td / "test_b.py").write_text(
+                "class T:\n    def test_x(self):\n        pass\n", encoding="utf-8")
+            self.assertEqual(release.count_test_functions(td), 3)
+        finally:
+            import shutil
+            shutil.rmtree(td, ignore_errors=True)
+
+    def test_missing_dir_returns_zero(self):
+        self.assertEqual(release.count_test_functions(REPO / "no_such_dir"), 0)
+
+
+class SyncDocs(unittest.TestCase):
+    """发版文档同步（记忆规则：AGENTS.md『每次发版更新所有介绍性文件』）。"""
+
+    def _fixture(self, tmp: Path):
+        f = tmp / "deck.html"
+        f.write_text(
+            '<span class="stamp">v0.12.0</span>'
+            '开源 v0.12.0 · 15 驱动'
+            'github.com/Yfredy/LAOS · v0.12.0 · 765 tests'
+            'v0.1.0 → v0.12.0，每版本有 tag'
+            'v0.12.0 (10-05) 双工时序'
+            '论文周报 → 42 测试 → v0.12.0'
+            '当前版本 **v0.15.1**（主库 495 测试 + 495 项回归测试 + 253 项测试守护）',
+            encoding="utf-8")
+        return f
+
+    def test_all_anchors_updated_and_history_kept(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            f = self._fixture(Path(d))
+            release.sync_docs("0.16.0", globs=[str(f)])
+            text = f.read_text(encoding="utf-8")
+            self.assertIn('<span class="stamp">v0.16.0</span>', text)
+            self.assertIn("开源 v0.16.0 ·", text)
+            self.assertIn("LAOS · v0.16.0 · ", text)
+            self.assertIn("v0.1.0 → v0.16.0", text)
+            self.assertIn("v0.12.0 (10-05) 双工时序", text)   # 带日期里程碑史保留
+            self.assertIn("42 测试 → v0.12.0", text)          # 历史叙述保留
+            main_n = release.zone_test_counts()["main_tests"]
+            self.assertIn(f"主库 {main_n} 测试", text)
+            self.assertNotIn("495 项回归测试", text)
+
+    def test_dry_run_does_not_write(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            f = self._fixture(Path(d))
+            before = f.read_text(encoding="utf-8")
+            release.sync_docs("0.16.0", dry_run=True, globs=[str(f)])
+            self.assertEqual(f.read_text(encoding="utf-8"), before)
+
+    def test_missing_glob_ignored(self):
+        report = release.sync_docs("0.16.0", globs=["no_such_file.md"])
+        self.assertEqual(len(report), 1)  # 只有 ctx 行
 
 
 if __name__ == "__main__":
