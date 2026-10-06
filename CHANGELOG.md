@@ -5,6 +5,11 @@
 
 ## [Unreleased]
 
+## [v0.15.0] - 2026-10-06
+
+### Added
+- feat(ear): AgenticASR reproduction & adoption — laos/refiner.py rule-based AgenticSR Refiner (filler removal with demonstrative preservation, stutter folding zh≥3/en≥2 with 这/那 double-fold exception, self-correction take-last-segment with predicate-guard for "不对/不是", idempotent cleanup; paper arXiv 2607.28175, XHS note login-walled → honest reconstruction from primary sources); drv_ear ear.refine tool + ear.transcribe(refine=True) — the paper's decoupled ASR→Refiner landed as a laos syscall; text-level 13-case error rate 1.083→0.113 (-90%), end-to-end (SAPI TTS disfluent speech → funasr → refiner) CER 1.563→0.042 (-97%); restatement-style corrections proven robust to ASR noise (errors fall in the discarded pre-correction segment); sub-clause replacement kept as documented limitation for the genie learned-refiner channel; 23 new tests, full suite 493 green
+
 ## [v0.14.0] - 2026-10-06
 
 ### Added
