@@ -16,13 +16,28 @@
 | 项 | 事实 | 来源 |
 |---|---|---|
 | 发布 | 2026-01-30，Cactus Compute | Communeify |
-| 体积 | **16.9 MB**（q4_k GGUF；另有 q8 约 20.1 MB） | 官方/HF |
-| 形态 | GGUF 权重 + config.json + processor_config.json | HF 仓库 |
-| 运行 | 纯 CPU 本地推理，cactus 引擎（`cactus transcribe`） | 官方文档 |
-| 输入 | 16 kHz 单声道，单次 ≤30s | HF model card |
-| 语言 | 7 种（en/de/fr/es/it/nl 等；**不含中文**——精确清单待引擎落地后核验） | 多源 |
+| 体积 | **16.9 MB**（`whistle.cact` 实测落盘 16,919,407 B；仓库另有 `checkpoints/whistle.safetensors` 源权重） | HF 仓库（已实抓 config.json） |
+| 形态 | **`.cact` 自包含容器**（非 GGUF；v1 用 GGUF，v2 起换私有 .cact 格式）+ config.json + processor_config.json | config.json 实读 |
+| 架构 | WhistleForSpeechRecognition：GQA 注意力 + Hadamard MLP + 80ms 编码帧 + cactus-quants (group 128) | config.json 实读 |
+| 运行 | 纯 CPU 本地推理；引擎 = cactus-compute/cactus（C++，"self-contained, no dependencies"） | 官方文档 + sdist 源码 |
+| 输入 | 16 kHz 单声道，单次 ≤30s | config.json `max_audio_seconds: 30` |
+| 语言 | **en/de/fr/es/it/nl/pl——无中文**（config.json `languages` 字段实读，7 语确认） | config.json |
 | 宣称 | "多数场景胜 Whisper base，体积 1/9"；首 token 11.1ms | The Neuron / postcutoff（**未验证**） |
-| 同门 | 与 Needle（8-29MB 自动化基础模型）同一引擎 | 官方文档 |
+| 同门 | 与 Needle（8-29MB 自动化基础模型）同一引擎（needle3） | config.json `engine` 字段 |
+
+### 引擎落地现实（2026-10-06 实查，重要）
+
+- **PyPI `cactus-compute` 2.2.2**：wheel 仅 `macosx_14_0_arm64` 与 `manylinux_2_27/28_aarch64`——
+  **无 Windows、无 x86_64**（阿里云镜像 simple 索引全清单实读）；
+- **Python SDK 本体**（sdist 2.2.0 拆读）：ctypes FFI 加载 `libcactus_engine.dylib/.so`，
+  错误信息自述 "the library is built for **arm64 only**"，代码里连 Windows dll 分支都不存在；
+- **GitHub Releases**（23 个 release，v2.2.2 最新）：资产基本是源码包，预编译面向移动/边缘
+  ARM 平台，无 Windows x64/WASM 资产；
+- **PyPI 冒名警告**：PyPI 上叫 `Cactus` 3.3.3 的包是无关的 2013 年静态网站生成器
+  （Koen Bok, BSD），勿装；
+- 结论：**Windows 本机无法原生跑 cactus 引擎**——这不是网络问题（模型/源码/索引全部
+  实抓到了），是平台支持缺失。可行的评测宿主：**Termux（Android aarch64，可直接装
+  manylinux_aarch64 wheel）**或任何 ARM Linux/Mac。
 
 ## 二、评测方法（可复现）
 
@@ -59,14 +74,20 @@ zh 主力=funasr/SenseVoice（GPU/CPU 本机直推），多语轻备=whistle，H
 
 ## 五、网络事件记录（诚实档）
 
-评测当日本机直连全线中断：DNS 被 TUN 劫持为 fake-IP（198.18.x），huggingface.co /
-hf-mirror.com / pypi.org / api.github.com TLS 全部 EOF；服务器侧工具（webReader/
-WebSearch）不受影响，情报链全程未断。后台轮询（45s 间隔）负责网络恢复后自动拉取
-`Cactus-Compute/whistle` 全部根文件（GGUF + config）；引擎到位即回填 §三 数字。
+评测当日本机网络间歇中断：DNS 被 TUN 劫持为 fake-IP（198.18.x），huggingface.co /
+pypi.org / api.github.com 反复 SSL 断连；**阿里云 PyPI 镜像全程稳定**（模型与 sdist 均经
+它或 HF 恢复窗口取得）。GitHub API 403 限流（TUN 出口 IP 共享配额）。全部情报链经
+服务器侧 webReader/WebSearch 保持不断。`whistle.cact` + config 已落
+`var/asr_eval/whistle/`，cactus sdist 源码在 C:/tmp（未入库）。
 
-## 六、待办（引擎落地后）
+## 六、待办（评测宿主落地后）
 
-1. `scripts/eval_whistle.py --backend all` 跑全对照，回填 §三；
-2. 核验 7 语言精确清单（`cactus transcribe --help` 或文档）；
-3. 与 QNN 端侧 SER 对照记功耗口径（Whistle CPU-only vs ADSP island）；
-4. 视结果决定是否给 journal 管线加"英文段走 whistle"的分流（confgate 同款思路）。
+1. **首选 Termux 路径**（laos 原生架构：手机=设备端、PC=治理端，与 QNN
+   InferenceServer 同构）：插上手机开 USB 调试 → adb push 评测集与 whistle.cact →
+   Termux `pip install cactus-compute`（aarch64 wheel 现成）→ 手机上跑转写 →
+   回传 PC 用 laos/wer 计分 → 回填 §三；
+2. 备选：任何 ARM Linux / Mac 宿主跑同一评测；
+3. 数字回填后裁决是否给 journal 管线加"英文段走 whistle"分流（confgate 同款思路）；
+4. 远期：cactus-android（Maven `com.cactuscompute:cactus-android`）做常驻服务，
+   adb forward 暴露给 laos `ear.transcribe` 的 whistle 通道（LAOS_WHISTLE_CMD
+   模板已支持指向任意引擎命令）。
