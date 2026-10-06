@@ -17,10 +17,13 @@ sys.path.insert(0, str(VE))
 import fetch_crossref  # noqa: E402
 from fetch_crossref import (  # noqa: E402
     SCHEMA_KEYS,
+    VENUE_CONF,
+    container_family,
     crossref_to_entry,
     fetch_container,
     fetch_journal,
     journal_family,
+    norm_title_tokens,
     strip_jats,
 )
 from make_registry import load_registry  # noqa: E402
@@ -145,6 +148,9 @@ class CursorPaging(PatchUropenMixin, unittest.TestCase):
         self.assertEqual([e["title"] for e in entries],
                          ["Paper 1", "Paper 2", "Paper 3", "Paper 4", "Paper 5"])
         self.assertEqual(len(self.calls), 2)
+        # 首页带 cursor=*（journal 路由无 query，无 sort；container 路由
+        # 的 sort=relevance 断言见 ContainerFamily）
+        self.assertIn("cursor=%2A", self.calls[0])
         # 第二页请求必须带正确严格编码后的 cursor（urlencode safe=''：+//%3D）
         self.assertIn("cursor=C%2BR%2F2%3D", self.calls[1])
         # polite pool 参数与年份窗口过滤（urlencode 后 @/: 为 %40/%3A）
@@ -167,6 +173,59 @@ class CursorPaging(PatchUropenMixin, unittest.TestCase):
         self.assertEqual(len(entries), 3)
         self.assertEqual(len(self.calls), 1)
 
+    def test_scan_mode_no_soft_stop_before_exhaustion(self):
+        """scan 序无软停：前几页全噪也必须翻到不满页（acmmm 实测真条目
+        整段滞后，软停曾把 5252 行的会议误判成 0 行缺口）。"""
+        from fetch_crossref import _cursor_paged, _works_url
+        noise = dict(item(9))
+        noise["title"] = ["Noise Paper"]
+        noise["DOI"] = "10.1/noise"
+        real = item(1)
+        self.routes = (
+            [("/works?", page([dict(noise), dict(noise)], next_cursor=f"c{i}"))
+             for i in range(1, 6)]            # 5 个满页全噪声
+            + [("/works?", page([real]))])    # 末页不满：真条目才出现
+        entries = _cursor_paged(
+            lambda l, h, r, c: _works_url(l, h, r, c, container="X"),
+            2022, 2022, 2, 0, keep=lambda e: e["title"] == "Paper 1")
+        self.assertEqual([e["title"] for e in entries], ["Paper 1"])
+        self.assertEqual(len(self.calls), 6)
+
+    def test_cursor_404_mid_page_keeps_entries(self):
+        """深页 cursor 失效（HTTP 404）保留已收行收束；首页 404 仍抛。"""
+        from fetch_crossref import _cursor_paged, _works_url
+
+        def boom_404(req, timeout=None):
+            raise urllib.error.HTTPError(req.full_url, 404, "Not Found", {}, None)
+
+        # 首页 404：真 not-found，向上抛
+        fetch_crossref._urlopen = boom_404
+        with self.assertRaises(urllib.error.HTTPError):
+            _cursor_paged(lambda l, h, r, c: _works_url(l, h, r, c, container="X"),
+                          2022, 2022, 2, 0, keep=lambda e: True)
+
+    def test_cursor_404_after_first_page_keeps_kept_entries(self):
+        """第 2 页起 404（大召回集 cursor 过期实测形态）：保留已收行返回。"""
+        from fetch_crossref import _cursor_paged, _works_url
+        real = item(1)
+        noise = dict(real)
+        noise["title"] = ["Noise Paper"]
+        noise["DOI"] = "10.1/noise"
+        self.routes = [("/works?", page([real, noise], next_cursor="c2"))]
+        orig, seen = fetch_crossref._urlopen, []
+
+        def half_404(req, timeout=None):
+            if not seen:
+                seen.append(1)
+                return orig(req, timeout=timeout)
+            raise urllib.error.HTTPError(req.full_url, 404, "Not Found", {}, None)
+
+        fetch_crossref._urlopen = half_404
+        entries = _cursor_paged(
+            lambda l, h, r, c: _works_url(l, h, r, c, container="X"),
+            2022, 2022, 2, 0, keep=lambda e: e["title"] == "Paper 1")
+        self.assertEqual([e["title"] for e in entries], ["Paper 1"])
+
 
 class ContainerMode(PatchUropenMixin, unittest.TestCase):
     def test_container_exact_match_client_side(self):
@@ -180,6 +239,161 @@ class ContainerMode(PatchUropenMixin, unittest.TestCase):
             (2026, 2027), rows=3)
         self.assertEqual([e["title"] for e in entries], ["Paper 1", "Paper 2"])
         self.assertIn("query.container-title=", self.calls[0])  # 值已 URL 编码
+
+    def test_norm_title_tokens_unescapes_xml_entities(self):
+        """Crossref 字段含 XML 转义（KDD 2021 实测 '&amp;'）——规范化前先反转义。"""
+        self.assertEqual(
+            norm_title_tokens("Proceedings of the 27th ACM SIGKDD Conference on "
+                              "Knowledge Discovery &amp; Data Mining"),
+            norm_title_tokens("Proceedings of the 27th ACM SIGKDD Conference on "
+                              "Knowledge Discovery & Data Mining"))
+
+
+class ContainerFamily(PatchUropenMixin, unittest.TestCase):
+    """Task 4：会议族抓取（variant 并集归并 + prefix 过滤 + DOI 前缀兜底）。
+
+    实测口径（2026-10-06 probe1-9）：出版社逐年缴存容器名（年份前缀/届次后缀），
+    官方名几乎从不逐字出现，故 variant 是"可接受容器名集合"的并集（按 DOI 去重），
+    而非首个命中即停；query.container-title 多词查询是 OR 语义，查询词须用
+    缩写/特征词 + 可选 prefix:<DOI前缀> 过滤压召回。
+    """
+
+    PRIMARY = "Proceedings of the ACM SIGKDD International Conference on " \
+              "Knowledge Discovery and Data Mining (KDD)"
+    VAR_2021 = "Proceedings of the 27th ACM SIGKDD Conference on Knowledge " \
+               "Discovery & Data Mining"
+    VAR_2022 = "Proceedings of the 28th ACM SIGKDD Conference on Knowledge " \
+               "Discovery and Data Mining"
+
+    def kdd_item(self, n, container, year=2022, doi=None):
+        d = item(n, year=year,
+                 DOI=doi or f"10.1145/3534678.{n:04d}",
+                 URL=f"https://doi.org/10.1145/3534678.{n:04d}")
+        d["container-title"] = [container]
+        return d
+
+    def test_union_of_primary_and_variants_with_dedup(self):
+        """两条真变体 + 噪声并收；跨遍历（split_years）同 DOI 只记一次。"""
+        y21 = self.kdd_item(1, self.VAR_2021, year=2021)
+        y22 = self.kdd_item(2, self.VAR_2022, year=2022)
+        noise = self.kdd_item(9, "ACM Transactions on Knowledge Discovery from Data",
+                              year=2022)
+        dup = dict(self.kdd_item(2, self.VAR_2022, year=2022))
+        dup["title"] = ["Paper 2 (dup)"]
+        self.routes = [
+            ("/works?", page([y21, noise])),          # 2021 遍历
+            ("/works?", page([y22, dup])),            # 2022 遍历：同 DOI
+        ]
+        entries, note, contrib = container_family(
+            self.PRIMARY, (2021, 2022),
+            variants=[self.VAR_2021, self.VAR_2022], split_years=True)
+        self.assertEqual(sorted(e["title"] for e in entries),
+                         ["Paper 1", "Paper 2"])  # dup 按 DOI 去重，噪声不收
+        by_form = {name: n for name, n in contrib}
+        self.assertEqual(by_form[self.VAR_2021], 1)
+        self.assertEqual(by_form[self.VAR_2022], 1)
+        self.assertNotIn(self.PRIMARY, by_form)  # 官方名本体窗口内未缴存
+        # split_years：两次遍历各自带整年窗口
+        self.assertIn("from-pub-date%3A2021-01-01", self.calls[0])
+        self.assertIn("until-pub-date%3A2021-12-31", self.calls[0])
+        self.assertIn("until-pub-date%3A2022-12-31", self.calls[1])
+
+    def test_url_carries_type_and_prefix_filters(self):
+        # prefix 遍历 0 行后还会去 prefix 重试一轮，两轮路由都备空页
+        self.routes = [("/works?", page([])), ("/works?", page([]))]
+        container_family(self.PRIMARY, (2021, 2022), query="SIGKDD",
+                         prefix="10.1145")
+        self.assertIn("query.container-title=SIGKDD", self.calls[0])
+        self.assertIn("type%3Aproceedings-article", self.calls[0])
+        self.assertIn("prefix%3A10.1145", self.calls[0])
+        # scan 序（不带 sort）：sort=relevance 实测页界跳漏（iccv 6491→5991）
+        self.assertNotIn("sort=", self.calls[0])
+        self.assertIn("cursor=%2A", self.calls[0])
+
+    def test_prefix_zero_rows_retry_without_prefix(self):
+        """10.5220 实测：带 prefix 反而漏真条目——0 行时去 prefix 重试。"""
+        noise = self.kdd_item(9, "ACM Transactions on Knowledge Discovery from Data")
+        real = self.kdd_item(1, self.VAR_2022)
+        self.routes = [
+            ("prefix%3A10.1145", page([noise])),  # 带 prefix 遍历：全噪声
+            ("/works?", page([real])),            # 去 prefix 重试：命中
+        ]
+        entries, note, _ = container_family(self.PRIMARY, (2022, 2022),
+                                            variants=[self.VAR_2022],
+                                            prefix="10.1145")
+        self.assertEqual([e["title"] for e in entries], ["Paper 1"])
+        self.assertIn("去 prefix", note)
+
+    def test_doi_prefix_fallback_after_all_zero(self):
+        """interspeech 兜底：/prefixes/<p>/works + DOI 前缀 ∧ 容器名词元交集。"""
+        noise = item(9, container_title=None)
+        noise.pop("container-title")
+        noise["container-title"] = ["Speech Prosody 2026"]  # 同前缀但非本 venue
+        noise["DOI"] = "10.21437/speechprosody.2026"
+        good = item(1, container_title=None)
+        good.pop("container-title")
+        good["container-title"] = ["Interspeech 2026"]      # 容器名变体
+        good["DOI"] = "10.21437/interspeech.2026.1"
+        wrongdoi = item(2, container_title=None)
+        wrongdoi.pop("container-title")
+        wrongdoi["container-title"] = ["Interspeech 2026"]  # 容器对但非本前缀
+        wrongdoi["DOI"] = "10.9999/not-isca.1"
+        self.routes = [
+            ("/works?", page([noise])),                            # 容器查询（带 prefix）
+            ("/works?", page([noise])),                            # 去 prefix 重试
+            ("prefixes/10.21437/works", page([noise, good, wrongdoi])),
+        ]
+        entries, note, _ = container_family(
+            "Interspeech", (2026, 2027), variants=["Interspeech 2026"],
+            query="Interspeech", prefix="10.21437", doi_prefix="10.21437")
+        self.assertEqual([e["doi"] for e in entries],
+                         ["10.21437/interspeech.2026.1"])
+        self.assertIn("兜底", note)
+
+    def test_query_by_year_overrides_recall_query(self):
+        """neurips：逐年换召回查询词（卷号查询才聚簇），归并集合不变。"""
+        real = self.kdd_item(1, self.VAR_2021, year=2021)
+        self.routes = [("/works?", page([real])), ("/works?", page([]))]
+        container_family(self.PRIMARY, (2021, 2022),
+                         variants=[self.VAR_2021, self.VAR_2022],
+                         split_years=True,
+                         query_by_year={2021: "Systems 34", 2022: "Systems 35"})
+        self.assertIn("query.container-title=Systems%2034", self.calls[0])
+        self.assertIn("query.container-title=Systems%2035", self.calls[1])
+        self.assertIn("until-pub-date%3A2021-12-31", self.calls[0])
+
+    def test_all_zero_registers_gap(self):
+        self.routes = [("/works?", page([])), ("/works?", page([]))]
+        entries, note, contrib = container_family(
+            self.PRIMARY, (2021, 2022), variants=[self.VAR_2021],
+            prefix="10.1145")
+        self.assertEqual(entries, [])
+        self.assertEqual(contrib, [])
+        self.assertIn("覆盖缺口", note)
+
+
+class CliDirectContainer(PatchUropenMixin, unittest.TestCase):
+    def test_container_mode_writes_crossref_conf_file(self):
+        import tempfile
+        real = item(1, container_title=None)
+        real.pop("container-title")
+        real["container-title"] = ["2022 IEEE/CVF International Conference on "
+                                   "Computer Vision (ICCV)"]
+        self.routes = [("/works?", page([real]))]
+        with tempfile.TemporaryDirectory() as td:
+            rc = fetch_crossref.run([
+                "--mode", "container", "--venue", "iccv",
+                "--name", "IEEE/CVF International Conference on Computer Vision",
+                "--variant", "2022 IEEE/CVF International Conference on Computer "
+                             "Vision (ICCV)",
+                "--years", "2021-2026", "--limit", "10", "--out-dir", td])
+            out = (Path(td) / "crossref_conf_iccv.jsonl")
+            self.assertEqual(rc, 0)
+            self.assertTrue(out.exists())
+            lines = [json.loads(l) for l in
+                     out.read_text(encoding="utf-8").splitlines()]
+            self.assertEqual(len(lines), 1)
+            self.assertEqual(set(lines[0]), SCHEMA_KEYS)
 
 
 class ZeroRowFallback(PatchUropenMixin, unittest.TestCase):
@@ -246,6 +460,25 @@ class RegistryContract(unittest.TestCase):
         for r in rows:
             self.assertRegex(r["crossref_issn"], r"^\d{4}-\d{3}[\dXx]$",
                              f"{r['venue']} 缺合法 ISSN")
+
+    def test_21_container_rows_covered_by_venue_conf(self):
+        """21 行 crossref_container：容器名非空，且每行都有抓取配置。"""
+        rows = [r for r in load_registry(REG)
+                if r["source"] == "crossref_container"]
+        self.assertEqual(len(rows), 21)
+        for r in rows:
+            self.assertTrue(r["crossref_container"].strip(),
+                            f"{r['venue']} 缺容器名")
+            self.assertIn(r["venue"], VENUE_CONF,
+                          f"{r['venue']} 缺 VENUE_CONF 抓取配置")
+            conf = VENUE_CONF[r["venue"]]
+            self.assertIn("query", conf)
+            self.assertTrue(conf["variants"], f"{r['venue']} 无变体表")
+            # 变体名规范化后必须互相可区分（否则并集归并失真）
+            toksets = [norm_title_tokens(v) for v in conf["variants"]]
+            self.assertEqual(len(set(toksets)), len(toksets),
+                             f"{r['venue']} 存在规范化后撞车的变体")
+        self.assertEqual(set(VENUE_CONF), {r["venue"] for r in rows})
 
 
 if __name__ == "__main__":
