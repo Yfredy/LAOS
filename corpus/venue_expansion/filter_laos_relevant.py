@@ -148,7 +148,14 @@ def main(argv=None) -> int:
                     help="另打 venue×topic 交叉计数表与总命中/去重计数")
     args = ap.parse_args(argv)
     ve_dir, out = Path(args.ve_dir), Path(args.out)
-    in_files = sorted(p for p in ve_dir.glob("*.jsonl") if p.name != out.name)
+    # 旧产物回灌防线（final-review 必修 2）：历史过滤轮的产物不当输入——
+    # 本轮输出名之外，默认名 laos_relevant.jsonl 也要排除（非默认 --out 时
+    # 它是上一轮产物，混进输入会把旧 laos_topic 标签原样带回新输出）。
+    stale_names = {out.name, "laos_relevant.jsonl"}
+    in_files = sorted(p for p in ve_dir.glob("*.jsonl")
+                      if p.name not in stale_names)
+    if out.exists():
+        out.unlink()  # 结果完全覆盖语义：过滤聚合前先清输出，绝不续写旧产物
     if not in_files:
         print(f"no input *.jsonl under {ve_dir}", file=sys.stderr)
         return 1

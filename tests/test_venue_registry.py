@@ -1,6 +1,6 @@
 # tests/test_venue_registry.py
 """venue 注册表校验：schema/去重/年窗/来源分派。"""
-import csv, unittest
+import csv, re, unittest
 from pathlib import Path
 
 REG = Path(__file__).resolve().parents[1] / "corpus/venue_expansion/venues.csv"
@@ -23,10 +23,20 @@ class Registry(unittest.TestCase):
         self.assertEqual(len(names), len(set(names)))
 
     def test_existing_corpus_incremental_only(self):
-        # 已有 venue 只允许增量年份（years 起点须 > 已覆盖终点或注明 incremental）
+        # 已有语料 venue 只允许增量年份：notes 须注明 incremental 且声明
+        # 已覆盖终点（"…through YYYY"），years 起点须严格晚于该终点
         for r in self.rows:
             if r["venue"].casefold() in HAVE:
-                self.assertIn("incremental", r["years"] + r["notes"].casefold(), r["venue"])
+                hay = (r["years"] + " " + r["notes"]).casefold()
+                self.assertIn("incremental", hay, r["venue"])
+                m = re.search(r"through (\d{4})", r["notes"])
+                self.assertTrue(
+                    m, f'{r["venue"]}: notes 未声明已覆盖终点')
+                start = int(r["years"][:4])
+                self.assertGreater(
+                    start, int(m.group(1)),
+                    f'{r["venue"]}: years 起点 {start} 未晚于已覆盖终点 '
+                    f"{m.group(1)}")
 
     def test_user_list_covered(self):
         want = {"naacl", "coling", "conll", "tacl", "neurips", "icml", "ijcai",
@@ -45,7 +55,8 @@ class LoadRegistry(unittest.TestCase):
         sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "corpus/venue_expansion"))
         from make_registry import load_registry
         rows = load_registry(REG)
-        self.assertIsInstance(rows, list) and self.assertTrue(rows)
+        self.assertIsInstance(rows, list)
+        self.assertTrue(rows)
         by = {r["venue"].casefold(): r for r in rows}
         # 分派列齐备：anthology 行有 anthology_prefix；crossref_journal 行有 issn；
         # crossref_container 行有 container；deferred 行只说明缺口
@@ -58,7 +69,7 @@ class LoadRegistry(unittest.TestCase):
                 self.assertTrue(r["crossref_container"], r["venue"])
 
     def test_load_registry_rejects_duplicates(self):
-        import sys, tempfile, os
+        import sys
         sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "corpus/venue_expansion"))
         from make_registry import load_registry
         bad = REG.parent / "_tmp_bad_registry.csv"

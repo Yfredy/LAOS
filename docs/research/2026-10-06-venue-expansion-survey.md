@@ -6,7 +6,7 @@
 
 ## 0. 一句话结论
 
-在既有双会议与 35-venue 切片之上，把 **38 个 venue（NLP 六会全量 / 9 刊 / 21 会 + 2 deferred）按"整卷全量"标准落库：合计 **120,234 行**，laos 三主线正则过滤命中 **2,103 行**（agent-os 880 / audio-speech 1,109 / spatial-privacy 114，跨文件去重剔 13）——其中真正的"agent 操作系统治理"窄分支只有 **44 篇**，这是 laos 议题的直接外部对照集；其余 agent-os 命中是泛 LLM-agent 论文（宽分支 836），audio-speech 有 42% 是裸 `asr`/`tts`/`vad` 子串弱命中。数据源侧的结构性结论延续并加深了 multivenue 报告的地图：**ACL Anthology（官方 bib dump）与 Crossref（journal ISSN + container-title 模糊召回）双主通道可覆盖 38 venue 中的 36 个；DBLP/OpenReview 实测 JS 反爬、PMLR 无 DOI，是仅剩的两个换源缺口。**
+在既有双会议与 35-venue 切片之上，把 **38 个 venue（NLP 六会全量 / 9 刊 / 21 会 + 2 deferred）按"整卷全量"标准落库**：合计 **120,234 行**，laos 三主线正则过滤命中 **2,103 行**（agent-os 880 / audio-speech 1,109 / spatial-privacy 114，跨文件去重剔 13）——其中真正的"agent 操作系统治理"窄分支只有 **44 篇**，这是 laos 议题的直接外部对照集；其余 agent-os 命中是泛 LLM-agent 论文（宽分支 836），audio-speech 有 42% 是裸 `asr`/`tts`/`vad` 子串弱命中。数据源侧的结构性结论延续并加深了 multivenue 报告的地图：**ACL Anthology（官方 bib dump）与 Crossref（journal ISSN + container-title 模糊召回）双主通道可覆盖 38 venue 中的 36 个；DBLP/OpenReview 实测 JS 反爬、PMLR 无 DOI，是仅剩的两个换源缺口。**
 
 ## 1. 方法与数据源
 

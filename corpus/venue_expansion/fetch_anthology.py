@@ -221,6 +221,10 @@ def entry_matches(entry: dict, prefix: str, year_lo: int, year_hi: int) -> bool:
 def write_jsonl(path, entries: list) -> int:
     """逐条 json.dumps(ensure_ascii=False) 写行，返回条数。
 
+    原子落盘（final-review 必修 1）：先写同目录 <name>.part，写完
+    os.replace 原子顶替——中途被杀（TUN 断窗实测发生 2 次）只会留下
+    .part 残件被下轮覆盖，不会把半截产物固化成"已存在即跳过"的正式
+    文件污染断点续抓；Python 层异常时 .part 即时清理，旧正式产物原样。
     追加转义 U+2028/U+2029/U+0085：json.dumps(ensure_ascii=False) 会把这
     三个 Unicode 行分隔符原样留在串里（JSON 合法，ASCII 控制符则会被 dumps
     转义），但读方 str.splitlines() 会在此断行，逐行 json.loads 即崩
@@ -229,15 +233,21 @@ def write_jsonl(path, entries: list) -> int:
     """
     p = Path(path)
     p.parent.mkdir(parents=True, exist_ok=True)
+    part = p.with_name(p.name + ".part")
     count = 0
-    with p.open("w", encoding="utf-8", newline="\n") as fh:
-        for e in entries:
-            s = json.dumps(e, ensure_ascii=False)
-            s = (s.replace("\u2028", "\\u2028")
-                  .replace("\u2029", "\\u2029")
-                  .replace("\x85", "\\u0085"))
-            fh.write(s + "\n")
-            count += 1
+    try:
+        with part.open("w", encoding="utf-8", newline="\n") as fh:
+            for e in entries:
+                s = json.dumps(e, ensure_ascii=False)
+                s = (s.replace("\u2028", "\\u2028")
+                      .replace("\u2029", "\\u2029")
+                      .replace("\x85", "\\u0085"))
+                fh.write(s + "\n")
+                count += 1
+        part.replace(p)  # = os.replace：同目录原子顶替
+    except BaseException:
+        part.unlink(missing_ok=True)  # 半截 .part 不留，正式产物未被触碰
+        raise
     return count
 
 
