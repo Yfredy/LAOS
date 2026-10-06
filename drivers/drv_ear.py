@@ -189,38 +189,58 @@ def _server_reachable(server: str) -> bool:
     return False
 
 
-#: whistle 通道：cactus CLI 命令模板（{wav}/{lang} 占位）
-DEFAULT_WHISTLE_CMD = ("cactus transcribe Cactus-Compute/whistle "
-                       "--file {wav} --language {lang}")
+#: whistle 通道：needle 引擎 CLI（var/asr_eval/needle/needle.exe，1.56MB 单文件，
+#: 全平台分发于 HF Cactus-Compute/needle3）。输出单行 JSON {"text","language",
+#: "ttft_ms","decode_tps"}。LAOS_WHISTLE_CMD 覆盖命令模板（{wav}/{lang} 占位）。
+DEFAULT_WHISTLE_CMD = ("needle --model whistle.cact --audio {wav} --audio-language {lang}")
+DEFAULT_WHISTLE_BIN = "var/asr_eval/needle/needle.exe"
+DEFAULT_WHISTLE_MODEL = "var/asr_eval/whistle/whistle.cact"
 
 
 def _whistle_available() -> bool:
-    """cactus CLI 是否在 PATH（自定义模板时视为可用，交由真实调用裁决）。"""
+    """needle 引擎是否可用：LAOS_WHISTLE_BIN 指向的文件存在，或自定义模板时视为可用。"""
     if os.environ.get("LAOS_WHISTLE_CMD"):
         return True
-    return shutil.which("cactus") is not None
+    binary = os.environ.get("LAOS_WHISTLE_BIN", DEFAULT_WHISTLE_BIN)
+    if Path(binary).exists():
+        return True
+    return shutil.which("needle") is not None
 
 
 def _transcribe_whistle(path: Path, language: str) -> dict:
-    """子进程调 cactus 引擎转写。无中文——zh 请求直接拒绝，防静默出垃圾文本。"""
-    if not _whistle_available():
+    """子进程调 needle 引擎转写。无中文——zh 请求直接拒绝，防静默出幻觉文本。"""
+    binary = os.environ.get("LAOS_WHISTLE_BIN", DEFAULT_WHISTLE_BIN)
+    model = os.environ.get("LAOS_WHISTLE_MODEL", DEFAULT_WHISTLE_MODEL)
+    if not (_whistle_available() and Path(model).exists()):
         raise RuntimeError(
-            "ENOENT: cactus engine not on PATH; install Cactus Compute CLI or "
-            "set LAOS_WHISTLE_CMD (docs.cactuscompute.com)")
+            "ENOENT: needle engine or whistle.cact not found; "
+            "set LAOS_WHISTLE_BIN / LAOS_WHISTLE_MODEL / LAOS_WHISTLE_CMD "
+            "(docs.research/2026-10-06-cactus-whistle-adoption.md)")
     lang = language if language and language != "auto" else "en"
     if lang.startswith("zh"):
         raise ValueError(
-            "EINVAL: whistle has no Chinese (7 langs, no zh); "
+            "EINVAL: whistle has no Chinese (7 langs: en/de/fr/es/it/nl/pl); "
             "use LAOS_ASR_CHANNEL=funasr for zh")
-    tmpl = os.environ.get("LAOS_WHISTLE_CMD", DEFAULT_WHISTLE_CMD)
-    cmd = tmpl.format(wav=str(path), lang=lang).split()
+    if os.environ.get("LAOS_WHISTLE_CMD"):
+        cmd = os.environ["LAOS_WHISTLE_CMD"].format(wav=str(path), lang=lang).split()
+    else:
+        cmd = [binary, "--model", model, "--audio", str(path),
+               "--audio-language", lang]
     r = subprocess.run(cmd, capture_output=True, text=True, timeout=120,
                        encoding="utf-8", errors="replace")
     if r.returncode != 0:
-        raise RuntimeError(f"EIO: cactus rc={r.returncode}: {r.stderr.strip()[:200]}")
+        raise RuntimeError(f"EIO: needle rc={r.returncode}: {r.stderr.strip()[:200]}")
+    line = next((ln for ln in r.stdout.splitlines() if ln.strip().startswith("{")),
+                None)
+    if line:
+        payload = json.loads(line)
+        return {"text": str(payload.get("text", "")), "language": lang,
+                "emotions": [],
+                "ttft_ms": payload.get("ttft_ms"),
+                "decode_tps": payload.get("decode_tps")}
     lines = [ln.strip() for ln in r.stdout.splitlines() if ln.strip()]
     if not lines:
-        raise RuntimeError("EIO: cactus produced no output")
+        raise RuntimeError("EIO: needle produced no output")
     return {"text": lines[-1], "language": lang, "emotions": []}
 
 

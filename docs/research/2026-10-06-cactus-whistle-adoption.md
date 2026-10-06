@@ -54,23 +54,45 @@
 
 ## 三、基线实测（2026-10-06，本机）
 
-| 后端 | en WER（3 段均值） | zh CER | 稳态 RTF | 备注 |
-|---|---|---|---|---|
-| funasr SenseVoiceSmall | **0.027**（0 / 0.028 / 0.054） | **0.000** | 0.014–0.018 | 首次调用含模型加载 ~22s；`three thirty`→`330`、`five PM`→`5 PM` 是主要错源 |
-| whistle q4_k | （待网络恢复后回填） | — | — | 网络事件见 §五 |
+**打通方式（终局）**：whistle 的指定引擎是 **needle3**（config.json `engine` 字段）——
+HF `Cactus-Compute/needle3` 仓库分发**全平台引擎二进制**（windows-x86_64/needle.exe
+1.56MB 单文件、linux-arm64/android-arm64/ios/wasm/win-arm64 全有，另有 cactus_needle
+Python wheel 含 win_amd64）。命令：`needle --model whistle.cact --audio X.wav
+--audio-language en`，输出单行 JSON（text/language/ttft_ms/decode_tps）。
+**Windows 本机原生可跑**——前述"Windows 无路"仅指 cactus-compute 通用引擎（arm-only
+wheel + 转换器缺 whistle 适配，官方 download 路径实测 "No prebuilt bundle found +
+Unknown model type whistle" 双确认）；needle3 路线绕开全部死结。
+
+| 后端 | en WER（3 段均值） | zh CER | 首字延迟 | 解码吞吐 | 常驻体积 |
+|---|---|---|---|---|---|
+| funasr SenseVoiceSmall（234M） | **0.027**（0/0.028/0.054） | **0.000** | （GPU/CPU 本机直推） | 稳态 RTF 0.014-0.018 | ~900MB 模型 |
+| **whistle（16.9MB）via needle.exe** | **0.108**（0.105/0.139/0.081） | **不可用**¹ | ttft 651ms 均值 | ~300 tok/s | **16.9MB 模型 + 1.56MB 引擎** |
+
+¹ 中文音频实测被当英语幻觉输出（音译乱串）；强制 zh 则拒识——7 语言（en/de/fr/
+es/it/nl/pl）无中文，config 声明与行为一致。
+
+**质量观察**：SAPI 清晰语音下仍有系统性分词裂痕（"today"→"to day"、
+"tomorrow"→"to morrow"，tokenizer 后处理缺陷）；英式拼写（summarise）、数字化
+（three thirty→330）造成计分口径差。真实嘈杂语音预计更差。
+
+**裁决**：laos 听觉栈三通道分工定局——**zh 主力 = funasr/SenseVoice（WER 2.7%/CER 0%
+碾压）；whistle = 多语轻量备选**（体积 1/50、零依赖单文件、全平台含 WASM/Android，
+英文 10.8% 够用档）；server = HTTP 外部服务。whistle 的真正价值面是**极小足迹部署**
+（手表/MCU/浏览器），不是精度。
 
 ## 四、laos 接入（本波次已落地）
 
 | 件 | 落点 | 状态 |
 |---|---|---|
 | WER/CER 评测指标 | `laos/wer.py`（normalize/edit_distance/wer/cer，22 测试） | ✅ |
-| 评测 harness（集生成+计分+基线） | `scripts/eval_whistle.py` + `var/asr_eval/` | ✅（基线已跑） |
-| **ear 驱动第三通道** | `drivers/drv_ear.py`：`LAOS_ASR_CHANNEL=whistle` → 子进程调 cactus CLI（`LAOS_WHISTLE_CMD` 模板，默认 `cactus transcribe Cactus-Compute/whistle --file {wav} --language {lang}`）；`ear.status` 报 `whistle=available`；zh 请求 EINVAL 直接拒绝（防静默垃圾文本）；引擎缺失 ENOENT、CLI 失败 EIO（9 测试全 mock，不依赖引擎存在） | ✅ |
-| 引擎 vendored 方案 | 不动 conda（红线）：HF 拉 GGUF → `var/asr_eval/whistle/`；cactus 引擎走 wheel 解压 + PYTHONPATH（待网络） | ⏳ |
+| 评测 harness（集生成+计分+基线） | `scripts/eval_whistle.py` + `var/asr_eval/` | ✅ |
+| **ear 驱动第三通道（needle 形态）** | `drivers/drv_ear.py`：`LAOS_ASR_CHANNEL=whistle` → 子进程 needle 引擎（`LAOS_WHISTLE_BIN`/`LAOS_WHISTLE_MODEL` env，默认 var/asr_eval/needle/）；输出解析 JSON 取 text/ttft_ms/decode_tps；zh EINVAL 拒绝；引擎缺失 ENOENT、CLI 失败 EIO；纯文本回退（10 测试 + 真机全链冒烟 latency 597ms） | ✅ |
+| 引擎与模型入库位 | `var/asr_eval/needle/needle.exe`（1.56MB）+ `whistle.cact`（16.9MB）——gitignore 内运行期资产，重取路径在 §五 | ✅ |
 
-**定位裁决**：Whistle **无中文**，不能取代 funasr 作为 laos 默认 ASR；定位为
-**多语轻量备选通道**（16.9MB 常驻、纯 CPU、7 语）。laos 的听觉栈分工：
-zh 主力=funasr/SenseVoice（GPU/CPU 本机直推），多语轻备=whistle，HTTP=server。
+**定位裁决（终局）**：Whistle **无中文**，不能取代 funasr 作为 laos 默认 ASR；定位为
+**多语轻量备选通道**（16.9MB 常驻、纯 CPU、7 语、全平台单文件引擎含 WASM/Android/
+Windows）。laos 的听觉栈分工：zh 主力=funasr/SenseVoice（GPU/CPU 本机直推），多语
+轻备=whistle（needle 引擎），HTTP=server。
 
 ## 五、网络事件记录（诚实档）
 
@@ -79,6 +101,21 @@ pypi.org / api.github.com 反复 SSL 断连；**阿里云 PyPI 镜像全程稳�
 它或 HF 恢复窗口取得）。GitHub API 403 限流（TUN 出口 IP 共享配额）。全部情报链经
 服务器侧 webReader/WebSearch 保持不断。`whistle.cact` + config 已落
 `var/asr_eval/whistle/`，cactus sdist 源码在 C:/tmp（未入库）。
+
+### 虚拟端侧评测环境（2026-10-06 下午，用户提议虚拟手机思路后建成）
+
+- **宿主**：WSL2 Ubuntu-22.04（x86_64）+ qemu-user-static 6.2 + ubuntu-base 22.04.5
+  arm64 rootfs chroot（/mnt/armroot）——与安卓手机同指令集（aarch64）的"虚拟手机"，
+  官方 manylinux_aarch64 wheel 直接原生安装；
+- **已就位**：cactus-compute 2.2.2（arm64 wheel，`libcactus_engine.so` import OK）、
+  torch 2.14.1+cu130、transformers 5.18.0（tuna 源）、评测集与 ground_truth；
+- **引擎事实（实测+源码双重确认）**：裸 `whistle.cact` 不是可运行 bundle——引擎要
+  `config.txt + tokenizer_config.txt + components/manifest.json`（或 runtime_plan.json），
+  这些由 `cactus convert --model <本地路径> --bits 4` 从 HF 源权重
+  （checkpoints/whistle.safetensors）离线转换生成；convert CLI 收本地路径
+  （`local_files_only` 分支），转换全程可离线；
+- **剩余卡点**：whistle.safetensors 源权重在 HF（无国内镜像，ModelScope/Gitee 均无），
+  后台轮询等窗口拉取后即可全链离线完成（脚本已备好：whistle_full_chain.sh）。
 
 ## 六、待办（评测宿主落地后）
 
