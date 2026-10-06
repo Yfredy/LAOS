@@ -228,14 +228,17 @@ def _transcribe_whistle(path: Path, language: str) -> dict:
     "ear.transcribe",
     "语音识别（wav 路径）→ 统一 JSON：text/language/emotions/source/latency_ms。"
     "通道由 LAOS_ASR_CHANNEL 选（funasr=本机 SenseVoice / server=HTTP 服务 / "
-    "whistle=Cactus 16.9MB 端侧引擎，7 语言无中文）",
+    "whistle=Cactus 16.9MB 端侧引擎，7 语言无中文）；refine=true 时转写后过 "
+    "AgenticSR 规则版 Refiner（arXiv 2607.28175）",
     {"type": "object",
      "properties": {"wav": {"type": "string", "description": "wav 文件路径"},
                     "language": {"type": "string",
-                                 "description": "语言（默认 auto）"}},
+                                 "description": "语言（默认 auto）"},
+                    "refine": {"type": "boolean",
+                               "description": "转写后过 AgenticSR 规则版 Refiner（默认 false）"}},
      "required": ["wav"]},
 )
-def ear_transcribe(wav: str, language: str = "auto") -> str:
+def ear_transcribe(wav: str, language: str = "auto", refine: bool = False) -> str:
     t0 = time.perf_counter()
     path = Path(wav)
     if not path.exists():
@@ -250,9 +253,26 @@ def ear_transcribe(wav: str, language: str = "auto") -> str:
     else:
         raise ValueError(f"EINVAL: unknown LAOS_ASR_CHANNEL {channel!r} "
                          f"(funasr|server|whistle)")
+    if refine:  # AgenticSR：转写后过规则版 Refiner（docs/research/2026-10-06-agenticasr-adoption.md）
+        from laos.refiner import refine as _refine
+        out["text"] = _refine(out["text"])
     out["source"] = source
     out["latency_ms"] = round((time.perf_counter() - t0) * 1000)
     return json.dumps(out, ensure_ascii=False)
+
+
+@drv.tool(
+    "ear.refine",
+    "AgenticSR 规则版 Refiner：口语转写 → 干净意图文本（去填充词/口吃折叠/"
+    "自我纠正取末段，纯 stdlib；来源 AgenticASR arXiv 2607.28175）。"
+    "端到端实测 CER 1.563→0.042（var/asr_eval/results_refiner_e2e.json）",
+    {"type": "object",
+     "properties": {"text": {"type": "string", "description": "ASR 原始转写文本"}},
+     "required": ["text"]},
+)
+def ear_refine(text: str) -> str:
+    from laos.refiner import refine
+    return json.dumps({"raw": text, "refined": refine(text)}, ensure_ascii=False)
 
 
 @drv.tool(
