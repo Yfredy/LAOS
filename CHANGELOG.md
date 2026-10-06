@@ -5,6 +5,11 @@
 
 ## [Unreleased]
 
+## [v0.17.0] - 2026-10-06
+
+### Added
+- feat(dialog): voicenpu_engine 复现波次（小红书《RK3576语音系统》→ Gitee bravexyz/voicenpu_engine，AGPL-3.0，13 cpp 全源码通读后的**语义级独立实现**非拷贝）——RK3576 端侧全双工对话引擎的控制面五件全部落进 laos 零依赖主库：① `laos/wakegate.py` 四态唤醒会话机（Sleeping/Listening/Processing/FollowUp，唤醒只由 KWS 音频触发、ASR 文本永不唤醒，休眠词/follow-up 12s/会话 120s/6 轮上限/barge-in）；② `laos/dialogsched.py` 对话调度核（generation 版本化打断——过期代数的回答宁可丢不可播；投机 prefill 窗口——句中停顿 500ms 提前起 LLM、TTS 提交等 commit 窗、语音恢复 ≥96ms×16 采样取消投机轮并"，"合并续说、commit 判定延长 200ms；latest-only 队列；半双工麦克风闸+400ms guard；松散口径声控模式切换；TtsRouter 双后端降级——在线失败且一句未发才降级、句中不换声线）；③ `laos/knowledge.py` 本地知识库短路（UTF-8 符号 bigram、0.7/0.3 双向覆盖打分、子串=1.0、交集≥2 下限、阈值 0.58，命中绕过 LLM；兼容上游 JSONL 格式）；④ `laos/speechchunk.py` LLM→TTS 适配层（流式切句字节级语义：句末标点即切/逗号顿号第 15 字节后才可切/14 字兜底；播报清洗：剥"助手："前缀/<think>/markdown/序号、Qwen→本地语音助手、分号→"，或者"；数字→汉字与时刻"点"归一化）；⑤ tests/test_dialog_e2e.py 五件闭环集成（唤醒→过闸→声控/知识短路/LLM 流→切句清洗→TTS 路由→打断→半双工，9 例，上游真知识库 fixture）。72 例新增测试，全套 573 全绿（501→573）。裁决余量：sherpa-onnx KWS（3.3M wenetspeech+"小乐"拼音词表已拿到）与豆包 wss 协议（帧头 0x11141000 事件码族已记录）留驱动通道；RKNN/ALSA/AEC3 需真机不落地，ASR/TTS 由 laos 既有 funasr/whistle 三通道替身
+
 ## [v0.16.0] - 2026-10-06
 
 ### Added
