@@ -25,6 +25,7 @@ from fetch_crossref import (  # noqa: E402
     journal_family,
     norm_title_tokens,
     strip_jats,
+    write_jsonl,
 )
 from make_registry import load_registry  # noqa: E402
 
@@ -451,6 +452,41 @@ class ZeroRowFallback(PatchUropenMixin, unittest.TestCase):
         entries, used, note = journal_family("0000-0000", (2026, 2027))
         self.assertEqual(entries, [])
         self.assertIn("404", note)
+
+
+class JsonlLineSafety(unittest.TestCase):
+    """fix round 1：U+2028/U+2029/U+0085 行分隔符不得原样落盘。
+
+    json.dumps(ensure_ascii=False) 只转义 ASCII 控制符，这三个 Unicode 行
+    分隔符会原样留在串里（JSON 合法），但读方 str.splitlines() 会在其上
+    断行导致逐行 json.loads 崩（crossref_conf_ijcai 的 ScaleFormer 条目
+    实测）。写出路径必须转义成 \\u2028 等。
+    """
+
+    def test_unicode_line_separators_survive_splitlines_roundtrip(self):
+        import tempfile
+        entry = dict(crossref_to_entry(ITEM))
+        entry["title"] = ("ScaleFormer: Scale\u2028and\u2029Mix\x85"
+                          "Architecture")
+        with tempfile.TemporaryDirectory() as td:
+            out = Path(td) / "x.jsonl"
+            self.assertEqual(write_jsonl(out, [entry, entry]), 2)
+            lines = out.read_text(encoding="utf-8").splitlines()
+            self.assertEqual(len(lines), 2)  # 一条一行，未被内嵌分隔符劈开
+            back = [json.loads(l) for l in lines]
+            self.assertEqual(back, [entry, entry])  # 值往返不变（含分隔符）
+
+    def test_written_file_has_no_raw_line_separators(self):
+        import tempfile
+        entry = dict(crossref_to_entry(ITEM))
+        entry["title"] = "a\u2028b\u2029c\x85d"
+        with tempfile.TemporaryDirectory() as td:
+            out = Path(td) / "x.jsonl"
+            write_jsonl(out, [entry])
+            text = out.read_text(encoding="utf-8")
+            for raw in ("\u2028", "\u2029", "\x85"):
+                self.assertNotIn(raw, text)
+            self.assertIn("\\u2028", text)  # 以 JSON 转义形存在
 
 
 class RegistryContract(unittest.TestCase):

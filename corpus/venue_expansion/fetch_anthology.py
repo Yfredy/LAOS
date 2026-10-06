@@ -219,12 +219,24 @@ def entry_matches(entry: dict, prefix: str, year_lo: int, year_hi: int) -> bool:
 
 
 def write_jsonl(path, entries: list) -> int:
+    """逐条 json.dumps(ensure_ascii=False) 写行，返回条数。
+
+    追加转义 U+2028/U+2029/U+0085：json.dumps(ensure_ascii=False) 会把这
+    三个 Unicode 行分隔符原样留在串里（JSON 合法，ASCII 控制符则会被 dumps
+    转义），但读方 str.splitlines() 会在此断行，逐行 json.loads 即崩
+    （Task 4 fix round 1：crossref_conf_ijcai 的 ScaleFormer 条目实测内嵌
+    原始 U+2028）。转义成 \\u2028 既保 JSON 值不变又免断行。
+    """
     p = Path(path)
     p.parent.mkdir(parents=True, exist_ok=True)
     count = 0
     with p.open("w", encoding="utf-8", newline="\n") as fh:
         for e in entries:
-            fh.write(json.dumps(e, ensure_ascii=False) + "\n")
+            s = json.dumps(e, ensure_ascii=False)
+            s = (s.replace("\u2028", "\\u2028")
+                  .replace("\u2029", "\\u2029")
+                  .replace("\x85", "\\u0085"))
+            fh.write(s + "\n")
             count += 1
     return count
 
