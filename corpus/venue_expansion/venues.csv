@@ -1,0 +1,39 @@
+venue,ccf,dblp_stream,crossref_issn,crossref_container,anthology_prefix,years,source,notes
+acl,A,conf/acl,,,acl,2010-2025,anthology,incremental; T5 dedups against existing corpus by DOI+title
+emnlp,B,conf/emnlp,,,emnlp,2010-2025,anthology,incremental; T5 dedups against existing corpus by DOI+title
+naacl,B,conf/naacl,,,naacl,2010-2025,anthology,
+coling,B,conf/coling,,,coling,2010-2025,anthology,
+conll,C,conf/conll,,,conll,2010-2025,anthology,
+tacl,,journals/tacl,,,tacl,2013-2025,anthology,journal founded 2013; full run mirrored in ACL Anthology
+cl,B,journals/coling,0891-2017,,,2015-2025,crossref_journal,Computational Linguistics journal (MIT Press); older run also mirrored in ACL Anthology
+jmlr,A,journals/jmlr,1533-7928,,,2015-2025,crossref_journal,Journal of Machine Learning Research; Crossref-registered journal
+neurips,A,conf/nips,,Advances in Neural Information Processing Systems,,2021-2026,crossref_container,Curran Associates proceedings; DOIs registered in Crossref
+ijcai,A,conf/ijcai,,Proceedings of the International Joint Conference on Artificial Intelligence (IJCAI),,2021-2026,crossref_container,
+iccv,A,conf/iccv,,Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV),,2021-2026,crossref_container,biennial (odd years)
+tpami,A,journals/pami,0162-8828,,,2015-2025,crossref_journal,IEEE Transactions on Pattern Analysis and Machine Intelligence
+ijcv,A,journals/ijcv,0920-5691,,,2015-2025,crossref_journal,International Journal of Computer Vision
+icassp,B,conf/icassp,,"IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)",,2027-2028,crossref_container,incremental from 2027; existing corpus covers through 2026 (19792-paper icassp+interspeech corpus)
+interspeech,C,conf/interspeech,,Interspeech,,2026-2027,crossref_container,incremental from 2026; existing corpus covers through 2025; ISCA DOIs under 10.21437
+taslp,B,journals/taslp,2329-9290,,,2026-2027,crossref_journal,incremental from 2026; 35-venue survey covers through 2025; issn 2329-9290 verified live
+asru,C,conf/asru,,IEEE Workshop on Automatic Speech Recognition and Understanding (ASRU),,2026-2027,crossref_container,incremental from 2026; existing through 2025; biennial — next edition 2027
+slt,C,conf/slt,,IEEE Spoken Language Technology Workshop (SLT),,2026-2027,crossref_container,incremental from 2026; existing through 2025
+aaai,A,conf/aaai,2159-5399,Proceedings of the AAAI Conference on Artificial Intelligence,,2026-2027,crossref_journal,incremental from 2026; existing through 2025; issn 2159-5399 unlocked (verified)
+iclr,,conf/iclr,,,,2025-2026,deferred,incremental from 2025; 35-venue survey covers through 2024; deferred: OpenReview anti-scraping blocks bulk fetch
+waspaa,,conf/waspaa,,IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA),,2021-2026,crossref_container,biennial (odd years)
+chime,,conf/chime,,International Workshop on Computational Hearing in Multisource Environments (CHiME),,2021-2026,crossref_container,challenge workshop; Crossref coverage sparse — register coverage gap if 0 rows (plan ruling)
+eurasip-jasmp,,journals/eurasipjasmp,1687-4722,,,2015-2025,crossref_journal,EURASIP Journal on Audio Speech and Music Processing (Springer open access)
+acmmm,A,conf/mm,,Proceedings of the ACM International Conference on Multimedia (ACM MM),,2021-2026,crossref_container,incremental; T5 dedups against existing corpus by DOI+title
+icme,B,conf/icme,,Proceedings of the IEEE International Conference on Multimedia and Expo (ICME),,2021-2026,crossref_container,
+icmr,C,conf/icmr,,Proceedings of the ACM International Conference on Multimedia Retrieval (ICMR),,2021-2026,crossref_container,
+mmsys,C,conf/mmsys,,Proceedings of the ACM Multimedia Systems Conference (MMSys),,2021-2026,crossref_container,
+pcm,C,conf/pcm,,Pacific-Rim Conference on Multimedia (PCM),,2021-2026,crossref_container,Springer LNCS proceedings
+tmm,B,journals/tmm,1520-9210,,,2015-2025,crossref_journal,IEEE Transactions on Multimedia
+tomm,B,journals/tomm,1551-6857,,,2015-2025,crossref_journal,ACM Transactions on Multimedia Computing Communications and Applications
+icip,C,conf/icip,,Proceedings of the IEEE International Conference on Image Processing (ICIP),,2021-2026,crossref_container,
+sigir,A,conf/sigir,,Proceedings of the International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR),,2021-2026,crossref_container,
+kdd,A,conf/kdd,,Proceedings of the ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD),,2021-2026,crossref_container,
+www,A,conf/www,,Proceedings of the ACM Web Conference (WWW),,2021-2026,crossref_container,renamed from The Web Conference in 2022
+wsdm,B,conf/wsdm,,Proceedings of the ACM International Conference on Web Search and Data Mining (WSDM),,2021-2026,crossref_container,
+recsys,B,conf/recsys,,Proceedings of the ACM Conference on Recommender Systems (RecSys),,2021-2026,crossref_container,
+globalsip,,conf/globalsip,,IEEE Global Conference on Signal and Information Processing (GlobalSIP),,2013-2019,crossref_container,series discontinued after 2019; fetch 2013-2019 archive window instead of 2021-2026
+icml,A,conf/icml,,,,2021-2026,deferred,deferred: PMLR proceedings carry no DOIs; DBLP/OpenReview anti-bot blocks bulk lists; gap to revisit later
