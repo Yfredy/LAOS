@@ -1,22 +1,30 @@
 #!/usr/bin/env python3
-"""drv_ear —— 听觉驱动：ASR 双通道（MCP Server，重依赖惰性导入）。
+"""drv_ear —— 听觉驱动：ASR 三通道（MCP Server，重依赖惰性导入）。
 
     ear.transcribe  wav → 统一 JSON：{"text","language","emotions","source","latency_ms"}
     ear.status      通道 / 模型路径 / 服务可达性 / 模型加载状态
 
-双通道（LAOS_ASR_CHANNEL，默认 funasr）：
+三通道（LAOS_ASR_CHANNEL，默认 funasr）：
 
-    funasr  本机直推：funasr AutoModel(SenseVoiceSmall + fsmn-vad)。
-            模型路径 env LAOS_SENSEVOICE_MODEL / LAOS_SENSEVOICE_VAD；
-            device = cuda:0（torch.cuda 可用时）否则 cpu；
-            富文本标签 <|zh|><|NEUTRAL|>... 解析出 language 与 emotions，
-            rich_transcription_postprocess 剥标签得纯文本。
-            重依赖（funasr/torch/soundfile）只在首次 transcribe 时惰性导入。
+    funasr   本机直推：funasr AutoModel(SenseVoiceSmall + fsmn-vad)。
+             模型路径 env LAOS_SENSEVOICE_MODEL / LAOS_SENSEVOICE_VAD；
+             device = cuda:0（torch.cuda 可用时）否则 cpu；
+             富文本标签 <|zh|><|NEUTRAL|>... 解析出 language 与 emotions，
+             rich_transcription_postprocess 剥标签得纯文本。
+             重依赖（funasr/torch/soundfile）只在首次 transcribe 时惰性导入。
 
-    server  HTTP 服务：stdlib urllib 手拼 multipart POST 到
-            {LAOS_ASR_SERVER:http://127.0.0.1:8000}/v1/transcribe
-            （field: file=wav 字节, language）→ 解析 JSON 响应。
-            零第三方依赖——任何解释器都能跑这一通道。
+    server   HTTP 服务：stdlib urllib 手拼 multipart POST 到
+             {LAOS_ASR_SERVER:http://127.0.0.1:8000}/v1/transcribe
+             （field: file=wav 字节, language）→ 解析 JSON 响应。
+             零第三方依赖——任何解释器都能跑这一通道。
+
+    whistle  Cactus Whistle 端侧引擎（16.9MB GGUF，7 语言，无中文）：子进程调
+             cactus CLI，命令模板 env LAOS_WHISTLE_CMD（默认
+             "cactus transcribe Cactus-Compute/whistle --file {wav} --language {lang}"）。
+             language=auto 时传 en（引擎要显式语言码）；输出取最后一行非空文本。
+             引擎缺失只在真用到该通道时报 ENOENT（which 探测，不预加载）。
+             效果实测见 docs/research/2026-10-06-cactus-whistle-adoption.md——
+             中文场景请用 funasr 通道，whistle 是多语轻量备选。
 
 依赖策略与 drv_audio/drv_mic 一致：裸解释器必须能 import 本驱动并回答
 status（find_spec 探测，不真正 import funasr）；缺依赖只在真用到该通道时
@@ -30,6 +38,8 @@ import importlib.util
 import json
 import os
 import re
+import shutil
+import subprocess
 import sys
 import threading
 import time
@@ -179,10 +189,46 @@ def _server_reachable(server: str) -> bool:
     return False
 
 
+#: whistle 通道：cactus CLI 命令模板（{wav}/{lang} 占位）
+DEFAULT_WHISTLE_CMD = ("cactus transcribe Cactus-Compute/whistle "
+                       "--file {wav} --language {lang}")
+
+
+def _whistle_available() -> bool:
+    """cactus CLI 是否在 PATH（自定义模板时视为可用，交由真实调用裁决）。"""
+    if os.environ.get("LAOS_WHISTLE_CMD"):
+        return True
+    return shutil.which("cactus") is not None
+
+
+def _transcribe_whistle(path: Path, language: str) -> dict:
+    """子进程调 cactus 引擎转写。无中文——zh 请求直接拒绝，防静默出垃圾文本。"""
+    if not _whistle_available():
+        raise RuntimeError(
+            "ENOENT: cactus engine not on PATH; install Cactus Compute CLI or "
+            "set LAOS_WHISTLE_CMD (docs.cactuscompute.com)")
+    lang = language if language and language != "auto" else "en"
+    if lang.startswith("zh"):
+        raise ValueError(
+            "EINVAL: whistle has no Chinese (7 langs, no zh); "
+            "use LAOS_ASR_CHANNEL=funasr for zh")
+    tmpl = os.environ.get("LAOS_WHISTLE_CMD", DEFAULT_WHISTLE_CMD)
+    cmd = tmpl.format(wav=str(path), lang=lang).split()
+    r = subprocess.run(cmd, capture_output=True, text=True, timeout=120,
+                       encoding="utf-8", errors="replace")
+    if r.returncode != 0:
+        raise RuntimeError(f"EIO: cactus rc={r.returncode}: {r.stderr.strip()[:200]}")
+    lines = [ln.strip() for ln in r.stdout.splitlines() if ln.strip()]
+    if not lines:
+        raise RuntimeError("EIO: cactus produced no output")
+    return {"text": lines[-1], "language": lang, "emotions": []}
+
+
 @drv.tool(
     "ear.transcribe",
     "语音识别（wav 路径）→ 统一 JSON：text/language/emotions/source/latency_ms。"
-    "通道由 LAOS_ASR_CHANNEL 选（funasr=本机 SenseVoice / server=HTTP 服务）",
+    "通道由 LAOS_ASR_CHANNEL 选（funasr=本机 SenseVoice / server=HTTP 服务 / "
+    "whistle=Cactus 16.9MB 端侧引擎，7 语言无中文）",
     {"type": "object",
      "properties": {"wav": {"type": "string", "description": "wav 文件路径"},
                     "language": {"type": "string",
@@ -199,9 +245,11 @@ def ear_transcribe(wav: str, language: str = "auto") -> str:
         out, source = _transcribe_server(path, language), "server"
     elif channel == "funasr":
         out, source = _transcribe_funasr(path, language), "funasr"
+    elif channel == "whistle":
+        out, source = _transcribe_whistle(path, language), "whistle"
     else:
         raise ValueError(f"EINVAL: unknown LAOS_ASR_CHANNEL {channel!r} "
-                         f"(funasr|server)")
+                         f"(funasr|server|whistle)")
     out["source"] = source
     out["latency_ms"] = round((time.perf_counter() - t0) * 1000)
     return json.dumps(out, ensure_ascii=False)
@@ -222,6 +270,7 @@ def ear_status() -> str:
             f"vad_path={Path(vad_path).exists()} "
             f"server_reachable={_server_reachable(server)} "
             f"funasr={'available' if _funasr_available() else 'unavailable'} "
+            f"whistle={'available' if _whistle_available() else 'unavailable'} "
             f"loaded={_model is not None} device={_model_device}")
 
 
