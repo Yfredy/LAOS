@@ -5,6 +5,11 @@
 
 ## [Unreleased]
 
+## [v0.16.0] - 2026-10-06
+
+### Added
+- feat(ear): whistle channel landed end-to-end — the needle3 engine discovery (HF Cactus-Compute/needle3 ships all-platform engine binaries incl. windows-x86_64/needle.exe, 1.56MB single file; whistle's designated engine per its config) unblocked Windows-native inference: `needle --model whistle.cact --audio X.wav --audio-language en` → JSON. Official benchmark (SAPI known-text set, Windows CPU native): **whistle en WER 10.8%** (ttft 651ms, ~300 tok/s decode) vs SenseVoice baseline 2.7%/CER 0.0% — zh audio hallucinated as English transliteration (7 langs, no zh, behavior matches config); systematic defects recorded (today→"to day" tokenization splits, British spellings, digit normalization). drv_ear whistle channel upgraded to needle form (LAOS_WHISTLE_BIN/MODEL envs, JSON parsing with plain-text fallback, zh EINVAL guard, 10 tests + real-engine smoke through ear.transcribe at 597ms latency). Verdict locked: laos three-channel ASR — zh main = funasr/SenseVoice, multilingual light = whistle (value = tiny footprint 16.9MB+1.56MB all-platform incl. WASM/Android, not accuracy), HTTP = server. Full suite 496 green
+
 ## [v0.15.1] - 2026-10-06
 
 ### Fixed
