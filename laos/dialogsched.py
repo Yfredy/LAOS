@@ -32,6 +32,7 @@ include/tts/tts_backend.h：独立实现，非代码拷贝。上游是 C++ 线�
 """
 from __future__ import annotations
 
+import hashlib
 import threading
 import time
 from dataclasses import dataclass, field
@@ -44,6 +45,26 @@ OFFLINE_WORDS = ("离线", "脱机", "断网", "本地")
 SWITCH_VERBS = ("模式", "切换", "切到", "切成", "改成", "换成", "变成", "转到",
                 "开启", "启用", "进入")
 MAX_COMMAND_BYTES = 60
+
+# ---------------------------------------------------------------- 埋点发射
+# 可选 on_event 回调（装配层接线，生产核不 import telemetry）：
+# 默认 None 零行为变化；回调异常吞掉——埋点永不影响主链路。
+
+
+def safe_emit(on_event: Optional[Callable[[str, dict], None]],
+              event: str, fields: dict) -> None:
+    """发射埋点事件；on_event=None 或回调抛错均零影响主链路。"""
+    if on_event is None:
+        return
+    try:
+        on_event(event, fields)
+    except Exception:
+        pass
+
+
+def _sha8(text: str) -> str:
+    """话语脱敏指纹（设计 §3.5 禁止对照行）：明文禁入事件，仅 sha256 前 8 位。"""
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()[:8]
 
 
 # ---------------------------------------------------------------- 打断版本化
@@ -84,10 +105,17 @@ class PauseCandidate:
 
 
 class PauseWindow:
-    """句中停顿的投机窗口状态机（上游 VoiceScheduler 的 pause_* 成员）。"""
+    """句中停顿的投机窗口状态机（上游 VoiceScheduler 的 pause_* 成员）。
 
-    def __init__(self, clock: Clock = time.monotonic):
+    on_event 可选埋点回调（默认 None 零行为变化）：投机轮取消时收
+    ("d.speculative.cancel", {...})，计数脱敏级（设计 §3.5）；回调异常
+    吞掉，埋点永不影响主链路。
+    """
+
+    def __init__(self, clock: Clock = time.monotonic,
+                 on_event: Optional[Callable[[str, dict], None]] = None):
         self._clock = clock
+        self._on_event = on_event
         self._lock = threading.Lock()
         self.observation_ms = 500
         self.resume_min_samples = 96 * 16      # 96ms × 16 sample/ms
@@ -157,6 +185,10 @@ class PauseWindow:
             if self._resume_samples < self.resume_min_samples:
                 return False
             self._cancelled.add(self._speculative_id)
+            safe_emit(self._on_event, "d.speculative.cancel", {
+                "dialog_id": self._speculative_id, "reason": "resume_cancel",
+                "merged": True, "tokens_wasted_est": 0,
+                "resume_samples": self._resume_samples})
             self._speculative_id = 0
             self._committed_id = 0
             self._merge_pending = True
@@ -220,13 +252,20 @@ class DialogJob:
 
 
 class DialogQueue:
-    """新任务入队即清空排队（latest-only）；被清任务的投机取消记录回收。"""
+    """新任务入队即清空排队（latest-only）；被清任务的投机取消记录回收。
+
+    on_event 可选埋点回调（默认 None 零行为变化）：成功入队后收
+    ("d.dialog.turn", {...})——最小发射点，无明文 text（sha8 脱敏，
+    设计 §3.5）；回调异常吞掉，埋点永不影响主链路。
+    """
 
     def __init__(self, pause: PauseWindow, gate: GenerationGate,
-                 clock: Clock = time.monotonic):
+                 clock: Clock = time.monotonic,
+                 on_event: Optional[Callable[[str, dict], None]] = None):
         self._pause = pause
         self._gate = gate
         self._clock = clock
+        self._on_event = on_event
         self._lock = threading.Lock()
         self._jobs: List[DialogJob] = []
         self._next_id = 0
@@ -246,6 +285,10 @@ class DialogQueue:
             self._jobs = [DialogJob(job_id, generation, use_llm, text,
                                     speculative, commit_deadline, merged_segments)]
         self._pause.register_dialog(job_id, speculative, commit_deadline)
+        safe_emit(self._on_event, "d.dialog.turn", {
+            "turn_id": job_id, "generation": generation, "use_llm": use_llm,
+            "speculative": speculative, "merged_segments": merged_segments,
+            "utter_len": len(text), "utter_sha8": _sha8(text)})
         return self._jobs[0]
 
     def pop(self) -> Optional[DialogJob]:

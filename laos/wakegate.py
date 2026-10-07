@@ -28,7 +28,7 @@ from __future__ import annotations
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Callable, List
+from typing import Callable, List, Optional
 
 
 class WakeState(Enum):
@@ -56,10 +56,17 @@ class WakeResult:
 
 
 class WakeGate:
-    """唤醒会话闸门。所有方法线程安全（一把锁）。"""
+    """唤醒会话闸门。所有方法线程安全（一把锁）。
 
-    def __init__(self, clock: Callable[[], float] = time.monotonic):
+    on_event 可选埋点回调（默认 None 零行为变化，装配层接线，本核不
+    import telemetry）：状态迁移时收 ("d.wake.state_change", {...})，
+    字段计数脱敏级（设计 §3.5）；回调异常吞掉，埋点永不影响主链路。
+    """
+
+    def __init__(self, clock: Callable[[], float] = time.monotonic,
+                 on_event: Optional[Callable[[str, dict], None]] = None):
         self._clock = clock
+        self._on_event = on_event
         self._config = WakeConfig()
         self._state = WakeState.SLEEPING
         self._turns = 0
@@ -84,9 +91,9 @@ class WakeGate:
             self._expire(now)
             if self._state != WakeState.SLEEPING:
                 return False
-            self._state = WakeState.LISTENING
             self._session_started = now
             self._turns = 0
+            self._transition(WakeState.LISTENING, "wake")
             return True
 
     def process(self, asr_text: str) -> WakeResult:
@@ -100,14 +107,14 @@ class WakeGate:
             if self._state in (WakeState.SLEEPING, WakeState.PROCESSING):
                 return WakeResult(False)
             if _contains_any(norm, self._config.sleep_words):
-                self._sleep()
+                self._sleep("sleep_word")
                 return WakeResult(False, slept=True)
             if not norm:
                 return WakeResult(False)
             if 0 < self._config.max_turns <= self._turns:
-                self._sleep()
+                self._sleep("max_turns")
                 return WakeResult(False)
-            self._state = WakeState.PROCESSING
+            self._transition(WakeState.PROCESSING, "turn")
             self._turns += 1
             return WakeResult(True, norm, False)
 
@@ -158,15 +165,32 @@ class WakeGate:
             return
         if (0.0 < cfg.max_session_sec and
                 now - self._session_started >= cfg.max_session_sec):
-            self._sleep()
+            self._sleep("session_timeout")
             return
         if (self._state == WakeState.FOLLOW_UP and
                 0.0 < cfg.follow_up_timeout_sec and now >= self._follow_up_deadline):
-            self._sleep()
+            self._sleep("followup_timeout")
 
-    def _sleep(self) -> None:
-        self._state = WakeState.SLEEPING
+    def _sleep(self, reason: str) -> None:
+        self._transition(WakeState.SLEEPING, reason)
         self._turns = 0
+
+    def _transition(self, to_state: WakeState, reason: str) -> None:
+        """统一迁移出口（须持锁）：置新态并发射 d.wake.state_change 埋点
+        事件（§3.5 字段：from/to/reason/turns/session_ms，计数脱敏级，
+        文本永不入事件；on_event=None 或回调异常均零影响主链路）。"""
+        old = self._state
+        self._state = to_state
+        if self._on_event is None:
+            return
+        try:
+            self._on_event("d.wake.state_change", {
+                "from": old.value, "to": to_state.value, "reason": reason,
+                "turns": self._turns,
+                "session_ms": int((self._clock() - self._session_started) * 1000),
+            })
+        except Exception:
+            pass
 
 
 def _normalize(text: str) -> str:
