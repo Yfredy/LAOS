@@ -4,7 +4,9 @@
 三事件最小发射点（docs/design/2026-10-07-instrumentation-design.md §3.5
 D 类字段表；laos/telemetry.py EVENT_FIELDS 注册表为同源契约）：
 - d.wake.state_change：wake() 醒 / process() 入 Processing / 四条休眠路径
-  （sleep_word、max_turns、session_timeout、followup_timeout）；
+  （sleep_word、max_turns、session_timeout、followup_timeout）；终审 T2
+  补发三迁移 speech_started()/barge_in()/finish_turn()（reason=speech/
+  barge_in/finish_turn，设计 §298 六函数发射点自此全覆盖）；
 - d.dialog.turn：DialogQueue.enqueue 成功入队（无明文 text，sha8 脱敏）；
 - d.speculative.cancel：PauseWindow.handle_speech_activity 返回 True。
 
@@ -87,7 +89,8 @@ def make_gate(clock, on_event=None, **cfg) -> WakeGate:
 
 
 class WakeTransitionHook(unittest.TestCase):
-    """d.wake.state_change：三迁移点（醒/入 Processing/四休眠路径）。"""
+    """d.wake.state_change：六迁移点（醒/入 Processing/四休眠路径 + 终审
+    T2 补发的 speech_started/barge_in/finish_turn 三迁移）。"""
 
     def test_wake_emits_sleeping_to_listening(self):
         col = Collector()
@@ -154,6 +157,77 @@ class WakeTransitionHook(unittest.TestCase):
         gate.wake()
         gate.wake()                                     # 已醒，拒绝迁移
         gate.process("")                                # 空文本丢弃
+        self.assertEqual(len(col.of("d.wake.state_change")), 1)
+
+    # ---- 终审 T2 补发：speech_started / barge_in / finish_turn 三迁移 ----
+    # （设计 §3.5 发射点清单 §298 六函数的空窗半数；reason 枚举：
+    #   speech / barge_in / finish_turn；无状态变更的空调不发）
+
+    def test_speech_started_emits_from_followup(self):
+        clock, col = FakeClock(), Collector()
+        gate = make_gate(clock, col)
+        gate.wake()
+        gate.process("一")                              # → processing
+        gate.finish_turn()                              # → follow_up
+        gate.speech_started()                           # follow_up → listening
+        self.assertEqual(col.of("d.wake.state_change")[-1], {
+            "from": "follow_up", "to": "listening", "reason": "speech",
+            "turns": 1, "session_ms": 0})
+
+    def test_speech_started_emits_from_processing(self):
+        col = Collector()
+        gate = make_gate(FakeClock(), col)
+        gate.wake()
+        gate.process("一")                              # → processing
+        gate.speech_started()                           # processing → listening
+        self.assertEqual(col.of("d.wake.state_change")[-1], {
+            "from": "processing", "to": "listening", "reason": "speech",
+            "turns": 1, "session_ms": 0})
+
+    def test_speech_started_idle_states_emit_nothing(self):
+        col = Collector()
+        gate = make_gate(FakeClock(), col)
+        gate.speech_started()                           # sleeping：空转不发
+        gate.wake()                                     # → listening（1 条）
+        gate.speech_started()                           # listening：无变更不发
+        self.assertEqual(len(col.of("d.wake.state_change")), 1)
+
+    def test_barge_in_emits_processing_to_listening(self):
+        col = Collector()
+        gate = make_gate(FakeClock(), col)
+        gate.wake()
+        gate.process("一")                              # → processing
+        self.assertTrue(gate.barge_in())
+        self.assertEqual(col.of("d.wake.state_change")[-1], {
+            "from": "processing", "to": "listening", "reason": "barge_in",
+            "turns": 1, "session_ms": 0})
+
+    def test_barge_in_rejected_state_emits_nothing(self):
+        col = Collector()
+        gate = make_gate(FakeClock(), col)
+        gate.wake()                                     # listening 态打断无效
+        self.assertFalse(gate.barge_in())
+        self.assertEqual(len(col.of("d.wake.state_change")), 1)
+
+    def test_finish_turn_emits_processing_to_followup(self):
+        clock, col = FakeClock(), Collector()
+        gate = make_gate(clock, col)
+        gate.wake()
+        gate.process("一")                              # → processing
+        gate.finish_turn(delay_sec=2.0)                # → follow_up
+        self.assertEqual(col.of("d.wake.state_change")[-1], {
+            "from": "processing", "to": "follow_up", "reason": "finish_turn",
+            "turns": 1, "session_ms": 0})
+        clock.advance(15.0)                             # 2+12s 窗口到期
+        gate.state()
+        self.assertEqual(col.of("d.wake.state_change")[-1]["reason"],
+                         "followup_timeout", "补发后 FollowUp 窗口语义不变")
+
+    def test_finish_turn_idle_state_emits_nothing(self):
+        col = Collector()
+        gate = make_gate(FakeClock(), col)
+        gate.wake()                                     # listening 态空转
+        gate.finish_turn()
         self.assertEqual(len(col.of("d.wake.state_change")), 1)
 
     def test_callback_exception_swallowed(self):

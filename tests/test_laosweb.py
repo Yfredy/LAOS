@@ -18,6 +18,7 @@ import unittest
 import urllib.error
 import urllib.request
 from pathlib import Path
+from unittest import mock
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
@@ -602,6 +603,65 @@ class TestRotationSafeAuditKey(unittest.TestCase):
             laosweb.PAGE)
         self.assertNotIn("const key = r.seq + '|'", laosweb.PAGE,
                          "裸 seq 去重键不得残留（轮转后误判重复）")
+
+    # ---- 终审 T3 修复波：rotate 异常恢复 + mode='a' 跨 boot 键语义 ----
+
+    def test_rotate_failure_keeps_stream_usable(self):
+        """T3-1：close 后归档任一步抛错不留下已关句柄断流——保底以追加
+        模式重开原文件后原样上抛；数据未丢、代数未变、半途归档残件清掉。"""
+        self.audit.write({"t": 1.0, "event": "spawn", "name": "a"})
+        with mock.patch("gzip.GzipFile", side_effect=OSError("disk full")):
+            with self.assertRaises(OSError):
+                self.audit.rotate()
+        # 半途归档残件被清：开机扫档不会误续代
+        self.assertEqual(list(self.path.parent.glob("audit-*.jsonl.gz")), [])
+        # 审计不断流：句柄可用、原数据仍在、代数未变，可继续写可重试
+        self.assertEqual(self.audit.epoch, 0)
+        self.audit.write({"t": 2.0, "event": "spawn", "name": "b"})
+        self.assertEqual([r["seq"] for r in self.audit.records], [0, 1])
+        lines = [json.loads(ln)
+                 for ln in self.path.read_text(encoding="utf-8").splitlines()]
+        self.assertEqual([(r["epoch"], r["seq"]) for r in lines],
+                         [(0, 0), (0, 1)])
+        self.audit.rotate()                        # 重试成功，语义照常
+        self.assertEqual(self.audit.epoch, 1)
+
+    def test_append_mode_cross_boot_epoch_continues(self):
+        """T3-2：mode='a' 跨 boot 同文件不出现重复 (epoch, seq) 键——新
+        boot 开机检测文件尾已盖 epoch，换新代续写。"""
+        self.audit.close()
+        self.audit = AuditLog(self.path, mode="a")
+        self.audit.write({"t": 1.0, "event": "spawn", "name": "boot1a"})
+        self.audit.write({"t": 1.1, "event": "spawn", "name": "boot1b"})
+        boot1_epoch = self.audit.records[-1]["epoch"]
+        self.audit.close()
+        self.audit = AuditLog(self.path, mode="a")     # 第二次 boot，累积模式
+        self.audit.write({"t": 2.0, "event": "spawn", "name": "boot2"})
+        self.assertEqual(self.audit.epoch, boot1_epoch + 1, "跨 boot 换代续写")
+        self.assertEqual(self.audit.records[0]["seq"], 0)
+        rows = [json.loads(ln)
+                for ln in self.path.read_text(encoding="utf-8").splitlines()]
+        keys = [(r["epoch"], r["seq"]) for r in rows]
+        self.assertEqual(len(keys), len(set(keys)),
+                         "同文件 (epoch, seq) 复合键跨 boot 不重复")
+
+    def test_append_mode_after_rotate_cross_boot_epoch_continues(self):
+        """T3-2 轮转组合：boot1 轮转后续写（文件内是代 1），boot2 开机取
+        归档扫描与文件尾代两者较大者 +1——归档与未轮转内容都算数。"""
+        self.audit.close()
+        self.audit = AuditLog(self.path, mode="a")
+        self.audit.write({"t": 1.0, "event": "spawn", "name": "b1"})
+        self.audit.rotate()                            # 归档代 0，文件内代 1
+        self.audit.write({"t": 1.1, "event": "spawn", "name": "b1post"})
+        self.audit.close()
+        self.audit = AuditLog(self.path, mode="a")
+        self.assertEqual(self.audit.epoch, 2,
+                         "归档扫描给 1，文件尾代 1 再 +1 → 2")
+        self.audit.write({"t": 2.0, "event": "spawn", "name": "b2"})
+        rows = [json.loads(ln)
+                for ln in self.path.read_text(encoding="utf-8").splitlines()]
+        keys = [(r["epoch"], r["seq"]) for r in rows]
+        self.assertEqual(keys, [(1, 0), (2, 0)], "两代同 seq 不撞键")
 
 
 if __name__ == "__main__":

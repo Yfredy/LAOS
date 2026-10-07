@@ -146,6 +146,34 @@ class AuditLog:
             m = self._ARCHIVE_RE.match(p.name)
             if m:
                 self.epoch = max(self.epoch, int(m.group(1)) + 1)
+        # mode='a' 跨 boot 键语义（终审 T3-2）：开机时当前文件已有未轮转
+        # 内容 → 那是上一 boot 的代（epoch 已盖在行内），本 boot 换新代
+        # 续写，同文件不再出现重复 (epoch, seq) 键。取文件尾行已盖 epoch
+        # +1（mode='w' 开机即截断、size=0 天然不触发；尾行读不出 epoch 的
+        # 非空文件按"至少被 0 号代之后的某代占用"保守 bump 到 1）。
+        if self.path.stat().st_size > 0:
+            tail = self._tail_epoch()
+            self.epoch = max(self.epoch,
+                             tail + 1 if tail is not None else 1)
+
+    def _tail_epoch(self) -> int | None:
+        """有界 tail 读：末 64KB 内最后一条可解析行的 epoch 戳（无 → None）。"""
+        with self.path.open("rb") as fh:
+            fh.seek(0, os.SEEK_END)
+            size = fh.tell()
+            fh.seek(max(0, size - 65536))
+            tail = fh.read().decode("utf-8", errors="replace")
+        for line in reversed(tail.splitlines()):
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                rec = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if isinstance(rec.get("epoch"), int):
+                return rec["epoch"]
+        return None
 
     def write(self, record: dict) -> None:
         # 单调序号在 append 前盖章：seq == 记录在 self.records 里的下标，
@@ -168,19 +196,35 @@ class AuditLog:
         (epoch, seq) 复合键去重，轮转后同 seq 的新事件不会被误判重复。
         64MB 水位触发与归档保留策略（7 天 / 256MB）由后续轮转接线波次
         挂上；本方法只钉死"轮转发生时"的代数与 seq 语义。
+
+        异常恢复（终审 T3-1，try/finally 语义保底 reopen）：归档/重开任
+        一步抛错时，以追加模式重开原文件后原样上抛——数据未丢、代数未
+        变、下次可重试；半途归档残件清掉（防开机扫档误续代）。审计断流
+        是比轮转失败更大的错，句柄必须始终可用。
         """
         self._fh.flush()
         self._fh.close()
-        stamp = time.strftime("%Y%m%d", time.gmtime())
-        archive = self.path.with_name(f"audit-{stamp}-{self.epoch}.jsonl.gz")
-        if self.path.exists():
-            with self.path.open("rb") as src, open(archive, "wb") as raw:
-                with gzip.GzipFile(fileobj=raw, mode="wb") as out:
-                    shutil.copyfileobj(src, out)
-                raw.flush()
-                os.fsync(raw.fileno())
-            self.path.unlink()
-        self._fh = self.path.open("w", encoding="utf-8")
+        archive = None
+        try:
+            stamp = time.strftime("%Y%m%d", time.gmtime())
+            archive = self.path.with_name(f"audit-{stamp}-{self.epoch}.jsonl.gz")
+            if self.path.exists():
+                with self.path.open("rb") as src, open(archive, "wb") as raw:
+                    with gzip.GzipFile(fileobj=raw, mode="wb") as out:
+                        shutil.copyfileobj(src, out)
+                    raw.flush()
+                    os.fsync(raw.fileno())
+                self.path.unlink()
+            new_fh = self.path.open("w", encoding="utf-8")
+        except Exception:
+            if archive is not None and archive.exists():
+                try:
+                    archive.unlink()
+                except OSError:
+                    pass  # 残件清理是尽力而为；主目标是指柄可用
+            self._fh = self.path.open("a", encoding="utf-8")
+            raise
+        self._fh = new_fh
         self.records.clear()
         self.epoch += 1
 

@@ -70,8 +70,10 @@ __all__ = [
 # ---------------------------------------------------------------------------
 
 LEVEL_PLAIN = "plain"        # 明文：标识符/计数/时延/配置值，无隐私面
-LEVEL_COUNT = "count"        # 计数：只记次数/数量，不记内容
-LEVEL_REDACTED = "redacted"  # 脱敏：len / sha256 前 8 位 / 时长 / 语言码
+LEVEL_COUNT = "count"        # 计数：只记次数/数量，不记内容（含 *_len 字段族
+                             # = 数量语义，设计 §1.2 len 级别勘误）
+LEVEL_REDACTED = "redacted"  # 脱敏：sha256 前 8 位 / 内容时长（duration_sec
+                             # 等）/ 语言码——len 不在此级（*_len=计数，§1.2 勘误）
 LEVEL_FORBIDDEN = "forbidden"  # 禁止：红线，永不入事件（拒发整条）
 
 
@@ -305,11 +307,16 @@ class TelemetryEmitter:
         throttle_sec: float = 5.0,
         clock: Callable[[], float] = time.monotonic,
         policy: RedactionPolicy | None = None,
+        throttle_max_keys: int = 1024,
     ):
         self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self.max_bytes = int(max_bytes)
         self.throttle_sec = float(throttle_sec)
+        # 节流键上限（终审 T1：长跑 (event,module,session) 键无界累积封口）：
+        # 超限逐最旧端 LRU 淘汰——淘汰只丢该键的节流窗口元数据（窗口内被
+        # 压制数），被淘汰键的下一条事件按新窗口首条即发，无害不丢事件。
+        self.throttle_max_keys = int(throttle_max_keys)
         self._clock = clock
         self.policy = policy if policy is not None else RedactionPolicy()
         self._lock = threading.Lock()
@@ -433,15 +440,25 @@ class TelemetryEmitter:
             last, suppressed = self._throttle_state.get(key, (None, 0))
             if exempt:
                 # 豁免事件不查窗，但照常刷新窗口时钟（供同键非豁免路径用）
-                self._throttle_state[key] = (now, suppressed)
+                self._throttle_touch(key, (now, suppressed))
                 return False, 0
             if last is not None and (now - last) < self.throttle_sec:
-                self._throttle_state[key] = (last, suppressed + 1)
+                self._throttle_touch(key, (last, suppressed + 1))
                 self._throttled_total += 1
                 return True, 0
             release = suppressed
-            self._throttle_state[key] = (now, 0)
+            self._throttle_touch(key, (now, 0))
             return False, release
+
+    def _throttle_touch(self, key: tuple, value: tuple) -> None:
+        """写入节流键并维持 LRU 序（须持锁；终审 T1 淘汰机制）：触达即
+        挪到最新端（dict 插入序即 LRU 序），超 throttle_max_keys 上限逐
+        最旧端淘汰——键空间有界，长跑不再无界累积。"""
+        self._throttle_state.pop(key, None)
+        self._throttle_state[key] = value
+        while (len(self._throttle_state) > self.throttle_max_keys
+               and self._throttle_state):
+            del self._throttle_state[next(iter(self._throttle_state))]
 
     # -- 写盘（.part 中转 + os.replace 轮转换新）---------------------------
 
@@ -511,7 +528,10 @@ class TelemetryEmitter:
 
         emit 期主文件零写入；append 复制中途被杀的理论撕裂窗口不做承诺
         （§6.4 OS 页缓存边界外，与既有审计同边界）——.part 在复制成功后才
-        清空，残件数据不丢，下次 flush 重新并入。
+        清空，残件数据不丢，下次 flush 重新并入。句柄交换用两段提交（终审
+        T3 rotate 加固）：先开新 .part 句柄、再关旧句柄——重开失败时旧句柄
+        仍可用，发射流不断（此刻 .part 内容已并入主文件，残件下次 flush
+        会被再并入，最坏重复行，好过断流）。
         """
         self._fh.flush()
         if self._part_size == 0:
@@ -525,6 +545,7 @@ class TelemetryEmitter:
             out.flush()
             os.fsync(out.fileno())
         self._base_size += self._part_size
+        new_fh = self._part.open("w", encoding="utf-8", newline="\n")
         self._fh.close()
-        self._fh = self._part.open("w", encoding="utf-8", newline="\n")
+        self._fh = new_fh
         self._part_size = 0

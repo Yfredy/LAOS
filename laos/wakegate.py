@@ -119,26 +119,39 @@ class WakeGate:
             return WakeResult(True, norm, False)
 
     def speech_started(self) -> None:
-        """VAD 检测到新语音起点。FollowUp/Processing 回 Listening（继续听）。"""
+        """VAD 检测到新语音起点。FollowUp/Processing 回 Listening（继续听）。
+
+        终审 T2 补发：状态变更走 `_transition` 统一出口发射
+        d.wake.state_change（reason="speech"，设计 §3.5 reason 枚举）；
+        Listening/Sleeping 态无变更，空转不发事件。
+        """
         with self._lock:
             self._expire(self._clock())
             if self._state in (WakeState.FOLLOW_UP, WakeState.PROCESSING):
-                self._state = WakeState.LISTENING
+                self._transition(WakeState.LISTENING, "speech")
 
     def barge_in(self) -> bool:
-        """用户在系统播报中开口。仅 Processing 态有效（打断播报）。"""
+        """用户在系统播报中开口。仅 Processing 态有效（打断播报）。
+
+        终审 T2 补发：迁移经 `_transition` 出口（reason="barge_in"）；
+        非 Processing 态拒绝迁移，不发事件。
+        """
         with self._lock:
             if self._state != WakeState.PROCESSING:
                 return False
-            self._state = WakeState.LISTENING
+            self._transition(WakeState.LISTENING, "barge_in")
             return True
 
     def finish_turn(self, delay_sec: float = 0.0) -> None:
-        """一轮回答结束（delay_sec=TTS 剩余播报时长，并入 FollowUp 窗口）。"""
+        """一轮回答结束（delay_sec=TTS 剩余播报时长，并入 FollowUp 窗口）。
+
+        终审 T2 补发：迁移经 `_transition` 出口（reason="finish_turn"）；
+        非 Processing 态空转不发事件。
+        """
         with self._lock:
             if self._state != WakeState.PROCESSING:
                 return
-            self._state = WakeState.FOLLOW_UP
+            self._transition(WakeState.FOLLOW_UP, "finish_turn")
             wait = max(0.0, delay_sec) + self._config.follow_up_timeout_sec
             self._follow_up_deadline = self._clock() + wait
 

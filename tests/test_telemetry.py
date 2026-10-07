@@ -336,6 +336,43 @@ class TestThrottle(TelemetryBase):
         self.assertFalse(self.em.emit("l.crash.recover", module="kernel", fields=rec))
         self.assertEqual(self.em.take_throttled(), 1)
 
+    def test_throttle_state_capped_oldest_evicted(self):
+        """终审 T1：节流键上限 1024（可注入），超限逐最旧端淘汰——键空间
+        有界，长跑不再无界累积；淘汰只丢窗口元数据，不丢事件。"""
+        self.assertEqual(self.em.throttle_max_keys, 1024)  # 默认上限在位
+        em = self._emitter(throttle_max_keys=8)
+        for i in range(8):
+            self.assertTrue(em.emit("a.vad.endpoint", module=f"m{i}",
+                                    session="s", fields=self.VAD))
+        self.assertEqual(len(em._throttle_state), 8)
+        self.assertTrue(em.emit("a.vad.endpoint", module="m8",
+                                session="s", fields=self.VAD))
+        self.assertEqual(len(em._throttle_state), 8, "超限后键数不涨")
+        self.assertNotIn(("a.vad.endpoint", "m0", "s"), em._throttle_state,
+                         "最旧键（m0）被淘汰")
+        self.assertIn(("a.vad.endpoint", "m8", "s"), em._throttle_state)
+        # 被淘汰键的下一条：窗口元已丢，按新窗口首条即发（无害不抛）
+        self.assertTrue(em.emit("a.vad.endpoint", module="m0",
+                                session="s", fields=self.VAD))
+
+    def test_throttle_touch_refreshes_lru_recency(self):
+        """LRU 语义：窗口内被压制的触达同样刷新该键新旧序——活跃键不被
+        淘汰，冷键先走。"""
+        em = self._emitter(throttle_max_keys=2)
+        self.assertTrue(em.emit("a.vad.endpoint", module="m0",
+                                session="s", fields=self.VAD))
+        self.assertTrue(em.emit("a.vad.endpoint", module="m1",
+                                session="s", fields=self.VAD))
+        self.assertFalse(em.emit("a.vad.endpoint", module="m0",
+                                 session="s",
+                                 fields=self.VAD))   # m0 触达挪到最新端
+        self.assertTrue(em.emit("a.vad.endpoint", module="m2",
+                                session="s", fields=self.VAD))
+        self.assertNotIn(("a.vad.endpoint", "m1", "s"), em._throttle_state,
+                         "冷键 m1 先被淘汰")
+        for hot in ("m0", "m2"):
+            self.assertIn(("a.vad.endpoint", hot, "s"), em._throttle_state)
+
 
 class TestRotationAndAtomicWrite(TelemetryBase):
     def _small_emitter(self):
@@ -406,6 +443,27 @@ class TestRotationAndAtomicWrite(TelemetryBase):
         for ln in raw_lines:
             row = json.loads(ln)
             self.assertEqual(row["fields"]["err"], "x\u2028y\u2029z")
+
+    def test_merge_part_reopen_failure_keeps_stream_usable(self):
+        """终审 T3 rotate 加固：.part 重开（句柄交换）失败不留下已关句柄
+        断流——两段提交先开新句柄再关旧，旧句柄仍可继续发射。"""
+        em = self._emitter()
+        self.assertTrue(em.emit(
+            "l.sys.init", module="kernel",                        # 豁免不节流
+            fields={"version": "0.21.0", "drivers": 3, "rec_enabled": True}))
+        with mock.patch.object(type(em._part), "open",
+                               side_effect=PermissionError("part locked")):
+            with self.assertRaises(PermissionError):
+                em.flush()                       # 复制已并入，交换句柄失败
+        # 断言核心：句柄仍可用——emit 不抛、照常受理落 .part
+        self.assertTrue(em.emit(
+            "l.sys.init", module="kernel",
+            fields={"version": "0.21.0", "drivers": 4, "rec_enabled": True}))
+        em.flush()                                # 恢复后正常并入，逐行可 parse
+        rows = self.read_lines()
+        self.assertEqual(len(rows), 3)            # 首行被并入两次（残件重并，
+        self.assertEqual([r["fields"]["drivers"] for r in rows],  # 最坏重复行）
+                         [3, 3, 4])
 
 
 class TestRecGate(TelemetryBase):
