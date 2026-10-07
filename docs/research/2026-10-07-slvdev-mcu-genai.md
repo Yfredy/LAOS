@@ -24,7 +24,7 @@
 1. **model.bin 经 HF 下载，SHA256 与仓内钉死值精确命中**（1d8326c0…，14,912,348B）；
 2. **staging_verify PASS（0 失败）**：int4 加载/绑定/前向数值校验全过（Windows 宿主）；
 3. **自回归贪心生成跑通**：模型实态 Vin=32768/Vout=25353/D=96/L=6/H=4/F=66/P=128/group=128；板端预置提示词 "Once upon a time"（id 433,447,259,405）→ 64 token 生成 **481 tok/s host-x86**（ESP32 的 48.7×，240MHz 双核 vs 3.5GHz 桌面量级合理），id 流有句读结构、零即时重复；
-4. 分词器资产（vocab.json/layout.json）在 HF 仓库根路径 "Entry not found"（20+ 轮）——文本级解码待资产到手（prep_assets.py+gen.c 已备好），当前以 token id 流证生成链路。
+4. 分词器资产（vocab.json/layout.json/tokenizer.json 在 HF 仓库根路径均 "Entry not found"，20+ 轮 + API 树端点闭窗）——文本级解码待资产到手（prep_assets.py+gen.c 已备好），当前以 token id 流证生成链路。**补充核实**：分词器是 prepare.py 从 TinyStories 语料片**自训的自定义 BPE**（"Download a slice of TinyStories, train a small BPE, emit uint16 token bins"），且 train.py 以 hash 将 checkpoint 与分词器绑定——重训分词器统计上不等于原表，**不能替代解码**；曾试探 Llama-2 32k 词表假设（ModelScope 镜像拉取成功）但 id 433='la' 证伪。
 
 ## 三、stm32-diffusion / stm32-voice（未验证，README 口径）
 
