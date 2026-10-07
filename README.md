@@ -407,6 +407,8 @@ laos/
 
 调研语料在 v0.18 波次扩展至 **120,234 行**（38 venue 整卷全量），其强命中工作集 934 行与 agent-os 窄分支治理文献 49 篇的对照结论见 [治理文献对照](docs/research/2026-10-07-agentos-governance-literature.md) 与 [对话听觉与空间隐私定向检索](docs/research/2026-10-07-dialog-spatial-retrieval.md)。
 
+2026-10-07 上线前评审波次交付三份文档：[需求评审](docs/review/2026-10-07-requirements-review.md)（15 类上线后问题域 P01–P15 + Go/No-Go 九门槛）与[技术评审](docs/review/2026-10-07-technical-review.md)（11 条风险 R1–R11 + ADR×5），以及消费两者冻结编号的[埋点设计](docs/design/2026-10-07-instrumentation-design.md)（23 事件/137 字段诊断矩阵，`laos/telemetry.py` 下一波次的实现规格）；评审发现的 P13 禁录旁路（`mic.record` 路径未设闸）已当日补闸（commit 84b5128，mic.record/mic.listen_start 双路径 EACCES）。
+
 ### 10.2 工作内容（AlwaysOnRec-ZCode 隔离实现区，全部 TDD）
 
 主代码零改动；实现细节见 [AlwaysOnRec-ZCode/README.md](AlwaysOnRec-ZCode/README.md)。

@@ -1,7 +1,7 @@
 # laos 埋点设计（2026-10-07）
 
 > **评审对象**：laos v0.19.0（主库 691 项测试实跑通过；页脚总数 1041 = 691 + 隔离区 279 + 复现区 71）。
-> **本文角色**：上线前评审波次（Task 3）核心交付——事件分类学、统一 schema、发射点清单、问题→埋点诊断矩阵。本文件是 `laos/telemetry.py`（下一实现波次）的实现规格。
+> **本文角色**：上线前评审波次（Task 3）核心交付——事件分类学、统一 schema、发射点清单、问题→埋点诊断矩阵。本文件是 `laos/telemetry.py`（下一实现波次）的实现规格。**交付口径（消费侧）**：依赖装配层或未接线发射点的事件（`d.dialog.turn`/`d.mic.guard`/`f.tts.fallback`/`a.device.reopen` 等）在接线前存在空窗——§5 矩阵判定逻辑已按"空窗=已知未接线、非新故障"口径区分（P01①/P07/P09/P11），消费方照此读表。
 > **输入契约（三份冻结源）**：
 > 1. 需求评审 §6 问题域清单 P01–P15（docs/review/2026-10-07-requirements-review.md，编号冻结）——诊断矩阵逐条消费；
 > 2. 技术评审 §4 风险表 R1–R11（docs/review/2026-10-07-technical-review.md，编号冻结）——发射点覆盖面与"预留位"标注源；
@@ -395,7 +395,7 @@
 | `pid` | int | 明文 | 违例行 pid |
 | `detail` | str | 明文（违例摘要：seq 与判定式） | 断言器拼装 |
 
-> **断言器动机（P13 现状实取）**：仓库内 `LAOS_REC=0` 强制点当前仅 `drv_rec.rec_start` 一处（drivers/drv_rec.py:91-92，grep 全仓实取）；`drv_mic.mic.record`（drv_mic.py:153-170）未设闸。断言器正是"无禁录态全局断言"（需求评审 P13 现有观测点栏）的补位；实现波次应同步补闸（本设计只定义观测，不改闸门语义）。
+> **断言器动机（P13 现状实取）**：仓库内 `LAOS_REC=0` 强制点当前仅 `drv_rec.rec_start` 一处（drivers/drv_rec.py:91-92，grep 全仓实取）；`drv_mic.mic.record`（drv_mic.py:153-170）未设闸。断言器正是"无禁录态全局断言"（需求评审 P13 现有观测点栏）的补位。**2026-10-07 已补闸（commit 84b5128：drv_mic 的 mic.record 与 mic.listen_start 双路径 EACCES）**——该旁路缺口已闭合，但断言器仍必设（防"新驱动绕过闸门"类未知旁路；本设计只定义观测，不改闸门语义）。
 
 **`f.audit.gap`**（发射点：telemetry 对账器——内核 `syscall()` 派发尾记数（`pcb.stats["syscalls"]` 累计，kernel.py:503/541）vs audit `seq` 增量对账，差值>0 触发；error 级不节流）
 
@@ -435,7 +435,7 @@
 | `f.tts.fallback` | laos/dialogsched.py · `TtsRouter.synthesize_stream()` 降级路径（dialogsched.py:356-366）经 `take_fell_back()`（dialogsched.py:368） | 接线位现成（降级语义已测） | R3（真合成后端）/ P07 |
 | `f.asr.channel_fail` | drivers/drv_ear.py · 三通道 except（drv_ear.py:109-113 等）；内核尾部转写 | 接线位现成 | P03（通道自动切换不存在，LAOS_ASR_CHANNEL 手动——误切靠事件回溯） |
 | `f.model.load_fail` | drivers/drv_ear.py `_get_model()`（drv_ear.py:100-124）+ drivers/drv_npu.py 模型加载 | 接线位现成 | P08 / R11 / R6（npu.infer 端点可达性另由 R6 缓解建议覆盖） |
-| `f.rec.bypass` | laos/telemetry.py 断言器（扫描 `event:"mic"` 行 vs `LAOS_REC` 态） | 新逻辑 | P13（红线级；现强制点仅 drv_rec.py:91 一处） |
+| `f.rec.bypass` | laos/telemetry.py 断言器（扫描 `event:"mic"` 行 vs `LAOS_REC` 态） | 新逻辑 | P13（红线级；设计时点强制点仅 drv_rec.py:91 一处——2026-10-07 已补闸 84b5128，drv_mic 双路径，断言器仍必设） |
 | `f.audit.gap` | laos/telemetry.py 对账器（`pcb.stats["syscalls"]` vs audit seq） | 新逻辑 | P12（红线级） |
 
 **风险表覆盖核对**（技术评审 §4 R1–R11 逐条在本设计中有着落）：R1→`d.barge_in.source` 预留值 + `d.dialog.turn.interrupted/generation`；R2→`d.wake.state_change`（reason=wake 空窗即证据）；R3→`f.tts.fallback` + `first_audio_ms=null` 口径；R4→`d.mic.guard.aec_ready`；R5→`s.refine.delta.hits_*`；R6→`f.model.load_fail(kind=qnn)`；R7→不在运行时埋点面（研究资产层采集链路，技术评审缓解建议"采集成功/失败事件"属 scripts 层，本设计范围外，明记）；R8→不在埋点面（发版纪律面）；R9→不在埋点面（测试口径面）；R10→`p.memory`+`p.jsonl.water`；R11→`l.driver.load.channels_available`+`f.model.load_fail.interpreter_source`。
@@ -460,7 +460,7 @@
 | **P10** | 内存增长（跑几天越来越胖） | `p.memory`（rss_kb 时间斜率；audit_records 同图）；`p.jsonl.water`（audit/memory lines/bytes 增速）；`a.vad.endpoint`（节流 throttled 值=段密度） | ① rss 单调升且 audit_records 同步升 → JSONL 无界增长驱动（R10：AuditLog.records 全量驻留内存 kernel.py:132-141；治理策略后置，观测先行）；② rss 升但 lines 平 → 队列/缓冲泄漏（drv_mic 监听原型"不裁剪缓冲，长时监听内存随时长增长"——drv_mic.py:92 docstring 自述）；③ 对照锚点：上游常驻 1951MB（采纳报告 §二），laos 未实测基线由本事件首次建立 |
 | **P11** | 崩溃后恢复（crash 后状态不一致/录音开关态丢失） | `l.crash.recover`（phase=detect 无 recovered 配对；restarts）；`l.sys.init`（boot_count 递增 + rec_enabled 与崩溃前快照对比） | ① detect 后无 recovered → 驱动子进程死亡未自愈（现状：kernel EIO 返回后无重启，kernel.py:526-527——预留位空窗即判定）；② boot_count 递增且 rec_enabled 翻转 → 环境态跨崩溃不一致（P11 候选成因"驱动子进程未继承环境"）；③ 崩溃窗口的 `f.audit.gap` → 崩溃时审计 flush 缺失证据（§6.4：逐条 flush 语义下 gap 应恒 0，非 0 即异常路径） |
 | **P12** | 审计缺失（某次调用/录音查不到记录，红线级） | `f.audit.gap`（expected/seen/gap）；`event:"mic"` 行（放行+被拒双路径完整性）；`f.rec.bypass`（禁录对账） | ① gap>0 → 派发计数与落盘行数不一致（异常吞审计/写入路径故障——errno 被包成 EIO 类问题复发的观测位）；② `event:"mic"` 放行/被拒对账：内核双写点（kernel.py:560-563/757-759）各应有的行缺失 → 红线双路径破洞；③ 对账周期默认 60s（§6.3），缺口定位到窗口 |
-| **P13** | `LAOS_REC=0` 旁路（禁录下仍有录音行为，红线级） | `f.rec.bypass`（tool/pid/detail）；`l.sys.init`（rec_enabled 快照）；`event:"mic"`（denied 分布） | 判定式唯一且硬性：rec_enabled=false 生效期出现 `event:"mic"` 且 `ok=true && denied=false` → **红线违例**（error 级，永不节流/静默）；现状实取：强制点仅 drv_rec.rec_start（drv_rec.py:91-92），`mic.record` 路径未设闸——断言器是该缺口的必设观测位（§3.7 断言器动机），实现波次同步补闸；正常态对照：rec_enabled=false 时 `event:"mic"` 应全为 denied=true（EACCES） |
+| **P13** | `LAOS_REC=0` 旁路（禁录下仍有录音行为，红线级） | `f.rec.bypass`（tool/pid/detail）；`l.sys.init`（rec_enabled 快照）；`event:"mic"`（denied 分布） | 判定式唯一且硬性：rec_enabled=false 生效期出现 `event:"mic"` 且 `ok=true && denied=false` → **红线违例**（error 级，永不节流/静默）；现状实取：强制点仅 drv_rec.rec_start（drv_rec.py:91-92），`mic.record` 路径未设闸——**2026-10-07 已补闸（84b5128，mic.record/mic.listen_start 双路径）**，断言器仍必设（§3.7 断言器动机：防未知旁路）；正常态对照：rec_enabled=false 时 `event:"mic"` 应全为 denied=true（EACCES） |
 | **P14** | 投机取消风暴（回答变慢 + token 消耗 spike） | `d.speculative.cancel`（reason 分布、计数率、tokens_wasted_est）；`d.dialog.turn`（speculative_cancelled/speculative_tokens_wasted/pause_observation_ms/merged_segments） | ① reason=resume_cancel 占比高 + speculative_tokens_wasted 突增 → resume 判定过敏（≥96ms×16 采样阈值误判，dialogsched.py:93——上游口径"窗口内语音恢复且累计达限即取消"的过敏面）；② reason=latest_only_dropped 高 → 用户连续说话的正常丢弃（dropped_latest_only 佐证），若伴随用户感知变慢则查总排队时延；③ merged_segments 均值升 → 续说合并频繁（观察窗 500ms 与语速失配候选） |
 | **P15** | 音频队列 overrun 风暴（识别断续、丢字） | `a.mic.frame_overrun`（overruns/dropped_frames/recovered 计数斜率；throttled 值）；`s.asr.result`（text_len/duration_sec 比值密度下降） | ① overruns 斜率陡升 + recovered 反复 true → 生产>消费→清队列+reset ASR 循环（上游自愈语义的副作用，采纳报告 §二"锁-free SPSC…overrun 自愈=清队列+reset ASR"）；② 伴随 asr 轮密度下降（同样时长内 s.asr.result 条数减）→ 丢字外显；③ 现状空窗即判定：laos 无 SPSC 队列，drv_rec status 位先接（§4 预留），事件未实现期该问题靠 `a.vad.endpoint` 段断裂间接观测 |
 
