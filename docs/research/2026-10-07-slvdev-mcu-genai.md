@@ -6,7 +6,7 @@
 
 - 笔记正文三条：STM32N6570-DK 上 3.36MB 量化扩散模型出 64×64 灰度图（Cortex-M55+Ethos-U55）；NXP FRDM-MCXN947 上 2.89 亿参数 LLM；ESP32-S3 上 2890 万参数 LLM @9.88 tok/s 权重驻闪存。共同点：裸机（无 Linux/GPU/外接加速器）。
 - **溯源核对**：OSFY 原文实测可读，内容与笔记一致；但 [theaivibe 的平行报道](https://theaivibe.org/edge/a-diffusion-model-and-a-289m-llm-both-now-run-on-bare-microcontrollers-2026-09-24)给出 **"28.9M"而非"289M"**——OSFY 的"2.89 亿"极可能是 28.9M 的十进制误读（我们克隆仓库后实测证实 28.9M 为真，见 §二）。
-- **三仓定位**：作者 GitHub = slvDev：`esp32-ai`（28.9M PLE TinyLM，已克隆+复现）、`stm32-diffusion`（纯 C 扩散模型）、`stm32-voice`（纯 C 无 RTOS 语音管线 VAD/STT/TTS）。**后两仓在 2026-10-07 深度断网窗内克隆 30+ 轮未果**（GitHub 直连与服务器侧读取同时不可用），长线重试挂机中，落地后补篇；本文对它们的全部表述限于 README 可见信息并标注未验证。
+- **三仓定位**：作者 GitHub = slvDev：`esp32-ai`（28.9M PLE TinyLM，已克隆+复现）、`stm32-diffusion`（纯 C 扩散模型）、`stm32-voice`（纯 C 无 RTOS 语音管线 VAD/STT/TTS）。**后两仓在 2026-10-07 深度断网窗内克隆 30+ 轮未果**（GitHub 直连与服务器侧读取同时不可用）；**2026-10-08 复核定性：仓库现不存在**——本地代理+凭据下 `repos/slvDev/stm32-{diffusion,voice}` 双分支均 404、slvDev 名下 34 仓清单无 stm/voice/diff 之名、全局搜索（stm32 diffusion/STM32N657 generative/stm32 voice assistant）无可对应仓库——疑删除/改名/笔记转译链讹变。本文对它们的全部表述限于 README 可见信息并标注未验证；克隆重试挂机已撤。
 - 仓库描述声称 "Generation, transcription, and dictation"——**全仓 grep `whisper|transcri|dictation|asr|speech|stt` 零命中**：转写/听写为营销话术，不存在实现（诚实纠偏，笔记若含此意则为讹传）。
 
 ## 二、esp32-ai 复现（核心，Windows x86 实测）
@@ -26,7 +26,7 @@
 3. **自回归贪心生成跑通**：模型实态 Vin=32768/Vout=25353/D=96/L=6/H=4/F=66/P=128/group=128；板端预置提示词 "Once upon a time"（id 433,447,259,405）→ 64 token 生成 **481 tok/s host-x86**（ESP32 的 48.7×，240MHz 双核 vs 3.5GHz 桌面量级合理），id 流有句读结构、零即时重复；
 4. 分词器资产（vocab.json/layout.json/tokenizer.json 在 HF 仓库根路径均 "Entry not found"，20+ 轮 + API 树端点闭窗）——文本级解码待资产到手（prep_assets.py+gen.c 已备好），当前以 token id 流证生成链路。**补充核实**：分词器是 prepare.py 从 TinyStories 语料片**自训的自定义 BPE**（"Download a slice of TinyStories, train a small BPE, emit uint16 token bins"），且 train.py 以 hash 将 checkpoint 与分词器绑定——重训分词器统计上不等于原表，**不能替代解码**；曾试探 Llama-2 32k 词表假设（ModelScope 镜像拉取成功）但 id 433='la' 证伪。
 
-## 三、stm32-diffusion / stm32-voice（未验证，README 口径）
+## 三、stm32-diffusion / stm32-voice（未验证，README 口径；2026-10-08 定性：仓库现不存在）
 
 - stm32-diffusion：纯 C 的扩散模型实现（"stable-ish"，面向带 LCD 与 RAM 的 STM32 板）——若与 OSFY 的 3.36MB/64×64 灰度图对应，则笔记第一条的板子归属存疑（AI Vibe 报道同题材为 **RP2350** 4MB flash 内的 latent diffusion）；STM32N6570-DK/Ethos-U55 的表述以 OSFY 为唯一来源，未见项目侧证据。
 - stm32-voice：纯 C 无 RTOS 的 STM32 语音助手管线（VAD/STT/TTS）——与 laos 听觉栈同题材，克隆到手后按 voicenpu 波次同款流程复现裁决。
@@ -39,7 +39,7 @@
 | 三层内存分层（SRAM 激活/PSRAM staging/FLASH 权重 mmap） | ◐ P2 | laos npu 驱动（QNN SER）未来真机化时的内存预算设计参照 |
 | PLE（25M 参数驻 flash 每 token 只读 450B） | ◐ P3 | "权重按需分页"思想对 laos 端侧大模型内存治理有启发；当前无对应能力面 |
 | 无重复字节流式输出+LZ4 块解码（果蝇连接组） | ○ | 领域过远 |
-| stm32-voice | 待克隆 | 听觉栈同题材，到手后单独裁决 |
+| stm32-voice / stm32-diffusion | ○ 收档（仓库不存在） | 2026-10-08 带凭据复核 404 + 作者 34 仓清单无此名 + 全局搜索无果——疑删除/改名/转译链讹变；若未来以实名重现再启 |
 
 ## 五、附：如何在嵌入式端跑"深圳市导航"
 
