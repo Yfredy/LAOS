@@ -404,5 +404,127 @@ class TestMicGracefulNoSounddevice(unittest.TestCase):
         self.assertIn("No module named", res.text)
 
 
+# --------------------------------------------------------------------------
+# 6) LAOS_REC=0 全局禁录闸门（P13 隐私缺口：mic.record/mic.listen_start
+#    此前未设闸，禁录开关可被旁路；修复后与 drv_rec.rec_start 同语义）
+# --------------------------------------------------------------------------
+def _has_sounddevice() -> bool:
+    """探测当前解释器是否带 sounddevice（驱动子进程用同一解释器）。"""
+    try:
+        import sounddevice  # noqa: F401
+        return True
+    except ImportError:
+        return False
+
+
+class TestMicRecDisabledByEnv(unittest.TestCase):
+    """进程内直调驱动函数（闸门在惰性导入之前——零声卡依赖）：
+    LAOS_REC=0 时 mic.record / mic.listen_start 一律 PermissionError(EACCES)。"""
+
+    def _deny_env(self):
+        import os
+        from unittest import mock
+        return mock.patch.dict(os.environ, {"LAOS_REC": "0"})
+
+    def test_record_disabled_by_env(self):
+        with self._deny_env():
+            with self.assertRaises(PermissionError):
+                drv_mic.mic_record(1)
+
+    def test_listen_start_disabled_by_env(self):
+        with self._deny_env():
+            with self.assertRaises(PermissionError):
+                drv_mic.mic_listen_start()
+
+
+class TestMicRecGateThroughKernel(unittest.TestCase):
+    """经内核全链路（驱动子进程 LAOS_REC=0）：mic.record 被驱动拒绝，
+    EACCES 原样透传（不套 EIO），event:"mic" 审计照记（ok=False）；
+    mic.listen_start 被拒后绝不留监听线程。"""
+
+    def setUp(self):
+        self._td = tempfile.TemporaryDirectory()
+        self.workdir = Path(self._td.name) / "var"
+        self.kernel = AgentKernel(self.workdir, confirm=lambda op: True)
+        env = {"PYTHONPATH": str(REPO), "PYTHONIOENCODING": "utf-8",
+               "LAOS_REC": "0"}
+        self.kernel.load_driver("mic", [sys.executable,
+                                        str(REPO / "drivers" / "drv_mic.py")],
+                                env=env)
+        self.kernel.branches.create_root("main")
+
+    def tearDown(self):
+        self.kernel.shutdown()
+        self._td.cleanup()
+
+    def _call(self, tool, args):
+        pcb = self.kernel.spawn(name="a", caps=["mic.*"],
+                                ctx=ContextManager(system_prompt="t"))
+        return asyncio.run(self.kernel.syscall(pcb.pid, tool, args))
+
+    def test_record_denied_eacces_and_audited(self):
+        res = self._call("mic.record", {"seconds": 1})
+        self.assertFalse(res.ok)
+        self.assertIn("EACCES", res.error or res.text)
+        self.assertIn("LAOS_REC=0", res.error or res.text)
+        mic_recs = [r for r in self.kernel.audit.records
+                    if r.get("event") == "mic"]
+        self.assertEqual(len(mic_recs), 1)
+        self.assertEqual(mic_recs[-1]["tool"], "mic.record")
+        self.assertFalse(mic_recs[-1]["ok"])
+
+    def test_listen_start_denied_no_thread(self):
+        res = self._call("mic.listen_start", {})
+        self.assertFalse(res.ok)
+        self.assertIn("EACCES", res.error or res.text)
+        st = self._call("mic.status", {})
+        self.assertIn("listening=False", st.text)
+
+
+class TestMicRecGateOpenNoRegression(unittest.TestCase):
+    """闸门不挡正常路径：LAOS_REC=1（及未设）时 record 越过闸门——
+    带 sounddevice 的解释器真录 1s 成功；裸解释器落到缺依赖报错
+    （"No module named"），两种结局都不是 EACCES。"""
+
+    BASE_ENV = {"PYTHONPATH": str(REPO), "PYTHONIOENCODING": "utf-8"}
+
+    def setUp(self):
+        self._td = tempfile.TemporaryDirectory()
+        self.workdir = Path(self._td.name) / "var"
+        self.kernel = None  # 逐用例按 env 重建（load_driver 的 env 只在拉起子进程时生效）
+
+    def tearDown(self):
+        if self.kernel is not None:
+            self.kernel.shutdown()
+        self._td.cleanup()
+
+    def _record_with(self, env):
+        self.kernel = AgentKernel(self.workdir, confirm=lambda op: True)
+        self.kernel.load_driver("mic", [sys.executable,
+                                        str(REPO / "drivers" / "drv_mic.py")],
+                                env=env)
+        self.kernel.branches.create_root("main")
+        pcb = self.kernel.spawn(name="a", caps=["mic.*"],
+                                ctx=ContextManager(system_prompt="t"))
+        return asyncio.run(self.kernel.syscall(pcb.pid, "mic.record",
+                                               {"seconds": 1}))
+
+    def _assert_gate_passed(self, res):
+        if _has_sounddevice():
+            self.assertTrue(res.ok, res.error or res.text)
+            self.assertIn("OK recorded", res.text)
+        else:
+            self.assertFalse(res.ok)
+            self.assertIn("No module named", res.text)
+
+    def test_record_enabled_by_laos_rec_1(self):
+        res = self._record_with({**self.BASE_ENV, "LAOS_REC": "1"})
+        self._assert_gate_passed(res)
+
+    def test_record_unmodified_when_laos_rec_unset(self):
+        res = self._record_with(dict(self.BASE_ENV))
+        self._assert_gate_passed(res)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -17,6 +17,8 @@
 隐私红线（设计约束，不可违反）：
   - 驱动模块加载时绝不启动任何录音线程；监听线程只能被 mic.listen_start
     显式拉起，mic.listen_stop / 进程退出即终止；
+  - LAOS_REC=0 全局禁录：mic.record / mic.listen_start 一律 EACCES 拒绝
+    （与 drv_rec.rec_start 同语义同闸门）；
   - 每一次 mic.* syscall 在内核审计里额外落一条 event:"mic" 记录
     （见 laos/kernel.py syscall 派发尾部与 _deny 拒绝路径——无论成败）。
 
@@ -27,6 +29,7 @@
 from __future__ import annotations
 
 import math
+import os
 import sys
 import threading
 import time
@@ -145,13 +148,16 @@ def _listen_loop(threshold_db: float, min_silence_ms: int) -> None:
 # --------------------------------------------------------------------------
 @drv.tool(
     "mic.record",
-    "从默认麦克风同步录 seconds 秒（16kHz 单声道 PCM16），写 var/ear/rec-<unix>.wav",
+    "从默认麦克风同步录 seconds 秒（16kHz 单声道 PCM16），写 var/ear/rec-<unix>.wav"
+    "（LAOS_REC=0 全局禁录：EACCES）",
     {"type": "object",
      "properties": {"seconds": {"type": "integer",
                                 "description": "录音秒数（默认 5）"}}},
 )
 def mic_record(seconds: int = 5) -> str:
     global _recording
+    if os.environ.get("LAOS_REC", "1") == "0":  # 全局禁录闸门（同 drv_rec.rec_start）
+        raise PermissionError("EACCES: recording disabled (LAOS_REC=0)")
     import sounddevice as sd  # 惰性：只有真录音才需要声卡栈
     import soundfile as sf
     seconds = max(1, int(seconds))
@@ -173,7 +179,7 @@ def mic_record(seconds: int = 5) -> str:
 @drv.tool(
     "mic.listen_start",
     "显式拉起后台监听线程（能量阈值 VAD 分段），分段落 var/ear/segments/seg-<n>.wav。"
-    "隐私红线：除本调用外驱动绝不自行启动录音。",
+    "隐私红线：除本调用外驱动绝不自行启动录音；LAOS_REC=0 全局禁录（EACCES）。",
     {"type": "object",
      "properties": {"threshold_db": {"type": "number",
                                      "description": "dBFS 能量阈值（默认 -40）"},
@@ -183,6 +189,8 @@ def mic_record(seconds: int = 5) -> str:
 def mic_listen_start(threshold_db: float = -40.0,
                      min_silence_ms: int = 300) -> str:
     global _listen_thread, _listen_error
+    if os.environ.get("LAOS_REC", "1") == "0":  # 全局禁录闸门（同 drv_rec.rec_start）
+        raise PermissionError("EACCES: recording disabled (LAOS_REC=0)")
     with _listen_lock:
         if _listen_thread is not None and _listen_thread.is_alive():
             return "OK already listening"
