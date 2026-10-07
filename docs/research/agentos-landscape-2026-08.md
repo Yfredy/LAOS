@@ -208,3 +208,14 @@ Linux AgentOS = Linux kernel（L4 强制层）
 
 **会议**
 - [AgenticOS @ SOSP 2026](https://os-for-agent.github.io/) — 2nd Workshop on OS Design for AI Agents（2026-09-29）
+
+---
+
+## 2026-10 校验附注
+
+> venue-expansion 语料（v0.18.0）agent-os 窄分支强命中 **49 篇**逐篇对照对本文八分类的校验，全文见 [2026-10-07-agentos-governance-literature.md](2026-10-07-agentos-governance-literature.md)：
+
+- **无第九种"层"含义**：49 篇无一落在 L0–L5 之外，八分类框架与强制力光谱无需修正；
+- **两个含义级新强调**："AgentOS = 多 Agent 资源公平治理器"（IJCAI/AAAI/KDD 分配族 23 篇合流，仍在 L2 语义层内）与"trace 即治理回路"（TraceBrain 把可观测性升格为治理基础设施）；
+- **审计定位升格**：§5 缺口表第 7 行"语义可观测"应读作"治理反哺回路"（审计→风险参数→闸门收紧），属小修正、不动框架与优先级；
+- **visibility ≠ permission 实证强化**：EMNLP'25 实测对工具描述做细微措辞编辑即可放大调用 10 倍以上——L0–L2 关键判断新增一篇硬证据，laos 闸门路线正当性再获背书。

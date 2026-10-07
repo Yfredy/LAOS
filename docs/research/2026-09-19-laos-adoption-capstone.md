@@ -133,6 +133,8 @@
 | Abridge（Epic 首个 Pal，200+ 医疗系统）/ Dragon Copilot | B 端合规姿势：会话级可撤回同意+领域结构化产物（SOAP） | laos 对等物=diary 五章节/journal 情绪标签；确认横幅+常驻通知覆盖"每次会话级同意" | ○参照（不进医疗域） |
 | OSS 普查 3724 条（[景观报告](2026-09-14-audio-ai-agent-oss-landscape.md)） | core 132（3.5%）；漏斗落点 ①42/②25/③117/**④0** | ④即焚是策略而非第三方组件——laos 独有；许可缺失 75.2% 须逐条核 SPDX | ●已消化（073a3c5，语料+报告+审计脚本入库；无代码落点） |
 | 双会议 19,792 篇语料（[全量普查](2026-09-14-papers-oss-full-survey.md)） | ICASSP 14,285 + Interspeech 5,507；edge/llm/health 主题增长 | `papers_unified.jsonl` 选型底座 | ●已消化（073a3c5 报告 + ba2d649 统一语料与校验器入库） |
+| venue 扩展语料 agent-os 窄分支 49 篇对照（[治理文献对照](2026-10-07-agentos-governance-literature.md)） | 窄分支实测 **49 篇**逐篇裁决：无第九种"层"含义；"多 Agent 资源公平治理器"与"trace 即治理回路"两个含义级新强调；工具描述可操纵放大 10 倍调用＝visibility≠permission 实证 | 闸门必要性论据＋P2 缺口三项（注册表描述防篡改审计/审计反哺治理回路/选择性审计策略） | ●已消化（对照报告入库；49 篇状态汇总 ●1＋●9＋◐10＋○29） |
+| 对话听觉与空间隐私定向检索（[定向检索](2026-10-07-dialog-spatial-retrieval.md)） | 934 行强命中工作集四子题计数（barge-in **4**/KWS **27**/VAD **24**/diarization **44**）＋spatial-privacy **114** 行四小类归桶（105+9+0+0） | 打断执行机构与 KWS 选型依据（3.3M 级+自定义词表）；speech privacy 词根零命中＝治理红线即方案的背书 | ●已消化 |
 
 ---
 

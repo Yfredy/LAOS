@@ -1,7 +1,7 @@
 # docs/research 调研资产清单（INDEX）
 
 > laos 调研资产权威清单：每份文档一句话定位 + 关键数字（均抄自各文档自身原文，未凭文件名推断）。
-> 盘点日期：2026-10-06。共 74 份 .md（不含本文件，find 会数出 76 = 74 份资产 + capstone + 本文件）= 作者撰写的调研文档 55 份 + plans 计划 2 份 + corpus/ 语料快照 17 份。
+> 盘点日期：2026-10-06（2026-10-07 增补 2 份）。共 76 份 .md（不含本文件，find 会数出 78 = 76 份资产 + capstone + 本文件）= 作者撰写的调研文档 57 份 + plans 计划 2 份 + corpus/ 语料快照 17 份。
 
 ## 导航：按问题找文档
 
@@ -38,7 +38,7 @@
 - [2026-09-14-audio-ai-agent-oss-landscape.md](2026-09-14-audio-ai-agent-oss-landscape.md) — 3,724 条 OSS 仓库的四段漏斗裁决表（core 132 / ref 2864 / unrelated 728），查项目适配结论看这份。
 - [corpus/（见第六节清单）](#六corpus-与数据语料数据文件只列规模) — 语料与爬虫本体：`papers_unified.jsonl`、各抓取脚本与 README 快照，回溯任何报告数字的最终出处。
 
-## 一、主报告（根目录，26 份）
+## 一、主报告（根目录，28 份）
 
 | 文件 | 一句话定位 | 关键数字 / 规模（抄原句） |
 |---|---|---|
@@ -73,6 +73,8 @@
 | [2026-09-21-jev-decision-model-survey.md](2026-09-21-jev-decision-model-survey.md) | Jev 决策模型调研：技术实质、开源生态与 laos 落点（11 处硬阈值映射） | "GitHub Search API 全量抓取（1443 条原始 → 去噪 778 条）"；laos 11 处硬阈值/朴素相似度；edgejev 实测 3 题批量 median **157.5 ms**（README 宣称 15.6 ms 被否证，慢约 10×） |
 | [2026-09-18-jev-chat-jarvis-assessment.md](2026-09-18-jev-chat-jarvis-assessment.md) | jev-chat-jarvis（Jev 聊天助手 Android 版）评估裁决：拒绝其采集链路、采纳校准台与问句方法论 | 产品 v1.4（CHANGELOG 2026-09-23）；"采集链路……踩 laos 五条合规红线中的四条，整体拒绝" |
 | [always-on-recording-industry-2026-09.md](always-on-recording-industry-2026-09.md) | 全天候录音业界调研：产品、开源与技术机制（形态×处理位置×触发方式×开源闭源图谱） | "纯常开（always-on passive）阵营几乎全部倒下或被平台收购（Rewind→Limitless→Meta、Humane AI Pin→HP；Bee 2025-07 被 Amazon 收编）"；开源可抄管道 Silero VAD → sherpa-onnx/FunASR → Opus → SQLite+向量库 |
+| [2026-10-07-agentos-governance-literature.md](2026-10-07-agentos-governance-literature.md) | venue-expansion 语料 agent-os 窄分支 49 篇逐篇对照（四组×capstone 四列裁决）＋八分类校验：无第九种"层"含义、两个含义级新强调 | "实测 **49 篇**（计划书按旧语料估 44，本批为实测数）"；状态汇总 "●已落地 1（#3）· ●已消化 9（#1/7/9/13/14/19/21/22/33）· ◐推荐 10（P2×4：#2/4/6/12；P3×6：#8/10/20/34/38/39）· ○不做 29" |
+| [2026-10-07-dialog-spatial-retrieval.md](2026-10-07-dialog-spatial-retrieval.md) | 934 行强命中工作集的对话听觉四子题定向检索＋spatial-privacy 全量 114 行四小类归桶，逐线裁决 | §一 四子题计数 "barge/interrupt/full-duplex/turn-taking **4** · wake[- ]?word\|keyword spotting **27** · voice activity\|endpoint\|end-point **24** · diariz\|speaker separation **44**"；§二 "spatial-privacy 主题 114 行 = binaural/spatial/beamform/acoustic-camera 类 **105** + audio watermark 类 **9** + speech privacy 类 **0** + 其他 **0**（105+9+0+0=114，分类完备）" |
 
 ## 二、全天候录音调研组（always-on-recording/，5 份）
 

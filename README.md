@@ -405,6 +405,8 @@ laos/
 | [docs/research/2026-10-05-four-article-repro.md](docs/research/2026-10-05-four-article-repro.md) + [Repro-ZCode/](Repro-ZCode/README.md) | 六来源复现隔离区：BS.1770-4 响度 / FxLMS ANC / 头部朝向论文全管线 / PhaseCoder 麦位编码 / Pipecat 帧管道 / unique_lock 语义 | 71 项测试：R128 校准点 −23.00 LUFS ±0.1；MPE 对齐官方 JAX 源码；冒烟 holdout 56.5°；打断作废排队帧而系统帧穿管 |
 | [docs/research/2026-10-05-repro-adoption.md](docs/research/2026-10-05-repro-adoption.md) + [docs/ppt/README.md](docs/ppt/README.md) | **复现批次采纳执行书**（A 响度→`laos/loudness.py` 纯 stdlib + `ear.lufs` 工具；B Pipecat 两课→`laos/turnbuf.py`；C unique_lock→`laos/locks.py`+`_rpc` 协议事实记录；D 麦位约定文档化）+ 项目介绍 PPT ×5（五 skill 同底稿对比） | 打断即作废 + 只记已送达进 mem.*；"锁生命周期服从协议事实，不服从越窄越好的教条" |
 
+调研语料在 v0.18 波次扩展至 **120,234 行**（38 venue 整卷全量），其强命中工作集 934 行与 agent-os 窄分支治理文献 49 篇的对照结论见 [治理文献对照](docs/research/2026-10-07-agentos-governance-literature.md) 与 [对话听觉与空间隐私定向检索](docs/research/2026-10-07-dialog-spatial-retrieval.md)。
+
 ### 10.2 工作内容（AlwaysOnRec-ZCode 隔离实现区，全部 TDD）
 
 主代码零改动；实现细节见 [AlwaysOnRec-ZCode/README.md](AlwaysOnRec-ZCode/README.md)。
