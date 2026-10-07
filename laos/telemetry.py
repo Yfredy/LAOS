@@ -25,8 +25,14 @@
 逐条 flush（崩溃不丢已发射事件——数据总在 .part，参照
 corpus/venue_expansion/fetch_anthology.py write_jsonl 的 .part 先例，但
 telemetry 是追加流：正式 path 只在 flush() 时整批并入完整行，轮转归档
-（path → path.1，覆盖旧 .1）用 os.replace 原子换新文件。主文件永不出现
-半截行；进程被杀只留 .part 残件，下次 flush 自动并入。
+（path → path.1，覆盖旧 .1）用 os.replace 原子换新文件。flush 边界只见
+完整行（emit 期主文件零写入）；flush 的 append 并入若中途被杀，理论存在
+半行撕裂窗口——与既有审计同边界（§6.4：flush 到 OS 页缓存后的丢失不在
+承诺内），.part 残件保底不丢数据，下次 flush 重新并入。
+
+level=error 的事件额外同步镜像一行 JSON 到 stderr（§6.4：崩溃现场
+终端/journalctl 直接可见，不依赖文件 survived）；仅随实际发射触发，
+被 REC 静默/禁止拒发的事件不镜像。
 
 事件注册表：设计 §3 的 23 事件全量登记（L4/A4/S2/D5/P3/F5），逐字段
 脱敏级别照抄 §3.2–3.7 字段表。注册表外事件只允许信封 + 空 fields
@@ -43,6 +49,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import sys
 import threading
 import time
 from pathlib import Path
@@ -358,7 +365,11 @@ class TelemetryEmitter:
         if release_count > 0:
             envelope["throttled"] = release_count  # 节流元字段（§3.1）
         with self._lock:
-            self._write_line(envelope)
+            line = self._write_line(envelope)
+        if level == "error":
+            # §6.4 error 级 stderr 镜像：崩溃现场直接可见，不依赖文件
+            # survived；无 flush 依赖（stderr 行缓冲）。仅随实际发射触发。
+            sys.stderr.write(line + "\n")
         return True
 
     def flush(self) -> None:
@@ -431,7 +442,8 @@ class TelemetryEmitter:
             },
         })
 
-    def _write_line(self, envelope: dict) -> None:
+    def _write_line(self, envelope: dict) -> str:
+        """序列化并落 .part（含轮转前置检查）；返回单行 JSON 供镜像复用。"""
         if self._closed:
             raise RuntimeError("emitter closed")
         line = json.dumps(envelope, ensure_ascii=False)
@@ -447,6 +459,7 @@ class TelemetryEmitter:
         self._fh.write(line + "\n")
         self._fh.flush()  # 逐条 flush 进 .part（§6.4：崩溃不丢已发射事件）
         self._part_size += len(payload)
+        return line
 
     def _rotate(self) -> None:
         """归档当前代：.part 并入 path → path 原子改名 path.1（覆盖旧 .1）。"""
@@ -456,7 +469,12 @@ class TelemetryEmitter:
         self._base_size = 0
 
     def _merge_part(self) -> None:
-        """把 .part 完整行整批并入正式文件（主文件永不出现半截行）。"""
+        """把 .part 完整行整批并入正式文件（flush 边界只见完整行）。
+
+        emit 期主文件零写入；append 复制中途被杀的理论撕裂窗口不做承诺
+        （§6.4 OS 页缓存边界外，与既有审计同边界）——.part 在复制成功后才
+        清空，残件数据不丢，下次 flush 重新并入。
+        """
         self._fh.flush()
         if self._part_size == 0:
             return

@@ -11,13 +11,16 @@
   - LAOS_REC=0 时 a.* 音频类事件整体静默；s.asr.result/s.refine.delta
     仅 source=capture 时剥内容派生字段（source=file 照发）
   - flush 后文件完整可逐行 parse（含 U+2028 断行转义）
+  - error 级事件 stderr 镜像一行（§6.4；静默事件不镜像）
   - clock 注入（ts=monotonic ms + 节流窗口共用同一时钟）
 
     python -m unittest tests.test_telemetry -v
 """
 from __future__ import annotations
 
+import contextlib
 import hashlib
+import io
 import json
 import os
 import sys
@@ -116,6 +119,37 @@ class TestEnvelope(TelemetryBase):
             self.em.emit("l.sys.init", level="debug")
         with self.assertRaises(ValueError):
             self.em.emit("", level="info")
+
+    def test_error_level_mirrors_to_stderr(self):
+        buf = io.StringIO()
+        with contextlib.redirect_stderr(buf):
+            self.assertTrue(self.em.emit(  # error 级 → stderr 镜像一行
+                "f.asr.channel_fail", level="error", module="drv_ear",
+                fields={"channel": "funasr", "err": "RuntimeError: boom",
+                        "requested_lang": "zh"}))
+            self.assertTrue(self.em.emit(  # warn 级 → 不镜像
+                "f.model.load_fail", level="warn", module="drv_ear",
+                fields={"model": "m", "kind": "sensevoice", "err": "e",
+                        "interpreter_source": "env"}))
+        mirrored = [ln for ln in buf.getvalue().splitlines() if ln.strip()]
+        self.assertEqual(len(mirrored), 1)
+        row = json.loads(mirrored[0])  # 镜像行是可 parse 的完整事件 JSON
+        self.assertEqual(row["event"], "f.asr.channel_fail")
+        self.assertEqual(row["level"], "error")
+        self.assertEqual(row["fields"]["channel"], "funasr")
+        # 镜像不替代落盘：两条都仍在文件里
+        self.em.flush()
+        self.assertEqual([r["event"] for r in self.read_lines()],
+                         ["f.asr.channel_fail", "f.model.load_fail"])
+
+    def test_silenced_event_does_not_mirror_to_stderr(self):
+        buf = io.StringIO()
+        with contextlib.redirect_stderr(buf), \
+                mock.patch.dict(os.environ, {"LAOS_REC": "0"}):
+            self.assertFalse(self.em.emit(  # a.* 静默 → 也不镜像
+                "a.mic.stream_error", level="error", module="drv_mic",
+                fields={"err": "EIO", "phase": "read", "device_hint": "m"}))
+        self.assertEqual(buf.getvalue(), "")
 
 
 class TestRedaction(TelemetryBase):
