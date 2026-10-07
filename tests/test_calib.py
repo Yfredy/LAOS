@@ -114,6 +114,17 @@ class TestReliability(unittest.TestCase):
         for lower in (0.0, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9):
             self.assertAlmostEqual(lowers.count(lower), 1, msg=str(lower))
 
+    def test_float_boundary_pitfalls_bins_100(self):
+        # 真坑值回归：bins=100 时 0.29*100=28.999999999999996、
+        # 0.57*100=56.99999999999999、0.58*100=57.99999999999999——
+        # BIN_EPSILON 置 0 会各错落一桶（0.3*10/0.7*10 精确等于 3.0/7.0，
+        # 不是坑值；bins=10 边界用例对其零覆盖）
+        curve = reliability([0.29, 0.57, 0.58], [1, 0, 1], bins=100)
+        self.assertEqual([row[3] for row in curve], [1, 1, 1])
+        self.assertAlmostEqual(curve[0][0], 0.29)  # 桶 29（eps=0 错落 28）
+        self.assertAlmostEqual(curve[1][0], 0.57)  # 桶 57（eps=0 错落 56）
+        self.assertAlmostEqual(curve[2][0], 0.58)  # 桶 58（eps=0 错落 57）
+
     def test_row_semantics(self):
         # 桶 7（0.8 两样本）与桶 1（0.2 一样本）的 avg_p/freq/n
         curve = reliability([0.8, 0.8, 0.2], [1, 0, 0], bins=10)
