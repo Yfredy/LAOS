@@ -1,7 +1,7 @@
 # 对话听觉与空间隐私定向检索（强命中语料复用）
 
 > 日期：2026-10-07
-> 来源：venue-expansion 语料（35 venue 切片，[多场地普查](2026-10-06-venue-expansion-survey.md)）`laos_relevant_strong` 强命中工作集（934 行），用 Task 2 成品 `scripts/query_corpus.py` 做定向 grep。
+> 来源：venue-expansion 语料（38 venue 注册切片，[多场地普查](2026-10-06-venue-expansion-survey.md)）`laos_relevant_strong` 强命中工作集（934 行），用 Task 2 成品 `scripts/query_corpus.py` 做定向 grep。
 > 纪律：year/venue/题目一律抄自语料 json；无摘要篇目按标题级裁决（见文末诚实声明）；子题计数是**强命中工作集内的标题+摘要正则命中数**，不是文献全集。
 > 姊妹篇：[agentos-governance-literature](2026-10-07-agentos-governance-literature.md)（Task 3，agent-os 窄分支 49 篇）。
 

@@ -1,7 +1,7 @@
 # AgentOS 窄分支治理文献对照（venue-expansion 语料强命中 49 篇）
 
 > 日期：2026-10-07
-> 来源：venue-expansion 语料（35 venue 切片，[多场地普查](2026-10-06-venue-expansion-survey.md)）中 `--topic agent-os --strong-only` 的强命中窄分支，**实测 49 篇**（计划书按旧语料估 44，本批为实测数）。
+> 来源：venue-expansion 语料（38 venue 注册切片，[多场地普查](2026-10-06-venue-expansion-survey.md)）中 `--topic agent-os --strong-only` 的强命中窄分支，**实测 49 篇**（计划书按旧语料估 44，本批为实测数）。
 > 底账：全清单导出 [agent_os_narrow.tsv](../../corpus/venue_expansion/agent_os_narrow.tsv)（title/year/venue/doi 四列 49 行，与本文表格同序）。
 > 纪律：DOI/年份/venue 一律抄自语料 json（`var/agent_os_strong.json`）；无摘要篇标【仅标题】，按标题+领域常识谨慎裁决，不编摘要；量化数字只引论文原句。
 

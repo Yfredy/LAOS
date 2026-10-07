@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 """scripts/query_corpus.py — venue_expansion 语料通用查询（Task 2 复用基础设施）。
 
-对 corpus/venue_expansion/*.jsonl 全部（36 个抓取产物 + laos_relevant
-[_strong].jsonl，行 schema {title,year,venue,authors,url,doi,abstract,
+对 corpus/venue_expansion/*.jsonl 全部（35 个 venue 抓取产物（注册表 38
+venue 的落库文件，其中 5 个 0 行占位）+ laos_relevant[_strong].jsonl
+2 个派生，行 schema {title,year,venue,authors,url,doi,abstract,
 laos_topic?,strong?,strong_terms?}）做只读过滤检索，供 Task 3/4 窄分支
 对照与定向检索复用。不写任何文件（--json 输出到 stdout）。
 
