@@ -1,7 +1,7 @@
 # docs/research 调研资产清单（INDEX）
 
 > laos 调研资产权威清单：每份文档一句话定位 + 关键数字（均抄自各文档自身原文，未凭文件名推断）。
-> 盘点日期：2026-10-06（2026-10-07 增补 2 份调研 + 3 份评审与设计）。共 79 份 .md（不含本文件，find 会数出 81 = 79 份资产 + capstone + 本文件）= 作者撰写的调研文档 57 份 + plans 计划 2 份 + corpus/ 语料快照 17 份 + 评审与设计 3 份（docs/review/ 2 + docs/design/ 1，见第八节）。
+> 盘点日期：2026-10-06（2026-10-07 增补 3 份调研 + 3 份评审与设计）。共 80 份 .md（不含本文件，find 会数出 82 = 80 份资产 + capstone + 本文件）= 作者撰写的调研文档 58 份 + plans 计划 2 份 + corpus/ 语料快照 17 份 + 评审与设计 3 份（docs/review/ 2 + docs/design/ 1，见第八节）。
 
 ## 导航：按问题找文档
 
@@ -38,7 +38,7 @@
 - [2026-09-14-audio-ai-agent-oss-landscape.md](2026-09-14-audio-ai-agent-oss-landscape.md) — 3,724 条 OSS 仓库的四段漏斗裁决表（core 132 / ref 2864 / unrelated 728），查项目适配结论看这份。
 - [corpus/（见第六节清单）](#六corpus-与数据语料数据文件只列规模) — 语料与爬虫本体：`papers_unified.jsonl`、各抓取脚本与 README 快照，回溯任何报告数字的最终出处。
 
-## 一、主报告（根目录，33 份）
+## 一、主报告（根目录，34 份）
 
 | 文件 | 一句话定位 | 关键数字 / 规模（抄原句） |
 |---|---|---|
@@ -75,6 +75,7 @@
 | [always-on-recording-industry-2026-09.md](always-on-recording-industry-2026-09.md) | 全天候录音业界调研：产品、开源与技术机制（形态×处理位置×触发方式×开源闭源图谱） | "纯常开（always-on passive）阵营几乎全部倒下或被平台收购（Rewind→Limitless→Meta、Humane AI Pin→HP；Bee 2025-07 被 Amazon 收编）"；开源可抄管道 Silero VAD → sherpa-onnx/FunASR → Opus → SQLite+向量库 |
 | [2026-10-07-agentos-governance-literature.md](2026-10-07-agentos-governance-literature.md) | venue-expansion 语料 agent-os 窄分支 49 篇逐篇对照（四组×capstone 四列裁决）＋八分类校验：无第九种"层"含义、两个含义级新强调 | "实测 **49 篇**（计划书按旧语料估 44，本批为实测数）"；状态汇总 "●已落地 1（#3）· ●已消化 9（#1/7/9/13/14/19/21/22/33）· ◐推荐 10（P2×4：#2/4/6/12；P3×6：#8/10/20/34/38/39）· ○不做 29" |
 | [2026-10-07-dialog-spatial-retrieval.md](2026-10-07-dialog-spatial-retrieval.md) | 934 行强命中工作集的对话听觉四子题定向检索＋spatial-privacy 全量 114 行四小类归桶，逐线裁决 | §一 四子题计数 "barge/interrupt/full-duplex/turn-taking **4** · wake[- ]?word\|keyword spotting **27** · voice activity\|endpoint\|end-point **24** · diariz\|speaker separation **44**"；§二 "spatial-privacy 主题 114 行 = binaural/spatial/beamform/acoustic-camera 类 **105** + audio watermark 类 **9** + speech privacy 类 **0** + 其他 **0**（105+9+0+0=114，分类完备）" |
+| [2026-10-07-slvdev-mcu-genai.md](2026-10-07-slvdev-mcu-genai.md) | 小红书《单片机上跑起生成式模型》复现与采纳：slvDev 三项目（esp32-ai 已克隆复现；stm32-diffusion·stm32-voice 断网窗克隆受阻标注未验证）——28.9M PLE TinyLM 在 Windows 宿主跑通，附嵌入式导航三层解答 | 复现实态 "staging_verify **PASS（0 失败）**…贪心生成 **481 tok/s** host-x86（ESP32 板端 9.88 同一份 llm.h）"；"OSFY『2.89 亿参数』系 **28.9M 十进制误读**（仓库实测证实）；'transcription/dictation' 宣称全仓零实现"；模型 14.91MB / Vin=32768 / L=6 / PLE 维 128 / group=128 |
 
 ## 二、全天候录音调研组（always-on-recording/，5 份）
 
