@@ -9,7 +9,7 @@
 
 ## §1 架构盘点（五层表）
 
-> 模块清单实取自 `ls laos/`（36 个模块 + enforcement 子包 4 文件）与各模块 docstring 首行（2026-10-07 实取），非凭记忆罗列。完成度口径与 T1 §2.2 能力分解交叉一致。
+> 模块清单实取自 `ls laos/`（机械口径：主包 36 个 .py 文件 = 35 个功能模块 + 包 `__init__.py`；`enforcement/` 子包另 5 个 .py = 4 个后端文件 base/linux/android/stub + 子包 `__init__.py`）与各模块 docstring 首行（2026-10-07 实取），非凭记忆罗列。完成度口径与 T1 §2.2 能力分解交叉一致。
 
 | 层 | 一句话职责 | 核心模块（laos/，docstring 首行实取） | 驱动/入口载体 | 完成度 |
 |---|---|---|---|---|
@@ -142,12 +142,13 @@ footprint 从"本机大模型"到"17MB 端侧"到"零依赖网络"形成完整�
 | test_apps | 7 | test_diary | 7 | test_validate | 6 |
 | test_duplex | 11 | test_vad | 7 | test_venue_registry | 6 |
 | test_knowledge | 11 | test_mcp2 | 7 | test_jev_mem_ctx | 6 |
+| test_wakegate | 12 | test_confgate | 12 | test_skills | 6 |
 | test_battery / test_cow / test_genie / test_notify / test_profiling³ / test_jev_gate / test_relbudget / test_scheduler / test_rec / test_mood / test_journal / test_events / test_context / test_capability / test_ear_refine / test_audio_driver / test_irreversibility / test_sandbox | 各5/4/3/2 | | | | |
 | test_locks / test_loudness / test_micgeom / test_turnbuf | **0**⁴ | | | | |
 
 ¹ skipped=2；² skipped=2；³ skipped=1（全套 skipped=5 与 discover 一致）；⁴ pytest 风格 31 函数在 pytest 下全过（→R9）。
 
-**合计 691**（逐模块求和=discover 实跑 "Ran 691 tests in 75.1s / OK (skipped=5)"，两口径互证）。分区：AlwaysOnRec-ZCode 隔离区 discover 实跑 **279**（OK skipped=8）；Repro-ZCode 复现区 pytest 实跑 **71 passed**——页脚 1041 口径成立（R9 的 31 例除外）。
+**合计 691**：表列全 67 个测试文件（含 4 个 unittest 口径 0 例文件，→R9 双轨口径：691 为 unittest 正口径，31 例 pytest 风格不在其内），逐模块求和=discover 实跑 "Ran 691 tests in 75.1s / OK (skipped=5)"，两口径互证。分区：AlwaysOnRec-ZCode 隔离区 discover 实跑 **279**（OK skipped=8）；Repro-ZCode 复现区 pytest 实跑 **71 passed**——页脚 1041 口径成立（R9 的 31 例除外）。
 
 ### 5.2 盲区清单（按"测不到的路径"归类）
 
