@@ -1,7 +1,7 @@
 # docs/research 调研资产清单（INDEX）
 
 > laos 调研资产权威清单：每份文档一句话定位 + 关键数字（均抄自各文档自身原文，未凭文件名推断）。
-> 盘点日期：2026-10-06（2026-10-07 增补 4 份调研 + 3 份评审与设计）。共 81 份 .md（不含本文件，find 会数出 83 = 81 份资产 + capstone + 本文件）= 作者撰写的调研文档 59 份 + plans 计划 2 份 + corpus/ 语料快照 17 份 + 评审与设计 3 份（docs/review/ 2 + docs/design/ 1，见第八节）。
+> 盘点日期：2026-10-06（2026-10-07 增补 4 份调研 + 3 份评审与设计；2026-10-08 增补 1 份调研）。共 82 份 .md（不含本文件，find 会数出 84 = 82 份资产 + capstone + 本文件）= 作者撰写的调研文档 60 份 + plans 计划 2 份 + corpus/ 语料快照 17 份 + 评审与设计 3 份（docs/review/ 2 + docs/design/ 1，见第八节）。
 
 ## 导航：按问题找文档
 
@@ -77,6 +77,7 @@
 | [2026-10-07-dialog-spatial-retrieval.md](2026-10-07-dialog-spatial-retrieval.md) | 934 行强命中工作集的对话听觉四子题定向检索＋spatial-privacy 全量 114 行四小类归桶，逐线裁决 | §一 四子题计数 "barge/interrupt/full-duplex/turn-taking **4** · wake[- ]?word\|keyword spotting **27** · voice activity\|endpoint\|end-point **24** · diariz\|speaker separation **44**"；§二 "spatial-privacy 主题 114 行 = binaural/spatial/beamform/acoustic-camera 类 **105** + audio watermark 类 **9** + speech privacy 类 **0** + 其他 **0**（105+9+0+0=114，分类完备）" |
 | [2026-10-07-slvdev-mcu-genai.md](2026-10-07-slvdev-mcu-genai.md) | 小红书《单片机上跑起生成式模型》复现与采纳：slvDev 三项目（esp32-ai 已克隆复现；stm32-diffusion·stm32-voice 断网窗克隆受阻标注未验证）——28.9M PLE TinyLM 在 Windows 宿主跑通，附嵌入式导航三层解答 | 复现实态 "staging_verify **PASS（0 失败）**…贪心生成 **481 tok/s** host-x86（ESP32 板端 9.88 同一份 llm.h）"；"OSFY『2.89 亿参数』系 **28.9M 十进制误读**（仓库实测证实）；'transcription/dictation' 宣称全仓零实现"；模型 14.91MB / Vin=32768 / L=6 / PLE 维 128 / group=128 |
 | [2026-10-07-cloudflare-clef.md](2026-10-07-cloudflare-clef.md) | 小红书《38.8毫秒返回分类答案》学习与 laos 判断层对照：Cloudflare Clef/Clef-flash 决策模型（2026-10-01，Birthday Week 2026）——笔记四条声称逐条核实（38.8ms 真实=决策延迟非首 token；llama.cpp-SURGE/✨Spark/定价曲线三条 46 公告与原文均无，转译链讹变不采信） | "Clef-flash 中位 **38.8ms**/p95 122.4（vs Jev 524.1）——非自回归 prefill-only+schema 选项并行打分"；Qwen3.5-9B 基座+rank-256 LoRA+routing head，**Apache 2.0**（HF Cloudflare/clef-flash）；schema=noul/choice/score 与 laos 三判型同源；裁决=Clef-flash 本地实测 ◐P2/非自回归架构 ●已消化/校准 Brier+RLCD ◐P3/云端 ○ |
+| [2026-10-08-espclaw-vs-muse-agent-core.md](2026-10-08-espclaw-vs-muse-agent-core.md) | 小红书《Agent本体能力对比，ESP-Claw vs Muse-Gad》复现与采纳：双仓溯源证实（espressif/esp-claw MCU 闭环框架 + facebookincubator/muse-gadget-sdk=Meta Muse Gadgets 2026-10-02 开源）——架构对照七构件表，claw_cap 能力框架落地为 laos/caps.py | muse Linux SDK 测试套件双环境实跑："Windows **142 passed / 1 failed / 1 skipped**（唯一失败=test_identity_persists 的 Unix 0o600 断言，Windows st_mode 恒 0o666，环境差异非 bug）；**WSL 原生 167 passed / 1 skipped in 9.43s**"；esp-claw 构建烧录 BLOCKED（无板无 ESP-IDF）；笔记数字声称 ○未证实×2（拓展坞 8GB/128GB vs 4GB/64GB、RESTful 16 Agent 上限）；caps 落地 30c15f7 全套 **861 绿** |
 
 ## 二、全天候录音调研组（always-on-recording/，5 份）
 
