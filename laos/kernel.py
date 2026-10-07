@@ -13,10 +13,13 @@
 from __future__ import annotations
 
 import asyncio
+import gzip
 import hashlib
 import json
 import os
 import posixpath
+import re
+import shutil
 import time
 from dataclasses import asdict, dataclass, field, replace
 from pathlib import Path
@@ -123,6 +126,10 @@ class PCB:
 # 审计 —— 相当于 strace + auditd 的合体
 # --------------------------------------------------------------------------
 class AuditLog:
+    # 归档段命名：audit-<UTC日期>-<轮转代 n>.jsonl.gz（设计 §6.2）——n 单调
+    # 递增即轮转代，开机扫描续代，跨 boot 不重复。
+    _ARCHIVE_RE = re.compile(r"^audit-\d{8}-(\d+)\.jsonl\.gz$")
+
     def __init__(self, path: Path, mode: str = "w"):
         """mode='w' 表示每次 laosd 启动重写一次审计轨迹，便于 demo 复现；
         生产环境应传 'a' 做累积审计。"""
@@ -130,16 +137,52 @@ class AuditLog:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self._fh = self.path.open(mode, encoding="utf-8")
         self.records: list[dict] = []
+        # 轮转代数（file_epoch，设计 §6.2）：换代时 records 清零、seq 复位
+        # 归零，epoch +1——消费方（laosweb 前端）必须以 (epoch, seq) 复合键
+        # 去重，轮转后同 seq 的新事件才不会被误判重复。开机扫已有归档段
+        # 从 max 代 +1 续起：重启换内核后新代的键也不会与旧归档碰撞。
+        self.epoch = 0
+        for p in self.path.parent.glob("audit-*.jsonl.gz"):
+            m = self._ARCHIVE_RE.match(p.name)
+            if m:
+                self.epoch = max(self.epoch, int(m.group(1)) + 1)
 
     def write(self, record: dict) -> None:
         # 单调序号在 append 前盖章：seq == 记录在 self.records 里的下标，
         # 审计消费者（laosweb 前端去重键）不必再从"总数-窗口"反推全局序号
         # —— 观测线程采样 status 与切片 audit 之间若混入新记录，反推值会
         # 漂移导致前端重复插入。GIL 下 len+append 对本用途足够原子。
+        # epoch 与 seq 同点盖章：轮转后 records 清零、seq 复位，前端以
+        # (epoch, seq) 复合键去重才不把新代同 seq 事件误判重复（§6.2）。
+        record["epoch"] = self.epoch
         record["seq"] = len(self.records)
         self.records.append(record)
         self._fh.write(json.dumps(record, ensure_ascii=False) + "\n")
         self._fh.flush()
+
+    def rotate(self) -> None:
+        """轮转原语（设计 §6.2）：当前文件 gzip 归档 → 重开空文件继续追加。
+
+        归档名 audit-<UTC日期>-<epoch>.jsonl.gz 内嵌单调轮转代 n；records
+        清零即 seq 复位归零、epoch +1——消费方（laosweb 前端）以
+        (epoch, seq) 复合键去重，轮转后同 seq 的新事件不会被误判重复。
+        64MB 水位触发与归档保留策略（7 天 / 256MB）由后续轮转接线波次
+        挂上；本方法只钉死"轮转发生时"的代数与 seq 语义。
+        """
+        self._fh.flush()
+        self._fh.close()
+        stamp = time.strftime("%Y%m%d", time.gmtime())
+        archive = self.path.with_name(f"audit-{stamp}-{self.epoch}.jsonl.gz")
+        if self.path.exists():
+            with self.path.open("rb") as src, open(archive, "wb") as raw:
+                with gzip.GzipFile(fileobj=raw, mode="wb") as out:
+                    shutil.copyfileobj(src, out)
+                raw.flush()
+                os.fsync(raw.fileno())
+            self.path.unlink()
+        self._fh = self.path.open("w", encoding="utf-8")
+        self.records.clear()
+        self.epoch += 1
 
     def close(self) -> None:
         self._fh.close()

@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import asyncio
+import gzip
 import http.server
 import json
 import os
@@ -26,7 +27,7 @@ import laosd  # noqa: E402  （laosweb 已把 bin/ 注入 sys.path，此处取�
 import laosweb  # noqa: E402
 from laos.branch import BranchContext  # noqa: E402
 from laos.context import ContextManager  # noqa: E402
-from laos.kernel import AgentKernel  # noqa: E402
+from laos.kernel import AgentKernel, AuditLog  # noqa: E402
 
 DRIVERS = REPO / "drivers"
 
@@ -97,6 +98,9 @@ class TestBuildState(KernelTestCase):
         self.assertLessEqual(len(st["audit"]), 60)
         self.assertTrue(any(r.get("event") == "syscall" and not r["ok"]
                             for r in st["audit"]), "denied syscall 应入审计")
+        # 轮转安全复合键两组分必须全程可见（设计 §6.2：seq 轮转复位归零，
+        # 前端按 (epoch, seq) 去重）——epoch/seq 均由 AuditLog.write 盖章
+        self.assertTrue(all("epoch" in r and "seq" in r for r in st["audit"]))
         # risk 字段
         for key in ("spent", "remaining", "budget", "per_tool"):
             self.assertIn(key, st["risk"])
@@ -491,6 +495,113 @@ class TestInteractivity(unittest.TestCase):
         self.assertIsNotNone(state["operator_pid"])
         self.assertEqual(state["operator_pid"], laosweb._operator_pid)
         self.assertIn("pending_confirm", state)
+
+
+class TestRotationSafeAuditKey(unittest.TestCase):
+    """设计 §6.2：audit.jsonl 轮转换代后 seq 复位归零。
+
+    laosweb 前端（PAGE 内嵌 JS renderAudit）按键去重做增量插入；裸 seq 键
+    在轮转后会把新代同 seq 的事件误判为重复而丢弃。去重键必须升级为
+    (file_epoch 轮转代, seq) 复合键——两组分均由 AuditLog.write 在 append
+    前盖章。这里用真 AuditLog 走真轮转路径（不手搓 dict），保证复合键的
+    两组分在生产路径上真实存在、真实递增。
+    """
+
+    def setUp(self):
+        self._td = tempfile.TemporaryDirectory()
+        self.path = Path(self._td.name) / "audit.jsonl"
+        self.audit = AuditLog(self.path)
+
+    def tearDown(self):
+        self.audit.close()
+        self._td.cleanup()
+
+    @staticmethod
+    def _old_js_key(r: dict) -> str:
+        """旧前端去重键：裸 seq（轮转后误判重复的缺陷键）。"""
+        return f"{r['seq']}|{r['t']}|{r.get('tool', '')}"
+
+    @staticmethod
+    def _new_js_key(r: dict) -> str:
+        """新前端去重键：(epoch, seq) 复合键 + t/tool 联合（同代同秒同
+        工具多次调用仍靠 seq 区分）。"""
+        return f"{r['epoch']}|{r['seq']}|{r['t']}|{r.get('tool', '')}"
+
+    def test_rows_carry_epoch_and_seq(self):
+        self.audit.write({"t": 1.0, "event": "syscall", "tool": "fs.read"})
+        self.audit.write({"t": 1.1, "event": "spawn", "name": "a"})
+        self.assertEqual([r["epoch"] for r in self.audit.records], [0, 0])
+        self.assertEqual([r["seq"] for r in self.audit.records], [0, 1])
+
+    def test_rotation_same_seq_two_events_not_deduped(self):
+        """核心场景（任务书 Step 1）：轮转前后各一条同 t/同 tool/同 seq 的
+        不同事件——旧键判重（错误，轮转后新事件被丢），新键不判重。"""
+        old_row = {"t": 100.0, "event": "syscall", "tool": "fs.read",
+                   "pid": 7, "result": "ok"}
+        self.audit.write(old_row)            # 旧代 seq=0
+        self.audit.rotate()
+        new_row = {"t": 100.0, "event": "syscall", "tool": "fs.read",
+                   "pid": 8, "result": "EACCES"}
+        self.audit.write(new_row)            # 新代 seq=0（轮转复位）
+        self.assertEqual(old_row["seq"], new_row["seq"],
+                         "前置：轮转后 seq 复位，两代首条同 seq")
+        self.assertNotEqual(old_row["pid"], new_row["pid"],
+                            "前置：两条确是不同事件")
+        # 旧键必然判重——这正是 §6.2 声明的缺陷（记录在案，非回归目标）
+        self.assertEqual(self._old_js_key(old_row), self._old_js_key(new_row),
+                         "旧裸 seq 键在轮转边界必然碰撞（§6.2 缺陷）")
+        # 新键必须把两代同 seq 事件区分开：不丢不重
+        self.assertEqual(new_row["epoch"], old_row["epoch"] + 1,
+                         "轮转换代：epoch 必须单调 +1")
+        self.assertNotEqual(self._new_js_key(old_row), self._new_js_key(new_row),
+                             "(epoch, seq) 复合键必须区分两代同 seq 事件")
+
+    def test_rotate_archives_current_file_gzip(self):
+        """轮转原语：当前文件 gzip 归档（audit-<UTC日期>-<代>.jsonl.gz），
+        重开空文件继续追加；records 清零、epoch +1，落盘行同样带复合键。"""
+        for i in range(3):
+            self.audit.write({"t": float(i), "event": "spawn", "name": f"a{i}"})
+        self.audit.rotate()
+        archives = list(self.path.parent.glob("audit-*.jsonl.gz"))
+        self.assertEqual(len(archives), 1, "轮转恰好归档一份当前代")
+        self.assertRegex(archives[0].name, r"^audit-\d{8}-0\.jsonl\.gz$",
+                         "归档名 = audit-<UTC日期>-<轮转代>.jsonl.gz（§6.2）")
+        with gzip.open(archives[0], "rt", encoding="utf-8") as fh:
+            rows = [json.loads(line) for line in fh if line.strip()]
+        self.assertEqual([r["seq"] for r in rows], [0, 1, 2],
+                         "归档段保完整旧代行，逐行可 parse")
+        # 当前文件重开为空；内存账本清零、换代
+        self.assertEqual(self.path.read_text(encoding="utf-8"), "")
+        self.assertEqual(self.audit.records, [])
+        self.assertEqual(self.audit.epoch, 1)
+        # 轮转后首条：seq 复位归零、epoch 换代（内存与落盘同一口径）
+        self.audit.write({"t": 9.0, "event": "spawn", "name": "b"})
+        self.assertEqual(self.audit.records[0]["epoch"], 1)
+        self.assertEqual(self.audit.records[0]["seq"], 0)
+        line = json.loads(self.path.read_text(encoding="utf-8").splitlines()[0])
+        self.assertEqual((line["epoch"], line["seq"]), (1, 0),
+                         "落盘行同样携带复合键两组分（文件消费者同口径）")
+
+    def test_epoch_continues_from_existing_archives(self):
+        """归档名内嵌单调代 n（§6.2）：新 AuditLog 开机扫已有归档续代，
+        重启后新内核的 (epoch, seq) 不会与旧代碰撞。"""
+        self.audit.close()
+        with gzip.open(self.path.parent / "audit-20260101-3.jsonl.gz", "wb"):
+            pass  # 预置历史归档：已轮转 4 代（0..3）
+        self.audit = AuditLog(self.path)
+        self.assertEqual(self.audit.epoch, 4, "换代从 max 归档代 + 1 续起")
+        self.audit.write({"t": 1.0, "event": "spawn", "name": "a"})
+        self.assertEqual(self.audit.records[0]["epoch"], 4)
+        self.assertEqual(self.audit.records[0]["seq"], 0)
+
+    def test_page_dedup_key_is_composite(self):
+        """PAGE 内嵌 JS 的去重键必须用 (epoch, seq) 复合键（静态断言——
+        JS 不在 unittest 运行域内，与面板骨架静态断言同一测法）。"""
+        self.assertIn(
+            "const key = r.epoch + '|' + r.seq + '|' + r.t + '|' + r.tool;",
+            laosweb.PAGE)
+        self.assertNotIn("const key = r.seq + '|'", laosweb.PAGE,
+                         "裸 seq 去重键不得残留（轮转后误判重复）")
 
 
 if __name__ == "__main__":

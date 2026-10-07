@@ -429,11 +429,13 @@ function renderAudit(s) {
   const n = recs.length;
   for (let i = 0; i < n; i++) {
     const r = recs[i];
-    // 去重键 = 内核审计单调序号 seq（AuditLog.write 在 append 前盖章）：
-    // 不由"总数-窗口+下标"反推 —— 采样 status 与切片 audit 之间若混入
-    // 新记录，反推序号会漂移，导致同一批记录下一 tick 被重复插入；
+    // 去重键 = (轮转代 epoch, 单调序号 seq, t, tool) 复合键——epoch/seq 均
+    // 由 AuditLog.write 在 append 前盖章：不由"总数-窗口+下标"反推 —— 采样
+    // status 与切片 audit 之间若混入新记录，反推序号会漂移，导致同一批记录
+    // 下一 tick 被重复插入；seq 轮转换代后复位归零（设计 §6.2），裸 seq 键
+    // 会把新代同 seq 事件误判重复而丢弃，必须与轮转代 epoch 组复合键；
     // 与 t + tool 联合去重（同秒同工具多次调用靠序号区分）
-    const key = r.seq + '|' + r.t + '|' + r.tool;
+    const key = r.epoch + '|' + r.seq + '|' + r.t + '|' + r.tool;
     if (auditRows.has(key)) continue;
     auditRows.set(key, true);
     body.insertAdjacentHTML('afterbegin', auditRowHtml(r));  // 逐条插到最上 = 最新在上
@@ -496,7 +498,7 @@ async function restartDemo() {
     return;
   }
   $('restart-msg').textContent = '已重启，审计流从头滚动';
-  auditRows.clear();  // 新内核审计 seq 从 0 重新计数：去重账本必须清空
+  auditRows.clear();  // 新内核审计 epoch/seq 重新计数（无归档段时同代同号）：去重账本必须清空
   $('audit-body').innerHTML = '';
   tick();
 }
