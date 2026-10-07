@@ -52,7 +52,7 @@ TTS 音频 44.1k ──libsamplerate(SINC_FASTEST)──▶ 48k/stereo 播放（
 | 新模块 | 复现自 | 测试 |
 |---|---|---|
 | `laos/wakegate.py` | wake_gate.h 四态会话机（可注入时钟） | tests/test_wakegate.py（12 例：全迁移路径/超时/轮数/barge-in/文本永不唤醒） |
-| `laos/dialogsched.py` | GenerationGate + PauseWindow + DialogQueue + MicrophoneGate + parse_mode_request + TtsRouter | tests/test_dialogsched.py（24 例：打断代数/合并/窗口延长 200ms/latest-only/半双工/降级不换声线） |
+| `laos/dialogsched.py` | GenerationGate + PauseWindow + DialogQueue + MicrophoneGate + parse_mode_request + TtsRouter | tests/test_dialogsched.py（23 例：打断代数/合并/窗口延长 200ms/latest-only/半双工/降级不换声线） |
 | `laos/knowledge.py` | knowledge_retriever.cpp（bigram 0.7/0.3 双向覆盖+子串=1.0+交集≥2+阈值） | tests/test_knowledge.py（11 例，fixture=上游真数据前 6 条；公式精查 0.666…/阈值闸/交集下限） |
 | `laos/speechchunk.py` | speech_chunk_end（字节级：标点即切/15 字节后逗号/14 字兜底）+ clean_for_speech（剥前缀/<think>/markdown/序号/Qwen 本地化/分号→，或者）+ normalize_digits_for_speech（数字→汉字/全角/时刻点） | tests/test_speechchunk.py（16 例，字节语义精查） |
 | `tests/test_dialog_e2e.py` | —— 五件组装成完整控制环（唤醒→过闸→声控短路/知识短路/LLM 流→切句清洗→TTS 路由降级→generation 打断→半双工 guard→指标行） | 9 例闭环（上游真知识库答案被切成 5 句流式播报、在线失败降离线、休眠词关会话等） |

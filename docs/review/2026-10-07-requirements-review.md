@@ -54,7 +54,7 @@
 | Refiner | ✅ | AASR-Bench 917 例错误率 0.4571→0.3875（**-15.2%**）；端到端（TTS 口吃语音→funasr→refiner）CER 1.563→0.042；已知局限=子句级替换型 |
 | 唤醒会话机（WakeGate） | ✅ 模块级 | `laos/wakegate.py` 四态（follow-up 12s / 会话 120s / 6 轮），12 例测试全迁移路径覆盖；**无 KWS 真机实测**（见下行） |
 | KWS 实测触发 | ◐ | sherpa-onnx zipformer 模型与"小乐"拼音词表已从上游拿到（`x iǎo l è @小乐`），驱动子进程模式未跑；隔离区另有 DTW 模板私有唤醒词（研究资产） |
-| 打断（generation 版本化） | ✅ | `laos/dialogsched.py` 24 例测试（代数/合并/latest-only/降级不换声线） |
+| 打断（generation 版本化） | ✅ | `laos/dialogsched.py` 23 例测试（代数/合并/latest-only/降级不换声线，实跑核对 2026-10-07） |
 | TTS 合成能力面 | ○ | laos 尚无 TTS 合成后端；TtsRouter 降级语义（句中不换声线）已备，豆包协议帧编解码语义已记录（无 API key 未实测） |
 | 审计 | ✅ | 每次 syscall 带 errno 审计；录音成功**与被拒**均写 `event:"mic"` |
 | 禁录开关 | ✅ | `LAOS_REC=0` 全局禁录（返回 EACCES） |
@@ -160,7 +160,7 @@
 | G2 | 零依赖承诺 | `laos/` 核心纯 stdlib；重依赖只进驱动子进程 | **GO** | — |
 | G3 | 三通道 ASR 可用 | funasr zh 主力 + server 零依赖兜底 + whistle 轻备，均有实测 | **GO** | — |
 | G4 | 唤醒会话语义 | WakeGate 四态 + 12 例测试（全迁移/超时/轮数/barge-in/文本永不唤醒） | **GO**（模块级） | 真音频唤醒链路未实测（KWS ◐，Should S1） |
-| G5 | 打断语义 | generation 版本化 + 24 例测试；dialog_e2e 9 例闭环 | **GO** | 与 turnpolicy 未组合（技术评审债务，不阻塞第一场景） |
+| G5 | 打断语义 | generation 版本化 + 23 例测试；dialog_e2e 9 例闭环 | **GO** | 与 turnpolicy 未组合（技术评审债务，不阻塞第一场景） |
 | G6 | TTS 能力面 | ○（无合成后端） | **NO-GO**（仅对"语音问答完整体验"） | 语音问答按降级形态上线（文字输出）；TTS=Should S2 |
 | G7 | 审计与禁录 | `event:"mic"` + `LAOS_REC=0`，红线逐条满足（§4.3） | **GO** | — |
 | G8 | 可观测性（上线后诊断面） | 仅 JSONL 审计；无分段延迟/降级/故障事件 | **NO-GO** | 本波交付埋点设计（Task 3）；`laos/telemetry.py` 实现=下一波次 |
