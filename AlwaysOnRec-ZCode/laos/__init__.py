@@ -15,7 +15,7 @@ from .context import ContextManager
 from .kernel import AgentKernel, CapabilitySet, PCB
 from .mcp import MCPClient, MCPServer, ToolSpec
 
-__version__ = "0.21.0"
+__version__ = "0.23.0"
 
 __all__ = [
     "AgentKernel",
