@@ -198,6 +198,31 @@ class TestRedaction(TelemetryBase):
         rows = self.read_lines()
         self.assertEqual(rows[0]["fields"], {"channel": "funasr", "ok": True})
 
+    def test_unlisted_field_strip_warn_once_and_value_never_logged(self):
+        """修复轮 ③：静默剥除改为留证据——telemetry.strip warn 行只记
+        字段名不记值，同一 (事件, 字段组) 只警告一次；事件本身照发。"""
+        ok = self.em.emit(
+            "d.dialog.turn", module="dialogsched",
+            fields={"turn_id": 1, "use_llm": True, "stray_metric": "s3cret"},
+        )
+        self.assertTrue(ok)
+        self.em.flush()
+        rows = self.read_lines()
+        self.assertEqual(rows[0]["event"], "d.dialog.turn")    # 事件照发
+        self.assertIs(rows[0]["fields"]["use_llm"], True)      # ③ 注册后不剥
+        warns = [r for r in rows if r["event"] == "telemetry.strip"]
+        self.assertEqual(len(warns), 1)
+        self.assertEqual(warns[0]["fields"]["reason"], "unregistered_field")
+        self.assertEqual(warns[0]["fields"]["stripped"], ["stray_metric"])
+        self.assertNotIn("s3cret", self.path.read_text(encoding="utf-8"))
+        self.clock.advance(10.0)                               # 过节流窗
+        self.em.emit("d.dialog.turn", module="dialogsched",
+                     fields={"turn_id": 2, "stray_metric": "again"})
+        self.em.flush()
+        self.assertEqual(
+            [r for r in self.read_lines() if r["event"] == "telemetry.strip"],
+            warns)                                             # 去重不刷屏
+
     def test_policy_check_api(self):
         pol = tel.RedactionPolicy()
         clean, rejected = pol.check(

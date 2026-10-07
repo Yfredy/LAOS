@@ -12,26 +12,38 @@ D 类字段表；laos/telemetry.py EVENT_FIELDS 注册表为同源契约）：
 回调异常被吞掉（埋点永不影响主链路）、不注入回调零行为变化。
 生产核（wakegate/dialogsched）不 import telemetry——本测试跨查注册表
 仅属测试侧契约校验，装配层接线在后续任务。
+
+fix round 1：①设计 §325 必须级取消路径（enqueue 清队 latest_only_
+dropped + register_dialog 非投机轮作废 superseded）；②dialog.turn 加
+phase="queued"（一轮一条契约：装配层完成态将发 phase="done"）；
+③钩子字段经 TelemetryEmitter 落盘不丢（allowlist 已注册）。
 """
 import hashlib
 import json
+import tempfile
 import unittest
+from pathlib import Path
 
 from laos.dialogsched import DialogQueue, GenerationGate, PauseWindow
-from laos.telemetry import EVENT_FIELDS, GLOBAL_FORBIDDEN_FIELDS
+from laos.telemetry import (EVENT_FIELDS, GLOBAL_FORBIDDEN_FIELDS,
+                            TelemetryEmitter)
 from laos.wakegate import WakeConfig, WakeGate
 
-# 每事件预期字段全集（设计 §3.5 注册表字段 + 任务书点名的补充字段）
+# 每事件预期字段全集（修复轮后全部字段都在设计 §3.5 注册表 +
+# telemetry.EVENT_FIELDS 内——②③ 注册补齐，无"任务补充字段"残留）
 EXPECTED_FIELDS = {
     "d.wake.state_change": {"from", "to", "reason", "turns", "session_ms"},
     "d.dialog.turn": {"turn_id", "generation", "use_llm", "speculative",
-                      "merged_segments", "utter_len", "utter_sha8"},
-    "d.speculative.cancel": {"dialog_id", "reason", "merged",
-                             "tokens_wasted_est", "resume_samples"},
+                      "merged_segments", "utter_len", "utter_sha8", "phase"},
 }
-# 任务书点名、但不在设计 §3.5 注册表内的补充字段（其余字段必须全部
-# 落在 telemetry.EVENT_FIELDS 注册表内——字段名与设计一致的硬约束）
-TASK_EXTRA_FIELDS = {"use_llm", "resume_samples"}
+# d.speculative.cancel 按取消路径分集（三路径字段并集已全部注册）
+CANCEL_FIELDS_BY_REASON = {
+    "resume_cancel": {"dialog_id", "reason", "merged", "tokens_wasted_est",
+                      "resume_samples"},
+    "latest_only_dropped": {"dialog_id", "reason", "merged",
+                            "tokens_wasted_est", "dropped_ids"},
+    "superseded": {"dialog_id", "reason", "merged", "tokens_wasted_est"},
+}
 
 
 class FakeClock:
@@ -167,7 +179,8 @@ class DialogTurnHook(unittest.TestCase):
             "turn_id": 1, "generation": 1, "use_llm": True,
             "speculative": False, "merged_segments": 1,
             "utter_len": len(text),
-            "utter_sha8": hashlib.sha256(text.encode()).hexdigest()[:8]}])
+            "utter_sha8": hashlib.sha256(text.encode()).hexdigest()[:8],
+            "phase": "queued"}])                                  # ②
         self.assertEqual(job.id, col0[0]["turn_id"])
 
     def test_second_enqueue_increments_turn_and_generation(self):
@@ -232,6 +245,93 @@ class SpeculativeCancelHook(unittest.TestCase):
         self.assertTrue(pause.handle_speech_activity(True, True, 2000))
 
 
+class CancelPathHooks(unittest.TestCase):
+    """① 设计 §325 必须级取消路径：latest-only 清队 + 非投机轮作废投机轮。"""
+
+    def test_enqueue_clear_emits_latest_only_dropped(self):
+        col = Collector()
+        queue = DialogQueue(PauseWindow(FakeClock()), GenerationGate(),
+                            on_event=col)
+        queue.enqueue(False, "第一句")
+        queue.enqueue(False, "第二句")            # 清掉 id=1 的排队任务
+        self.assertEqual(col.of("d.speculative.cancel"), [{
+            "dialog_id": 1, "reason": "latest_only_dropped", "merged": False,
+            "tokens_wasted_est": 0, "dropped_ids": 1}])
+
+    def test_enqueue_empty_queue_no_cancel(self):
+        col = Collector()
+        queue = DialogQueue(PauseWindow(FakeClock()), GenerationGate(),
+                            on_event=col)
+        queue.enqueue(False, "唯一一句")
+        self.assertEqual(col.of("d.speculative.cancel"), [])
+
+    def test_nonspeculative_register_supersedes_pending(self):
+        col = Collector()
+        pause = PauseWindow(FakeClock(10.0), on_event=col)
+        pause.prepare_candidate("投机半句")
+        pause.register_dialog(5, True, 11.0)      # 投机轮挂起
+        pause.register_dialog(6, False, 0.0)      # 非投机新轮作废投机轮 5
+        self.assertEqual(col.of("d.speculative.cancel"), [{
+            "dialog_id": 5, "reason": "superseded", "merged": False,
+            "tokens_wasted_est": 0}])
+
+    def test_register_without_pending_no_event(self):
+        col = Collector()
+        pause = PauseWindow(FakeClock(10.0), on_event=col)
+        pause.register_dialog(6, False, 0.0)      # 无挂起投机轮
+        self.assertEqual(col.of("d.speculative.cancel"), [])
+
+    def test_superseded_callback_exception_swallowed(self):
+        pause = PauseWindow(FakeClock(10.0), on_event=RaisingCollector())
+        pause.prepare_candidate("投机半句")
+        pause.register_dialog(5, True, 11.0)
+        pause.register_dialog(6, False, 0.0)      # 不抛
+        self.assertEqual(pause._speculative_id, 0)
+
+
+class SinkForwarding(unittest.TestCase):
+    """③ 装配层转发形态：钩子负载经 TelemetryEmitter 落盘，注册字段不丢
+    （use_llm/phase/resume_samples/dropped_ids），且无 telemetry.strip 警告。"""
+
+    def test_hook_fields_survive_sink(self):
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        path = Path(tmp.name) / "tel.jsonl"
+        with TelemetryEmitter(path, throttle_sec=0.0,
+                              clock=FakeClock(1000.0)) as em:
+            self.assertTrue(em.emit("d.dialog.turn", module="dialogsched",
+                                    fields={"turn_id": 1, "generation": 1,
+                                            "use_llm": True,
+                                            "speculative": False,
+                                            "merged_segments": 2,
+                                            "utter_len": 6,
+                                            "utter_sha8": "0123abcd",
+                                            "phase": "queued"}))
+            self.assertTrue(em.emit(
+                "d.speculative.cancel", module="dialogsched",
+                fields={"dialog_id": 1, "reason": "latest_only_dropped",
+                        "merged": False, "tokens_wasted_est": 0,
+                        "dropped_ids": 1}))
+            self.assertTrue(em.emit(
+                "d.speculative.cancel", module="dialogsched",
+                fields={"dialog_id": 2, "reason": "resume_cancel",
+                        "merged": True, "tokens_wasted_est": 0,
+                        "resume_samples": 2000}))
+        rows = [json.loads(ln)
+                for ln in path.read_text(encoding="utf-8").splitlines()]
+        turn = next(r for r in rows if r["event"] == "d.dialog.turn")
+        self.assertEqual(turn["fields"]["phase"], "queued")        # ② 落盘行
+        self.assertIs(turn["fields"]["use_llm"], True)            # ③ 不丢
+        by_reason = {r["fields"]["reason"]: r for r in rows
+                     if r["event"] == "d.speculative.cancel"}
+        self.assertEqual(by_reason["latest_only_dropped"]["fields"]
+                         ["dropped_ids"], 1)
+        self.assertEqual(by_reason["resume_cancel"]["fields"]
+                         ["resume_samples"], 2000)
+        self.assertEqual([r for r in rows if r["event"] == "telemetry.strip"],
+                         [])
+
+
 class SchemaConformance(unittest.TestCase):
     """三事件字段名与设计 §3.5 注册表一致；事件负载无明文 request/text。"""
 
@@ -253,10 +353,13 @@ class SchemaConformance(unittest.TestCase):
         col = self._collect_all()
         self.assertTrue(col.events)
         for event, fields in col.events:
-            self.assertEqual(set(fields), EXPECTED_FIELDS[event], event)
-            core = set(fields) - TASK_EXTRA_FIELDS
-            self.assertTrue(core <= set(EVENT_FIELDS[event]),
-                            f"{event}: {core - set(EVENT_FIELDS[event])} "
+            if event == "d.speculative.cancel":
+                expected = CANCEL_FIELDS_BY_REASON[fields["reason"]]
+            else:
+                expected = EXPECTED_FIELDS[event]
+            self.assertEqual(set(fields), expected, event)
+            self.assertTrue(set(fields) <= set(EVENT_FIELDS[event]),
+                            f"{event}: {set(fields) - set(EVENT_FIELDS[event])} "
                             "不在设计 §3.5 注册表内")
 
     def test_no_plaintext_leak(self):

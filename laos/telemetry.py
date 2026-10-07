@@ -143,6 +143,9 @@ EVENT_FIELDS: dict[str, dict[str, str]] = {
         "merged_segments": _COUNT, "speculative_tokens_wasted": _COUNT,
         "dropped_latest_only": _COUNT, "utter_len": _COUNT,
         "utter_sha8": _REDACTED, "chunks_out": _COUNT,
+        # 修复轮 ②③：入队时刻最小发射点的字段（一轮一条契约的 phase 与
+        # 任务点名的 use_llm）——此前未注册被 allowlist 静默剥除
+        "phase": _PLAIN, "use_llm": _PLAIN,
     },
     "d.wake.state_change": {
         "from": _PLAIN, "to": _PLAIN, "reason": _PLAIN, "turns": _COUNT,
@@ -156,6 +159,8 @@ EVENT_FIELDS: dict[str, dict[str, str]] = {
     "d.speculative.cancel": {
         "dialog_id": _PLAIN, "reason": _PLAIN, "merged": _PLAIN,
         "tokens_wasted_est": _COUNT,
+        # 修复轮 ①③：resume 判定真值采样数 + 清队路径丢弃计数
+        "resume_samples": _COUNT, "dropped_ids": _COUNT,
     },
     # ---- P 性能（§3.6）----
     "p.rtf": {"channel": _PLAIN, "n": _COUNT, "p50": _COUNT, "p95": _COUNT,
@@ -316,6 +321,8 @@ class TelemetryEmitter:
                            if self.path.exists() else 0)
         # 节流状态：key=(event, module, session) → (上次发射时刻, 窗口内被压制数)
         self._throttle_state: dict[tuple, tuple[float | None, int]] = {}
+        # 未注册字段剥除的 warn 去重：每 (事件, 字段名组) 只警告一次（修复轮 ③）
+        self._strip_warned: set[tuple[str, tuple[str, ...]]] = set()
         self._throttled_total = 0
         self._closed = False
 
@@ -341,6 +348,15 @@ class TelemetryEmitter:
             with self._lock:
                 self._write_reject_warn(event, rejected)
             return False
+        # -- 未注册字段剥除（allowlist 第一道防线）留证据（修复轮 ③）：
+        #    已注册事件出现未列出字段 → 字段名记 telemetry.strip warn 行
+        #    （只记名不记值）；注册表外事件整字段面走私由空 fields 设计
+        #    承担，不在此列。REC 内容派生剥除属策略行为，同样不在此列。--
+        if self.policy.is_registered(event):
+            stripped = sorted(n for n in raw_fields
+                              if n not in clean and n not in rejected)
+        else:
+            stripped = []
 
         # -- REC=0 内容派生字段剥离（仅 source=capture；file 照发）--
         if (rec_off and event in _REC_STRIP_CAPTURE_EVENTS
@@ -366,6 +382,8 @@ class TelemetryEmitter:
             envelope["throttled"] = release_count  # 节流元字段（§3.1）
         with self._lock:
             line = self._write_line(envelope)
+            if stripped:
+                self._write_strip_warn(event, stripped)   # 事件照发，剥除留痕
         if level == "error":
             # §6.4 error 级 stderr 镜像：崩溃现场直接可见，不依赖文件
             # survived；无 flush 依赖（stderr 行缓冲）。仅随实际发射触发。
@@ -439,6 +457,26 @@ class TelemetryEmitter:
                 "reason": "forbidden_field",
                 "event": event,
                 "rejected": rejected,
+            },
+        })
+
+    def _write_strip_warn(self, event: str, stripped: list[str]) -> None:
+        """未注册字段剥除的 warn 行（修复轮 ③；须持锁调用）：只记字段名
+        不记值；同一 (事件, 字段名组) 去重一次，防热路径刷屏。"""
+        key = (event, tuple(stripped))
+        if key in self._strip_warned:
+            return
+        self._strip_warned.add(key)
+        self._write_line({
+            "ts": round(self._clock() * 1000, 3),
+            "event": "telemetry.strip",
+            "level": "warn",
+            "module": "telemetry",
+            "session": "",
+            "fields": {
+                "reason": "unregistered_field",
+                "event": event,
+                "stripped": stripped,
             },
         })
 

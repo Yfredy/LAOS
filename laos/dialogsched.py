@@ -156,6 +156,11 @@ class PauseWindow:
             if not speculative:
                 if self._speculative_id:
                     self._cancelled.add(self._speculative_id)
+                    # §325 superseded：非投机新轮作废挂起的投机轮（P14 浪费面）
+                    safe_emit(self._on_event, "d.speculative.cancel", {
+                        "dialog_id": self._speculative_id,
+                        "reason": "superseded",
+                        "merged": False, "tokens_wasted_est": 0})
                 self._speculative_id = 0
                 self._pending_text = ""
                 self._merge_count = 0
@@ -279,16 +284,23 @@ class DialogQueue:
         with self._lock:
             self._next_id += 1
             job_id = self._next_id
-            self.dropped += len(self._jobs)
+            dropped = len(self._jobs)
+            self.dropped += dropped
             for stale in self._jobs:
                 self._pause.take_cancelled(stale.id)   # 不会再到 writeMetrics
+                # §325 必须级：清队丢弃路径的投机取消独立发射（P14 丢数据点）
+                safe_emit(self._on_event, "d.speculative.cancel", {
+                    "dialog_id": stale.id, "reason": "latest_only_dropped",
+                    "merged": False, "tokens_wasted_est": 0,
+                    "dropped_ids": dropped})
             self._jobs = [DialogJob(job_id, generation, use_llm, text,
                                     speculative, commit_deadline, merged_segments)]
         self._pause.register_dialog(job_id, speculative, commit_deadline)
         safe_emit(self._on_event, "d.dialog.turn", {
             "turn_id": job_id, "generation": generation, "use_llm": use_llm,
             "speculative": speculative, "merged_segments": merged_segments,
-            "utter_len": len(text), "utter_sha8": _sha8(text)})
+            "utter_len": len(text), "utter_sha8": _sha8(text),
+            "phase": "queued"})
         return self._jobs[0]
 
     def pop(self) -> Optional[DialogJob]:
