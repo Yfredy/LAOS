@@ -38,7 +38,7 @@ github.com 主域克隆三连败（代理拒连→gitclone 镜像 502→代理�
 
 | 项 | 结果 |
 |---|---|
-| esp-claw 源码 | API 取件 45 文件（.agents/design.md、claw_core/event_router/memory/cap/manager 五模块头文件、edge_agent 与 mcp_server_point 主程序、docs/、lua_lvgl_web_sim README）+ 全树 1697 路径存档 var/repro/espclaw/tree.json |
+| esp-claw 源码 | API 取件 45 文件（.agents/design.md、claw_core/event_router/memory/cap/manager 五模块头文件、edge_agent 与 mcp_server_point 主程序、docs/、lua_lvgl_web_sim README）+ 全树 1697 路径存档 var/repro/espclaw/tree.json；**+用户迅雷半成品 zip 抢救**（codeload master zip 仅下载 ~6.2/17.0MB 且停滞——本地头自携尺寸，顺序+跳洞解压救出 **1053 文件，全部与 GitHub 树逐字节尺寸吻合（零失配）**；缺 193 主要是 tools/ 网页模拟器；含 claw_core/src 27 文件完整实现） |
 | muse-gadget-sdk 源码 | API 取件 44 文件（linux/ 全树含 noise 协议栈与测试向量、skills 目录样本 3 份、esp32/README）+ 全树 586 路径存档 muse_tree.json |
 | **muse Linux SDK 测试套件** | **双环境实跑**：Windows miniconda（依赖现成零安装：cryptography 42.0.5/websockets 17.0.1/pytest 9.1.1）**142 passed / 1 failed / 1 skipped**——唯一失败 `test_identity_persists` 是 Unix 0o600 权限断言，Windows `st_mode` 恒 0o666，环境差异非 bug；**WSL Ubuntu-22.04（SDK 真目标环境）全量 11 文件：167 passed / 1 skipped in 9.43s**（0o600 断言在 Linux 如预期通过，证明 Windows 侧失败确系环境差异） |
 | esp-claw 固件构建/烧录 | **BLOCKED（诚实收档）**：需 ESP-IDF v5.5.x 工具链 + ESP32 硬件（S3/P4/C5）；本波次无板。复现深度=结构级：全树+核心源码逐行判读（§四） |
@@ -50,7 +50,7 @@ esp-claw 四模块（claw_modules）+ 能力层（claw_capabilities 85 项 cap_*
 
 | esp-claw 构件 | 源码要点（file:line） | laos 对应资产 | 关系 |
 |---|---|---|---|
-| claw_core.h agent 循环 | 8 相位枚举 IDLE→BEFORE/BOOTING_ITERATION_CONTEXT→BEFORE/IN_LLM_HTTP→AFTER_LLM_BEFORE_TOOL→RUNNING_TOOL→FINALIZING（claw_core.h:29-37）；`claw_core_get_agent_loop_phase()` 运行时可查；`USER_INTERRUPT` 请求位（:41）；`request_gate` 回调可拒请求（:90-93,147）；context provider 三类 SYSTEM_PROMPT/MESSAGES/TOOLS（:101-105） | v0.21.0 telemetry phase（dialog.turn queued/done）、wakegate barge_in、判断层 decide()、MemoryStore 注入 | 同构独立趋同 |
+| claw_core.h agent 循环 | 8 相位枚举 IDLE→BEFORE/BOOTING_ITERATION_CONTEXT→BEFORE/IN_LLM_HTTP→AFTER_LLM_BEFORE_TOOL→RUNNING_TOOL→FINALIZING（claw_core.h:29-37）；`claw_core_get_agent_loop_phase()` 运行时可查；`USER_INTERRUPT` 请求位（:41）；`request_gate` 回调可拒请求（:90-93,147）；context provider 三类 SYSTEM_PROMPT/MESSAGES/TOOLS（:101-105）。**实现级**（claw_core_agent_loop.c 513 行，xltd 抢救所得）：8 相位状态机落点 :138-454；**request_gate 在循环准入处调用（:174-179，拒则带 reject_message 出队）——准入闸而非逐轮闸** | v0.21.0 telemetry phase（dialog.turn queued/done）、wakegate barge_in、判断层 decide()、MemoryStore 注入 | 同构独立趋同 |
 | claw_event_router.h 事件路由 | JSON 规则文件热载+CRUD（rules_path/reload/add_rule_json）；匹配六维 event_type/key/source_cap/channel/chat_id/content_type/text EXACT|PREFIX（:64-78）；**六动作 CALL_CAP/RUN_AGENT/RUN_SCRIPT/SEND_MESSAGE/EMIT_EVENT/DROP**（:55-62）；fail_open/consume_on_match/ack（:89-99） | 强制层+信箱 IPC | **事件防火墙**——laos 缺声明式规则面 |
 | claw_memory.h 三层记忆 | 4 provider：profile/long_term/long_term_lightweight/session_history（:95-98）；条目 summary_ids[3]/tags/keywords/**access_count**/软删 deleted（:43-55）；forget/update 带 changed 检测；delete_session_history 会话 GC | MemoryStore+diary+journal | 趋同；access_count/轻量档可借鉴 |
 | **claw_cap.h 能力框架** | caller 五级 SYSTEM/AGENT/CONSOLE/ROOT_AGENT/SUB_AGENT（:24-30）；**权限位 CALLABLE_BY_LLM/EMITS_EVENTS/RESTRICTED/ROOT_AGENT_ONLY**（:32-38）；状态机 REGISTERED→STARTED→DISABLED→DRAINING→UNLOADING（:40-46）；调用上下文带 agent 血统链 parent_agent_id/correlation_id（:48-63）；`set_llm_visible_groups`/`set_session_llm_visible_groups` per-session 可见域（:150-153）；root/sub agent 分工具表（:176-181） | **→ 本波次落地 laos/caps.py（§五）** | 采纳源 |
