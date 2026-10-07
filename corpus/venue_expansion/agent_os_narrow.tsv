@@ -1,0 +1,49 @@
+Design, Implementation, and Measurement of a Crowdsourcing-Based Content Distribution Platform	2016	ACM Transactions on Multimedia Computing, Communications, and Applications	10.1145/2978655
+DRIFT: Dynamic Rule-Based Defense with Injection Isolation for Securing LLM Agents	2025	Advances in Neural Information Processing Systems 38	10.52202/085713-2791
+Emergent Risk Awareness in Rational Agents under Resource Constraints	2025	Advances in Neural Information Processing Systems 38	10.52202/085713-3991
+Towards Objectively Benchmarking Social Intelligence of Language Agents at the Action Level	2024	Findings of the Association for Computational Linguistics: ACL 2024	10.18653/v1/2024.findings-acl.526
+{SMART}: Self-Aware Agent for Tool Overuse Mitigation	2025	Findings of the Association for Computational Linguistics: ACL 2025	10.18653/v1/2025.findings-acl.239
+{SRAP}-Agent: Simulating and Optimizing Scarce Resource Allocation Policy with {LLM}-based Agent	2024	Findings of the Association for Computational Linguistics: EMNLP 2024	10.18653/v1/2024.findings-emnlp.15
+{INDOORWORLD} : Integrating Physical Task Solving and Social Simulation in A Heterogeneous Multi-Agent Environment	2025	Findings of the Association for Computational Linguistics: EMNLP 2025	10.18653/v1/2025.findings-emnlp.590
+Understanding {GUI} Agent Localization Biases through Logit Sharpness	2025	Findings of the Association for Computational Linguistics: EMNLP 2025	10.18653/v1/2025.findings-emnlp.1268
+{E}vo{A}gent: Towards Automatic Multi-Agent Generation via Evolutionary Algorithms	2025	Proceedings of the 2025 Conference of the Nations of the Americas Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers)	10.18653/v1/2025.naacl-long.315
+Can {LLM}s Help You at Work? A Sandbox for Evaluating {LLM} Agents in Enterprise Environments	2025	Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing	10.18653/v1/2025.emnlp-main.466
+Tool Preferences in Agentic {LLM}s are Unreliable	2025	Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing	10.18653/v1/2025.emnlp-main.1060
+{STREAQ}: Selective Tiered Routing for Effective and Affordable Contact Center Quality Assurance	2025	Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing: Industry Track	10.18653/v1/2025.emnlp-industry.121
+TuneAgent: Agentic Operating System Kernel Tuning with Reinforcement Learning	2026	Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2	10.1145/3770855.3817987
+PG-DyRA: Potential-Game Guided Multi-Agent Collaboration for Dynamic Urban Resource Allocation	2026	Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2	10.1145/3770855.3817998
+MALLES: A Multi-agent LLMs-based Economic Sandbox with Consumer Preference Alignment	2026	Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2	10.1145/3770855.3818824
+Systematic Diagnosis and Benchmarking of Memory Systems in Autonomous AI Research Agents: A Low-Resource Framework	2026	Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2	10.1145/3770855.3816477
+Can You Put it All Together: Evaluating Conversational Agents' Ability to Blend Skills	2020	Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics	10.18653/v1/2020.acl-main.183
+Enhancing Personalized Dialogue Generation with Contrastive Latent Variables: Combining Sparse and Dense Persona	2023	Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)	10.18653/v1/2023.acl-long.299
+A Dataset of Argumentative Dialogues on Scientific Papers	2023	Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)	10.18653/v1/2023.acl-long.425
+{AXIS}: Efficient Human-Agent-Computer Interaction with {API}-First {LLM}-Based Agents	2025	Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)	10.18653/v1/2025.acl-long.381
+Beyond Frameworks: Unpacking Collaboration Strategies in Multi-Agent Systems	2025	Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)	10.18653/v1/2025.acl-long.1037
+Optimally Auditing Adversarial Agents	2026	Proceedings of the AAAI Conference on Artificial Intelligence	10.1609/aaai.v40i20.38722
+Fairness and Stability for Shared Resource Allocation Problems	2026	Proceedings of the AAAI Conference on Artificial Intelligence	10.1609/aaai.v40i20.38735
+Fair Societies: Algorithms for House Allocations	2026	Proceedings of the AAAI Conference on Artificial Intelligence	10.1609/aaai.v40i20.38753
+EcoAgent: An Efficient Device-Cloud Collaborative Multi-Agent Framework for Mobile Automation	2026	Proceedings of the AAAI Conference on Artificial Intelligence	10.1609/aaai.v40i35.40230
+VIL2C: Value-of-Information Aware Low-Latency Communication for Multi-Agent Reinforcement Learning	2026	Proceedings of the AAAI Conference on Artificial Intelligence	10.1609/aaai.v40i35.40234
+StoryBox: Collaborative Multi-Agent Simulation for Hybrid Bottom-Up Long-Form Story Generation Using Large Language Models	2026	Proceedings of the AAAI Conference on Artificial Intelligence	10.1609/aaai.v40i36.40288
+A Multi-Agent LLM Framework for Multi-Domain Low-Resource In-Context NER via Knowledge Retrieval, Disambiguation and Reflective Analysis	2026	Proceedings of the AAAI Conference on Artificial Intelligence	10.1609/aaai.v40i38.40529
+AgentSwift: Efficient LLM Agent Design via Value-Guided Hierarchical Search	2026	Proceedings of the AAAI Conference on Artificial Intelligence	10.1609/aaai.v40i38.40453
+Adaptive Regulation via Dual-Layer Evolution (ARDE): A Multi-Agent Approach to Balancing Efficiency, Fairness, and Diversity in Crowdsourced Platforms	2026	Proceedings of the AAAI Conference on Artificial Intelligence	10.1609/aaai.v40i46.41314
+Catching the First Light of Tomorrow: A Hackathon-Based Framework for Introducing High School Students to AI Agents	2026	Proceedings of the AAAI Conference on Artificial Intelligence	10.1609/aaai.v40i47.41527
+ToolSmith: A Multi-Agent Framework for Enterprise Tool Creation	2026	Proceedings of the AAAI Conference on Artificial Intelligence	10.1609/aaai.v40i48.42388
+PolicySim: An LLM-Based Agent Social Simulation Sandbox for Proactive Policy Optimization	2026	Proceedings of the ACM Web Conference 2026	10.1145/3774904.3792555
+Multi-agent Approach to Resource Allocation in Autonomous Vehicle Fleets	2021	Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence	10.24963/ijcai.2021/671
+Modeling Institutions in Socio-Ecosystems	2021	Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence	10.24963/ijcai.2021/688
+Multi-Agent Abstract Argumentation Frameworks With Incomplete Knowledge of Attacks	2021	Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence	10.24963/ijcai.2021/265
+Dominant Resource Fairness with Meta-Types	2021	Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence	10.24963/ijcai.2021/68
+Phi-Actor-Critic: Steering General-Sum Games to Pareto-Efficient Correlated Equilibria	2026	Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence	10.24963/ijcai.2026/22
+Fairly Dividing Non-identical Random Items: Just Sample or Match	2026	Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence	10.24963/ijcai.2026/383
+Credit Fairness: Online Fairness in Shared Resource Pools	2026	Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence	10.24963/ijcai.2026/51
+EVA-Gen: When Perception Learns from Value via Generative Models in Decentralized Multi-Agent Systems	2026	Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence	10.24963/ijcai.2026/54
+Rule-Bottleneck RL: Learning to Decide and Explain for Sequential Resource Allocation via LLM Agents in Public Health	2026	Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence	10.24963/ijcai.2026/835
+Every Bit Helps: Achieving the Optimal Distortion with a Few Queries (Extended Abstract)	2026	Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence	10.24963/ijcai.2026/924
+TraceBrain: An Open-Source Framework for Agentic Trace Management	2026	Proceedings of the Thirty-Fifth International Joint Conference on Artificial Intelligence	10.24963/ijcai.2026/975
+Offline Time-Independent Multi-Agent Path Planning	2022	Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence	10.24963/ijcai.2022/645
+Online Resource Sharing: Better Robust Guarantees via Randomized Strategies	2025	Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence	10.24963/ijcai.2025/21
+Navigating Social Dilemmas with LLM-based Agents via Consideration of Future Consequences	2025	Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence	10.24963/ijcai.2025/26
+Strategic Resource Selection with Homophilic Agents	2023	Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence	10.24963/ijcai.2023/301
+Fairness and Optimization in Dynamic Multiagent Allocation Problems	2024	Proceedings of the Thirty-ThirdInternational Joint Conference on Artificial Intelligence	10.24963/ijcai.2024/973
