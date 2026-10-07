@@ -188,13 +188,15 @@ class TestBackendRegistry(unittest.TestCase):
     def test_unregistered_key_error(self):
         with self.assertRaises(KeyError):
             get_backend("definitely-not-registered")
-        # clef 后端在 Task 3 登记前不可用（fail-loud，不静默兜底）
+        # clef 后端自 Task 3 起由 drivers/drv_clef.py 在 import 时登记
+        # （laos 核心零依赖：未 import 该驱动的进程里 clef 仍 KeyError——
+        # 装配面 fail-loud，不静默兜底；两种世界都合法）
         try:
-            get_backend("clef")
+            clef = get_backend("clef")
         except KeyError:
             pass
         else:
-            self.fail("clef 未登记时应 KeyError")
+            self.assertTrue(callable(clef))
 
 
 if __name__ == "__main__":
