@@ -54,6 +54,9 @@ Qwen3_5 → 升级 5.10.2+torch 2.14.1 过 import 门，错误原文未删改）
   （BIN_EPSILON 咬合，test_calib.py 钉死）。
 - 校准改进半边（温度缩放/RLCD 微调）不做进核心：重依赖+需要训练数据，属
   驱动子进程域，○ 本波次不做。
+- **T3 终报附注（2026-10-08 后发）**：Decision.calibrated=True 是**上游声明**
+  （官方 head 经 Brier/RLCD 训练），laos 若把 clef 后端接进真闸门，须先用
+  laos/calib.py 对本地实测分布独立复验，不得径直采信该位。
 
 ## 5. 登记与去向
 
