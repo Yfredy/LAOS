@@ -111,7 +111,7 @@
 | [oss/oss_audit.md](oss/oss_audit.md) | OSS 语料审计与去噪报告（可解释相关性判据） | "总仓库数（去重）：3529"；剔除噪声共 1376 条（audio-llm/voice-agent 裸词切片） |
 | [oss/classification_system.md](oss/classification_system.md) | Task 3 分类体系与 laos 适配映射（规则可复现） | "分类体系（13 类，可多标签）"；源数据 `repos_raw.jsonl` 3724 条（注：终版报告分类数为 15 类，两处不一致时以终版报告 15 为准） |
 
-## 五、Jev 调研支撑卷宗（jev/，7 份）
+## 五、Jev 调研支撑卷宗（jev/，8 份）
 
 | 文件 | 一句话定位 | 关键数字 / 规模（抄原句） |
 |---|---|---|
@@ -121,6 +121,7 @@
 | [jev/03-oss-applications.md](jev/03-oss-applications.md) | Jev 开源应用与生态（browser / voice / android / guard / 清单 / 评测 / 工具） | 语音+常驻先例线：moritzkremb/jev-voice-browser 147 星；多数仍走官方云端 API，laos_fit 多标 ref |
 | [jev/04-ondevice-benchmark.md](jev/04-ondevice-benchmark.md) | 端侧候选本机实测（Task 4 唯一交付：Windows x86 CPU 真数字 + 外推 Android） | edgejev：ONNX int8 模型 **324.5 MB**、3 题批量 median **157.5 ms**、峰值 RSS **495 MB**、首次加载 **2.1 s**；"README 宣称的「单题 15.6 ms」是在 Xeon AVX512-VNNI 上的硬件特例" |
 | [jev/05-laos-placement.md](jev/05-laos-placement.md) | laos 判定点映射与落点清单（Task 5 设计产出）：魔法数字 → Jev 三原语，收益/代价/排除理由 | "常驻每帧调用 → 持续 **0.5–1.5 W** 附加（否决）；离线/二级确认档 → 常摊 **4.6 mW** 量级（可接受）"；"不沿用任何 README 宣称值" |
+| [jev/06-clef-mapping.md](jev/06-clef-mapping.md) | Clef 落地对照（v0.22.0）：三路线选型表（rules ~0ms 实测 / edgejev 157.5ms 实测 / clef-flash 38.8ms 边缘 GPU 引用）＋非自回归架构定论＋Brier/RLCD 校准方法库映射 | "38.8ms 是**引用**：Cloudflare 边缘 GPU 实测……laos 不复现该口径的硬件前不进默认链"；qemu chroot 加载实测 **19.4s**、单发未取得（内存压力 c10 崩溃，GFLOPS 外推 ≈85min/次）；引用与本地实测"**永不混写**" |
 | [jev/fetch_summary.md](jev/fetch_summary.md) | Jev GitHub 全景抓取摘要（Task 2） | "原始抓取（去重后，含噪声）：**1443** 条……精度判据保留 / 交付（repos_raw.jsonl）：**778** 条"；剔除噪声 665 条 |
 
 ## 六、corpus/ 与数据语料（数据文件，只列规模）
