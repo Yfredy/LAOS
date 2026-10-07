@@ -26,11 +26,13 @@
 | 级别 | 语义 | 允许的字段形态 |
 |---|---|---|
 | **明文** | 无隐私面：标识符、计数、时延、配置值 | turn_id、ms 值、阈值、布尔 |
-| **计数** | 只记次数/数量，不记内容 | tokens、hits、lines、duration 换算的计数 |
-| **脱敏** | 内容的不可逆派生 | `len`（字节数）、`sha256(text)[:8]`（记作 `*_sha8`）、时长（秒/毫秒）、语言码（BCP-47 短码如 `zh`/`en`） |
+| **计数** | 只记次数/数量，不记内容 | tokens、hits、lines、`len`（字节数/字符数，`*_len` 字段族）、过程时延 ms 值（`latency_ms`/`retrieval_ms`/`session_ms` 等） |
+| **脱敏** | 内容的不可逆派生 | `sha256(text)[:8]`（记作 `*_sha8`）、内容时长（秒/毫秒：`duration_ms`/`start_ms`/`duration_sec`）、语言码（BCP-47 短码如 `zh`/`en`） |
 | **禁止** | 红线：永不入事件 | 音频字节、转写文本明文、refine 前后文本明文、唤醒/休眠词命中原文 |
 
 **内容类字段只允许三种形态：len / sha256 前 8 位 / 时长+语言码**（需求评审 §4.3#7 原文落法）。凡来源函数接触文本/音频的发射点，字段表末尾显式列"禁止对照行"，供自查与代码评审对照。
+
+> **len 级别勘误（2026-10-07 统一，以 `laos/telemetry.py` `EVENT_FIELDS` 注册表实态为准）**：`*_len` 字段族（`text_len`/`in_len`/`out_len`/`utter_len`）=**计数**（数量语义）；内容时长（`duration_ms`/`start_ms`/`duration_sec`）=**脱敏**（内容派生语义）；过程时延（`latency_ms`/`retrieval_ms` 等 ms 值）=**计数**。§3.2–3.7 字段表与本表按此对齐。
 
 ### 1.3 挂既有审计流：复用 audit 通道，不新开后门
 
@@ -271,6 +273,7 @@
 | 字段 | 类型 | 脱敏级别 | 来源函数 |
 |---|---|---|---|
 | `turn_id` | int | 明文 | `DialogQueue._next_id`（dialogsched.py:241） |
+| `phase` | str | 明文（`queued`/`done` 两态） | 裁决（2026-10-07，一轮一条契约）：`DialogQueue.enqueue()` 成功入队即发 `phase="queued"`（dialogsched.py:299-303 最小发射点）；轮完成/取消时由装配层拼装发 `phase="done"`（接线波） |
 | `route` | str | 明文（`knowledge`/`llm`/`tts`/`none`） | 装配层路由决策（上游 route 口径；e2e 测试同款取值） |
 | `knowledge_id` | str | 明文（知识条目 id 或空） | `KnowledgeRetriever.search` 命中（knowledge.py:116） |
 | `knowledge_score` | float | 明文（bigram 得分，阈值 0.58，knowledge.py:117） | 同上 |
