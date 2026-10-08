@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AED 模型全景 · laos 音频事件识别调研</title>
+<style>
+  :root{
+    --bg:#0e1117; --panel:#161b22; --panel2:#1c2230; --border:#30363d;
+    --text:#c9d1d9; --muted:#8b949e; --accent:#58a6ff; --accent2:#3fb950;
+    --warn:#f0883e; --bad:#f85149; --good:#3fb950; --chip:#21262d;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.6;font-size:15px}
+  header{padding:28px 24px 18px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,#11161f,#0e1117)}
+  header h1{margin:0 0 6px;font-size:22px;color:#fff}
+  header p{margin:0;color:var(--muted);font-size:13px}
+  nav{position:sticky;top:0;z-index:50;background:rgba(13,17,23,.92);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;gap:6px;padding:10px 24px}
+  nav a{color:var(--accent);text-decoration:none;font-size:13px;padding:4px 10px;
+    border:1px solid var(--border);border-radius:999px;background:var(--chip)}
+  nav a:hover{background:#1f6feb33;border-color:var(--accent)}
+  main{max-width:980px;margin:0 auto;padding:24px}
+  section{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin:18px 0}
+  h2{margin:0 0 14px;font-size:18px;color:#fff;border-left:3px solid var(--accent);padding-left:10px}
+  h3{color:#e6edf3;font-size:15px;margin:18px 0 8px}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+  th,td{border:1px solid var(--border);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:var(--panel2);color:#e6edf3;font-weight:600}
+  tr:nth-child(even) td{background:#11161f}
+  code{background:var(--chip);padding:1px 6px;border-radius:5px;font-size:12px;color:#ffa657}
+  .muted{color:var(--muted)}
+  .verdict{background:#0d2818;border:1px solid #1a5630;border-radius:10px;padding:14px 16px;margin:8px 0}
+  .verdict b{color:var(--good)}
+  .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;border:1px solid var(--border);
+    background:var(--chip);margin:2px}
+  .pill.green{color:var(--good);border-color:#1a5630}
+  .pill.red{color:var(--bad);border-color:#5c1f1f}
+  .pill.amber{color:var(--warn);border-color:#5c3a1f}
+  svg{display:block;margin:10px auto;max-width:100%}
+  footer{border-top:1px solid var(--border);padding:18px 24px;color:var(--muted);font-size:12px;text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <h1>音频事件识别（AED）模型全景</h1>
+  <p>laos 语音三域调研收尾 · 58 条 schema 记录（小型 19 + 中型 28 + 大型 11），校验器 0 违规</p>
+</header>
+<nav>
+  <a href="#matrix">交叉矩阵</a>
+  <a href="#taskmap">任务×指标</a>
+  <a href="#tiers">三档对比</a>
+  <a href="#leaderboard">AS-2M 榜单</a>
+  <a href="#multimodal">多模态数据集</a>
+  <a href="#runtime">端侧 runtime</a>
+  <a href="#verdict">结论</a>
+</nav>
+<main>
+
+<section id="matrix">
+  <h2>交叉矩阵：规模档 × {edge, multimodal}</h2>
+  <table>
+    <thead><tr><th>规模档</th><th>条目</th><th>代表模型</th><th>典型 mAP / 指标</th><th>典型 MMACs</th><th>edge</th><th>多模态</th></tr></thead>
+    <tbody>
+      <tr><td>小型 &lt;30M</td><td>19</td><td>YAMNet、EfficientAT-mn10、CP-Mobile</td><td>mAP 0.266–0.486（AS-2M full）</td><td>YAMNet 72/s；EfficientAT 11–206/s</td><td class="pill green">YAMNet TFLite Micro；余 unknown</td><td>全 A</td></tr>
+      <tr><td>中型 30–500M</td><td>28</td><td>AST、PaSST-S、BEATs iter3+、AudioMAE</td><td>mAP 0.431–0.486（AS-2M full）</td><td>transformer 类高（远离端侧）</td><td class="pill amber">全 unknown（仅 PyTorch）</td><td>全 A</td></tr>
+      <tr><td>大型 &gt;500M</td><td>11</td><td>Dasheng-1.2B、Whisper-AT、Qwen2-Audio</td><td>Dasheng HEAR 83.2；TAC F1 0.50</td><td>服务端 GPU</td><td class="pill red">全 no（服务端 GPU）</td><td>A / A+T；无 A+V</td></tr>
+    </tbody>
+  </table>
+  <p class="muted">端侧答案在小型档收敛；中型把 mAP 推到 0.47–0.49 但不可端侧部署；大型走音频大模型（A+T）路线，仅服务端/批量。</p>
+</section>
+
+<section id="taskmap">
+  <h2>任务类型 × 指标映射</h2>
+  <table>
+    <thead><tr><th>任务类型</th><th>指标</th><th>推荐档</th><th>代表</th></tr></thead>
+    <tbody>
+      <tr><td>tagging（固定 527 类）</td><td>mAP / d′ / lwlrap</td><td>小型</td><td>YAMNet / EfficientAT</td></tr>
+      <tr><td>ASC（场景 10 类）</td><td>准确率 %</td><td>小型（DCASE 约束级）</td><td>CP-Mobile / Karasin_JKU（122K/29.4 MMACs）</td></tr>
+      <tr><td>SED（事件+起止）</td><td>PSDS1/2</td><td>中型及以上</td><td>ATST-SED、Dasheng+SED 头</td></tr>
+      <tr><td>开放词表（任意类）</td><td>F1 / CIDEr（字幕）</td><td>大型（A+T）</td><td>CLAP / Qwen2-Audio / TAC</td></tr>
+    </tbody>
+  </table>
+  <p class="muted">跨任务类型指标不可直接比较：mAP（tagging）≠ 准确率（ASC）≠ PSDS（SED）≠ F1（开放词表）。</p>
+</section>
+
+<section id="tiers">
+  <h2>三档参数量 / MMACs 对比</h2>
+  <table>
+    <thead><tr><th>档</th><th>参数量</th><th>代表模型</th><th>MMACs/s</th><th>端侧可行</th></tr></thead>
+    <tbody>
+      <tr><td>小型</td><td>0.7–17.9M</td><td>YAMNet 3.7M、EfficientAT-mn10 4.88M</td><td>11–206</td><td class="pill green">YAMNet 可（TFLite Micro）</td></tr>
+      <tr><td>中型</td><td>30–500M</td><td>BEATs iter3+ 90M、PaSST-S 87M</td><td>高（transformer）</td><td class="pill amber">不可（仅 PyTorch）</td></tr>
+      <tr><td>大型</td><td>600M–10.7B</td><td>Dasheng-1.2B、Qwen2-Audio 8.4B</td><td>—</td><td class="pill red">no（服务端 GPU）</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="leaderboard">
+  <h2>AudioSet AS-2M full 榜单（tagging mAP）</h2>
+  <table>
+    <thead><tr><th>模型</th><th>档</th><th>mAP</th><th>备注</th></tr></thead>
+    <tbody>
+      <tr><td>BEATs iter3+</td><td>中型</td><td>0.486</td><td>自监督 + 微调</td></tr>
+      <tr><td>EAT-base（30 epoch）</td><td>中型</td><td>0.486</td><td>ViT-B</td></tr>
+      <tr><td>AudioMAE</td><td>中型</td><td>0.473</td><td>ViT-B</td></tr>
+      <tr><td>PaSST-S</td><td>中型</td><td>0.471</td><td>结构化 patchout</td></tr>
+      <tr><td>HTS-AT_HCP</td><td>中型</td><td>0.471</td><td>分层 token-semantic</td></tr>
+      <tr><td>AST</td><td>中型</td><td>0.459</td><td>Audio Spectrogram Transformer</td></tr>
+      <tr><td>EfficientAT-mn20_as</td><td>小型</td><td>0.478</td><td>最小档最高 mAP</td></tr>
+      <tr><td>YAMNet</td><td>小型</td><td>0.306</td><td>端侧可跑基线</td></tr>
+    </tbody>
+  </table>
+  <p class="muted">榜首（0.47–0.49）全在中型 transformer 档；小型档最优 EfficientAT-mn20 0.478 已逼近，且可端侧。</p>
+</section>
+
+<section id="multimodal">
+  <h2>多模态数据集表</h2>
+  <table>
+    <thead><tr><th>数据集</th><th>语言</th><th>模态</th><th>规模</th><th>标签粒度</th></tr></thead>
+    <tbody>
+      <tr><td>AudioSet</td><td>en</td><td>A</td><td>2.08M×10s</td><td>527 类</td></tr>
+      <tr><td>VGGSound</td><td>en</td><td>A（视频源）</td><td>~200h</td><td>309 类</td></tr>
+      <tr><td>AVE</td><td>en</td><td>A+V</td><td>~28h</td><td>时序定位</td></tr>
+      <tr><td>LLP</td><td>en</td><td>A+V</td><td>视频源</td><td>包级→片段</td></tr>
+      <tr><td>AudioCaps</td><td>en</td><td>A+T</td><td>~46k</td><td>自由文本</td></tr>
+      <tr><td>Clotho</td><td>en</td><td>A+T</td><td>~5k</td><td>自由文本</td></tr>
+      <tr><td>DESED</td><td>en</td><td>A</td><td>~2.5k+合成</td><td>事件+起止</td></tr>
+      <tr><td>DCASE Task3（SELD）</td><td>en</td><td>A</td><td>赛事</td><td>事件+方向</td></tr>
+    </tbody>
+  </table>
+  <p class="muted">A+V 数据集几乎来自 YouTube 视频（需摄像头）；A+T 不需摄像头。视觉模态不进 HY4（PIPL §26/§28–30 + 视频留存 ≥30 日 与即焚冲突）。</p>
+</section>
+
+<section id="runtime">
+  <h2>端侧 runtime 对比</h2>
+  <table>
+    <thead><tr><th>runtime</th><th>适用模型</th><th>档</th><th>现实功耗</th></tr></thead>
+    <tbody>
+      <tr><td>TFLite Micro</td><td>YAMNet、DCASE 学生模型</td><td>A 档 MCU</td><td>mW（Cortex-M）</td></tr>
+      <tr><td>ONNX Runtime Mobile</td><td>EfficientAT（若有 INT8）、CLAP</td><td>A 档 / NPU</td><td>mW–百 mW</td></tr>
+      <tr><td>QNN（骁龙 HTP）</td><td>编译 ONNX → HTP</td><td>cDSP/NPU</td><td class="pill red">1–4 W（瓦级，仅短时）</td></tr>
+      <tr><td>CoreML / NCNN / MNN / RKNN</td><td>通用端侧</td><td>NPU/AP</td><td>视核而定</td></tr>
+    </tbody>
+  </table>
+  <p class="muted">真实缺口：DCASE 低复杂度获奖系统多数只发 PyTorch 权重，公开 INT8 / TFLite Micro 产物极少。"约束达标 ≠ 端侧可跑"。</p>
+</section>
+
+<section id="verdict">
+  <h2>结论</h2>
+  <div class="verdict">
+    <p><b>常驻检测升级：不做"常驻事件级检测"，有条件做"事件驱动"（VAD 放行后 AED 二次确认）。</b></p>
+    <ul>
+      <li>B 档 proot 下常驻 AED = 400–1000 mW 税 + 模型推理，超 ≤25 mW 常驻预算 18–48 倍，不可接受。</li>
+      <li>中文场景空白：AudioSet 来自英文 YouTube，电动车报警器/麻将/广场舞/燃气灶报警器等中文特定事件召回低；缓解 = 自采微调 / 粗粒度 / 开放词表（A+T）。</li>
+      <li>视觉模态（A+V）不进 HY4：与即焚架构（TTL 6h）根本互斥，且触发 PIPL 敏感信息合规成本。</li>
+    </ul>
+  </div>
+  <p class="muted">选型决策树：能否出端？否 → 维持能量门 + 事件驱动 AED（YAMNet TFLite Micro，触发后短时）；是（A 档）→ 固定类用小型 tagging/ASC，开放词表用 A+T 走短时/服务端。</p>
+</section>
+
+</main>
+<footer>
+  laos · 音频事件识别调研全景 · 数据来自 docs/research/audio-events/（01–06 + landscape），单文件零依赖，生成于 2026-09 收尾计划 Task 7。
+</footer>
+</body>
+</html>
