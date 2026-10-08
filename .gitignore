@@ -1,7 +1,6 @@
 __pycache__/
 *.pyc
 var/
-fsroot/
 *.log
 .superpowers/
 .zcode/
@@ -10,8 +9,7 @@ fsroot/
 # always-on recording sandbox
 zones/AlwaysOnRec-DB/
 
-# crawl temps / tool dirs
-_s2_crawl/
+# tool dirs
 .workbuddy/
 
 # venue expansion: anthology dump cache (42MB gz / ~200MB bib, re-downloadable)
