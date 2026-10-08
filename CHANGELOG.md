@@ -5,6 +5,11 @@
 
 ## [Unreleased]
 
+## [v0.26.1] - 2026-10-08
+
+### Fixed
+- fix(scripts): **release 工具债三件**（排队清底）。① next_version **新文档域轴**：纯 docs 波次（README §十"新文档域=MINOR"）无法自动识别"新域"，约定 subject **尾部**标记 `+new-domain` → feat 等价升 MINOR；标记必须收尾于末端——正文提及字样不得误触发（**自指 bug 实录**：本工具自己的 fix 提交 subject 写着 "+new-domain minor axis" 被首版实现推成 MINOR 0.27.0，当即回滚版本同步并收紧为 endswith+回归测试钉死）；② sync_docs **"项"模式**（detail=True）：报告行附逐锚点命中细目 `[当前版本行×1,deck页脚×2,...]`（_DOC_PATTERNS 全面命名化），供终审五类锚点核查，缺省输出不回归；③ **DOC_GLOBS 补全**：`docs/ppt/*.md`+`docs/ppt/*.html`（intro 组 deck/outline 入列）+ `AlwaysOnRec-*/README.md`（三棵树通配）——核查发现 **AlwaysOnRec-DB/README.md 带 5 处测试计数锚点从未被同步**、intro 组 "703 TESTS GREEN"/"APPROVED · 703 GREEN" 戳自 v0.20.0 起漂移，新增两条英文戳模式后一并捕获；README §十补标记约定说明。6 例新增测试（新域轴 2+中置不触发 1+detail 1+覆盖 1+回归内嵌），全套 **946 全绿**（942→946，OK skipped=5）
+
 ## [v0.26.0] - 2026-10-08
 
 ### Added
