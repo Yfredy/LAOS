@@ -101,6 +101,10 @@ def next_version(current: str, subjects: list[str]) -> str:
 
     0.x 不动 major：BREAKING 与 feat 都只升 minor；major>=1 后 BREAKING 恢复
     semver 常规（major+1.0.0）。
+
+    新文档域轴（README §十"新文档域=完整需求波次=MINOR"）：纯 docs 波次
+    无法从文本自动识别"新域"，约定 subject 尾部显式标记 "+new-domain"
+    → 按 feat 等价升 minor（任何 conventional 类型上均可携带）。
     """
     major, minor, patch = (int(part) for part in current.split("."))
     has_breaking = has_feat = has_fix = False
@@ -108,6 +112,8 @@ def next_version(current: str, subjects: list[str]) -> str:
         ctype, breaking = _parse_subject(subject)
         if breaking:
             has_breaking = True
+        if "+new-domain" in subject:
+            has_feat = True   # 新文档域波次：显式标记，feat 等价
         if ctype == "feat":
             has_feat = True
         elif ctype == "fix":
@@ -167,41 +173,57 @@ def sync_versions(version: str) -> list[Path]:
 # ── 发版文档同步（记忆规则：每次发版更新所有介绍性文件；AGENTS.md） ──────────
 
 #: 介绍性文件（发版时同步版本号/测试数）。研究文档与带日期的里程碑史【不】在此列。
+#: 2026-10-08 补全：intro 组 deck/outline（docs/ppt 直下）与三棵树 README
+#: 通配（核查发现 AlwaysOnRec-DB/README.md 带 3 处锚点却从未被同步）。
 DOC_GLOBS = [
     "README.md",
     "docs/PROJECT_OVERVIEW.md",
-    "docs/ppt/laos-detailed-outline.md",
-    "docs/ppt/laos-funding-outline.md",
-    "docs/ppt/laos-detailed-v6.html",
-    "docs/ppt/laos-funding-v6.html",
+    "docs/ppt/*.md",     # 三组 outline（detailed/funding/intro）+ ppt README（无锚点零命中无害）
+    "docs/ppt/*.html",   # intro 组 deck（v6 系）；detailed/funding 组在下面两条
     "docs/ppt/detailed/*.html",
     "docs/ppt/funding/*.html",
-    "AlwaysOnRec-Trae/README.md",
+    "AlwaysOnRec-*/README.md",   # 三棵树（Trae/DB/ZCode；ZCode 暂无锚点零命中无害）
 ]
 
 #: 替换模式（带上下文锚点，防误伤历史里程碑行：带日期的 v0.x.y (MM-DD) 不匹配）。
-#  每条 = (编译好的正则, 格式化函数(lambda m, ctx -> str))
+#  每条 = (锚点名, 编译好的正则, 格式化函数(lambda m, ctx -> str))——锚点名供
+#  sync_docs(detail=True) 的逐锚点细目（"项"模式）报告使用
 _DOC_PATTERNS = [
     # README 版本行：当前版本 **vX.Y.Z**
-    (re.compile(r"(当前版本\s*\*{0,2})v\d+\.\d+\.\d+(\*{0,2})"),
+    ("当前版本行",
+     re.compile(r"(当前版本\s*\*{0,2})v\d+\.\d+\.\d+(\*{0,2})"),
      lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}"),
     # deck 封面 stamp：<span class="stamp">vX.Y.Z</span>
-    (re.compile(r'(<span class="stamp">)v\d+\.\d+\.\d+(</span>)'),
+    ("封面stamp",
+     re.compile(r'(<span class="stamp">)v\d+\.\d+\.\d+(</span>)'),
      lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}"),
     # deck 正文："开源 vX.Y.Z ·"
-    (re.compile(r"(开源\s*)v\d+\.\d+\.\d+(\s*·)"),
+    ("开源行",
+     re.compile(r"(开源\s*)v\d+\.\d+\.\d+(\s*·)"),
      lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}"),
     # deck 页脚："github.com/Yfredy/LAOS · vX.Y.Z · NNN tests"
-    (re.compile(r"(github\.com/Yfredy/LAOS\s*·\s*)v\d+\.\d+\.\d+(\s*·\s*)\d+(\s*tests)"),
+    ("deck页脚",
+     re.compile(r"(github\.com/Yfredy/LAOS\s*·\s*)v\d+\.\d+\.\d+(\s*·\s*)\d+(\s*tests)"),
      lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}{c['total_tests']}{m.group(3)}"),
     # outline 跨度端点："v0.1.0 → vX.Y.Z"
-    (re.compile(r"(v0\.1\.0\s*→\s*)v\d+\.\d+\.\d+"),
+    ("跨度端点",
+     re.compile(r"(v0\.1\.0\s*→\s*)v\d+\.\d+\.\d+"),
      lambda m, c: f"{m.group(1)}v{c['ver']}"),
     # 测试计数（主库口径，三字数字防误伤 "42 测试" 里程碑）：
-    (re.compile(r"\d{3}(?= 项回归测试)"), lambda m, c: str(c["main_tests"])),
-    (re.compile(r"(?<=主库 )\d{3}(?= 测试)"), lambda m, c: str(c["main_tests"])),
-    (re.compile(r"\d{3}(?= 项测试守护)"), lambda m, c: str(c["main_tests"])),
-    (re.compile(r"\d{3}(?= 项回归测试（)"), lambda m, c: str(c["main_tests"])),
+    ("测试计数", re.compile(r"\d{3}(?= 项回归测试)"),
+     lambda m, c: str(c["main_tests"])),
+    ("测试计数", re.compile(r"(?<=主库 )\d{3}(?= 测试)"),
+     lambda m, c: str(c["main_tests"])),
+    ("测试计数", re.compile(r"\d{3}(?= 项测试守护)"),
+     lambda m, c: str(c["main_tests"])),
+    ("测试计数", re.compile(r"\d{3}(?= 项回归测试（)"),
+     lambda m, c: str(c["main_tests"])),
+    # intro 组 deck 的英文戳："NNN TESTS GREEN" / "APPROVED · NNN GREEN"
+    # （2026-10-08 补：这两形态自 v0.20.0 后从未被同步，一直在漂移）
+    ("测试计数", re.compile(r"\d{3}(?=\s*TESTS GREEN)"),
+     lambda m, c: str(c["main_tests"])),
+    ("测试计数", re.compile(r"(?<=·\s)\d{3}(?=\s*GREEN)"),
+     lambda m, c: str(c["main_tests"])),
 ]
 
 
@@ -243,13 +265,16 @@ def zone_test_counts(main_by_run: bool = False) -> dict:
 
 
 def sync_docs(version: str, *, dry_run: bool = False,
-              globs: list[str] | None = None, counts: dict | None = None) -> list[str]:
+              globs: list[str] | None = None, counts: dict | None = None,
+              detail: bool = False) -> list[str]:
     """发版时同步全部介绍性文件（README/PROJECT_OVERVIEW/全部 PPT deck）。
 
     规则来源：AGENTS.md 记忆条目"每次发版更新所有介绍性文档"（2026-10-06）。
     只动"当前版本声明/封面 stamp/页脚/版本跨度端点/测试计数"五类锚点，
     带日期的里程碑史（如 "v0.12.0 (10-05)"）不动。返回逐文件报告行。
     counts 缺省用静态计数；发版主流程传 main_by_run 的实跑数。
+    detail=True（"项"模式）：报告行附逐锚点命中细目
+    `[当前版本行×1,deck页脚×2,...]`，供终审五类锚点核查使用。
     """
     counts = counts or zone_test_counts()
     ctx = {"ver": version,
@@ -268,9 +293,12 @@ def sync_docs(version: str, *, dry_run: bool = False,
                 continue
             text = path.read_text(encoding="utf-8")
             new_text, hits = text, 0
-            for rx, fmt in _DOC_PATTERNS:
-                new_text, n = rx.subn(lambda m, f=fmt: fmt(m, ctx), new_text)
+            per_anchor: dict[str, int] = {}
+            for name, rx, fmt in _DOC_PATTERNS:
+                new_text, n = rx.subn(lambda m, f=fmt: f(m, ctx), new_text)
                 hits += n
+                if n:
+                    per_anchor[name] = per_anchor.get(name, 0) + n
             if hits:
                 try:
                     rel = path.relative_to(REPO)
@@ -278,7 +306,11 @@ def sync_docs(version: str, *, dry_run: bool = False,
                     rel = path  # 仓库外绝对路径（测试 fixture）
                 if not dry_run:
                     path.write_text(new_text, encoding="utf-8")
-                report.append(f"docs-sync: {rel} ({hits} 处{'，dry-run 未写' if dry_run else '，已写'})")
+                line = f"docs-sync: {rel} ({hits} 处{'，dry-run 未写' if dry_run else '，已写'})"
+                if detail:
+                    breakdown = ",".join(f"{k}×{v}" for k, v in per_anchor.items())
+                    line += f" [{breakdown}]"
+                report.append(line)
     return report
 
 

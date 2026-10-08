@@ -187,5 +187,55 @@ class SyncDocs(unittest.TestCase):
         self.assertEqual(len(report), 1)  # 只有 ctx 行
 
 
+class TestNewDomainAxisAndDocGlobs(unittest.TestCase):
+    """release 工具债三件：新文档域轴（+new-domain 标记）+ sync_docs 项模式
+    （detail 逐锚点细目）+ DOC_GLOBS 补全（intro 组 deck/outline 与三棵树
+    README——2026-10-08 核查发现 AlwaysOnRec-DB/README.md 带 3 处锚点但
+    从未被同步）。"""
+
+    def test_new_domain_marker_bumps_minor(self):
+        # README §十：新文档域 = 完整需求波次 = MINOR；纯 docs 波次用
+        # subject 尾部 "+new-domain" 标记显式声明（next_version 无法从
+        # 文本自动识别"新域"）
+        self.assertEqual(
+            next_version("0.7.0", ["docs(corpus): 19,792 篇语料库 +new-domain"]),
+            "0.8.0")
+        self.assertEqual(next_version("1.2.3", ["docs: 新指南 +new-domain"]), "1.3.0")
+
+    def test_plain_docs_still_no_release(self):
+        self.assertEqual(next_version("0.7.0", ["docs(corpus): 语料快照"]), "0.7.0")
+
+    def test_sync_docs_detail_reports_per_anchor_counts(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            f = Path(d) / "intro.md"
+            f.write_text("当前版本 **v0.16.0**" + "\n" + "123 项回归测试" + "\n",
+                         encoding="utf-8")
+            report = release.sync_docs("0.17.0", globs=[str(f)], dry_run=True,
+                                       detail=True)
+            line = [ln for ln in report if str(f) in ln][0]
+            self.assertIn("当前版本行×1", line)
+            self.assertIn("测试计数×1", line)
+            # 缺省 detail=False：输出行与既有格式不回归（无逐锚点细目）
+            plain = release.sync_docs("0.17.0", globs=[str(f)], dry_run=True)
+            pline = [ln for ln in plain if str(f) in ln][0]
+            self.assertNotIn("×", pline)
+
+    def test_doc_globs_cover_intro_group_and_all_three_trees(self):
+        covered = set()
+        for g in release.DOC_GLOBS:
+            for p in release.REPO.glob(g):
+                covered.add(p.relative_to(release.REPO).as_posix())
+        for rel in ("docs/ppt/laos-intro-outline.md",
+                    "docs/ppt/laos-intro-html-ppt.html",
+                    "docs/ppt/laos-intro-huashu.html",
+                    "docs/ppt/laos-detailed-outline.md",
+                    "docs/ppt/laos-funding-outline.md",
+                    "AlwaysOnRec-Trae/README.md",
+                    "AlwaysOnRec-DB/README.md",
+                    "AlwaysOnRec-ZCode/README.md"):
+            self.assertIn(rel, covered, f"DOC_GLOBS 漏覆盖 {rel}")
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -490,6 +490,8 @@ Brain 的快问快答通道（`laos/judge.py`）：给定 (context, question)，
 | 波次内或 review 闭环的 bug 修复（`fix:`） | **PATCH**（+0.0.x） |
 | 纯 docs / chore（文档、格式、杂务，无能力变化） | **不发版**（并入下个波次） |
 
+纯 docs 的"新文档域"波次（如语料库域新增）：`scripts/release.py` 无法从文本自动识别"新域"，在波次收尾的 commit subject 尾部加 `+new-domain` 标记即可按 MINOR 发版（见 next_version 文档串）。
+
 本仓库前 7 个版本的实际切分（提交数 = 该 tag 区间的 git 提交数，v0.1.0 为初始压缩提交）：
 
 | 版本 | 日期 | 提交数 | 主题 |
