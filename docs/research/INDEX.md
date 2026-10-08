@@ -83,7 +83,7 @@
 
 | [2026-10-08-readable-output.md](2026-10-08-readable-output.md) | 小红书《如何让 AI 输出更容易理解》复现与采纳：溯源 Karpathy 原帖 2026-10-02（四阶梯 ASD-STE100/图表/交互页/解释视频）——约束语言落地为 laos/ste.py check-only lint、调用链落地为 laos/traceviz.py（audit→mermaid）+ laosctl traceviz | 四阶梯×裁决表：①②●落地 ③◐P2（laosweb）④○不做（双红线）；**笔记"格式越好懂错误藏得越深"未见于原帖，系转译层增补**，采纳为双层结构治理原则（派生物必须能回到原始记录）；ASD 官方 ~900 词表再分发受限不收录（与 asd-ste100-skill 同取舍）；kernel LAOS_STE_LINT=1 钩子 lint JitMem briefing 记审计；主库 **911 绿**（884+27） |
 
-| [2026-10-08-dialogflow-assembly.md](2026-10-08-dialogflow-assembly.md) | 排队波次兑现（非笔记复现）：esp-claw 事件规则表 P2 兑现（laos/evroute.py：JSON 热载+CRUD+consume_on_match/fail_open+三动作映射）+ 对话管线装配（laos/dialogflow.py：入口防火墙→WakeGate→队列→JitMem curate/outcome 闭合）+ 三件债清账 | v0.21.0 债：phase=done 补发（同 turn_id 配对）、LAOS_WAKE_*/LAOS_DIALOG_* env 覆盖、diary 跨代聚合（gz 归档按数字代序+活文件拼接）；64MB 水位核对已实装（telemetry max_bytes+写前归档）；P3 两项对照收档（phase 语义域不同不硬搬/双分区播种对个人记忆库不适用）；sink 两参协议坑记录（safe_emit 按设计吞 TypeError）；主库 **942 绿**（911+31） |
+| [2026-10-08-dialogflow-assembly.md](2026-10-08-dialogflow-assembly.md) | 排队波次兑现（非笔记复现）：esp-claw 事件规则表 P2 兑现（laos/evroute.py：JSON 热载+CRUD+consume_on_match/fail_open+三动作映射）+ 对话管线装配（laos/dialogflow.py：入口防火墙→WakeGate→队列→JitMem curate/outcome 闭合）+ 三件债清账 | v0.21.0 债：phase=done 补发（同 turn_id 配对）、LAOS_WAKE_*/LAOS_DIALOG_* env 覆盖、diary 跨代聚合（gz 归档按数字代序+活文件拼接）；64MB 水位核对已实装（telemetry max_bytes+写前归档）；P3 两项对照收档（phase 语义域不同不硬搬/双分区播种对个人记忆库不适用）；sink 两参协议坑记录（safe_emit 按设计吞 TypeError）；主库 **942 绿**（911+31）；排队清底补记：**sherpa-onnx KWS 实测完成**（zipformer 3.3M int8，唤醒词检出零误报，解码中位 7.56ms/p95 8.47ms@Windows CPU，SAPI 离线合成测试音）、豆包 TTS BLOCKED（无 key） |
 
 ## 二、全天候录音调研组（always-on-recording/，5 份）
 

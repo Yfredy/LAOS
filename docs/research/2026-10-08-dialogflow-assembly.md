@@ -43,3 +43,8 @@
 - 全量 **942 绿**（911→942；evroute 16 + dialogflow 13 + diary 2），OK skipped=5。
 - 实现注记：装配层事件 sink 协议为两参 `(event, fields)`（dialogsched.safe_emit 房型协议）——本波测试首版误用单参 list.append 当 sink，TypeError 被 safe_emit 按设计吞掉（埋点永不影响主链路），暴露为"事件全空"而非崩溃；测试 sink 已按协议适配。此为协议使用坑，非代码 bug，特此记录。
 - espclaw 报告 §五裁决表同步更新：#2 ◐P2→●兑现（本波）；#3/#4 ◐P3→对照收档。
+
+## 6. 排队清底状态（2026-10-08 补）
+
+- **sherpa-onnx KWS 实测：✅ 完成**（驱动子进程域 var/kws_eval/.venv，重依赖红线合规）。模型 sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01（int8，32.6MB，GitHub releases 断点续传三段拼齐）；sherpa-onnx 1.13.8；测试音=Windows SAPI 离线合成（唤醒词"小劳小劳"1.86s + 对照句"今天天气怎么样"2.45s，22.05k 线性重采样 16k）。**结果：唤醒词检出 1 次零误报；流式解码延迟中位 7.56ms / p95 8.47ms（100ms 块喂入，chunk 320ms 解码窗，Windows x86 CPU）**——远低于实时，wakegate.wake() 的 KWS 触发源在 Windows 宿主实测可用；关键词经现场 keywords 文件注入（拼音声调单元 `x iǎo l áo x iǎo l áo @小劳小劳`，1.13.8 无 stream.add_keyword API）。后续接 drv_ear 域成常驻驱动属接线范畴，另行排队。
+- **豆包 TTS：BLOCKED 收档**——全仓代码/文档零引用、环境无 API key；解阻条件=用户提供 key（届时进驱动子进程域，对标 TtsRouter 在线后端位）。
