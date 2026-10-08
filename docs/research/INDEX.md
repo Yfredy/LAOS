@@ -1,7 +1,7 @@
 # docs/research 调研资产清单（INDEX）
 
 > laos 调研资产权威清单：每份文档一句话定位 + 关键数字（均抄自各文档自身原文，未凭文件名推断）。
-> 盘点日期：2026-10-06（2026-10-07 增补 4 份调研 + 3 份评审与设计；2026-10-08 增补 1 份调研）。共 82 份 .md（不含本文件，find 会数出 84 = 82 份资产 + capstone + 本文件）= 作者撰写的调研文档 60 份 + plans 计划 2 份 + corpus/ 语料快照 17 份 + 评审与设计 3 份（docs/review/ 2 + docs/design/ 1，见第八节）。
+> 盘点日期：2026-10-06（2026-10-07 增补 4 份调研 + 3 份评审与设计；2026-10-08 增补 1 份调研）。共 83 份 .md（不含本文件，find 会数出 85 = 83 份资产 + capstone + 本文件）= 作者撰写的调研文档 61 份 + plans 计划 2 份 + corpus/ 语料快照 17 份 + 评审与设计 3 份（docs/review/ 2 + docs/design/ 1，见第八节）。
 
 ## 导航：按问题找文档
 
@@ -79,6 +79,7 @@
 | [2026-10-07-cloudflare-clef.md](2026-10-07-cloudflare-clef.md) | 小红书《38.8毫秒返回分类答案》学习与 laos 判断层对照：Cloudflare Clef/Clef-flash 决策模型（2026-10-01，Birthday Week 2026）——笔记四条声称逐条核实（38.8ms 真实=决策延迟非首 token；llama.cpp-SURGE/✨Spark/定价曲线三条 46 公告与原文均无，转译链讹变不采信） | "Clef-flash 中位 **38.8ms**/p95 122.4（vs Jev 524.1）——非自回归 prefill-only+schema 选项并行打分"；Qwen3.5-9B 基座+rank-256 LoRA+routing head，**Apache 2.0**（HF Cloudflare/clef-flash）；schema=noul/choice/score 与 laos 三判型同源；裁决=Clef-flash 本地实测 ◐P2/非自回归架构 ●已消化/校准 Brier+RLCD ◐P3/云端 ○ |
 | [2026-10-08-espclaw-vs-muse-agent-core.md](2026-10-08-espclaw-vs-muse-agent-core.md) | 小红书《Agent本体能力对比，ESP-Claw vs Muse-Gad》复现与采纳：双仓溯源证实（espressif/esp-claw MCU 闭环框架 + facebookincubator/muse-gadget-sdk=Meta Muse Gadgets 2026-10-02 开源）——架构对照七构件表，claw_cap 能力框架落地为 laos/caps.py | muse Linux SDK 测试套件双环境实跑："Windows **142 passed / 1 failed / 1 skipped**（唯一失败=test_identity_persists 的 Unix 0o600 断言，Windows st_mode 恒 0o666，环境差异非 bug）；**WSL 原生 167 passed / 1 skipped in 9.43s**"；esp-claw 构建烧录 BLOCKED（无板无 ESP-IDF）；笔记数字声称 ○未证实×2（拓展坞 8GB/128GB vs 4GB/64GB、RESTful 16 Agent 上限）；caps 落地 30c15f7 全套 **861 绿** |
 
+| [2026-10-08-jitmem.md](2026-10-08-jitmem.md) | 小红书《JitMem：让记忆在使用时再被理解》复现与采纳：论文 arXiv:2609.27334（Salesforce 系，GRPO 训 Curator，ALFWorld/WebShop/τ²-bench +16.2/+16.3/+3.9）——read-time curation 四步循环转译落地为 laos/jitmem.py + mem.curate/mem.outcome 内建 syscall | 论文一手事实全部 ●证实（笔记 4 帧转译零讹变）；**untrained curator 已打平 write-time 基线**是规则版 v1 立论支点；GRPO 8×H200 BLOCKED-by-design（零依赖红线），降级为首条优势归因 bandit（即时成败 reward 原样保留）；主库 **884 绿**（861+23），原文永不截断（论文核心主张：摘要丢操作约束） |
 ## 二、全天候录音调研组（always-on-recording/，5 份）
 
 | 文件 | 一句话定位 | 关键数字 / 规模（抄原句） |

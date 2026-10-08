@@ -5,6 +5,12 @@
 
 ## [Unreleased]
 
+## [v0.24.0] - 2026-10-08
+
+### Added
+- feat(laos): **Just-in-Time Memory 波次**——记忆在使用时再被理解（read-time curation，论文 arXiv:2609.27334《Just-in-Time Memory: Learning to Curate Task-Adaptive Memory for LLM Agents》转译落地，docs/research/2026-10-08-jitmem.md）。论文四步循环（检索→整理→执行→回填）完整进内核 syscall 面：① `laos/jitmem.py` Curator（纯 stdlib）：MemoryStore.recall 检索（零相关预过滤沿用户型 bigram Jaccard）→三分量自适应加权（与 recall 同源 0.7/0.2/0.1 起步，随成败进化）→近重复去重（文本 bigram Jaccard≥0.6 整条丢）→字符预算**整条取舍、绝不截断原文**（top-1 豁免守卫；论文核心主张"再强的检索也只能找回已经缺失细节的摘要"）→kind 分组、section 内时间升序→briefing 文本（≈1.9K tokens 量级对齐论文 payload 预算）；② `mem.curate`/`mem.outcome` 内建 syscall：任务到来时 curate 出 payload（id 即回填句柄）、任务成败 outcome 回填——reward=即时任务成败、时间隔零（论文原样）；③ 训练降级诚实声明：论文 GRPO 8×H200 21–27h → laos 首条优势归因指数 bandit（payload 首条相对候选池均值的分量差为归因信号，全池同质分量差≈0 自动不参与，避免无信息漂移；乘性更新后归一化，登记表封顶 128 最老出队）；规则版 Curator 立论支点=论文自己实证 untrained curator 已打平/超过 write-time 基线（WebShop 61.0 vs 41.0 SR）。与 esp-claw claw_memory 正交（一个治理存储分层、一个治理读取时机）；write-time 质量压缩方向明确不做（论文批评对象）。23 例新增测试，全套 **884 全绿**（861→884，OK skipped=5）
+- docs(research): JitMem 笔记复现报告（小红书 2026-10-08 笔记，视频 18 帧）——溯源全 ●证实：Salesforce 系团队（Yefan Zhou/Yang Li/Zeyu Leo Liu/Semih Yavuz/Shafiq Joty），2026-09-23 提交，ALFWorld/WebShop/τ²-bench 超最强基线 +16.2/+16.3/+3.9 绝对成功率点；笔记 4 帧转译零讹变（"Memory abstraction should be late-bound. Store first, interpret when needed."逐字核实）；论文无官方代码仓库（Comments 域空）；LLM Curator 挂 judge/decide 后端 ◐P2 排队（对话管线装配波后评估）。INDEX 登记（83 份）
+
 ## [v0.23.0] - 2026-10-08
 
 ### Added

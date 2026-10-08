@@ -27,6 +27,7 @@ from typing import Any, Callable
 
 from . import judge
 from .branch import BranchTable
+from .jitmem import Curator
 from .mcp import MCPClient, ToolSpec
 from .memory import MemoryStore
 from .risk import FleetLedger
@@ -290,6 +291,10 @@ class AgentKernel:
         # 个人记忆库（episodic memory）：mem.* 内建 syscall 的存储层，
         # JSONL 追加日志放 workdir，与审计/分支同一套"一切皆文件"取向
         self.memory = MemoryStore(self.workdir / "memory.jsonl")
+        # Just-in-Time 记忆整理器（read-time curation，arXiv:2609.27334
+        # 转译落地）：任务到来时 mem.curate 即时整理，任务成败经 mem.outcome
+        # 回填驱动检索权重自适应；只读 memory，不压缩不删除任何已入库记忆
+        self.mem_curator = Curator(self.memory)
         # -- 内建 syscall 层（内核直供，不经 MCP 驱动）------------------------
         self._builtin_specs: dict[str, ToolSpec] = {
             "msg.send": ToolSpec(
@@ -336,6 +341,24 @@ class AgentKernel:
                 "mem.stats", "个人记忆库统计（总数 / 按 kind 分布）",
                 {"type": "object", "properties": {}},
                 reversible=True, risk="low"),
+            "mem.curate": ToolSpec(
+                "mem.curate",
+                "Just-in-Time 记忆整理：任务到来时按当前任务检索并即时整理"
+                "相关记忆为紧凑上下文（read-time curation，不压缩库内原文）",
+                {"type": "object",
+                 "properties": {"task": {"type": "string"},
+                                "k": {"type": "integer", "minimum": 1}},
+                 "required": ["task"]},
+                reversible=True, risk="low"),
+            "mem.outcome": ToolSpec(
+                "mem.outcome",
+                "回填任务成败（配合 mem.curate 的 payload_id），驱动 JIT "
+                "记忆检索权重自适应（即时 reward，时间隔为零）",
+                {"type": "object",
+                 "properties": {"payload_id": {"type": "integer"},
+                                "success": {"type": "boolean"}},
+                 "required": ["payload_id", "success"]},
+                reversible=True, risk="low"),
         }
         self._builtin_impls: dict[str, Callable] = {
             "msg.send": self._impl_msg_send,
@@ -346,6 +369,8 @@ class AgentKernel:
             "mem.recall": self._impl_mem_recall,
             "mem.forget": self._impl_mem_forget,
             "mem.stats": self._impl_mem_stats,
+            "mem.curate": self._impl_mem_curate,
+            "mem.outcome": self._impl_mem_outcome,
         }
         self._mailboxes: dict[int, list[dict]] = {}
         # 运行时能力委托：pid -> [{"caps": CapabilitySet, "remaining": int,
@@ -820,6 +845,28 @@ class AgentKernel:
         st = self.memory.stats()
         kinds = " ".join(f"{k}={n}" for k, n in sorted(st["by_kind"].items()))
         return CallResult.ok_text(f"total={st['total']}" + (f" {kinds}" if kinds else ""))
+
+    def _impl_mem_curate(self, pcb: PCB, args: dict) -> "CallResult":
+        from .mcp import CallResult
+        payload = self.mem_curator.curate(str(args["task"]),
+                                          k=args.get("k"))
+        self.audit.write({"t": time.time(), "event": "memory",
+                          "op": "curate", "pid": pcb.pid,
+                          "payload": payload["id"], "stats": payload["stats"]})
+        # 返回 briefing 文本（含 payload #id 头）供前置进任务提示；
+        # id 即 mem.outcome 的回填句柄
+        return CallResult.ok_text(payload["text"])
+
+    def _impl_mem_outcome(self, pcb: PCB, args: dict) -> "CallResult":
+        from .mcp import CallResult
+        pid = int(args["payload_id"])
+        success = bool(args["success"])
+        if not self.mem_curator.note_outcome(pid, success):
+            return CallResult.fail(f"ENOSTR: no such payload #{pid}")
+        self.audit.write({"t": time.time(), "event": "memory",
+                          "op": "outcome", "pid": pcb.pid,
+                          "payload": pid, "success": success})
+        return CallResult.ok_text(f"OK outcome #{pid}")
 
     def _deny(self, pcb: PCB, tool: str, args: dict, started: float, err: str):
         from .mcp import CallResult
