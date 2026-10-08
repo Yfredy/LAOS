@@ -10,7 +10,7 @@ import json, io, os, collections, statistics, html
 BASE = r"C:/Users/yaoyue/CodeBuddy/Claw/laos"
 SRC = os.path.join(BASE, "docs/research/oss/repos_classified.jsonl")
 MD_OUT = os.path.join(BASE, "docs/research/2026-09-14-audio-ai-agent-oss-landscape.md")
-HTML_OUT = os.path.join(BASE, "docs/audio-ai-agent-oss.html")
+HTML_OUT = os.path.join(BASE, "docs/diagrams/audio-ai-agent-oss.html")
 
 CRAWLED_AT = "2026-09-14"
 
