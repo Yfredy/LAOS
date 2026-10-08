@@ -1,7 +1,7 @@
 # docs/research 调研资产清单（INDEX）
 
 > laos 调研资产权威清单：每份文档一句话定位 + 关键数字（均抄自各文档自身原文，未凭文件名推断）。
-> 盘点日期：2026-10-06（2026-10-07 增补 4 份调研 + 3 份评审与设计；2026-10-08 增补 1 份调研）。共 88 份 .md（不含本文件，find 会数出 90 = 88 份资产 + capstone + 本文件）= 作者撰写的调研文档 66 份 + plans 计划 2 份 + corpus/ 语料快照 17 份 + 评审与设计 3 份（docs/review/ 2 + docs/design/ 1，见第八节）。
+> 盘点日期：2026-10-06（2026-10-07 增补 4 份调研 + 3 份评审与设计；2026-10-08 持续增补，本日最新 1 份=arvis）。共 93 份 .md（不含本文件，find 实数 2026-10-08 复核：95 = 93 份资产 + capstone + 本文件）。此前头部写的分项口径（66+2+17+3=88）与实数漂移 5 份，分项归属核对归属"INDEX 预存计数漂移归属波"排队项，此处只对准总数。
 
 ## 导航：按问题找文档
 
@@ -90,6 +90,8 @@
 | [2026-10-08-nanomuse.md](2026-10-08-nanomuse.md) | nanoMuse 学习（论文 arXiv:2610.08699+源码 33 次 API 直读）：Meta Muse 开源对照物的 Sentinel 动作闸/taint/scoped grants/记忆双线全拆解——laos 采纳落地 laos/sentinel.py + provenance | Sentinel 六级判定序+taint 永不回退+warnings 仅 once 档（20 例测试）；自认“policy 边界非特权边界”=laos caps+seccomp 的差异化定位；Muse 复刻段（seccomp+kernel taint+Sentinel 唯一权限权威）为 laos 叙事商业印证；GPL 红线=只学设计零代码拷贝 |
 
 | [2026-10-08-nanomuse-ui-xdevice-reference.md](2026-10-08-nanomuse-ui-xdevice-reference.md) | nanoMuse/Muse 全参照清单（功能 16 屏/界面十决策/全端兼容架构）：一套 Web UI+每端薄桥（Android WebView 14 方法桥含 7 厂商保活矩阵/Electron 桥/PWA 四件套）——laos 取经手册 | 审批 API 三字段（approved/scope/reason）与 laos GrantStore 同构直抄；React 技术栈不抄（零依赖纪律，抄设计语言）；采纳 #1-#5 → [laosweb v3 计划](../superpowers/plans/2026-10-08-laosweb-v3.md)；Android 保活厂商矩阵收录为 AlwaysOnRec 端侧化波必引知识；§7 目录组织学=仓库卫生波 spec |
+
+| [2026-10-08-arvis.md](2026-10-08-arvis.md) | ARVIS 学习（XHS 笔记 404 → GitHub 溯源 GHJ20001017/Full-Duplex-Model，Apache-2.0，HF speech-to-speech 修改版）：级联式全双工工程解法全拆解——AEC3 回声消除/双档打断路由（keyword 保守门 13 词 backchannel 白名单 + jev 协议 0.6B 语义路由 wait-continue-yield）/话轮 revision 化投机重开/播报时窗/保留信封守卫 | 语义路由 **120ms 超时失败保守** + 首句豁免 + WAIT 反问锁 tool_choice；TurnController：9 显式打断短语/13 附和词/280ms 最短语音/3 字符阈值；**语义路由请求体=jev 协议原文（与 laos 判断层同方言）**；CancelScope 与 laos GenerationGate 同构互证、sherpa-onnx KWS 双边同款；裁决 R1 backchannel 白名单/R2 语义路由可插驱动/R3 播报时窗采纳、AEC3 走驱动子进程参照（MicrophoneGate aec_ready 预留位吻合）、e2e 训练侧不采纳 |
 ## 二、全天候录音调研组（always-on-recording/，5 份）
 
 | 文件 | 一句话定位 | 关键数字 / 规模（抄原句） |
