@@ -1,4 +1,6 @@
-# laos —— Linux AgentOS 最小可运行原型
+# nanoLAOS —— Linux AgentOS 最小可运行原型
+
+> **品牌名 nanoLAOS**（技术名/仓库名 `laos` 保持不变）· laos = **L**inux **A**gent**OS**
 
 > **命题**：`Linux AgentOS = Linux kernel + Agent + MCP`
 > **做法**：不改内核。用 Linux 已有的强制原语（namespace / cgroup / seccomp / landlock）做**强制层**，

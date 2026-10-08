@@ -1,4 +1,6 @@
-# laos —— 运行在真实操作系统上的 AI Agent 操作系统
+# nanoLAOS —— 运行在真实操作系统上的 AI Agent 操作系统
+
+> 品牌名 **nanoLAOS**；技术名/仓库名 `laos`（laos = Linux AgentOS）——下文以 laos 指代技术实现。
 
 > **一句话**：laos 是 Linux 内核的 Agent 治理扩展——基座与核心是 Linux 内核，Agent 是内核之上的新负载；laos 站在内核之上，给这个新负载提供进程管理、权限控制、资源记账、记忆和感官，让多个 Agent 安全、可审计、越用越聪明地替你干活。
 >
