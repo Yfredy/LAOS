@@ -16,3 +16,4 @@ _s2_crawl/
 
 # venue expansion: anthology dump cache (42MB gz / ~200MB bib, re-downloadable)
 corpus/venue_expansion/_cache/
+.archify/
