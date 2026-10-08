@@ -14,7 +14,7 @@ python bin/laosweb.py                  # 启动内核 + Web 交互面板 (http:/
 python -m unittest discover -s tests   # 947 项回归测试
 ```
 
-> 当前版本 **v0.26.1**（主库 947 测试 + 隔离区 279 + 复现区 71）｜ 版本史见 [CHANGELOG.md](CHANGELOG.md) · [Releases](https://github.com/Yfredy/LAOS/releases)
+> 当前版本 **v0.27.0**（主库 947 测试 + 隔离区 279 + 复现区 71）｜ 版本史见 [CHANGELOG.md](CHANGELOG.md) · [Releases](https://github.com/Yfredy/LAOS/releases)
 
 ---
 
