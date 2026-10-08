@@ -63,6 +63,6 @@ BS.1770-4 响度计量（R128 校准点 −23.00 LUFS ±0.1）｜FxLMS 主动降
 - 复现方法论：TDD、零新依赖、论文数字不作断言、偏差全记档
 
 ## P12 版本治理与路线
-- v0.1.0 → v0.28.1 语义化版本 + Keep a Changelog + GitHub Release 页（一个完整需求波次 = 一次 MINOR）
+- v0.1.0 → v0.29.0 语义化版本 + Keep a Changelog + GitHub Release 页（一个完整需求波次 = 一次 MINOR）
 - 合规红线：EU AI Act 职场情绪识别禁令 / PIPL 声纹单独同意 / 拒绝伪装采集链路
 - Roadmap：drv_screen 多轮真机验收 → 外挂驱动 PoC（mobile-mcp）→ bs1770 响度合入主库 → SHO 指令定向过 mic.* 闸门

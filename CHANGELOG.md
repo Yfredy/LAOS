@@ -5,6 +5,15 @@
 
 ## [Unreleased]
 
+## [v0.29.0] - 2026-10-08
+
+### Added
+- feat(laosweb): **laosweb v3 波——Muse 形态哲学的 laos 化**（spec=[2026-10-08-nanomuse-ui-xdevice-reference.md](docs/research/2026-10-08-nanomuse-ui-xdevice-reference.md) 采纳 #1-#5；零依赖纪律不破：抄设计语言不抄 React 技术栈，仍纯 stdlib http.server+单文件内嵌原生前端，零 npm/构建链/CDN 外链）。① **/api/sentinel 治理面**（GET/POST）：GET 投影 {enabled,mode,private_tools,egress_tools,grants,tainted_pids} 直连 kernel.sentinel；POST 三动作 grant(tool_glob,target,scope)/revoke(gid)/set_mode(ask|auto|strict 直改 cfg.mode)，未知 action→400；**未装配优雅降级**（{"enabled": false}+空列表，与核心 opt-in 哲学一致）。② **审批卡 scope 三档语义**（nanoMuse 审批 API 三字段 approved/scope/reason 的 laos 化）：pending 条目新增 reason（sentinel 决策因透传，无 sentinel 时 null）；POST /api/confirm 扩 {cid,approved,scope,tool}——approved 且 scope∈{session,always} 时**先落 grant 再放行**（deny/once 不落 grant），旧 id/allow 键回退保留无双破。③ **v3 骨架**：PAGE 重写为 mobile-first 底部四 tab（会话/审计/记忆/治理）+暗亮双主题（CSS 变量+prefers-color-scheme）+≥900px 桌面侧栏恒显（参照 nanoMuse desktop.ts 语义）+**PWA 四件套**（manifest.webmanifest/icon.svg 内联 SVG 零二进制资产/viewport-fit=cover/theme_color #0f6f5c）。④ **四视图**：chat=状态 chips+**审批卡**（tool chip+reason 徽标+四钮：拒绝/允许一次/本会话/总是——后两钮带 scope，前端始终显式带 tool 不给服务端 "*" 兜底留门）+进程表 kill+operator 信箱+restart 运维（v2 五 POST 全回归）；audit=工具 chips 流（ok/err 着色+失败截 80 字符辅文+固定容器只 prepend）；memory=stats+**provenance 徽标**（origin=user 亮显「人写」——人写行胜模型行，v0.28.0 用户行神圣的前端表达）；gov=enabled 门控（未装配只读+POST 400）+mode 三选一+grants 表逐条撤销+污点 pids chips+private/egress 工具面只读。数据整形抽模块层纯函数 _chips_rows/_memory_rows（可单测，键名按 build_state 实际而非计划伪码）；XSS 地基=动态内容全 createElement/textContent，全页无 innerHTML（静态断言钉死）。**实施与审查裁决三要点如实记**：（a）**tick 容错**——T3 移交必修：tick() 循环体 try/catch 且 setTimeout(tick) 排 catch 之外，fetch/渲染任一故障只吞一轮绝不杀死轮询（POST 后刷新走一次性 refreshNow 不并自排程循环）；（b）**复合键恢复**——T3 下线旧 JS 时轮转安全去重正向断言随之退役（仅剩"裸 seq 不得复活"守卫），T4 审计视图恢复 **epoch|seq|t|tool 复合键去重**+正向静态断言（v0.21.0 语义在 v3 前端续命，客户端 200 行上限+restart 清账本）；（c）**F1 smoke 留档**——审查发现首轮人工验收日志 0 字节（证据空档），重做真实 live smoke 落盘 var/laosweb-smoke.log（2799B：/api/state 200→四钮语义 deny→pending 清空审计续滚→sentinel 未装配 GET 200 降级）。15 例新增测试（T1 4＋T2 2＋T3 净增 1＋T4 净增 8），全套 **989 全绿**（974→989，OK skipped=5）
+- docs(research): **nanoMuse/Muse UI 全参照手册**（INDEX 88 份）——功能 16 屏/界面十决策/全端兼容架构（一套 Web UI+每端薄桥：Android WebView 14 方法桥含 7 厂商保活矩阵/Electron 桥/PWA 四件套）：审批 API 三字段与 laos GrantStore 同构、React 栈不抄（零依赖纪律）；§7 目录组织学=仓库卫生波 spec（INDEX 行注记）；采纳 #1-#5 直供本波，Android 保活厂商矩阵留作端侧化波必引
+
+### Changed
+- chore: **仓库卫生波**（spec=参照手册 §7 目录组织学）——① 根目录清零（日志残渣删/outputs 归档 corpus/audio-eval/_s2_crawl 归位 var//fsroot 残件删）；② zone 四树收进 zones/（release.py VERSION_FILES/DOC_GLOBS/文档路径同步；该 commit **198 个 rename 全程 git 保历史**，全波合计 218 rename，rename-only 不触测试锚点——release.py --dry-run 计数前后不变）；③ docs 根层归类（diagrams/ 收七件渲染物/guide/ 收指南）；④ 目录学约定固化 AGENTS.md+.gitignore 失效规则清理；⑤ 品牌层改名 **nanoLAOS**（副标 laos · Linux AgentOS；对外名变、技术名/包名/CLI/LAOS_* 契约不变）
+
 ## [v0.28.1] - 2026-10-08
 
 ### Fixed
