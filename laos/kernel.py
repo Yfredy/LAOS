@@ -617,6 +617,11 @@ class AgentKernel:
                               "pid": pid, "tool": tool,
                               "decision": decision.action,
                               "reason": decision.reason, "grant": grant_gid})
+            # 闸门通用置污（F1）：放行即置——reads_private 由 private_tools
+            # 单点派生，不再散在 impl 内（读面清单与实现脱节会漏 taint，
+            # 如 mic.segments 曾因幽灵名 mic.read 而读后不置污）
+            if assessment.reads_private:
+                self.sentinel.mark_private_read(pid)
 
         # 不可逆闸门 2.0：车队级风险记账 + 每 agent 风险帽（Irreversibility Budget）
         if not spec.reversible:
@@ -867,10 +872,7 @@ class AgentKernel:
         from .mcp import CallResult
         hits = self.memory.recall(
             str(args["query"]), int(args.get("k", self.MEM_RECALL_DEFAULT_K)))
-        # Sentinel 隐私读污点（opt-in）：recall 即读隐私源——本实现无失败
-        # 路径，检索完成即置污点（空结果同样算：查询行为已触及隐私域）
-        if self.sentinel is not None:
-            self.sentinel.mark_private_read(pcb.pid)
+        # 隐私读污点已改闸门通用置（sentinel 判定放行处，F1）——此处不再置
         if not hits:
             return CallResult.ok_text("(no matching memories)")
         lines = [f"#{h['id']} [{h['kind']}] {h['text']} (score={h['score']:.2f})"
@@ -896,9 +898,7 @@ class AgentKernel:
         from .mcp import CallResult
         payload = self.mem_curator.curate(str(args["task"]),
                                           k=args.get("k"))
-        # Sentinel 隐私读污点（opt-in）：curate 同样读隐私库，成功即置污点
-        if self.sentinel is not None:
-            self.sentinel.mark_private_read(pcb.pid)
+        # 隐私读污点已改闸门通用置（sentinel 判定放行处，F1）——此处不再置
         audit_row = {"t": time.time(), "event": "memory",
                      "op": "curate", "pid": pcb.pid,
                      "payload": payload["id"], "stats": payload["stats"]}

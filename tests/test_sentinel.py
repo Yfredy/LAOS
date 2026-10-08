@@ -233,6 +233,25 @@ class TestKernelSentinelWiring(unittest.TestCase):
         self._call(k, pcb, "msg.send", {"to_pid": buddy.pid, "text": "hi"})
         self.assertEqual(confirms[-1]["sentinel"], "taint-egress")  # auto 也问
 
+    def test_mic_segments_read_taints(self):
+        # F1 回归：mic.segments（私密音频分段，MCP 驱动工具，单测环境无驱动）
+        # 是真实隐私读面。单元级验证 decide 语义不变（读本身 allow——污点只
+        # 升级出站，不拦读取）；kernel 级用假 spec 路径验证置污由 private_tools
+        # 驱动而非硬编码 mem.recall/curate：临时把内建 mem.stats 当隐私读，
+        # 调用后应置污，随后 msg.send 出站触发 taint-egress（auto 也问）
+        d = Sentinel(SentinelConfig(mode="auto")).decide(
+            Assessment("mic.segments", reads_private=True))
+        self.assertEqual((d.action, d.reason), ("allow", "default"))
+        s = Sentinel(SentinelConfig(mode="auto", private_tools=("mem.stats",)))
+        confirms = []
+        k, pcb, buddy = self._boot(sentinel=s, confirm=lambda op:
+                                   (confirms.append(op) or True))
+        res = self._call(k, pcb, "mem.stats", {})
+        self.assertTrue(res.ok, res.error)
+        self.assertTrue(s.is_tainted(pcb.pid))    # 闸门通用置污：清单驱动
+        self._call(k, pcb, "msg.send", {"to_pid": buddy.pid, "text": "hi"})
+        self.assertEqual(confirms[-1]["sentinel"], "taint-egress")
+
     def test_kill_untaints(self):
         s = Sentinel(SentinelConfig(mode="auto"))
         k, pcb, buddy = self._boot(sentinel=s)

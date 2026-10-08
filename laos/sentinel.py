@@ -43,7 +43,10 @@ class SentinelConfig:
     always_allow: tuple = ()
     always_ask: tuple = ()
     mode: str = "ask"            # "ask" | "auto" | "strict"
-    private_tools: tuple = ("mem.recall", "mem.curate", "mic.read")
+    # 隐私读面（读后即污点）：mem.recall/mem.curate 检索隐私库、mic.segments
+    # 读私密音频分段（读后即清）。mic.record 是采集面——confirm/审计已覆盖，
+    # 不算隐私读（F1：曾误列幽灵工具名 "mic.read"，全仓无此 syscall）
+    private_tools: tuple = ("mem.recall", "mem.curate", "mic.segments")
     egress_tools: tuple = ("msg.send",)
 
 
