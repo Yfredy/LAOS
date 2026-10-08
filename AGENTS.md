@@ -28,6 +28,9 @@ push master+tag → GitHub Release 页。漏掉任何一步都算发版事故。
 
 - **定位叙事**：基座是 Linux 内核；Agent 是新负载（与进程同类）；laos 是内核
   治理在用户态的延伸。禁止"给 AI Agent 装上操作系统"类主客反转表述。
+- **品牌名（2026-10-08 起）**：对外品牌名 **nanoLAOS**（README/PROJECT_OVERVIEW/
+  PPT 封面用之，副标 "laos · Linux AgentOS"）；技术名/仓库名/包名 `laos`、
+  CLI 名 laosctl/laosd/laosweb、`LAOS_*` 环境变量**全部不变**（公开契约）。
 - **conda 红线**：只用 `C:/Users/yaoyue/miniconda3/python.exe`，禁止 `pip install`
   进该环境；重依赖只进驱动子进程。
 - **零依赖承诺**：`laos/` 核心纯 stdlib。
