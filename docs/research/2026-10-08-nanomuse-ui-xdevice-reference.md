@@ -82,3 +82,34 @@
 ## 6. 一句话
 
 nanoMuse 给 laos 的最大礼物不是功能清单，而是**形态哲学**：把治理（审批/权限/污点）做成界面的第一公民、把 UI 写一次让每端做薄壳、把"步骤默认展开"当透明度的默认值——这三条 laos 全部有同构内核（sentinel/laosweb/audit），差的只是表达层；laosweb v3 波补的就是这层表达。
+
+## 7. 项目目录组织参照（用户指令补充：文件摆放太乱，参照优秀项目分类）
+
+### 7.1 nanoMuse 的分类学（锚点即仓库）
+
+| 顶层 | 职责 | 内容纪律 |
+|---|---|---|
+| `nanomuse/` | 核心 Python 包（agent/sentinel/memory/llm/server/tools/channels） | 唯一代码家 |
+| `web/` `android/` `harness/` | 三端各一目录（web 前端/手机端/桌面壳） | **一端一目录，绝不互放** |
+| `cloud/` | 自托管服务端（含自己的 Dockerfile/compose/pyproject） | 服务端自治 |
+| `tests/` | 全部测试 | 与包根平级 |
+| `docs/` | **一主题一 md**（app/android/architecture/avatar/brand/browser…）+ `archive/` 沉没内容 | 无散落；过期进 archive |
+| `config/` | 恰好两个文件（example + 运行时） | 配置不散落 |
+| `scripts/` | 按平台子目录（android/ desktop-app/）+ 跨平台工具 | 平台归平台 |
+| `demo/` `site/` `assets/brand/` | 演示物/官网/品牌资产各一处 | |
+| 根 | **只有治理与入口**：README/CONTRIBUTING/SECURITY/NOTICE/CITATION/CoC/AGENTS/CLAUDE + Dockerfile/compose | **零垃圾零日志零临时物** |
+
+### 7.2 laos 现状诊断（2026-10-08 实查）
+
+| 乱点 | 实据 | 定性 |
+|---|---|---|
+| 根目录日志残渣 | dl.log dl1.log err.log err2.log sel.log（均未跟踪） | 垃圾，删 |
+| 孤儿目录 | `_s2_crawl/`（语料爬取工作区）、`fsroot/`（chroot 残留单文件）、`outputs/`（audio 评测产物，**被跟踪**） | 各归其位 |
+| zone 树裸奔 | AlwaysOnRec-Trae/ZCode/DB + Repro-ZCode 四棵平铺根目录 | 可用但无总目录与说明 |
+| docs/ 根层散落 | 6 个 .html + laos-architecture.html/.json + guide-panel.md 与六个子目录平级 | 归类 |
+| var/（本地处） | 评测产物与 .py 调试脚本（download_papers.py/debug_concurrent.py）混放 | 本地卫生（不进 git） |
+| **保持不动** | docs/research/ 88 md 平铺——**INDEX 是胶水**，按日期前缀+导航已可管理，迁移破坏 90+ 内链，成本>收益（Ruling） | 不动 |
+
+### 7.3 laos 整改裁决
+
+● **本波落地**（[整改计划](../superpowers/plans/2026-10-08-repo-hygiene.md)）：根目录清零（日志删、孤儿归位、zone 树收进 zones/ 并同步 release.py+DOC_GLOBS 路径）；docs/ 根层分类（diagrams/ 收架构图与散 html、guide/ 收指南）；目录学约定写进 AGENTS.md。◐ 排队：scripts/ 按平台分组、var/ 本地清洁。○ 不做：research/ 平铺迁移（INDEX 胶水论）。
