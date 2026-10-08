@@ -707,5 +707,68 @@ class TestSentinelApi(KernelTestCase):
             _sentinel_post(self.kernel, {"action": "nope"})
 
 
+class TestApprovalScope(KernelTestCase):
+    """审批卡 scope 语义：approved+session/always → 先落 grant 再放行。
+
+    nanoMuse 审批三字段语义的 laos 化（spec §4）：POST /api/confirm 扩展为
+    {cid, approved, scope, tool}——approved 且 scope∈{session,always} 且
+    sentinel 已装配时先 grants.add 再放行；deny 不落 grant。web_confirm 的
+    pending 条目携带 "reason"（= op.get("sentinel")，无 sentinel 时 None）。
+    """
+
+    def setUp(self):
+        super().setUp()
+        # _handle_confirm 经模块级持有者找 sentinel：接线 + 测毕还原
+        self._prev_kernel = laosweb.get_kernel()
+        laosweb.set_kernel(self.kernel)
+
+    def tearDown(self):
+        laosweb.set_kernel(self._prev_kernel)
+        super().tearDown()
+
+    @staticmethod
+    def _queue_confirm(op: dict) -> tuple[threading.Thread, dict]:
+        """压一条待裁决项并等它入队（web_confirm 阻塞在独立线程）。"""
+        results: dict = {}
+
+        def asker():
+            results["ok"] = laosweb.web_confirm(op)
+
+        t = threading.Thread(target=asker, daemon=True)
+        t.start()
+        deadline = time.time() + 2
+        while not laosweb._pending and time.time() < deadline:
+            time.sleep(0.02)
+        return t, results
+
+    def test_confirm_with_session_scope_grants(self):
+        from laos.sentinel import Sentinel, SentinelConfig
+        self.kernel.sentinel = Sentinel(SentinelConfig(mode="ask"))
+        t, results = self._queue_confirm(
+            {"tool": "msg.send", "args": {}, "sentinel": "taint-egress"})
+        cid = next(iter(laosweb._pending))
+        self.assertEqual(laosweb._pending[cid]["reason"], "taint-egress")
+        code, _body = laosweb._handle_confirm(
+            {"cid": cid, "approved": True, "scope": "session", "tool": "msg.send"})
+        self.assertEqual(code, 200)
+        t.join(timeout=2)
+        self.assertTrue(results["ok"])
+        g = self.kernel.sentinel.grants.list_grants()
+        self.assertEqual([(x["tool_glob"], x["scope"]) for x in g],
+                         [("msg.send", "session")])
+
+    def test_confirm_deny_no_grant(self):
+        from laos.sentinel import Sentinel, SentinelConfig
+        self.kernel.sentinel = Sentinel(SentinelConfig(mode="ask"))
+        t, results = self._queue_confirm({"tool": "msg.send", "args": {}})
+        cid = next(iter(laosweb._pending))
+        code, _ = laosweb._handle_confirm({"cid": cid, "approved": False})
+        self.assertEqual(code, 200)
+        t.join(timeout=2)
+        self.assertFalse(results["ok"])
+        self.assertEqual(self.kernel.sentinel.grants.list_grants(), [],
+                         "deny 不得落 grant")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

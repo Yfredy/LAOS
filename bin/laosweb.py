@@ -78,7 +78,10 @@ def web_confirm(op: dict) -> bool:
     if _auto_yes:
         return True
     cid = f"c{next(_confirm_seq)}"
-    entry = {"id": cid, "op": op, "event": threading.Event(), "answer": None}
+    # reason = sentinel 决策因（op["sentinel"]，如 "risk-mode"/"taint-egress"）：
+    # 审批卡据此向人类解释"为什么问你"（nanoMuse 审批三字段语义，spec §4）
+    entry = {"id": cid, "op": op, "event": threading.Event(), "answer": None,
+             "reason": op.get("sentinel")}
     _pending[cid] = entry
     try:
         # CONFIRM_TIMEOUT_S 在调用点取值：测试可 monkeypatch 成短超时
@@ -201,7 +204,7 @@ def build_state(kernel) -> dict:
         # 待裁决队列投影（从模块级 _pending 取——确认关属于面板而非单个内核）
         "pending_confirm": [
             {"id": e["id"], "tool": e["op"].get("tool", ""),
-             "message": e["op"].get("message", "")}
+             "message": e["op"].get("message", ""), "reason": e.get("reason")}
             for e in list(_pending.values())
         ],
         "operator_pid": _operator_pid,
@@ -710,12 +713,27 @@ class Handler(http.server.BaseHTTPRequestHandler):
 
 # ---- POST 交互端点（HTTP 线程红线：读状态 / 同步 kill / 内建 syscall）----
 def _handle_confirm(body: dict) -> tuple[int, dict]:
-    """POST /api/confirm {"id", "allow"}：应答待裁决项（web_confirm 苏醒）。"""
-    cid = str(body.get("id", ""))
+    """POST /api/confirm {"cid", "approved", "scope"?, "tool"?}：应答待裁决项。
+
+    nanoMuse 审批三字段语义的 laos 化（spec §4）：approved 且 scope ∈
+    {session, always} 且 sentinel 已装配 → 先经 _sentinel_post 落 grant 再
+    放行（tool 取 body.tool，缺省回退 pending 条目的 op.tool）；deny /
+    scope=once 不落 grant。旧键名（id/allow）在新审批卡切换前保持兼容。
+    """
+    cid = str(body.get("cid") or body.get("id") or "")
     entry = _pending.get(cid)
     if entry is None:
         return 404, {"ok": False, "error": f"no pending confirm {cid!r}"}
-    entry["answer"] = bool(body.get("allow"))
+    approved = bool(body.get("approved", body.get("allow")))
+    scope = body.get("scope")
+    if approved and scope in ("session", "always"):
+        kernel = get_kernel()
+        if kernel is not None and getattr(kernel, "sentinel", None) is not None:
+            _sentinel_post(kernel, {
+                "action": "grant",
+                "tool_glob": str(body.get("tool") or entry["op"].get("tool", "*")),
+                "target": None, "scope": scope})
+    entry["answer"] = approved
     entry["event"].set()
     return 200, {"ok": True}
 
