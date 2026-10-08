@@ -18,7 +18,7 @@ sys.path.insert(0, str(REPO))
 sys.path.insert(0, str(REPO / "bin"))  # bin/ 非包，路径注入以便 import diary
 
 from laos.memory import MemoryStore  # noqa: E402
-from diary import SECTION_TITLES, build_diary  # noqa: E402
+from diary import SECTION_TITLES, _load_audit, build_diary  # noqa: E402
 
 SECTION_TITLES_EXPECTED = ("一、今天做了什么", "二、新记住的事", "三、被拒绝与原因", "四、明天可以试试", "五、今天听到的")
 
@@ -107,6 +107,44 @@ class TestBuildDiary(unittest.TestCase):
 
     def test_section_titles_constant(self):
         self.assertEqual(tuple(SECTION_TITLES), SECTION_TITLES_EXPECTED)
+
+
+class TestCrossGeneration(unittest.TestCase):
+    """接线波债：audit 轮转后当天记录分居归档与活文件，diary 须跨代聚合。"""
+
+    def test_archives_aggregated_with_live_file(self):
+        import gzip
+        import json as _json
+        now = time.time()
+        with tempfile.TemporaryDirectory() as td:
+            live = Path(td) / "audit.jsonl"
+            live.write_text(_json.dumps(
+                {"t": now - 10, "event": "syscall", "tool": "mem.stats",
+                 "ok": True}) + "\n", encoding="utf-8")
+            arch1 = Path(td) / "audit-20260101-1.jsonl.gz"
+            with gzip.open(arch1, "wt", encoding="utf-8") as fh:
+                fh.write(_json.dumps(
+                    {"t": now - 20, "event": "syscall", "tool": "mem.remember",
+                     "ok": True}) + "\n")
+            records = _load_audit(live)
+            self.assertEqual({r["tool"] for r in records},
+                             {"mem.stats", "mem.remember"})
+
+    def test_generation_order_numeric_not_lexicographic(self):
+        import gzip
+        import json as _json
+        now = time.time()
+        with tempfile.TemporaryDirectory() as td:
+            live = Path(td) / "audit.jsonl"   # 不存在也允许：只读归档
+            tools = []
+            for gen, tool in ((10, "gen10"), (2, "gen2")):
+                with gzip.open(Path(td) / f"audit-20260101-{gen}.jsonl.gz",
+                               "wt", encoding="utf-8") as fh:
+                    fh.write(_json.dumps(
+                        {"t": now, "event": "syscall", "tool": tool,
+                         "ok": True}) + "\n")
+            records = _load_audit(live)
+            self.assertEqual([r["tool"] for r in records], ["gen2", "gen10"])
 
 
 class _FakeBrain:

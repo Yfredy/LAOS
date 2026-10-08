@@ -20,6 +20,8 @@
 from __future__ import annotations
 
 import argparse
+import gzip
+import re
 from datetime import datetime
 import json
 import os
@@ -51,6 +53,38 @@ TOP_TOOLS_N = 5
 # -- 审计聚合 --------------------------------------------------------------
 def _day_of(ts: float) -> str:
     return time.strftime("%Y-%m-%d", time.localtime(ts))
+
+
+def _load_audit(path: Path) -> list[dict]:
+    """跨代聚合（接线波债）：活文件 + 同目录全部 audit-*.jsonl.gz 归档代。
+
+    AuditLog.rotate()（v0.21.0）把轮转段归档为 audit-<UTC日期>-<代>.
+    jsonl.gz 后，当天的记录分居归档与活文件两处——只读活文件会漏掉
+    归档段。归档按代序（非字典序：gen 10 < gen 2 是错的）在前、活文件
+    在后拼接；半行崩溃残迹照旧跳过。"""
+    records: list[dict] = []
+
+    def _read(fh) -> None:
+        for line in fh:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                records.append(json.loads(line))
+            except json.JSONDecodeError:
+                continue
+
+    def _gen(p: Path) -> int:
+        m = re.search(r"-(\d+)\.jsonl\.gz$", p.name)
+        return int(m.group(1)) if m else 0
+
+    for archive in sorted(path.parent.glob("audit-*.jsonl.gz"), key=_gen):
+        with gzip.open(archive, "rt", encoding="utf-8") as fh:
+            _read(fh)
+    if path.exists():
+        with path.open("r", encoding="utf-8") as fh:
+            _read(fh)
+    return records
 
 
 def _records_of_day(records: list[dict], date: str) -> list[dict]:
@@ -279,18 +313,7 @@ def main() -> int:
                     help="记忆库 JSONL 路径")
     args = ap.parse_args()
 
-    records: list[dict] = []
-    audit_path = Path(args.audit)
-    if audit_path.exists():
-        with audit_path.open("r", encoding="utf-8") as fh:
-            for line in fh:
-                line = line.strip()
-                if not line:
-                    continue
-                try:
-                    records.append(json.loads(line))
-                except json.JSONDecodeError:
-                    continue  # 崩溃残迹跳过
+    records = _load_audit(Path(args.audit))
     result = build_diary(args.date, records, MemoryStore(Path(args.memory)))
 
     if args.json:

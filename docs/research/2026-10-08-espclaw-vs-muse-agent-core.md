@@ -65,9 +65,9 @@ Muse 侧（facebookincubator/muse-gadget-sdk）：esp32/ 固件（components/mus
 | # | 采纳 | 裁决 | 状态 |
 |---|---|---|---|
 | 1 | **能力注册表 laos/caps.py**：caller 四级（SYSTEM/AGENT/CONSOLE/SUB_AGENT）/权限位四枚/状态机含 DRAINING 排空/per-session LLM 可见域/审计钩子 CalCap→telemetry 口径 | claw_cap 与"Agent 调工具=进程调 syscall"叙事完全同构，且 muse SDK 反证无分级的后果 → 立即落地 | ● **已落地 30c15f7（21 测试，全套 861 绿）**；实现时修一真 bug：execute 须在注册表锁外跑（否则全能力串行化+drain 死等） |
-| 2 | 事件规则表（router_rules JSON 热载+DROP/fail_open/consume_on_match） | 对话管线装配波次的规则面：VAD/唤醒/打断的声明式路由 | ◐ P2 排队（对话管线装配） |
-| 3 | phase 命名对齐（claw 8 相位 vs laos telemetry phase） | 埋点字典对照吸收，不硬搬枚举 | ◐ P3 排队（接线波） |
-| 4 | 双分区播种（只读种子+可写区+运行时重建） | diary/AuditLog 跨代持久化设计参考 | ◐ P3 排队（接线波） |
+| 2 | 事件规则表（router_rules JSON 热载+DROP/fail_open/consume_on_match） | 对话管线装配波次的规则面：VAD/唤醒/打断的声明式路由 | ● **已兑现（2026-10-08 装配波，laos/evroute.py + dialogflow 入口防火墙，见 [2026-10-08-dialogflow-assembly.md](2026-10-08-dialogflow-assembly.md)）** |
+| 3 | phase 命名对齐（claw 8 相位 vs laos telemetry phase） | 埋点字典对照吸收，不硬搬枚举 | ● 对照收档（2026-10-08 装配波报告 §4：语义域不同，统一出口+reason 枚举同构做法已有） |
+| 4 | 双分区播种（只读种子+可写区+运行时重建） | diary/AuditLog 跨代持久化设计参考 | ● 对照收档（AuditLog 归档/epoch/跨代聚合同构已有；运行时重建对个人记忆库方向不适用） |
 | 5 | 叙事印证："三容器皆真 Agent，差别在容器" | 独立趋同=laos"基座是内核、Agent 是新负载"定位的反向印证，引用进对外叙事（不引号搬运，注明来源） | ● 引用 |
 | 6 | esp-claw 固件本体 | 无板无工具链，BLOCKED 收档；后续购板再启（boards 目录+浏览器烧录已就绪的路径写明） | ○ 待硬件 |
 | 7 | muse noise XX/BLE 协议栈 | 与 laos 语音线无交集；留作端侧配对调研引文 | ○ 不做 |
@@ -77,6 +77,6 @@ Muse 侧（facebookincubator/muse-gadget-sdk）：esp32/ 固件（components/mus
 1. 笔记核心论题**成立**（源码级证实）：esp-claw MCU 闭环（claw_core 循环+claw_cap 工具+claw_memory 记忆+事件路由）与 Muse VM 容器均为完整五步 Agent；差别确在容器资源与存活条件。
 2. 笔记数字声称：拓展坞 8GB/128GB vs 4GB/64GB、RESTful 16 Agent 上限——**均未证实**（§二 ○）；"Muse Secure-VM 独立 Linux 容器"证实（云 Ubuntu VM，媒体口径 2 vCPU/7.7GB root 运行）。
 3. 复现深度：esp-claw=结构级（BLOCKED 构建烧录）；muse=测试套件双环境实跑。
-4. 部署：laos/caps.py（能力治理面）落地；后续排队两项（事件规则表/phase 对齐）。
+4. 部署：laos/caps.py（能力治理面）落地；后续排队两项（事件规则表/phase 对齐）——**2026-10-08 全部兑现/收档（evroute.py 落地，P3 对照收档）**。
 5. 登记：INDEX +1 行（2026-10-08，含 muse 双环境测试数与 caps 提交号）。
 

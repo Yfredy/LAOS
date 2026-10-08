@@ -5,6 +5,11 @@
 
 ## [Unreleased]
 
+## [v0.26.0] - 2026-10-08
+
+### Added
+- feat(laos): **对话管线装配 + 接线波**（排队任务兑现，docs/research/2026-10-08-dialogflow-assembly.md；espclaw 报告 §五裁决 #2 ◐P2 → ●兑现、#3/#4 ◐P3 → ●对照收档）。① `laos/evroute.py` **事件规则表**——esp-claw claw_event_router（Apache-2.0）转译：JSON 规则热载（load_file+reload）+ CRUD（重复 id/未支持动作 fail-loud 拒绝）；match{type/source/text/text_match(exact\|prefix)}；六动作映射三动作 call_cap（回调注入，装配层接 caps.py）/drop（事件防火墙）/emit（派生事件回注+字段拷贝），run_agent/run_script/send_message 属 kernel/驱动域经 call_cap 动作化；**consume_on_match**（首条消费）+ **fail_open**（per-action，默认 False=保守中止）语义保留；无规则命中=passthrough 放行；RouteResult 与 claw_event_router_result_t 同构（matched/matched_rules/action_count/failed_actions/first_rule_id + dropped/emitted）。② `laos/dialogflow.py` **管线装配**：入口三事件+VAD 先过路由器（DROP=对话面防火墙，测试钉住规则吞掉的 asr.final 永不进唤醒闸/JIT curate）→ WakeGate → DialogQueue（latest-only）；**phase="done" 债兑现**（turn_done 补发同 turn_id 的 d.dialog.turn，与入队 phase="queued" 配对——v0.21.0 明言"完成态归装配层"）；**JitMem 接入**（v0.24.0 四步循环第④步在对话域闭合：会话首 turn curate 一次、payload 会话级缓存、每轮 turn_done 即时成败 outcome 回填）。③ 接线债清账：`WakeConfig.from_env()`（LAOS_WAKE_ENABLED/WAKE_WORDS/SLEEP_WORDS/MAX_TURNS/SESSION_SEC/FOLLOWUP_SEC，坏值回退默认）+ LAOS_DIALOG_OBS_MS/RESUME_MS env 覆盖；**diary 跨代聚合**（v0.21.0 已知缺口：`_load_audit` 读活文件+同目录全部 audit-*.jsonl.gz 归档代，**按数字代序**非字典序拼接，轮转后当天记录不再漏归档段）；64MB 水位核对已实装无需代码（telemetry max_bytes=64MB+写前归档，v0.21.0 波内已做）。④ P3 对照收档：phase 命名对齐（claw 8 相位=agent 循环相位 vs laos 四态+queued/done=会话/轮次相位，语义域不同不硬搬枚举；统一出口+reason 枚举同构做法已有）、双分区播种（AuditLog gzip 归档=不可变基线+活文件可写+epoch/seq 跨代去重+本波 diary 跨代聚合=同构已有；"运行时重建播种"对个人记忆库方向不适用）。31 例新增测试（16+13+2），全套 **942 全绿**（911→942，OK skipped=5）。实现注记：装配层事件 sink 协议为两参 (event, fields)（dialogsched.safe_emit 房型协议），测试首版误用单参 list.append 被 safe_emit 按设计吞 TypeError（埋点永不影响主链路）——协议使用坑记录在案，非代码 bug
+
 ## [v0.25.0] - 2026-10-08
 
 ### Added

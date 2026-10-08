@@ -47,6 +47,43 @@ class WakeConfig:
     max_session_sec: float = 120.0
     max_turns: int = 6
 
+    @classmethod
+    def from_env(cls, env=None) -> "WakeConfig":
+        """接线波：LAOS_WAKE_* 环境变量覆盖面（不传 env 读 os.environ）。
+
+        LAOS_WAKE_ENABLED=1/true → enabled；WAKE_WORDS/SLEEP_WORDS 逗号
+        分隔（中英文逗号都收）；MAX_TURNS/SESSION_SEC/FOLLOWUP_SEC 数值。
+        坏值回退默认（env 是用户输入，不 fail-loud）；空 env = 全默认。
+        """
+        import os
+        env = os.environ if env is None else env
+
+        def words(name: str) -> List[str]:
+            raw = env.get(name)
+            if not raw:
+                return []
+            return [w.strip() for w in raw.replace("，", ",").split(",")
+                    if w.strip()]
+
+        def num(name: str, conv, default):
+            raw = env.get(name)
+            if raw is None or str(raw).strip() == "":
+                return default
+            try:
+                return conv(str(raw).strip())
+            except ValueError:
+                return default
+
+        enabled = str(env.get("LAOS_WAKE_ENABLED", "")).strip().lower()
+        return cls(
+            enabled=enabled in ("1", "true", "yes", "on"),
+            wake_words=words("LAOS_WAKE_WAKE_WORDS"),
+            sleep_words=words("LAOS_WAKE_SLEEP_WORDS"),
+            follow_up_timeout_sec=num("LAOS_WAKE_FOLLOWUP_SEC", float, 12.0),
+            max_session_sec=num("LAOS_WAKE_SESSION_SEC", float, 120.0),
+            max_turns=num("LAOS_WAKE_MAX_TURNS", int, 6),
+        )
+
 
 @dataclass
 class WakeResult:
