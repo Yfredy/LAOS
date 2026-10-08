@@ -1,7 +1,7 @@
 # docs/research 调研资产清单（INDEX）
 
 > laos 调研资产权威清单：每份文档一句话定位 + 关键数字（均抄自各文档自身原文，未凭文件名推断）。
-> 盘点日期：2026-10-06（2026-10-07 增补 4 份调研 + 3 份评审与设计；2026-10-08 增补 1 份调研）。共 87 份 .md（不含本文件，find 会数出 89 = 87 份资产 + capstone + 本文件）= 作者撰写的调研文档 65 份 + plans 计划 2 份 + corpus/ 语料快照 17 份 + 评审与设计 3 份（docs/review/ 2 + docs/design/ 1，见第八节）。
+> 盘点日期：2026-10-06（2026-10-07 增补 4 份调研 + 3 份评审与设计；2026-10-08 增补 1 份调研）。共 88 份 .md（不含本文件，find 会数出 90 = 88 份资产 + capstone + 本文件）= 作者撰写的调研文档 66 份 + plans 计划 2 份 + corpus/ 语料快照 17 份 + 评审与设计 3 份（docs/review/ 2 + docs/design/ 1，见第八节）。
 
 ## 导航：按问题找文档
 
@@ -89,6 +89,7 @@
 
 | [2026-10-08-nanomuse.md](2026-10-08-nanomuse.md) | nanoMuse 学习（论文 arXiv:2610.08699+源码 33 次 API 直读）：Meta Muse 开源对照物的 Sentinel 动作闸/taint/scoped grants/记忆双线全拆解——laos 采纳落地 laos/sentinel.py + provenance | Sentinel 六级判定序+taint 永不回退+warnings 仅 once 档（20 例测试）；自认“policy 边界非特权边界”=laos caps+seccomp 的差异化定位；Muse 复刻段（seccomp+kernel taint+Sentinel 唯一权限权威）为 laos 叙事商业印证；GPL 红线=只学设计零代码拷贝 |
 
+| [2026-10-08-nanomuse-ui-xdevice-reference.md](2026-10-08-nanomuse-ui-xdevice-reference.md) | nanoMuse/Muse 全参照清单（功能 16 屏/界面十决策/全端兼容架构）：一套 Web UI+每端薄桥（Android WebView 14 方法桥含 7 厂商保活矩阵/Electron 桥/PWA 四件套）——laos 取经手册 | 审批 API 三字段（approved/scope/reason）与 laos GrantStore 同构直抄；React 技术栈不抄（零依赖纪律，抄设计语言）；采纳 #1-#5 → [laosweb v3 计划](../superpowers/plans/2026-10-08-laosweb-v3.md)；Android 保活厂商矩阵收录为 AlwaysOnRec 端侧化波必引知识 |
 ## 二、全天候录音调研组（always-on-recording/，5 份）
 
 | 文件 | 一句话定位 | 关键数字 / 规模（抄原句） |
