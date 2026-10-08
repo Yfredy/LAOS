@@ -4,7 +4,8 @@
 不重复造轮子：内核引导 / 种子分支 / demo 全部复用 laosd，
 本模块做三件事——
   1. build_state(kernel)：把内核可观测面聚合成一个可 JSON 化的 dict
-  2. http.server 起一个单页面板 + /api/state（1s 轮询，零依赖）
+  2. http.server 起一个单页面板 + /api/state（2s 轮询，零依赖；
+     v3 骨架 mobile-first + 底部 tab + 暗亮主题 + PWA 四件套）
   3. POST /api/* 交互端点：确认裁决 / 重启 / kill / operator 信箱 / 生成日记
 
 线程红线：HTTP 线程只允许 ① 读状态 ② 同步内核调用（kernel.kill /
@@ -216,430 +217,117 @@ def build_state(kernel) -> dict:
     }
 
 
-# --------------------------------------------------------------------------
+# ---- v3 骨架（mobile-first + 底部 tab + 暗亮主题 + PWA）--------------------
+# DOM 契约（Task 4 据此逐 view 填充）：
+#   nav#tabs 四个 data-view 按钮 × main 四个 <section data-view> 容器（v-*）；
+#   CSS 变量 --bg/--panel/--ink/--accent/--danger 于 :root 与 [data-theme=dark]；
+#   JS 地基：api() fetch 封装 + render(state) 主函数 + 2s 轮询 /api/state。
+# 旧 v0.3 面板的全部 JS（chips/panels/audit 去重/交互按钮）随骨架重写下线，
+# confirm/kill/msg/diary/restart 的 POST 端点不变，Task 4 的 chat/gov 视图补回。
 PAGE = r"""<!doctype html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>laos —— Linux AgentOS 面板</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0f14">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="laos">
+<link rel="manifest" href="/manifest.webmanifest">
+<title>laos — 控制台</title>
 <style>
-  :root { --bg:#0f172a; --card:#1e293b; --line:#334155; --fg:#e2e8f0; --dim:#94a3b8;
-          --ok:#4ade80; --err:#f87171; --blue:#60a5fa; --gray:#64748b; }
-  * { box-sizing: border-box; }
-  body { background: var(--bg); color: var(--fg); margin: 0; padding: 16px 20px;
-         font: 13px/1.5 ui-monospace, Consolas, "Courier New", monospace; }
-  h1 { font-size: 20px; margin: 0 0 10px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
-  .chip { background: var(--card); border: 1px solid var(--line); border-radius: 999px;
-          padding: 3px 10px; color: var(--dim); white-space: nowrap; }
-  .chip b { color: var(--fg); font-weight: 600; }
-  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%;
-         margin-right: 6px; background: var(--ok); animation: pulse 1.2s ease-in-out infinite; }
-  .dot.off { background: var(--gray); animation: none; }
-  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 8px;
-           padding: 12px; min-width: 0; }
-  .panel h2 { font-size: 13px; margin: 0 0 8px; color: var(--blue); letter-spacing: 1px; }
-  .wide { grid-column: 1 / -1; }
-  table { width: 100%; border-collapse: collapse; }
-  th, td { text-align: left; padding: 3px 6px; border-bottom: 1px solid var(--line);
-           white-space: nowrap; }
-  th { color: var(--dim); font-weight: 500; }
-  .ok { color: var(--ok); } .err { color: var(--err); } .dim { color: var(--gray); }
-  .st-exploring { color: var(--blue); } .st-committed { color: var(--ok); }
-  .st-invalidated { color: var(--gray); } .st-aborted { color: var(--gray); }
-  .big { font-size: 26px; font-weight: 700; }
-  .nums { display: flex; gap: 28px; margin-bottom: 10px; }
-  .lbl { color: var(--dim); font-size: 11px; }
-  .bar-row { display: grid; grid-template-columns: 110px 1fr 40px; gap: 8px;
-             align-items: center; margin: 4px 0; }
-  .bar { height: 10px; border-radius: 5px; background: #334155; overflow: hidden; }
-  .bar > div { height: 100%; background: var(--ok); }
-  .sus { color: var(--err); }
-  .arow { padding: 1px 0; border-bottom: 1px dashed #1f2937; white-space: nowrap;
-          overflow: hidden; text-overflow: ellipsis; }
-  .at { color: var(--gray); } .apid { color: var(--blue); }
-  .badge { border: 1px solid currentColor; border-radius: 4px; padding: 0 4px;
-           margin-right: 4px; font-size: 11px; }
-  .ares { color: var(--dim); }
-  footer { margin-top: 14px; color: var(--gray); font-size: 11px; }
-  /* ---- 交互操控：确认横幅 / 重启控制台 / kill / 消息面板 ---- */
-  button { background: #334155; color: var(--fg); border: 1px solid var(--line);
-           border-radius: 4px; padding: 2px 10px; cursor: pointer; font: inherit; }
-  button:hover { background: #475569; }
-  select, input { background: #0f172a; color: var(--fg); border: 1px solid var(--line);
-                  border-radius: 4px; padding: 2px 6px; font: inherit; }
-  #confirm-banner { display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-                    background: #dc2626; color: #fff; padding: 10px 20px; font-weight: 600;
-                    box-shadow: 0 2px 14px rgba(0,0,0,.55);
-                    animation: alert 0.9s ease-in-out infinite; }
-  @keyframes alert { 0%,100% { outline: 3px solid #fecaca; outline-offset: -3px; }
-                     50% { outline: 3px solid #7f1d1d; outline-offset: -3px; } }
-  #confirm-banner .allow { background: #16a34a; border-color: #16a34a; margin-left: 12px; }
-  #confirm-banner .deny { background: #7f1d1d; border-color: #fca5a5; margin-left: 6px; }
-  #restart-console { display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
-                     margin: 0 0 12px; background: var(--card);
-                     border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; }
-  .mrow { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
-  .rrow { padding: 1px 0; }
-  .rrow button { margin: 0 10px 0 6px; padding: 0 6px; font-size: 11px; }
-  .kill { color: var(--err); padding: 0 6px; font-size: 11px; }
+:root{--bg:#f6f7f9;--panel:#fff;--ink:#1a2027;--muted:#6b7684;--accent:#0f6f5c;
+      --danger:#b3372f;--ok:#2c7a4b;--line:#e3e7ec}
+[data-theme=dark]{--bg:#0b0f14;--panel:#121821;--ink:#e8edf2;--muted:#8b96a3;
+      --accent:#3fc3a6;--danger:#e06a62;--ok:#5cbf85;--line:#1f2937}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);
+  font:14px/1.5 system-ui,"Segoe UI","Microsoft YaHei",sans-serif;
+  padding-bottom:calc(56px + env(safe-area-inset-bottom))}
+main{max-width:720px;margin:0 auto;padding:12px}
+main section{display:none} main section.on{display:block}
+nav#tabs{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;
+  background:var(--panel);border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom);z-index:9}
+nav#tabs button{flex:1;padding:10px 0 8px;border:0;background:none;color:var(--muted);
+  font-size:12px;cursor:pointer}
+nav#tabs button.on{color:var(--accent);font-weight:600}
+@media(min-width:900px){ /* 桌面：侧栏恒显（参照 nanoMuse desktop.ts 语义） */
+  body{padding-bottom:0;padding-left:200px}
+  nav#tabs{flex-direction:column;justify-content:flex-start;top:0;bottom:0;left:0;
+    width:200px;border-top:0;border-right:1px solid var(--line)}
+  nav#tabs button{text-align:left;padding:12px 18px;font-size:14px}
+  main{max-width:860px;padding:20px 28px}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:12px;margin:10px 0}
+.chip{display:inline-block;background:color-mix(in srgb,var(--accent) 12%,transparent);
+  color:var(--accent);border-radius:999px;padding:1px 10px;font-size:12px;margin:2px}
+.muted{color:var(--muted)} .danger{color:var(--danger)}
+button.act{border:1px solid var(--line);background:var(--panel);color:var(--ink);
+  border-radius:8px;padding:6px 12px;cursor:pointer}
+button.act.primary{background:var(--accent);border-color:var(--accent);color:#fff}
 </style>
 </head>
 <body>
-<div id="confirm-banner"></div>
-<header>
-  <h1>laos —— Linux AgentOS 面板</h1>
-  <div class="chips" id="chips"></div>
-</header>
-<div id="restart-console">
-  <span class="lbl">重启控制台</span>
-  <select id="restart-confirm">
-    <option value="no">横幅裁决</option>
-    <option value="auto-yes">自动放行</option>
-  </select>
-  <span class="lbl">风险预算</span>
-  <input id="restart-budget" type="number" min="2" step="1" value="3" style="width:64px"
-         title="必须 > reserve(1)：低于会连 operator 都 spawn 不进">
-  <button onclick="restartDemo()">↻ 重跑</button>
-  <span id="restart-msg" class="dim"></span>
-</div>
-<div class="grid">
-  <section class="panel"><h2>进程表</h2><div id="procs-body"></div></section>
-  <section class="panel"><h2>分支树</h2><div id="branches-body"></div></section>
-  <section class="panel"><h2>风险账本</h2><div id="risk-body"></div></section>
-  <section class="panel"><h2>调度快照</h2><div id="sched-body"></div></section>
-  <section class="panel wide"><h2>审计流（最新在上）</h2><div id="audit-body"></div></section>
-  <section class="panel wide"><h2>系统调用表</h2><div id="syscalls-body"></div></section>
-  <section class="panel wide"><h2>消息面板（operator 信箱）</h2><div id="msgs-body">
-    <div class="mrow">
-      <span class="lbl">to_pid</span>
-      <select id="msg-to"></select>
-      <input id="msg-text" type="text" placeholder="以 operator 身份发给 agent…"
-             style="flex:1; min-width:160px">
-      <button onclick="sendMsg()">发送</button>
-    </div>
-    <div id="msg-out" class="dim">（发送 / 收取结果显示在这里）</div>
-    <div id="recv-list" style="margin-top:8px"></div>
-  </div></section>
-  <section class="panel"><h2>记忆面板（个人记忆库）</h2><div id="mem-body"></div></section>
-  <section class="panel"><h2>日记面板</h2>
-    <div class="mrow">
-      <button onclick="genDiary()">生成今日日记</button>
-      <span id="diary-msg" class="dim"></span>
-    </div>
-    <div id="diary-list"></div>
-  </section>
-</div>
-<footer>laosweb v0.3 —— 纯标准库实现，1s 轮询 /api/state + POST /api/* 交互操控</footer>
-<script>
-const $ = id => document.getElementById(id);
-
-function esc(s) {
-  return String(s == null ? '' : s)
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
-
-function hms(t) {
-  const d = new Date(Number(t) * 1000);
-  const p = (n, w) => String(n).padStart(w || 2, '0');
-  return p(d.getHours()) + ':' + p(d.getMinutes()) + ':' +
-         p(d.getSeconds()) + '.' + p(d.getMilliseconds(), 3);
-}
-
-function renderChips(s) {
-  const st = s.status || {};
-  const isoRaw = String(st.isolation || '');
-  const cut = isoRaw.indexOf('):');
-  const isoShort = cut >= 0 ? isoRaw.slice(0, cut + 1) : isoRaw.split(':')[0];
-  const demo = s.demo_done
-    ? '<span class="chip"><span class="dot off"></span>demo 已结束</span>'
-    : '<span class="chip"><span class="dot"></span>demo 运行中</span>';
-  $('chips').innerHTML =
-    '<span class="chip">uptime <b>' + esc(st.uptime_s) + 's</b></span>' +
-    '<span class="chip">隔离 <b>' + esc(isoShort) + '</b></span>' +
-    '<span class="chip">驱动 <b>' + esc(st.drivers) + '</b></span>' +
-    '<span class="chip">审计 <b>' + esc(st.audit_records) + '</b> 条</span>' + demo;
-}
-
-function renderProcs(s) {
-  const op = s.operator_pid;
-  const rows = (s.procs || []).map(p => {
-    const dead = p.state === 'zombie' || p.state === 'killed';
-    // kill 列：活进程可杀；operator（人）与已死进程不显示按钮
-    const killCell = (!dead && p.pid !== op)
-      ? '<td><button class="kill" onclick="killProc(' + esc(p.pid) + ')">✕</button></td>'
-      : '<td></td>';
-    return '<tr><td>' + esc(p.pid) + '</td><td>' + esc(p.name) + '</td><td>' + esc(p.state) +
-    '</td><td>' + esc((p.caps || []).join(' ')) + '</td><td>' +
-    esc(p.task_scope ? p.task_scope.join(' ') : '-') + '</td><td>' + esc(p.branch || '-') +
-    '</td><td>' + esc(p.stats ? p.stats.syscalls : 0) + '</td><td>' +
-    esc(p.stats ? p.stats.denied : 0) + '</td><td>' +
-    esc(p.stats ? p.stats.risk : 0) + '</td>' + killCell + '</tr>';
-  }).join('');
-  $('procs-body').innerHTML =
-    '<table><tr><th>pid</th><th>name</th><th>state</th><th>caps</th><th>scope</th>' +
-    '<th>branch</th><th>sys</th><th>deny</th><th>risk</th><th>✕</th></tr>' + rows + '</table>';
-}
-
-function renderBranches(s) {
-  const rows = (s.branches || []).map(b =>
-    '<div class="st-' + esc(b.state) + '">' + esc(b.name) + ' [' + esc(b.state) +
-    '] changes=' + esc(b.changes) +
-    (b.parent ? ' <span class="dim">(← ' + esc(b.parent) + ')</span>' : '') + '</div>').join('');
-  $('branches-body').innerHTML = rows || '<span class="dim">（无分支）</span>';
-}
-
-function renderRisk(s) {
-  const r = s.risk || {};
-  let html = '<div class="nums">' +
-    '<div><div class="lbl">spent 已花费</div><div class="big err">' + esc(r.spent) + '</div></div>' +
-    '<div><div class="lbl">remaining 剩余</div><div class="big ok">' + esc(r.remaining) + '</div></div>' +
-    '<div><div class="lbl">budget 总预算</div><div class="big">' + esc(r.budget) + '</div></div></div>';
-  const pt = r.per_tool || {};
-  const keys = Object.keys(pt);
-  const max = Math.max(1, ...keys.map(k => pt[k]));
-  html += keys.map(k =>
-    '<div class="bar-row"><span>' + esc(k) + '</span><div class="bar"><div style="width:' +
-    Math.max(2, Math.round(100 * pt[k] / max)) + '%"></div></div><span>' + esc(pt[k]) +
-    '</span></div>').join('') || '<span class="dim">（尚无开销）</span>';
-  $('risk-body').innerHTML = html;
-}
-
-function renderSched(s) {
-  const rows = (s.scheduler || []).map(r =>
-    '<div' + (r.suspended ? ' class="sus"' : '') + '>pid=' + esc(r.pid) +
-    ' err=' + esc(r.err_used) + '/' + (r.err_budget == null ? '∞' : esc(r.err_budget)) +
-    ' tokens=' + esc(r.token_used) +
-    (r.suspended ? ' [挂起: ' + esc(r.reason || '') + ']' : '') + '</div>').join('');
-  $('sched-body').innerHTML = rows || '<span class="dim">（暂无调度快照）</span>';
-}
-
-function renderSys(s) {
-  $('syscalls-body').innerHTML = (s.syscalls || []).map(t =>
-    '<span class="chip" style="margin:2px">' + esc(t) + '</span>').join('');
-}
-
-const BADGE_COLOR = {
-  admission: '#a78bfa', delegate: '#facc15', stale_broadcast: '#fb923c',
-  builtin: '#22d3ee', msg: '#60a5fa', driver_load: '#94a3b8',
-};
-
-function eventDesc(r) {
-  if (r.event === 'syscall') return r.result || '';
-  if (r.event === 'admission')
-    return r.name + ' ' + r.decision + ' (fleet_remaining=' + r.fleet_remaining + ')';
-  if (r.event === 'delegate')
-    return r.from + ' -> ' + r.to + ' caps=[' + (r.caps || []).join(',') + '] ttl=' + r.ttl;
-  if (r.event === 'stale_broadcast') return 'branch=' + r.branch + ' paths=' + r.paths;
-  if (r.event === 'msg') return 'from=' + r.from + ' to=' + r.to + ' bytes=' + r.bytes;
-  if (r.event === 'driver_load') return r.driver + ' tools=' + r.tools;
-  if (r.event === 'driver_unload') return r.driver;
-  if (r.event === 'spawn')
-    return r.name + ' caps=[' + (r.caps || []).join(',') + '] scope=' + (r.task_scope || '-');
-  if (r.event === 'kill') return 'pid=' + r.pid + ' ' + (r.sig || '');
-  return r.backend || r.branch || '';
-}
-
-const auditRows = new Map();  // key -> 已见标记（插入序 = 时间序：旧 -> 新）
-const AUDIT_MAX = 200;        // 客户端保留行数上限
-
-function auditRowHtml(r) {
-  const pid = r.pid != null ? r.pid : (r.from != null ? r.from : (r.to != null ? r.to : '-'));
-  const label = r.event === 'syscall' ? r.tool : r.event;
-  let color = '#64748b';
-  if (r.event === 'syscall') color = r.builtin ? BADGE_COLOR.builtin : '#94a3b8';
-  else if (BADGE_COLOR[r.event]) color = BADGE_COLOR[r.event];
-  const cls = r.event === 'syscall' ? (r.ok ? 'ok' : 'err') : '';
-  return '<div class="arow ' + cls + '"><span class="at">' + hms(r.t) + '</span> ' +
-    '<span class="apid">' + esc(pid) + '</span> ' +
-    '<span class="badge" style="color:' + color + '">' + esc(label) + '</span>' +
-    '<span class="ares">→ ' + esc(String(eventDesc(r)).slice(0, 80)) + '</span></div>';
-}
-
-function renderAudit(s) {
-  const body = $('audit-body');            // 固定容器：只追加新行，绝不重建面板
-  const recs = s.audit || [];
-  const n = recs.length;
-  for (let i = 0; i < n; i++) {
-    const r = recs[i];
-    // 去重键 = (轮转代 epoch, 单调序号 seq, t, tool) 复合键——epoch/seq 均
-    // 由 AuditLog.write 在 append 前盖章：不由"总数-窗口+下标"反推 —— 采样
-    // status 与切片 audit 之间若混入新记录，反推序号会漂移，导致同一批记录
-    // 下一 tick 被重复插入；seq 轮转换代后复位归零（设计 §6.2），裸 seq 键
-    // 会把新代同 seq 事件误判重复而丢弃，必须与轮转代 epoch 组复合键；
-    // 与 t + tool 联合去重（同秒同工具多次调用靠序号区分）
-    const key = r.epoch + '|' + r.seq + '|' + r.t + '|' + r.tool;
-    if (auditRows.has(key)) continue;
-    auditRows.set(key, true);
-    body.insertAdjacentHTML('afterbegin', auditRowHtml(r));  // 逐条插到最上 = 最新在上
-  }
-  // 上限 200：顶部最新、底部最旧，超限从底部裁
-  while (body.children.length > AUDIT_MAX) body.removeChild(body.lastChild);
-  // 去重账本同步截尾（窗口内的键必属最新的 200 个，不会被误删重插）
-  while (auditRows.size > AUDIT_MAX) auditRows.delete(auditRows.keys().next().value);
-}
-
-function render(s) {
-  renderChips(s);
-  renderBanner(s);
-  renderProcs(s);
-  renderBranches(s);
-  renderRisk(s);
-  renderSched(s);
-  renderSys(s);
-  renderMsgs(s);
-  renderMemories(s);
-  renderDiary(s);
-  renderAudit(s);
-}
-
-// ---- 交互操控：POST 助手 + 确认横幅 + 重启控制台 + kill + 消息面板 ------
-async function post(path, body) {
-  try {
-    const resp = await fetch(path, { method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body) });
-    const data = await resp.json().catch(() => ({}));
-    return { ok: resp.ok, status: resp.status, data: data || {} };
-  } catch (e) { return { ok: false, status: 0, data: {} }; }
-}
-
-function renderBanner(s) {
-  const el = $('confirm-banner');       // 固定节点：只改内容，不重建横幅本体
-  const rows = s.pending_confirm || [];
-  if (!rows.length) { el.style.display = 'none'; el.innerHTML = ''; return; }
-  el.style.display = 'block';
-  el.innerHTML = rows.map(r =>
-    '<div class="crow">⚠ 内核等待裁决：' + esc(r.message || r.tool) +
-    '<button class="allow" onclick="decide(\'' + esc(r.id) + '\',true)">✓ 允许</button>' +
-    '<button class="deny" onclick="decide(\'' + esc(r.id) + '\',false)">✗ 拒绝</button></div>'
-  ).join('');
-}
-
-async function decide(id, allow) {
-  await post('/api/confirm', { id: id, allow: allow });
-  tick();  // 任何 POST 后立即刷新
-}
-
-async function restartDemo() {
-  const body = { confirm: $('restart-confirm').value,
-                 risk_budget: Number($('restart-budget').value || 3) };
-  $('restart-msg').textContent = '重启中…';
-  const r = await post('/api/restart', body);
-  if (!r.ok) {
-    $('restart-msg').textContent = '失败: ' + (r.data.error || 'HTTP ' + r.status);
-    return;
-  }
-  $('restart-msg').textContent = '已重启，审计流从头滚动';
-  auditRows.clear();  // 新内核审计 epoch/seq 重新计数（无归档段时同代同号）：去重账本必须清空
-  $('audit-body').innerHTML = '';
-  tick();
-}
-
-async function killProc(pid) {
-  await post('/api/kill', { pid: pid });
-  tick();
-}
-
-// 消息面板：输入框所在面板绝不整体重建（会丢焦点/草稿），只刷新下拉与收取列表
-function renderMsgs(s) {
-  const sel = $('msg-to');
-  const prev = sel.value;
-  const live = (s.procs || []).filter(p =>
-    p.pid !== s.operator_pid && p.state !== 'zombie' && p.state !== 'killed');
-  sel.innerHTML = live.map(p =>
-    '<option value="' + esc(p.pid) + '">' + esc(p.pid + ' ' + p.name) + '</option>').join('');
-  if (prev && live.some(p => String(p.pid) === prev)) sel.value = prev;
-  $('recv-list').innerHTML = (s.procs || []).filter(p =>
-    p.state !== 'zombie' && p.state !== 'killed').map(p =>
-    '<span class="rrow"><span class="apid">' + esc(p.pid) + '</span> ' + esc(p.name) +
-    '<button onclick="recvMsg(' + esc(p.pid) + ')">收取</button></span>').join('');
-}
-
-// ---- 记忆面板 + 日记面板（episodic memory 的可观测面）-------------------
-const KIND_COLOR = { fact: '#4ade80', episodic: '#60a5fa',
-                     diary: '#a78bfa', preference: '#facc15' };
-
-function renderMemories(s) {
-  const m = s.memories || {};
-  const st = m.stats || {};
-  const kinds = Object.keys(st.by_kind || {}).map(k =>
-    '<span class="chip" style="margin:2px">' + esc(k) + ' <b>' +
-    esc(st.by_kind[k]) + '</b></span>').join('');
-  const rows = (m.recent || []).map(r =>
-    '<div class="arow"><span class="badge" style="color:' +
-    (KIND_COLOR[r.kind] || '#94a3b8') + '">' + esc(r.kind) + '</span>' +
-    '#' + esc(r.id) + ' ' + esc(String(r.text).slice(0, 60)) +
-    ((r.tags && r.tags.length)
-      ? ' <span class="dim">[' + esc(r.tags.join(',')) + ']</span>' : '') +
-    '</div>').join('');
-  // 固定容器就地更新：按钮/标题不重建
-  $('mem-body').innerHTML =
-    '<div style="margin-bottom:6px">total <b>' + esc(st.total || 0) + '</b> ' +
-    kinds + '</div>' + (rows || '<span class="dim">（记忆库还是空的）</span>');
-}
-
-function renderDiary(s) {
-  const rows = (s.diary || []).map(d =>
-    '<div class="arow"><span class="apid">' + esc(d.name) + '</span> ' +
-    '<span class="ares">' + esc(d.title) + '</span></div>').join('');
-  $('diary-list').innerHTML =
-    rows || '<span class="dim">（还没有日记——点上面按钮生成）</span>';
-}
-
-async function genDiary() {
-  $('diary-msg').textContent = '生成中…';
-  const r = await post('/api/diary', {});
-  $('diary-msg').textContent = (r.ok && r.data.ok)
-    ? '已写入 ' + (r.data.path || '')
-    : '失败: ' + (r.data.error || 'HTTP ' + r.status);
-  tick();  // POST 后立即刷新
-}
-
-async function sendMsg() {
-  const to = Number($('msg-to').value);
-  const text = $('msg-text').value.trim();
-  if (!to || !text) return;
-  const r = await post('/api/msg', { to_pid: to, text: text });
-  if (!r.ok) $('msg-out').textContent = '发送失败: ' + (r.data.error || 'HTTP ' + r.status);
-  else if (r.data.ok) { $('msg-out').textContent = '已发送 → pid=' + to; $('msg-text').value = ''; }
-  else $('msg-out').textContent = '内核拒绝: ' + (r.data.text || '');
-  tick();
-}
-
-async function recvMsg(pid) {
-  const r = await post('/api/recv', { pid: pid });
-  if (!r.ok) $('msg-out').textContent = '收取失败: ' + (r.data.error || 'HTTP ' + r.status);
-  else $('msg-out').textContent = 'pid=' + pid + ' 信箱 → ' + (r.data.text || '(empty)');
-  tick();
-}
-
+<nav id="tabs">
+  <button data-view="chat" class="on">会话</button>
+  <button data-view="audit">审计</button>
+  <button data-view="memory">记忆</button>
+  <button data-view="gov">治理</button>
+</nav>
+<main>
+  <section data-view="chat" class="on"><h2>会话</h2><div id="v-chat"></div></section>
+  <section data-view="audit"><h2>审计</h2><div id="v-audit"></div></section>
+  <section data-view="memory"><h2>记忆</h2><div id="v-memory"></div></section>
+  <section data-view="gov"><h2>治理</h2><div id="v-gov"></div></section>
+</main>
+<script type="module">
+const $ = s => document.querySelector(s);
+const api = (p, o) => fetch(p, o).then(r => r.json());
+for (const b of document.querySelectorAll("nav#tabs button"))
+  b.onclick = () => {
+    for (const x of document.querySelectorAll("nav#tabs button, main section"))
+      x.classList.toggle("on", x === b || x.dataset.view === b.dataset.view);
+  };
+if (matchMedia("(prefers-color-scheme: dark)").matches)
+  document.documentElement.dataset.theme = "dark";
 async function tick() {
-  try {
-    const resp = await fetch('/api/state');
-    if (resp.ok) render(await resp.json());
-  } catch (e) { /* 服务暂不可达，下一轮再试 */ }
+  const s = await api("/api/state");
+  render(s);
+  setTimeout(tick, 2000);
 }
-setInterval(tick, 1000);
+function render(s) { /* Task 4 逐 view 填充 */ }
 tick();
 </script>
-</body>
-</html>
+</body></html>
 """
+
+# ---- PWA 四件套：manifest + 内联 SVG 图标（零二进制资产，全内联生成）------
+MANIFEST = (
+    '{"name":"laos 控制台","short_name":"laos","start_url":"/",'
+    '"display":"standalone","background_color":"#0b0f14",'
+    '"theme_color":"#0f6f5c",'
+    '"icons":[{"src":"/icon.svg","sizes":"any","type":"image/svg+xml"}]}'
+)
+ICON_SVG = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">'
+            '<circle cx="12" cy="12" r="10" fill="#0f6f5c"/>'
+            '<text x="12" y="16" font-size="12" text-anchor="middle" '
+            'fill="#fff">L</text></svg>')
 
 
 class Handler(http.server.BaseHTTPRequestHandler):
-    """GET / -> PAGE；GET /api/state -> 内核状态 JSON；其余 404。
-    HEAD 同路由只回响应头（curl -sI 探活用）。"""
+    """GET / -> PAGE；GET /api/state -> 内核状态 JSON；
+    GET /manifest.webmanifest + /icon.svg -> PWA 四件套（内联生成）；
+    其余 404。HEAD 同路由只回响应头（curl -sI 探活用）。"""
 
     def do_GET(self):
         path = self.path.split("?", 1)[0]
         if path == "/":
             self._send(200, PAGE.encode("utf-8"), "text/html; charset=utf-8")
+        elif path == "/manifest.webmanifest":
+            self._send(200, MANIFEST.encode("utf-8"),
+                       "application/manifest+json; charset=utf-8")
+        elif path == "/icon.svg":
+            self._send(200, ICON_SVG.encode("utf-8"),
+                       "image/svg+xml; charset=utf-8")
         elif path == "/api/state":
             try:
                 payload = json.dumps(build_state(_kernel), ensure_ascii=False)
@@ -663,6 +351,12 @@ class Handler(http.server.BaseHTTPRequestHandler):
         if path == "/":
             self._send(200, PAGE.encode("utf-8"), "text/html; charset=utf-8",
                        head_only=True)
+        elif path == "/manifest.webmanifest":
+            self._send(200, MANIFEST.encode("utf-8"),
+                       "application/manifest+json; charset=utf-8", head_only=True)
+        elif path == "/icon.svg":
+            self._send(200, ICON_SVG.encode("utf-8"),
+                       "image/svg+xml; charset=utf-8", head_only=True)
         elif path == "/api/state":
             try:
                 body = json.dumps(build_state(_kernel), ensure_ascii=False).encode("utf-8")

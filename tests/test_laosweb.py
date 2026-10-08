@@ -229,18 +229,36 @@ class TestHttp(unittest.TestCase):
             self.assertEqual(resp.status, 200)
             self.assertIn("text/html", resp.headers["Content-Type"])
             body = resp.read().decode("utf-8")
-        self.assertIn("laosweb", body)
-        # 静态骨架唯一性（防 per-tick 重复渲染回归）：单 h1、九个固定面板体
-        # （v0.3 增记忆面板 mem-body + 日记面板 diary-list）
-        self.assertEqual(body.count("<h1"), 1)
-        self.assertEqual(body.count('class="panel'), 9)
-        for panel_id in ("procs-body", "branches-body", "risk-body",
-                         "sched-body", "audit-body", "syscalls-body", "msgs-body",
-                         "mem-body", "diary-list"):
-            self.assertEqual(body.count(f'id="{panel_id}"'), 1)
-        # 交互骨架：确认横幅与重启控制台各一份
-        for node_id in ("confirm-banner", "restart-console"):
-            self.assertEqual(body.count(f'id="{node_id}"'), 1)
+        self.assertIn("<!doctype html>", body)
+        # v3 骨架（mobile-first + 底部 tab）：四个 tab 按钮 + 四个 section
+        # 容器各带 data-view —— Task 4 在 section 容器内逐 view 填充内容
+        self.assertEqual(body.count("data-view="), 8)
+        for view in ("chat", "audit", "memory", "gov"):
+            self.assertEqual(body.count(f'data-view="{view}"'), 2)
+            self.assertEqual(body.count(f'id="v-{view}"'), 1)
+        self.assertIn("manifest.webmanifest", body)   # PWA manifest 挂载
+        self.assertIn("--accent", body)               # CSS 变量主题（暗/亮）
+
+    def test_manifest_and_icon_served(self):
+        # PWA 四件套之 manifest：固定 JSON、内联 SVG 图标（无二进制资产）
+        with urllib.request.urlopen(
+                f"http://127.0.0.1:{self.port}/manifest.webmanifest") as resp:
+            self.assertEqual(resp.status, 200)
+            self.assertIn("application/manifest+json",
+                          resp.headers["Content-Type"])
+            data = json.loads(resp.read().decode("utf-8"))
+        self.assertEqual(data["name"], "laos 控制台")
+        self.assertEqual(data["short_name"], "laos")
+        self.assertEqual(data["display"], "standalone")
+        self.assertEqual(data["theme_color"], "#0f6f5c")
+        self.assertIn("/icon.svg", [i["src"] for i in data["icons"]])
+        with urllib.request.urlopen(
+                f"http://127.0.0.1:{self.port}/icon.svg") as resp:
+            self.assertEqual(resp.status, 200)
+            self.assertIn("image/svg+xml", resp.headers["Content-Type"])
+            svg = resp.read().decode("utf-8")
+        self.assertIn("<svg", svg)
+        self.assertIn("#0f6f5c", svg)
 
     def test_unknown_path_404(self):
         with self.assertRaises(urllib.error.HTTPError) as cm:
@@ -501,11 +519,11 @@ class TestInteractivity(unittest.TestCase):
 class TestRotationSafeAuditKey(unittest.TestCase):
     """设计 §6.2：audit.jsonl 轮转换代后 seq 复位归零。
 
-    laosweb 前端（PAGE 内嵌 JS renderAudit）按键去重做增量插入；裸 seq 键
-    在轮转后会把新代同 seq 的事件误判为重复而丢弃。去重键必须升级为
-    (file_epoch 轮转代, seq) 复合键——两组分均由 AuditLog.write 在 append
+    消费者按 (file_epoch 轮转代, seq) 复合键去重；裸 seq 键在轮转后会把
+    新代同 seq 的事件误判为重复而丢弃。两组分均由 AuditLog.write 在 append
     前盖章。这里用真 AuditLog 走真轮转路径（不手搓 dict），保证复合键的
-    两组分在生产路径上真实存在、真实递增。
+    两组分在生产路径上真实存在、真实递增。（v3 Task 4 审计视图落地时，
+    前端去重键应恢复对 PAGE 的复合键静态断言。）
     """
 
     def setUp(self):
@@ -595,12 +613,10 @@ class TestRotationSafeAuditKey(unittest.TestCase):
         self.assertEqual(self.audit.records[0]["epoch"], 4)
         self.assertEqual(self.audit.records[0]["seq"], 0)
 
-    def test_page_dedup_key_is_composite(self):
-        """PAGE 内嵌 JS 的去重键必须用 (epoch, seq) 复合键（静态断言——
-        JS 不在 unittest 运行域内，与面板骨架静态断言同一测法）。"""
-        self.assertIn(
-            "const key = r.epoch + '|' + r.seq + '|' + r.t + '|' + r.tool;",
-            laosweb.PAGE)
+    def test_page_has_no_bare_seq_dedup_key(self):
+        """v3 骨架弃用了旧 PAGE 的全部 JS（renderAudit 去重逻辑随之下线，
+        Task 4 审计视图重写时恢复）。底线守卫：裸 seq 去重键（轮转后误判
+        重复的缺陷键）不得在新 PAGE 里复活。"""
         self.assertNotIn("const key = r.seq + '|'", laosweb.PAGE,
                          "裸 seq 去重键不得残留（轮转后误判重复）")
 
