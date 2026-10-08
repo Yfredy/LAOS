@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AGC 模型全景 · laos 语音增益控制调研</title>
+<style>
+  :root{
+    --bg:#0e1117; --panel:#161b22; --panel2:#1c2230; --border:#30363d;
+    --text:#c9d1d9; --muted:#8b949e; --accent:#58a6ff; --accent2:#3fb950;
+    --warn:#f0883e; --bad:#f85149; --good:#3fb950;
+    --chip:#21262d;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.6;font-size:15px}
+  header{padding:28px 24px 18px;border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg,#11161f,#0e1117)}
+  header h1{margin:0 0 6px;font-size:22px;color:#fff}
+  header p{margin:0;color:var(--muted);font-size:13px}
+  nav{position:sticky;top:0;z-index:50;background:rgba(13,17,23,.92);
+    backdrop-filter:blur(6px);border-bottom:1px solid var(--border);
+    display:flex;flex-wrap:wrap;gap:6px;padding:10px 24px}
+  nav a{color:var(--accent);text-decoration:none;font-size:13px;
+    padding:4px 10px;border:1px solid var(--border);border-radius:999px;background:var(--chip)}
+  nav a:hover{background:#1f6feb33;border-color:var(--accent)}
+  main{max-width:960px;margin:0 auto;padding:24px}
+  section{background:var(--panel);border:1px solid var(--border);border-radius:12px;
+    padding:20px 22px;margin:18px 0}
+  h2{margin:0 0 14px;font-size:18px;color:#fff;border-left:3px solid var(--accent);padding-left:10px}
+  h3{color:#e6edf3;font-size:15px;margin:18px 0 8px}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+  th,td{border:1px solid var(--border);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:var(--panel2);color:#e6edf3;font-weight:600}
+  tr:nth-child(even) td{background:#11161f}
+  code{background:var(--chip);padding:1px 6px;border-radius:5px;font-size:12px;color:#ffa657}
+  .muted{color:var(--muted)}
+  .verdict{background:#0d2818;border:1px solid #1a5630;border-radius:10px;
+    padding:14px 16px;margin:8px 0}
+  .verdict b{color:var(--good)}
+  .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;
+    border:1px solid var(--border);background:var(--chip);margin:2px}
+  .pill.green{color:var(--good);border-color:#1a5630}
+  .pill.red{color:var(--bad);border-color:#5c1f1f}
+  .pill.amber{color:var(--warn);border-color:#5c3a1f}
+  svg{display:block;margin:10px auto;max-width:100%}
+  .legend{font-size:12px;color:var(--muted);text-align:center;margin-top:4px}
+  footer{border-top:1px solid var(--border);padding:18px 24px;color:var(--muted);font-size:12px;text-align:center}
+  a.inline{color:var(--accent)}
+</style>
+</head>
+<body>
+<header>
+  <h1>自动增益控制（AGC）模型全景</h1>
+  <p>laos 语音三域调研收尾 · 收录 35 条 schema 记录（经典 DSP 10 + 小型神经 10 + 中型 4 + 大型/生成式 11），校验器 0 违规</p>
+</header>
+
+<nav>
+  <a href="#stages">三处作用点</a>
+  <a href="#matrix">档位 × edge 矩阵</a>
+  <a href="#power">功耗 / RTF 对比</a>
+  <a href="#loudness">响度标准</a>
+  <a href="#multimodal">多模态象限</a>
+  <a href="#verdict">结论</a>
+</nav>
+
+<main>
+
+<section id="stages">
+  <h2>三处作用点的端侧可得性（AGC 独有）</h2>
+  <svg viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="三处作用点示意图">
+    <defs>
+      <marker id="arr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+        <path d="M0,0 L7,3 L0,6 Z" fill="#8b949e"/>
+      </marker>
+    </defs>
+    <!-- mic -->
+    <rect x="14" y="60" width="90" height="100" rx="10" fill="#161b22" stroke="#30363d"/>
+    <text x="59" y="115" fill="#c9d1d9" font-size="13" text-anchor="middle">麦克风</text>
+    <text x="59" y="134" fill="#8b949e" font-size="11" text-anchor="middle">PCM 进入</text>
+    <!-- arrow -->
+    <line x1="104" y1="110" x2="150" y2="110" stroke="#8b949e" stroke-width="2" marker-end="url(#arr)"/>
+    <!-- stage 1 -->
+    <rect x="156" y="34" width="150" height="150" rx="10" fill="#0d2818" stroke="#1a5630"/>
+    <text x="231" y="60" fill="#3fb950" font-size="13" text-anchor="middle">① 采集前</text>
+    <text x="231" y="82" fill="#c9d1d9" font-size="11" text-anchor="middle">aDSP / TX-path 固件</text>
+    <text x="231" y="104" fill="#8b949e" font-size="11" text-anchor="middle">mW 档（理想）</text>
+    <text x="231" y="128" fill="#f85149" font-size="11" text-anchor="middle">laos 拿不到</text>
+    <text x="231" y="150" fill="#8b949e" font-size="10" text-anchor="middle">-EACCES 未授信进程</text>
+    <text x="231" y="168" fill="#8b949e" font-size="10" text-anchor="middle">attach audioPD 失败</text>
+    <!-- arrow -->
+    <line x1="306" y1="110" x2="352" y2="110" stroke="#8b949e" stroke-width="2" marker-end="url(#arr)"/>
+    <!-- stage 2 -->
+    <rect x="358" y="34" width="150" height="150" rx="10" fill="#1c2230" stroke="#3fb950"/>
+    <text x="433" y="60" fill="#3fb950" font-size="13" text-anchor="middle">② 采集后</text>
+    <text x="433" y="82" fill="#c9d1d9" font-size="11" text-anchor="middle">AP 用户态 / proot</text>
+    <text x="433" y="104" fill="#f0883e" font-size="11" text-anchor="middle">B 档 400–1000 mW</text>
+    <text x="433" y="128" fill="#3fb950" font-size="11" text-anchor="middle">laos 唯一可选层</text>
+    <text x="433" y="150" fill="#8b949e" font-size="10" text-anchor="middle">二次增益风险最高</text>
+    <text x="433" y="168" fill="#8b949e" font-size="10" text-anchor="middle">(闭环增益不推荐)</text>
+    <!-- arrow -->
+    <line x1="508" y1="110" x2="554" y2="110" stroke="#8b949e" stroke-width="2" marker-end="url(#arr)"/>
+    <!-- stage 3 -->
+    <rect x="560" y="34" width="106" height="150" rx="10" fill="#161b22" stroke="#30363d"/>
+    <text x="613" y="60" fill="#58a6ff" font-size="13" text-anchor="middle">③ 离线</text>
+    <text x="613" y="82" fill="#c9d1d9" font-size="11" text-anchor="middle">开环归一</text>
+    <text x="613" y="104" fill="#8b949e" font-size="11" text-anchor="middle">一次性</text>
+    <text x="613" y="128" fill="#3fb950" font-size="11" text-anchor="middle">laos 放行</text>
+    <text x="613" y="150" fill="#8b949e" font-size="10" text-anchor="middle">不闭环</text>
+    <text x="613" y="168" fill="#8b949e" font-size="10" text-anchor="middle">不污染 dbfs</text>
+  </svg>
+  <p class="legend">增益控制的可省电层（① aDSP）与 laos 工程现实（② proot B 档）完全错位 —— 这是 AGC 选型的根本约束。</p>
+</section>
+
+<section id="matrix">
+  <h2>档位 × edge 矩阵</h2>
+  <table>
+    <thead><tr><th>档位</th><th>条目数</th><th>代表实现</th><th>典型指标（带基准）</th><th>典型 RTF / MCPS</th><th>edge 可得</th><th>多模态</th></tr></thead>
+    <tbody>
+      <tr><td>经典 DSP</td><td>10</td><td>WebRTC AGC2、SpeexDSP、FFmpeg loudnorm</td>
+        <td>AGC2 增益变化率 ≤3.0 dB/s、headroom 1 dB（自测口径 1，收敛时间未实测）；loudnorm −24 LUFS</td>
+        <td>AGC2 ~1–2 MCPS（C 定点，环内无矩阵乘）</td><td class="pill green">yes: 任意 CPU（laos 落 B 档）</td><td>否</td></tr>
+      <tr><td>小型神经 &lt;30M</td><td>10</td><td>RNNoise、DTLN、GTCRN、DeepFilterNet2</td>
+        <td>RNNoise DNSMOS OVLMOS 3.38（DNS4 blind）；DTLN/DF2 PESQ 3.04（VoiceBank-DEMAND）</td>
+        <td>RNNoise &lt;10 MFLOPS；DTLN RPi3B+ RTF 0.28；DF2 Core i5 RTF 0.04</td>
+        <td class="pill green">RNNoise 可 MCU（A 档）；B 档下被常驻税笼罩</td><td>否（9 降噪掩码）</td></tr>
+      <tr><td>中型 30M–500M</td><td>4</td><td>MossFormer2 (S)、MossFormer、SFSRNet</td>
+        <td>SI-SDRi 22.8–24.1 dB（WSJ0-2mix）</td><td>GPU RTF 0.036–0.053（V100），CPU 非实时</td>
+        <td class="pill amber">unknown（无端侧转换）</td><td>否</td></tr>
+      <tr><td>大型/生成式 &gt;500M</td><td>11</td><td>Miipher-2 (2000M)、AudioSR (672M)</td>
+        <td>NFE / RTF 必带（生成式自报告）</td><td>高，离线批处理</td>
+        <td class="pill red">no（云端/工作站）</td><td>部分（AV 生成）</td></tr>
+      <tr><td>多模态象限（裁定 2）</td><td>3</td><td>AV-NeuroAMP、Nuance US9293151B2、Intel US12412420B2</td>
+        <td>均为相邻，非纯增益控制主业</td><td>—</td><td class="pill amber">需开摄像头</td><td class="pill green">是，但非空而薄</td></tr>
+    </tbody>
+  </table>
+  <p class="muted">增益控制的真实选项只在两处：经典 DSP 与小型神经增强。中型/大型档无任何以"增益控制/响度控制"为主业的条目 —— AGC 不是"模型越大越好"。</p>
+</section>
+
+<section id="power">
+  <h2>经典 DSP 与小型神经网络的功耗 / RTF 对比</h2>
+  <table>
+    <thead><tr><th>项</th><th>经典 DSP（WebRTC AGC2）</th><th>小型神经（RNNoise / DTLN / DF2）</th></tr></thead>
+    <tbody>
+      <tr><td>算力</td><td>~1–2 MCPS（C 定点）</td><td>RNNoise &lt;10 MFLOPS；DF2 0.35 G MACs；DTLN ~0.5 G MACs</td></tr>
+      <tr><td>模型体积</td><td>无（代码）</td><td>RNNoise ~100 KB；DTLN ~1 MB；DF2 ~2M 参数</td></tr>
+      <tr><td>常驻功耗</td><td>&lt; 1 mW（在 A 档 aDSP）</td><td>RNNoise 可忽略；DF2 级约数十 mW（CPU 推理）</td></tr>
+      <tr><td>实时性</td><td>原生（~10 ms 延迟）</td><td>RNNoise / DTLN / DF2 实时；DCCRN 非实时（RTF 2.19）</td></tr>
+      <tr><td>laos 实际落点</td><td colspan="2" class="muted">两者在 B 档（proot）下都被 400–1000 mW 常驻税笼罩，模型自身省电优势对总功耗影响极小</td></tr>
+    </tbody>
+  </table>
+  <p class="muted">数据来源：<code>01</code> Part 2、<code>02</code> §3(c)、<code>05</code> §3。量程数字均来自 hardware-power.md 与 SER 04，未重算。</p>
+</section>
+
+<section id="loudness">
+  <h2>响度标准表（成品节目标准，采集端为外推）</h2>
+  <table>
+    <thead><tr><th>标准</th><th>目标响度</th><th>容差</th><th>真峰值上限</th><th>适用范围</th></tr></thead>
+    <tbody>
+      <tr><td>ITU-R BS.1770-4（-5 现行）</td><td>只定义测量算法</td><td>—</td><td>—</td><td>测量算法本体</td></tr>
+      <tr><td>EBU R128</td><td>−23.0 LUFS</td><td>±0.5 LU</td><td>−1 dBTP</td><td>欧洲广播</td></tr>
+      <tr><td>ATSC A/85</td><td>−24 LKFS</td><td>±2 dB</td><td>&lt; −2 dBTP</td><td>北美数字电视</td></tr>
+      <tr><td><b>GY/T 282-2014（主引用）</b></td><td><b>−24 LKFS</b></td><td><b>±2 LU</b></td><td><b>−2 dBTP</b></td><td>中国数字电视制作/播出/分发</td></tr>
+      <tr><td>GY/T 377-2023</td><td>−15 / −24 LUFS</td><td>±2 LU</td><td>−1 dBTP</td><td>中国网络视听节目</td></tr>
+      <tr><td>RFC 7845 §5.2.1</td><td>参考 EBU R128</td><td>—</td><td>—</td><td>Ogg Opus 播放端增益标签</td></tr>
+    </tbody>
+  </table>
+  <p class="muted">无任何一条规定"终端语音采集端"的响度目标；−24 LKFS 用作 laos 采集自测目标值是本调研外推（沿用 <code>00</code> 裁定 1 以 GY/T 282-2014 为主）。</p>
+</section>
+
+<section id="multimodal">
+  <h2>多模态象限：非空但薄（裁定 2）</h2>
+  <p>原假设"多模态 AGC 象限为空"被 <b>证伪</b>：检索到 ≥3 条真实工作，但均<strong>非纯增益控制主业</strong>：</p>
+  <table>
+    <thead><tr><th>工作</th><th>类型</th><th>与 AGC 的关系</th></tr></thead>
+    <tbody>
+      <tr><td>AV-NeuroAMP</td><td>音频-视觉语音增强</td><td>相邻（增强），非增益闭环</td></tr>
+      <tr><td>Nuance US9293151B2</td><td>专利：摄像头辅助会议音量</td><td>相邻（波束/音量），需开摄像头</td></tr>
+      <tr><td>Intel US12412420B2</td><td>专利：视觉辅助音频处理</td><td>相邻，需开摄像头</td></tr>
+    </tbody>
+  </table>
+  <p class="muted">增益是瞬时电平闭环问题，决策信息全在音频本身；唯一有物理意义的多模态输入是说话人距离/朝向，但声学方法更直接省电，视觉方案要开摄像头（功耗与合规高一个量级）。多模态不进入 laos 选型。</p>
+</section>
+
+<section id="verdict">
+  <h2>结论</h2>
+  <div class="verdict">
+    <p><b>AGC 到底是不是模型问题？—— 分层：闭环增益是 DSP 问题，噪声 + 音量不平衡场景是模型问题。</b></p>
+    <ul>
+      <li>闭环增益（数字增益环、限幅、headroom、噪声门）是经典 DSP 绝对主场：AGC2 环内无矩阵乘、状态 ~2 KB、~10 ms 延迟，且有可核验语义；神经侧无任何公开收敛时间/稳态误差数字。</li>
+      <li>纯电平调整（无噪声、只是说话声小）<b>没有证据</b>神经优于经典反馈环（9/10 小型神经只做降噪掩码，SE-AGCNet 未与 AGC2 头对头对比）。</li>
+      <li>噪声 + 音量不平衡并存时，模型有可证实增量（DTLN/DF2 PESQ 3.04 vs Noisy 1.97），但代价 100–1000×，且在 laos B 档下被 400–1000 mW 常驻税淹没。</li>
+    </ul>
+  </div>
+  <h3>加在哪一层（决策摘要）</h3>
+  <table>
+    <thead><tr><th>场景</th><th>决策</th><th>用什么</th></tr></thead>
+    <tbody>
+      <tr><td>laos 当前（proot，常驻，离线，喂 ASR/情绪）</td><td class="pill red">不加采集后闭环增益</td><td>—</td></tr>
+      <tr><td>想让送审/留存电平一致</td><td class="pill green">加：离线开环响度归一</td><td>laos.loudness / pyloudnorm（−24 LUFS）</td></tr>
+      <tr><td>真噪声 + 承受 B 档功耗</td><td class="pill green">加：神经降噪掩码（非增益）</td><td>RNNoise / DTLN</td></tr>
+      <tr><td>原生 App + Sensing Hub</td><td class="pill green">加：采集前 aDSP 闭环 AGC</td><td>WebRTC AGC2 on aDSP</td></tr>
+      <tr><td><b>什么都不加（默认）</b></td><td class="pill amber">默认行</td><td>直采 PCM 送推理，保留 dbfs 原始电平语义</td></tr>
+    </tbody>
+  </table>
+  <p class="muted">"什么都不加"触发条件：在真机线性度测试（<code>01</code> Part 0.3）完成前默认不加；一旦验证链路已过 AGC，反而更要避免再加闭环增益（二次增益泵浦）。</p>
+</section>
+
+</main>
+<footer>
+  laos · 自动增益控制调研全景 · 数据来自 docs/research/auto-gain/（01–06 + landscape），单文件零依赖，生成于 2026-09 收尾计划 Task 15。
+</footer>
+</body>
+</html>
