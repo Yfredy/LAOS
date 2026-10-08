@@ -1,6 +1,6 @@
 # 音频事件识别（AED）与自动增益（AGC）模型全景：端侧 / 多模态 / 大 / 中 / 小
 
-> ⚠️ **本文已被分项调研取代（保留原文作素材）**：AED 部分见 [`docs/research/audio-events/`](audio-events/)；AGC 部分见 [`docs/research/auto-gain/`](auto-gain/)（含 `2026-09-landscape.md` 收敛结论与 `07-adoption.md` 落地论证）。本文 §8 文献跟踪仍有独立价值，故原文不动。
+> ⚠️ **本文已被分项调研取代（保留原文作素材）**：AED 部分见 [`docs/research/audio-events/`](audio-events/)（含 `2026-09-landscape.md` 收敛结论与 `07-adoption.md` 落地论证）；AGC 部分见 [`docs/research/auto-gain/`](auto-gain/)（含 `2026-09-landscape.md` 收敛结论与 `07-adoption.md` 落地论证）。本文 §8 文献跟踪仍有独立价值，故原文不动。
 
 > 调研时间：2026-09-11 ｜ 姊妹篇：[2026-09-11-ser-model-landscape.md](2026-09-11-ser-model-landscape.md)（语音情感）。
 > 为 laos 听觉链路的另外两个模型能力做选型地图：**声音事件**（门铃/哭声/警报——Apple S12 Sound Recognition
