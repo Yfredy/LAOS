@@ -196,13 +196,23 @@ def cmd_selfcheck(args) -> int:
     return 0
 
 
+def cmd_traceviz(records: list[dict], args) -> None:
+    """审计 → mermaid 时序图（Karpathy"调用链一张图"阶梯的 laos 落地）。
+
+    只读派生视图：不美化不改写，审计永远是权威源。"""
+    from laos.traceviz import to_mermaid
+    print(to_mermaid(records, tail=getattr(args, "tail", 40) or 0))
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="laosctl —— Linux AgentOS 控制面")
     ap.add_argument("command", choices=["audit", "trace", "denied", "top", "ps", "prof",
-                                        "budget", "spans", "selfcheck"])
+                                        "budget", "spans", "selfcheck", "traceviz"])
     ap.add_argument("--file", type=str, default=str(DEFAULT_AUDIT))
     ap.add_argument("--pid", type=int)
     ap.add_argument("--event", type=str)
+    ap.add_argument("--tail", type=int, default=40,
+                    help="traceviz：最近 N 条 syscall（0=不截断）")
     args = ap.parse_args()
 
     if args.command == "selfcheck":
@@ -210,7 +220,8 @@ def main() -> int:
     records = load(Path(args.file))
     {"audit": cmd_audit, "trace": cmd_trace, "denied": cmd_denied,
      "top": cmd_top, "ps": cmd_ps, "prof": cmd_prof,
-     "budget": cmd_budget, "spans": cmd_spans}[args.command](records, args)
+     "budget": cmd_budget, "spans": cmd_spans,
+     "traceviz": cmd_traceviz}[args.command](records, args)
     return 0
 
 

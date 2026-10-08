@@ -850,9 +850,15 @@ class AgentKernel:
         from .mcp import CallResult
         payload = self.mem_curator.curate(str(args["task"]),
                                           k=args.get("k"))
-        self.audit.write({"t": time.time(), "event": "memory",
-                          "op": "curate", "pid": pcb.pid,
-                          "payload": payload["id"], "stats": payload["stats"]})
+        audit_row = {"t": time.time(), "event": "memory",
+                     "op": "curate", "pid": pcb.pid,
+                     "payload": payload["id"], "stats": payload["stats"]}
+        # 约束语言 lint（opt-in，LAOS_STE_LINT=1，Karpathy ASD-STE100 阶梯）：
+        # 只检查不改写——问题数入审计供观测，payload 文本保持原样（原文权威）
+        if os.environ.get("LAOS_STE_LINT", "").strip() == "1":
+            from .ste import lint
+            audit_row["ste_problems"] = len(lint(payload["text"]))
+        self.audit.write(audit_row)
         # 返回 briefing 文本（含 payload #id 头）供前置进任务提示；
         # id 即 mem.outcome 的回填句柄
         return CallResult.ok_text(payload["text"])

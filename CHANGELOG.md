@@ -5,6 +5,12 @@
 
 ## [Unreleased]
 
+## [v0.25.0] - 2026-10-08
+
+### Added
+- feat(laos): **AI 输出可理解性波次**（Karpathy 四阶梯复现与采纳，docs/research/2026-10-08-readable-output.md）。溯源 Karpathy 原帖 2026-10-02（x.com/karpathy/status/2105819303471976479）：理解速度成瓶颈，四阶梯升序=ASD-STE100 约束语言→图表→HTML 交互页→解释视频。① `laos/ste.py`——ASD-STE100 **原则**的 check-only lint（官方 ~900 词表再分发受限不收录，与社区 asd-ste100-skill 同取舍）：五规则 R1 句长（分句后>60 字）/R2 术语轮换（同义组≥2 形并存，Karpathy 点名 agent/worker/executor 痛点）/R3 一句多事（子句分隔>2）/R4 hedge 堆叠（同句≥2 模糊限定词）/R5 分号并联；问题带原文摘录+位置按确定性排序，**只检查不改写**；CLI `python -m laos.ste`（有问题 exit 1）；② `laos/traceviz.py`——audit.jsonl 的 syscall 事件→mermaid sequenceDiagram（agent↔kernel 调用链，失败 `--x` 显式标出，参与者名清洗防破坏 mermaid 语法），**只读派生视图**审计永远权威；③ `laosctl traceviz --tail N` 新子命令 + `python -m laos.traceviz`；④ kernel 钩子：`LAOS_STE_LINT=1` 时 `mem.curate` 的 briefing 过 lint、`ste_problems` 计数入审计（opt-in 默认零行为变化）——上一波 JitMem curate briefing 即 laos 第一个系统性 AI 输出物，本波即"用这个进行改进"的落点。裁决：③交互页 ◐P2 排队（laosweb 已有查看页）、④解释视频 ○不做（重依赖+云端 TTS 撞零依赖/隐私双红线）；笔记"格式越好懂错误藏得越深"未见于原帖（转译层增补），采纳为双层结构治理原则：一切派生物必须能回到原始记录。27 例新增测试（17+10），全套 **911 全绿**（884→911，OK skipped=5）
+- docs(research): 可读性笔记复现报告（INDEX 84 份）——Karpathy 原帖四阶梯逐项 ●证实（fxtwitter API+SEJ 报道交叉），笔记两处表述如实分档（警告句 ○笔记增补、"字数砍半" ○未证实数字）
+
 ## [v0.24.0] - 2026-10-08
 
 ### Added
