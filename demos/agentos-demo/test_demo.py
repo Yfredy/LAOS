@@ -142,5 +142,18 @@ class SeccompTest(unittest.TestCase):
         self.assertIn(("fs.read", True), rows)
 
 
+class RunDemoTest(unittest.TestCase):
+    """叙事脚本 = 认知交付物：一条命令讲完 kernel+Agent+MCP 三件套。"""
+
+    @unittest.skipUnless(platform.system() == "Linux", "整链 demo 仅 Linux")
+    def test_run_demo_script(self):
+        r = subprocess.run(["bash", str(HERE / "run_demo.sh")],
+                           capture_output=True, text=True, timeout=60)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("AUDIT", r.stdout)          # 脚本要打印审计摘要
+        audit = Path(HERE / "var" / "audit.jsonl")
+        self.assertTrue(audit.exists() and audit.read_text(encoding="utf-8").strip())
+
+
 if __name__ == "__main__":
     unittest.main()
