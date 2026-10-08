@@ -1,6 +1,6 @@
 # Repro-ZCode —— 四来源复现隔离区
 
-> [laos](../README.md) 的第二个隔离实现区：把 [四来源学习报告](../docs/research/2026-10-05-four-article-repro.md)
+> [laos](../../README.md) 的第二个隔离实现区：把 [四来源学习报告](../../docs/research/2026-10-05-four-article-repro.md)
 > 中可复现的内容全部 TDD 落地。**零主代码改动**——本区不复制 laos 树、不 import 主库，
 > 与 `AlwaysOnRec-ZCode/` 平级但更轻（纯复现模块，无内核耦合）。
 
@@ -16,7 +16,7 @@
 ## 运行
 
 ```bash
-cd Repro-ZCode
+cd zones/Repro-ZCode
 C:/Users/yaoyue/miniconda3/python.exe -m pytest tests/ -q          # 全部测试
 python scripts/run_sho_repro.py --n-utt 120 --iters 400            # 端到端训练实验
 python scripts/run_repro_all.py                                     # 四模块冒烟汇总

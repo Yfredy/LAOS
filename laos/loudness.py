@@ -1,7 +1,7 @@
 """laos.loudness —— ITU-R BS.1770-4 响度计量（纯 stdlib 采纳版）。
 
 来源：采纳书 A 项（docs/research/2026-10-05-repro-adoption.md）。
-numpy 版验证在 Repro-ZCode/repro/bs1770.py（同锚点）；本模块守住 laos 核心
+numpy 版验证在 zones/Repro-ZCode/repro/bs1770.py（同锚点）；本模块守住 laos 核心
 零依赖承诺——双二阶节手写转置直接 II，分块能量逐样本累加。
 
 规范口径：

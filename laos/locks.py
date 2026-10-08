@@ -1,6 +1,6 @@
 """laos.locks —— unique_lock 语义的锁生命周期工具（采纳书 C 项）。
 
-来源：C++ unique_lock 一课（复现于 Repro-ZCode/repro/locks.py）：
+来源：C++ unique_lock 一课（复现于 zones/Repro-ZCode/repro/locks.py）：
 `with lock:` 等价 lock_guard（RAII 作用域锁）；本模块补齐"可控版"四种能力
 ——RAII 自动释放 / 手动提前 unlock 收窄临界区 / defer_lock 延迟加锁 /
 try_lock 非阻塞尝试 / owns_lock 显式所有权。

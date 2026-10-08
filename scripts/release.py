@@ -36,8 +36,8 @@ REPO = Path(__file__).resolve().parents[1]
 # 三棵树：主库 + 两个 IDE 隔离区快照
 VERSION_FILES = [
     REPO / "laos" / "__init__.py",
-    REPO / "AlwaysOnRec-ZCode" / "laos" / "__init__.py",
-    REPO / "AlwaysOnRec-Trae" / "laos" / "__init__.py",
+    REPO / "zones" / "AlwaysOnRec-ZCode" / "laos" / "__init__.py",
+    REPO / "zones" / "AlwaysOnRec-Trae" / "laos" / "__init__.py",
 ]
 
 # conventional commit subject: type(scope)!: description
@@ -185,7 +185,7 @@ DOC_GLOBS = [
     "docs/ppt/*.html",   # intro 组 deck（v6 系）；detailed/funding 组在下面两条
     "docs/ppt/detailed/*.html",
     "docs/ppt/funding/*.html",
-    "AlwaysOnRec-*/README.md",   # 三棵树（Trae/DB/ZCode；ZCode 暂无锚点零命中无害）
+    "zones/AlwaysOnRec-*/README.md",   # 三棵树（Trae/DB/ZCode；ZCode 暂无锚点零命中无害）
 ]
 
 #: 替换模式（带上下文锚点，防误伤历史里程碑行：带日期的 v0.x.y (MM-DD) 不匹配）。
@@ -249,8 +249,8 @@ def zone_test_counts(main_by_run: bool = False) -> dict:
     """
     counts = {
         "main_tests": 0,
-        "iso_tests": count_test_functions(REPO / "AlwaysOnRec-ZCode" / "tests"),
-        "repro_tests": count_test_functions(REPO / "Repro-ZCode" / "tests"),
+        "iso_tests": count_test_functions(REPO / "zones" / "AlwaysOnRec-ZCode" / "tests"),
+        "repro_tests": count_test_functions(REPO / "zones" / "Repro-ZCode" / "tests"),
     }
     if main_by_run:
         import subprocess

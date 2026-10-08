@@ -1,7 +1,7 @@
 # AlwaysOnRec-ZCode —— 全天候录音业界对标增量（隔离实现区）
 
-> 本文件夹是 [laos](../README.md) 的**隔离实现区**：把调研报告
-> [2026-09-11-verticals-apple-articles.md](../docs/research/always-on-recording/2026-09-11-verticals-apple-articles.md)
+> 本文件夹是 [laos](../../README.md) 的**隔离实现区**：把调研报告
+> [2026-09-11-verticals-apple-articles.md](../../docs/research/always-on-recording/2026-09-11-verticals-apple-articles.md)
 > §6 计划中的三个增量任务在这里独立实现（复制 laos/bin/drivers/tests 全量代码，不改动主代码），
 > 全部验证通过后再决定是否合回主干。
 
@@ -42,13 +42,13 @@
 ### 3. 业界对照文档入口
 
 完整调研（B 端四赛道 / Apple 专题 / 文章语料 / 开源增补）见
-[docs/research/always-on-recording/](../docs/research/always-on-recording/)；
+[docs/research/always-on-recording/](../../docs/research/always-on-recording/)；
 本 README 即计划 Task 3 的交付物（在隔离区内文档化，主干 README 待合并时统一更新）。
 
 ## 运行与测试
 
 ```bash
-cd AlwaysOnRec-ZCode
+cd zones/AlwaysOnRec-ZCode
 python -m unittest discover -s tests        # 全量回归（含 6 个新增用例）
 python -m unittest tests.test_journal tests.test_diary tests.test_scope -v   # 只跑本增量
 ```
@@ -69,7 +69,7 @@ python -m unittest tests.test_journal tests.test_diary tests.test_scope -v   # �
 
 ## 第二批增量（语音模型前沿落地，2026-09-12）
 
-依据 [docs/research/2026-09-12-speech-model-frontiers.md](../docs/research/2026-09-12-speech-model-frontiers.md) §7：
+依据 [docs/research/2026-09-12-speech-model-frontiers.md](../../docs/research/2026-09-12-speech-model-frontiers.md) §7：
 
 | 模块 | 功能 | 业界依据 |
 |---|---|---|
@@ -84,7 +84,7 @@ python -m unittest tests.test_journal tests.test_diary tests.test_scope -v   # �
 
 ## 合规红线（功能设计约束，执法期已到）
 
-全天候录音 + 听觉推断功能的定位边界，来源见 [业界调研·社会接受度篇](../docs/research/always-on-recording/social-acceptance.md) 与 [前沿地图 §5.6](../docs/research/2026-09-12-speech-model-frontiers.md)：
+全天候录音 + 听觉推断功能的定位边界，来源见 [业界调研·社会接受度篇](../../docs/research/always-on-recording/social-acceptance.md) 与 [前沿地图 §5.6](../../docs/research/2026-09-12-speech-model-frontiers.md)：
 
 1. **EU AI Act（2025-02-02 生效）**：禁止在**工作场所与教育机构**用生物识别数据推断情绪（医疗/安全目的窄豁免，罚款至全球营业额 7%）。→ laos 的情绪/压力功能必须定位为"用户自主健康监测"，禁止以"员工/学生监控"名义部署；依赖环境不得默认在工作/教学设备常开。
 2. **中国 PIPL + GB/T 41807 + 2025 新国标**：**声纹 = 敏感个人信息**，需单独同意，禁止诱导/欺骗采集。→ laos 不建长期声纹库；说话人功能用"到达顺序"（Streaming Sortformer 式）或会话内临时锚定；唤醒词模板只存能量包络（JSON，不含可重建语音）。

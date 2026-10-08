@@ -1,6 +1,6 @@
 """laos/loudness.py 测试 —— BS.1770-4 纯 stdlib 采纳（来源④，采纳书 A 项）。
 
-锚点与 Repro-ZCode/repro/bs1770.py 相同（那里已验证过的物理事实），
+锚点与 zones/Repro-ZCode/repro/bs1770.py 相同（那里已验证过的物理事实），
 本测试证明纯 stdlib 版在同一锚点上成立。
 """
 import array

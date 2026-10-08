@@ -1,6 +1,6 @@
 """laos.turnbuf —— 交互轮次缓冲（Pipecat 两课的内核语义层，采纳书 B 项）。
 
-来源：Pipecat 帧管道复现（Repro-ZCode/repro/framepipe.py）的两条设计课：
+来源：Pipecat 帧管道复现（zones/Repro-ZCode/repro/framepipe.py）的两条设计课：
   课 1（打断即作废）：用户一开口，排队未送达的内容全部丢弃；
   课 2（聚合器放 output 之后）：上下文/记忆只记**实际送达**的内容。
 

@@ -6,7 +6,7 @@
 
 **每次发版都必须更新仓库里所有介绍性文件，并自动操作。** 包括且不限于：
 
-- `README.md`、`docs/PROJECT_OVERVIEW.md`、`AlwaysOnRec-Trae/README.md`
+- `README.md`、`docs/PROJECT_OVERVIEW.md`、`zones/AlwaysOnRec-Trae/README.md`
 - 全部 PPT 组：`docs/ppt/*.md`、`docs/ppt/*.html`、`docs/ppt/detailed/*.html`、
   `docs/ppt/funding/*.html`（封面 stamp / "开源 vX.Y.Z ·" / 页脚 "· vX.Y.Z · NNN tests" /
   大纲跨度端点 / 测试计数）

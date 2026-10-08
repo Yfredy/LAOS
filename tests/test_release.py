@@ -241,9 +241,9 @@ class TestNewDomainAxisAndDocGlobs(unittest.TestCase):
                     "docs/ppt/laos-intro-huashu.html",
                     "docs/ppt/laos-detailed-outline.md",
                     "docs/ppt/laos-funding-outline.md",
-                    "AlwaysOnRec-Trae/README.md",
-                    "AlwaysOnRec-DB/README.md",
-                    "AlwaysOnRec-ZCode/README.md"):
+                    "zones/AlwaysOnRec-Trae/README.md",
+                    "zones/AlwaysOnRec-DB/README.md",
+                    "zones/AlwaysOnRec-ZCode/README.md"):
             self.assertIn(rel, covered, f"DOC_GLOBS 漏覆盖 {rel}")
 
 

@@ -1,7 +1,7 @@
 """laos.micgeom —— 麦克风阵列几何约定与 MPE 位置编码（纯 stdlib）。
 
 来源：采纳书 D 项（docs/research/2026-10-05-repro-adoption.md）。
-数值实现与 Repro-ZCode/repro/phasecoder.py 逐行同源——后者对齐了
+数值实现与 zones/Repro-ZCode/repro/phasecoder.py 逐行同源——后者对齐了
 google-deepmind/phasecoder 的 JAX 源码（GI-DOAEnet 论文 Eq.2-3）。
 
 约定（laos 外挂音频驱动的麦位元数据口径）：

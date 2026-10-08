@@ -8,7 +8,7 @@ fsroot/
 .venv-audio/
 
 # always-on recording sandbox
-AlwaysOnRec-DB/
+zones/AlwaysOnRec-DB/
 
 # crawl temps / tool dirs
 _s2_crawl/

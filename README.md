@@ -47,7 +47,7 @@ laos/scripts/     termux_matrix(Android降级矩阵实测) / flasep_gpu_bench(GP
 laos/tests/       974 项回归测试（真录音/真 ASR 用例实测通过）
 laos/docs/        论文调研 / 真机 runbook / 面板教程 / 完整项目介绍(PROJECT_OVERVIEW.md)
 laos/docs/research/  调研库：全天候录音业界(6篇) / SER·AED·AGC·说话人·编解码·健康声学模型地图 / 40+篇arXiv论文库
-laos/AlwaysOnRec-ZCode/ 隔离实现区：全天候录音前沿增量（独立可跑，279 项测试）
+laos/zones/AlwaysOnRec-ZCode/ 隔离实现区：全天候录音前沿增量（独立可跑，279 项测试）
 ```
 
 > 📖 **新访客请先读 [docs/PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md)**——完整的"是什么/为什么/每个文件干什么"总览。
@@ -404,7 +404,7 @@ laos/
 | [docs/research/2026-09-12-speech-model-frontiers.md](docs/research/2026-09-12-speech-model-frontiers.md) | 其余全部语音信号领域（说话人/前端触发/编解码/TTS/副语言学健康）51 篇 | 到达顺序说话人分离=不建声纹库的"谁的日记"；Mimi 1.1kbps=0.5MB/h 留存档；EU AI Act/PIPL 功能红线 |
 | [docs/research/2026-09-29-multivenue-survey.md](docs/research/2026-09-29-multivenue-survey.md) | 多顶会主题切片普查：NLP/ML/CV/语音近邻/多媒体/交叉 35 venue（29 有产出，9,908 条）+ 数据源结构性地图 | Crossref 覆盖 IEEE/ACM 系；ACL Anthology 走 OpenAlex；PMLR/OpenReview 结构性封闭；AAAI 须 ISSN 精确过滤 |
 | [docs/research/2026-09-29-mobile-mcp-assessment.md](docs/research/2026-09-29-mobile-mcp-assessment.md) | Mobile MCP（7k+★ 手机操控 MCP）评估：30 工具对照 laos 五层手机能力 | 无治理驱动的活广告——`kernel.load_driver()` 可直接外挂（遥测必关）；其工具清单=drv_screen 下轮差距分析 |
-| [docs/research/2026-10-05-four-article-repro.md](docs/research/2026-10-05-four-article-repro.md) + [Repro-ZCode/](Repro-ZCode/README.md) | 六来源复现隔离区：BS.1770-4 响度 / FxLMS ANC / 头部朝向论文全管线 / PhaseCoder 麦位编码 / Pipecat 帧管道 / unique_lock 语义 | 71 项测试：R128 校准点 −23.00 LUFS ±0.1；MPE 对齐官方 JAX 源码；冒烟 holdout 56.5°；打断作废排队帧而系统帧穿管 |
+| [docs/research/2026-10-05-four-article-repro.md](docs/research/2026-10-05-four-article-repro.md) + [zones/Repro-ZCode/](zones/Repro-ZCode/README.md) | 六来源复现隔离区：BS.1770-4 响度 / FxLMS ANC / 头部朝向论文全管线 / PhaseCoder 麦位编码 / Pipecat 帧管道 / unique_lock 语义 | 71 项测试：R128 校准点 −23.00 LUFS ±0.1；MPE 对齐官方 JAX 源码；冒烟 holdout 56.5°；打断作废排队帧而系统帧穿管 |
 | [docs/research/2026-10-05-repro-adoption.md](docs/research/2026-10-05-repro-adoption.md) + [docs/ppt/README.md](docs/ppt/README.md) | **复现批次采纳执行书**（A 响度→`laos/loudness.py` 纯 stdlib + `ear.lufs` 工具；B Pipecat 两课→`laos/turnbuf.py`；C unique_lock→`laos/locks.py`+`_rpc` 协议事实记录；D 麦位约定文档化）+ 项目介绍 PPT ×5（五 skill 同底稿对比） | 打断即作废 + 只记已送达进 mem.*；"锁生命周期服从协议事实，不服从越窄越好的教条" |
 
 调研语料在 v0.18 波次扩展至 **120,234 行**（38 venue 整卷全量），其强命中工作集 934 行与 agent-os 窄分支治理文献 49 篇的对照结论见 [治理文献对照](docs/research/2026-10-07-agentos-governance-literature.md) 与 [对话听觉与空间隐私定向检索](docs/research/2026-10-07-dialog-spatial-retrieval.md)。
@@ -413,7 +413,7 @@ laos/
 
 ### 10.2 工作内容（AlwaysOnRec-ZCode 隔离实现区，全部 TDD）
 
-主代码零改动；实现细节见 [AlwaysOnRec-ZCode/README.md](AlwaysOnRec-ZCode/README.md)。
+主代码零改动；实现细节见 [zones/AlwaysOnRec-ZCode/README.md](zones/AlwaysOnRec-ZCode/README.md)。
 
 | 增量 | 落点 | 对应调研 |
 |---|---|---|

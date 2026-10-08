@@ -1,6 +1,6 @@
 """laos.micgeom 测试 —— 麦位几何与 MPE 编码（采纳书 D 项升级执行）。
 
-数值锚点与 Repro-ZCode/repro/phasecoder.py（对齐官方 JAX 源码版）一致。
+数值锚点与 zones/Repro-ZCode/repro/phasecoder.py（对齐官方 JAX 源码版）一致。
 """
 import math
 
