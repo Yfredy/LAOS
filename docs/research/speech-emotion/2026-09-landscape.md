@@ -192,4 +192,4 @@
 - 规模轴：[`01-small-models.md`](01-small-models.md) / [`02-medium-models.md`](02-medium-models.md) / [`03-large-models.md`](03-large-models.md)
 - 端侧轴（proot 两档、runtime 对比、实测预算）：[`04-edge-deployment.md`](04-edge-deployment.md)
 - 多模态轴（不引入视觉模态的论证）：[`05-multimodal.md`](05-multimodal.md)
-- HTML 全景：[`../../speech-emotion-models.html`](../../speech-emotion-models.html)
+- HTML 全景：[`../../../diagrams/speech-emotion-models.html`](../../../diagrams/speech-emotion-models.html)

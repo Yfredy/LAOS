@@ -1,7 +1,7 @@
 # docs/research 调研资产清单（INDEX）
 
 > laos 调研资产权威清单：每份文档一句话定位 + 关键数字（均抄自各文档自身原文，未凭文件名推断）。
-> 盘点日期：2026-10-06（2026-10-07 增补 4 份调研 + 3 份评审与设计；2026-10-08 持续增补，本日最新 1 份=arvis）。共 93 份 .md（不含本文件，find 实数 2026-10-08 复核：95 = 93 份资产 + capstone + 本文件）。此前头部写的分项口径（66+2+17+3=88）与实数漂移 5 份，分项归属核对归属"INDEX 预存计数漂移归属波"排队项，此处只对准总数。
+> 盘点日期：2026-10-06（2026-10-07 增补 4 份调研 + 3 份评审与设计；2026-10-08 持续增补：arvis 报告 + 语音三域收尾 16 份）。共 103 份 .md（不含本文件，find 实数 2026-10-08 复核：105 = 103 份资产 + capstone + 本文件）。此前头部写的分项口径（66+2+17+3=88）与实数漂移，分项归属核对归属"INDEX 预存计数漂移归属波"排队项，此处只对准总数。
 
 ## 导航：按问题找文档
 
@@ -19,6 +19,9 @@
 
 **想选听觉模型（SER / AED / AGC / 其余语音能力）？**
 
+- [speech-emotion/2026-09-landscape.md](speech-emotion/2026-09-landscape.md) — **SER 收敛终篇（2026-10-08 收尾波）**：46 条记录交叉 + 选型决策树（Q6 一体化 → SenseVoice-Small via sherpa-onnx）+ 落地见 06-adoption。
+- [audio-events/2026-09-landscape.md](audio-events/2026-09-landscape.md) — **AED 收敛终篇（2026-10-08 收尾波）**：交叉表 + 中文场景空白 + 常驻升级判定（"不做常驻；有条件做事件驱动"）+ 落地见 07-adoption（暂不引入）。
+- [auto-gain/2026-09-landscape.md](auto-gain/2026-09-landscape.md) — **AGC 收敛终篇（2026-10-08 收尾波）**："分层判定（闭环增益是 DSP，噪声场景是模型）" + 加在哪层决策表 + 落地见 07-adoption（不加）。
 - [2026-09-11-ser-model-landscape.md](2026-09-11-ser-model-landscape.md) — SER 选型地图：端侧/小/中/大/多模态五类全景，含参数量与延迟硬数字。
 - [2026-09-11-aed-agc-model-landscape.md](2026-09-11-aed-agc-model-landscape.md) — 听觉链路另两个能力的选型地图：AED 的 DCASE 低复杂度硬约束与 AGC 的 ML 化现状。
 - [2026-09-12-speech-model-frontiers.md](2026-09-12-speech-model-frontiers.md) — SER/AED/AGC 之外的六大语音领域（说话人/前端触发/编解码生成/副语言健康）51 篇逐篇跟踪。
@@ -102,7 +105,7 @@
 | [always-on-recording/hardware-power.md](always-on-recording/hardware-power.md) | 端侧硬件与功耗：把「常开」换算成 laos 能用的预算数字，并钉死 proot/Termux 架构下哪些做不到 | 功耗阶梯跨 4 个数量级："定制 ASIC 上亚微瓦（0.047–1 µW）→ 专用音频 NPU 上百微瓦（140 µW）→ 手机传感中枢/aDSP 上数毫瓦 → 应用处理器上数百毫瓦到数瓦"；电池基准 5000 mAh × 3.85 V = 19.25 Wh |
 | [always-on-recording/social-acceptance.md](always-on-recording/social-acceptance.md) | 社会接受度实证研究 + 2024–2026 争议事件时间线（不含法条，法条在业界篇 §7） | MeMic（CHI EA '24）在线对照 **N=168**：只录自己显著提升接受度；CHI'26 **N=525**：场景主效应 F=56.440, p<.001；旁观者"只有 6.1% 认为单靠 LED 就够" |
 
-## 三、模型地图支撑卷宗（speech-emotion/ 7 份、audio-events/ 1 份、auto-gain/ 1 份）
+## 三、模型地图支撑卷宗（speech-emotion/ 8 份、audio-events/ 8 份、auto-gain/ 8 份；2026-10-08 语音三域收尾波补齐 16 份）
 
 | 文件 | 一句话定位 | 关键数字 / 规模（抄原句） |
 |---|---|---|
@@ -113,8 +116,24 @@
 | [speech-emotion/04-edge-deployment.md](speech-emotion/04-edge-deployment.md) | 端侧部署轴：在 laos（Android + proot Ubuntu + Termux）语境下「端侧可部署」到底是什么意思 | "「端侧可行」在 laos 语境下不是一个布尔值，而是两个互斥的档位"（功耗阶梯只引用不重算） |
 | [speech-emotion/05-multimodal.md](speech-emotion/05-multimodal.md) | 多模态轴：laos（纯音频 → 触发后 ASR 蒸馏）要不要为情感识别加视觉通道 | 结论"**不引入。且是「默认永久不做」，不是「条件性暂缓」**" |
 | [speech-emotion/2026-09-landscape.md](speech-emotion/2026-09-landscape.md) | SER landscape 交叉与收敛篇：只做交叉不新增记录 | 数据基础"17 条 + 18 条 + 11 条 = **46 条记录**，全部通过 `scripts/check_ser_table.py` 校验" |
+| [speech-emotion/06-adoption.md](speech-emotion/06-adoption.md) | SER 落地篇（收尾 Task 1）：HY4 ear 通道采纳——引入 opt-in 通道 **sherpa**（一次前向同出文本+情感），classify_mood 保留零成本兜底（补充不替换） | "ONNX INT8 228–229 MB；10 s ≈70 ms（RTF≈7×10⁻³）"；不做什么三条（不声纹/非临床/视觉不进 HY4）；HY4 落地 e76e0b4（AOR_ASR_CHANNEL=sherpa + AOR_SHERPA_DIR，**152 全绿** 147+5） |
 | [audio-events/00-taxonomy-and-metrics.md](audio-events/00-taxonomy-and-metrics.md) | AED 组唯一口径来源：任务类型 / 规模分档 / 指标 / 记录 schema（沿用 SER 12 列骨架 + AudioSet 划分口径） | 校验器 `scripts/check_aed_table.py`（复用 `scripts/table_lint.py` 通用核心） |
+| [audio-events/01-small-models.md](audio-events/01-small-models.md) | AED 小型档（<30M）：DCASE Low-Complexity 硬约束赛道是端侧事实标准（19 条） | "128 KiB/30 MMACs 约束下的最高准确率一直在 **60.8% → 62.7% → 62.1% → 61.5%** 的窄带里，**没有趋势性提升**"；YAMNet mAP 0.306 (AudioSet AS-2M full, tagging)、edge "yes: TFLite Micro" 全档唯一 |
+| [audio-events/02-medium-models.md](audio-events/02-medium-models.md) | AED 中型档（30M–500M）：精度甜点（28 条；AS-20K 与 AS-2M full 全档区分，同模型双报主表记 full） | AST **0.459** / PaSST-S **0.471** (AudioSet AS-2M full, tagging, 单模型；集成 0.485/0.496)；"中型档是 AED 的精度甜点" |
+| [audio-events/03-large-models.md](audio-events/03-large-models.md) | AED 大型档（>500M）：开放词表代价（11 条；区分纯判别/端到端音频大模型/两段式三结构） | "DASM 的 **42.2 是 PSDS1**"（DESED 零样本，初始线索 0.422 核实成立）；"53.7 是 X-Ares 片段级准确率…**两者不可比**" |
+| [audio-events/05-edge-deployment.md](audio-events/05-edge-deployment.md) | AED 端侧轴：runtime/量化证据 + proot 现实核对（判定点：常驻 AED 在 B 档是否可接受） | 结论**不可接受**：B 档 400–1000 mW 常驻税 vs ≤25 mW 预算；DCASE 获奖系统"多数只有 PyTorch 权重"是端侧档真实缺口 |
+| [audio-events/06-multimodal.md](audio-events/06-multimodal.md) | AED 多模态轴：A+V 的真正增量是事件**定位**而非分类；数据集表含许可列 | 视觉不进 HY4（SER 05 立场在 AED 语境独立复核后**维持**：合规成本 + 与即焚互斥） |
+| [audio-events/2026-09-landscape.md](audio-events/2026-09-landscape.md) | AED 收敛篇：交叉表 + 中文场景空白（特有必写节）+ 常驻升级判定 + 选型决策树 + HTML 全景（docs/audio-event-models.html） | 记录 01(19)+02(28)+03(11)=**58 条**；判定"**不做'常驻事件级检测'；有条件做 = 事件驱动**"；中文空白"不得用英文基准结论冒充中文可用性" |
+| [audio-events/07-adoption.md](audio-events/07-adoption.md) | AED 落地篇（收尾 Task 8）：**暂不引入**——B 档维持 VAD 能量门（StreamingVAD，rec.py:233，−35 dBFS）；含对 landscape §4 推荐分支的推翻记录 | "只要 ① 不成立（当前 B 档）且 ② 未做中文微调，结论维持「暂不引入」"；不做什么三条（不全 521 类常驻/不视觉/不让 AED 单独触发留存）；HY4 不改代码 |
 | [auto-gain/00-taxonomy-and-metrics.md](auto-gain/00-taxonomy-and-metrics.md) | AGC 组唯一口径来源：作用点 / 控制对象 / 规模分档 / 自测口径 / 记录 schema | 分档"「经典 DSP 档 + 3 档 × 2 标记」"；校验器 `scripts/check_agc_table.py` |
+| [auto-gain/01-classical-dsp.md](auto-gain/01-classical-dsp.md) | AGC 经典 DSP 档（实际主力）+ **二次增益判定点**：Android AudioSource 是否默认施加 AGC 三层检索 | "结论（三选一，不许含糊）：**不确定 —— 需真机验证**"（给出扫频/白噪线性检验法）；WebRTC AGC2 两段结构（模拟段+数字段+内置噪声门）必收 |
+| [auto-gain/02-small-models.md](auto-gain/02-small-models.md) | AGC 小型神经档（<30M，10 条）：绝大多数只做降噪掩码**不做增益控制**（降噪≠增益，不得混记） | "唯一的真·联合 SE+AGC 工作是 SE-AGCNet…不进 schema 表（GC 4：查不到参数量就不入表）"；纯电平调整上神经方案"没有证据"（不许用噪声场景数字替代） |
+| [auto-gain/03-medium-models.md](auto-gain/03-medium-models.md) | AGC 中型档（30M–500M，4 条）：**该档稀疏**——无以增益控制为主业的模型，4 条全是相邻（语音分离） | "印证了 00 的预期假设（中型档稀疏，不得为凑数灌水），**未推翻**它"；QDPN 按来源规则剔除 |
+| [auto-gain/04-large-models.md](auto-gain/04-large-models.md) | AGC 大型/生成式档（6 条）：不是选型池，回答"生成式做增益/修复值不值"；参数量+NFE/RTF 双必填 | 幻觉风险：生成式会"补出"输入中不存在的语音内容 → 在"原音频即焚+只留文本"架构下=无来源记忆进转写（Task 16 引用为否决依据） |
+| [auto-gain/05-edge-deployment.md](auto-gain/05-edge-deployment.md) | AGC 端侧轴：三处作用点可得性表（aDSP 不可达/离线）+ 常驻增益功耗账 | "采集前（A 档）物理可达但 laos 工程不可达；采集后（B 档）是 laos 唯一能落的点，但被 400–1000 mW 常驻税笼罩" |
+| [auto-gain/06-multimodal.md](auto-gain/06-multimodal.md) | AGC 多模态象限判定：**非空——"AGC 多模态预期为空"被证伪**（≥3 条真实工作，检索词逐条留档） | "判定：非空"；物理直觉（增益是瞬时电平闭环，视觉不提供瞬时电平信息）被真实工作推翻，如实回写 |
+| [auto-gain/2026-09-landscape.md](auto-gain/2026-09-landscape.md) | AGC 收敛篇：交叉表 + "AGC 到底是不是模型问题"结论锚点 + 加在哪层决策表（含"什么都不加"行）+ 即焚兼容性 + HTML 全景（docs/auto-gain-models.html） | **"结论：分层 —— 闭环增益是 DSP 问题，噪声 + 音量不平衡场景是模型问题。不许骑墙。"**；增益只作用于送推理的副本，生成式不得用于产生记忆的链路 |
+| [auto-gain/07-adoption.md](auto-gain/07-adoption.md) | AGC 落地篇（收尾 Task 16）：**不加**——HY4 捕获链不动（二次增益不确定 + dbfs 原始电平语义必须保留） | 触发条件留档（"若未来切到 UNPROCESSED 或原生拿到未处理 PCM，重新评估"）；不做什么三条（不在采集前层做/不生成式/不作用于留存副本） |
 
 ## 四、OSS 普查支撑（oss/，3 份）
 

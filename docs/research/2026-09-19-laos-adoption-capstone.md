@@ -45,6 +45,7 @@
 | openWakeWord 管线＋LLM-Synth4KWS（[arXiv:2505.22995](https://arxiv.org/abs/2505.22995)） | 合成数据+易混词对比学习压误唤醒（AUC +3.7%、易混词 c-AUC +11.3%） | `AlwaysOnRec-ZCode/laos/kws.py` 包络 DTW（模板=纯 JSON 非声纹）+`AlwaysOnRec-ZCode/scripts/kws_confusables.py` 声母/韵母替换 | ●已落地（bbf5f5e） |
 | TIM-Net（ICASSP 2023，[GitHub](https://github.com/Jiaxin-Ye/TIM-Net_SER)） | ~0.1–0.5M 参数小型档精度之王；真机 34,671 参数/0.4MB，LPI <5mW 常驻 | App 内 ADSP LPAI 情感差分 → `/events` → `drv_events` | ●已落地（89b37ef 推理；drv_events 15c3186；闭环 dd753f7） |
 | 34.7µW KWS 专用 IC（MDPI Electronics 2023） | 待机 1.65µW / KWS 平均 34.7µW 功耗标尺 | 纯能量 VAD 应压个位数 µW 的预算口径（不实现硬件） | ○不做（硬件实现；仅作标尺参照，[hardware-power](always-on-recording/hardware-power.md)） |
+| AED 常驻事件级检测（收尾波 2026-10-08，[audio-events landscape](audio-events/2026-09-landscape.md) §3） | 漏斗第一段升级问题的正式裁决：常驻否决（B 档 400–1000 mW 税 vs ≤25 mW），有条件做=事件驱动二次确认 | HY4 维持 StreamingVAD 能量门为唯一第一道（[07-adoption](audio-events/07-adoption.md)：暂不引入+三触发条件，HY4 不改代码） | ●已消化（6803ccd） |
 
 ### B-② 触发捕获（存储档）
 
@@ -60,7 +61,7 @@
 
 | 来源 | 可取之处 | laos 落点 | 状态 |
 |---|---|---|---|
-| SenseVoice-Small（[HF](https://huggingface.co/FunAudioLLM/SenseVoiceSmall)） | **234M**、10s 音频 ~70ms；ASR+情感+事件一次推理 | `drv_ear` 本机/HTTP 双通道（`LAOS_ASR_CHANNEL`） | ●已落地（fa47b39） |
+| SenseVoice-Small（[HF](https://huggingface.co/FunAudioLLM/SenseVoiceSmall)） | **234M**、10s 音频 ~70ms；ASR+情感+事件一次推理 | `drv_ear` 本机/HTTP 双通道（`LAOS_ASR_CHANNEL`）；HY4 侧新增 sherpa 通道（`AOR_ASR_CHANNEL=sherpa`，一次前向同出文本+情感进 `emotions_model`，[SER 06-adoption](speech-emotion/06-adoption.md)） | ●已落地（fa47b39；HY4 e76e0b4，152 绿） |
 | Streaming Sortformer（IS25，[arXiv:2507.18446](https://arxiv.org/abs/2507.18446)） | 到达序说话人身份（AOSC），**不建长期声纹库**，PIPL 对齐 | "谁的日记"弱标签（4 说话人上限；跨天身份=开放课题） | ◐推荐 P1 |
 | DCASE'25 Task1 冠军（[结果页](https://dcase.community/challenge2025/task-low-complexity-acoustic-scene-classification-with-device-information-results)） | **61.47% @ 122,296 参数 / 29.4 MMACs**（约束 128K/30MMACs）；大教师→小学生蒸馏范式 | ADSP 白名单事件（哭声/警报/门铃→`/events`）；"环境理解"入口 | ◐推荐 P1 |
 | URGENT Challenge（[arXiv:2505.23212](https://arxiv.org/abs/2505.23212)） | 7 类失真统一评测；2024 冠军 Multistage USE（MOS 3.52） | journal"先增强再转写"的内部评测蓝图（SE 后 WER 必回归，配 [2501.02452](https://arxiv.org/abs/2501.02452) 桥接结论） | ◐推荐 P1 |
@@ -167,6 +168,8 @@
 | 声纹库/长期说话人画像 | 中国法下声纹=敏感个人信息（PIPL 28/29 条，需单独同意）；diarization 只做到达序弱标签 | 收敛版 §7、frontiers §2 |
 | 隐蔽采集四黑名单（秘密录音/看护无同意常录/声纹画像/永久云存默认） | 合规黑名单，主动放弃 | 收敛版 §7 |
 | Jev 端侧常驻调用 | 常驻每帧 0.5–1.5W 附加（否决）；仅离线/二级确认档（4.6mW 量级）可用 | [jev 落点](jev/05-laos-placement.md) |
+| AGC 捕获链改动（收尾波 2026-10-08） | 二次增益不确定（需真机验证）+ dbfs 原始电平语义必须保留——增益只许作用于送推理的副本，HY4 捕获链不动 | [AGC 07-adoption](auto-gain/07-adoption.md) |
+| 生成式修复进记忆链路 | 会"补出"输入中不存在的语音内容——即焚+只留文本架构下等于无来源记忆进转写与情绪判定 | [AGC landscape](auto-gain/2026-09-landscape.md) §4、[04-large](auto-gain/04-large-models.md) |
 
 ---
 
