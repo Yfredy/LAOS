@@ -5,7 +5,8 @@
 本模块做三件事——
   1. build_state(kernel)：把内核可观测面聚合成一个可 JSON 化的 dict
   2. http.server 起一个单页面板 + /api/state（2s 轮询，零依赖；
-     v3 骨架 mobile-first + 底部 tab + 暗亮主题 + PWA 四件套）
+     v3 四视图 mobile-first + 底部 tab + 暗亮主题 + PWA 四件套：
+     会话=审批卡+进程/信箱/运维、审计=chips 流、记忆=provenance、治理=sentinel）
   3. POST /api/* 交互端点：确认裁决 / 重启 / kill / operator 信箱 / 生成日记
 
 线程红线：HTTP 线程只允许 ① 读状态 ② 同步内核调用（kernel.kill /
@@ -150,6 +151,38 @@ def _diary_view(kernel) -> list[dict]:
     return out
 
 
+# ---- Task 4 渲染数据整形（纯函数：PAGE JS 的 Python 侧镜像，可单测）------
+def _chips_rows(state: dict, limit: int = 40) -> list[dict]:
+    """审计流 → chips 行：tool 名为 chip、ok 着色、时间与 pid 为辅文。
+
+    键名以 build_state 实际为准（audit = 末 60 条浅拷贝列表，取最后
+    limit 条）。非 syscall 事件（spawn/kill/admission/…）无 tool/ok 键：
+    chip 退化用事件名、ok 按中性 True（中性事件不误报 err）。err 取
+    result 前 80 字符（失败辅文）。
+    """
+    rows: list[dict] = []
+    for r in state.get("audit", [])[-limit:]:
+        ok = bool(r.get("ok")) if r.get("event") == "syscall" else True
+        rows.append({"tool": r.get("tool") or r.get("event") or "?",
+                     "ok": ok, "pid": r.get("pid"), "t": r.get("t"),
+                     "err": None if ok else str(r.get("result", ""))[:80]})
+    return rows
+
+
+def _memory_rows(state: dict) -> list[dict]:
+    """记忆行 + provenance 徽标（origin=user 亮显——人写行胜模型行）。
+
+    memories 键以 build_state 实际为准：{"stats":…, "recent":[…]}——行取
+    recent。origin 缺省 agent（老库行无 origin 字段时同视为模型行）。
+    """
+    out: list[dict] = []
+    for m in (state.get("memories") or {}).get("recent", []):
+        origin = m.get("origin", "agent")
+        out.append({"id": m.get("id"), "text": m.get("text"), "kind": m.get("kind"),
+                    "origin": origin, "user": origin == "user"})
+    return out
+
+
 def _sentinel_view(kernel) -> dict:
     """治理面投影：sentinel 未装配优雅降级（enabled:false + 空列表）。"""
     s = getattr(kernel, "sentinel", None)
@@ -217,13 +250,12 @@ def build_state(kernel) -> dict:
     }
 
 
-# ---- v3 骨架（mobile-first + 底部 tab + 暗亮主题 + PWA）--------------------
-# DOM 契约（Task 4 据此逐 view 填充）：
-#   nav#tabs 四个 data-view 按钮 × main 四个 <section data-view> 容器（v-*）；
-#   CSS 变量 --bg/--panel/--ink/--accent/--danger 于 :root 与 [data-theme=dark]；
-#   JS 地基：api() fetch 封装 + render(state) 主函数 + 2s 轮询 /api/state。
-# 旧 v0.3 面板的全部 JS（chips/panels/audit 去重/交互按钮）随骨架重写下线，
-# confirm/kill/msg/diary/restart 的 POST 端点不变，Task 4 的 chat/gov 视图补回。
+# ---- v3 四视图（mobile-first + 底部 tab + 暗亮主题 + PWA）------------------
+# DOM 契约：nav#tabs 四个 data-view 按钮 × main 四个 <section data-view>
+# 容器（内含 #v-chat/#v-audit/#v-memory/#v-gov 锚点 div）；
+# XSS 地基：动态内容一律 createElement/textContent 构造，PAGE 全程不做
+# HTML 字符串拼接；审计流 epoch|seq 复合键去重（设计 §6.2）+ 只追加不重建；
+# 交互五 POST（confirm/kill/msg/recv/diary/restart）全部回归于 chat 视图。
 PAGE = r"""<!doctype html>
 <html lang="zh-CN">
 <head>
@@ -260,10 +292,36 @@ nav#tabs button.on{color:var(--accent);font-weight:600}
   padding:12px;margin:10px 0}
 .chip{display:inline-block;background:color-mix(in srgb,var(--accent) 12%,transparent);
   color:var(--accent);border-radius:999px;padding:1px 10px;font-size:12px;margin:2px}
+.chip.ok{background:color-mix(in srgb,var(--ok) 14%,transparent);color:var(--ok)}
+.chip.err{background:color-mix(in srgb,var(--danger) 14%,transparent);color:var(--danger)}
 .muted{color:var(--muted)} .danger{color:var(--danger)}
+.badge{border:1px solid currentColor;border-radius:4px;padding:0 5px;font-size:11px;
+  margin:0 2px;white-space:nowrap}
 button.act{border:1px solid var(--line);background:var(--panel);color:var(--ink);
   border-radius:8px;padding:6px 12px;cursor:pointer}
 button.act.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+button.act.danger{color:var(--danger);border-color:var(--danger)}
+button.act.kill{padding:2px 8px;font-size:12px;color:var(--danger);
+  border-color:var(--danger)}
+button.act:disabled{opacity:.45;cursor:not-allowed}
+select,input{border:1px solid var(--line);background:var(--bg);color:var(--ink);
+  border-radius:8px;padding:6px 8px;font:inherit}
+input[type=number]{width:72px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}
+.row input[type=text]{flex:1;min-width:150px}
+#chat-pending .card{border-color:var(--danger)}
+.arow{padding:3px 0;border-bottom:1px dashed var(--line);white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
+.rrow{margin-right:12px;white-space:nowrap}
+table.tbl{width:100%;border-collapse:collapse}
+.tbl th,.tbl td{text-align:left;padding:3px 6px;border-bottom:1px solid var(--line);
+  white-space:nowrap}
+.tbl th{color:var(--muted);font-weight:500}
+#v-memory h3{margin:14px 0 4px;font-size:13px;color:var(--muted)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;
+  background:var(--ok);animation:pulse 1.2s ease-in-out infinite;vertical-align:middle}
+.dot.off{background:var(--muted);animation:none}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 </style>
 </head>
 <body>
@@ -274,14 +332,92 @@ button.act.primary{background:var(--accent);border-color:var(--accent);color:#ff
   <button data-view="gov">治理</button>
 </nav>
 <main>
-  <section data-view="chat" class="on"><h2>会话</h2><div id="v-chat"></div></section>
+  <section data-view="chat" class="on">
+    <h2>会话</h2>
+    <div id="v-chat">
+      <div id="chat-status"></div>
+      <div id="chat-pending"></div>
+      <div class="card"><b>operator 信箱</b>
+        <div class="row">
+          <select id="msg-to"></select>
+          <input id="msg-text" type="text" placeholder="以 operator 身份发给 agent…">
+          <button class="act primary" id="btn-msg-send">发送</button>
+        </div>
+        <div class="muted" id="msg-out">（发送 / 收取结果显示在这里）</div>
+        <div id="chat-recv"></div>
+      </div>
+      <div class="card"><b>进程表</b><div id="chat-procs"></div></div>
+      <div class="card"><b>运维</b>
+        <div class="row">
+          <select id="restart-confirm">
+            <option value="no">横幅裁决</option>
+            <option value="auto-yes">自动放行</option>
+          </select>
+          <input id="restart-budget" type="number" min="2" step="1" value="3"
+                 title="必须 > reserve(1)：低于会连 operator 都 spawn 不进">
+          <button class="act" id="btn-restart">↻ 重跑</button>
+          <span class="muted" id="restart-msg"></span>
+        </div>
+        <div class="row">
+          <button class="act" id="btn-diary">生成今日日记</button>
+          <span class="muted" id="diary-msg"></span>
+        </div>
+      </div>
+    </div>
+  </section>
   <section data-view="audit"><h2>审计</h2><div id="v-audit"></div></section>
   <section data-view="memory"><h2>记忆</h2><div id="v-memory"></div></section>
-  <section data-view="gov"><h2>治理</h2><div id="v-gov"></div></section>
+  <section data-view="gov">
+    <h2>治理</h2>
+    <div id="v-gov">
+      <div id="gov-gate"></div>
+      <div class="card"><b>风险模式</b>
+        <div class="row" id="gov-modes">
+          <button class="act" data-mode="ask">ask 询问</button>
+          <button class="act" data-mode="auto">auto 放行</button>
+          <button class="act" data-mode="strict">strict 严拒</button>
+        </div>
+        <span class="muted" id="gov-msg"></span>
+      </div>
+      <div class="card"><b>授权（grants）——逐条可撤销</b><div id="gov-grants"></div></div>
+      <div class="card"><b>污点进程（读后即污点）</b><div id="gov-taints"></div></div>
+      <div class="card"><b>工具面（只读）</b><div id="gov-tools"></div></div>
+    </div>
+  </section>
 </main>
 <script type="module">
 const $ = s => document.querySelector(s);
 const api = (p, o) => fetch(p, o).then(r => r.json());
+
+// XSS 地基：动态内容（进程名/审计结果/记忆文本/工具名）一律 DOM API +
+// textContent 构造节点，全页不做 HTML 字符串拼接。
+function el(tag, cls, text) {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text !== undefined && text !== null) n.textContent = String(text);
+  return n;
+}
+function chip(text, cls) { return el("span", cls ? "chip " + cls : "chip", text); }
+async function post(path, body) {
+  try {
+    const resp = await fetch(path, { method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body) });
+    return { ok: resp.ok, status: resp.status,
+             data: await resp.json().catch(() => ({})) };
+  } catch (e) { return { ok: false, status: 0, data: {} }; }
+}
+function refreshNow() {  // POST 后立即拉一次（不并入 2s 自排程循环，避免双循环）
+  api("/api/state").then(render).catch(() => {});
+}
+function fmtT(t) {
+  if (t == null) return "";
+  const d = new Date(Number(t) * 1000);
+  const p = (n, w) => String(n).padStart(w || 2, "0");
+  return p(d.getHours()) + ":" + p(d.getMinutes()) + ":" + p(d.getSeconds());
+}
+
+// ---- tab 切换 + 主题跟随（系统暗色偏好）----
 for (const b of document.querySelectorAll("nav#tabs button"))
   b.onclick = () => {
     for (const x of document.querySelectorAll("nav#tabs button, main section"))
@@ -289,12 +425,305 @@ for (const b of document.querySelectorAll("nav#tabs button"))
   };
 if (matchMedia("(prefers-color-scheme: dark)").matches)
   document.documentElement.dataset.theme = "dark";
+
+// ---- chat：状态 chips + 审批卡 + 进程表（kill）+ 信箱（msg.send/recv）----
+function renderStatus(s) {
+  const box = $("#chat-status");
+  box.replaceChildren();
+  const st = s.status || {};
+  box.append(chip("uptime " + (st.uptime_s ?? "-") + "s"),
+             chip("进程 " + (st.processes ?? "-")),
+             chip("驱动 " + (st.drivers ?? "-")),
+             chip("审计 " + (s.audit || []).length + " 条"));
+  const demo = chip(s.demo_done ? "demo 已结束" : "demo 运行中");
+  demo.prepend(el("span", s.demo_done ? "dot off" : "dot"));
+  box.append(demo);
+}
+
+// 审批卡四钮：拒绝 / 允许一次（不带 scope）/ 本会话 / 总是（后两者落 grant）。
+// 前端一律新键（cid/approved）且始终显式带 tool——不给服务端 "*" 兜底留门。
+const DECISIONS = [
+  { label: "拒绝", approved: false, cls: "danger" },
+  { label: "允许一次", approved: true, cls: "primary" },
+  { label: "本会话", approved: true, scope: "session" },
+  { label: "总是", approved: true, scope: "always" },
+];
+function renderPending(s) {
+  const box = $("#chat-pending");
+  box.replaceChildren();
+  for (const p of (s.pending_confirm || [])) {
+    const card = el("div", "card");
+    const head = el("div", "row");
+    head.append(chip(p.tool || "?"));
+    // reason 徽标 = sentinel 决策因（如 risk-mode/taint-egress）：为什么问你
+    if (p.reason) head.append(el("span", "badge danger", p.reason));
+    card.append(head);
+    if (p.message) card.append(el("div", "muted", p.message));
+    const acts = el("div", "row");
+    for (const d of DECISIONS) {
+      const b = el("button", "act " + (d.cls || ""), d.label);
+      b.onclick = async () => {
+        const body = { cid: p.id, approved: d.approved, tool: p.tool || "" };
+        if (d.scope) body.scope = d.scope;  // once 不带 scope
+        await post("/api/confirm", body);
+        refreshNow();
+      };
+      acts.append(b);
+    }
+    card.append(acts);
+    box.append(card);
+  }
+}
+
+function renderProcs(s) {
+  const box = $("#chat-procs");
+  box.replaceChildren();
+  const tbl = el("table", "tbl");
+  const hr = el("tr");
+  for (const h of ["pid", "name", "state", "caps", "sys", "deny", "risk", "✕"])
+    hr.append(el("th", null, h));
+  tbl.append(hr);
+  for (const p of (s.procs || [])) {
+    const dead = p.state === "zombie" || p.state === "killed";
+    const tr = el("tr");
+    const put = (v, cls) => tr.append(el("td", cls, v));
+    put(p.pid); put(p.name);
+    put(p.state, dead ? "danger" : "muted");
+    put((p.caps || []).join(" ") || "-");
+    put(p.stats ? p.stats.syscalls : 0);
+    put(p.stats ? p.stats.denied : 0);
+    put(p.stats ? p.stats.risk : 0);
+    const td = el("td");
+    if (!dead && p.pid !== s.operator_pid) {  // 人不可杀；已死进程无按钮
+      const b = el("button", "act kill", "✕");
+      b.onclick = async () => {
+        await post("/api/kill", { pid: p.pid });
+        refreshNow();
+      };
+      td.append(b);
+    }
+    tr.append(td);
+    tbl.append(tr);
+  }
+  box.append(tbl);
+}
+
+function renderMsgs(s) {
+  const sel = $("#msg-to");  // 下拉刷新但保选择；输入框/按钮不重建（不丢草稿/焦点）
+  const prev = sel.value;
+  sel.replaceChildren();
+  const live = (s.procs || []).filter(p =>
+    p.pid !== s.operator_pid && p.state !== "zombie" && p.state !== "killed");
+  for (const p of live) {
+    const o = el("option", null, p.pid + " " + p.name);
+    o.value = String(p.pid);
+    sel.append(o);
+  }
+  if (prev && live.some(p => String(p.pid) === prev)) sel.value = prev;
+  const box = $("#chat-recv");
+  box.replaceChildren();
+  for (const p of (s.procs || []).filter(p =>
+      p.state !== "zombie" && p.state !== "killed")) {
+    const row = el("span", "rrow");
+    row.append(el("b", null, p.pid), " " + p.name + " ");
+    const b = el("button", "act", "收取");
+    b.onclick = async () => {
+      const r = await post("/api/recv", { pid: p.pid });
+      $("#msg-out").textContent = r.ok
+        ? "pid=" + p.pid + " 信箱 → " + (r.data.text || "(empty)")
+        : "收取失败: " + (r.data.error || "HTTP " + r.status);
+      refreshNow();
+    };
+    row.append(b);
+    box.append(row);
+  }
+}
+
+// ---- audit：chips 流（复合键去重，最新在上，只追加不重建）----
+const auditSeen = new Map();  // key -> 已见（插入序 = 时间序：旧 -> 新）
+const AUDIT_MAX = 200;
+function renderAudit(s) {
+  const body = $("#v-audit");  // 固定容器：只 prepend 新行，绝不整版重建
+  for (const r of (s.audit || [])) {
+    // 去重键 = (轮转代 epoch, 单调序号 seq, t, tool) 复合键——seq 轮转换代
+    // 后复位归零（设计 §6.2），裸 seq 键会把新代同 seq 事件误判重复而丢弃
+    const key = r.epoch + "|" + r.seq + "|" + r.t + "|" + (r.tool || r.event || "");
+    if (auditSeen.has(key)) continue;
+    auditSeen.set(key, true);
+    body.prepend(auditRow(r));
+  }
+  while (body.children.length > AUDIT_MAX) body.removeChild(body.lastChild);
+  while (auditSeen.size > AUDIT_MAX) auditSeen.delete(auditSeen.keys().next().value);
+}
+function auditRow(r) {
+  const isSys = r.event === "syscall";
+  const ok = isSys ? !!r.ok : true;  // 非 syscall 事件中性着色（不误报 err）
+  const row = el("div", "arow");
+  row.append(el("span", "muted", fmtT(r.t)), " ");
+  row.append(chip(r.tool || r.event || "?", ok ? "ok" : "err"));
+  if (r.pid != null) row.append(" ", el("span", "muted", "pid " + r.pid));
+  if (!ok && r.result != null && String(r.result) !== "")
+    row.append(" ", el("span", "danger", "→ " + String(r.result).slice(0, 80)));
+  return row;
+}
+function resetAuditStream() {  // restart：新内核 (epoch,seq) 重计——账本必须清空
+  auditSeen.clear();
+  $("#v-audit").replaceChildren();
+}
+
+// ---- memory：provenance 徽标（人写亮显）+ 日记列表 ----
+function renderMemory(s) {
+  const box = $("#v-memory");
+  box.replaceChildren();
+  const m = s.memories || {};
+  const st = m.stats || {};
+  const head = el("div");
+  head.append(el("span", "muted", "total "), el("b", null, st.total || 0), " ");
+  for (const [k, v] of Object.entries(st.by_kind || {})) head.append(chip(k + " " + v));
+  box.append(head);
+  const rows = m.recent || [];
+  if (!rows.length) box.append(el("div", "muted", "（记忆库还是空的）"));
+  for (const r of rows) {
+    const origin = r.origin || "agent";
+    const row = el("div", "arow");
+    if (r.kind) row.append(el("span", "badge muted", r.kind), " ");
+    // origin=user 亮显（人写行胜模型行）；agent 行灰徽标
+    row.append(origin === "user" ? chip("人写") : el("span", "badge muted", origin));
+    row.append(" #" + r.id + " ", el("span", null, String(r.text ?? "").slice(0, 60)));
+    if (r.tags && r.tags.length)
+      row.append(" ", el("span", "muted", "[" + r.tags.join(",") + "]"));
+    box.append(row);
+  }
+  box.append(el("h3", null, "日记"));
+  const diary = s.diary || [];
+  if (!diary.length)
+    box.append(el("div", "muted", "（还没有日记——会话页点「生成今日日记」）"));
+  for (const d of diary) {
+    const row = el("div", "arow");
+    row.append(el("b", null, d.name), " ", el("span", "muted", d.title || ""));
+    box.append(row);
+  }
+}
+
+// ---- gov：enabled 门控 + mode 三选一 + grants 逐条撤销 + 污点 chips ----
+function renderGov(s) {
+  const sen = s.sentinel || {};
+  const on = !!sen.enabled;
+  const gate = $("#gov-gate");
+  gate.replaceChildren();
+  if (!on) {
+    const c = el("div", "card");
+    c.textContent = "sentinel 未装配——治理面只读（装配后可设模式 / 撤销授权）";
+    gate.append(c);
+  } else {
+    gate.append(el("div", "muted", "sentinel 已装配 · mode=" + sen.mode));
+  }
+  for (const b of document.querySelectorAll("#gov-modes button")) {
+    b.disabled = !on;  // 未装配禁写
+    b.classList.toggle("primary", on && b.dataset.mode === sen.mode);
+  }
+  const gbox = $("#gov-grants");
+  gbox.replaceChildren();
+  const grants = sen.grants || [];
+  if (!grants.length) gbox.append(el("span", "muted", "（无授权）"));
+  else {
+    const tbl = el("table", "tbl");
+    const hr = el("tr");
+    for (const h of ["gid", "tool_glob", "target", "scope", ""])
+      hr.append(el("th", null, h));
+    tbl.append(hr);
+    for (const g of grants) {
+      const tr = el("tr");
+      tr.append(el("td", null, g.gid), el("td", null, g.tool_glob),
+                el("td", "muted", g.target ?? "-"), el("td", null, g.scope));
+      const td = el("td");
+      const b = el("button", "act danger", "撤销");
+      b.disabled = !on;
+      b.onclick = async () => {
+        await post("/api/sentinel", { action: "revoke", gid: g.gid });
+        refreshNow();
+      };
+      td.append(b);
+      tr.append(td);
+      tbl.append(tr);
+    }
+    gbox.append(tbl);
+  }
+  const tbox = $("#gov-taints");
+  tbox.replaceChildren();
+  const taints = sen.tainted_pids || [];
+  if (!taints.length) tbox.append(el("span", "muted", "（无污点进程）"));
+  for (const pid of taints) tbox.append(chip("pid " + pid, "err"));
+  const tools = $("#gov-tools");
+  tools.replaceChildren();
+  tools.append(el("div", "muted", "隐私读（读后即污点）"));
+  for (const t of (sen.private_tools || [])) tools.append(chip(t));
+  tools.append(el("div", "muted", "外发面"));
+  for (const t of (sen.egress_tools || [])) tools.append(chip(t, "err"));
+}
+
+function render(s) {
+  renderStatus(s);
+  renderPending(s);
+  renderProcs(s);
+  renderMsgs(s);
+  renderAudit(s);
+  renderMemory(s);
+  renderGov(s);
+}
+
+// ---- 交互接线：msg.send / restart / diary / set_mode --------------------
+async function sendMsg() {
+  const to = Number($("#msg-to").value);
+  const text = $("#msg-text").value.trim();
+  if (!to || !text) return;
+  const r = await post("/api/msg", { to_pid: to, text: text });
+  const out = $("#msg-out");
+  if (!r.ok) out.textContent = "发送失败: " + (r.data.error || "HTTP " + r.status);
+  else if (r.data.ok) { out.textContent = "已发送 → pid=" + to; $("#msg-text").value = ""; }
+  else out.textContent = "内核拒绝: " + (r.data.text || "");
+  refreshNow();
+}
+async function restartDemo() {
+  const body = { confirm: $("#restart-confirm").value,
+                 risk_budget: Number($("#restart-budget").value || 3) };
+  $("#restart-msg").textContent = "重启中…";
+  const r = await post("/api/restart", body);
+  if (!r.ok) {
+    $("#restart-msg").textContent = "失败: " + (r.data.error || "HTTP " + r.status);
+    return;
+  }
+  $("#restart-msg").textContent = "已重启，审计流从头滚动";
+  resetAuditStream();
+  refreshNow();
+}
+async function genDiary() {
+  $("#diary-msg").textContent = "生成中…";
+  const r = await post("/api/diary", {});
+  $("#diary-msg").textContent = (r.ok && r.data.ok)
+    ? "已写入 " + (r.data.path || "")
+    : "失败: " + (r.data.error || "HTTP " + r.status);
+  refreshNow();
+}
+$("#btn-msg-send").onclick = sendMsg;
+$("#btn-restart").onclick = restartDemo;
+$("#btn-diary").onclick = genDiary;
+for (const b of document.querySelectorAll("#gov-modes button"))
+  b.onclick = async () => {
+    const r = await post("/api/sentinel",
+                         { action: "set_mode", mode: b.dataset.mode });
+    $("#gov-msg").textContent = r.ok
+      ? "" : "失败: " + (r.data.error || "HTTP " + r.status);
+    refreshNow();
+  };
+
+// 2s 轮询：失败也排下一轮——fetch/渲染任一故障都不得杀死面板循环
 async function tick() {
-  const s = await api("/api/state");
-  render(s);
+  try {
+    render(await api("/api/state"));
+  } catch (e) { /* 暂不可达/渲染故障：吞掉，下一轮再试 */ }
   setTimeout(tick, 2000);
 }
-function render(s) { /* Task 4 逐 view 填充 */ }
 tick();
 </script>
 </body></html>

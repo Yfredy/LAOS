@@ -239,6 +239,25 @@ class TestHttp(unittest.TestCase):
         self.assertIn("manifest.webmanifest", body)   # PWA manifest 挂载
         self.assertIn("--accent", body)               # CSS 变量主题（暗/亮）
 
+    def test_index_has_four_view_render_markers(self):
+        """Task 4 四视图关键标记：审批卡四钮文案 / 治理门控未装配态 /
+        记忆 provenance 人写标注 / XSS 地基（禁 innerHTML）/ tick 自愈。"""
+        with urllib.request.urlopen(f"http://127.0.0.1:{self.port}/") as resp:
+            body = resp.read().decode("utf-8")
+        # 审批卡四钮：拒绝 / 允许一次（不带 scope）/ 本会话 / 总是（带 scope）
+        for label in ("拒绝", "允许一次", "本会话", "总是"):
+            self.assertIn(label, body)
+        self.assertIn("/api/confirm", body)
+        # 治理门控：未装配态文本（禁写控件由 JS disabled 门控）
+        self.assertIn("未装配", body)
+        self.assertIn("/api/sentinel", body)
+        # 记忆 provenance：人写亮显中文标注
+        self.assertIn("人写", body)
+        # XSS 地基：动态内容一律 DOM API/textContent 构造，禁止 innerHTML
+        self.assertNotIn("innerHTML", body)
+        # T3 移交必修：tick 失败也排下一轮（自排程语句必须在 try/catch 外）
+        self.assertIn("setTimeout(tick", body)
+
     def test_manifest_and_icon_served(self):
         # PWA 四件套之 manifest：固定 JSON、内联 SVG 图标（无二进制资产）
         with urllib.request.urlopen(
@@ -516,6 +535,70 @@ class TestInteractivity(unittest.TestCase):
         self.assertIn("pending_confirm", state)
 
 
+class TestRenderData(unittest.TestCase):
+    """Task 4 渲染数据整形（纯函数）：审计 chips 行 / 记忆 provenance 行。
+
+    PAGE JS 是这些纯函数的浏览器侧镜像——键名/形状在此钉死，前端漂移
+    会被 DOM 标记断言（见 TestHttp）与人工验收捕获。
+    """
+
+    def test_chips_rows_shape_and_err_truncation(self):
+        state = {"audit": [
+            {"event": "syscall", "tool": "fs.read", "ok": True, "result": "3 B",
+             "pid": 3, "t": 1.0, "epoch": 0, "seq": 0},
+            {"event": "syscall", "tool": "proc.exec", "ok": False,
+             "result": "E" * 100, "pid": 4, "t": 2.0, "epoch": 0, "seq": 1},
+        ]}
+        rows = laosweb._chips_rows(state)
+        self.assertEqual(rows[0], {"tool": "fs.read", "ok": True, "pid": 3,
+                                   "t": 1.0, "err": None})
+        self.assertFalse(rows[1]["ok"])
+        self.assertEqual(rows[1]["err"], "E" * 80, "err 辅文截断到 80 字符")
+
+    def test_chips_rows_limit_takes_latest(self):
+        state = {"audit": [
+            {"event": "syscall", "tool": f"t{i}", "ok": True, "t": float(i),
+             "epoch": 0, "seq": i} for i in range(50)]}
+        rows = laosweb._chips_rows(state, limit=40)
+        self.assertEqual(len(rows), 40)
+        self.assertEqual([r["tool"] for r in (rows[0], rows[-1])], ["t10", "t49"],
+                         "取最后 limit 条（最新在尾）")
+
+    def test_chips_rows_non_syscall_falls_back_to_event(self):
+        """非 syscall 事件（spawn/kill/admission/…）无 tool/ok 键：chip 用
+        事件名、ok 中性 True——中性事件不得被误报成 err。"""
+        rows = laosweb._chips_rows({"audit": [
+            {"event": "spawn", "name": "a", "pid": 2, "t": 1.0,
+             "epoch": 0, "seq": 0}]})
+        self.assertEqual(rows[0]["tool"], "spawn")
+        self.assertTrue(rows[0]["ok"])
+        self.assertIsNone(rows[0]["err"])
+
+    def test_chips_rows_empty_and_missing_audit(self):
+        self.assertEqual(laosweb._chips_rows({}), [])
+        self.assertEqual(laosweb._chips_rows({"audit": []}), [])
+
+    def test_memory_rows_origin_default_and_user_highlight(self):
+        """memories 键以 build_state 实际为准（{"stats","recent"}）：行取
+        recent；origin=user 是亮显位，缺省（老库行）按 agent。"""
+        state = {"memories": {"stats": {"total": 2}, "recent": [
+            {"id": 1, "kind": "fact", "text": "人写的", "origin": "user"},
+            {"id": 2, "kind": "episodic", "text": "模型写的"},  # 无 origin
+        ]}}
+        rows = laosweb._memory_rows(state)
+        self.assertEqual(rows[0]["id"], 1)
+        self.assertEqual(rows[0]["origin"], "user")
+        self.assertTrue(rows[0]["user"], "origin=user 是亮显位（人写胜模型）")
+        self.assertEqual(rows[1]["origin"], "agent", "origin 缺省 agent")
+        self.assertFalse(rows[1]["user"])
+        self.assertEqual(rows[1]["text"], "模型写的")
+        self.assertEqual(rows[1]["kind"], "episodic")
+
+    def test_memory_rows_empty_and_missing(self):
+        self.assertEqual(laosweb._memory_rows({}), [])
+        self.assertEqual(laosweb._memory_rows({"memories": {}}), [])
+
+
 class TestRotationSafeAuditKey(unittest.TestCase):
     """设计 §6.2：audit.jsonl 轮转换代后 seq 复位归零。
 
@@ -619,6 +702,13 @@ class TestRotationSafeAuditKey(unittest.TestCase):
         重复的缺陷键）不得在新 PAGE 里复活。"""
         self.assertNotIn("const key = r.seq + '|'", laosweb.PAGE,
                          "裸 seq 去重键不得残留（轮转后误判重复）")
+
+    def test_page_uses_composite_epoch_seq_dedup_key(self):
+        """Task 4 恢复正向断言：PAGE 审计流去重键必须是 (epoch, seq, t,
+        tool) 复合键（与上条负面断言配套）——seq 轮转复位归零后裸 seq 键
+        会把新代同 seq 事件误判重复而丢弃。"""
+        self.assertIn('r.epoch + "|" + r.seq', laosweb.PAGE,
+                      "审计流去重键必须以 epoch|seq 复合键开头")
 
     # ---- 终审 T3 修复波：rotate 异常恢复 + mode='a' 跨 boot 键语义 ----
 
