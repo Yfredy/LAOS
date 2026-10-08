@@ -472,7 +472,7 @@ class TestKernelSentinelWiring(unittest.TestCase):
         self.assertTrue(res.ok, res.error)
         self.assertEqual(confirms, [])            # grant 覆盖，不再问人
         rows = [r for r in k.audit.records if r.get("event") == "sentinel"]
-        self.assertEqual(rows[-1]["grant"], s.grants)  # 审计带 grant gid（见 Step 3）
+        self.assertIsNotNone(rows[-1]["grant"])       # 审计带 grant gid（见 Step 3）
 
     def test_private_read_taints_then_egress_asks_even_auto(self):
         s = Sentinel(SentinelConfig(mode="auto"))
@@ -495,8 +495,6 @@ class TestKernelSentinelWiring(unittest.TestCase):
         k.kill(pcb.pid)
         self.assertFalse(s.is_tainted(pcb.pid))
 ```
-
-（注：`rows[-1]["grant"]` 断言在 Step 3 实现后语义为 grant gid int 或 None——测试写成：`self.assertIsNotNone(rows[-1]["grant"])`。）
 
 - [ ] **Step 2: 跑红**
 
@@ -534,33 +532,8 @@ Expected: ERROR（AgentKernel 不接受 sentinel 参数）。
                 return self._deny(pcb, tool, args, started,
                                   f"EDENIED: sentinel {decision.reason}")
             if decision.action == "ask":
-                grant_gid = self.sentinel.grants.covers(tool)
-                scopes_ok = (grant_gid is not None
-                             and (decision.grant_scoses
-                                  if False else decision.grant_scopes)
-                             and grant_gid is not None)
-                # 终审警告只认 once 档：covers 已消费 once；session/always 命中
-                # 则要求该档位在 grant_scopes 内
-                if grant_gid is None and "session" in decision.grant_scopes:
-                    pass  # covers 返回 None 即无人覆盖
-                if (grant_gid is None
-                        or ("session" not in decision.grant_scopes
-                            and "always" not in decision.grant_scopes)):
-                    if not self.confirm({"tool": tool, "args": args,
-                                         "sentinel": decision.reason}):
-                        return self._deny(
-                            pcb, tool, args, started,
-                            "EACCES: sentinel requires confirmation")
-            self.audit.write({"t": time.time(), "event": "sentinel",
-                              "pid": pid, "tool": tool,
-                              "decision": decision.action,
-                              "reason": decision.reason, "grant": grant_gid})
-```
-
-（实现时把上面 ask 分支化简为等价的清晰版本：先 `grant_gid = self.sentinel.grants.covers(tool) if "session" in decision.grant_scopes or "always" in decision.grant_scopes else (self.sentinel.grants.covers(tool) and None)`——终审警告（grant_scopes 只含 once）时**不要**用 covers 消费 once 之外还要 confirm 的语义见测试：warnings 场景 grant 不可用，恒走 confirm。最简正确实现：
-
-```python
-            if decision.action == "ask":
+                # grants 只对普通 ask 生效；终审警告（grant_scopes 仅含 once
+                # 档）恒走人类 confirm——nanoMuse "warnings 永不被 grant 覆盖"
                 grant_gid = None
                 if set(decision.grant_scopes) & {"session", "always"}:
                     grant_gid = self.sentinel.grants.covers(tool)
@@ -569,6 +542,10 @@ Expected: ERROR（AgentKernel 不接受 sentinel 参数）。
                          "sentinel": decision.reason}):
                     return self._deny(pcb, tool, args, started,
                                       "EACCES: sentinel requires confirmation")
+            self.audit.write({"t": time.time(), "event": "sentinel",
+                              "pid": pid, "tool": tool,
+                              "decision": decision.action,
+                              "reason": decision.reason, "grant": grant_gid})
 ```
 
 ③ 成功路径 taint 标记 + kill 清污点：
@@ -764,5 +741,5 @@ git commit -m "docs(research): nanomuse 学习报告登记 + CHANGELOG v0.28.0"
 ## Self-Review 记录
 
 1. **Spec 覆盖**：裁决 #1（sentinel+taint+grants）= Task 1/2/3；裁决 #2（provenance）= Task 4；登记发版 = Task 5；裁决 #5/#6（不做项）无任务对应（正确）。
-2. **占位符扫描**：无 TBD；Task 3 Step 3 的第一版 ask 分支草稿刻意保留了"化简为等价清晰版本"的指引——以最简正确实现（第二段代码）为准，测试断言以 Step 1 为准（grant gid 非空断言）。
+2. **占位符扫描**：无 TBD/TODO；每个代码步骤均为唯一定稿代码（Task 3 ask 分支：grants 仅对含 session/always 档的 Decision 生效，终审警告恒走 confirm）。
 3. **类型一致性**：Assessment/Decision/SentinelConfig 字段在 Task 1 定义、Task 3 按同名使用；GrantStore.covers 返回 int|None 三处一致；remember 新参数默认值保证旧调用零变化（self_check/jitmem 旧测试不破）。
