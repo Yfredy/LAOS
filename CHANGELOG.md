@@ -5,6 +5,12 @@
 
 ## [Unreleased]
 
+## [v0.28.0] - 2026-10-08
+
+### Added
+- feat(laos): **Sentinel 动作闸波次**（nanoMuse 采纳，docs/research/2026-10-08-nanomuse.md §4/§5 裁决 #1/#2；GPL 红线=只学设计零代码拷贝）。① `laos/sentinel.py` **判定核六级有序动作闸**：Assessment(tool, risk, reversible, reads_private, egress)→Decision(action, reason, grant_scopes)，判定序 ①deny_tools 硬拒→②显式规则（tool_glob，allow/ask/deny——唯一能放行污点出站与终审警告的通道）→③always_allow/always_ask 列表→④风险×模式（auto 全放/strict 非 low 问/ask 默认：不可逆或高风险问）→⑤taint 升级（污点 pid 的出站工具强制 ask，auto 也生效、永不回退）→⑥终审警告（不可逆∧高风险→ask 且仅 once 档，auto 除外）。② **GrantStore scoped 授权**：add(tool_glob, target, scope∈{once,session,always}) 非法档 ValueError＋covers 消费式命中（once 命中即焚、target 绑定、查询缺 target 视通配）＋revoke/list_grants，单锁线程安全；**TaintTracker** 并入 Sentinel：mark_private_read/is_tainted/untaint，污点只涨不清、per-pid 隔离、唯一清除通道=进程退出（kernel kill 路径）。③ **kernel opt-in 接线**：`AgentKernel(..., sentinel=None)` 缺省**字节级不变**（四钩子全守护、零 sentinel 审计行，test_default_none_is_byte_compatible 钉死）；ask 走既有 confirm 回调、grants 命中 session/always 档免问（⑤taint-egress/⑥终审的仅 once 档恒问人类）、deny→EDENIED；装 sentinel 的 syscall 各落一条 `event:"sentinel"` 审计（pid/tool/decision/reason/grant）；mem.recall/mem.curate 成功即置污点、kill 清污。④ **记忆 provenance**：`remember(origin="agent", origin_pid=None)` 新参缺省零变化（syscall 落库记忆可追溯 pid，旧行缺键读作 agent；bin/laosd.py JevGatedMemory 纯透传、bin/diary.py 自记行 origin="diary"）；JitMem curate **用户行豁免**：去重循环用户行神圣（不作为被去重对象、同文 agent 行让位）＋预算循环豁免（计入 entries 不计 used/budget_dropped）——人写一行胜模型任何行。**实施裁决四要点**（brief 逐字实现与逐字测试矛盾处，均经独立审查实跑证实）：⑥终审原落位在④条件真子集、永不可达→**双修正**（④加 not-terminal 守卫＋⑥加 mode!="auto" 门控，六级文档序不变）；⑤taint-egress 的 grant_scopes 收敛为**仅 once 档**（session/always 持久授权不得压制污点出站“永不回退”，唯一豁免=②显式 allow 规则）；**egress→不可逆仅喂 Assessment**（闸门内 reversible=spec.reversible and not egress，spec.reversible 与既有风险记账口径零漂移）；**用户行优先预排序**（稳定排序把用户行排到去重循环前部；无 origin 的既有 jitmem 23 例排序键全同、顺序不变零回归）。26 例新增测试（T1 10＋T2 7＋T3 6＋T4 3），全套 **973 全绿**（947→973，OK skipped=5；v0.26.1 段所记 946 系既往记账偏差——其后至本波前无任何 tests/ 提交，波前实跑基线 947，本段起锚定实跑数）
+- docs(research): nanoMuse 学习报告（INDEX 87 份）——论文 arXiv:2610.08699＋仓库 33 次 GitHub API 源码直读：Meta Muse 开源对照物（GPL-3.0）的 Sentinel 动作闸/taint/scoped grants/记忆双线全拆解；自认“policy 边界非特权边界”=laos caps+seccomp 差异化定位的反证，Muse 生产复刻段（每人一台 Linux VM＋seccomp＋kernel taint＋Sentinel 唯一权限权威）为 laos 内核治理叙事的商业印证（详见该报告条目）
+
 ## [v0.27.0] - 2026-10-08
 
 ### Added
