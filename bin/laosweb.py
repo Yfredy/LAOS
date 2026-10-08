@@ -146,6 +146,38 @@ def _diary_view(kernel) -> list[dict]:
     return out
 
 
+def _sentinel_view(kernel) -> dict:
+    """治理面投影：sentinel 未装配优雅降级（enabled:false + 空列表）。"""
+    s = getattr(kernel, "sentinel", None)
+    if s is None:
+        return {"enabled": False, "mode": None, "private_tools": [],
+                "egress_tools": [], "grants": [], "tainted_pids": []}
+    return {"enabled": True, "mode": s.cfg.mode,
+            "private_tools": list(s.cfg.private_tools),
+            "egress_tools": list(s.cfg.egress_tools),
+            "grants": s.grants.list_grants(),
+            "tainted_pids": sorted(s._tainted)}
+
+
+def _sentinel_post(kernel, body: dict) -> dict:
+    """治理面写入：grant/revoke/set_mode。未知 action 以 KeyError 抛出，
+    由 Handler 层转 400（与 _handle_confirm 的错误风格一致）。"""
+    s = getattr(kernel, "sentinel", None)
+    if s is None:
+        raise KeyError("sentinel not assembled")
+    action = body["action"]
+    if action == "grant":
+        gid = s.grants.add(str(body["tool_glob"]), body.get("target"),
+                           str(body.get("scope", "once")))
+        return {"ok": True, "gid": gid}
+    if action == "revoke":
+        return {"ok": s.grants.revoke(int(body["gid"]))}
+    if action == "set_mode":
+        s.cfg.mode = str(body["mode"])
+        return {"ok": True}
+    raise KeyError(f"unknown action {action!r}")
+
+
 def build_state(kernel) -> dict:
     """聚合内核可观测面为单个 dict（纯函数，可直接单测 / JSON 序列化）。"""
     # snapshot 在 agent 全部 retire 后为空，回退到内核留存的末次派发视图
@@ -176,6 +208,8 @@ def build_state(kernel) -> dict:
         # 记忆与日记（episodic memory 的可观测面）
         "memories": _memories_view(kernel),
         "diary": _diary_view(kernel),
+        # 治理面（sentinel 的可观测投影；未装配时优雅降级）
+        "sentinel": _sentinel_view(kernel),
     }
 
 
@@ -612,6 +646,12 @@ class Handler(http.server.BaseHTTPRequestHandler):
                 return
             self._send(200, payload.encode("utf-8"),
                        "application/json; charset=utf-8")
+        elif path == "/api/sentinel":
+            # 治理面投影：sentinel 未装配也 200（enabled:false 优雅降级）
+            self._send(200,
+                       json.dumps(_sentinel_view(get_kernel()),
+                                  ensure_ascii=False).encode("utf-8"),
+                       "application/json; charset=utf-8")
         else:
             self._send(404, b"not found", "text/plain; charset=utf-8")
 
@@ -752,6 +792,22 @@ def _handle_diary(body: dict) -> tuple[int, dict]:
                  "summary": result["summary"]}
 
 
+def _handle_sentinel(body: dict) -> tuple[int, dict]:
+    """POST /api/sentinel {"action": "grant"|"revoke"|"set_mode", ...}。
+
+    纯同步内存读写（GrantStore 自带锁），无 MCP 驱动、无 asyncio，HTTP
+    线程直调安全。未知 action / sentinel 未装配（KeyError）、坏参数
+    （ValueError）均转 400——与 _handle_confirm 的错误风格一致。
+    """
+    kernel = get_kernel()
+    if kernel is None:
+        return 503, {"error": "kernel not available"}
+    try:
+        return 200, _sentinel_post(kernel, body)
+    except (KeyError, ValueError) as exc:
+        return 400, {"ok": False, "error": str(exc)}
+
+
 def _handle_restart(body: dict) -> tuple[int, dict]:
     """POST /api/restart {"confirm", "risk_budget"}：换参数重 boot 内核。
 
@@ -807,6 +863,7 @@ _POST_ROUTES = {
     "/api/recv": _handle_recv,
     "/api/restart": _handle_restart,
     "/api/diary": _handle_diary,
+    "/api/sentinel": _handle_sentinel,
 }
 
 

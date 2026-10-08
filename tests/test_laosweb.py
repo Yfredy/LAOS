@@ -664,5 +664,48 @@ class TestRotationSafeAuditKey(unittest.TestCase):
         self.assertEqual(keys, [(1, 0), (2, 0)], "两代同 seq 不撞键")
 
 
+class TestSentinelApi(KernelTestCase):
+    """治理 API 面：sentinel 未装配优雅降级；装配后 grants/taints/mode 可读写。"""
+
+    def _boot_with_sentinel(self):
+        from laos.sentinel import Sentinel, SentinelConfig
+        self.kernel.sentinel = Sentinel(SentinelConfig(mode="ask"))
+        self.kernel.sentinel.grants.add("msg.send", scope="session")
+        self.kernel.sentinel.mark_private_read(1001)
+        return self.kernel.sentinel
+
+    def test_disabled_when_not_assembled(self):
+        from laosweb import _sentinel_view
+        self.assertEqual(_sentinel_view(self.kernel),
+                         {"enabled": False, "mode": None, "private_tools": [],
+                          "egress_tools": [], "grants": [], "tainted_pids": []})
+
+    def test_view_projects_grants_and_taints(self):
+        self._boot_with_sentinel()
+        from laosweb import _sentinel_view
+        v = _sentinel_view(self.kernel)
+        self.assertTrue(v["enabled"])
+        self.assertEqual(v["mode"], "ask")
+        self.assertEqual(v["grants"][0]["tool_glob"], "msg.send")
+        self.assertIn(1001, v["tainted_pids"])
+
+    def test_post_grant_revoke_set_mode(self):
+        s = self._boot_with_sentinel()
+        from laosweb import _sentinel_post
+        r = _sentinel_post(self.kernel, {"action": "grant", "tool_glob": "fs.*",
+                                         "target": None, "scope": "always"})
+        self.assertTrue(r["ok"]); self.assertIsInstance(r["gid"], int)
+        self.assertTrue(_sentinel_post(self.kernel, {"action": "revoke",
+                                                     "gid": r["gid"]})["ok"])
+        _sentinel_post(self.kernel, {"action": "set_mode", "mode": "auto"})
+        self.assertEqual(s.cfg.mode, "auto")
+
+    def test_post_unknown_action_400(self):
+        self._boot_with_sentinel()
+        from laosweb import _sentinel_post
+        with self.assertRaises(KeyError):
+            _sentinel_post(self.kernel, {"action": "nope"})
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
