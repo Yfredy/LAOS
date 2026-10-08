@@ -109,7 +109,7 @@ laos/
 ├── tests/                   974 项回归测试（21 个文件；真录音/真 ASR 用例在本机实测通过）
 ├── docs/                    研究与文档：论文调研、真机 runbook、面板教程、实施计划
 ├── var/                     运行期产物：audit.jsonl / branches/ / swap/ / memory.jsonl / diary/
-└── outputs/                 模型产物：分离音轨 / 基准 JSON
+└── corpus/                  语料库：venue_expansion/（论文语料）+ audio-eval/（音频评测产物：分离音轨 / 基准 JSON）
 ```
 
 ---

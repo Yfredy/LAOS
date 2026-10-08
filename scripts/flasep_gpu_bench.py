@@ -6,7 +6,7 @@
         scripts/flasep_gpu_bench.py
 
 对比 CPU / GPU 推理延迟；长音频（15s/30s 合成混合语音）验证线性复杂度；
-确认推理真实落在 GPU（显存采样）；分离产物写 outputs/audio/gpu_*.wav。
+确认推理真实落在 GPU（显存采样）；分离产物写 corpus/audio-eval/audio/gpu_*.wav。
 """
 
 import json
@@ -28,7 +28,7 @@ from modelscope.pipelines import pipeline
 from modelscope.utils.constant import Tasks
 
 MODEL = "iic/speech_flatsepreformer_separation_temporal_8k_base_libri2mix100"
-OUT = REPO / "outputs" / "audio"
+OUT = REPO / "corpus" / "audio-eval" / "audio"
 
 SAMPLE_URLS = (
     ("https://modelscope.cn/api/v1/models/damo/speech_flatflocoformer_separation_timefrequency_8k_middle_libri2mix360/repo?Revision=master&FilePath=examples/mix_speech1.wav", 2.5),
