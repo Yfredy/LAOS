@@ -244,6 +244,8 @@ class AgentKernel:
         audit_mode: str = "w",
         irreversibility_budget: int | None = None,
         confirm=None,
+        sentinel: "Sentinel | None" = None,      # 动作闸 opt-in（nanoMuse 采纳，
+                                                 # None=字节级不变；见 laos/sentinel.py）
     ):
         self.workdir = Path(workdir)
         self.workdir.mkdir(parents=True, exist_ok=True)
@@ -278,6 +280,7 @@ class AgentKernel:
             reserve=int(os.environ.get("LAOS_RISK_RESERVE", "1")),
         )
         self.confirm = confirm or self._cli_confirm
+        self.sentinel = sentinel
         # Jev 机器预审（System-One 快问快答，opt-in）：LAOS_JEV_BACKEND=
         # none（默认）时不构造任何后端、self.judge=None，确认横幅行为
         # 逐字节不变；显式选择 rule/cloud/local 才接 Task 2 的判断器
@@ -486,6 +489,9 @@ class AgentKernel:
         self.scheduler.retire(pid)
         # 委托者死亡即撤销其授出的一切委托（可委派不可提升，亦不可遗赠）
         self._drop_delegations_by(pid)
+        # Sentinel 污点随进程退出清除（污点的唯一清除通道；opt-in 零改动）
+        if self.sentinel is not None:
+            self.sentinel.untaint(pid)
         self.audit.write({"t": time.time(), "event": "kill", "pid": pid, "sig": sig})
         return True
 
@@ -576,6 +582,41 @@ class AgentKernel:
         # 不允许消耗车队风险预算（attempt-based pricing 见 risk.py 模块注释）
         if pcb.budget is not None and pcb.stats["syscalls"] >= pcb.budget:
             return self._deny(pcb, tool, args, started, "EDQUOT: syscall budget exhausted")
+
+        # Sentinel 动作闸（opt-in）：六级判定在既有闸门之后、不可逆闸之前；
+        # ask=走既有 confirm 回调（grants 先查，覆盖则免问）；deny=EDENIED。
+        # 出站工具按不可逆评估（信息离 pid 域不可收回——brief 测试锚点
+        # "msg.send 不可逆 → risk-mode ask"）；spec.reversible 本身不动，
+        # 既有风险记账口径零变化。sentinel=None 时整段零执行零审计。
+        if self.sentinel is not None:
+            from .sentinel import Assessment
+            egress = tool in self.sentinel.cfg.egress_tools
+            assessment = Assessment(
+                tool=tool, risk=getattr(spec, "risk", "low"),
+                reversible=getattr(spec, "reversible", True) and not egress,
+                reads_private=tool in self.sentinel.cfg.private_tools,
+                egress=egress)
+            decision = self.sentinel.decide(
+                assessment, tainted=self.sentinel.is_tainted(pid))
+            grant_gid = None
+            if decision.action == "deny":
+                return self._deny(pcb, tool, args, started,
+                                  f"EDENIED: sentinel {decision.reason}")
+            if decision.action == "ask":
+                # grants 只对普通 ask 生效；终审警告（grant_scopes 仅含 once
+                # 档）恒走人类 confirm——nanoMuse "warnings 永不被 grant 覆盖"
+                grant_gid = None
+                if set(decision.grant_scopes) & {"session", "always"}:
+                    grant_gid = self.sentinel.grants.covers(tool)
+                if grant_gid is None and not self.confirm(
+                        {"tool": tool, "args": args,
+                         "sentinel": decision.reason}):
+                    return self._deny(pcb, tool, args, started,
+                                      "EACCES: sentinel requires confirmation")
+            self.audit.write({"t": time.time(), "event": "sentinel",
+                              "pid": pid, "tool": tool,
+                              "decision": decision.action,
+                              "reason": decision.reason, "grant": grant_gid})
 
         # 不可逆闸门 2.0：车队级风险记账 + 每 agent 风险帽（Irreversibility Budget）
         if not spec.reversible:
@@ -825,6 +866,10 @@ class AgentKernel:
         from .mcp import CallResult
         hits = self.memory.recall(
             str(args["query"]), int(args.get("k", self.MEM_RECALL_DEFAULT_K)))
+        # Sentinel 隐私读污点（opt-in）：recall 即读隐私源——本实现无失败
+        # 路径，检索完成即置污点（空结果同样算：查询行为已触及隐私域）
+        if self.sentinel is not None:
+            self.sentinel.mark_private_read(pcb.pid)
         if not hits:
             return CallResult.ok_text("(no matching memories)")
         lines = [f"#{h['id']} [{h['kind']}] {h['text']} (score={h['score']:.2f})"
@@ -850,6 +895,9 @@ class AgentKernel:
         from .mcp import CallResult
         payload = self.mem_curator.curate(str(args["task"]),
                                           k=args.get("k"))
+        # Sentinel 隐私读污点（opt-in）：curate 同样读隐私库，成功即置污点
+        if self.sentinel is not None:
+            self.sentinel.mark_private_read(pcb.pid)
         audit_row = {"t": time.time(), "event": "memory",
                      "op": "curate", "pid": pcb.pid,
                      "payload": payload["id"], "stats": payload["stats"]}

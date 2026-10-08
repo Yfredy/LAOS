@@ -137,5 +137,110 @@ class TestTaintTracker(unittest.TestCase):
         self.assertFalse(s.is_tainted(2))
 
 
+class TestKernelSentinelWiring(unittest.TestCase):
+    """kernel opt-in 接线：sentinel=None 字节级不变；装上后六步进闸门链。
+
+    对 task-3-brief 的两处落地修正（行为语义不变，详见 task-3-report.md）：
+      1. brief 的 msg.send to_pid=1 是笔误——_next_pid 从 1000 起自增，
+         全新内核没有 pid 1，ESRCH 会让 assertTrue(res.ok) 必挂；改发往
+         同驻 buddy 进程（与 tests/test_ipc.py 的既有模式一致）；
+      2. tearDown 先 kernel.shutdown() 再清临时目录——Windows 上审计
+         句柄不关会 WinError 32（与 IPCBase 等既有内核测试同款）。
+    """
+
+    def setUp(self):
+        import asyncio
+        import tempfile
+
+        from laos.context import ContextManager
+        from laos.kernel import AgentKernel
+        self._asyncio = asyncio
+        self._td = tempfile.TemporaryDirectory()
+        self._kernel_cls = AgentKernel
+        self._ctx_cls = ContextManager
+        self._k = None
+
+    def tearDown(self):
+        if self._k is not None:
+            self._k.shutdown()
+        self._td.cleanup()
+
+    def _boot(self, sentinel=None, confirm=lambda op: True):
+        k = self._kernel_cls(Path(self._td.name) / "var", confirm=confirm,
+                             sentinel=sentinel)
+        k.branches.create_root("main")
+        pcb = k.spawn(name="a", caps=["mem.*", "msg.*"],
+                      ctx=self._ctx_cls(system_prompt="t", max_tokens=2000),
+                      branch="main")
+        buddy = k.spawn(name="b", caps=[],
+                        ctx=self._ctx_cls(system_prompt="t", max_tokens=2000),
+                        branch="main")
+        self._k = k
+        return k, pcb, buddy
+
+    def _call(self, k, pcb, tool, args):
+        return self._asyncio.run(k.syscall(pcb.pid, tool, args))
+
+    def test_default_none_is_byte_compatible(self):
+        k, pcb, buddy = self._boot()            # 不装 sentinel
+        res = self._call(k, pcb, "msg.send", {"to_pid": buddy.pid, "text": "hi"})
+        self.assertTrue(res.ok, res.error)
+        self.assertFalse([r for r in k.audit.records
+                          if r.get("event") == "sentinel"])
+
+    def test_ask_flow_via_confirm_and_audit(self):
+        s = Sentinel(SentinelConfig(mode="ask"))  # msg.send 出站 → risk-mode ask
+        confirms = []
+        k, pcb, buddy = self._boot(sentinel=s, confirm=lambda op:
+                                   (confirms.append(op) or True))
+        res = self._call(k, pcb, "msg.send", {"to_pid": buddy.pid, "text": "hi"})
+        self.assertTrue(res.ok, res.error)
+        self.assertEqual(len(confirms), 1)
+        self.assertEqual(confirms[0]["sentinel"], "risk-mode")
+        rows = [r for r in k.audit.records if r.get("event") == "sentinel"]
+        self.assertEqual([(r["tool"], r["decision"]) for r in rows],
+                         [("msg.send", "ask")])
+
+    def test_confirm_denied_blocks(self):
+        s = Sentinel(SentinelConfig(mode="ask"))
+        k, pcb, buddy = self._boot(sentinel=s, confirm=lambda op: False)
+        res = self._call(k, pcb, "msg.send", {"to_pid": buddy.pid, "text": "hi"})
+        self.assertFalse(res.ok)
+        self.assertIn("sentinel", res.error)
+
+    def test_session_grant_skips_confirm(self):
+        s = Sentinel(SentinelConfig(mode="ask"))
+        s.grants.add("msg.send", scope="session")
+        confirms = []
+        k, pcb, buddy = self._boot(sentinel=s, confirm=lambda op:
+                                   (confirms.append(op) or True))
+        res = self._call(k, pcb, "msg.send", {"to_pid": buddy.pid, "text": "hi"})
+        self.assertTrue(res.ok, res.error)
+        self.assertEqual(confirms, [])            # grant 覆盖，不再问人
+        rows = [r for r in k.audit.records if r.get("event") == "sentinel"]
+        self.assertIsNotNone(rows[-1]["grant"])   # 审计带 grant gid（见 Step 3）
+
+    def test_private_read_taints_then_egress_asks_even_auto(self):
+        s = Sentinel(SentinelConfig(mode="auto"))
+        confirms = []
+        k, pcb, buddy = self._boot(sentinel=s, confirm=lambda op:
+                                   (confirms.append(op) or True))
+        self._call(k, pcb, "mem.remember",
+                   {"kind": "fact", "text": "用户偏好中文", "tags": ["偏好"]})
+        res = self._call(k, pcb, "mem.recall", {"query": "偏好", "k": 3})
+        self.assertTrue(res.ok)
+        self.assertTrue(s.is_tainted(pcb.pid))    # 隐私读 → 污点
+        self._call(k, pcb, "msg.send", {"to_pid": buddy.pid, "text": "hi"})
+        self.assertEqual(confirms[-1]["sentinel"], "taint-egress")  # auto 也问
+
+    def test_kill_untaints(self):
+        s = Sentinel(SentinelConfig(mode="auto"))
+        k, pcb, buddy = self._boot(sentinel=s)
+        self._call(k, pcb, "mem.recall", {"query": "x"})
+        self.assertTrue(s.is_tainted(pcb.pid))
+        k.kill(pcb.pid)
+        self.assertFalse(s.is_tainted(pcb.pid))
+
+
 if __name__ == "__main__":
     unittest.main()
