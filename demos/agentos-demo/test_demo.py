@@ -69,5 +69,57 @@ class McpFsTest(unittest.TestCase):
                 p.wait(timeout=5)
 
 
+from kernel import DemoKernel   # noqa: E402  (demo 目录自包含，同目录 import)
+
+
+class _ScriptServer:
+    """测试用假 MCP server：一条预先编排的应答。"""
+
+    def __init__(self, reply: dict):
+        self._reply = reply
+
+    def call(self, name: str, args: dict) -> dict:
+        return self._reply
+
+
+class KernelAgentTest(unittest.TestCase):
+    def _boot(self, caps, script):
+        k = DemoKernel()
+        k.mcp = _ScriptServer({"content": [{"type": "text", "text": "DATA"}]})
+        aid = f"agent-{abs(hash(str(script))) % 1000}"
+        k.write_script(aid, script)
+        pid = k.spawn(aid, caps)
+        k.syscall_loop(timeout=10)
+        return k, pid
+
+    def test_agent_is_real_process_and_gates(self):
+        # agent 有能力表：fs.read 放行、fs.write 拒 EPERM
+        k, pid = self._boot(["fs.read"], [
+            {"op": "fs.read", "args": {"path": "a.txt"}},
+            {"op": "fs.write", "args": {"path": "b.txt", "data": "x"}},
+        ])
+        self.assertGreater(pid, 0)
+        rows = k.audit_rows()
+        ops = [(r["op"], r["ok"]) for r in rows]
+        self.assertEqual(ops, [("fs.read", True), ("fs.write", False)])
+        self.assertIn("EPERM", rows[1]["result"])
+
+    def test_agent_exit_code_is_real(self):
+        k, pid = self._boot(["fs.read"], [{"op": "fs.read", "args": {"path": "a"}}])
+        self.assertEqual(k.agent_exit(pid), 0)
+
+    def test_signal_kill(self):
+        k = DemoKernel()
+        aid = "sleeper"
+        k.write_script(aid, [{"op": "sleep", "args": {"sec": 60}}])
+        pid = k.spawn(aid, [])
+        import signal
+        import time as _t
+        _t.sleep(0.5)
+        k.kill(pid, signal.SIGTERM)            # 内核对真进程发真信号
+        k.syscall_loop(timeout=5)
+        self.assertLess(k.agent_exit(pid), 0)  # 负值=被信号杀死（Linux 语义）
+
+
 if __name__ == "__main__":
     unittest.main()
