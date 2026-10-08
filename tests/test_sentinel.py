@@ -9,7 +9,13 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
-from laos.sentinel import Assessment, Decision, Sentinel, SentinelConfig  # noqa: E402
+from laos.sentinel import (  # noqa: E402
+    Assessment,
+    Decision,
+    GrantStore,
+    Sentinel,
+    SentinelConfig,
+)
 
 
 def sent(**kw) -> Sentinel:
@@ -52,6 +58,13 @@ class TestDecideOrder(unittest.TestCase):
         d = sent(mode="auto").decide(Assessment("mem.remember"), tainted=True)
         self.assertEqual(d.action, "allow")
 
+    def test_taint_egress_grant_scopes_once_only(self):
+        # 污点出站永不回退：不给 session/always 免疫，仅 once 档可 grant
+        # （唯一豁免=显式 allow 规则，见 test_explicit_allow_rule_beats_taint）
+        d = sent(mode="ask").decide(Assessment("msg.send", egress=True), tainted=True)
+        self.assertEqual((d.action, d.reason), ("ask", "taint-egress"))
+        self.assertEqual(d.grant_scopes, ("once",))
+
     def test_explicit_allow_rule_beats_taint(self):
         # egress allowlist 的 laos 化：显式规则可放行污点出站
         d = sent(mode="auto", rules=({"tool_glob": "msg.send", "action": "allow"},)
@@ -71,6 +84,57 @@ class TestDecideOrder(unittest.TestCase):
     def test_decision_default_scopes(self):
         d = sent().decide(Assessment("fs.write", reversible=False))
         self.assertEqual(d.grant_scopes, ("once", "session", "always"))
+
+
+class TestGrantStore(unittest.TestCase):
+    """scoped grants：once 命中即耗 / session 可重复 / target 绑定 + glob。"""
+
+    def test_once_consumed_session_persists(self):
+        g = GrantStore()
+        gid = g.add("msg.send", scope="once")
+        self.assertEqual(g.covers("msg.send"), gid)      # 首次命中并消费
+        self.assertIsNone(g.covers("msg.send"))          # once 已耗
+        s = g.add("fs.*", scope="session")
+        self.assertEqual(g.covers("fs.write"), s)
+        self.assertEqual(g.covers("fs.write"), s)        # session 可重复
+
+    def test_target_binding_and_glob(self):
+        g = GrantStore()
+        gid = g.add("msg.send", target="pid:7", scope="always")
+        self.assertIsNone(g.covers("msg.send", target="pid:8"))  # target 不符
+        self.assertEqual(g.covers("msg.send", target="pid:7"), gid)
+        self.assertEqual(g.covers("msg.send"), gid)      # 查询不带 target 视为通配命中
+
+    def test_revoke_and_list(self):
+        g = GrantStore()
+        gid = g.add("shell", scope="always")
+        rows = g.list_grants()
+        self.assertEqual([(r["gid"], r["tool_glob"], r["scope"]) for r in rows],
+                         [(gid, "shell", "always")])
+        self.assertTrue(g.revoke(gid))
+        self.assertFalse(g.revoke(gid))
+        self.assertIsNone(g.covers("shell"))
+
+    def test_bad_scope_rejected(self):
+        with self.assertRaises(ValueError):
+            GrantStore().add("x", scope="forever")
+
+
+class TestTaintTracker(unittest.TestCase):
+    """污点只涨不清，唯一清除通道=进程退出（untaint）。"""
+
+    def test_taint_never_auto_clears(self):
+        s = Sentinel()
+        self.assertFalse(s.is_tainted(7))
+        s.mark_private_read(7)
+        self.assertTrue(s.is_tainted(7))       # 只涨不清（nanoMuse：永不回退）
+        s.untaint(7)                            # 唯一清除通道=进程退出
+        self.assertFalse(s.is_tainted(7))
+
+    def test_taint_per_pid(self):
+        s = Sentinel()
+        s.mark_private_read(1)
+        self.assertFalse(s.is_tainted(2))
 
 
 if __name__ == "__main__":
