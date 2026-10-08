@@ -205,6 +205,16 @@ class TestNewDomainAxisAndDocGlobs(unittest.TestCase):
     def test_plain_docs_still_no_release(self):
         self.assertEqual(next_version("0.7.0", ["docs(corpus): 语料快照"]), "0.7.0")
 
+    def test_marker_mentioned_mid_subject_does_not_trigger(self):
+        # 自指 bug 回归：subject 正文提及 "+new-domain" 字样（文档/工具提交）
+        # 不得误触发 MINOR——标记必须收尾于 subject 末端
+        self.assertEqual(
+            next_version("0.7.0", ["fix(scripts): document +new-domain minor axis"]),
+            "0.7.1")
+        self.assertEqual(
+            next_version("0.7.0", ["docs: explain the +new-domain marker convention"]),
+            "0.7.0")
+
     def test_sync_docs_detail_reports_per_anchor_counts(self):
         import tempfile
         with tempfile.TemporaryDirectory() as d:

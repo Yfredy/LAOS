@@ -103,8 +103,11 @@ def next_version(current: str, subjects: list[str]) -> str:
     semver 常规（major+1.0.0）。
 
     新文档域轴（README §十"新文档域=完整需求波次=MINOR"）：纯 docs 波次
-    无法从文本自动识别"新域"，约定 subject 尾部显式标记 "+new-domain"
-    → 按 feat 等价升 minor（任何 conventional 类型上均可携带）。
+    无法从文本自动识别"新域"，约定 subject **尾部**显式标记 "+new-domain"
+    → 按 feat 等价升 minor（任何 conventional 类型上均可携带）。必须收尾
+    于 subject 末端——正文提及 "+new-domain" 字样（如本工具自身的文档
+    提交）不得误触发（2026-10-08 自指 bug 实录：fix 提交 subject 写着
+    "+new-domain minor axis" 被推成 MINOR）。
     """
     major, minor, patch = (int(part) for part in current.split("."))
     has_breaking = has_feat = has_fix = False
@@ -112,7 +115,7 @@ def next_version(current: str, subjects: list[str]) -> str:
         ctype, breaking = _parse_subject(subject)
         if breaking:
             has_breaking = True
-        if "+new-domain" in subject:
+        if subject.strip().endswith("+new-domain"):
             has_feat = True   # 新文档域波次：显式标记，feat 等价
         if ctype == "feat":
             has_feat = True
