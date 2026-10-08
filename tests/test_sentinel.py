@@ -242,5 +242,49 @@ class TestKernelSentinelWiring(unittest.TestCase):
         self.assertFalse(s.is_tainted(pcb.pid))
 
 
+class TestProvenance(unittest.TestCase):
+    """记忆 provenance：origin/origin_pid 落行 + curate 用户行豁免。"""
+
+    def setUp(self):
+        import tempfile
+
+        from laos.jitmem import Curator
+        from laos.memory import MemoryStore
+        self._td = tempfile.TemporaryDirectory()
+        self.store = MemoryStore(Path(self._td.name) / "m.jsonl")
+        self.Curator = Curator
+
+    def tearDown(self):
+        self._td.cleanup()
+
+    def test_remember_origin_defaults_agent(self):
+        r = self.store.remember("fact", "x")
+        self.assertEqual((r["origin"], r["origin_pid"]), ("agent", None))
+        r2 = self.store.remember("fact", "y", origin="user")
+        self.assertEqual(r2["origin"], "user")
+
+    def test_old_rows_without_origin_read_as_agent(self):
+        import json
+        from laos.memory import MemoryStore
+        path = Path(self._td.name) / "m.jsonl"
+        with path.open("a", encoding="utf-8") as fh:
+            fh.write(json.dumps({"id": 99, "ts": 1.0, "kind": "fact",
+                                 "text": "旧记录", "tags": []}) + "\n")
+        # MemoryStore 只在构造时全量进内存（与 self_check 的 on_disk 重读
+        # 同一惯例）：裸写旧格式行后须用新 store 重读，才能看到该行
+        rows = MemoryStore(path).recall("旧记录", k=5)
+        self.assertEqual(rows[0].get("origin", "agent"), "agent")
+
+    def test_curate_user_line_survives_budget_and_dedup(self):
+        # "人写的一行胜过模型写的任何行"：用户行不进预算淘汰、不被近重复去重
+        self.store.remember("fact", "好" * 200, origin="user",
+                            tags=["甲"])          # 超预算的用户行
+        self.store.remember("fact", "好" * 200, tags=["甲"])   # 近重复的 agent 行
+        p = self.Curator(self.store, budget_chars=120).curate("甲事")
+        texts = [(e["text"], e.get("origin")) for e in p["entries"]]
+        self.assertIn(("好" * 200, "user"), texts)
+        self.assertEqual(sum(1 for _, o in texts if o == "agent"), 0)  # agent 重复行被丢
+
+
 if __name__ == "__main__":
     unittest.main()

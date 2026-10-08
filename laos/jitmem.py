@@ -106,11 +106,20 @@ class Curator:
                            "score": score, "idx": idx})
         scored.sort(key=lambda s: (-s["score"], s["idx"]))
 
-        # 去重：与已保留条目文本 bigram jaccard 达阈值即近重复，整条丢弃
+        # 去重：与已保留条目文本 bigram jaccard 达阈值即近重复，整条丢弃；
+        # 用户行神圣——不作为被去重对象（但留在 kept 里当锚，agent 的
+        # 近重复行照样被丢）。用户行优先入序（稳定排序，组内仍按分）：
+        # "人写的一行胜过模型写的任何行"——先定用户行，agent 行再对全部
+        # 已保留行（含用户行）做去重，同文的 agent 行给用户行让位
         kept: list[dict] = []
         dedup_dropped = 0
-        for s in scored:
-            dup = any(bigram_jaccard(str(s["rec"].get("text", "")),
+        for s in sorted(scored, key=lambda s: str(
+                s["rec"].get("origin", "agent")) != "user"):
+            rec = s["rec"]
+            if str(rec.get("origin", "agent")) == "user":
+                kept.append(s)          # 用户行神圣：不参与去重
+                continue
+            dup = any(bigram_jaccard(str(rec.get("text", "")),
                                      str(k2["rec"].get("text", "")))
                       >= self.dup_threshold for k2 in kept)
             if dup:
@@ -119,9 +128,14 @@ class Curator:
                 kept.append(s)
 
         # 预算：按分降序整条收纳（后到的小条可回填余量）；超预算整条丢弃，
-        # 绝不截断原文；首条豁免（退化守卫：预算再小也保 top-1）
+        # 绝不截断原文；首条豁免（退化守卫：预算再小也保 top-1）；
+        # 用户行豁免预算（nanoMuse "永不删用户行"）——计入 entries 计数，
+        # 不计 used、不计 budget_dropped
         used, entries, budget_dropped = 0, [], 0
         for s in kept:
+            if str(s["rec"].get("origin", "agent")) == "user":
+                entries.append(s)       # 用户行豁免预算（nanoMuse "永不删用户行"）
+                continue
             cost = len(str(s["rec"].get("text", ""))) + self.PAYLOAD_OVERHEAD_CHARS
             if entries and used + cost > self.budget_chars:
                 budget_dropped += 1

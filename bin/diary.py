@@ -284,7 +284,8 @@ def build_diary(date: str, audit_records: list[dict], memory_store: MemoryStore,
         + [f"## {title}\n{sections[title]}" for title in SECTION_TITLES]
     ) + "\n"
     path.write_text(markdown, encoding="utf-8")
-    remembered = memory_store.remember(kind="diary", text=summary, tags=[date])
+    remembered = memory_store.remember(kind="diary", text=summary, tags=[date],
+                                       origin="diary")
 
     return {
         "date": date,

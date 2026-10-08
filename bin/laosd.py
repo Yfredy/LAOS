@@ -97,7 +97,8 @@ class JevGatedMemory:
         self.mem_judge = mem_judge
         self.skill_judge = skill_judge
 
-    def remember(self, kind, text, tags=None, judge=None):
+    def remember(self, kind, text, tags=None, judge=None,
+                 origin="agent", origin_pid=None):
         kind = str(kind)
         is_skill = kind == "skill"
         gate = self.skill_judge if is_skill else self.mem_judge
@@ -106,8 +107,10 @@ class JevGatedMemory:
                         else REMEMBER_JUDGE_QUESTION)
             if gate.noul(str(text), question).verdict == "deny":
                 return None
-        # 闸归本代理所有：不向内层转发 judge，避免代理闸+内层闸双问
-        return self.store.remember(kind, text, tags=tags, judge=None)
+        # 闸归本代理所有：不向内层转发 judge，避免代理闸+内层闸双问；
+        # provenance（origin/origin_pid）纯透传——闸不改变记忆出处
+        return self.store.remember(kind, text, tags=tags, judge=None,
+                                   origin=origin, origin_pid=origin_pid)
 
     def recall(self, query, k=5):
         return self.store.recall(query, k=k)

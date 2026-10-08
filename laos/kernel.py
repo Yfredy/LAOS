@@ -848,7 +848,8 @@ class AgentKernel:
         from .mcp import CallResult
         rec = self.memory.remember(
             str(args["kind"]), str(args["text"]),
-            tags=[str(t) for t in args.get("tags", [])])
+            tags=[str(t) for t in args.get("tags", [])],
+            origin="agent", origin_pid=pcb.pid)
         if rec is None:
             # Jev 入库预审拒绝（装配层给 memory 注入 judge 时可能返回
             # None，Task 5 装配代理 JevGatedMemory）：对 agent 诚实回

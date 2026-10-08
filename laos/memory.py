@@ -122,7 +122,8 @@ class MemoryStore:
 
     # -- 记忆操作 ----------------------------------------------------------
     def remember(self, kind: str, text: str, tags: list[str] | None = None,
-                 judge: Any | None = None) -> dict | None:
+                 judge: Any | None = None, origin: str = "agent",
+                 origin_pid: int | None = None) -> dict | None:
         if judge is not None:
             # Jev 入库预审：deny = 不可入库。判断放锁外（云端后端可能慢，
             # 不占写锁）；不传 judge（默认）时此分支整体不存在，行为不变
@@ -130,7 +131,8 @@ class MemoryStore:
                 return None
         with self._lock:  # id 的读改写必须原子，否则并发 remember 铸重复 id
             rec = {"id": self._next_id, "ts": time.time(), "kind": str(kind),
-                   "text": str(text), "tags": [str(t) for t in (tags or [])]}
+                   "text": str(text), "tags": [str(t) for t in (tags or [])],
+                   "origin": str(origin), "origin_pid": origin_pid}
             self._records.append(rec)
             self._append(rec)
             return dict(rec)
