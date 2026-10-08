@@ -175,14 +175,23 @@ class WakeTransitionHook(unittest.TestCase):
             "turns": 1, "session_ms": 0})
 
     def test_speech_started_emits_from_processing(self):
+        # R1（ARVIS 波）行为变更：播报中开口不再直接让位（等终稿过话轮
+        # 路由）——processing 态 speech_started 无迁移不发事件；让位事件
+        # 改由 process() 的附和分类不通过时发（reason="barge_in"）
         col = Collector()
         gate = make_gate(FakeClock(), col)
         gate.wake()
         gate.process("一")                              # → processing
-        gate.speech_started()                           # processing → listening
+        gate.speech_started()                           # R1：保持 processing
         self.assertEqual(col.of("d.wake.state_change")[-1], {
-            "from": "processing", "to": "listening", "reason": "speech",
+            "from": "listening", "to": "processing", "reason": "turn",
+            "turns": 0, "session_ms": 0})               # turns 在递增前快照
+        self.assertTrue(gate.process("真打断").answer)   # 让位：barge_in 事件
+        changes = col.of("d.wake.state_change")
+        self.assertEqual(changes[-2], {
+            "from": "processing", "to": "listening", "reason": "barge_in",
             "turns": 1, "session_ms": 0})
+        self.assertEqual(changes[-1]["reason"], "turn")  # 随后按新轮处理
 
     def test_speech_started_idle_states_emit_nothing(self):
         col = Collector()

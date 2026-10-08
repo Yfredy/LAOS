@@ -20,7 +20,8 @@ REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
 from laos.turnbuf import TurnBuffer  # noqa: E402
-from laos.turnpolicy import TurnPolicy  # noqa: E402
+from laos.turnpolicy import (DEFAULT_BACKCHANNEL_WORDS, TimedTurnJudge,  # noqa: E402
+                             TurnPolicy, classify_barge_in)
 
 
 class TestTurnPolicyDecide(unittest.TestCase):
@@ -118,6 +119,63 @@ class TestInterject(unittest.TestCase):
         t1, t2 = threading.Thread(target=appender), threading.Thread(target=interjector)
         t1.start(); t2.start(); t1.join(); t2.join()
         self.assertEqual(len(tb.pending_text), 1000)
+
+
+class TestClassifyBargeIn(unittest.TestCase):
+    """R1 附和分类（ARVIS 波）：播报期间的终稿，整句命中白名单=附和吞掉。"""
+
+    def test_exact_backchannel_words(self):
+        for w in ("嗯", "嗯嗯", "啊", "哦", "噢", "对", "好的", "好",
+                  "知道了", "继续", "是的", "yes", "yeah", "ok", "okay"):
+            self.assertTrue(classify_barge_in(w, DEFAULT_BACKCHANNEL_WORDS), w)
+
+    def test_punctuation_and_case_normalized(self):
+        self.assertTrue(classify_barge_in("嗯，。！", DEFAULT_BACKCHANNEL_WORDS))
+        self.assertTrue(classify_barge_in(" OK. ", DEFAULT_BACKCHANNEL_WORDS))
+        self.assertTrue(classify_barge_in("Okay！", DEFAULT_BACKCHANNEL_WORDS))
+
+    def test_non_backchannel_interrupts(self):
+        # 终稿权威：非整句附和的一切（半句附和/打断短语/疑问句）都是真打断
+        for w in ("嗯，但是你有道理", "不是这个意思", "等一下",
+                  "今天天气怎么样", "帮我查一下", "好的好的再详细说说"):
+            self.assertFalse(classify_barge_in(w, DEFAULT_BACKCHANNEL_WORDS), w)
+
+    def test_empty_or_punct_only_not_backchannel(self):
+        self.assertFalse(classify_barge_in("", DEFAULT_BACKCHANNEL_WORDS))
+        self.assertFalse(classify_barge_in("。，！", DEFAULT_BACKCHANNEL_WORDS))
+
+    def test_custom_word_set(self):
+        self.assertTrue(classify_barge_in("roger", ["roger", "copy"]))
+        self.assertFalse(classify_barge_in("嗯", ["roger", "copy"]))
+
+
+class TestTimedTurnJudge(unittest.TestCase):
+    """R2 语义路由限时包装：预算外一律 fallback（落回关键词档）。"""
+
+    def test_valid_decisions_pass_through(self):
+        for d in ("continue", "yield", "wait"):
+            judge = TimedTurnJudge(lambda a, u, d=d: d)
+            self.assertEqual(judge.decide("助手尾巴", "用户话"),
+                             (d, "semantic"))
+
+    def test_timeout_falls_back(self):
+        def slow(a, u):
+            threading.Event().wait(0.5)   # 远超预算
+            return "yield"
+        judge = TimedTurnJudge(slow, timeout_s=0.05)
+        self.assertEqual(judge.decide("", ""), ("fallback", "timeout"))
+
+    def test_exception_falls_back(self):
+        judge = TimedTurnJudge(lambda a, u: 1 / 0)
+        self.assertEqual(judge.decide("", ""), ("fallback", "error"))
+
+    def test_invalid_value_falls_back(self):
+        judge = TimedTurnJudge(lambda a, u: "maybe")
+        self.assertEqual(judge.decide("", ""), ("fallback", "invalid"))
+
+    def test_zero_timeout_rejected(self):
+        with self.assertRaises(ValueError):
+            TimedTurnJudge(lambda a, u: "yield", timeout_s=0)
 
 
 if __name__ == "__main__":

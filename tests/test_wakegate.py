@@ -78,11 +78,76 @@ class WakeGateStates(unittest.TestCase):
         self.assertFalse(result.slept)
         self.assertEqual(gate.state(), WakeState.LISTENING)  # 不迁移
 
-    def test_processing_state_rejects_new_text(self):
+    def test_processing_backchannel_swallowed(self):
+        # R1（ARVIS 波）：播报中的附和（"嗯嗯"）吞掉——播报继续不打断
         gate = make_gate(FakeClock())
         gate.wake()
         gate.process("第一句")
-        self.assertFalse(gate.process("第二句").answer)       # Processing 丢弃
+        result = gate.process("嗯嗯")
+        self.assertFalse(result.answer)
+        self.assertTrue(result.backchannel)
+        self.assertFalse(result.slept)
+        self.assertEqual(gate.state(), WakeState.PROCESSING)
+
+    def test_processing_real_text_barges_in(self):
+        # R1：播报中真打断（终稿权威）——让位后按正常轮处理
+        gate = make_gate(FakeClock())
+        gate.wake()
+        gate.process("第一句")
+        result = gate.process("不是这个意思")
+        self.assertTrue(result.answer)
+        self.assertFalse(result.backchannel)
+        self.assertEqual(gate.state(), WakeState.PROCESSING)   # 新 turn 处理中
+        self.assertEqual(gate._turns, 2)
+
+    def test_processing_sleep_word_sleeps(self):
+        # R1 行为变更：播报中喊休眠词同样生效（旧语义直接丢弃）
+        gate = make_gate(FakeClock())
+        gate.wake()
+        gate.process("你好")
+        result = gate.process("小乐休息")
+        self.assertFalse(result.answer)
+        self.assertTrue(result.slept)
+        self.assertEqual(gate.state(), WakeState.SLEEPING)
+
+    def test_speech_started_during_processing_stays(self):
+        # R1 行为变更：播报中开口不再直接让位——等终稿过话轮路由
+        gate = make_gate(FakeClock())
+        gate.wake()
+        gate.process("你好")
+        gate.speech_started()
+        self.assertEqual(gate.state(), WakeState.PROCESSING)
+        # 随后的终稿才定夺：附和吞 / 真打断让位
+        self.assertTrue(gate.process("换个问题").answer)
+
+    def test_barge_classifier_injection(self):
+        gate = make_gate(FakeClock())
+        gate.wake()
+        gate.process("第一句")
+        gate.set_barge_classifier(lambda text: True)   # 全吞（语义档 continue）
+        result = gate.process("真打断的话")
+        self.assertFalse(result.answer)
+        self.assertTrue(result.backchannel)
+        self.assertEqual(gate.state(), WakeState.PROCESSING)
+        gate.set_barge_classifier(None)                # 恢复关键词档
+        self.assertTrue(gate.process("真打断的话").answer)
+
+    def test_barge_classifier_exception_fails_to_interrupt(self):
+        # 分类器崩了按真打断——宁可让位也不装聋
+        gate = make_gate(FakeClock())
+        gate.wake()
+        gate.process("第一句")
+        gate.set_barge_classifier(lambda text: 1 / 0)
+        result = gate.process("嗯嗯")
+        self.assertTrue(result.answer)
+        self.assertFalse(result.backchannel)
+
+    def test_backchannel_words_config(self):
+        gate = make_gate(FakeClock(), backchannel_words=["收到"])
+        gate.wake()
+        gate.process("第一句")
+        self.assertTrue(gate.process("收到").backchannel)
+        self.assertFalse(gate.process("嗯嗯").backchannel)   # 不在自定义表
 
     def test_max_turns_sleeps(self):
         gate = make_gate(FakeClock(), max_turns=2)

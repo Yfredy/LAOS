@@ -21,6 +21,15 @@ include/scheduler/wake_gate.h：独立实现，非代码拷贝。上游把唤醒
 - finishTurn(delay_sec) 把 TTS 播报时长并入 FollowUp 窗口，避免
   "回答刚说完就超时"。
 
+R1（2026-10-08 ARVIS 波）：播报（Processing 态）中的用户开口不再
+"开口即让位"——speech_started 在 Processing 态保持原态（等 ASR 终稿），
+process() 在 Processing 态先过话轮路由：附和（backchannel 白名单整句
+命中，"嗯嗯/对/好的"）吞掉不打断、播报继续；其余按真打断让位
+（Processing→Listening reason="barge_in"）后走正常轮路径（休眠词/
+轮数上限照查）。barge_in() 保留为绕过分类的硬打断（调用方自有证据
+时用）。分类器可注入（R2 语义档经 dialogflow 装配）；分类器异常按
+真打断（fail 方向：宁让位不装聋）。
+
 纯 stdlib；时间源可注入（默认 time.monotonic），便于测试。
 """
 from __future__ import annotations
@@ -29,6 +38,8 @@ import time
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Callable, List, Optional
+
+from .turnpolicy import DEFAULT_BACKCHANNEL_WORDS, classify_barge_in
 
 
 class WakeState(Enum):
@@ -43,6 +54,8 @@ class WakeConfig:
     enabled: bool = False
     wake_words: List[str] = field(default_factory=list)
     sleep_words: List[str] = field(default_factory=list)
+    backchannel_words: List[str] = field(
+        default_factory=lambda: list(DEFAULT_BACKCHANNEL_WORDS))
     follow_up_timeout_sec: float = 12.0
     max_session_sec: float = 120.0
     max_turns: int = 6
@@ -51,9 +64,10 @@ class WakeConfig:
     def from_env(cls, env=None) -> "WakeConfig":
         """接线波：LAOS_WAKE_* 环境变量覆盖面（不传 env 读 os.environ）。
 
-        LAOS_WAKE_ENABLED=1/true → enabled；WAKE_WORDS/SLEEP_WORDS 逗号
-        分隔（中英文逗号都收）；MAX_TURNS/SESSION_SEC/FOLLOWUP_SEC 数值。
-        坏值回退默认（env 是用户输入，不 fail-loud）；空 env = 全默认。
+        LAOS_WAKE_ENABLED=1/true → enabled；WAKE_WORDS/SLEEP_WORDS/
+        BACKCHANNEL_WORDS 逗号分隔（中英文逗号都收）；MAX_TURNS/
+        SESSION_SEC/FOLLOWUP_SEC 数值。坏值回退默认（env 是用户输入，
+        不 fail-loud）；空 env = 全默认。
         """
         import os
         env = os.environ if env is None else env
@@ -79,6 +93,8 @@ class WakeConfig:
             enabled=enabled in ("1", "true", "yes", "on"),
             wake_words=words("LAOS_WAKE_WAKE_WORDS"),
             sleep_words=words("LAOS_WAKE_SLEEP_WORDS"),
+            backchannel_words=(words("LAOS_WAKE_BACKCHANNEL_WORDS")
+                               or list(DEFAULT_BACKCHANNEL_WORDS)),
             follow_up_timeout_sec=num("LAOS_WAKE_FOLLOWUP_SEC", float, 12.0),
             max_session_sec=num("LAOS_WAKE_SESSION_SEC", float, 120.0),
             max_turns=num("LAOS_WAKE_MAX_TURNS", int, 6),
@@ -90,6 +106,7 @@ class WakeResult:
     answer: bool          # 这句话是否进入对话
     text: str = ""        # 归一化后的有效文本（answer=True 时非空）
     slept: bool = False   # 这句话命中了休眠词
+    backchannel: bool = False  # 播报中的附和被吞（R1：播报继续不打断）
 
 
 class WakeGate:
@@ -109,8 +126,11 @@ class WakeGate:
         self._turns = 0
         self._session_started = 0.0
         self._follow_up_deadline = 0.0
+        self._barge_classifier: Optional[Callable[[str], bool]] = None
+        # RLock（非重入 Lock 会死锁）：注入的话轮分类器在 process() 持锁
+        # 期间回调 wake_gate.backchannel_words 等只读属性（R2 装配路径）
         import threading
-        self._lock = threading.Lock()
+        self._lock = threading.RLock()
 
     def configure(self, config: WakeConfig) -> None:
         with self._lock:
@@ -118,6 +138,19 @@ class WakeGate:
             self._state = (WakeState.SLEEPING if config.enabled
                            else WakeState.LISTENING)
             self._turns = 0
+
+    def set_barge_classifier(
+            self, classifier: Optional[Callable[[str], bool]]) -> None:
+        """注入话轮路由分类器（R2 装配口）：text -> True=附和吞掉 /
+        False=真打断。None=恢复内置关键词档（backchannel_words 白名单，
+        turnpolicy.classify_barge_in）。"""
+        with self._lock:
+            self._barge_classifier = classifier
+
+    @property
+    def backchannel_words(self) -> List[str]:
+        with self._lock:
+            return list(self._config.backchannel_words)
 
     def wake(self) -> bool:
         """KWS 命中唤醒词时调用。只在 Sleeping 态生效，返回是否发生迁移。"""
@@ -134,15 +167,27 @@ class WakeGate:
             return True
 
     def process(self, asr_text: str) -> WakeResult:
-        """一句 ASR 终稿过闸：休眠词→睡；空文本→丢；轮数满→睡；否则放行。"""
+        """一句 ASR 终稿过闸：休眠词→睡；空文本→丢；轮数满→睡；否则放行。
+
+        R1：Processing 态（播报中）不再直接丢弃——先过话轮路由：附和
+        （backchannel 白名单整句命中）吞掉、播报继续；其余按真打断让位
+        （Processing→Listening reason="barge_in"）后走下方正常路径
+        （休眠词/空文本/轮数上限照查——播报中喊休眠词同样生效）。
+        """
         with self._lock:
             norm = _normalize(asr_text)
             if not self._config.enabled:
                 return WakeResult(True, norm, False)
             now = self._clock()
             self._expire(now)
-            if self._state in (WakeState.SLEEPING, WakeState.PROCESSING):
+            if self._state == WakeState.SLEEPING:
                 return WakeResult(False)
+            if self._state == WakeState.PROCESSING:
+                if not norm:
+                    return WakeResult(False)   # 空终稿=ASR 噪声：播报继续
+                if self._classify_barge(norm):
+                    return WakeResult(False, backchannel=True)
+                self._transition(WakeState.LISTENING, "barge_in")
             if _contains_any(norm, self._config.sleep_words):
                 self._sleep("sleep_word")
                 return WakeResult(False, slept=True)
@@ -156,15 +201,15 @@ class WakeGate:
             return WakeResult(True, norm, False)
 
     def speech_started(self) -> None:
-        """VAD 检测到新语音起点。FollowUp/Processing 回 Listening（继续听）。
+        """VAD 检测到新语音起点。FollowUp 回 Listening（继续听）。
 
-        终审 T2 补发：状态变更走 `_transition` 统一出口发射
-        d.wake.state_change（reason="speech"，设计 §3.5 reason 枚举）；
+        R1：Processing 态保持原态不再让位——播报中"开口"只算 barge
+        候选，让位与否等 ASR 终稿过话轮路由（附和不打断）。
         Listening/Sleeping 态无变更，空转不发事件。
         """
         with self._lock:
             self._expire(self._clock())
-            if self._state in (WakeState.FOLLOW_UP, WakeState.PROCESSING):
+            if self._state == WakeState.FOLLOW_UP:
                 self._transition(WakeState.LISTENING, "speech")
 
     def barge_in(self) -> bool:
@@ -208,6 +253,16 @@ class WakeGate:
         return self.state().value
 
     # ---- 内部（须持锁） ----
+
+    def _classify_barge(self, norm: str) -> bool:
+        """话轮路由（R1/R2）：True=附和吞掉。分类器异常按真打断——
+        宁可让位也不装聋（fail 方向与"ASR 挂了就忽略用户"相反）。"""
+        if self._barge_classifier is not None:
+            try:
+                return bool(self._barge_classifier(norm))
+            except Exception:
+                return False
+        return classify_barge_in(norm, self._config.backchannel_words)
 
     def _expire(self, now: float) -> None:
         cfg = self._config

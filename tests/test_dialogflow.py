@@ -29,11 +29,25 @@ from laos.dialogflow import DialogPipeline  # noqa: E402
 from laos.evroute import EventRouter  # noqa: E402
 from laos.jitmem import Curator  # noqa: E402
 from laos.memory import MemoryStore  # noqa: E402
+from laos.turnpolicy import TimedTurnJudge  # noqa: E402
 from laos.wakegate import WakeConfig, WakeGate  # noqa: E402
 
 
-def make_pipeline(rules=None, curator=None, events=None):
-    wake = WakeGate()
+class FakeClock:
+    def __init__(self):
+        self.now = 1000.0
+
+    def __call__(self):
+        return self.now
+
+    def advance(self, sec):
+        self.now += sec
+
+
+def make_pipeline(rules=None, curator=None, events=None, turn_judge=None,
+                  clock=None):
+    clock = FakeClock() if clock is None else clock
+    wake = WakeGate(clock=clock)
     wake.configure(WakeConfig(
         enabled=True, wake_words=["小劳"],
         sleep_words=["退下"], max_turns=2, follow_up_timeout_sec=5.0,
@@ -46,7 +60,8 @@ def make_pipeline(rules=None, curator=None, events=None):
         def sink(name, fields):
             events.append((name, fields))
     return DialogPipeline(wake_gate=wake, router=router,
-                          curator=curator, on_event=sink)
+                          curator=curator, on_event=sink,
+                          clock=clock, turn_judge=turn_judge)
 
 
 class TestSessionFlow(unittest.TestCase):
@@ -183,6 +198,158 @@ class TestEnvOverrides(unittest.TestCase):
                                           "LAOS_DIALOG_RESUME_MS": "120"}):
             pipe.configure_from_env()
         self.assertEqual(pipe.pause.observation_ms, 300)
+
+
+class TestBargeRouting(unittest.TestCase):
+    """R1/R2（ARVIS 波）：播报期间的话轮路由——附和吞掉、真打断让位、
+    语义档（TimedTurnJudge）opt-in 且失败落回关键词档。"""
+
+    def setUp(self):
+        self._td = tempfile.TemporaryDirectory()
+        self.events = []
+        self.store = MemoryStore(Path(self._td.name) / "memory.jsonl")
+        self.curator = Curator(self.store)
+        self.pipe = make_pipeline(curator=self.curator, events=self.events)
+        self.pipe.wake()
+        self.pipe.asr_final("第一句问题")        # → processing（播报中）
+
+    def tearDown(self):
+        self._td.cleanup()
+
+    def _routes(self):
+        return [e[1] for e in self.events if e[0] == "d.dialog.turn_route"]
+
+    def test_backchannel_swallowed_no_turn(self):
+        # R1：播报中"嗯嗯"不成为 turn、不 curate、唤醒态留 processing
+        job = self.pipe.asr_final("嗯嗯")
+        self.assertIsNone(job)
+        self.assertEqual(self.pipe.wake_state(), "processing")
+        self.assertEqual(self.curator.stats()["payloads"], 1)   # 只有首 turn
+        self.assertEqual(self._routes(), [])                    # 关键词档不发路由事件
+
+    def test_real_interrupt_becomes_turn(self):
+        job = self.pipe.asr_final("不是这个意思")
+        self.assertIsNotNone(job)
+        self.assertEqual(self.pipe.wake_state(), "processing")  # 新 turn 处理中
+
+    def test_judge_continue_swallows_with_route_event(self):
+        self.pipe = make_pipeline(curator=self.curator, events=self.events,
+                                  turn_judge=TimedTurnJudge(lambda a, u: "continue"))
+        self.pipe.wake()
+        self.pipe.asr_final("第一句问题")
+        job = self.pipe.asr_final("真打断的话也被吞")
+        self.assertIsNone(job)
+        self.assertEqual(self.pipe.wake_state(), "processing")
+        self.assertEqual(self._routes(),
+                         [{"decision": "continue", "source": "semantic"}])
+
+    def test_judge_yield_and_wait_take_turn(self):
+        for decision in ("yield", "wait"):
+            with self.subTest(decision=decision):
+                events = []
+                pipe = make_pipeline(curator=self.curator, events=events,
+                                     turn_judge=TimedTurnJudge(
+                                         lambda a, u, d=decision: d))
+                pipe.wake()
+                pipe.asr_final("第一句问题")
+                job = pipe.asr_final("真打断的话")
+                self.assertIsNotNone(job)
+                routes = [e[1] for e in events
+                          if e[0] == "d.dialog.turn_route"]
+                self.assertEqual(routes,
+                                 [{"decision": decision, "source": "semantic"}])
+
+    def test_judge_timeout_falls_back_to_keyword(self):
+        # 语义档超预算 → 关键词档兜底：附和照吞、真打断照让（离线保守）
+        def slow(a, u):
+            import time
+            time.sleep(0.3)
+            return "yield"
+        self.pipe = make_pipeline(curator=self.curator, events=self.events,
+                                  turn_judge=TimedTurnJudge(slow, timeout_s=0.05))
+        self.pipe.wake()
+        self.pipe.asr_final("第一句问题")
+        self.assertIsNone(self.pipe.asr_final("嗯嗯"))           # 关键词兜底吞
+        job = self.pipe.asr_final("换个问题")                    # 让位（max_turns=2 内）
+        self.assertIsNotNone(job)
+        sources = [r["source"] for r in self._routes()]
+        self.assertEqual(sources, ["timeout", "timeout"])
+
+    def test_note_answer_feeds_judge_tail(self):
+        seen = []
+
+        def spy(a, u):
+            seen.append((a, u))
+            return "yield"
+        self.pipe = make_pipeline(turn_judge=TimedTurnJudge(spy))
+        self.pipe.wake()
+        self.pipe.note_answer("助手播报的前半段")
+        self.pipe.note_answer("与后半段")
+        self.pipe.asr_final("第一句问题")
+        self.pipe.asr_final("播报中的新话")
+        self.assertEqual(seen[-1], ("助手播报的前半段与后半段", "播报中的新话"))
+
+
+class TestAnnounceWindow(unittest.TestCase):
+    """R3（ARVIS 波）：后台播报时窗——用户说话/话轮未落地/音频未走完全
+    空才放行；阻塞 FIFO 挂起，窗口开自动冲刷。"""
+
+    def setUp(self):
+        self._td = tempfile.TemporaryDirectory()
+        self.events = []
+        self.store = MemoryStore(Path(self._td.name) / "memory.jsonl")
+        self.curator = Curator(self.store)
+
+    def tearDown(self):
+        self._td.cleanup()
+
+    def _anns(self):
+        return [(e[1].get("accepted"), e[1].get("pending"))
+                for e in self.events if e[0] == "d.dialog.announce"]
+
+    def test_idle_window_open(self):
+        pipe = make_pipeline(curator=self.curator, events=self.events)
+        self.assertTrue(pipe.announce("任务A完成"))
+        self.assertEqual(pipe.take_announcements(), ["任务A完成"])
+        self.assertEqual(pipe.take_announcements(), [])          # 取走即清
+
+    def test_blocked_while_user_speaking_fifo_flush_on_speech_ended(self):
+        pipe = make_pipeline(curator=self.curator, events=self.events)
+        pipe.speech_started()
+        self.assertFalse(pipe.announce("A"))
+        self.assertFalse(pipe.announce("B"))
+        self.assertEqual(self._anns(), [(False, 1), (False, 2)])
+        pipe.speech_ended()
+        self.assertEqual(pipe.take_announcements(), ["A", "B"])  # FIFO 冲刷
+        self.assertEqual(self._anns()[-1], (True, 0))            # 冲刷也发事件
+
+    def test_blocked_while_turn_pending(self):
+        pipe = make_pipeline(curator=self.curator, events=self.events)
+        pipe.wake()
+        pipe.asr_final("问题")                                    # 话轮在飞
+        self.assertFalse(pipe.announce("X"))
+        pipe.turn_done(True, tts_remaining_sec=0.0)               # 落地即冲刷
+        self.assertEqual(pipe.take_announcements(), ["X"])
+
+    def test_blocked_while_tts_playing_until_deadline(self):
+        clock = FakeClock()
+        pipe = make_pipeline(curator=self.curator, events=self.events,
+                             clock=clock)
+        pipe.wake()
+        pipe.asr_final("问题")
+        pipe.turn_done(True, tts_remaining_sec=5.0)               # 音频截止 +5s
+        self.assertFalse(pipe.announce("Y"))                      # 播报未走完
+        clock.advance(4.9)
+        pipe.tick()                                               # 还没到线
+        self.assertEqual(pipe.take_announcements(), [])
+        clock.advance(0.2)
+        pipe.tick()                                               # 过线冲刷
+        self.assertEqual(pipe.take_announcements(), ["Y"])
+
+    def test_empty_announce_rejected(self):
+        pipe = make_pipeline(curator=self.curator, events=self.events)
+        self.assertFalse(pipe.announce(""))
+        self.assertEqual(pipe.take_announcements(), [])
 
 
 if __name__ == "__main__":
