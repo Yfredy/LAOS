@@ -2,7 +2,7 @@
 
 > 口径来源：`docs/research/audio-events/00-taxonomy-and-metrics.md`（12列表头、规模分档、AudioSet 划分口径、红线均以该文件为准）。
 > 本档边界：中型 = **30M ≤ 参数量 < 500M**（含音频编码器，量化前，左闭右开：30M 归中型，500M 归大型）。
-> 本档只做检索与核实，不做选型结论；`edge` 一栏只记录**已核到的公开证据**，按口径文件规定由 Task 5（`05-edge-deployment.md`）回填。
+> 本档只做检索与核实，不做选型结论；`edge` 一栏由 Task 5（`05-edge-deployment.md`）回填——本档 30M–500M 模型官方均只发布 PyTorch 权重，无公开 INT8 / TFLite Micro 产物，故一律标 `unknown(未找到公开转换案例)`。
 > **AudioSet 引用声明**：凡预训练/评测语料为 AudioSet 的条目，其音频本体为 YouTube 视频且**官方已停止分发完整包**，实际复现只能依赖第三方镜像或官方/第三方预计算 embedding（如 PANNs 仓库提供的 `pan.baidu.com` 镜像、BEATs 提供的 logits 包）。
 
 ---
