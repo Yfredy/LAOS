@@ -67,6 +67,8 @@ class DemoKernel:
                     continue
                 req = json.loads(line)
                 reply = self._syscall(pid, req)
+                if reply is None:       # __self 旁路行：agent 不等应答
+                    continue
                 try:
                     proc.stdin.write(json.dumps(reply, ensure_ascii=False) + "\n")
                     proc.stdin.flush()
@@ -75,16 +77,27 @@ class DemoKernel:
                     del pending[pid]
                     continue
 
-    def _syscall(self, pid: int, req: dict) -> dict:
+    def _syscall(self, pid: int, req: dict) -> dict | None:
+        """处理一行 syscall。返回 None = 无需回写（__self 旁路行）。
+
+        __self 旁路：selftest.* 的危险操作必须在 agent 进程里实测（那里才
+        装了 seccomp），agent 打回 {"op":..., "__self": reply} 一行——内核
+        识别后直接把 reply 入审计，不派发、不回写应答。
+        """
         op, args = str(req.get("op")), req.get("args") or {}
         if op not in self._caps[pid]:
-            reply = {"ok": False, "error": f"EPERM: {op} not in caps of pid {pid}"}
+            reply: dict | None = {"ok": False,
+                                  "error": f"EPERM: {op} not in caps of pid {pid}"}
+        elif "__self" in req:
+            reply = req["__self"]
         elif op == "sleep":
             reply = {"ok": True, "result": "interrupted?"}
+        elif op.startswith("selftest."):
+            reply = _selftest(op)   # 兜底：旁路设计下 agent 已本地拦截，不会走到
         else:
             reply = self._dispatch(op, args)      # 放行 → 代理到 MCP 驱动
         self._audit(pid, op, args, reply)
-        return reply
+        return None if "__self" in req else reply
 
     def _dispatch(self, op: str, args: dict) -> dict:
         if self.mcp is None:
@@ -107,6 +120,16 @@ class DemoKernel:
     def audit_rows(self) -> list[dict]:
         return [json.loads(l) for l in
                 self.audit_path.read_text(encoding="utf-8").splitlines() if l]
+
+
+def _selftest(op: str) -> dict:
+    """内核侧 selftest 兜底（协议完整性保留）。
+
+    危险操作必须在被 seccomp 收紧的 agent 进程里实测——kernel 若代为执行，
+    测的是内核自己的权限面，毫无意义。旁路设计下 agent.py 已把 selftest.*
+    拦在本地并以 __self 旁路行回报，此分支正常不可达。
+    """
+    return {"ok": False, "error": f"ENOSYS: {op} must run agent-side (__self)"}
 
 
 class _McpProxy:

@@ -3,6 +3,7 @@
 # 零依赖；不 import laos（demo 自包含）。
 import json
 import os
+import platform
 import subprocess
 import sys
 import tempfile
@@ -119,6 +120,26 @@ class KernelAgentTest(unittest.TestCase):
         k.kill(pid, signal.SIGTERM)            # 内核对真进程发真信号
         k.syscall_loop(timeout=5)
         self.assertLess(k.agent_exit(pid), 0)  # 负值=被信号杀死（Linux 语义）
+
+
+class SeccompTest(unittest.TestCase):
+    """L4 强制层：agent 进程自装 seccomp——内核之外无资源。"""
+
+    @unittest.skipUnless(platform.system() == "Linux", "seccomp 仅 Linux")
+    def test_agent_cannot_exec_or_socket(self):
+        k = DemoKernel()
+        k.write_script("jailed", [
+            {"op": "selftest.execve", "args": {}},
+            {"op": "selftest.socket", "args": {}},
+            {"op": "fs.read", "args": {"path": "a.txt"}},   # 管道 I/O 仍正常
+        ])
+        k.mcp = _ScriptServer({"content": [{"type": "text", "text": "DATA"}]})
+        pid = k.spawn("jailed", ["fs.read", "selftest.execve", "selftest.socket"])
+        k.syscall_loop(timeout=10)
+        rows = {(r["op"], r["ok"]) for r in k.audit_rows()}
+        self.assertIn(("selftest.execve", False), rows)
+        self.assertIn(("selftest.socket", False), rows)
+        self.assertIn(("fs.read", True), rows)
 
 
 if __name__ == "__main__":
