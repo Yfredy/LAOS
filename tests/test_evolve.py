@@ -112,6 +112,19 @@ class TestPayload(unittest.TestCase):
         with self.assertRaises(ValueError):
             EvolveResult.from_payload(bad2)
 
+    def test_optional_reward_fields_roundtrip(self):
+        p = self._payload()
+        p["reward_version"] = "aurase-4222"
+        p["reward_detail"] = {"OVRL": 3.367, "WER": 8.22, "weights": "4:2:2:2"}
+        r = EvolveResult.from_payload(p)
+        self.assertEqual(r.reward_version, "aurase-4222")
+        self.assertEqual(r.reward_detail["WER"], 8.22)
+
+    def test_legacy_payload_without_reward_still_constructs(self):
+        r = EvolveResult.from_payload(self._payload())  # 旧六字段
+        self.assertEqual(r.reward_version, "")
+        self.assertIsNone(r.reward_detail)
+
 
 class TestEnvRoots(unittest.TestCase):
     """env 红线：LAOS_EVOLVE_ROOTS 只能扩非禁区根，禁区永不可经 env 放行。"""
@@ -205,6 +218,25 @@ class TestEvolveSyscall(unittest.TestCase):
         self.assertFalse(res.ok)
         self.assertIn("EIO", res.error)
         self.assertIn("OSError", res.error)
+
+    def test_audit_records_reward_version_when_present(self):
+        register_executor(lambda job: EvolveResult(
+            0.9, "var/rsi/jobs/d/out.py", "ab" * 32, 5, 1.0, "var/rsi/jobs/d",
+            reward_version="aurase-4222"))
+        self._pcb(["evolve.*"])
+        res = asyncio.run(self.k.syscall(1, "evolve.run", self._args()))
+        self.assertTrue(res.ok, getattr(res, "error", res))
+        events = [r for r in self.k.audit.records if r.get("event") == "evolve"]
+        self.assertEqual(events[-1].get("reward_version"), "aurase-4222")
+
+    def test_audit_omits_reward_version_when_absent(self):
+        register_executor(lambda job: EvolveResult(
+            0.9, "var/rsi/jobs/d/out.py", "ab" * 32, 5, 1.0, "var/rsi/jobs/d"))
+        self._pcb(["evolve.*"])
+        res = asyncio.run(self.k.syscall(1, "evolve.run", self._args()))
+        self.assertTrue(res.ok, getattr(res, "error", res))
+        events = [r for r in self.k.audit.records if r.get("event") == "evolve"]
+        self.assertNotIn("reward_version", events[-1])
 
 
 class TestEvolveRunYieldsLoop(unittest.TestCase):

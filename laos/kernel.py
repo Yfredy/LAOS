@@ -987,11 +987,14 @@ class AgentKernel:
             # OSError（WinError 5 拒绝访问 / 路径超长）——兜成 EIO 不击穿
             # syscall 网关（MCP 路径 blanket except → EIO 同款口径）
             return CallResult.fail(f"EIO: evolve 驱动 OSError：{exc}")
-        self.audit.write({"t": time.time(), "event": "evolve", "op": "run",
-                          "pid": pcb.pid, "target": job.target,
-                          "iterations": result.iterations_completed,
-                          "best_score": result.best_score,
-                          "sha256": result.best_program_sha256})
+        evolve_event = {"t": time.time(), "event": "evolve", "op": "run",
+                        "pid": pcb.pid, "target": job.target,
+                        "iterations": result.iterations_completed,
+                        "best_score": result.best_score,
+                        "sha256": result.best_program_sha256}
+        if result.reward_version:
+            evolve_event["reward_version"] = result.reward_version
+        self.audit.write(evolve_event)
         return CallResult.ok_text(json.dumps(asdict(result),
                                              ensure_ascii=False, sort_keys=True))
 

@@ -48,6 +48,10 @@ class EvolveResult:
     iterations_completed: int
     elapsed_s: float
     artifacts_dir: str
+    # AuraSE 锚点相对性纪律（调研 §4.2#1）：奖励构成版本化进审计可追溯；
+    # 不携带时两字段为空——既有作业行为与审计行字节级不变
+    reward_version: str = ""
+    reward_detail: dict | None = None
 
     @classmethod
     def from_payload(cls, payload: dict) -> "EvolveResult":
@@ -58,7 +62,9 @@ class EvolveResult:
                     best_program_sha256=str(payload["best_program_sha256"]),
                     iterations_completed=int(payload["iterations_completed"]),
                     elapsed_s=float(payload["elapsed_s"]),
-                    artifacts_dir=str(payload["artifacts_dir"]))
+                    artifacts_dir=str(payload["artifacts_dir"]),
+                    reward_version=str(payload.get("reward_version", "")),
+                    reward_detail=payload.get("reward_detail"))
         except (KeyError, TypeError, ValueError) as exc:
             raise ValueError(f"EINVAL: evolve 结果 payload 契约破裂：{exc}") from exc
         if len(r.best_program_sha256) != 64 or any(
