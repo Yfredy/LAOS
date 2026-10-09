@@ -58,4 +58,4 @@
 | 2026-10-08-sentinel-wave.md | 已执行 | Sentinel 动作闸 → laos/sentinel.py + provenance（v0.28.0/28.1） |
 | 2026-10-08-speech-research-closeout.md | 已执行 | 语音三域收尾 → 三线 landscape/HTML/落地 + HY4 sherpa（152 绿） |
 | 2026-10-09-onboarding-handover.md | 已执行 | 新人交接 → docs/ONBOARDING.md + scripts/check_onboarding.py 门禁（本表所在波） |
-| 2026-10-09-openevolve-trial-and-laos-driver.md | 待执行 | OpenEvolve 试跑（var/ venv 隔离不碰 conda）→ laos/evolve.py 纯 stdlib 作业面 + evolve.run 内建 syscall（闸门链全走）+ drivers/drv_evolve.py（Spec：rsi-landscape §7/§8；计划随 2731b7d 入库，evolve.py/drv_evolve.py 尚无落地） |
+| 2026-10-09-openevolve-trial-and-laos-driver.md | 部分执行 | T1/2/4/5/6/8 已执行：laos/evolve.py（gate/装配面）+ evolve.run 内建 syscall（0462915）+ drivers/drv_evolve.py + openevolve_job.py（558f93d），主套件 1078 绿；T3/7 按预案收档 BLOCKED（无可用 LLM 后端——七端点全 401/网关 NXDOMAIN/无 ollama，证据 var/rsi/openevolve/OBSERVATIONS.md §后端/§e2e）；解锁 ollama 或 key 后补真跑 |
