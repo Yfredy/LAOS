@@ -125,6 +125,19 @@ class TestRun(unittest.TestCase):
                 drv.run(_job())
         self.assertIn("ETIMEDOUT", str(cm.exception))
 
+    def test_missing_interpreter_is_enoent(self):
+        # venv 活在 gitignored var/ 下——新克隆默认解释器不存在，裸
+        # WinError 2 须化成 ENOENT RuntimeError 而非击穿 syscall 协程
+        # （review F-A）
+        drv = drv_evolve.EvolveDriver()
+        with mock.patch.dict(os.environ, _clean_env(), clear=True), \
+             mock.patch.object(subprocess, "run",
+                               side_effect=FileNotFoundError(
+                                   2, "WinError 2")):
+            with self.assertRaises(RuntimeError) as cm:
+                drv.run(_job())
+        self.assertIn("ENOENT", str(cm.exception))
+
     def test_import_registers_executor(self):
         import laos.evolve as ev
         self.assertIn("openevolve", ev._executors)
@@ -136,6 +149,43 @@ class TestRun(unittest.TestCase):
                 target="var/rsi/jobs/d/initial_program.py",
                 evaluator="var/rsi/jobs/d/evaluator.py", iterations=5))
         self.assertEqual(r.best_score, 0.75)
+
+
+class TestWorkdirGate(unittest.TestCase):
+    """workdir 允许根校验（review F-B）：核心 gate 只查 target/evaluator，
+    驱动侧补闸——caller 传入的 workdir 归一化后必须落在 var/rsi/jobs/ 内
+    （自分配的带时间戳默认目录天然在根内，不经此闸）。"""
+
+    def _job_wd(self, workdir):
+        return EvolveJob(target="var/rsi/jobs/d/initial_program.py",
+                         evaluator="var/rsi/jobs/d/evaluator.py",
+                         iterations=5, workdir=workdir, timeout_s=60.0)
+
+    def test_outside_root_is_eperm(self):
+        # 相对域外 / 绝对路径 / ..逃逸归一 / 分隔符边（jobs2 不得借道
+        # jobs 前缀）四类全部 EPERM（EvolveGate.check 同款口径）
+        for bad in ("tmp/elsewhere", "C:/Windows/Temp/x",
+                    "var/rsi/jobs/../../tmp/x", "var/rsi/jobs2/x"):
+            with self.subTest(workdir=bad):
+                with mock.patch.dict(os.environ, _clean_env(), clear=True), \
+                     mock.patch.object(subprocess, "run",
+                                       return_value=_fake_run(
+                                           stdout=_payload())):
+                    with self.assertRaises(ValueError) as cm:
+                        drv_evolve._openevolve_executor(self._job_wd(bad))
+                self.assertIn("EPERM", str(cm.exception))
+
+    def test_inside_root_passes_through(self):
+        # 根内 caller 自定 workdir 原样透传进 --job JSON（不被改写）
+        with mock.patch.dict(os.environ, _clean_env(), clear=True), \
+             mock.patch.object(subprocess, "run",
+                               return_value=_fake_run(
+                                   stdout=_payload())) as m:
+            r = drv_evolve._openevolve_executor(
+                self._job_wd("var/rsi/jobs/custom"))
+        self.assertEqual(r.best_score, 0.75)
+        cmd = m.call_args[0][0]  # [python, openevolve_job.py, --job, json]
+        self.assertEqual(json.loads(cmd[3])["workdir"], "var/rsi/jobs/custom")
 
 
 if __name__ == "__main__":

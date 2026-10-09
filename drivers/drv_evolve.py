@@ -20,6 +20,7 @@ from __future__ import annotations
 import json
 import math
 import os
+import posixpath
 import subprocess
 import sys
 import time
@@ -27,7 +28,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from laos.evolve import (EvolveJob, EvolveResult, register_executor,  # noqa: E402
+from laos.evolve import (DEFAULT_ROOTS, EvolveJob, EvolveResult,  # noqa: E402
+                          register_executor,
                           status as core_status)
 
 DEFAULT_PYTHON = "var/rsi/openevolve/venv/Scripts/python.exe"
@@ -77,6 +79,13 @@ class EvolveDriver:
             raise RuntimeError(
                 f"ETIMEDOUT: evolve 作业超时 {self._timeout()}s："
                 f"target={job.target}（调 LAOS_EVOLVE_TIMEOUT）") from exc
+        except FileNotFoundError as exc:
+            # venv 活在 gitignored var/ 下——新克隆默认解释器不存在时
+            # subprocess 抛裸 WinError 2，这里化成 ENOENT RuntimeError，
+            # syscall 层 except (ValueError, RuntimeError, TypeError) 才接得住
+            raise RuntimeError(
+                f"ENOENT: venv 解释器不存在 {cmd[0]}"
+                "（var/rsi/openevolve 未搭建或调 LAOS_EVOLVE_PYTHON）") from exc
         if r.returncode != 0:
             raise RuntimeError(
                 f"EIO: evolve rc={r.returncode}：{(r.stderr or '').strip()[-600:]}")
@@ -94,13 +103,26 @@ class EvolveDriver:
 
 
 def _openevolve_executor(job: EvolveJob) -> EvolveResult:
-    """register_executor 登记的适配器；workdir 未指定时分配带时间戳目录。"""
+    """register_executor 登记的适配器；workdir 未指定时分配带时间戳目录。
+
+    workdir 允许根校验（review F-B）：核心 gate 只查 target/evaluator，
+    workdir 在驱动侧补闸——归一化后必须落在 var/rsi/jobs/ 内（分隔符
+    收边前缀匹配，EvolveGate.check 同款 ~3 行就地重实现，复用公开
+    DEFAULT_ROOTS 常量不 import 私有辅助；自分配的默认目录天然在根内）。
+    """
     if job.workdir is None:
         stamp = time.strftime("%Y%m%d-%H%M%S")
         job = EvolveJob(job.target, job.evaluator, job.iterations,
                         workdir=f"var/rsi/jobs/job-{stamp}-"
                                 f"{os.urandom(3).hex()}",
                         timeout_s=job.timeout_s)
+    else:
+        norm = posixpath.normpath(Path(job.workdir).as_posix())
+        if not any(norm == r or norm.startswith(r.rstrip("/") + "/")
+                   for r in DEFAULT_ROOTS):
+            raise ValueError(
+                f"EPERM: evolve workdir 不在允许根 var/rsi/jobs/ 内："
+                f"{job.workdir}")
     return EvolveDriver().run(job)
 
 
