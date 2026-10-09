@@ -57,6 +57,7 @@ class TestJournalPipeline(unittest.TestCase):
 
         drv_ear.transcribe = fake_transcribe
         self.calls = calls
+        self._transcribe = drv_ear.transcribe
 
     def tearDown(self):
         self._td.cleanup()
@@ -88,6 +89,60 @@ class TestJournalPipeline(unittest.TestCase):
         result = run_pipeline(empty, self.memory)
         self.assertEqual(result["ok"], [])
         self.assertEqual(result["errors"], [])
+
+    def test_soundscape_memories_per_hour(self):
+        import os
+        # 两段分属不同小时（mtime 相差 1h）：小时聚合键不同 → 两条声景记忆
+        os.utime(self.journal_dir / "rec-0001-1.wav",
+                 (1759957200.0, 1759957200.0))
+        os.utime(self.journal_dir / "rec-0002-2.wav",
+                 (1759960800.0, 1759960800.0))
+        from journal import run_pipeline
+        result = run_pipeline(self.journal_dir, self.memory,
+                              transcribe=self._transcribe,
+                              gc_keep_hours=None)
+        self.assertEqual(len(result["soundscape_hours"]), 2)
+        sc = [m for m in self.memory.recall("LUFS", k=10)
+              if m.get("kind") == "soundscape"]
+        self.assertGreaterEqual(len(sc), 2)
+        self.assertTrue(all("LUFS" in m["text"] for m in sc))
+        # 既有 journal 记忆不受影响
+        self.assertEqual(self.memory.stats()["by_kind"].get("journal"), 2)
+
+    def test_spectral_false_opts_out(self):
+        from journal import run_pipeline
+        result = run_pipeline(self.journal_dir, self.memory,
+                              transcribe=self._transcribe,
+                              spectral=False, gc_keep_hours=None)
+        self.assertEqual(result["soundscape_hours"], [])
+        self.assertIsNone(self.memory.stats()["by_kind"].get("soundscape"))
+
+    def test_features_survive_gc_zero(self):
+        from journal import run_pipeline
+        result = run_pipeline(self.journal_dir, self.memory,
+                              transcribe=self._transcribe, gc_keep_hours=0)
+        # 音频全焚后声景记忆仍在（特征先于 GC 提取）
+        self.assertEqual(len(list(self.journal_dir.glob("*.wav"))), 0)
+        self.assertEqual(len(result["soundscape_hours"]), 1)
+
+    def test_default_transcribe_resolution_uses_ear_transcribe(self):
+        # 回归钉：默认转写解析必须指向真实导出名 ear_transcribe
+        #（预存 bug：曾引用不存在的 drv_ear.transcribe，CLI 裸跑 AttributeError；
+        #  测试里因 setUp 打了同名 mock 而长期漏网）
+        import drv_ear
+        real = drv_ear.ear_transcribe
+        drv_ear.ear_transcribe = self._transcribe
+        setUp_fake = drv_ear.transcribe      # setUp 的旧 mock 名：先摘除，
+        del drv_ear.transcribe               # 还原"真实模块无 transcribe"面
+        try:
+            from journal import run_pipeline
+            result = run_pipeline(self.journal_dir, self.memory,
+                                  gc_keep_hours=None)  # 不传 transcribe：走默认解析
+            self.assertEqual(len(result["ok"]), 2)
+            self.assertEqual(len(result["soundscape_hours"]), 1)
+        finally:
+            drv_ear.ear_transcribe = real
+            drv_ear.transcribe = setUp_fake
 
 
 if __name__ == "__main__":

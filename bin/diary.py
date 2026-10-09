@@ -46,6 +46,7 @@ SECTION_TITLES = (
     "三、被拒绝与原因",
     "四、明天可以试试",
     "五、今天听到的",
+    "六、今天的节律与声景",
 )
 TOP_TOOLS_N = 5
 
@@ -272,8 +273,29 @@ def build_diary(date: str, audit_records: list[dict], memory_store: MemoryStore,
     else:
         heard_txt = "（今天没有听觉日志——rec.start + bin/journal.py 可以补上）"
 
+    # ---- 第六章：今天的节律与声景（时域节律 + 频域声景双记忆）----------
+    from laos.rhythm import busiest, dominant_emotion, hour_profile, render
+    lines6 = []
+    if heard:
+        profile = hour_profile(heard)
+        lines6.append(
+            f"- 节律：{render(profile)}"
+            f"——最活跃 {busiest(profile)} 时，"
+            f"主导情绪 {dominant_emotion(profile) or 'NEUTRAL'}")
+        memory_store.remember(
+            kind="rhythm", text=render(profile), tags=[date],
+            origin="diary")  # 时序记忆快照：日后可 mem.recall("<日期> 14时")
+        sc = [r for r in memory_store._records
+              if r.get("kind") == "soundscape" and date in r.get("tags", [])]
+        for r in sc:
+            lines6.append(f"- 声景：{r['text']}")
+    rhythm_txt = ("\n".join(lines6)
+                  if lines6
+                  else "（今天没有节律/声景记录——journal 管线跑过才有）")
+
     sections = dict(zip(SECTION_TITLES,
-                        (did, memories, denied_txt, tomorrow, heard_txt)))
+                        (did, memories, denied_txt, tomorrow, heard_txt,
+                         rhythm_txt)))
 
     # ---- 写文件 + 记住日记 ------------------------------------------------
     diary_dir = memory_store.path.parent / "diary"

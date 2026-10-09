@@ -11,6 +11,7 @@ import tempfile
 import time
 import unittest
 from pathlib import Path
+from datetime import datetime
 from unittest import mock
 
 REPO = Path(__file__).resolve().parents[1]
@@ -20,7 +21,7 @@ sys.path.insert(0, str(REPO / "bin"))  # bin/ 非包，路径注入以便 import
 from laos.memory import MemoryStore  # noqa: E402
 from diary import SECTION_TITLES, _load_audit, build_diary  # noqa: E402
 
-SECTION_TITLES_EXPECTED = ("一、今天做了什么", "二、新记住的事", "三、被拒绝与原因", "四、明天可以试试", "五、今天听到的")
+SECTION_TITLES_EXPECTED = ("一、今天做了什么", "二、新记住的事", "三、被拒绝与原因", "四、明天可以试试", "五、今天听到的", "六、今天的节律与声景")
 
 
 class TestBuildDiary(unittest.TestCase):
@@ -107,6 +108,36 @@ class TestBuildDiary(unittest.TestCase):
 
     def test_section_titles_constant(self):
         self.assertEqual(tuple(SECTION_TITLES), SECTION_TITLES_EXPECTED)
+
+    def test_sixth_section_renders_rhythm_and_soundscape(self):
+        # 当天 14 时两条 journal 记忆 + 一条当日 soundscape 记忆
+        day_start = datetime.strptime(self.date, "%Y-%m-%d").timestamp()
+        h14 = day_start + 14 * 3600
+        self.store.remember("journal", "[14:02] 说了句什么", tags=["HAPPY"])
+        self.store._records[-1]["ts"] = h14  # 直接钉时间戳（绕开 now 偶然）
+        self.store.remember("journal", "[14:40] 又说了句", tags=["NEUTRAL"])
+        self.store._records[-1]["ts"] = h14 + 2380
+        self.store.remember("soundscape",
+                            "14时 2段：LUFS -23.4 PLR 9.8 峰值带 1000Hz"
+                            "(-30.1dB) flatness 0.012",
+                            tags=[self.date, "soundscape"])
+        self.store._records[-1]["ts"] = h14
+        result = build_diary(self.date, self.records, self.store)
+        sixth = result["六、今天的节律与声景"]
+        self.assertIn("14时 2段", sixth)
+        self.assertIn("LUFS -23.4", sixth)
+        self.assertIn("最活跃 14 时", sixth)
+        # rhythm 快照入库：kind=rhythm，tags 含日期
+        rhythms = [m for m in self.store._records if m.get("kind") == "rhythm"]
+        self.assertEqual(len(rhythms), 1)
+        self.assertIn(self.date, rhythms[0]["tags"])
+        self.assertIn("14时", rhythms[0]["text"])
+
+    def test_sixth_section_empty_placeholder(self):
+        result = build_diary(self.date, self.records, self.store)
+        self.assertIn("没有节律/声景记录", result["六、今天的节律与声景"])
+        self.assertFalse([m for m in self.store._records
+                          if m.get("kind") == "rhythm"])
 
 
 class TestCrossGeneration(unittest.TestCase):
