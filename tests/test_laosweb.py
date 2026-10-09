@@ -876,5 +876,115 @@ class TestApprovalScope(KernelTestCase):
                          "deny 不得落 grant")
 
 
+class TestChatApi(KernelTestCase):
+    """个人 agent 对话面：未配置降级 / 假客户端全流程 / 审计脱敏。
+
+    模块级 _llm 与 _chat_log 在用例间必须复位（Task 0 教训：全局状态
+    不得跨用例泄漏）。
+    """
+
+    class _StubClient:
+        def __init__(self, reply="回声"):
+            self.system = "test-system"
+            self.model = "stub-model"
+            self.reply = reply
+            self.calls = []
+
+        def chat(self, messages):
+            self.calls.append([dict(m) for m in messages])
+            return self.reply
+
+    def setUp(self):
+        super().setUp()
+        import laosweb
+        self._llm_backup = laosweb._llm
+        self._log_backup = list(laosweb._chat_log)
+        self._kernel_backup = laosweb._kernel
+        laosweb._llm = None
+        laosweb._chat_log.clear()
+        laosweb._kernel = self.kernel      # _audit_llm 经 get_kernel() 取内核
+
+    def tearDown(self):
+        import laosweb
+        laosweb._llm = self._llm_backup
+        laosweb._chat_log[:] = self._log_backup
+        laosweb._kernel = self._kernel_backup
+        super().tearDown()
+
+    def test_unconfigured_returns_503(self):
+        from laosweb import _handle_chat
+        code, payload = _handle_chat({"text": "hi"})
+        self.assertEqual(code, 503)
+        self.assertIn("LAOS_LLM", payload["error"])
+
+    def test_empty_text_400(self):
+        from laosweb import _handle_chat
+        self.assertEqual(_handle_chat({"text": "  "})[0], 400)
+
+    def test_chat_flow_with_stub_client(self):
+        import laosweb
+        stub = self._StubClient("你好，我是 stub")
+        laosweb._llm = stub
+        code, payload = laosweb._handle_chat({"text": "在吗"})
+        self.assertEqual(code, 200)
+        self.assertTrue(payload["ok"])
+        self.assertEqual(payload["reply"], "你好，我是 stub")
+        self.assertEqual(payload["model"], "stub-model")
+        # 会话历史：一问一答成对入 log
+        self.assertEqual([m["role"] for m in payload["log"]],
+                         ["user", "assistant"])
+        # 消息组装：system 前置 + 历史 + 本轮 user
+        self.assertEqual(stub.calls[0][0]["content"], "test-system")
+        self.assertEqual(stub.calls[0][-1], {"role": "user", "content": "在吗"})
+        # 第二轮携带第一轮历史
+        laosweb._handle_chat({"text": "第二问"})
+        roles = [m["role"] for m in stub.calls[1]]
+        self.assertEqual(roles, ["system", "user", "assistant", "user"])
+
+    def test_reset_clears_log(self):
+        import laosweb
+        laosweb._llm = self._StubClient()
+        laosweb._handle_chat({"text": "a"})
+        code, payload = laosweb._handle_chat({"reset": True})
+        self.assertEqual(code, 200)
+        self.assertEqual(payload["log"], [])
+        self.assertEqual(laosweb._chat_view(), [])
+
+    def test_audit_content_free(self):
+        import laosweb
+        laosweb._llm = self._StubClient("秘密回复内容")
+        secret_q = "这个问题包含秘密123"
+        laosweb._handle_chat({"text": secret_q})
+        recs = [r for r in self.kernel.audit.records if r.get("event") == "llm"]
+        self.assertEqual(len(recs), 1)
+        self.assertTrue(recs[0]["ok"])
+        self.assertEqual(recs[0]["model"], "stub-model")
+        self.assertIn("ms", recs[0])
+        # 隐私红线：内容永不入审计——问句与回复都不得出现在任何审计行
+        for r in self.kernel.audit.records:
+            self.assertNotIn(secret_q, json.dumps(r, ensure_ascii=False))
+            self.assertNotIn("秘密回复内容", json.dumps(r, ensure_ascii=False))
+
+    def test_build_state_includes_chat(self):
+        import laosweb
+        state = laosweb.build_state(self.kernel)
+        self.assertIn("chat", state)
+        self.assertFalse(state["chat"]["configured"])
+        self.assertEqual(state["chat"]["log"], [])
+        laosweb._llm = self._StubClient()
+        state = laosweb.build_state(self.kernel)
+        self.assertTrue(state["chat"]["configured"])
+        self.assertEqual(state["chat"]["model"], "stub-model")
+
+    def test_page_wires_chat_dom(self):
+        # 前端契约：对话卡 DOM 锚点与 XSS 纪律（textContent，无 innerHTML）
+        from laosweb import PAGE
+        for anchor in ('id="llm-log"', 'id="llm-in"', 'id="btn-llm-send"',
+                       "renderLlm", '"/api/chat"'):
+            self.assertIn(anchor, PAGE)
+        self.assertNotIn("innerHTML", PAGE)
+
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

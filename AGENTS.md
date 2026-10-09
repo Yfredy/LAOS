@@ -34,6 +34,9 @@ push master+tag → GitHub Release 页。漏掉任何一步都算发版事故。
 - **一端一目录，绝不互放**：
   - `laos/` 核心包（纯 stdlib，唯一代码家）
   - `bin/` CLI 入口（laosctl/laosd/laosweb）
+  - `clients/` 各端薄壳（2026-10-09 登记：`clients/android/` 最小
+    WebView 壳——架构取经 nanoMuse 只学设计零抄码；不进主测试套件，
+    自带 README；加新端先在此登记）
   - `demos/` 认知演示
   - `zones/` 四棵 zone 树（Trae=哨兵对照 / ZCode=隔离区 / DB=沙箱 /
     Repro-ZCode=复现区）——release.py 的 zone 路径与 DOC_GLOBS 都锚在

@@ -39,6 +39,7 @@ sys.path.insert(0, str(REPO / "bin"))  # bin/ 非包：注入以便 import diary
 import laosd  # noqa: E402  复用引导器：boot_kernel / seed_main_branch / demo / WORKDIR
 import diary as diary_mod  # noqa: E402  每日日记生成（build_diary）
 from laos.context import ContextManager  # noqa: E402  operator 进程的上下文
+from laos.llm import LLMClient, LLMError  # noqa: E402  个人 agent 云端大脑（LAOS_LLM_*）
 
 PORT = int(os.environ.get("LAOS_WEB_PORT", "8800"))
 
@@ -46,6 +47,11 @@ PORT = int(os.environ.get("LAOS_WEB_PORT", "8800"))
 _kernel = None
 # demo 线程结束后置 True，面板据此前置"运行中/已结束"徽标
 _demo_done = False
+# 个人 agent 对话面（LAOS_LLM_* 云端大脑；main() 装配，测试可直接注入）
+_llm = None
+_chat_log: list[dict] = []        # [{"role": "user"|"assistant", "text"}]
+_chat_lock = threading.Lock()
+CHAT_LOG_CAP = 60                 # 30 轮；state 投影再截尾 20 条
 
 # ---- 交互状态（确认队列 / operator / demo 代数）--------------------------
 # 确认队列：cid -> {id, op, event, answer}；web_confirm 压队并阻塞等待，
@@ -247,6 +253,10 @@ def build_state(kernel) -> dict:
         "diary": _diary_view(kernel),
         # 治理面（sentinel 的可观测投影；未装配时优雅降级）
         "sentinel": _sentinel_view(kernel),
+        # 个人 agent 对话面（LAOS_LLM_* 未配置时 configured=False 优雅降级）
+        "chat": {"configured": _llm is not None,
+                 "model": _llm.model if _llm is not None else "",
+                 "log": _chat_view()},
     }
 
 
@@ -310,6 +320,10 @@ input[type=number]{width:72px}
 .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}
 .row input[type=text]{flex:1;min-width:150px}
 #chat-pending .card{border-color:var(--danger)}
+#llm-log{max-height:42vh;overflow-y:auto;display:flex;flex-direction:column;gap:6px;margin:8px 0}
+.llm-u,.llm-a{padding:8px 10px;border-radius:10px;max-width:88%;white-space:pre-wrap;word-break:break-word}
+.llm-u{align-self:flex-end;background:#0f6f5c;color:#fff}
+.llm-a{align-self:flex-start;background:#161b22;border:1px solid #30363d}
 .arow{padding:3px 0;border-bottom:1px dashed var(--line);white-space:nowrap;
   overflow:hidden;text-overflow:ellipsis}
 .rrow{margin-right:12px;white-space:nowrap}
@@ -337,6 +351,15 @@ table.tbl{width:100%;border-collapse:collapse}
     <div id="v-chat">
       <div id="chat-status"></div>
       <div id="chat-pending"></div>
+      <div class="card"><b id="llm-title">对话（未配置）</b>
+        <div id="llm-log"></div>
+        <div class="row">
+          <input id="llm-in" type="text" placeholder="问你的 agent…">
+          <button class="act primary" id="btn-llm-send">发送</button>
+          <button class="act" id="btn-llm-new" title="清空会话">↺</button>
+        </div>
+        <div class="muted" id="llm-msg"></div>
+      </div>
       <div class="card"><b>operator 信箱</b>
         <div class="row">
           <select id="msg-to"></select>
@@ -662,8 +685,24 @@ function renderGov(s) {
   for (const t of (sen.egress_tools || [])) tools.append(chip(t, "err"));
 }
 
+function renderLlm(c) {
+  if (!c) return;
+  $("#llm-title").textContent = "对话" + (c.configured ? "（" + (c.model || "?") + "）" : "（未配置）");
+  $("#llm-in").disabled = !c.configured;
+  $("#btn-llm-send").disabled = !c.configured;
+  const log = $("#llm-log");
+  log.textContent = "";
+  for (const m of (c.log || [])) {
+    const b = document.createElement("div");
+    b.className = m.role === "user" ? "llm-u" : "llm-a";
+    b.textContent = m.text;               // XSS 纪律：textContent，永不拼 HTML
+    log.append(b);
+  }
+  log.scrollTop = log.scrollHeight;
+}
 function render(s) {
   renderStatus(s);
+  renderLlm(s.chat);
   renderPending(s);
   renderProcs(s);
   renderMsgs(s);
@@ -705,7 +744,29 @@ async function genDiary() {
     : "失败: " + (r.data.error || "HTTP " + r.status);
   refreshNow();
 }
+async function sendChat() {
+  const inp = $("#llm-in");
+  const text = inp.value.trim();
+  if (!text) return;
+  $("#llm-msg").textContent = "思考中…";
+  inp.value = ""; inp.disabled = true;
+  const r = await post("/api/chat", { text: text });
+  inp.disabled = $("#btn-llm-send").disabled;
+  $("#llm-msg").textContent = (!r.ok || !r.data.ok)
+    ? "失败: " + ((r.data && r.data.error) || "HTTP " + r.status)
+    : (r.data.ms + "ms");
+  refreshNow();
+}
 $("#btn-msg-send").onclick = sendMsg;
+$("#btn-llm-send").onclick = sendChat;
+$("#btn-llm-new").onclick = async () => {
+  await post("/api/chat", { reset: true });
+  $("#llm-msg").textContent = "";
+  refreshNow();
+};
+$("#llm-in").addEventListener("keydown", e => {
+  if (e.key === "Enter") sendChat();
+});
 $("#btn-restart").onclick = restartDemo;
 $("#btn-diary").onclick = genDiary;
 for (const b of document.querySelectorAll("#gov-modes button"))
@@ -997,6 +1058,65 @@ def _do_restart(body: dict) -> tuple[int, dict]:
     return 200, {"ok": True}
 
 
+def _chat_view(tail: int = 20) -> list[dict]:
+    with _chat_lock:
+        return [dict(m) for m in list(_chat_log)[-tail:]]
+
+
+def _audit_llm(model: str, started: float, ok: bool,
+               out_len: int = 0, err: str = "") -> None:
+    """LLM 调用审计：只记 模型/耗时/成败/长度——内容永不入审计（隐私红线）。"""
+    k = get_kernel()
+    if k is None:
+        return
+    rec = {"t": time.time(), "pid": 0, "op": "llm.chat", "event": "llm",
+           "ok": ok, "model": model,
+           "ms": int((time.monotonic() - started) * 1000), "out_len": out_len}
+    if err:
+        rec["err"] = err[:120]
+    try:
+        k.audit.write(rec)
+    except Exception:
+        pass  # 审计失败不阻断对话链路
+
+
+def _handle_chat(body: dict) -> tuple[int, dict]:
+    """POST /api/chat {"text"} / {"reset": true}：个人 agent 对话。
+
+    未配置 LAOS_LLM_* → 503（能力缺席不假装存在，与 sentinel 未装配同
+    哲学）；调用失败 → 502（LLMError 带原因）；成功追加双向气泡进会话
+    历史（内存态，重启即清——持久化对话记忆留给后续波接 MemoryStore）。
+    """
+    if body.get("reset"):
+        with _chat_lock:
+            _chat_log.clear()
+        return 200, {"ok": True, "log": []}
+    text = str(body.get("text") or "").strip()
+    if not text:
+        return 400, {"error": "text required"}
+    client = _llm
+    if client is None:
+        return 503, {"error": "LLM 未配置：设 LAOS_LLM_BASE_URL 与 "
+                              "LAOS_LLM_MODEL（可选 LAOS_LLM_KEY）后重启 laosweb"}
+    messages = [{"role": "system", "content": client.system}]
+    messages += [{"role": m["role"], "content": m["text"]} for m in _chat_view(CHAT_LOG_CAP)]
+    messages.append({"role": "user", "content": text})
+    started = time.monotonic()
+    try:
+        reply = client.chat(messages)
+    except LLMError as exc:
+        _audit_llm(client.model, started, ok=False, err=str(exc))
+        return 502, {"error": f"LLM 调用失败: {exc}"}
+    ms = int((time.monotonic() - started) * 1000)
+    with _chat_lock:
+        _chat_log.append({"role": "user", "text": text})
+        _chat_log.append({"role": "assistant", "text": reply})
+        del _chat_log[:-CHAT_LOG_CAP]
+    _audit_llm(client.model, started, ok=True, out_len=len(reply))
+    return 200, {"ok": True, "reply": reply, "model": client.model,
+                 "ms": ms, "log": _chat_view()}
+
+
 _POST_ROUTES = {
     "/api/confirm": _handle_confirm,
     "/api/kill": _handle_kill,
@@ -1005,6 +1125,7 @@ _POST_ROUTES = {
     "/api/restart": _handle_restart,
     "/api/diary": _handle_diary,
     "/api/sentinel": _handle_sentinel,
+    "/api/chat": _handle_chat,
 }
 
 
@@ -1078,6 +1199,8 @@ def _boot_stack(confirm_mode: str, risk_budget: int):
 
 
 def main() -> int:
+    global _llm
+    _llm = LLMClient.from_env()
     try:
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # type: ignore[attr-defined]
     except Exception:
