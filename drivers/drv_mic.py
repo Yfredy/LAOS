@@ -287,8 +287,12 @@ def mic_replay(seconds: float = 20.0) -> str:
 
 
 def _prune_replay_dir(out_dir: Path, keep: int = 20) -> None:
-    """回放快照即焚位：目录内只留最近 keep 份（写后清，防长期堆积）。"""
-    files = sorted(out_dir.glob("replay-*.wav"))
+    """回放快照即焚位：目录内只留最近 keep 份（写后清，防长期堆积）。
+
+    按 mtime 排序而非文件名：驱动重启后 _ring_seq 归零，新快照名会排在
+    旧快照前——名字序会误删新的留下旧的；mtime 序跨重启始终正确。
+    """
+    files = sorted(out_dir.glob("replay-*.wav"), key=lambda p: p.stat().st_mtime)
     for old in (files[:-keep] if len(files) > keep else []):
         old.unlink(missing_ok=True)
 

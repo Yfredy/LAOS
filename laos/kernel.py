@@ -706,10 +706,14 @@ class AgentKernel:
                 result = impl(pcb, args)
             elapsed_ms = (time.perf_counter() - started) * 1000
             pcb.stats["syscalls"] += 1
+            # 隐私红线（C1）：rec.replay 的 result JSON 含 ASR 转写文本，
+            # 持久化 syscall 审计对它抹除——转写永不落盘；失败 errno 由
+            # _impl_rec_replay 的 event:"mic" 补账记录（metadata-only）
             self.audit.write(
                 {"t": time.time(), "event": "syscall", "pid": pid, "agent": pcb.name,
                  "tool": tool, "args": args, "ok": result.ok,
-                 "ms": round(elapsed_ms, 2), "result": result.text[:500],
+                 "ms": round(elapsed_ms, 2),
+                 "result": "" if tool == "rec.replay" else result.text[:500],
                  "builtin": True}
             )
         else:
@@ -1005,19 +1009,31 @@ class AgentKernel:
         HTTP 线程 asyncio.run 内调用也不会劈锁（laosweb /api/replay 路径）。
         """
         from .mcp import CallResult
-        mic = self.drivers.get("mic")
-        if mic is None or "mic.replay" not in mic.tools:
-            return CallResult.fail("ENOENT: mic driver not loaded")
         seconds = float(args.get("seconds", 20))
         language = str(args.get("language") or "auto")
         transcribe = bool(args.get("transcribe", True))
+
+        # M2：失败路径同样补 event:"mic" 账——ok:False + 纯元数据（请求
+        # 秒数/是否转写/短 errno 注记），文本与音频永不入审计
+        def _fail_mic_audit(errno: str) -> None:
+            self.audit.write({"t": time.time(), "event": "mic", "pid": pcb.pid,
+                              "tool": "rec.replay", "ok": False, "denied": False,
+                              "seconds": seconds, "transcribe": transcribe,
+                              "errno": errno[:80]})
+
+        mic = self.drivers.get("mic")
+        if mic is None or "mic.replay" not in mic.tools:
+            _fail_mic_audit("ENOENT: mic driver not loaded")
+            return CallResult.fail("ENOENT: mic driver not loaded")
         t0 = time.perf_counter()
         snap = mic.call_tool("mic.replay", {"seconds": seconds})
         if not snap.ok:
+            _fail_mic_audit(snap.text)
             return CallResult.fail(snap.text)
         try:
             payload = json.loads(snap.text)
         except json.JSONDecodeError:
+            _fail_mic_audit("EIO: mic.replay bad payload")
             return CallResult.fail(
                 f"EIO: mic.replay bad payload: {snap.text[:120]}")
         payload.update({"text": "", "language": "", "emotions": [],
@@ -1025,23 +1041,29 @@ class AgentKernel:
         if transcribe:
             ear = self.drivers.get("ear")
             if ear is None or "ear.transcribe" not in ear.tools:
+                _fail_mic_audit("ENOENT: ear driver not loaded")
                 return CallResult.fail("ENOENT: ear driver not loaded")
             t1 = time.perf_counter()
             tr = ear.call_tool("ear.transcribe",
                                {"wav": payload["wav"], "language": language})
             payload["transcribe_ms"] = round((time.perf_counter() - t1) * 1000)
             if not tr.ok:
+                _fail_mic_audit(tr.text)
                 return CallResult.fail(tr.text)
             try:
                 item = json.loads(tr.text)
             except json.JSONDecodeError:
+                _fail_mic_audit("EIO: ear.transcribe bad payload")
                 return CallResult.fail("EIO: ear.transcribe bad payload")
             payload.update({"text": item.get("text", ""),
                             "language": item.get("language", ""),
                             "emotions": item.get("emotions", []),
                             "source": item.get("source", "")})
         # 隐私红线：rec.replay 暴露拾音内容，按 mic.* 同口径补 event:"mic"
-        # 审计——只记元数据（秒数/是否转写），文本与音频永不入审计
+        # 审计——只记元数据（秒数/是否转写），文本与音频永不入审计；
+        # syscall 审计的 result 字段同样对 rec.replay 抹除（派发尾部
+        # "" if tool == "rec.replay"，ASR 转写永不落盘），失败路径的
+        # errno 由上方 _fail_mic_audit 补账
         self.audit.write({"t": time.time(), "event": "mic", "pid": pcb.pid,
                           "tool": "rec.replay", "ok": True, "denied": False,
                           "seconds": payload.get("seconds"),
@@ -1066,9 +1088,10 @@ class AgentKernel:
                 "result": err,
             }
         )
-        # 隐私红线补口子：mic.* 被内核拒绝（EPERM/EDQUOT/EACCES 等）同样要
-        # 留下 event:"mic" 审计——录音意图无论成败都可追责、可计数
-        if tool.startswith("mic."):
+        # 隐私红线补口子：mic.* 与 rec.replay 被内核拒绝（EPERM/EDQUOT/
+        # EACCES 等）同样要留下 event:"mic" 审计——录音意图无论成败都
+        # 可追责、可计数
+        if tool.startswith("mic.") or tool == "rec.replay":
             self.audit.write({"t": time.time(), "event": "mic",
                               "pid": pcb.pid, "tool": tool,
                               "denied": True, "reason": err})

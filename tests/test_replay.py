@@ -57,12 +57,16 @@ class TestMicReplayTool(unittest.TestCase):
         self.assertGreaterEqual(out["ring_seconds"], 0.99)
 
     def test_replay_disabled_under_laos_rec_0(self):
+        prior = os.environ.get("LAOS_REC")  # 保存原值，测完还原（不裸 del）
         os.environ["LAOS_REC"] = "0"
         try:
             with self.assertRaises(PermissionError):
                 drv_mic.mic_replay()
         finally:
-            del os.environ["LAOS_REC"]
+            if prior is None:
+                os.environ.pop("LAOS_REC", None)
+            else:
+                os.environ["LAOS_REC"] = prior
 
     def test_replay_without_ring_raises_enoent(self):
         drv_mic._ring = None
@@ -77,14 +81,20 @@ class TestMicReplayTool(unittest.TestCase):
 
     def test_ring_seconds_env_clamped_to_budget(self):
         # 内存预算红线：默认 30s、下限 5s、上限 120s、坏值回落 30s
-        self.assertEqual(drv_mic._ring_seconds_from_env(), 30.0)
-        os.environ["LAOS_REPLAY_RING_S"] = "9999"
-        self.assertEqual(drv_mic._ring_seconds_from_env(), 120.0)
-        os.environ["LAOS_REPLAY_RING_S"] = "3"
-        self.assertEqual(drv_mic._ring_seconds_from_env(), 5.0)
-        os.environ["LAOS_REPLAY_RING_S"] = "abc"
-        self.assertEqual(drv_mic._ring_seconds_from_env(), 30.0)
-        del os.environ["LAOS_REPLAY_RING_S"]
+        prior = os.environ.get("LAOS_REPLAY_RING_S")  # 保存原值，测完还原
+        try:
+            self.assertEqual(drv_mic._ring_seconds_from_env(), 30.0)
+            os.environ["LAOS_REPLAY_RING_S"] = "9999"
+            self.assertEqual(drv_mic._ring_seconds_from_env(), 120.0)
+            os.environ["LAOS_REPLAY_RING_S"] = "3"
+            self.assertEqual(drv_mic._ring_seconds_from_env(), 5.0)
+            os.environ["LAOS_REPLAY_RING_S"] = "abc"
+            self.assertEqual(drv_mic._ring_seconds_from_env(), 30.0)
+        finally:
+            if prior is None:
+                os.environ.pop("LAOS_REPLAY_RING_S", None)
+            else:
+                os.environ["LAOS_REPLAY_RING_S"] = prior
 
 
 class _FakeDriver:
@@ -154,6 +164,12 @@ class TestRecReplayBuiltin(unittest.TestCase):
         self.assertEqual(len(recs), 1)
         self.assertNotIn("text", recs[0])  # 只记元数据，转写文本永不入审计
         self.assertIn("seconds", recs[0])
+        # C1 收口：转写文本不得泄入任何审计记录——syscall 审计的 result
+        # 字段曾带完整 payload JSON，必须逐条扫全部记录的所有值
+        # （不只 event=="mic"）才能守住
+        leaked = [r for r in self.kernel.audit.records
+                  if any("刚刚没听清的那句话" in str(v) for v in r.values())]
+        self.assertEqual(leaked, [], f"transcript leaked into audit: {leaked}")
 
     def test_replay_denied_without_cap(self):
         pid2 = self.kernel.spawn(name="noright", caps=["msg.*"],
@@ -162,12 +178,27 @@ class TestRecReplayBuiltin(unittest.TestCase):
         result = asyncio.run(self.kernel.syscall(pid2, "rec.replay", {}))
         self.assertFalse(result.ok)
         self.assertIn("EPERM", result.text)
+        # M2：内核拒绝（无 caps）也要落 event:"mic" 账（denied:true）——
+        # 与 mic.* 被内核 _deny 拒绝同口径
+        denied = [r for r in self.kernel.audit.records
+                  if r.get("event") == "mic" and r.get("tool") == "rec.replay"]
+        self.assertEqual(len(denied), 1)
+        self.assertTrue(denied[0]["denied"])
+        self.assertIn("EPERM", denied[0]["reason"])
 
     def test_replay_missing_mic_driver_fails_enoent(self):
         del self.kernel.drivers["mic"]
         result = asyncio.run(self.kernel.syscall(self.pid, "rec.replay", {}))
         self.assertFalse(result.ok)
         self.assertIn("ENOENT", result.text)
+        # M2：驱动缺失的失败路径同样补 event:"mic" 账（ok:False 纯元数据
+        # + 短 errno，无文本/音频）
+        fails = [r for r in self.kernel.audit.records
+                 if r.get("event") == "mic" and r.get("tool") == "rec.replay"]
+        self.assertEqual(len(fails), 1)
+        self.assertFalse(fails[0]["ok"])
+        self.assertIn("ENOENT", fails[0]["errno"])
+        self.assertNotIn("text", fails[0])
 
     def test_replay_private_tools_marks_taint(self):
         from laos.sentinel import Sentinel, SentinelConfig
