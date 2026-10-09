@@ -1,7 +1,7 @@
 # 计划状态登记（plans/）
 
 > **本仓库约定：计划正文的 checkbox 执行时不勾选——完成度看 commit 与落点，不看 checkbox。**
-> 状态三值：`已执行`（交付物在 git 历史可证）/ `部分执行` / `待执行`。本表 44 份（2026-10-09 复盘点 42 + 新增 audio-replay/aor-lifelog）。
+> 状态三值：`已执行`（交付物在 git 历史可证）/ `部分执行` / `待执行`。本表 45 份（2026-10-09 复盘点 42 + 新增 audio-replay/aor-lifelog/aurase-adoption）。
 > 排查命令：`git log --oneline --all -- <落点路径>`。
 
 ## 计划编写纪律（2026-10-09 制度化，取自 writing-plans 技能查漏补缺）
@@ -61,3 +61,4 @@
 | 2026-10-09-openevolve-trial-and-laos-driver.md | 部分执行 | T1/2/4/5/6/8 已执行：laos/evolve.py（gate/装配面）+ evolve.run 内建 syscall（0462915）+ drivers/drv_evolve.py + openevolve_job.py（558f93d），主套件 1078 绿；T3/7 按预案收档 BLOCKED（无可用 LLM 后端——七端点全 401/网关 NXDOMAIN/无 ollama，证据 var/rsi/openevolve/OBSERVATIONS.md §后端/§e2e）；解锁 ollama 或 key 后补真跑 |
 | 2026-10-09-audio-replay.md | 待执行 | 录音回放 rec.replay：laos/ringbuf.py 环冲（30s=960KB/clamp 120s，内存预算红线）+ mic.replay 快照 + 内核跨驱动组装（event:mic 审计+sentinel 置污）+ laosweb /api/replay 卡片；含 v0.36.0 发版任务；摘要模型留扩展位（§扩展位，本期禁实现） |
 | 2026-10-09-aor-lifelog.md | 待执行 | 生活日志双记忆：laos/soundscape.py 频域声景（Goertzel+LUFS 复用，即焚前提取）+ laos/rhythm.py 时域节律 + journal --diary 一键日记 + diary 第六章（SECTION_TITLES 5→6 契约变更）；零新增常驻内存（ADSP 权威存储分工表 §衔接）；§功能版图=既有 24 份调研的诚实盘点；含 v0.37.0 发版任务 |
+| 2026-10-09-aurase-adoption.md | 待执行 | AuraSE 取长补短落地：laos/evolve.py RewardSpec+aggregate 奖励治理面（4:2:2:2 防单指标 hacking + 版本化锚点，语义源=Repro-ZCode 规则版零 import）+ EvolveResult 可选 reward 字段（from_payload 容缺）+ evolve 审计记 reward_version（不带时字节级不变）+ drivers/README 立约（模块地图/奖励面用法/生成式音频三维幻觉审计）；jitmem 采样借鉴明确不做（确定性是特性）；不占版本号（随 aor-waves 后下一 MINOR） |
