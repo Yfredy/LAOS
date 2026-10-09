@@ -41,3 +41,18 @@
    Run: `bash demos/agentos-demo/run_demo.sh`（Windows 上经 WSL 或 Git Bash；`.gitattributes` 已设 `*.sh eol=lf`）
    说明：`demos/agentos-demo/README.md`——五幕剧本，Agent 是真 Linux 进程、MCP 文件服务是真驱动、seccomp 是真强制层。
 5. **读核心包（按依赖序）**：`laos/kernel.py`（syscall 闸门链）→ `laos/context.py` → `laos/memory.py`；然后按兴趣下钻四段漏斗的对应入口（§1 表）。
+
+## 3. 常用命令（全部相对仓库根）
+
+```bash
+python -m unittest discover -s tests 2>&1 | tail -3   # 主库门禁，须 OK（1–7 分钟，负载敏感）
+python scripts/check_onboarding.py                    # 交接文档自检，须 OK（内含全量测试，同上耗时）
+python scripts/release.py --dry-run                   # 发版预演（不写文件，含版本推导）
+python scripts/check_ser_table.py --selftest          # 调研表校验器先自检
+python scripts/check_ser_table.py docs/research/speech-emotion/*.md
+python scripts/check_aed_table.py docs/research/audio-events/*.md
+python scripts/check_agc_table.py docs/research/auto-gain/*.md
+```
+
+> 三个调研校验器均支持多文件位置参数与 `--selftest`。
+> **耗时提示**：主库全量与交接门禁都含完整测试跑（两次实测 105s/371s），新人首次跑请预留时间，不要误判为卡死或改用子集跑。
