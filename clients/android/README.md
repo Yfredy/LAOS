@@ -2,24 +2,29 @@
 
 > 架构取经 [nanoMuse](https://github.com/nano-muse/nanoMuse)（GPL-3.0——**只学设计，零代码拷贝**，守 laos 的许可边界）：一套 Web UI 服务所有端，每端只留薄壳。本壳约 40 行 Kotlin，完整功能全在服务端 `bin/laosweb.py`。
 
-## 两条路，按需选
+## 三条路，按需选
 
-### 路 A：PWA（零代码，推荐先用）
+### 路 C：直接下载预编译 APK（最省事）
 
-laosweb v3 已带 PWA 四件套（manifest/icon/standalone/theme_color）——手机 Chrome 打开 `http://<电脑IP>:8800` → 菜单「添加到主屏幕」即得全屏 App 入口，无需本目录任何构建。
+每个 [GitHub Release](https://github.com/Yfredy/LAOS/releases) 页都挂着 CI 自动构建的 `laos-client.apk`（打 tag 后约 5–10 分钟出包）。手机浏览器下载 → 允许"未知来源安装" → 首次启动**输入你电脑的 laosweb 地址**（如 `http://192.168.1.5:8800`，存本机；改地址：系统设置 → 应用 → laos → 清除存储）。注意：预编译包为 debug 签名（个人侧载够用）；明文策略为全域放行（见 network_security_config 注释），在意就走路 B 自建。
 
-### 路 B：本目录的 WebView 壳 APK（要独立图标/离线壳时）
+### 路 A：PWA（零代码）
 
-1. 电脑上启动 laosweb（配好云端大脑，见下）：
+laosweb v3 已带 PWA 四件套（manifest/icon/standalone/theme_color）——手机 Chrome 打开 `http://<电脑IP>:8800` → 菜单「添加到主屏幕」即得全屏 App 入口，无需本目录任何构建。（🎙 按住说话在 PWA 下需 https/localhost，局域网 http 下建议走路 C/B。）
+
+### 路 B：本目录源码自建（要收紧明文策略时）
+
+1. 电脑上启动 laosweb（配好云端大脑与语音，见下）：
    ```bash
    export LAOS_LLM_BASE_URL=https://openrouter.ai/api/v1   # 任意 OpenAI 兼容端点
    export LAOS_LLM_MODEL=<模型名>                            # 如 qwen/qwen3-235b-a22b:free
    export LAOS_LLM_KEY=<你的 key>                            # 本地推理服务可省
+   export LAOS_ASR_URL=https://api.groq.com/openai/v1       # OpenAI 兼容转写（可选）
+   export LAOS_ASR_KEY=<key> LAOS_ASR_MODEL=whisper-large-v3-turbo
    python bin/laosweb.py
    ```
-2. 改两处 IP 为你电脑的实际局域网 IP：
-   - `app/build.gradle.kts` → `LAOSWEB_URL`
-   - `app/src/main/res/xml/network_security_config.xml` → `<domain>`（只认精确 IP，不支持网段）
+2. 首启弹框里填电脑 IP 即可（源码自建也走运行时配置）；要收紧明文策略就把
+   `network_security_config.xml` 换回单 IP 白名单（只放行你电脑那一个 IP）。
 3. Android Studio 打开本目录（`clients/android/`），Sync → Run，装到手机。
 
 ## 设计边界（v0.2）
