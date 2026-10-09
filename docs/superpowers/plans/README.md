@@ -1,7 +1,7 @@
 # 计划状态登记（plans/）
 
 > **本仓库约定：计划正文的 checkbox 执行时不勾选——完成度看 commit 与落点，不看 checkbox。**
-> 状态三值：`已执行`（交付物在 git 历史可证）/ `部分执行` / `待执行`。本表 42 份（2026-10-09 复盘点，补登记 openevolve 计划）。
+> 状态三值：`已执行`（交付物在 git 历史可证）/ `部分执行` / `待执行`。本表 43 份（2026-10-09 复盘点 42 + 新增 audio-replay）。
 > 排查命令：`git log --oneline --all -- <落点路径>`。
 
 ## 计划编写纪律（2026-10-09 制度化，取自 writing-plans 技能查漏补缺）
@@ -59,3 +59,4 @@
 | 2026-10-08-speech-research-closeout.md | 已执行 | 语音三域收尾 → 三线 landscape/HTML/落地 + HY4 sherpa（152 绿） |
 | 2026-10-09-onboarding-handover.md | 已执行 | 新人交接 → docs/ONBOARDING.md + scripts/check_onboarding.py 门禁（本表所在波） |
 | 2026-10-09-openevolve-trial-and-laos-driver.md | 部分执行 | T1/2/4/5/6/8 已执行：laos/evolve.py（gate/装配面）+ evolve.run 内建 syscall（0462915）+ drivers/drv_evolve.py + openevolve_job.py（558f93d），主套件 1078 绿；T3/7 按预案收档 BLOCKED（无可用 LLM 后端——七端点全 401/网关 NXDOMAIN/无 ollama，证据 var/rsi/openevolve/OBSERVATIONS.md §后端/§e2e）；解锁 ollama 或 key 后补真跑 |
+| 2026-10-09-audio-replay.md | 待执行 | 录音回放 rec.replay：laos/ringbuf.py 环冲 + mic.replay 快照 + 内核跨驱动组装（event:mic 审计+sentinel 置污）+ laosweb /api/replay 卡片；含 v0.36.0 发版任务；摘要模型留扩展位（§扩展位，本期禁实现） |
