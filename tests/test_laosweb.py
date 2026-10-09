@@ -1012,6 +1012,72 @@ class TestChatApi(KernelTestCase):
         self.assertTrue([r for r in self.kernel.memory.recall("安静", k=10)
                          if r.get("kind") == "chat"])  # 记忆不随会话清空
 
+    def test_voice_unconfigured_503(self):
+        from laosweb import _handle_voice
+        code, payload = _handle_voice({"audio_b64": "QUJD"})
+        self.assertEqual(code, 503)
+        self.assertIn("LAOS_ASR_URL", payload["error"])
+
+    def test_voice_empty_and_oversize(self):
+        from laosweb import _handle_voice
+        self.assertEqual(_handle_voice({})[0], 400)
+        import laosweb
+        code, _ = _handle_voice({"audio_b64": "A" * (laosweb.VOICE_AUDIO_CAP + 1)})
+        self.assertEqual(code, 413)
+
+    def test_voice_success_and_audit_metadata_only(self):
+        import base64
+        import laosweb
+
+        class _StubAsr:
+            def transcribe(self, audio, content_type, filename):
+                self.seen = (audio, content_type, filename)
+                return "  你好，语音世界。 "
+
+        stub = _StubAsr()
+        laosweb._asr = stub
+        self.addCleanup(setattr, laosweb, "_asr", None)
+        code, payload = laosweb._handle_voice(
+            {"audio_b64": base64.b64encode(b"RIFFabc").decode(),
+             "content_type": "audio/wav"})
+        self.assertEqual(code, 200)
+        self.assertEqual(payload["text"], "你好，语音世界。")  # strip
+        self.assertEqual(stub.seen[0], b"RIFFabc")
+        self.assertEqual(stub.seen[2], "audio.wav")
+        recs = [r for r in self.kernel.audit.records if r.get("event") == "asr"]
+        self.assertEqual(len(recs), 1)
+        self.assertTrue(recs[0]["ok"])
+        self.assertEqual(recs[0]["bytes"], 7)
+        # 隐私红线：音频字节与转写文本都不得进审计
+        for r in self.kernel.audit.records:
+            blob = json.dumps(r, ensure_ascii=False)
+            self.assertNotIn("RIFFabc", blob)
+            self.assertNotIn("语音世界", blob)
+
+    def test_voice_asr_failure_502(self):
+        import base64
+        import laosweb
+        from laos.asr import AsrError
+
+        class _BadAsr:
+            def transcribe(self, *a, **kw):
+                raise AsrError("HTTPError: 401")
+
+        laosweb._asr = _BadAsr()
+        self.addCleanup(setattr, laosweb, "_asr", None)
+        code, payload = laosweb._handle_voice(
+            {"audio_b64": base64.b64encode(b"xy").decode()})
+        self.assertEqual(code, 502)
+        self.assertIn("401", payload["error"])
+
+    def test_state_voice_flag_and_page_anchors(self):
+        import laosweb
+        state = laosweb.build_state(self.kernel)
+        self.assertIn("voice_configured", state["chat"])
+        for anchor in ('id="btn-llm-mic"', 'id="btn-llm-tts"',
+                       '"/api/voice"', "laosBridge", "speechSynthesis"):
+            self.assertIn(anchor, laosweb.PAGE)
+
     def test_page_wires_chat_dom(self):
         # 前端契约：对话卡 DOM 锚点与 XSS 纪律（textContent，无 innerHTML）
         from laosweb import PAGE

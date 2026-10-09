@@ -40,6 +40,7 @@ import laosd  # noqa: E402  复用引导器：boot_kernel / seed_main_branch / d
 import diary as diary_mod  # noqa: E402  每日日记生成（build_diary）
 from laos.context import ContextManager  # noqa: E402  operator 进程的上下文
 from laos.llm import LLMClient, LLMError  # noqa: E402  个人 agent 云端大脑（LAOS_LLM_*）
+from laos.asr import AsrError, TranscribeClient  # noqa: E402  语音上行转写（LAOS_ASR_*）
 
 PORT = int(os.environ.get("LAOS_WEB_PORT", "8800"))
 
@@ -52,6 +53,8 @@ _llm = None
 _chat_log: list[dict] = []        # [{"role": "user"|"assistant", "text"}]
 _chat_lock = threading.Lock()
 CHAT_LOG_CAP = 60                 # 30 轮；state 投影再截尾 20 条
+_asr = None                       # TranscribeClient（LAOS_ASR_* 装配；未配置 None）
+VOICE_AUDIO_CAP = 10 * 1024 * 1024   # 上行音频 b64 上限（≈7.5MB 原始音频）
 
 # ---- 交互状态（确认队列 / operator / demo 代数）--------------------------
 # 确认队列：cid -> {id, op, event, answer}；web_confirm 压队并阻塞等待，
@@ -256,6 +259,7 @@ def build_state(kernel) -> dict:
         # 个人 agent 对话面（LAOS_LLM_* 未配置时 configured=False 优雅降级）
         "chat": {"configured": _llm is not None,
                  "model": _llm.model if _llm is not None else "",
+                 "voice_configured": _asr is not None,
                  "log": _chat_view()},
     }
 
@@ -324,6 +328,7 @@ input[type=number]{width:72px}
 .llm-u,.llm-a{padding:8px 10px;border-radius:10px;max-width:88%;white-space:pre-wrap;word-break:break-word}
 .llm-u{align-self:flex-end;background:#0f6f5c;color:#fff}
 .llm-a{align-self:flex-start;background:#161b22;border:1px solid #30363d}
+#btn-llm-mic[data-rec="1"]{background:#b91c1c;color:#fff}
 .arow{padding:3px 0;border-bottom:1px dashed var(--line);white-space:nowrap;
   overflow:hidden;text-overflow:ellipsis}
 .rrow{margin-right:12px;white-space:nowrap}
@@ -355,8 +360,10 @@ table.tbl{width:100%;border-collapse:collapse}
         <div id="llm-log"></div>
         <div class="row">
           <input id="llm-in" type="text" placeholder="问你的 agent…">
+          <button class="act" id="btn-llm-mic" title="按住说话">🎙</button>
           <button class="act primary" id="btn-llm-send">发送</button>
           <button class="act" id="btn-llm-new" title="清空会话">↺</button>
+          <button class="act" id="btn-llm-tts" title="朗读回复开关">🔇</button>
         </div>
         <div class="muted" id="llm-msg"></div>
       </div>
@@ -690,6 +697,9 @@ function renderLlm(c) {
   $("#llm-title").textContent = "对话" + (c.configured ? "（" + (c.model || "?") + "）" : "（未配置）");
   $("#llm-in").disabled = !c.configured;
   $("#btn-llm-send").disabled = !c.configured;
+  const mic = $("#btn-llm-mic");
+  mic.style.display = (c.configured && c.voice_configured) ? "" : "none";
+  if (mic.dataset.rec !== "1") mic.disabled = !c.voice_configured;
   const log = $("#llm-log");
   log.textContent = "";
   for (const m of (c.log || [])) {
@@ -755,6 +765,7 @@ async function sendChat() {
   $("#llm-msg").textContent = (!r.ok || !r.data.ok)
     ? "失败: " + ((r.data && r.data.error) || "HTTP " + r.status)
     : (r.data.ms + "ms");
+  if (r.ok && r.data.ok) speak(r.data.reply);
   refreshNow();
 }
 $("#btn-msg-send").onclick = sendMsg;
@@ -767,6 +778,100 @@ $("#btn-llm-new").onclick = async () => {
 $("#llm-in").addEventListener("keydown", e => {
   if (e.key === "Enter") sendChat();
 });
+
+// ---- 语音上行：按住说话（原生桥优先，PWA MediaRecorder 兜底）----------
+// 壳注入 window.laosBridge（AudioRecord WAV）——http 局域网可用；
+// PWA 走 getUserMedia——需安全上下文（https/localhost，见 clients/android/README）。
+let recBusy = false;
+function micStart() {
+  if (recBusy) return;
+  recBusy = true;
+  const mic = $("#btn-llm-mic");
+  mic.dataset.rec = "1";
+  mic.textContent = "⏺";
+  $("#llm-msg").textContent = "录音中…松手发送";
+  if (window.laosBridge && laosBridge.hasMic && laosBridge.hasMic()) {
+    try { laosBridge.startRecord(); return; } catch (e) { /* 落到 media */ }
+  }
+  navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+    const mr = new MediaRecorder(stream);
+    const chunks = [];
+    mr.ondataavailable = ev => chunks.push(ev.data);
+    mr.onstop = async () => {
+      stream.getTracks().forEach(t => t.stop());
+      const blob = new Blob(chunks, { type: mr.mimeType || "audio/webm" });
+      const b64 = await blobToB64(blob);
+      await voiceSend(b64, "audio/webm");
+    };
+    window.__mr = mr;
+    mr.start();
+  }).catch(e => {
+    $("#llm-msg").textContent = "麦克风不可用: " + e;
+    micEnd();
+  });
+}
+async function micStop() {
+  if (!recBusy) return;
+  micEnd();
+  $("#llm-msg").textContent = "识别中…";
+  if (window.laosBridge && laosBridge.hasMic && laosBridge.hasMic()) {
+    const b64 = laosBridge.stopRecord();   // 返回 base64 WAV，空串=没录上
+    if (b64) await voiceSend(b64, "audio/wav");
+    else $("#llm-msg").textContent = "";
+    return;
+  }
+  if (window.__mr) { window.__mr.stop(); window.__mr = null; }
+}
+function micEnd() {
+  recBusy = false;
+  const mic = $("#btn-llm-mic");
+  mic.dataset.rec = "0";
+  mic.textContent = "🎙";
+}
+async function blobToB64(blob) {
+  const buf = await blob.arrayBuffer();
+  let s = "";
+  const u8 = new Uint8Array(buf);
+  for (let i = 0; i < u8.length; i += 8192)
+    s += String.fromCharCode.apply(null, u8.subarray(i, i + 8192));
+  return btoa(s);
+}
+async function voiceSend(b64, ctype) {
+  const r = await post("/api/voice", { audio_b64: b64, content_type: ctype });
+  if (!r.ok || !r.data.ok) {
+    $("#llm-msg").textContent = "识别失败: " + ((r.data && r.data.error) || "HTTP " + r.status);
+    return;
+  }
+  const text = (r.data.text || "").trim();
+  if (!text) { $("#llm-msg").textContent = "（没听清）"; return; }
+  $("#llm-in").value = text;
+  $("#llm-msg").textContent = "";
+  sendChat();                       // 转写文本直接进对话链（记忆/审计复用）
+}
+const micBtn = $("#btn-llm-mic");
+micBtn.addEventListener("touchstart", e => { e.preventDefault(); micStart(); });
+micBtn.addEventListener("touchend", e => { e.preventDefault(); micStop(); });
+micBtn.addEventListener("mousedown", micStart);
+micBtn.addEventListener("mouseup", micStop);
+micBtn.addEventListener("mouseleave", () => { if (recBusy) micStop(); });
+
+// ---- TTS：浏览器 speechSynthesis 朗读回复（默认关，🔊 状态存 localStorage）----
+let ttsOn = localStorage.getItem("laos-tts") === "1";
+function ttsBtnRefresh() { $("#btn-llm-tts").textContent = ttsOn ? "🔊" : "🔇"; }
+ttsBtnRefresh();
+$("#btn-llm-tts").onclick = () => {
+  ttsOn = !ttsOn;
+  localStorage.setItem("laos-tts", ttsOn ? "1" : "0");
+  ttsBtnRefresh();
+  if (!ttsOn && window.speechSynthesis) speechSynthesis.cancel();
+};
+function speak(text) {
+  if (!ttsOn || !window.speechSynthesis || !text) return;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "zh-CN";
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
 $("#btn-restart").onclick = restartDemo;
 $("#btn-diary").onclick = genDiary;
 for (const b of document.querySelectorAll("#gov-modes button"))
@@ -1160,6 +1265,59 @@ def _handle_chat(body: dict) -> tuple[int, dict]:
                  "ms": ms, "log": _chat_view()}
 
 
+def _handle_voice(body: dict) -> tuple[int, dict]:
+    """POST /api/voice {"audio_b64", "content_type"?}：语音上行 → 转写文本。
+
+    手机按住说话的回程：原生桥（AudioRecord WAV）或 PWA MediaRecorder
+    （webm）都汇到这。转写结果由前端填进对话框走 /api/chat——记忆/
+    审计/历史全复用，本端点只管声→字。**上行音频只转写不落盘**（与
+    drv_ear 同源红线）；审计 event:'asr' 只记 字节数/耗时/成败。
+    """
+    import base64
+
+    audio_b64 = str(body.get("audio_b64") or "")
+    if not audio_b64:
+        return 400, {"error": "audio_b64 required"}
+    if len(audio_b64) > VOICE_AUDIO_CAP:
+        return 413, {"error": "audio too large"}
+    content_type = str(body.get("content_type") or "audio/wav")
+    client = _asr
+    if client is None:
+        return 503, {"error": "ASR 未配置：设 LAOS_ASR_URL（可选 "
+                              "LAOS_ASR_KEY/LAOS_ASR_MODEL）后重启 laosweb"}
+    try:
+        audio = base64.b64decode(audio_b64, validate=False)
+    except Exception as exc:
+        return 400, {"error": f"bad base64: {exc}"}
+    filename = ("audio.wav" if "wav" in content_type else
+                "audio.webm" if "webm" in content_type else "audio.bin")
+    started = time.monotonic()
+    try:
+        text = client.transcribe(audio, content_type=content_type,
+                                 filename=filename).strip()
+    except AsrError as exc:
+        _audit_voice(len(audio), started, ok=False, err=str(exc))
+        return 502, {"error": f"ASR 调用失败: {exc}"}
+    _audit_voice(len(audio), started, ok=True)
+    return 200, {"ok": True, "text": text}
+
+
+def _audit_voice(nbytes: int, started: float, ok: bool, err: str = "") -> None:
+    """语音上行审计：只记 字节数/耗时/成败——文本与音频永不入审计。"""
+    k = get_kernel()
+    if k is None:
+        return
+    rec = {"t": time.time(), "pid": 0, "op": "asr.transcribe", "event": "asr",
+           "ok": ok, "bytes": nbytes,
+           "ms": int((time.monotonic() - started) * 1000)}
+    if err:
+        rec["err"] = err[:120]
+    try:
+        k.audit.write(rec)
+    except Exception:
+        pass
+
+
 _POST_ROUTES = {
     "/api/confirm": _handle_confirm,
     "/api/kill": _handle_kill,
@@ -1169,6 +1327,7 @@ _POST_ROUTES = {
     "/api/diary": _handle_diary,
     "/api/sentinel": _handle_sentinel,
     "/api/chat": _handle_chat,
+    "/api/voice": _handle_voice,
 }
 
 
@@ -1242,8 +1401,9 @@ def _boot_stack(confirm_mode: str, risk_budget: int):
 
 
 def main() -> int:
-    global _llm
+    global _llm, _asr
     _llm = LLMClient.from_env()
+    _asr = TranscribeClient.from_env()
     try:
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # type: ignore[attr-defined]
     except Exception:

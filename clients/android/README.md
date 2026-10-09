@@ -22,16 +22,19 @@ laosweb v3 已带 PWA 四件套（manifest/icon/standalone/theme_color）——�
    - `app/src/main/res/xml/network_security_config.xml` → `<domain>`（只认精确 IP，不支持网段）
 3. Android Studio 打开本目录（`clients/android/`），Sync → Run，装到手机。
 
-## 设计边界（v0.1）
+## 设计边界（v0.2）
 
-- 壳只做三件事：全屏 WebView + JS/DOM 存储 + 返回键回退；**无 JS 桥**——laosweb 本身就是完整 UI，桥是后续项。
+- 壳做四件事：全屏 WebView + JS/DOM 存储 + 返回键回退 + **laosBridge 语音桥**。
+- **语音桥**（v0.2 新增）：`VoiceBridge.kt` 原生 AudioRecord（16kHz 单声道 PCM16 → WAV → base64），JS 侧 `laosBridge.startRecord()/stopRecord()`；**为什么不用 getUserMedia**：Chromium 安全上下文策略禁掉了 http 局域网源上的麦克风采集，而 laosweb 正是局域网 http——原生桥不受限，这也是 nanoMuse"设备能力走原生薄桥"架构的本义。音频只在按下期间进内存，松手上传即焚，不落盘。
+- 服务端配 `LAOS_ASR_URL`（OpenAI 兼容 `/audio/transcriptions`，如 Groq 的 whisper-large-v3-turbo 免费档）后，会话卡的 🎙 按住说话、松手自动转写发送；🔇/🔊 切换回复朗读（浏览器 speechSynthesis，本地不出网）。
 - 明文 http 只放行你电脑一个 IP（networkSecurityConfig），公网流量一律 https。
-- 对话历史在服务端内存（重启即清）；审批/审计/记忆/治理四个 tab 与桌面完全同源。
+- 对话历史在服务端内存（重启即清，但**对话记忆已落库跨重启**——v0.32.0）；审批/审计/记忆/治理四个 tab 与桌面完全同源。
+- PWA 路线的 🎙 需要安全上下文（https 或 localhost）——局域网 http 下建议直接用本壳。
 
 ## 路线图（后续项，非本壳范围）
 
-- **语音入口**：接 laos 语音栈（wakegate/dialogflow）——壳侧只加录音权限与 JS 桥；
-- **原生桥**：toast/通知/保活（nanoMuse 的 7 厂商保活矩阵已收录在
+- **唤醒词**：端侧 KWS（sherpa-onnx，laos 已实测 7.56ms 零误报）替代按住说话；
+- **更多原生桥**：通知/保活（nanoMuse 的 7 厂商保活矩阵已收录在
   [端侧参照手册](../../docs/research/2026-10-08-nanomuse-ui-xdevice-reference.md)，届时照设计自实现）；
 - **远程访问**：手机不在局域网时走 Tailscale/frp，不改壳。
 
