@@ -362,6 +362,17 @@ class AgentKernel:
                                 "success": {"type": "boolean"}},
                  "required": ["payload_id", "success"]},
                 reversible=True, risk="low"),
+            "evolve.run": ToolSpec(
+                "evolve.run",
+                "受治理的进化优化作业（OpenEvolve 后端，重依赖 venv 子进程隔离；"
+                "target/evaluator 须在 var/rsi/jobs/ 允许根内）",
+                {"type": "object",
+                 "properties": {"target": {"type": "string"},
+                                "evaluator": {"type": "string"},
+                                "iterations": {"type": "integer",
+                                               "minimum": 1}},
+                 "required": ["target", "evaluator", "iterations"]},
+                reversible=True, risk="medium"),
         }
         self._builtin_impls: dict[str, Callable] = {
             "msg.send": self._impl_msg_send,
@@ -374,6 +385,7 @@ class AgentKernel:
             "mem.stats": self._impl_mem_stats,
             "mem.curate": self._impl_mem_curate,
             "mem.outcome": self._impl_mem_outcome,
+            "evolve.run": self._impl_evolve_run,
         }
         self._mailboxes: dict[int, list[dict]] = {}
         # 运行时能力委托：pid -> [{"caps": CapabilitySet, "remaining": int,
@@ -922,6 +934,26 @@ class AgentKernel:
                           "op": "outcome", "pid": pcb.pid,
                           "payload": pid, "success": success})
         return CallResult.ok_text(f"OK outcome #{pid}")
+
+    def _impl_evolve_run(self, pcb: PCB, args: dict) -> "CallResult":
+        from .mcp import CallResult
+
+        from .evolve import EvolveJob, run_job
+        try:
+            job = EvolveJob(target=str(args["target"]),
+                            evaluator=str(args["evaluator"]),
+                            iterations=int(args["iterations"]))
+            result = run_job(job)
+        except (ValueError, RuntimeError, TypeError) as exc:
+            # gate 的 EPERM/EINVAL、装配面 ENODEV：fail-loud 冒泡为 CallResult
+            return CallResult.fail(str(exc))
+        self.audit.write({"t": time.time(), "event": "evolve", "op": "run",
+                          "pid": pcb.pid, "target": job.target,
+                          "iterations": result.iterations_completed,
+                          "best_score": result.best_score,
+                          "sha256": result.best_program_sha256})
+        return CallResult.ok_text(json.dumps(asdict(result),
+                                             ensure_ascii=False, sort_keys=True))
 
     def _deny(self, pcb: PCB, tool: str, args: dict, started: float, err: str):
         from .mcp import CallResult
