@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>让大模型写出"同事能直接上手"的交接内容 · 方法框架</title>
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--border:#30363d;--fg:#e6edf3;--dim:#8b949e;--acc:#2dd4af;--warn:#f59e0b;--bad:#f87171;--code:#1c2128}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font:15px/1.75 "Segoe UI",system-ui,-apple-system,sans-serif}
+.wrap{display:flex;max-width:1200px;margin:0 auto}
+nav{position:sticky;top:0;align-self:flex-start;width:230px;height:100vh;overflow-y:auto;padding:28px 14px;border-right:1px solid var(--border);background:var(--panel);flex-shrink:0}
+nav h1{font-size:15px;color:var(--acc);margin-bottom:18px;line-height:1.5}
+nav a{display:block;color:var(--dim);text-decoration:none;font-size:13px;padding:6px 10px;border-radius:6px;margin-bottom:2px}
+nav a:hover{color:var(--fg);background:#1f2630}
+main{flex:1;padding:36px 44px;max-width:920px;min-width:0}
+h2{font-size:21px;color:var(--acc);margin:44px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+h2:first-child{margin-top:0}
+h3{font-size:16px;margin:24px 0 8px;color:var(--fg)}
+p{margin:10px 0;color:var(--fg)}
+li{margin:6px 0 6px 22px}
+strong{color:#fff}
+em{color:var(--warn);font-style:normal}
+code{background:var(--code);border:1px solid var(--border);border-radius:4px;padding:1px 6px;font:13px/1.6 Consolas,monospace;color:#79c0ff}
+pre{background:var(--code);border:1px solid var(--border);border-radius:8px;padding:16px;overflow-x:auto;margin:12px 0}
+pre code{background:none;border:none;padding:0;color:#a5d6ff;font-size:13px;line-height:1.7;white-space:pre}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{border:1px solid var(--border);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--panel);color:var(--acc);font-weight:600}
+td{color:var(--fg)}
+.thesis{background:linear-gradient(135deg,#14261f,#161b22);border:1px solid #2dd4af55;border-radius:10px;padding:18px 20px;margin:18px 0}
+.bad li{color:var(--bad)} .bad li::marker{color:var(--bad)}
+.meta{color:var(--dim);font-size:13px;margin-bottom:6px}
+.footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--border);color:var(--dim);font-size:12.5px}
+@media(max-width:860px){nav{display:none}main{padding:20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+<h1>交接内容方法框架<br><small style="color:var(--dim);font-weight:400">大模型 · 通用 SWE 新人 · 双形态交付</small></h1>
+<a href="#s0">0 · 一句话论点</a>
+<a href="#s1">1 · 五种失效模式</a>
+<a href="#s2">2 · 五层信息架构</a>
+<a href="#s3">3 · 七个手法</a>
+<a href="#s4">4 · 验收标准</a>
+<a href="#s5">5 · Prompt 模板集</a>
+<a href="#s6">6 · 反模式清单</a>
+<a href="#s7">7 · laos 实践对照</a>
+</nav>
+<main>
+
+<h2 id="s0">0 · 一句话论点</h2>
+<div class="thesis">
+<p><strong>交接文档的失败不是文采问题，是"知识诅咒"问题</strong>：写的人默认自己脑中的上下文对方也有。大模型恰好在这一点上有杠杆——它可以<strong>零成本扮演零上下文读者</strong>去验收自己写的内容。方法的全部要义：<strong>结构先行、证据锚定、写审分离、可执行验收</strong>。</p>
+<p class="meta">配套：同名 Markdown 版（<code>llm-handover-methodology.md</code>）；四个拿来即用的 Prompt 模板见 §5。</p>
+</div>
+
+<h2 id="s1">1 · 五种失效模式（先钉死敌人）</h2>
+<table>
+<tr><th>#</th><th>失效模式</th><th>症状</th><th>根因</th></tr>
+<tr><td>F1</td><td>散文式自传</td><td>讲了项目心路历程，新人还是不知道怎么跑测试</td><td>没有结构约束，自由写作必然产出叙事</td></tr>
+<tr><td>F2</td><td>隐性知识蒸发</td><td>"环境配好之后很简单"——怎么算配好？代理怎么设？凭据在哪？</td><td>写的人不知道自己知道</td></tr>
+<tr><td>F3</td><td>过期文档</td><td>文档说 980 个测试，实际 1016 个</td><td>没有与代码变更绑定的更新协议</td></tr>
+<tr><td>F4</td><td>指针地狱</td><td>"详见代码"/"详见 wiki"/一串 Jira 链接</td><td>把"哪里有信息"当成了"信息本身"</td></tr>
+<tr><td>F5</td><td>能跑≠能上手</td><td>环境跑起来了，然后不知道下一步干什么、什么不能碰</td><td>只覆盖冷启动，没有日常层和红线层</td></tr>
+</table>
+<p><strong>大模型会放大 F1 和 F4</strong>（它极擅长流畅的空洞叙事），框架后半部分全部用来压制这两种倾向。</p>
+
+<h2 id="s2">2 · 交接包的五层信息架构</h2>
+<p>先给模型骨架，再让它填肉。新人按序消化，每层有明确<strong>完成判据</strong>：</p>
+<table>
+<tr><th>层</th><th>回答的问题</th><th>内容要点</th><th>完成判据（新人视角）</th></tr>
+<tr><td><strong>L0 生存层</strong></td><td>这是什么？边界在哪？</td><td>30 秒电梯陈述；<em>"是 X 不是 Y"的否定式定位</em>；一句话技术栈；顶层目录地图</td><td>我能向第三个人转述这个项目而不脸红</td></tr>
+<tr><td><strong>L1 冷启动层</strong></td><td>怎么从零跑起来？</td><td><strong>一条命令到绿测试</strong>：解释器精确到路径与版本、依赖、代理/镜像、凭据获取、smoke 命令 + <em>预期输出原文</em>；平台差异坑</td><td>我在新机器上只凭此文档让测试全绿</td></tr>
+<tr><td><strong>L2 日常操作层</strong></td><td>每天的活怎么干？</td><td>跑测试（全量/单个）、加一个模块（目录/命名/测试怎么跟）、发版流程、常见错→解法表</td><td>改任何一类东西前知道看哪里、改完怎么验证</td></tr>
+<tr><td><strong>L3 架构决策层</strong></td><td>为什么长这样？</td><td>模块职责 + 依赖方向；<em>决策记录：为什么这么定、否掉了什么</em>（不解释历史，就会被人"修复"）</td><td>我不会把故意设计的边界当 bug 重写</td></tr>
+<tr><td><strong>L4 治理红线层</strong></td><td>什么绝对不能碰？去哪问？</td><td>红线逐条<em>带违反后果</em>；模块 ownership；提问渠道</td><td>知道哪些"看起来能改"的地方会出事</td></tr>
+</table>
+<p><strong>层间纪律</strong>：L1 每条命令必须带预期输出原文；L3 只写"为什么"（"是什么"归代码与 L0 地图）；L4 红线不带后果就是口号。</p>
+
+<h2 id="s3">3 · 让大模型写好的七个手法</h2>
+<h3>① 读者画像显式注入</h3>
+<p>prompt 开头钉死："读者是通用 SWE 新人：会写代码、会读英文文档，但<strong>不知道</strong>（列出领域特有概念）"。不注入画像，模型按"中级同事"水位写，恰好卡在半空。</p>
+<h3>② 结构先行，骨架给定</h3>
+<p>把五层架构作为模板发给模型逐层填。骨架是防散文的最强约束。</p>
+<h3>③ 证据锚定（最重要）</h3>
+<p>硬性规则：每个声称必须锚定到 <code>file:line</code> / 命令 + 预期输出原文 / commit hash / 文档路径之一。说"配置在 X 文件"必须给精确路径与当前值。</p>
+<h3>④ 先取数后写作（反幻觉关键工序）</h3>
+<p>绝不让模型"凭记忆"写：先读仓库产出<strong>事实清单</strong>（每条带证据）→ 人抽查（尤其数字与路径）→ 确认后才写作；写作只允许重组清单内事实，清单外声称显式标"未核验"。</p>
+<h3>⑤ 写审分离（双角色互审）</h3>
+<p>写作用会话 A；验收<strong>必须开新会话 B</strong>——B 只拿交接包 + 仓库，被要求完成指定任务，卡住的位置就是文档缺口。<strong>同一会话自审没有意义</strong>（上下文残留 = 开卷考）。</p>
+<h3>⑥ 反占位词硬约束</h3>
+<p>禁词表：<code>TBD / 待补 / TODO / 适当处理 / 详见代码 / 略</code>——可写 10 行校验脚本扫（占位词是 F4 的量化指标）。</p>
+<h3>⑦ 时效标注与单一真相源</h3>
+<p>文档头部写"基于 commit <code>&lt;hash&gt;</code>（日期）时刻快照"；文档与代码冲突时<em>以代码为准并回来修文档</em>；把"什么变更触发更新哪些小节"写成显式清单（可机器化——见 §7 release.py 例）。</p>
+
+<h2 id="s4">4 · 验收：怎么证明"能直接上手"</h2>
+<p><strong>文档质量的最终度量是行为，不是观感。</strong>冒烟式验收：</p>
+<ol>
+<li>选 3–5 个"新人第一周会做的真实任务"（跑绿测试 / 定位配置 / 解释决策 / 小改动并验证 / 说出红线后果）；</li>
+<li>让零上下文的模型（或真人）只凭交接包执行；</li>
+<li>记录每次卡壳：卡在哪步、缺什么信息、哪句误导；</li>
+<li>修文档，换任务重测，直到连续一轮零卡壳。</li>
+</ol>
+<p><strong>五问速查</strong>（人工 10 分钟版）：新人能否①一句话说清边界？②说出跑测试的精确命令与预期数字？③指出"最容易被误改"的三个地方？④解释最重要的历史决策（为什么否掉备选）？⑤知道出问题先问谁/查哪？——五问全过，L0–L4 才算闭环。</p>
+
+<h2 id="s5">5 · Prompt 模板集（拿来即用）</h2>
+<h3>模板 A · 交接包生成</h3>
+<pre><code>你是资深工程师，为项目写交接包。读者：通用 SWE 新人（会写代码，但不知道
+&lt;领域特有概念清单&gt;，没有本仓库与团队的任何历史上下文）。
+
+工序（严格按序，不得跳步）：
+1. 先读仓库：目录树、README、git log 最近 30 条、&lt;关键文件清单&gt;；
+   产出【事实清单】——只列你实际读到的东西，每条带 file:line 或命令
+   输出原文。禁止写入清单外的事实。
+2. 停下，把事实清单给我抽查。
+3. 抽查通过后，按五层骨架写作（L0 生存 / L1 冷启动 / L2 日常操作 /
+   L3 架构决策 / L4 治理红线，逐层内容见骨架模板）。
+4. 硬约束：禁 TBD/待补/详见代码/适当处理；每个配置项给精确路径与
+   当前值；头部写"基于 commit &lt;hash&gt; 快照"；不确定的写"未核验"
+   并注明核验方法。</code></pre>
+<h3>模板 B · 零上下文验收员</h3>
+<pre><code>你是刚入职的通用 SWE，只拿到一个仓库和一份交接文档，没有任何其他上下文。
+按文档完成以下任务，禁止阅读文档未提及之外的资料：
+&lt;任务 1：让测试套件全绿&gt;
+&lt;任务 2：定位 X 配置，解释它为什么在这个位置&gt;
+&lt;任务 3：描述模块 Y 的职责边界与依赖方向&gt;
+每完成一步记录：卡壳点（文档缺什么/哪句误导）→ 怎么绕过的。
+最后输出缺口清单（逐条定位到五层中的某一层）。</code></pre>
+<h3>模板 C · 缺口分析（文档 vs 代码双向 diff）</h3>
+<pre><code>读仓库与交接文档，输出两张表：
+①文档说了但代码已不是这样（过期项，给 file:line 证据与 git log 佐证）；
+②代码里有但文档从未提及、且新人第一周大概率会撞上的（隐性知识项——
+重点扫：环境坑、隐式约定、命名规则、"看起来能改其实不能"的地方）。
+每条标层（L0–L4）与优先级。</code></pre>
+<h3>模板 D · 时效审计</h3>
+<pre><code>对照 git log（自 &lt;基线 commit&gt; 以来）逐条检查交接文档：哪些小节描述的
+东西被这些提交改动了？给出"提交→受影响小节→应改成什么"的修订表。
+凡数字（测试数/版本号/文件数）一律以当前实跑为准重新核对。</code></pre>
+
+<h2 id="s6">6 · 反模式清单（见了就打回）</h2>
+<ul class="bad">
+<li>心路历程式开场——历史只保留<strong>决策</strong>，不保留<strong>情绪</strong></li>
+<li>贴一张架构图不解释——图不自带语义，每条边都要有文字</li>
+<li>"详见代码 / 详见 wiki / 详见 Jira"——文档每一节必须能独立成立</li>
+<li>把模型生成的"合理推测"当事实写入——必须走先取数后写作</li>
+<li>一次写完永不更新——必须配更新协议与快照标注</li>
+<li>用同一会话写完自查——必须新会话验收</li>
+<li>红线只写"注意安全"——每条红线带违反后果与真实例子</li>
+</ul>
+
+<h2 id="s7">7 · 与 laos 仓库实践的对照（例证均可查证）</h2>
+<table>
+<tr><th>本框架条款</th><th>仓库实例</th></tr>
+<tr><td>L4/治理层</td><td><code>AGENTS.md</code>——跨会话记忆（红线+纪律+口径，代理开工前必读）</td></tr>
+<tr><td>证据锚定 / Run·Expected</td><td><code>docs/superpowers/plans/*.md</code> 每步"命令 + 预期输出原文"</td></tr>
+<tr><td>时效快照注记</td><td>计划头部"生成于 &lt;commit&gt; 时刻快照，执行时以实跑为准"</td></tr>
+<tr><td>更新协议机器化</td><td><code>scripts/release.py --apply</code> 发版时五类锚点机器同步</td></tr>
+<tr><td>占位词拦截</td><td><code>scripts/table_lint.py</code> 对 待补/TBD 的校验</td></tr>
+<tr><td>写审分离</td><td>subagent-driven-development 的"任务审查者实跑复现"</td></tr>
+</table>
+
+<p class="footer">2026-10-09 · 按自身标准交付：头部带日期与定位（快照语义）、五层骨架自洽、例证全部锚定到仓库既有文件、无占位词 · HTML 版深色单文件零依赖 · 同内容 Markdown 版 <code>docs/guide/llm-handover-methodology.md</code></p>
+</main>
+</div>
+</body>
+</html>
