@@ -13,10 +13,10 @@
 python bin/laosd.py                    # 跑完整 demo（脚本化大脑，无需 API key）
 python bin/laosd.py --real             # 有 OPENAI_API_KEY 时用真 LLM
 python bin/laosweb.py                  # 启动内核 + Web 交互面板 (http://127.0.0.1:8800)
-python -m unittest discover -s tests   # 111111051 项回归测试
+python -m unittest discover -s tests   # 1054 项回归测试
 ```
 
-> 当前版本 **v0.35.0**（主库 1016 测试 + 隔离区 279 + 复现区 71）｜ 版本史见 [CHANGELOG.md](CHANGELOG.md) · [Releases](https://github.com/Yfredy/LAOS/releases)
+> 当前版本 **v0.35.1**（主库 1054 测试 + 隔离区 279 + 复现区 71）｜ 版本史见 [CHANGELOG.md](CHANGELOG.md) · [Releases](https://github.com/Yfredy/LAOS/releases)
 
 ---
 
@@ -44,13 +44,31 @@ laos/drivers/     ★ 设备驱动（15 个 MCP Server 子进程）：fs / proc 
 laos/bin/         ★ 用户入口：laosd(引导demo) / laosweb(实时面板+操控) / laosctl(审计回放) /
                     diary(日记) / journal(录音转写) / mood_report(情绪周报)
 laos/scripts/     termux_matrix(Android降级矩阵实测) / flasep_gpu_bench(GPU基准)
-laos/tests/       111111111111051 项回归测试（真录音/真 ASR 用例实测通过）
+laos/tests/       1054 项回归测试（真录音/真 ASR 用例实测通过）
 laos/docs/        论文调研 / 真机 runbook / 面板教程 / 完整项目介绍(PROJECT_OVERVIEW.md)
 laos/docs/research/  调研库：全天候录音业界(6篇) / SER·AED·AGC·说话人·编解码·健康声学模型地图 / 40+篇arXiv论文库
 laos/zones/AlwaysOnRec-ZCode/ 隔离实现区：全天候录音前沿增量（独立可跑，279 项测试）
 ```
 
 > 📖 **新访客请先读 [docs/PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md)**——完整的"是什么/为什么/每个文件干什么"总览。
+
+---
+
+## 功能地图：AI 能力 · 纯工程 · 内核治理（2026-10-09 实盘点）
+
+> 回答"这个项目到底有什么"。三层各自独立成立：不配任何 AI 环境变量，laos 依然是完整系统。
+> 完整版（每项带使用 SOP/命令/入口）→ [docs/guide/laos-features-map.md](docs/guide/laos-features-map.md) ·
+> 竖版全景海报 → [docs/diagrams/laos-features-poster.html](docs/diagrams/laos-features-poster.html)
+
+| 层 | 一句话 | 包含 |
+|---|---|---|
+| 🤖 **AI / Agent 能力**（9 项，全 opt-in） | 个人 agent 的大脑与感官 | 云端大脑 `laos/llm.py` · 语音转写 `laos/asr.py`（按住说话）· TTS 朗读 · 记忆闭环（人写行+召回注入）· 判断层 `laos/judge.py`（三路线）· JIT 记忆 `laos/jitmem.py` · 语音对话栈（附和吞掉/语义话轮路由）· HY4 听觉蒸馏 · AgentOS demo |
+| 🔧 **纯工程能力**（14 项，无模型参与） | 任何机器都成立的基础设施 | 四段漏斗管线 · 记忆库+日记 · laosweb 面板（四 tab/PWA）· 安卓客户端（WebView 壳+原生语音桥，CI 出 APK）· 审计+埋点 · 事件路由 · 发版管线（真跑门禁+锚点同步）· 交接门禁 · 调研校验器 · 语料库（19,792 论文+123,271 行）· ste lint · 17 个设备驱动 |
+| 🛡 **内核治理**（7 项，别处没有的） | Agent 之下不只是 API 的那一层 | syscall 五道闸 · Sentinel 六级动作闸+taint 永不回退 · scoped grants 审批 · seccomp 强制层 · 不可逆风险预算 · 分支与上下文 · 隐私四件套（`LAOS_REC=0` 全禁录） |
+
+**数据面板**：47 个核心模块 · 1051 项测试全绿 · 17 个驱动 · 108 份调研 · 0 第三方依赖（核心包纯 stdlib）。
+
+**三分钟上手 SOP**：①`LAOS_LLM_*=… python bin/laosweb.py` → ②手机装 [Release](https://github.com/Yfredy/LAOS/releases) 的 APK 填电脑 IP（或 Chrome 加主屏幕）→ ③打字/🎙 说话，说的话自动进长期记忆 → ④审批卡与治理 tab 管权限、审计 tab 看每一步。
 
 ---
 
@@ -353,7 +371,7 @@ laos/
     journal.py    录音蒸馏管线：批量转写 → mem.remember(kind=journal) → rec_gc 即焚（第③④段）
     mood_report.py 情绪周报：journal 情感标签按天聚合 → 字符堆积图
   tests/
-    test_*.py     111111111111051 项回归测试（laos / ipc / scope / seccomp / cow / profiling / npu / sandbox / enforcement / memory / diary / release / duplex / turnpolicy / binaural / foa / confgate / vadmetrics / wer / refiner 等）
+    test_*.py     1054 项回归测试（laos / ipc / scope / seccomp / cow / profiling / npu / sandbox / enforcement / memory / diary / release / duplex / turnpolicy / binaural / foa / confgate / vadmetrics / wer / refiner 等）
   var/            运行期产物：audit.jsonl / memory.jsonl / branches/ / diary/ / ear/ / swap/
 ```
 

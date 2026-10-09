@@ -187,6 +187,44 @@ class SyncDocs(unittest.TestCase):
         self.assertEqual(len(report), 1)  # 只有 ctx 行
 
 
+class TestTestCountAnchorFullMatch(unittest.TestCase):
+    """2026-10-09 实录 bug 的回归钉：测试计数锚点 \d{3} 只吃尾三位，
+    千位计数下每次发版叠一个 "1"（README 被写成 111111051）。锚点必须
+    全量匹配数字串——千位数原样、腐化串整体吃掉、两位里程碑仍不碰。"""
+
+    CASES = [  # (锚点正则片段, 该锚点的语境样本)
+        (r"\d{3,}(?= 项回归测试)", "# 1051 项回归测试"),
+        (r"(?<=主库 )\d{3,}(?= 测试)", "主库 1051 测试"),
+        (r"\d{3,}(?= 项测试守护)", "1051 项测试守护"),
+        (r"\d{3,}(?= 项回归测试（)", "1051 项回归测试（注"),
+        (r"\d{3,}(?=\s*TESTS GREEN)", "1051 TESTS GREEN"),
+        (r"(?<=·\s)\d{3,}(?=\s*GREEN)", "· 1051 GREEN"),
+    ]
+
+    def _patterns(self):
+        return [(rx.pattern, rx) for name, rx, _ in release._DOC_PATTERNS
+                if name == "测试计数"]
+
+    def test_thousand_count_matched_whole(self):
+        pats = dict(self._patterns())
+        for frag, text in self.CASES:
+            self.assertIn(frag, pats, f"锚点缺失: {frag}")
+            m = pats[frag].search(text)
+            self.assertIsNotNone(m, f"{frag} 未命中 {text!r}")
+            self.assertEqual(m.group(), "1051", f"{frag} 在 {text!r} 只吃了部分数字")
+
+    def test_corrupted_prepended_ones_matched_entirely(self):
+        # 六次叠 1 的腐化串必须被整串吃掉（修复后一次同步即复原为实跑数）
+        pats = dict(self._patterns())
+        m = pats[r"\d{3,}(?= 项回归测试)"].search("# 111111051 项回归测试")
+        self.assertEqual(m.group(), "111111051")
+
+    def test_two_digit_milestone_still_untouched(self):
+        # 原防误伤意图保留：两位数里程碑行不命中"主库 N 测试"锚点
+        pats = dict(self._patterns())
+        self.assertIsNone(pats[r"(?<=主库 )\d{3,}(?= 测试)"].search("主库 42 测试里程碑"))
+
+
 class TestNewDomainAxisAndDocGlobs(unittest.TestCase):
     """release 工具债三件：新文档域轴（+new-domain 标记）+ sync_docs 项模式
     （detail 逐锚点细目）+ DOC_GLOBS 补全（intro 组 deck/outline 与三棵树

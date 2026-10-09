@@ -20,6 +20,7 @@ import os
 import posixpath
 import re
 import shutil
+import threading
 import time
 from dataclasses import asdict, dataclass, field, replace
 from pathlib import Path
@@ -138,6 +139,11 @@ class AuditLog:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self._fh = self.path.open(mode, encoding="utf-8")
         self.records: list[dict] = []
+        # 写锁（终审 C1）：阻塞型内建（evolve.run）在 worker 线程里落
+        # event:"evolve" 行，与循环线程的 syscall 记账并发写——盖章/入列/
+        # 落盘三步必须整体互斥，seq==下标 不变式与整行完整性由此钉死，
+        # 也为后续一切阻塞型内建兜底
+        self._wlock = threading.Lock()
         # 轮转代数（file_epoch，设计 §6.2）：换代时 records 清零、seq 复位
         # 归零，epoch +1——消费方（laosweb 前端）必须以 (epoch, seq) 复合键
         # 去重，轮转后同 seq 的新事件才不会被误判重复。开机扫已有归档段
@@ -180,14 +186,16 @@ class AuditLog:
         # 单调序号在 append 前盖章：seq == 记录在 self.records 里的下标，
         # 审计消费者（laosweb 前端去重键）不必再从"总数-窗口"反推全局序号
         # —— 观测线程采样 status 与切片 audit 之间若混入新记录，反推值会
-        # 漂移导致前端重复插入。GIL 下 len+append 对本用途足够原子。
-        # epoch 与 seq 同点盖章：轮转后 records 清零、seq 复位，前端以
-        # (epoch, seq) 复合键去重才不把新代同 seq 事件误判重复（§6.2）。
-        record["epoch"] = self.epoch
-        record["seq"] = len(self.records)
-        self.records.append(record)
-        self._fh.write(json.dumps(record, ensure_ascii=False) + "\n")
-        self._fh.flush()
+        # 漂移导致前端重复插入。epoch 与 seq 同点盖章：轮转后 records 清零、
+        # seq 复位，前端以 (epoch, seq) 复合键去重才不把新代同 seq 事件
+        # 误判重复（§6.2）。线程安全（终审 C1）：evolve.run 走 worker 线程
+        # 后"GIL 下 len+append 足够原子"的假设作废，锁内完成三步。
+        with self._wlock:
+            record["epoch"] = self.epoch
+            record["seq"] = len(self.records)
+            self.records.append(record)
+            self._fh.write(json.dumps(record, ensure_ascii=False) + "\n")
+            self._fh.flush()
 
     def rotate(self) -> None:
         """轮转原语（设计 §6.2）：当前文件 gzip 归档 → 重开空文件继续追加。
@@ -236,6 +244,14 @@ class AuditLog:
 # --------------------------------------------------------------------------
 # 内核
 # --------------------------------------------------------------------------
+# 阻塞型内建 syscall（终审 C1）：impl 内是阻塞子进程调用（evolve.run 默认
+# 1800s），内联派发等于把整个事件循环——其余 agent 的 syscall、调度器、
+# confirm 回调——押给一次作业。此集合内的派发走 asyncio.to_thread 让出
+# 循环（MCP 驱动路径同款）；msg.*/mem.* 纯内存，保持内联不付线程切换。
+# 前置闸门全部留在循环线程，事后记账（stats/audit）两条路径同形。
+_BLOCKING_BUILTINS = frozenset({"evolve.run"})
+
+
 class AgentKernel:
     def __init__(
         self,
@@ -362,6 +378,17 @@ class AgentKernel:
                                 "success": {"type": "boolean"}},
                  "required": ["payload_id", "success"]},
                 reversible=True, risk="low"),
+            "evolve.run": ToolSpec(
+                "evolve.run",
+                "受治理的进化优化作业（OpenEvolve 后端，重依赖 venv 子进程隔离；"
+                "target/evaluator 须在 var/rsi/jobs/ 允许根内）",
+                {"type": "object",
+                 "properties": {"target": {"type": "string"},
+                                "evaluator": {"type": "string"},
+                                "iterations": {"type": "integer",
+                                               "minimum": 1}},
+                 "required": ["target", "evaluator", "iterations"]},
+                reversible=True, risk="medium"),
         }
         self._builtin_impls: dict[str, Callable] = {
             "msg.send": self._impl_msg_send,
@@ -374,6 +401,7 @@ class AgentKernel:
             "mem.stats": self._impl_mem_stats,
             "mem.curate": self._impl_mem_curate,
             "mem.outcome": self._impl_mem_outcome,
+            "evolve.run": self._impl_evolve_run,
         }
         self._mailboxes: dict[int, list[dict]] = {}
         # 运行时能力委托：pid -> [{"caps": CapabilitySet, "remaining": int,
@@ -656,7 +684,14 @@ class AgentKernel:
         # 与 MCP 路径共享同一道闸门链（caps -> task_scope -> validate -> EDQUOT -> 风险闸门），
         # 并与 MCP 路径共用函数尾部统一的可靠性记账（见下方单一收口）。
         if entry is None:
-            result = self._builtin_impls[tool](pcb, args)
+            impl = self._builtin_impls[tool]
+            # 阻塞型内建走线程（终审 C1）：evolve.run 的子进程默认 1800s，
+            # 内联派发会冻死事件循环；集合外的 msg.*/mem.* 纯内存保持
+            # 内联。闸门链在前、记账在后，两条路径行为完全一致。
+            if tool in _BLOCKING_BUILTINS:
+                result = await asyncio.to_thread(impl, pcb, args)
+            else:
+                result = impl(pcb, args)
             elapsed_ms = (time.perf_counter() - started) * 1000
             pcb.stats["syscalls"] += 1
             self.audit.write(
@@ -922,6 +957,31 @@ class AgentKernel:
                           "op": "outcome", "pid": pcb.pid,
                           "payload": pid, "success": success})
         return CallResult.ok_text(f"OK outcome #{pid}")
+
+    def _impl_evolve_run(self, pcb: PCB, args: dict) -> "CallResult":
+        from .mcp import CallResult
+
+        from .evolve import EvolveJob, run_job
+        try:
+            job = EvolveJob(target=str(args["target"]),
+                            evaluator=str(args["evaluator"]),
+                            iterations=int(args["iterations"]))
+            result = run_job(job)
+        except (ValueError, RuntimeError, TypeError) as exc:
+            # gate 的 EPERM/EINVAL、装配面 ENODEV：fail-loud 冒泡为 CallResult
+            return CallResult.fail(str(exc))
+        except OSError as exc:
+            # 终审 I3：驱动只转换了 FileNotFoundError，subprocess 仍会抛裸
+            # OSError（WinError 5 拒绝访问 / 路径超长）——兜成 EIO 不击穿
+            # syscall 网关（MCP 路径 blanket except → EIO 同款口径）
+            return CallResult.fail(f"EIO: evolve 驱动 OSError：{exc}")
+        self.audit.write({"t": time.time(), "event": "evolve", "op": "run",
+                          "pid": pcb.pid, "target": job.target,
+                          "iterations": result.iterations_completed,
+                          "best_score": result.best_score,
+                          "sha256": result.best_program_sha256})
+        return CallResult.ok_text(json.dumps(asdict(result),
+                                             ensure_ascii=False, sort_keys=True))
 
     def _deny(self, pcb: PCB, tool: str, args: dict, started: float, err: str):
         from .mcp import CallResult
