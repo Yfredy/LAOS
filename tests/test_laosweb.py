@@ -1088,5 +1088,88 @@ class TestChatApi(KernelTestCase):
 
 
 
+class TestReplayApi(unittest.TestCase):
+    """POST /api/replay：operator caps + 内建 rec.replay + wav base64 回传。
+
+    独立替身（不依赖 tests/test_replay.py 的任何定义）：
+    - spawn 必须带 ctx（kernel.spawn 签名无默认）；
+    - _FakeDriver 必须带 close()（shutdown → unload_driver 会调）；
+    - 处理器 transcribe 默认 True → 内核 _impl_rec_replay 需要 ear 替身
+      （与 Task 3 落地实现一致，见 test_replay.py 同款口径）。
+    """
+
+    def setUp(self):
+        self._prev_kernel = laosweb.get_kernel()
+        self._prev_pid = laosweb._operator_pid
+        self._td = tempfile.TemporaryDirectory()
+        from laos.kernel import AgentKernel
+        from laos.mcp import CallResult
+        self._CallResult = CallResult
+        self.kernel = AgentKernel(Path(self._td.name) / "var")
+
+        class _FakeDriver:
+            def __init__(self, tools, results):
+                self.tools = {t: None for t in tools}
+                self._results = results
+
+            def call_tool(self, name, args):
+                r = self._results[name]
+                return r(args) if callable(r) else r
+
+            def close(self):  # shutdown() -> unload_driver() 会调 client.close()
+                pass
+
+        wav = Path(self._td.name) / "replay-0001-0.wav"
+        wav.write_bytes(b"RIFF--fake-wav--bytes")
+        self.kernel.drivers["mic"] = _FakeDriver(
+            ["mic.replay"],
+            {"mic.replay": CallResult.ok_text(json.dumps(
+                {"ok": True, "wav": str(wav), "seconds": 20,
+                 "ring_seconds": 20, "sample_rate": 16000}))})
+        self.kernel.drivers["ear"] = _FakeDriver(
+            ["ear.transcribe"],
+            {"ear.transcribe": CallResult.ok_text(json.dumps(
+                {"text": "刚刚没听清的那句话", "language": "zh", "emotions": [],
+                 "source": "funasr", "latency_ms": 100}))})
+        laosweb.set_kernel(self.kernel)
+        laosweb._operator_pid = self.kernel.spawn(
+            name="operator", caps=["msg.*", "rec.replay"],
+            ctx=ContextManager(system_prompt="t", max_tokens=2000)).pid
+
+    def tearDown(self):
+        laosweb.set_kernel(self._prev_kernel)
+        laosweb._operator_pid = self._prev_pid
+        self.kernel.shutdown()
+        self._td.cleanup()
+
+    def test_replay_returns_b64_and_text(self):
+        code, body = laosweb._handle_replay({"seconds": 20})
+        self.assertEqual(code, 200, body)
+        self.assertTrue(body["ok"])
+        self.assertIn("wav_b64", body)
+        self.assertNotIn("wav", body)          # 路径不外泄，只给 b64
+        import base64
+        self.assertEqual(base64.b64decode(body["wav_b64"]),
+                         b"RIFF--fake-wav--bytes")
+
+    def test_replay_no_kernel_503(self):
+        laosweb.set_kernel(None)
+        code, _ = laosweb._handle_replay({})
+        self.assertEqual(code, 503)
+
+    def test_replay_driver_fail_502_with_reason(self):
+        CR = self._CallResult
+        self.kernel.drivers["mic"]._results[
+            "mic.replay"] = CR.fail("ENOENT: replay ring empty "
+                                    "(call mic.listen_start first)")
+        code, body = laosweb._handle_replay({})
+        self.assertEqual(code, 502)
+        self.assertIn("ring empty", body["error"])
+
+    def test_replay_bad_seconds_400(self):
+        code, _ = laosweb._handle_replay({"seconds": "abc"})
+        self.assertEqual(code, 400)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

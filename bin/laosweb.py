@@ -396,6 +396,18 @@ table.tbl{width:100%;border-collapse:collapse}
         </div>
         <div class="muted" id="llm-msg"></div>
       </div>
+      <div class="card"><b>录音回放</b>
+        <div class="row">
+          <select id="replay-sec" title="回放秒数">
+            <option value="15">15s</option>
+            <option value="20" selected>20s</option>
+            <option value="30">30s</option>
+            <option value="60">60s</option>
+          </select>
+          <button class="act primary" id="btn-replay">⟲ 回放</button>
+        </div>
+        <div id="replay-out" class="muted">重听最近一段音频并转写成文字（需常听会话在跑）</div>
+      </div>
       <div class="card"><b>operator 信箱</b>
         <div class="row">
           <select id="msg-to"></select>
@@ -877,6 +889,29 @@ async function voiceSend(b64, ctype) {
   $("#llm-msg").textContent = "";
   sendChat();                       // 转写文本直接进对话链（记忆/审计复用）
 }
+/* ---- 录音回放：最近 N 秒重听 + ASR 文字（听障/没听清辅助） ---- */
+$("#btn-replay").onclick = async () => {
+  const out = $("#replay-out");
+  out.classList.remove("muted");
+  out.textContent = "回放中…（转写可能要几秒）";
+  const r = await post("/api/replay",
+                       { seconds: +$("#replay-sec").value, transcribe: true });
+  if (!r.ok || !r.data || r.data.ok === undefined) {
+    out.textContent = (r.data && r.data.error) || `回放失败（HTTP ${r.status}）`;
+    return;
+  }
+  out.textContent = "";
+  const audio = document.createElement("audio");
+  audio.controls = true;
+  audio.src = "data:audio/wav;base64," + r.data.wav_b64;
+  const text = document.createElement("div");
+  text.textContent = r.data.text || "(无转写文本)";
+  const meta = document.createElement("div");
+  meta.className = "muted";
+  meta.textContent = `${r.data.seconds}s / 环冲 ${r.data.ring_seconds}s · ` +
+    `${r.data.source} · 转写 ${r.data.transcribe_ms}ms · 共 ${r.data.ms}ms`;
+  out.append(audio, text, meta);
+};
 const micBtn = $("#btn-llm-mic");
 micBtn.addEventListener("touchstart", e => { e.preventDefault(); micStart(); });
 micBtn.addEventListener("touchend", e => { e.preventDefault(); micStop(); });
@@ -1347,6 +1382,49 @@ def _audit_voice(nbytes: int, started: float, ok: bool, err: str = "") -> None:
         pass
 
 
+def _handle_replay(body: dict) -> tuple[int, dict]:
+    """POST /api/replay {"seconds"?,"transcribe"?,"language"?}：录音回放。
+
+    内核内建 rec.replay（阻塞型，to_thread 派发，HTTP 线程 asyncio.run 安全）
+    → 最近 N 秒监听音频 + ear 三通道转写；wav 以 base64 回传供 <audio> 重听。
+    需要 mic.listen_start 会话在跑（未监听 → 502 带内核原因）。审计走内核
+    syscall 记录 + 内建补的 event:"mic"（本端点不另记）。摘要扩展位：未来
+    summarize 步骤插在内核 _impl_rec_replay 转写块之后，本端点形状不变。
+    """
+    import base64
+
+    kernel = get_kernel()
+    if kernel is None or _operator_pid is None:
+        return 503, {"error": "kernel/operator not available"}
+    try:
+        seconds = float(body.get("seconds", 20))
+    except (TypeError, ValueError):
+        return 400, {"error": "seconds must be a number"}
+    seconds = max(1.0, min(seconds, 60.0))  # web 面板上限 60s（b64 体量）
+    language = str(body.get("language") or "auto")
+    transcribe = bool(body.get("transcribe", True))
+    result = asyncio.run(kernel.syscall(
+        _operator_pid, "rec.replay",
+        {"seconds": seconds, "transcribe": transcribe,
+         "language": language}))
+    if not result.ok:
+        return 502, {"error": result.text}
+    try:
+        payload = json.loads(result.text)
+    except json.JSONDecodeError:
+        return 502, {"error": "bad replay payload"}
+    wav_path = Path(str(payload.get("wav", "")))
+    if not wav_path.is_absolute():
+        wav_path = REPO / wav_path
+    try:
+        wav_b64 = base64.b64encode(wav_path.read_bytes()).decode("ascii")
+    except OSError:
+        return 502, {"error": f"replay wav unreadable: {wav_path.name}"}
+    payload.pop("wav", None)  # 路径不外泄，前端只用 b64
+    payload["wav_b64"] = wav_b64
+    return 200, payload
+
+
 _POST_ROUTES = {
     "/api/confirm": _handle_confirm,
     "/api/kill": _handle_kill,
@@ -1357,6 +1435,7 @@ _POST_ROUTES = {
     "/api/sentinel": _handle_sentinel,
     "/api/chat": _handle_chat,
     "/api/voice": _handle_voice,
+    "/api/replay": _handle_replay,
 }
 
 
@@ -1392,7 +1471,7 @@ def _spawn_operator(kernel) -> int:
     若留在轮转队列里，它会以 (priority, last_served) 平局的首位（dict 插入
     序最先）永久霸占 next_pid()，把所有真 agent 饿死在 acquire() 的自旋上。
     """
-    pid = kernel.spawn(name="operator", caps=["msg.*"],
+    pid = kernel.spawn(name="operator", caps=["msg.*", "rec.replay"],
                        ctx=ContextManager(system_prompt="human operator")).pid
     kernel.scheduler.retire(pid)
     return pid
