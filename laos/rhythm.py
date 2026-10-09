@@ -4,10 +4,12 @@
 分布。两条消费路径：① diary 第六章渲染；② 日记生成时固化一条
 kind="rhythm" 快照记忆（可日后 mem.recall("上周三 14时") 时间检索）。
 情感判定与 bin/diary.py 第五章同规则：首个全大写 tag，无则 NEUTRAL。
+小时取值：正文 [HH:MM] 前缀优先（拾音时刻），缺前缀回落 ts（入册时刻）。
 """
 
 from __future__ import annotations
 
+import re
 import time
 from collections import Counter
 
@@ -20,7 +22,11 @@ def hour_profile(records: list[dict]) -> dict[str, dict]:
     """journal 记忆列表 → {"HH": {"segments": n, "emotions": {E: n}}}。"""
     out: dict[str, dict] = {}
     for rec in records:
-        hour = time.strftime("%H", time.localtime(float(rec.get("ts", 0))))
+        m = re.match(r"\[(\d{2}):\d{2}\]", rec.get("text", ""))
+        if m:  # 拾音时刻（bin/journal.py 写入的 [HH:MM] 前缀）优先于入册 ts
+            hour = m.group(1)
+        else:  # 缺前缀回落 ts（批量转写时刻）
+            hour = time.strftime("%H", time.localtime(float(rec.get("ts", 0))))
         slot = out.setdefault(hour, {"segments": 0, "emotions": {}})
         slot["segments"] += 1
         emo = _emotion_of(rec)

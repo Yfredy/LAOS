@@ -59,6 +59,15 @@ class TestRhythm(unittest.TestCase):
         self.assertIn("14时 1段(HAPPY:1)", line)
         self.assertLess(line.index("09时"), line.index("14时"))
 
+    def test_hour_from_text_prefix_not_ts(self):
+        # 拾音时刻 vs 入册时刻：journal 记忆的 ts 是批量转写时刻，
+        # 真实拾音小时在 [HH:MM] 前缀——夜间批量跑不得把全天坍缩进一小时
+        rec = {"id": 1, "ts": _at_today(23), "kind": "journal",
+               "text": "[14:05] 白天说的话", "tags": ["NEUTRAL"]}
+        p = hour_profile([rec])
+        self.assertIn("14", p)
+        self.assertNotIn("23", p)
+
 
 if __name__ == "__main__":
     unittest.main()

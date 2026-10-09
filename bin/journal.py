@@ -68,8 +68,8 @@ def run_pipeline(journal_dir: Path, memory, *, transcribe=None,
                 lt = _time.localtime(mtime)
                 key = (_time.strftime("%Y-%m-%d", lt),
                        _time.strftime("%H", lt))
-                _sc_feats.setdefault(key, []).append(
-                    describe(wav.read_bytes()))
+                feats = describe(wav.read_bytes())
+                _sc_feats.setdefault(key, []).append(feats)
                 _sc_counts[key] = _sc_counts.get(key, 0) + 1
             except Exception:
                 pass

@@ -35,7 +35,7 @@
 1. **读纪律（10 min）**：[AGENTS.md](../AGENTS.md) 全文——发版纪律、conda 红线、零依赖、隐私红线、叙事红线，全部是硬约束。
 2. **跑通门禁（1–7 分钟，实测 105s/371s 负载敏感，耐心等勿当卡死）**：
    Run: `python -m unittest discover -s tests 2>&1 | tail -3`
-   Expected: `Ran 1054 tests` + `OK (skipped=5)`（skip 原因见 §0）
+   Expected: `Ran 1140 tests` + `OK (skipped=5)`（skip 原因见 §0）
 3. **看主入口**：`bin/laosctl.py`（CLI）、`bin/laosd.py`（薄内核守护）、`bin/laosweb.py`（Web 控制面，`python bin/laosweb.py` → `http://127.0.0.1:8800`）。
 4. **跑认知 demo（30 秒讲清 kernel+Agent+MCP）**：
    Run: `bash demos/agentos-demo/run_demo.sh`（Windows 上经 WSL 或 Git Bash；`.gitattributes` 已设 `*.sh eol=lf`）

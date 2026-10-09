@@ -66,7 +66,7 @@ laos/zones/AlwaysOnRec-ZCode/ 隔离实现区：全天候录音前沿增量（�
 | 🔧 **纯工程能力**（14 项，无模型参与） | 任何机器都成立的基础设施 | 四段漏斗管线 · 记忆库+日记 · laosweb 面板（四 tab/PWA）· 安卓客户端（WebView 壳+原生语音桥，CI 出 APK）· 审计+埋点 · 事件路由 · 发版管线（真跑门禁+锚点同步）· 交接门禁 · 调研校验器 · 语料库（19,792 论文+123,271 行）· ste lint · 17 个设备驱动 |
 | 🛡 **内核治理**（7 项，别处没有的） | Agent 之下不只是 API 的那一层 | syscall 五道闸 · Sentinel 六级动作闸+taint 永不回退 · scoped grants 审批 · seccomp 强制层 · 不可逆风险预算 · 分支与上下文 · 隐私四件套（`LAOS_REC=0` 全禁录） |
 
-**数据面板**：49 个核心模块 · 1051 项测试全绿 · 17 个驱动 · 108 份调研 · 0 第三方依赖（核心包纯 stdlib）。
+**数据面板**：51 个核心模块 · 1051 项测试全绿 · 17 个驱动 · 108 份调研 · 0 第三方依赖（核心包纯 stdlib）。
 
 **三分钟上手 SOP**：①`LAOS_LLM_*=… python bin/laosweb.py` → ②手机装 [Release](https://github.com/Yfredy/LAOS/releases) 的 APK 填电脑 IP（或 Chrome 加主屏幕）→ ③打字/🎙 说话，说的话自动进长期记忆 → ④审批卡与治理 tab 管权限、审计 tab 看每一步。
 
