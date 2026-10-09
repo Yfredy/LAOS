@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- laos · evolve.run RSI 治理驱动交接结构图（2026-10-09）
+     打开方式：draw.io desktop 直接打开本文件；或用 diagrams.net 网页版导入。
+     分层：进化循环外（laos 核心）/ drivers 装配面 / 进化循环内（venv 子进程）。
+     证据锚点见 docs/guide/rsi-evolve-handover.md L0 表与 docs/diagrams/rsi-evolve-architecture.architecture.json -->
+<mxfile host="drawio" version="26.0.0">
+  <diagram name="rsi-evolve-handover" id="rsi-evolve-1">
+    <mxGraphModel dx="1200" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1250" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="laos · evolve.run — RSI 负载的治理驱动架构（治理在循环外，进化在循环内）" style="text;html=1;fontSize=18;fontStyle=1;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="0" width="820" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="agent" value="研究 Agent&#xa;evolve.run 调用方（caps: evolve.*）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="120" y="40" width="240" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="R1" value="进化循环外 —— laos 核心治理（纯 stdlib，不被进化的 agent 触碰）" style="rounded=0;whiteSpace=wrap;html=1;container=1;pointerEvents=0;verticalAlign=top;fontStyle=1;fillColor=#eef4fb;strokeColor=#6c8ebf;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="150" width="760" height="550" as="geometry" />
+        </mxCell>
+        <mxCell id="kernel" value="syscall 网关&#xa;caps→task_scope→validate→EDQUOT→sentinel" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="R1">
+          <mxGeometry x="80" y="30" width="240" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="sentinel" value="sentinel 风险闸&#xa;六级判定序（always_ask 待 followups T1）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="R1">
+          <mxGeometry x="460" y="30" width="280" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="dispatch" value="阻塞派发 _BLOCKING_BUILTINS&#xa;asyncio.to_thread（不卡事件循环）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="R1">
+          <mxGeometry x="80" y="170" width="240" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="impl" value="_impl_evolve_run&#xa;异常→CallResult fail-loud" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="R1">
+          <mxGeometry x="80" y="310" width="240" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="audit" value="AuditLog&#xa;syscall+evolve 双行审计 · _wlock" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="R1">
+          <mxGeometry x="460" y="310" width="280" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="assembly" value="run_job 装配面&#xa;ENODEV 兜底（不 import 驱动即拒绝）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="R1">
+          <mxGeometry x="80" y="450" width="240" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="gate" value="EvolveGate 路径闸&#xa;允许根 var/rsi/jobs · 禁区永不可经 env 放行" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="R1">
+          <mxGeometry x="460" y="450" width="280" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="R2" value="drivers/ 装配面（重依赖止步于此，import 即登记）" style="rounded=0;whiteSpace=wrap;html=1;container=1;pointerEvents=0;verticalAlign=top;fontStyle=1;fillColor=#fff7e6;strokeColor=#d79b00;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="730" width="760" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="drv" value="EvolveDriver（drv_evolve.py）&#xa;命令构造 / 子进程 / 单行 JSON 契约 / workdir 闸" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="R2">
+          <mxGeometry x="80" y="35" width="400" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="R3" value="进化循环内 —— venv 子进程（gitignored var/，OpenEvolve 0.4.0）" style="rounded=0;whiteSpace=wrap;html=1;container=1;pointerEvents=0;verticalAlign=top;fontStyle=1;fillColor=#fdecec;strokeColor=#b85450;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="870" width="760" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="job" value="openevolve_job&#xa;venv 内执行器（官方 CLI 稳定面）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="R3">
+          <mxGeometry x="80" y="40" width="240" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="checkpoints" value="checkpoints&#xa;best_program + metrics（var/rsi/jobs）" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="R3">
+          <mxGeometry x="460" y="40" width="280" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="cli" value="openevolve-run（官方 CLI，外部代码）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="R3">
+          <mxGeometry x="80" y="180" width="240" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="llm" value="LLM 后端（OpenAI 兼容）&#xa;当前 BLOCKED —— 解锁见 OBSERVATIONS.md" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="R3">
+          <mxGeometry x="460" y="180" width="280" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" value="图例" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1;fillColor=none;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="850" y="150" width="200" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1" value="" style="rounded=1;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="legend">
+          <mxGeometry x="10" y="30" width="30" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1t" value="laos 组件" style="text;html=1;align=left;verticalAlign=middle;" vertex="1" parent="legend">
+          <mxGeometry x="50" y="28" width="140" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2" value="" style="rounded=1;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="legend">
+          <mxGeometry x="10" y="54" width="30" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2t" value="安全闸（治理）" style="text;html=1;align=left;verticalAlign=middle;" vertex="1" parent="legend">
+          <mxGeometry x="50" y="52" width="140" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3" value="" style="rounded=1;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="legend">
+          <mxGeometry x="10" y="78" width="30" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3t" value="数据 / 审计存储" style="text;html=1;align=left;verticalAlign=middle;" vertex="1" parent="legend">
+          <mxGeometry x="50" y="76" width="140" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4" value="" style="rounded=1;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="legend">
+          <mxGeometry x="10" y="102" width="30" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4t" value="调用方 / 装配面" style="text;html=1;align=left;verticalAlign=middle;" vertex="1" parent="legend">
+          <mxGeometry x="50" y="100" width="140" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg5" value="" style="rounded=1;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="legend">
+          <mxGeometry x="10" y="126" width="30" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="leg5t" value="外部 / 阻塞依赖" style="text;html=1;align=left;verticalAlign=middle;" vertex="1" parent="legend">
+          <mxGeometry x="50" y="124" width="140" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="syscall evolve.run" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#d79b00;labelBackgroundColor=#ffffff;fontSize=11;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="agent" target="kernel">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="风险判定" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#9673a6;labelBackgroundColor=#ffffff;fontSize=11;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="kernel" target="sentinel">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="内建分支" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;fontSize=11;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="kernel" target="dispatch">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="asyncio.to_thread" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;fontSize=11;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="dispatch" target="impl">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="event:evolve" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#82b366;labelBackgroundColor=#ffffff;fontSize=11;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="impl" target="audit">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="run_job" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;fontSize=11;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="impl" target="assembly">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="路径闸 EPERM/EINVAL" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#9673a6;labelBackgroundColor=#ffffff;fontSize=11;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="assembly" target="gate">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="ENODEV 装配面" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;fontSize=11;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="assembly" target="drv">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="venv python --job JSON" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;fontSize=11;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="drv" target="job">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" value="_find_best + sha256" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#82b366;labelBackgroundColor=#ffffff;fontSize=11;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="job" target="checkpoints">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" value="官方 CLI 子进程" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;fontSize=11;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="job" target="cli">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" value="OpenAI 兼容 API（BLOCKED）" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;strokeColor=#b85450;labelBackgroundColor=#ffffff;fontSize=11;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="cli" target="llm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" value="best + metrics 落盘" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#82b366;labelBackgroundColor=#ffffff;fontSize=11;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="cli" target="checkpoints">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

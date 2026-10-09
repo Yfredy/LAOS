@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>nanoLAOS · RSI/OpenEvolve 驱动落地交接</title>
+<!-- frontend-slides 血统：1920×1080 固定舞台自缩放、←/→ 翻页、E 键编辑（localStorage 持久化）、打印逐页断行
+     版本锚（release.py 五类锚点契约）：封面 stamp「开源 v0.35.1 ·」/ 页脚「· v0.35.1 · 1085 tests」
+     内容事实源：docs/guide/rsi-evolve-handover.md（L0–L4）+ docs/research/2026-10-09-rsi-landscape.md -->
+<style>
+:root{--bg:#0b0e14;--card:#151a24;--card2:#1b2230;--ink:#e8ecf3;--dim:#8b95a7;--gold:#d4a24e;--blue:#6c9bd1;--green:#7cb98a;--red:#c96a6a;--purple:#a884c9;--line:#2a3346}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:var(--bg);color:var(--ink);font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;height:100%;overflow:hidden}
+#stage{position:absolute;top:50%;left:50%;width:1920px;height:1080px;transform-origin:center center;background:var(--bg)}
+.slide{position:absolute;inset:0;padding:84px 110px 130px;display:none;flex-direction:column}
+.slide.active{display:flex}
+h1{font-size:72px;font-weight:700;letter-spacing:2px}
+h2{font-size:46px;font-weight:700;margin-bottom:36px;border-left:8px solid var(--gold);padding-left:24px}
+h2 .en{color:var(--dim);font-size:26px;font-weight:400;margin-left:16px}
+.sub{color:var(--dim);font-size:28px;margin-top:18px;line-height:1.7}
+.row{display:flex;gap:28px;flex:1;min-height:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 34px;flex:1;min-width:0}
+.card h3{font-size:28px;color:var(--gold);margin-bottom:16px}
+.card li,.card p{font-size:23px;line-height:1.65;color:var(--ink)}
+.card ul{list-style:none}
+.card li{padding:7px 0 7px 26px;position:relative}
+.card li::before{content:"·";position:absolute;left:6px;color:var(--gold);font-weight:700}
+.mono{font-family:Consolas,"JetBrains Mono",monospace;font-size:21px;color:var(--blue)}
+.foot{position:absolute;bottom:44px;left:110px;right:110px;display:flex;justify-content:space-between;color:var(--dim);font-size:20px;border-top:1px solid var(--line);padding-top:16px}
+.stamp{color:var(--gold);letter-spacing:1px}
+.kpis{display:flex;gap:24px;margin-top:40px}
+.kpi{flex:1;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px 20px;text-align:center}
+.kpi b{display:block;font-size:52px;color:var(--gold);font-weight:700}
+.kpi span{font-size:21px;color:var(--dim)}
+.tag{display:inline-block;padding:4px 14px;border-radius:999px;font-size:19px;margin-right:10px;border:1px solid}
+.t-gold{color:var(--gold);border-color:var(--gold)}.t-blue{color:var(--blue);border-color:var(--blue)}
+.t-green{color:var(--green);border-color:var(--green)}.t-red{color:var(--red);border-color:var(--red)}
+.t-purple{color:var(--purple);border-color:var(--purple)}
+.arch{flex:1;display:flex;flex-direction:column;gap:18px;justify-content:center}
+.tier{border-radius:16px;padding:20px 28px;border:2px dashed;display:flex;align-items:center;gap:22px}
+.tier .tlabel{writing-mode:vertical-lr;letter-spacing:6px;font-size:21px;font-weight:700;flex:0 0 42px;text-align:center}
+.tier .boxes{display:flex;gap:16px;flex:1;flex-wrap:wrap}
+.box{border-radius:10px;padding:12px 18px;font-size:21px;line-height:1.45;flex:1;min-width:170px}
+.box b{display:block;font-size:22px}
+.box small{color:var(--dim);font-size:18px}
+.tier-out{border-color:var(--blue);background:rgba(108,155,209,.07)}.tier-out .tlabel{color:var(--blue)}
+.tier-drv{border-color:var(--gold);background:rgba(212,162,78,.07)}.tier-drv .tlabel{color:var(--gold)}
+.tier-in{border-color:var(--red);background:rgba(201,106,106,.07)}.tier-in .tlabel{color:var(--red)}
+.b-blue{background:rgba(108,155,209,.16);border:1px solid var(--blue)}
+.b-purple{background:rgba(168,132,201,.16);border:1px solid var(--purple)}
+.b-green{background:rgba(124,185,138,.16);border:1px solid var(--green)}
+.b-gold{background:rgba(212,162,78,.16);border:1px solid var(--gold)}
+.b-red{background:rgba(201,106,106,.16);border:1px solid var(--red)}
+.b-grey{background:rgba(139,149,167,.14);border:1px solid var(--dim)}
+table{width:100%;border-collapse:collapse;font-size:22px}
+th{color:var(--gold);text-align:left;padding:10px 14px;border-bottom:2px solid var(--line);font-size:22px}
+td{padding:10px 14px;border-bottom:1px solid var(--line);line-height:1.5;color:var(--ink)}
+td.dim,th.dim{color:var(--dim)}
+#hud{position:fixed;bottom:14px;right:22px;color:var(--dim);font-size:18px;z-index:9;user-select:none}
+#hint{position:fixed;bottom:14px;left:22px;color:#5a6375;font-size:17px;z-index:9}
+.slide[contenteditable="true"]{outline:2px dashed var(--gold);outline-offset:-12px}
+@media print{html,body{overflow:visible;height:auto}#stage{position:static;transform:none!important;width:100%;height:auto}.slide{display:flex!important;position:relative;page-break-after:always;height:1080px}}
+</style>
+</head>
+<body>
+<div id="stage">
+
+<section class="slide active">
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+    <div style="font-size:30px;color:var(--dim);letter-spacing:8px;margin-bottom:26px">nanoLAOS <span style="letter-spacing:2px">·</span> laos · Linux AgentOS</div>
+    <h1>RSI/OpenEvolve 驱动落地<span style="color:var(--gold)">·</span>波次交接</h1>
+    <div class="sub">递归自我改进（RSI）负载第一次以「受治理驱动」进入 laos——<br>治理在<b style="color:var(--blue)">进化循环外</b>常驻内核，进化在 <b style="color:var(--red)">venv 子进程</b>里跑。</div>
+    <div style="margin-top:56px"><span class="stamp" style="font-size:30px">开源 v0.35.1 ·</span></div>
+    <div style="margin-top:20px;color:var(--dim);font-size:24px">2026-10-09 · 合并点 <span class="mono">565dec8</span> · 交接文档 <span class="mono">docs/guide/rsi-evolve-handover.md</span></div>
+  </div>
+  <div class="foot"><span>nanoLAOS · RSI/OpenEvolve 波次交接</span><span>· v0.35.1 · 1085 tests</span></div>
+</section>
+
+<section class="slide">
+  <h2>60 秒总览<span class="en">what happened</span></h2>
+  <div class="card" style="flex:0 0 auto">
+    <p><span class="mono">调研</span> RSI 方向全景（RSIGym/九篇论文/ICLR26 Workshop 110 篇/开源生态）→ <span class="mono">计划</span> writing-plans 八任务 → <span class="mono">试跑</span> venv 装 OpenEvolve 0.4.0（LLM 后端 <span class="tag t-red">BLOCKED 收档</span>）→ <span class="mono">T4-T8</span> 核心作业面 + 内建 syscall + 驱动 + 文档回写 → <span class="mono">终审</span> Critical×1 + Important×2 修复波 → <span class="mono">合并</span> master（565dec8，含并行会话协同执行）。</p>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><b>1085</b><span>主套件全绿（合并点实跑）</span></div>
+    <div class="kpi"><b>+31</b><span>本波新增测试（离线 mock）</span></div>
+    <div class="kpi"><b>6</b><span>新文件（核心2/驱动2/测试2）</span></div>
+    <div class="kpi"><b>8</b><span>波次代码提交（565dec8 内）</span></div>
+    <div class="kpi"><b>2</b><span>按预案收档（试跑首跑/e2e）</span></div>
+    <div class="kpi"><b>3</b><span>后续待执行（followups 计划）</span></div>
+  </div>
+  <div class="foot"><span>nanoLAOS · RSI/OpenEvolve 波次交接</span><span>· v0.35.1 · 1085 tests</span></div>
+</section>
+
+<section class="slide">
+  <h2>为什么做：审判席在循环外<span class="en">the thesis</span></h2>
+  <div class="row">
+    <div class="card">
+      <h3>行业自己的论证</h3>
+      <p>Lilian Weng《Harness Engineering for Self-Improvement》（2026-07-04）列出 RSI 七大瓶颈，第五条原文立场：<b style="color:var(--gold)">评估器与权限控制应放在进化循环之外</b>。AIDE² 实证：reward hacking 从 55% 降到 32%——但仍有 32%，且该性质未被显式优化。</p>
+      <p style="margin-top:14px">RSI 论文六周一浪（环境 RSIGym / 正则化 RRSI / 探索 Dream-RSI / 路线图 Last AI），首届 ICLR26 RSI Workshop 录用 110 篇——安全与评测类占比显著。</p>
+    </div>
+    <div class="card">
+      <h3>laos 的对应动作</h3>
+      <p>基座是 Linux 内核，Agent 是新负载；RSI 让负载变成「<b style="color:var(--red)">会自改写的负载</b>」。OS 史的回应不是跟着进化，而是 <b style="color:var(--blue)">W^X / 不可变内核文本 / 代码签名</b>——laos 就是这套动作在用户态的延伸：内核不自改写，负载可以，但每个自改写动作过闸、留痕、可回滚。</p>
+      <p style="margin-top:14px;color:var(--dim)">调研裁决全文：docs/research/2026-10-09-rsi-landscape.md §8</p>
+    </div>
+  </div>
+  <div class="foot"><span>nanoLAOS · RSI/OpenEvolve 波次交接</span><span>· v0.35.1 · 1085 tests</span></div>
+</section>
+
+<section class="slide">
+  <h2>三层架构<span class="en">governance outside the loop</span></h2>
+  <div class="arch">
+    <div class="tier tier-out">
+      <div class="tlabel">循环外·核心</div>
+      <div class="boxes">
+        <div class="box b-blue"><b>laos/evolve.py</b><small>EvolveGate 路径闸 · run_job 装配面（纯 stdlib）</small></div>
+        <div class="box b-blue"><b>kernel: evolve.run</b><small>内建 syscall · 全闸门链 · to_thread 派发</small></div>
+        <div class="box b-purple"><b>sentinel</b><small>风险判定（always_ask 待 T1）</small></div>
+        <div class="box b-green"><b>AuditLog</b><small>syscall+evolve 双行 · _wlock</small></div>
+      </div>
+    </div>
+    <div class="tier tier-drv">
+      <div class="tlabel">装配面</div>
+      <div class="boxes">
+        <div class="box b-gold"><b>drivers/drv_evolve.py</b><small>EvolveDriver：命令构造 / 子进程 / 单行 JSON 契约 / workdir 闸 —— import 即登记，重依赖止步于此</small></div>
+      </div>
+    </div>
+    <div class="tier tier-in">
+      <div class="tlabel">循环内·venv</div>
+      <div class="boxes">
+        <div class="box b-blue"><b>openevolve_job</b><small>venv 内执行器（官方 CLI 稳定面）</small></div>
+        <div class="box b-grey"><b>openevolve-run</b><small>外部代码 · checkpoints 落盘</small></div>
+        <div class="box b-red"><b>LLM 后端</b><small>OpenAI 兼容 · 当前 BLOCKED（解锁见 §7）</small></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>nanoLAOS · RSI/OpenEvolve 波次交接 · 结构图：docs/diagrams/rsi-evolve-architecture.html（archify）+ rsi-evolve-handover.drawio</span><span>· v0.35.1 · 1085 tests</span></div>
+</section>
+
+<section class="slide">
+  <h2>治理链逐环<span class="en">every gate, one line</span></h2>
+  <div class="card" style="flex:1">
+    <table>
+      <tr><th style="width:250px">环节</th><th>作用</th><th class="dim" style="width:290px">锚点</th></tr>
+      <tr><td><b>caps 能力闸</b></td><td>未授 <span class="mono">evolve.*</span> 的 pid 直接 EPERM</td><td class="dim mono">kernel.py:546</td></tr>
+      <tr><td><b>task_scope 收窄</b></td><td>任务意图白名单（path 参数归一化收边匹配）</td><td class="dim mono">kernel.py:559</td></tr>
+      <tr><td><b>validate 参数校验</b></td><td>三参必填、iterations≥1（堵 AIOS 无校验洞）</td><td class="dim mono">kernel.py:381</td></tr>
+      <tr><td><b>EDQUOT 预算</b></td><td>syscall 次数预算耗尽即拒</td><td class="dim mono">kernel.py:616</td></tr>
+      <tr><td><b>sentinel 判定</b></td><td>六级判定序；followups T1 将收 always_ask</td><td class="dim mono">sentinel.py:144</td></tr>
+      <tr><td><b>to_thread 派发</b></td><td>首个阻塞型内建让出事件循环（30 分钟不卡调度）</td><td class="dim mono">kernel.py:252/703</td></tr>
+      <tr><td><b>EvolveGate 路径闸</b></td><td>允许根 var/rsi/jobs；禁区永不可经 env 放行</td><td class="dim mono">evolve.py:72</td></tr>
+      <tr><td><b>workdir 二道闸</b></td><td>驱动侧再验 workdir 在允许根（防御纵深）</td><td class="dim mono">drv_evolve.py:121</td></tr>
+      <tr><td><b>双行审计</b></td><td>event:syscall + event:evolve（score/sha256）</td><td class="dim mono">kernel.py:990</td></tr>
+    </table>
+  </div>
+  <div class="foot"><span>nanoLAOS · RSI/OpenEvolve 波次交接</span><span>· v0.35.1 · 1085 tests</span></div>
+</section>
+
+<section class="slide">
+  <h2>安全防线 = 测试锁定<span class="en">red lines, test-locked</span></h2>
+  <div class="row">
+    <div class="card">
+      <h3>防线（不许"修"掉的故意设计）</h3>
+      <ul>
+        <li><b>自改写防线</b>：进化产物只准写 var/rsi/jobs；laos/ drivers/ tests/ 是禁区，env 只扩允许根、<b>永不</b>放行禁区</li>
+        <li><b>装配面 fail-loud</b>：不 import 驱动 → ENODEV，绝不静默兜底</li>
+        <li><b>fail-loud errno 六件套</b>：EPERM / EINVAL / ENODEV / ETIMEDOUT / EIO / ENOENT</li>
+        <li><b>评测数字纪律</b>：checkpoint 布局未经真跑实证 → 解析三段兜底，宁可 ENOENT 不编 0.0</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>锁它们的测试（共 31 例离线）</h3>
+      <ul>
+        <li><span class="mono">TestEnvRoots</span>：env 扩根 ✓ / 禁区在 env 下仍拒 ✓ / 深层 dot-dot 逃逸 ✓</li>
+        <li><span class="mono">TestEvolveSyscall</span>：无 cap EPERM / 装配 ENODEV / 假执行器全链 + 审计行 / gate 违例不崩</li>
+        <li><span class="mono">TestEvolveRunYieldsLoop</span>：在途并发 syscall 先于 evolve 完成（禁用修复 ~3s 确定性失败）</li>
+        <li><span class="mono">TestWorkdirGate</span>：四种越界形状 EPERM + 内根透传不重写</li>
+        <li>双向模块顺序 <span class="mono">31/31</span>（终审 I2 根治顺序依赖）</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot"><span>nanoLAOS · RSI/OpenEvolve 波次交接</span><span>· v0.35.1 · 1085 tests</span></div>
+</section>
+
+<section class="slide">
+  <h2>BLOCKED 真相与解锁<span class="en">honest blocker</span></h2>
+  <div class="row">
+    <div class="card">
+      <h3>为什么没有 e2e 真跑数字</h3>
+      <p>2026-10-09 实测：环境唯一 key = 内网网关会话密钥（<span class="mono">api.mimo-v2.com</span> 公网 NXDOMAIN），七端点探测 401/TLS 断，ollama 未运行。<b>证据原文</b>逐条在 <span class="mono">var/rsi/openevolve/OBSERVATIONS.md</span> §后端——收档不烧迭代，是 clef 先例的既定预案分支。</p>
+      <p style="margin-top:12px;color:var(--dim)">文档因此只写「e2e 未跑、RSI-Index 未记」——不引用任何宣称值（仓库来源诚实红线）。</p>
+    </div>
+    <div class="card">
+      <h3>解锁路径（任一即可）</h3>
+      <ul>
+        <li>任一 OpenAI 兼容 key（OpenEvolve 读 <span class="mono">OPENAI_API_BASE/KEY</span>，配置面字段已实证）</li>
+        <li>装 ollama 拉小模型（localhost:11434）</li>
+        <li>解锁后一命令：<span class="mono">python scripts/evolve_e2e.py</span>（followups T3 已写好）——自动留痕 sentinel asks、验证事件循环让出、钉死 checkpoint 布局</li>
+        <li>先探测：<span class="mono">--check</span> 可达 rc=0 / 不可达 rc=2</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot"><span>nanoLAOS · RSI/OpenEvolve 波次交接</span><span>· v0.35.1 · 1085 tests</span></div>
+</section>
+
+<section class="slide">
+  <h2>后续三件（已立计划，决策预决）<span class="en">docs/superpowers/plans/2026-10-09-evolve-followups.md</span></h2>
+  <div class="row">
+    <div class="card"><h3>T1 · sentinel always_ask</h3><p>evolve.run 默认入 ③ 级 always_ask（全 mode 生效，② 显式 rule 唯一免问通道）——「审判席」最后一块人座。已按终审建议预决采纳。</p></div>
+    <div class="card"><h3>T2 · rotate() 补锁</h3><p>AuditLog.rotate() 持 _wlock：(epoch,seq) 复合键全库唯一是 laosweb 前端去重的硬契约。并发压测钉不变式。<b style="color:var(--red)">排程红线：与 aor-waves 的 kernel.py 改动同文件——先看波次是否已落地。</b></p></div>
+    <div class="card"><h3>T3 · e2e runbook</h3><p>scripts/evolve_e2e.py：--check 探测（rc=0/2 口径）+ 全链真跑（asks 留痕 / 让出实证 / 布局钉死）。真跑仍由后端门控，产物只落 var/。</p></div>
+  </div>
+  <div class="foot"><span>nanoLAOS · RSI/OpenEvolve 波次交接</span><span>· v0.35.1 · 1085 tests</span></div>
+</section>
+
+<section class="slide">
+  <h2>交接资产索引<span class="en">where everything lives</span></h2>
+  <div class="card" style="flex:1">
+    <table>
+      <tr><th style="width:320px">资产</th><th>路径 / 锚点</th></tr>
+      <tr><td><b>交接文档（L0–L4）</b></td><td class="mono">docs/guide/rsi-evolve-handover.md</td></tr>
+      <tr><td><b>架构图（archify，证据锚定）</b></td><td class="mono">docs/diagrams/rsi-evolve-architecture.html + .architecture.json</td></tr>
+      <tr><td><b>结构图（drawio 源）</b></td><td class="mono">docs/diagrams/rsi-evolve-handover.drawio</td></tr>
+      <tr><td><b>RSI 调研（裁决全文）</b></td><td class="mono">docs/research/2026-10-09-rsi-landscape.md</td></tr>
+      <tr><td><b>已执行计划 / 待执行计划</b></td><td class="mono">plans/2026-10-09-openevolve-trial-and-laos-driver.md · 2026-10-09-evolve-followups.md</td></tr>
+      <tr><td><b>试跑证据与解锁路径</b></td><td class="mono">var/rsi/openevolve/OBSERVATIONS.md（gitignored，重建见交接文档 L1）</td></tr>
+      <tr><td><b>关键提交链</b></td><td class="mono">20e2ae8 → 99fac0f → 0462915 → 558f93d → 301da48 → befb9ec → 565dec8(merge)</td></tr>
+    </table>
+  </div>
+  <div class="foot"><span>nanoLAOS · RSI/OpenEvolve 波次交接</span><span>· v0.35.1 · 1085 tests</span></div>
+</section>
+
+<section class="slide">
+  <h2>带走四条红线<span class="en">do not touch</span></h2>
+  <div class="row">
+    <div class="card"><h3>conda 红线</h3><p>只用 <span class="mono">C:/Users/yaoyue/miniconda3/python.exe</span>；pip 只进 venv。污染唯一解释器 = 全仓工具链失效。</p></div>
+    <div class="card"><h3>零依赖红线</h3><p>laos/ 纯 stdlib。任何重依赖进核心 = 循环内外分离崩塌（这正是本波架构的全部意义）。</p></div>
+    <div class="card"><h3>目录纪律</h3><p>进化产物只落 var/；target/evaluator/workdir 必须在 var/rsi/jobs/ 允许根——gate 会拒，别绕。</p></div>
+    <div class="card"><h3>来源诚实</h3><p>评测数字一律实测；被墙/未跑照实写收档——本波文档的每个「未」字都是证据链撑着的。</p></div>
+  </div>
+  <div style="text-align:center;margin-top:44px;font-size:30px;color:var(--dim)">内核不自改写，负载可以——<span style="color:var(--gold)">但每个自改写动作，都过闸、留痕、可回滚。</span></div>
+  <div class="foot"><span>nanoLAOS · RSI/OpenEvolve 波次交接</span><span>· v0.35.1 · 1085 tests</span></div>
+</section>
+
+</div>
+<div id="hud">1 / 10</div>
+<div id="hint">←/→ 翻页 · E 编辑 · P 打印</div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];let cur=0;
+const KEY='laos-rsi-evolve-handover-edits';
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);
+  document.getElementById('stage').style.transform=`translate(-50%,-50%) scale(${s})`;}
+addEventListener('resize',fit);fit();
+function show(i){cur=(i+slides.length)%slides.length;
+  slides.forEach((s,k)=>s.classList.toggle('active',k===cur));
+  document.getElementById('hud').textContent=(cur+1)+' / '+slides.length;}
+addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='PageDown')show(cur+1);
+  else if(e.key==='ArrowLeft'||e.key==='PageUp')show(cur-1);
+  else if(e.key.toLowerCase()==='e'){
+    const s=slides[cur];const on=s.contentEditable!=='true';
+    s.contentEditable=on?'true':'false';
+    if(!on){localStorage[KEY+'-'+cur]=s.innerHTML;}
+  }else if(e.key.toLowerCase()==='p'){print();}});
+slides.forEach((s,k)=>{const saved=localStorage[KEY+'-'+k];if(saved)s.innerHTML=saved;});
+show(0);
+</script>
+</body>
+</html>

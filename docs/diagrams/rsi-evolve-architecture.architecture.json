@@ -1,0 +1,412 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "laos · evolve.run——RSI 负载的治理驱动架构",
+    "locale": "zh-CN",
+    "output": "rsi-evolve-architecture.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "git@github.com:Yfredy/LAOS.git",
+      "revision": "55e787cd525e801e5ba9149141894128c19e00bf",
+      "link_mode": "local-only"
+    },
+    "views": [
+      {
+        "id": "governance-chain",
+        "label": "治理链（循环外）",
+        "focus": [
+          "kernel",
+          "sentinel",
+          "gate",
+          "assembly",
+          "audit"
+        ],
+        "note": "权限→判定→路径闸→装配面→审计：全部常驻 laos 核心，不被进化的 agent 触碰"
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "agent",
+      "type": "frontend",
+      "label": "研究 Agent",
+      "sublabel": "evolve.run 调用方",
+      "pos": [
+        200,
+        100
+      ],
+      "sources": [
+        {
+          "path": "tests/test_evolve.py",
+          "line": 140,
+          "end_line": 191,
+          "label": "调用形（caps 授权 + 三参调用）"
+        }
+      ]
+    },
+    {
+      "id": "kernel",
+      "type": "backend",
+      "label": "syscall 网关",
+      "sublabel": "caps→validate→EDQUOT→sentinel",
+      "pos": [
+        200,
+        260
+      ],
+      "sources": [
+        {
+          "path": "laos/kernel.py",
+          "line": 381,
+          "end_line": 393,
+          "label": "evolve.run ToolSpec 注册（闸门链入口）"
+        }
+      ]
+    },
+    {
+      "id": "sentinel",
+      "type": "security",
+      "label": "sentinel",
+      "sublabel": "六级判定序·风险闸",
+      "pos": [
+        480,
+        260
+      ],
+      "sources": [
+        {
+          "path": "laos/sentinel.py",
+          "line": 41,
+          "end_line": 50,
+          "label": "SentinelConfig 判定序配置"
+        }
+      ]
+    },
+    {
+      "id": "dispatch",
+      "type": "backend",
+      "label": "阻塞派发",
+      "sublabel": "asyncio.to_thread",
+      "pos": [
+        200,
+        420
+      ],
+      "sources": [
+        {
+          "path": "laos/kernel.py",
+          "line": 252,
+          "end_line": 252,
+          "label": "_BLOCKING_BUILTINS 白名单"
+        },
+        {
+          "path": "laos/kernel.py",
+          "line": 703,
+          "end_line": 716,
+          "label": "to_thread 派发与同形记账"
+        }
+      ]
+    },
+    {
+      "id": "impl",
+      "type": "backend",
+      "label": "_impl_evolve_run",
+      "sublabel": "异常→CallResult fail-loud",
+      "pos": [
+        200,
+        580
+      ],
+      "sources": [
+        {
+          "path": "laos/kernel.py",
+          "line": 973,
+          "end_line": 996,
+          "label": "impl 与 event:evolve 审计"
+        }
+      ]
+    },
+    {
+      "id": "audit",
+      "type": "database",
+      "label": "AuditLog",
+      "sublabel": "syscall+evolve 双行·wlock",
+      "pos": [
+        480,
+        580
+      ],
+      "sources": [
+        {
+          "path": "laos/kernel.py",
+          "line": 146,
+          "end_line": 160,
+          "label": "写锁（终审 C1）"
+        }
+      ]
+    },
+    {
+      "id": "assembly",
+      "type": "backend",
+      "label": "run_job 装配面",
+      "sublabel": "ENODEV 兜底",
+      "pos": [
+        200,
+        740
+      ],
+      "sources": [
+        {
+          "path": "laos/evolve.py",
+          "line": 104,
+          "end_line": 119,
+          "label": "register_executor / run_job"
+        }
+      ]
+    },
+    {
+      "id": "gate",
+      "type": "security",
+      "label": "EvolveGate",
+      "sublabel": "允许根 var/rsi/jobs·禁区不可破",
+      "pos": [
+        480,
+        740
+      ],
+      "sources": [
+        {
+          "path": "laos/evolve.py",
+          "line": 72,
+          "end_line": 101,
+          "label": "路径闸（自改写防线）"
+        }
+      ]
+    },
+    {
+      "id": "drv",
+      "type": "backend",
+      "label": "EvolveDriver",
+      "sublabel": "drv_evolve·import 即登记",
+      "pos": [
+        200,
+        900
+      ],
+      "sources": [
+        {
+          "path": "drivers/drv_evolve.py",
+          "line": 42,
+          "end_line": 131,
+          "label": "命令构造/子进程/单行 JSON"
+        }
+      ]
+    },
+    {
+      "id": "job",
+      "type": "backend",
+      "label": "openevolve_job",
+      "sublabel": "venv 内执行器·CLI 稳定面",
+      "pos": [
+        200,
+        1060
+      ],
+      "sources": [
+        {
+          "path": "drivers/openevolve_job.py",
+          "line": 64,
+          "end_line": 104,
+          "label": "main：CLI 子进程与结果 JSON"
+        }
+      ]
+    },
+    {
+      "id": "cli",
+      "type": "backend",
+      "label": "openevolve-run",
+      "sublabel": "官方 CLI（外部代码）",
+      "pos": [
+        200,
+        1220
+      ],
+      "sources": [
+        {
+          "path": "docs/superpowers/plans/2026-10-09-openevolve-trial-and-laos-driver.md",
+          "line": 700,
+          "end_line": 740,
+          "label": "契约出处（Task 6 作业执行器规格）"
+        }
+      ]
+    },
+    {
+      "id": "llm",
+      "type": "external",
+      "label": "LLM 后端",
+      "sublabel": "OpenAI 兼容·当前 BLOCKED",
+      "pos": [
+        480,
+        1220
+      ],
+      "sources": [
+        {
+          "path": "docs/research/2026-10-09-rsi-landscape.md",
+          "line": 128,
+          "end_line": 134,
+          "label": "选型与 BLOCKED 证据指针"
+        }
+      ]
+    },
+    {
+      "id": "checkpoints",
+      "type": "database",
+      "label": "checkpoints",
+      "sublabel": "var/rsi/jobs·best+metrics",
+      "pos": [
+        480,
+        1060
+      ],
+      "sources": [
+        {
+          "path": "drivers/openevolve_job.py",
+          "line": 32,
+          "end_line": 63,
+          "label": "_find_best/_best_score 解析"
+        }
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "进化循环外——laos 核心治理（纯 stdlib）",
+      "wraps": [
+        "kernel",
+        "sentinel",
+        "dispatch",
+        "impl",
+        "audit",
+        "assembly",
+        "gate"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "drivers/ 装配面（重依赖止步）",
+      "wraps": [
+        "drv"
+      ]
+    },
+    {
+      "kind": "security-group",
+      "label": "进化循环内——venv 子进程（gitignored var/）",
+      "wraps": [
+        "job",
+        "cli",
+        "llm",
+        "checkpoints"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "agent-kernel",
+      "from": "agent",
+      "to": "kernel",
+      "label": "evolve.run 三参",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "kernel-sentinel",
+      "from": "kernel",
+      "to": "sentinel",
+      "label": "风险判定",
+      "variant": "security",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "kernel-dispatch",
+      "from": "kernel",
+      "to": "dispatch",
+      "label": "内建分支",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "dispatch-impl",
+      "from": "dispatch",
+      "to": "impl",
+      "label": "to_thread",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "impl-assembly",
+      "from": "impl",
+      "to": "assembly",
+      "label": "run_job",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "impl-audit",
+      "from": "impl",
+      "to": "audit",
+      "label": "event:evolve",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "assembly-gate",
+      "from": "assembly",
+      "to": "gate",
+      "label": "路径闸 EPERM/EINVAL",
+      "variant": "security",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "assembly-drv",
+      "from": "assembly",
+      "to": "drv",
+      "label": "ENODEV 装配面",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "drv-job",
+      "from": "drv",
+      "to": "job",
+      "label": "venv python --job JSON",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "job-cli",
+      "from": "job",
+      "to": "cli",
+      "label": "官方 CLI",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "cli-llm",
+      "from": "cli",
+      "to": "llm",
+      "label": "OpenAI 兼容 API",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "cli-checkpoints",
+      "from": "cli",
+      "to": "checkpoints",
+      "label": "落盘 best+metrics",
+      "fromSide": "right",
+      "toSide": "bottom"
+    },
+    {
+      "id": "job-checkpoints",
+      "from": "job",
+      "to": "checkpoints",
+      "label": "解析与 sha256",
+      "fromSide": "right",
+      "toSide": "left"
+    }
+  ]
+}
