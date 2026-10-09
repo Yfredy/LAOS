@@ -11,6 +11,7 @@
 | `repro/bs1770.py` | ④ LUFS 文章 | ITU-R BS.1770-4 全套：K 计权（48k Annex 精确系数 + 任意 fs 参数化互验）、门控积分响度、Momentary/Short-term、LRA（EBU 3342）、True Peak 4× 过采样、PLR |
 | `repro/anc.py` | ③ 车载 ANC 文章 | 发动机阶次合成（rpm→阶次谐波）、单通道 FxLMS、次级通路最小二乘辨识、2×2 多通道 FxLMS |
 | `repro/sho/` | ① 头部朝向论文（arXiv 2607.02129v1） | `ism.py` Allen-Berkley 镜像源法 + 6 麦 r=4.5cm 环形阵 + 论文区间房间采样；`speech.py` 伪语音 + cardioid 族指向性；`features.py` STFT 相位 sin/cos 特征（2C×T×128）+ 环形 MAE；`noise.py` 各向同性扩散场噪声（sinc 相干 Cholesky）；`model.py` 论文 Fig.1 架构（3×Conv+2×BiGRU+2×MHSA） |
+| `repro/aurase_ipo.py` | ⑤ AuraSE 论文（arXiv 2610.06632v1） | IPO 决策面规则版：4:2:2:2 多目标奖励聚合 / 正差偏好对枚举 + 差距比例采样（Fig.2c δ 边际）/ 有界复用缓冲（T_r + 锚点版本前移）/ Eq.14-15 锚点相对边际的解析梯度（线性能量玩具）+ spread/胜率诊断统计 |
 | `repro/phasecoder.py` | ② PhaseCoder 文章 | 几何无关麦位编码（对齐 google-deepmind/phasecoder JAX 源码）：球坐标相位调制嵌入 + 幅度/相位补丁特征 + 输出头口径 |
 
 ## 运行
@@ -27,3 +28,4 @@ python scripts/run_repro_all.py                                     # 四模块�
 - 论文数字不作为断言：40,295 语句×200k 步 → 等比缩到百语句×数百步（冒烟验证管线正确性）
 - 22 条实测 VDP → cardioid 族替代；VCTK → 伪语音；WHAM → 自造扩散噪声；ISM 阶次 20 → 默认 6
 - PhaseCoder：不装 JAX、不跑 checkpoint——读源码后 numpy 复现编码数学
+- AuraSE：神经训练（MMDiT/Emilia/Whisper/DNS 语料 + GPU-hours）全不碰——只复现 IPO 的决策与治理逻辑（奖励/采样/缓冲/锚点语义），论文数值一概不断言；归一化细节在 supplementary 未随 v1 发布，用 utterance 内 min-max 替代（保序）

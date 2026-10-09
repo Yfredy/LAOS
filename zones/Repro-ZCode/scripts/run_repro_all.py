@@ -25,6 +25,17 @@ CASES = [
       "assert att>20; print('  tonal attenuation: %.1f dB' % att)"]),
     ("SHO 端到端（小规模）", [sys.executable, str(ROOT / "scripts" / "run_sho_repro.py"),
       "--n-utt", "24", "--iters", "40"]),
+    ("AuraSE-IPO 决策面", [sys.executable, "-c",
+      "import random; from repro.aurase_ipo import reward, enumerate_pairs, "
+      "reward_spread, winner_distribution; "
+      "cands=[{'OVRL':0.6+0.2*((j+r)%8==0),'WER':0.10+0.02*((j+r)%8==1),"
+      "'SIM':0.7+0.05*((j+r)%8==2),'SBS':0.88+0.04*((j+r)%8==3)} "
+      "for r in range(4) for j in range(8)]; "
+      "rm=[reward(cands[i*8:(i+1)*8]) for i in range(4)]; "
+      "sp=reward_spread(rm); wd=winner_distribution(rm); "
+      "assert sp>0 and max(wd)<0.5; "
+      "print('  8-policy spread=%.3f, top win-rate=%.1f%% (no-dominance)' "
+      "% (sp, max(wd)*100))"]),
     ("PhaseCoder MPE", [sys.executable, "-c",
       "import numpy as np; from repro.phasecoder import arbitrary_mic_geometry_embeddings; "
       "from repro.sho.ism import circular_array; "
