@@ -7,7 +7,7 @@
 
 | 事实 | 值 | 产出命令 |
 |---|---|---|
-| 主库测试数 | 1139 项（`OK (skipped=5)`） | `python -m unittest discover -s tests 2>&1 \| tail -3` |
+| 主库测试数 | 1140 项（`OK (skipped=5)`） | `python -m unittest discover -s tests 2>&1 \| tail -3` |
 | 主库测试耗时 | **1–7 分钟**（两次实测 105s / 371s，机器负载敏感） | 同上命令自带计时 |
 | 主库模块数 | 51 个 `laos/*.py` | `python -c "import pathlib;print(len(list(pathlib.Path('laos').glob('*.py'))))"` |
 | 测试文件数 | 87 个 `tests/test_*.py` | `python -c "import pathlib;print(len(list(pathlib.Path('tests').glob('test_*.py'))))"` |

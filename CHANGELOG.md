@@ -5,6 +5,20 @@
 
 ## [Unreleased]
 
+## [v0.37.0] - 2026-10-09
+
+### Added
+- **生活日志双记忆**：全天候录音从"转写留档"升级为"生活记录"（需求②"怎么用你自己发掘"的五用途见计划 §双记忆）。全程零新增常驻内存——特征在 journal 批处理离线读盘算、记忆是文本行（≈3.5KB/天）。
+  - `laos/soundscape.py`：频域声景特征（Goertzel 七分带 + 复用 `loudness` 的 LUFS/True Peak/PLR，纯 stdlib）——journal 即焚（rec.gc）**之前**对每段提取，按 (日期,小时) 聚合为 `kind="soundscape"` 记忆
+  - `laos/rhythm.py`：时域节律档案（journal 记忆按本地小时画像，纯派生）——`busiest`/`dominant_emotion`/`render`
+  - `bin/journal.py`：`--diary` 一键收尾生成当日日记；`spectral=False` 可关声景特征
+  - `bin/diary.py`：新增第六章「今天的节律与声景」（节律行 + 声景行），并固化当日 `kind="rhythm"` 快照（时间检索锚点 `mem.recall("2026-10-09 14时")`）
+  - 功能版图与 ASC/AGC/听觉健康五个落地用途：docs/superpowers/plans/2026-10-09-aor-lifelog.md §功能版图
+
+### Fixed
+- `rhythm` 小时桶改取拾音时刻 `[HH:MM]` 前缀（夜间批量跑不再把全天坍缩进一个小时）；`describe` 失败不炸批（先算后记）
+- fix(journal): 默认转写指向真实导出名 `drv_ear.ear_transcribe`（预存 bug：曾引用不存在的 `drv_ear.transcribe`，`python bin/journal.py` 裸跑 AttributeError——测试 monkeypatch 恰好掩盖）+ 默认路径回归钉；README 数据面板模块数 49→51、ONBOARDING 陈旧计数对齐
+
 ## [v0.36.0] - 2026-10-09
 
 ### Added
