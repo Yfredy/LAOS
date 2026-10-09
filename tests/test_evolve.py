@@ -137,6 +137,8 @@ class TestEnvRoots(unittest.TestCase):
 
 class TestEvolveSyscall(unittest.TestCase):
     def setUp(self):
+        import laos.evolve as _ev
+        _ev._executors.clear()  # 顺序无关护栏（同 TestRunJob）
         self.td = tempfile.TemporaryDirectory()
         self.k = AgentKernel(Path(self.td.name) / "var", audit_mode="w",
                              confirm=lambda op: False)
