@@ -108,7 +108,7 @@ rewards = aggregate({"cand_a": {...}, "cand_b": {...}}, spec)
 4. **保真份额 ≥60%**：奖励面 spec 涉质量/保真两类时的文档级约定（不是代码强制——违规在 review 层拦）。
 5. **计划纪律已制度化**（plans/README.md 头部）：写计划必跑三查（spec 覆盖/占位符扫描/类型一致性）；跨 Task 引用原文重复禁"类似 Task N"；**本波的教训实证**：aurase-adoption 计划的三查实跑抓到四条错（计数漂移/名不副实的断言辅助/(0,1] 值域错/一例两例笔误），T1 执行中又抓到第五条（fixture 自相矛盾）——纪律有效，别省。
 6. **SDD 台账在 var/**：`var/sdd-ledger-aurase-adoption.md`（gitignored），clone 后不可恢复——rulings 已全录在本文件 L3 与计划 Self-Review 节。
-7. **分支状态**：本波全部提交在 `aor-waves`（录音回放波 v0.36.0 在途，含并行会话 ringbuf/rec.replay/laosweb 工作）；**合并时机归 aor-waves 波主**，本波不占版本号，随其后下一 MINOR 携带。
+7. **分支状态（2026-10-09 收口实况）**：`aor-waves` 已由并行会话合入 master 并删分支（录音回放波 A10 登记随 8d63a45）；本波全部提交现已在 master（领先 origin 1 提交，**未推送**——推送属发版纪律动作，归用户）；本波不占版本号，随下一 MINOR 携带。
 
 ## 资产索引
 
