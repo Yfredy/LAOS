@@ -7,10 +7,10 @@
 
 | 事实 | 值 | 产出命令 |
 |---|---|---|
-| 主库测试数 | 1016 项（`OK (skipped=5)`） | `python -m unittest discover -s tests 2>&1 \| tail -3` |
+| 主库测试数 | 1033 项（`OK (skipped=5)`） | `python -m unittest discover -s tests 2>&1 \| tail -3` |
 | 主库测试耗时 | **1–7 分钟**（两次实测 105s / 371s，机器负载敏感） | 同上命令自带计时 |
-| 主库模块数 | 45 个 `laos/*.py` | `python -c "import pathlib;print(len(list(pathlib.Path('laos').glob('*.py'))))"` |
-| 测试文件数 | 79 个 `tests/test_*.py` | `python -c "import pathlib;print(len(list(pathlib.Path('tests').glob('test_*.py'))))"` |
+| 主库模块数 | 46 个 `laos/*.py` | `python -c "import pathlib;print(len(list(pathlib.Path('laos').glob('*.py'))))"` |
+| 测试文件数 | 80 个 `tests/test_*.py` | `python -c "import pathlib;print(len(list(pathlib.Path('tests').glob('test_*.py'))))"` |
 | 第二个仓库 | `../AlwaysOnRec-HY4`（HY4，独立 git 仓库，无远端不外推，152 tests / OK） | `cd ../AlwaysOnRec-HY4 && python -m unittest discover -s tests -t . 2>&1 \| tail -2` |
 
 **skip 是正常的**：5 项 skip 均因依赖/平台缺席——`tests/test_audio_driver.py` 需 `.venv-audio`（modelscope/torch 音频栈）未装；`tests/test_ear_mic.py`（2 项）需 conda funasr 与 SenseVoice 模型缓存 / sounddevice；`tests/test_profiling.py` 需 bpftrace 仅 Linux；`tests/test_seccomp.py` 需 seccomp 仅 Linux。**不是回归**。装上对应依赖后它们会自动跑。
@@ -35,7 +35,7 @@
 1. **读纪律（10 min）**：[AGENTS.md](../AGENTS.md) 全文——发版纪律、conda 红线、零依赖、隐私红线、叙事红线，全部是硬约束。
 2. **跑通门禁（1–7 分钟，实测 105s/371s 负载敏感，耐心等勿当卡死）**：
    Run: `python -m unittest discover -s tests 2>&1 | tail -3`
-   Expected: `Ran 1016 tests` + `OK (skipped=5)`（skip 原因见 §0）
+   Expected: `Ran 1033 tests` + `OK (skipped=5)`（skip 原因见 §0）
 3. **看主入口**：`bin/laosctl.py`（CLI）、`bin/laosd.py`（薄内核守护）、`bin/laosweb.py`（Web 控制面，`python bin/laosweb.py` → `http://127.0.0.1:8800`）。
 4. **跑认知 demo（30 秒讲清 kernel+Agent+MCP）**：
    Run: `bash demos/agentos-demo/run_demo.sh`（Windows 上经 WSL 或 Git Bash；`.gitattributes` 已设 `*.sh eol=lf`）
