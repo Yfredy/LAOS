@@ -1,8 +1,19 @@
 # 计划状态登记（plans/）
 
 > **本仓库约定：计划正文的 checkbox 执行时不勾选——完成度看 commit 与落点，不看 checkbox。**
-> 状态三值：`已执行`（交付物在 git 历史可证）/ `部分执行` / `待执行`。本表 41 份（2026-10-09 盘点）。
+> 状态三值：`已执行`（交付物在 git 历史可证）/ `部分执行` / `待执行`。本表 42 份（2026-10-09 复盘点，补登记 openevolve 计划）。
 > 排查命令：`git log --oneline --all -- <落点路径>`。
+
+## 计划编写纪律（2026-10-09 制度化，取自 writing-plans 技能查漏补缺）
+
+新计划沿用现行体例（四段头 Goal/Architecture/Tech Stack/Spec + Global Constraints + 每 Task 的 Files/Interfaces/checkbox 步骤，TDD 先红后绿，每任务一 commit）。在此基础上三条增量纪律，即日起生效：
+
+1. **写完三查**（保存前必跑，自查非派发）：
+   - **spec 覆盖**——spec 里每个需求都能指到对应 Task；有缺口补 Task，不许带缺口发布；
+   - **占位符扫描**——"TBD"/"加适当错误处理"/"处理边界情况"/"为上述写测试"（不带测试代码）/无代码块却描述代码的步骤 = 计划失败，重写；
+   - **类型一致性**——跨 Task 消费的签名（函数名/参数返回类型/字段名）逐字符一致；Task 3 的 `clearLayers()` 到 Task 7 变 `clearFullLayers()` 这类漂移就是计划 bug。
+2. **Task 尺寸判据**：Task 是携带自己测试周期、值得单独过一道评审门的最小单元——setup/配置/脚手架/文档步骤折进需要它的 Task，只在"评审者可能否决这个而批准相邻那个"处切分。步骤粒度 2-5 分钟一粒，但 Task 不是步骤的机械聚合。
+3. **乱序阅读禁令**：执行者可能乱序读 Task（zones 并行执行是常态）——跨 Task 引用一律原文重复（代码块照抄），禁止"类似 Task N，参见其做法"；邻 Task 之间的签名学习只经 Interfaces 的 Produces 块传递。
 
 | 计划 | 状态 | 落点摘要 |
 |---|---|---|
@@ -47,3 +58,4 @@
 | 2026-10-08-sentinel-wave.md | 已执行 | Sentinel 动作闸 → laos/sentinel.py + provenance（v0.28.0/28.1） |
 | 2026-10-08-speech-research-closeout.md | 已执行 | 语音三域收尾 → 三线 landscape/HTML/落地 + HY4 sherpa（152 绿） |
 | 2026-10-09-onboarding-handover.md | 已执行 | 新人交接 → docs/ONBOARDING.md + scripts/check_onboarding.py 门禁（本表所在波） |
+| 2026-10-09-openevolve-trial-and-laos-driver.md | 待执行 | OpenEvolve 试跑（var/ venv 隔离不碰 conda）→ laos/evolve.py 纯 stdlib 作业面 + evolve.run 内建 syscall（闸门链全走）+ drivers/drv_evolve.py（Spec：rsi-landscape §7/§8；计划随 2731b7d 入库，evolve.py/drv_evolve.py 尚无落地） |
