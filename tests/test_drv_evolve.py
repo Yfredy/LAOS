@@ -8,6 +8,7 @@
 """
 from __future__ import annotations
 
+import importlib
 import json
 import os
 import subprocess
@@ -138,8 +139,37 @@ class TestRun(unittest.TestCase):
                 drv.run(_job())
         self.assertIn("ENOENT", str(cm.exception))
 
+    def test_non_numeric_timeout_is_einval(self):
+        # 终审 M4：LAOS_EVOLVE_TIMEOUT 解析失败同样带 errno 前缀
+        # （此前裸 ValueError 无前缀）
+        drv = drv_evolve.EvolveDriver()
+        with mock.patch.dict(os.environ,
+                             _clean_env(LAOS_EVOLVE_TIMEOUT="soon"),
+                             clear=True):
+            with self.assertRaises(ValueError) as cm:
+                drv._timeout()
+        self.assertIn("EINVAL", str(cm.exception))
+
+    def test_bad_json_line_is_eio(self):
+        # 终审 M4：rc=0 但 JSON 行解析失败（如 "{"oops"）→ EIO RuntimeError
+        # 而非裸 JSONDecodeError 击穿 syscall 网关
+        drv = drv_evolve.EvolveDriver()
+        with mock.patch.dict(os.environ, _clean_env(), clear=True), \
+             mock.patch.object(subprocess, "run",
+                               return_value=_fake_run(stdout="{oops")):
+            with self.assertRaises(RuntimeError) as cm:
+                drv.run(_job())
+        self.assertIn("EIO", str(cm.exception))
+        self.assertIn("JSON", str(cm.exception))
+
     def test_import_registers_executor(self):
+        # 顺序无关自足（终审 I2）：test_evolve 的 setUp/tearDown 会清空
+        # laos.evolve._executors，本用例不得依赖文件级 import 的一次性
+        # 副作用——importlib.reload 重放模块顶层，真正重测"import 即登记"
+        # （reload 复用同一模块对象，重登记本身就是被测行为；登记存续
+        # 即正常 import 后的常态，无需额外清理）
         import laos.evolve as ev
+        importlib.reload(drv_evolve)
         self.assertIn("openevolve", ev._executors)
         # run_job 全链：gate 放行 + mock 子进程 → EvolveResult
         with mock.patch.dict(os.environ, _clean_env(), clear=True), \

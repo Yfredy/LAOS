@@ -127,7 +127,7 @@ prompt → structured context → workflow → harness code → optimizer code �
 
 **实践入口排序**（按"能不能真上手跑 + 学到多少"）：① OpenEvolve——唯一能在 laos 纪律内试跑的（临时物进 var/，conda 红线外装），进化循环本身也是"评估器在循环外"的最小活样本；② rrsi——跑不动的部分当治理模式精读（critic/pruner/退火预算/worktree 隔离，与 laos sentinel/GrantStore/风险账本一一对应）；③ dgm——自改写 agent 的正典实现，读代码理解 archive 与自指回路；④ EvoAgentX/Agent0——框架型与训练型，远期参照。
 
-> 2026-10-09 后续：①已兑现——OpenEvolve 经 `drivers/drv_evolve.py`（venv 子进程）+ `laos/evolve.py`（gate/装配面）+ 内建 syscall `evolve.run`（caps→validate→sentinel→audit 全链）接入 laos，主套件 1078 绿；真跑 e2e **收档 BLOCKED**（环境无可用 LLM 后端：唯一 key 是 ZCode 沙箱内部网关会话密钥，对七端点全 401、网关域名公网 NXDOMAIN、无 ollama，证据原文见 var/rsi/openevolve/OBSERVATIONS.md §后端/§e2e）；②的治理模式精读由本落地自然覆盖一半（worktree 隔离对照 cow.py 另案）。
+> 2026-10-09 后续：①已兑现——OpenEvolve 经 `drivers/drv_evolve.py`（venv 子进程）+ `laos/evolve.py`（gate/装配面）+ 内建 syscall `evolve.run`（caps→validate→sentinel→audit 全链）接入 laos，主套件 1085 绿（终审 C1/I2/I3+M4/M7/M8 修复波后实跑数）；真跑 e2e **收档 BLOCKED**（环境无可用 LLM 后端：唯一 key 是 ZCode 沙箱内部网关会话密钥，对七端点全 401、网关域名公网 NXDOMAIN、无 ollama，证据原文见 var/rsi/openevolve/OBSERVATIONS.md §后端/§e2e）；②的治理模式精读由本落地自然覆盖一半（worktree 隔离对照 cow.py 另案）。
 
 **GitHub Trending 实况（2026-10-09 当日页）**：无任何以 RSI/self-improvement 为主题的仓库上榜——**这波是论文先行、工具未爆**（RSIGym 才 4 个 commit）。邻接上榜者：claude-mem（agent 持久记忆，页面读数 ~98.8k★）、mattpocock/skills（agent 技能包，页面读数 ~281k★）、morloto/rea（agent 逆向工程）、anthropics/knowledge-work-plugins（Claude Cowork 插件）——记忆/技能/插件这三大"持久化自我改进基础设施"在榜，恰是 §2.2 第二层（persistent self-improvement）的民间形态。
 

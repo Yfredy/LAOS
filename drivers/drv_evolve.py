@@ -11,7 +11,9 @@
 
 env 契约（LAOS_EVOLVE_*，调用时读取，全部可覆盖）：
     LAOS_EVOLVE_PYTHON  venv 解释器路径
-    LAOS_EVOLVE_CMD     自定义命令模板整体替换（{python}/{job}）
+    LAOS_EVOLVE_CMD     自定义命令模板整体替换（{python}/{job}）；按空白切分，
+                        {job} JSON 含空格会被切碎——模板是简单命令的逃生口，
+                        复杂命令走默认 argv 模式或包一层包装脚本（终审 M7）
     LAOS_EVOLVE_TIMEOUT 子进程超时秒（默认 1800.0）
     LAOS_EVOLVE_SRC     OpenEvolve 源码目录（传入 job 的 src_dir）
 """
@@ -47,7 +49,12 @@ class EvolveDriver:
         raw = os.environ.get("LAOS_EVOLVE_TIMEOUT")
         if raw is None:
             return DEFAULT_TIMEOUT
-        value = float(raw)
+        try:
+            value = float(raw)
+        except ValueError as exc:
+            # 终审 M4：解析失败同样带 errno 前缀（与下方值域检查同款 EINVAL）
+            raise ValueError(
+                f"EINVAL: LAOS_EVOLVE_TIMEOUT 非数值：{raw!r}") from exc
         if not math.isfinite(value) or value <= 0:
             raise ValueError(f"EINVAL: LAOS_EVOLVE_TIMEOUT 必须为正数，实测 {raw!r}")
         return value
@@ -60,6 +67,9 @@ class EvolveDriver:
         job_json = json.dumps(payload, ensure_ascii=False, sort_keys=True)
         template = os.environ.get("LAOS_EVOLVE_CMD")
         if template:
+            # 已知局限（终审 M7）：模板按空白切分，{job} JSON 含空格会被
+            # 切碎——模板模式是简单命令的逃生口，JSON 带空格须用默认 argv
+            # 模式或包装脚本
             return [tok.format(python=os.environ.get(
                                      "LAOS_EVOLVE_PYTHON", DEFAULT_PYTHON),
                                job=job_json)
@@ -94,7 +104,13 @@ class EvolveDriver:
         if line is None:
             raise RuntimeError(
                 f"EIO: evolve 输出无 JSON 行：stdout={r.stdout.strip()[:200]!r}")
-        result = EvolveResult.from_payload(json.loads(line))
+        try:
+            payload = json.loads(line)
+        except json.JSONDecodeError as exc:
+            # 终审 M4：JSON 行解析失败同样 errno 化（rc=0 但输出不是契约 JSON）
+            raise RuntimeError(
+                f"EIO: evolve 输出 JSON 解析失败：{exc}") from exc
+        result = EvolveResult.from_payload(payload)
         EvolveDriver.last_best_score = result.best_score
         return result
 
