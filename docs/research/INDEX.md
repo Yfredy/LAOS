@@ -1,7 +1,7 @@
 # docs/research 调研资产清单（INDEX）
 
 > laos 调研资产权威清单：每份文档一句话定位 + 关键数字（均抄自各文档自身原文，未凭文件名推断）。
-> 盘点日期：2026-10-06（2026-10-07 增补 4 份调研 + 3 份评审与设计；2026-10-08 持续增补：arvis 报告 + 语音三域收尾 16 份）。共 103 份 .md（不含本文件，find 实数 2026-10-08 复核：105 = 103 份资产 + capstone + 本文件）。此前头部写的分项口径（66+2+17+3=88）与实数漂移，分项归属核对归属"INDEX 预存计数漂移归属波"排队项，此处只对准总数。
+> 盘点日期：2026-10-06（2026-10-07 增补 4 份调研 + 3 份评审与设计；2026-10-08 持续增补：arvis/muse-gadget-sdk 报告 + 语音三域收尾 16 份）。共 104 份 .md（不含本文件，find 实数 2026-10-08 复核：106 = 104 份资产 + capstone + 本文件）。此前头部写的分项口径（66+2+17+3=88）与实数漂移，分项归属核对归属"INDEX 预存计数漂移归属波"排队项，此处只对准总数。
 
 ## 导航：按问题找文档
 
@@ -95,6 +95,8 @@
 | [2026-10-08-nanomuse-ui-xdevice-reference.md](2026-10-08-nanomuse-ui-xdevice-reference.md) | nanoMuse/Muse 全参照清单（功能 16 屏/界面十决策/全端兼容架构）：一套 Web UI+每端薄桥（Android WebView 14 方法桥含 7 厂商保活矩阵/Electron 桥/PWA 四件套）——laos 取经手册 | 审批 API 三字段（approved/scope/reason）与 laos GrantStore 同构直抄；React 技术栈不抄（零依赖纪律，抄设计语言）；采纳 #1-#5 → [laosweb v3 计划](../superpowers/plans/2026-10-08-laosweb-v3.md)；Android 保活厂商矩阵收录为 AlwaysOnRec 端侧化波必引知识；§7 目录组织学=仓库卫生波 spec |
 
 | [2026-10-08-arvis.md](2026-10-08-arvis.md) | ARVIS 学习（XHS 笔记 404 → GitHub 溯源 GHJ20001017/Full-Duplex-Model，Apache-2.0，HF speech-to-speech 修改版）：级联式全双工工程解法全拆解——AEC3 回声消除/双档打断路由（keyword 保守门 13 词 backchannel 白名单 + jev 协议 0.6B 语义路由 wait-continue-yield）/话轮 revision 化投机重开/播报时窗/保留信封守卫 | 语义路由 **120ms 超时失败保守** + 首句豁免 + WAIT 反问锁 tool_choice；TurnController：9 显式打断短语/13 附和词/280ms 最短语音/3 字符阈值；**语义路由请求体=jev 协议原文（与 laos 判断层同方言）**；CancelScope 与 laos GenerationGate 同构互证、sherpa-onnx KWS 双边同款；**R1/R2/R3 已落地 v0.30.0**（c51a46a，1016 绿）；AEC3 走驱动子进程参照（MicrophoneGate aec_ready 预留位吻合）、e2e 训练侧不采纳 |
+
+| [2026-10-08-muse-gadget-sdk.md](2026-10-08-muse-gadget-sdk.md) | Muse Gadget SDK 学习（XHS 404 → 仓库直读；Muse 本体 2026-09-23 Meta Connect 发布、SDK 2026-10-02 开源）：官方端云治理链全拆解——agent 在租用 VM/能力在端/凭据与执行分账户；executor 治理四招 + Noise XX 链路 + 43 技能 Markdown-only 五段式 | **run_as 非特权账户执行（服务账户持凭据永不执行）**修正姊妹篇"全账号直授"表述；输出预算 **json.dumps escape 感知收缩**（96KiB 循环缩 3/4）；file.write 分块+sha256+原子替换与 laos cow.py 同构互证；技能五段式 Identify/Prerequisites/Workflow/**Verify the Result**/**Limits**；裁决 A1 五段式惯例/A2 裁剪设计参考采纳、Noise/租用 VM 不采纳（云依赖红线） |
 ## 二、全天候录音调研组（always-on-recording/，5 份）
 
 | 文件 | 一句话定位 | 关键数字 / 规模（抄原句） |
