@@ -26,10 +26,22 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: "8.9"   # 仓内无 gradlew（刻意不提交 wrapper 二进制），CI 装指定版
+          gradle-version: "8.10.2"   # 仓内无 gradlew（刻意不提交 wrapper 二进制），CI 装指定版
 
       - name: assembleDebug（debug 签名可直接侧载）
-        run: gradle -p clients/android assembleDebug --stacktrace
+        run: |
+          set -o pipefail
+          gradle -p clients/android assembleDebug --stacktrace 2>&1 | tee clients/android/build.log
+
+      - name: 失败时打包构建报告（诊断用）
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-reports
+          path: |
+            clients/android/app/build/reports
+            clients/android/build.log
+          if-no-files-found: ignore
 
       - name: 统一文件名
         run: |
