@@ -275,68 +275,97 @@ PAGE = r"""<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0b0f14">
+<meta name="theme-color" content="#000000">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="laos">
 <link rel="manifest" href="/manifest.webmanifest">
 <title>laos — 控制台</title>
 <style>
-:root{--bg:#f6f7f9;--panel:#fff;--ink:#1a2027;--muted:#6b7684;--accent:#0f6f5c;
-      --danger:#b3372f;--ok:#2c7a4b;--line:#e3e7ec}
-[data-theme=dark]{--bg:#0b0f14;--panel:#121821;--ink:#e8edf2;--muted:#8b96a3;
-      --accent:#3fc3a6;--danger:#e06a62;--ok:#5cbf85;--line:#1f2937}
+/* 设计语言：iOS 系统分组风（取经 nanoMuse 主题令牌——GPL 只学设计零代码
+   拷贝）：暗色纯黑底+白卡，亮色灰底+白卡；accent 为去饱和蓝；胶囊按钮；
+   inset 分组卡片；聊天气泡非对称圆角。 */
+:root{--bg:#f2f2f7;--panel:#ffffff;--panel2:#f7f7fa;--ink:#1c1c1e;--muted:#6e6e73;
+      --accent:#015cfb;--acc-soft:#e5f0ff;--danger:#ff3b30;--ok:#34c759;--warn:#ff9500;
+      --line:#d1d1d6}
+[data-theme=dark]{--bg:#000000;--panel:#1c1c1e;--panel2:#2c2c2e;--ink:#e5e5ea;
+      --muted:#8e8e93;--accent:#58a6ff;--acc-soft:#1a2b4a;--danger:#ff453a;
+      --ok:#30d158;--warn:#ffd60a;--line:#38383a}
 *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);
-  font:14px/1.5 system-ui,"Segoe UI","Microsoft YaHei",sans-serif;
-  padding-bottom:calc(56px + env(safe-area-inset-bottom))}
-main{max-width:720px;margin:0 auto;padding:12px}
+  font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",
+  "Microsoft YaHei",sans-serif;
+  padding-bottom:calc(64px + env(safe-area-inset-bottom));
+  -webkit-tap-highlight-color:transparent}
+main{max-width:720px;margin:0 auto;padding:14px 16px 20px}
 main section{display:none} main section.on{display:block}
+main h2{font-size:26px;font-weight:800;letter-spacing:-.02em;margin:8px 2px 14px}
 nav#tabs{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;
-  background:var(--panel);border-top:1px solid var(--line);
+  background:color-mix(in srgb,var(--panel) 82%,transparent);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-top:.5px solid var(--line);
   padding-bottom:env(safe-area-inset-bottom);z-index:9}
-nav#tabs button{flex:1;padding:10px 0 8px;border:0;background:none;color:var(--muted);
-  font-size:12px;cursor:pointer}
-nav#tabs button.on{color:var(--accent);font-weight:600}
+nav#tabs button{flex:1;padding:7px 0 5px;border:0;background:none;color:var(--muted);
+  font-size:10.5px;font-weight:500;cursor:pointer;line-height:1.3}
+nav#tabs button .ic{display:block;font-size:20px;margin-bottom:2px;font-weight:400}
+nav#tabs button.on{color:var(--accent);font-weight:700}
 @media(min-width:900px){ /* 桌面：侧栏恒显（参照 nanoMuse desktop.ts 语义） */
-  body{padding-bottom:0;padding-left:200px}
+  body{padding-bottom:0;padding-left:210px}
   nav#tabs{flex-direction:column;justify-content:flex-start;top:0;bottom:0;left:0;
-    width:200px;border-top:0;border-right:1px solid var(--line)}
-  nav#tabs button{text-align:left;padding:12px 18px;font-size:14px}
-  main{max-width:860px;padding:20px 28px}}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;
-  padding:12px;margin:10px 0}
+    width:210px;border-top:0;border-right:.5px solid var(--line)}
+  nav#tabs button{text-align:left;padding:11px 20px;font-size:14px}
+  nav#tabs button .ic{display:inline;font-size:17px;margin-right:9px}
+  main{max-width:860px;padding:20px 30px}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  padding:14px;margin:0 0 14px;box-shadow:0 .5px 2px rgba(0,0,0,.04)}
+.card>b{font-size:14px;font-weight:700;display:block;margin-bottom:6px}
 .chip{display:inline-block;background:color-mix(in srgb,var(--accent) 12%,transparent);
-  color:var(--accent);border-radius:999px;padding:1px 10px;font-size:12px;margin:2px}
-.chip.ok{background:color-mix(in srgb,var(--ok) 14%,transparent);color:var(--ok)}
-.chip.err{background:color-mix(in srgb,var(--danger) 14%,transparent);color:var(--danger)}
+  color:var(--accent);border-radius:999px;padding:2px 11px;font-size:12px;margin:2px;
+  font-weight:600}
+.chip.ok{background:color-mix(in srgb,var(--ok) 15%,transparent);color:var(--ok)}
+.chip.err{background:color-mix(in srgb,var(--danger) 15%,transparent);color:var(--danger)}
 .muted{color:var(--muted)} .danger{color:var(--danger)}
-.badge{border:1px solid currentColor;border-radius:4px;padding:0 5px;font-size:11px;
+.badge{border:1px solid currentColor;border-radius:5px;padding:0 5px;font-size:11px;
   margin:0 2px;white-space:nowrap}
 button.act{border:1px solid var(--line);background:var(--panel);color:var(--ink);
-  border-radius:8px;padding:6px 12px;cursor:pointer}
+  border-radius:999px;padding:7px 15px;font:inherit;font-size:14px;font-weight:600;
+  cursor:pointer;transition:transform .06s}
+button.act:active{transform:scale(.96)}
 button.act.primary{background:var(--accent);border-color:var(--accent);color:#fff}
 button.act.danger{color:var(--danger);border-color:var(--danger)}
-button.act.kill{padding:2px 8px;font-size:12px;color:var(--danger);
+button.act.kill{padding:2px 10px;font-size:12px;color:var(--danger);
   border-color:var(--danger)}
-button.act:disabled{opacity:.45;cursor:not-allowed}
-select,input{border:1px solid var(--line);background:var(--bg);color:var(--ink);
-  border-radius:8px;padding:6px 8px;font:inherit}
-input[type=number]{width:72px}
+button.act:disabled{opacity:.4;cursor:not-allowed}
+select,input{border:1px solid var(--line);background:var(--panel2);color:var(--ink);
+  border-radius:12px;padding:8px 11px;font:inherit}
+input[type=number]{width:76px}
 .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}
 .row input[type=text]{flex:1;min-width:150px}
 #chat-pending .card{border-color:var(--danger)}
-#llm-log{max-height:42vh;overflow-y:auto;display:flex;flex-direction:column;gap:6px;margin:8px 0}
-.llm-u,.llm-a{padding:8px 10px;border-radius:10px;max-width:88%;white-space:pre-wrap;word-break:break-word}
-.llm-u{align-self:flex-end;background:#0f6f5c;color:#fff}
-.llm-a{align-self:flex-start;background:#161b22;border:1px solid #30363d}
-#btn-llm-mic[data-rec="1"]{background:#b91c1c;color:#fff}
-.arow{padding:3px 0;border-bottom:1px dashed var(--line);white-space:nowrap;
-  overflow:hidden;text-overflow:ellipsis}
+/* 对话卡：无边框通栏，气泡 iOS 非对称圆角，composer 胶囊条 */
+.card:has(> #llm-log){background:transparent;border:0;box-shadow:none;padding:0}
+#llm-log{max-height:56vh;overflow-y:auto;display:flex;flex-direction:column;gap:10px;
+  margin:4px 0 10px;padding:2px}
+.llm-u,.llm-a{padding:10px 14px;max-width:82%;white-space:pre-wrap;word-break:break-word;
+  font-size:15px;line-height:1.5}
+.llm-u{align-self:flex-end;border-radius:20px 20px 6px 20px;
+  background:var(--accent);color:#fff}
+.llm-a{align-self:flex-start;border-radius:20px 20px 20px 6px;
+  background:var(--panel);border:1px solid var(--line)}
+.card:has(> #llm-log) .row{background:var(--panel);border:1px solid var(--line);
+  border-radius:999px;padding:6px 8px;margin:0}
+.card:has(> #llm-log) .row input[type=text]{border:0;background:transparent;
+  padding:6px 8px;min-width:60px}
+.card:has(> #llm-log) .row button.act{border:0;background:var(--panel2);padding:8px 12px}
+.card:has(> #llm-log) .row button.act.primary{background:var(--accent);color:#fff}
+#btn-llm-mic[data-rec="1"]{background:var(--danger)!important;color:#fff}
+.arow{padding:4px 2px;border-bottom:.5px solid var(--line);white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;font-size:12px;color:var(--muted)}
 .rrow{margin-right:12px;white-space:nowrap}
 table.tbl{width:100%;border-collapse:collapse}
-.tbl th,.tbl td{text-align:left;padding:3px 6px;border-bottom:1px solid var(--line);
+.tbl th,.tbl td{text-align:left;padding:5px 6px;border-bottom:.5px solid var(--line);
   white-space:nowrap}
-.tbl th{color:var(--muted);font-weight:500}
-#v-memory h3{margin:14px 0 4px;font-size:13px;color:var(--muted)}
+.tbl th{color:var(--muted);font-weight:600}
+#v-memory h3{margin:16px 0 6px;font-size:13px;color:var(--muted);font-weight:600;
+  text-transform:uppercase;letter-spacing:.04em}
 .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;
   background:var(--ok);animation:pulse 1.2s ease-in-out infinite;vertical-align:middle}
 .dot.off{background:var(--muted);animation:none}
@@ -345,10 +374,10 @@ table.tbl{width:100%;border-collapse:collapse}
 </head>
 <body>
 <nav id="tabs">
-  <button data-view="chat" class="on">会话</button>
-  <button data-view="audit">审计</button>
-  <button data-view="memory">记忆</button>
-  <button data-view="gov">治理</button>
+  <button data-view="chat" class="on"><span class="ic">💬</span><span>会话</span></button>
+  <button data-view="audit"><span class="ic">🧾</span><span>审计</span></button>
+  <button data-view="memory"><span class="ic">🧠</span><span>记忆</span></button>
+  <button data-view="gov"><span class="ic">🛡️</span><span>治理</span></button>
 </nav>
 <main>
   <section data-view="chat" class="on">
@@ -898,8 +927,8 @@ tick();
 # ---- PWA 四件套：manifest + 内联 SVG 图标（零二进制资产，全内联生成）------
 MANIFEST = (
     '{"name":"laos 控制台","short_name":"laos","start_url":"/",'
-    '"display":"standalone","background_color":"#0b0f14",'
-    '"theme_color":"#0f6f5c",'
+    '"display":"standalone","background_color":"#000000",'
+    '"theme_color":"#000000",'
     '"icons":[{"src":"/icon.svg","sizes":"any","type":"image/svg+xml"}]}'
 )
 ICON_SVG = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">'

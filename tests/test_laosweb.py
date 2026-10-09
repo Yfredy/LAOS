@@ -269,7 +269,7 @@ class TestHttp(unittest.TestCase):
         self.assertEqual(data["name"], "laos 控制台")
         self.assertEqual(data["short_name"], "laos")
         self.assertEqual(data["display"], "standalone")
-        self.assertEqual(data["theme_color"], "#0f6f5c")
+        self.assertEqual(data["theme_color"], "#000000")  # v0.35 iOS 分组风换肤：纯黑
         self.assertIn("/icon.svg", [i["src"] for i in data["icons"]])
         with urllib.request.urlopen(
                 f"http://127.0.0.1:{self.port}/icon.svg") as resp:
