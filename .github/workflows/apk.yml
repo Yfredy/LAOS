@@ -21,7 +21,8 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - uses: android-actions/setup-android@v3
+      # ubuntu-latest 预装 Android SDK（含 cmdline-tools 与已接受的许可），
+      # 不用 setup-android——v3 在新 runner 镜像上有兼容问题且本就多余。
 
       - uses: gradle/actions/setup-gradle@v4
         with:
