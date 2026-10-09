@@ -125,6 +125,12 @@ class TestPayload(unittest.TestCase):
         self.assertEqual(r.reward_version, "")
         self.assertIsNone(r.reward_detail)
 
+    def test_null_reward_version_becomes_empty(self):
+        p = self._payload()
+        p["reward_version"] = None
+        r = EvolveResult.from_payload(p)
+        self.assertEqual(r.reward_version, "")
+
 
 class TestEnvRoots(unittest.TestCase):
     """env 红线：LAOS_EVOLVE_ROOTS 只能扩非禁区根，禁区永不可经 env 放行。"""
@@ -334,6 +340,12 @@ class TestRewardSpec(unittest.TestCase):
     def test_blank_version_rejected(self):
         with self.assertRaises(ValueError):
             RewardSpec({"OVRL": 1.0}, version="")
+
+    def test_nan_and_inf_weights_rejected(self):
+        for bad in (float("nan"), float("inf"), float("-inf")):
+            with self.assertRaises(ValueError) as cm:
+                RewardSpec({"OVRL": bad})
+            self.assertIn("EINVAL", str(cm.exception))
 
 
 class TestAggregate(unittest.TestCase):

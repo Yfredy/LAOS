@@ -12,6 +12,7 @@ laos 本体（自改写防线：禁区永不可经 env 放行）。
 """
 from __future__ import annotations
 
+import math
 import os
 import posixpath
 from dataclasses import dataclass
@@ -63,7 +64,9 @@ class EvolveResult:
                     iterations_completed=int(payload["iterations_completed"]),
                     elapsed_s=float(payload["elapsed_s"]),
                     artifacts_dir=str(payload["artifacts_dir"]),
-                    reward_version=str(payload.get("reward_version", "")),
+                    reward_version=str(payload.get("reward_version") or ""),
+                    # 显式 JSON null 同缺省：reward_detail 的 None 即"未携带"
+                    # 哨兵（审计行省略该字段），无 null→"None" 污染路径
                     reward_detail=payload.get("reward_detail"))
         except (KeyError, TypeError, ValueError) as exc:
             raise ValueError(f"EINVAL: evolve 结果 payload 契约破裂：{exc}") from exc
@@ -148,9 +151,14 @@ class RewardSpec:
     version: str = "v0"
 
     def __post_init__(self):
-        if not self.weights or any(w <= 0 for w in self.weights.values()):
+        # NaN 比较恒 False 会绕过 w <= 0 校验（NaN 奖励由此传播），
+        # 故非有限数（NaN/±Inf）显式拒绝
+        if not self.weights or any(
+                w <= 0 or not math.isfinite(w)
+                for w in self.weights.values()):
             raise ValueError(
-                f"EINVAL: RewardSpec.weights 须非空且全为正，实测 {self.weights}")
+                f"EINVAL: RewardSpec.weights 须非空且全为正有限数，"
+                f"实测 {self.weights}")
         if not self.lower_better <= self.weights.keys():
             raise ValueError(
                 f"EINVAL: lower_better {sorted(self.lower_better)} 须为 "
