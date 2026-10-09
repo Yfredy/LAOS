@@ -21,6 +21,7 @@
 | A7 | **语音对话栈** wakegate/dialogsched/turnpolicy | 唤醒四态机/打断版本化/附和吞掉/语义话轮路由 | 代码级能力（对话框管线装配）；KWS 实测 7.56ms |
 | A8 | **HY4 听觉蒸馏**（姊妹仓） | SenseVoice ASR+情感一次前向（sherpa 通道） | `AOR_ASR_CHANNEL=sherpa AOR_SHERPA_DIR=…`（HY4 仓库内） |
 | A9 | **Linux AgentOS demo** demos/agentos-demo | 30 秒讲清 kernel+Agent+MCP+seccomp 的认知演示 | `bash demos/agentos-demo/run_demo.sh`（WSL/Git Bash） |
+| A10 | **录音回放** `rec.replay` | 常听会话最近 15–60s 音频快照+ASR 转写（听障/没听清辅助；内存环冲即焚，LAOS_REC=0 禁） | laosweb「录音回放」卡；内核 syscall `rec.replay` |
 
 ## 2. 第二层：纯工程能力（无模型参与，传统系统件）
 
