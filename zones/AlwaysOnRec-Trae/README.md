@@ -11,7 +11,7 @@
 python bin/laosd.py                    # 跑完整 demo（脚本化大脑，无需 API key）
 python bin/laosd.py --real             # 有 OPENAI_API_KEY 时用真 LLM
 python bin/laosweb.py                  # 启动内核 + Web 交互面板 (http://127.0.0.1:8800)
-python -m unittest discover -s tests   # 111111051 项回归测试
+python -m unittest discover -s tests   # 1054 项回归测试
 ```
 
 ---
@@ -40,7 +40,7 @@ laos/drivers/     ★ 设备驱动（14 个 MCP Server 子进程）：fs / proc 
 laos/bin/         ★ 用户入口：laosd(引导demo) / laosweb(实时面板+操控) / laosctl(审计回放) /
                     diary(日记) / journal(录音转写) / mood_report(情绪周报)
 laos/scripts/     termux_matrix(Android降级矩阵实测) / flasep_gpu_bench(GPU基准)
-laos/tests/       111111111111051 项回归测试（真录音/真 ASR 用例实测通过）
+laos/tests/       1054 项回归测试（真录音/真 ASR 用例实测通过）
 laos/docs/        论文调研 / 真机 runbook / 面板教程 / 完整项目介绍(PROJECT_OVERVIEW.md)
 ```
 
@@ -347,7 +347,7 @@ laos/
     journal.py    录音蒸馏管线：批量转写 → mem.remember(kind=journal) → rec_gc 即焚（第③④段）
     mood_report.py 情绪周报：journal 情感标签按天聚合 → 字符堆积图
   tests/
-    test_*.py     111111111111051 项回归测试（laos / ipc / scope / seccomp / cow / profiling / npu / sandbox / enforcement / memory / diary 等 24 个文件）
+    test_*.py     1054 项回归测试（laos / ipc / scope / seccomp / cow / profiling / npu / sandbox / enforcement / memory / diary 等 24 个文件）
   var/            运行期产物：audit.jsonl / memory.jsonl / branches/ / diary/ / ear/ / swap/
 ```
 
