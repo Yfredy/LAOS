@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>nanoLAOS · AuraSE 取长补短落地交接</title>
+<!-- frontend-slides 血统：1920×1080 固定舞台自缩放、←/→ 翻页、E 键编辑（localStorage 持久化）、打印逐页断行
+     版本锚（release.py 五类锚点契约）：封面 stamp「开源 v0.35.1 ·」/ 页脚「· v0.35.1 · 1121 tests（aor-waves 在途）」
+     内容事实源：docs/guide/aurase-adoption-handover.md（L0–L4）+ docs/research/2026-10-09-aurase-ipo.md -->
+<style>
+:root{--bg:#0b0e14;--card:#151a24;--card2:#1b2230;--ink:#e8ecf3;--dim:#8b95a7;--gold:#d4a24e;--blue:#6c9bd1;--green:#7cb98a;--red:#c96a6a;--purple:#a884c9;--line:#2a3346}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:var(--bg);color:var(--ink);font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;height:100%;overflow:hidden}
+#stage{position:absolute;top:50%;left:50%;width:1920px;height:1080px;transform-origin:center center;background:var(--bg)}
+.slide{position:absolute;inset:0;padding:84px 110px 130px;display:none;flex-direction:column}
+.slide.active{display:flex}
+h1{font-size:72px;font-weight:700;letter-spacing:2px}
+h2{font-size:46px;font-weight:700;margin-bottom:36px;border-left:8px solid var(--gold);padding-left:24px}
+h2 .en{color:var(--dim);font-size:26px;font-weight:400;margin-left:16px}
+.sub{color:var(--dim);font-size:28px;margin-top:18px;line-height:1.7}
+.row{display:flex;gap:28px;flex:1;min-height:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 34px;flex:1;min-width:0}
+.card h3{font-size:28px;color:var(--gold);margin-bottom:16px}
+.card li,.card p{font-size:23px;line-height:1.65;color:var(--ink)}
+.card ul{list-style:none}
+.card li{padding:7px 0 7px 26px;position:relative}
+.card li::before{content:"·";position:absolute;left:6px;color:var(--gold);font-weight:700}
+.mono{font-family:Consolas,"JetBrains Mono",monospace;font-size:21px;color:var(--blue)}
+.foot{position:absolute;bottom:44px;left:110px;right:110px;display:flex;justify-content:space-between;color:var(--dim);font-size:20px;border-top:1px solid var(--line);padding-top:16px}
+.stamp{color:var(--gold);letter-spacing:1px}
+.kpis{display:flex;gap:24px;margin-top:40px}
+.kpi{flex:1;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px 20px;text-align:center}
+.kpi b{display:block;font-size:52px;color:var(--gold);font-weight:700}
+.kpi span{font-size:21px;color:var(--dim)}
+.tag{display:inline-block;padding:4px 14px;border-radius:999px;font-size:19px;margin-right:10px;border:1px solid}
+.t-gold{color:var(--gold);border-color:var(--gold)}.t-blue{color:var(--blue);border-color:var(--blue)}
+.t-green{color:var(--green);border-color:var(--green)}.t-red{color:var(--red);border-color:var(--red)}
+.t-purple{color:var(--purple);border-color:var(--purple)}
+.arch{flex:1;display:flex;flex-direction:column;gap:18px;justify-content:center}
+.tier{border-radius:16px;padding:20px 28px;border:2px dashed;display:flex;align-items:center;gap:22px}
+.tier .tlabel{writing-mode:vertical-lr;letter-spacing:6px;font-size:21px;font-weight:700;flex:0 0 42px;text-align:center}
+.tier .boxes{display:flex;gap:16px;flex:1;flex-wrap:wrap}
+.box{border-radius:10px;padding:12px 18px;font-size:21px;line-height:1.45;flex:1;min-width:170px}
+.box b{display:block;font-size:22px}
+.box small{color:var(--dim);font-size:18px}
+.tier-out{border-color:var(--blue);background:rgba(108,155,209,.07)}.tier-out .tlabel{color:var(--blue)}
+.tier-drv{border-color:var(--gold);background:rgba(212,162,78,.07)}.tier-drv .tlabel{color:var(--gold)}
+.tier-in{border-color:var(--red);background:rgba(201,106,106,.07)}.tier-in .tlabel{color:var(--red)}
+.b-blue{background:rgba(108,155,209,.16);border:1px solid var(--blue)}
+.b-purple{background:rgba(168,132,201,.16);border:1px solid var(--purple)}
+.b-green{background:rgba(124,185,138,.16);border:1px solid var(--green)}
+.b-gold{background:rgba(212,162,78,.16);border:1px solid var(--gold)}
+.b-red{background:rgba(201,106,106,.16);border:1px solid var(--red)}
+.b-grey{background:rgba(139,149,167,.14);border:1px solid var(--dim)}
+table{width:100%;border-collapse:collapse;font-size:22px}
+th{color:var(--gold);text-align:left;padding:10px 14px;border-bottom:2px solid var(--line);font-size:22px}
+td{padding:10px 14px;border-bottom:1px solid var(--line);line-height:1.5;color:var(--ink)}
+td.dim,th.dim{color:var(--dim)}
+#hud{position:fixed;bottom:14px;right:22px;color:var(--dim);font-size:18px;z-index:9;user-select:none}
+#hint{position:fixed;bottom:14px;left:22px;color:#5a6375;font-size:17px;z-index:9}
+.slide[contenteditable="true"]{outline:2px dashed var(--gold);outline-offset:-12px}
+@media print{html,body{overflow:visible;height:auto}#stage{position:static;transform:none!important;width:100%;height:auto}.slide{display:flex!important;position:relative;page-break-after:always;height:1080px}}
+</style>
+</head>
+<body>
+<div id="stage">
+
+<section class="slide active">
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+    <div style="font-size:30px;color:var(--dim);letter-spacing:8px;margin-bottom:26px">nanoLAOS <span style="letter-spacing:2px">·</span> laos · Linux AgentOS</div>
+    <h1>AuraSE 取长补短落地<span style="color:var(--gold)">·</span>波次交接</h1>
+    <div class="sub">一篇低幻觉生成式语音增强论文（arXiv 2610.06632v1）如何变成 laos 的<br><b style="color:var(--blue)">奖励治理面</b> + <b style="color:var(--green)">审计版本化</b> + <b style="color:var(--purple)">三维幻觉审计立约</b>——外加计划纪律制度化与 Subagent-Driven 执行实录。</div>
+    <div style="margin-top:56px"><span class="stamp" style="font-size:30px">开源 v0.35.1 ·</span></div>
+    <div style="margin-top:20px;color:var(--dim);font-size:24px">2026-10-09 · 分支 aor-waves（随录音回放波合并） · 交接文档 <span class="mono">docs/guide/aurase-adoption-handover.md</span></div>
+  </div>
+  <div class="foot"><span>nanoLAOS · AuraSE 取长补短波次交接</span><span>· v0.35.1 · 1121 tests（aor-waves 在途）</span></div>
+</section>
+
+<section class="slide">
+  <h2>60 秒总览<span class="en">what happened</span></h2>
+  <div class="card" style="flex:0 0 auto">
+    <p><span class="mono">调研</span> 小红书 Qwen Audio Agent Runtime（三链核实零讹变）+ AuraSE 论文全文提取 → <span class="mono">复现</span> IPO 决策面规则版（Repro-ZCode，23 测手算锚点）→ <span class="mono">制度</span> 计划编写纪律（写完三查/尺寸判据/乱序阅读禁令）→ <span class="mono">计划</span> aurase-adoption 三任务+三不做 → <span class="mono">执行</span> Subagent-Driven：每任务独立评审 + 终审 Clean + 修复波 → <span class="mono">收尾</span> 登记已执行、SDD 台账归档 var/。</p>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><b>1121</b><span>主套件全绿（aor-waves 实跑）</span></div>
+    <div class="kpi"><b>32</b><span>test_evolve（18+8+4+2）</span></div>
+    <div class="kpi"><b>23</b><span>复现区新增（区合计 94 绿）</span></div>
+    <div class="kpi"><b>5</b><span>本波代码提交（含修复波）</span></div>
+    <div class="kpi"><b>4</b><span>交接四件套（文档/双图/PPT）</span></div>
+    <div class="kpi"><b>2</b><span>环境阻断（archify 锁/巡检）</span></div>
+  </div>
+  <div class="foot"><span>nanoLAOS · AuraSE 取长补短波次交接</span><span>· v0.35.1 · 1121 tests（aor-waves 在途）</span></div>
+</section>
+
+<section class="slide">
+  <h2>论文是什么<span class="en">AuraSE, arXiv 2610.06632v1</span></h2>
+  <div class="row">
+    <div class="card">
+      <h3>问题：生成式增强会幻觉</h3>
+      <p>“说得更好听但改了内容”——换词/插音/丢弱语音/漂说话人。实测（带混响 WER）：LLaSE-G1 <b style="color:var(--red)">28.78%</b>、SGMSE <b style="color:var(--red)">22.15%</b> vs 噪声输入 10.82%——生成式增强一度比不增强更毁内容。</p>
+    </div>
+    <div class="card">
+      <h3>杠杆一：双流 MMDiT</h3>
+      <p>转写与退化音频联合注意力但各留专属通道——文本补内容、声学保说话人。GT 文本 WER <b style="color:var(--green)">7.69%</b> vs 单流 10.97%。</p>
+    </div>
+    <div class="card">
+      <h3>杠杆二：IPO</h3>
+      <p>8 组推理配置出候选 → 多目标奖励（<b style="color:var(--gold)">4:2:2:2</b>，保真 60%）排序成偏好对 → 锚点随模型前移的成对更新 → 蒸馏回固定 10 步 ODE。12 项指标 11 项第一。</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:28px;flex:0 0 auto">
+    <p>最有普适价值的一条：<b style="color:var(--gold)">GT-DPO 崩点</b>——拿真值当偏好赢家 WER 恶化到 13.35%；只有“模型自产相对偏好 + 移动锚”有效。与 laos“实测不引宣称”、JitMem“相对优于绝对”三方独立收敛。</p>
+  </div>
+  <div class="foot"><span>nanoLAOS · AuraSE 取长补短波次交接</span><span>· v0.35.1 · 1121 tests（aor-waves 在途）</span></div>
+</section>
+
+<section class="slide">
+  <h2>取：三个落地<span class="en">adopted</span></h2>
+  <div class="arch">
+    <div class="tier tier-out">
+      <div class="tlabel">核心</div>
+      <div class="boxes">
+        <div class="box b-blue"><b>RewardSpec</b><small>evolve.py:141 · weights+lower_better+version（EINVAL 含 NaN/Inf）</small></div>
+        <div class="box b-blue"><b>aggregate()</b><small>evolve.py:170 · 集内 min-max+翻转+加权 → [0,1]</small></div>
+        <div class="box b-blue"><b>EvolveResult 可选字段</b><small>reward_version/reward_detail · from_payload 容缺（null→空串）</small></div>
+        <div class="box b-green"><b>AuditLog 条件键</b><small>kernel.py:995 · 仅非空写 reward_version——旧行字节级不变</small></div>
+      </div>
+    </div>
+    <div class="tier tier-drv">
+      <div class="tlabel">立约</div>
+      <div class="boxes">
+        <div class="box b-gold"><b>drivers/README.md</b><small>模块地图（加驱动先登记）+ 奖励面用法：保真份额 ≥60% 起步</small></div>
+        <div class="box b-purple"><b>三维幻觉审计约定</b><small>WER=词法 / SBS=语义 / SIM=说话人 · 对参照转写评分 · 触发即生效</small></div>
+      </div>
+    </div>
+    <div class="tier tier-in">
+      <div class="tlabel">复现</div>
+      <div class="boxes">
+        <div class="box b-red"><b>repro/aurase_ipo.py</b><small>决策面规则版 23 测：偏好对采样/T_r 缓冲/锚点边际/诊断统计（零 import 独立转译）</small></div>
+        <div class="box b-grey"><b>论文证据</b><small>var/repro/2610.06632/ 全文提取 · 数值一概不断言（诚实偏差登记）</small></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>nanoLAOS · AuraSE 取长补短波次交接</span><span>· v0.35.1 · 1121 tests（aor-waves 在途）</span></div>
+</section>
+
+<section class="slide">
+  <h2>奖励面怎么用<span class="en">three steps</span></h2>
+  <div class="row">
+    <div class="card" style="flex:1.4">
+      <h3>驱动/编排侧组装</h3>
+      <p class="mono" style="line-height:1.9">spec = RewardSpec(<br>&nbsp;&nbsp;weights={"OVRL":4.0,"WER":2.0,"SIM":2.0,"SBS":2.0},<br>&nbsp;&nbsp;lower_better=frozenset({"WER"}),&nbsp;# 自动翻转<br>&nbsp;&nbsp;version="aurase-4222")&nbsp;# 变更即升版<br>rewards = aggregate(candidates, spec)<br># → 填 EvolveResult(reward_version=spec.version, ...)</p>
+    </div>
+    <div class="card">
+      <h3>审计自动透传</h3>
+      <p>执行器返回带 reward_version → <span class="mono">evolve.run</span> 审计行自动多出该键（仅非空）；权重变更=新版本号，历史不可变可追溯——<b style="color:var(--gold)">锚点治理</b>。</p>
+      <h3 style="margin-top:22px">手算锚点速查</h3>
+      <p>三候选 4:2:2:2 → <span class="mono">[0.3, 0.8, 0.6]</span>；总分王不是 OVRL 最高者；全指标垫底=<span class="mono">0.0</span> 闭端；θ=锚时 IPO 损失=<span class="mono">log 2</span>。</p>
+    </div>
+  </div>
+  <div class="foot"><span>nanoLAOS · AuraSE 取长补短波次交接</span><span>· v0.35.1 · 1121 tests（aor-waves 在途）</span></div>
+</section>
+
+<section class="slide">
+  <h2>补：laos 的差异化价值<span class="en">what laos adds back</span></h2>
+  <div class="row">
+    <div class="card">
+      <h3>奖励模型在循环内、无外裁判席</h3>
+      <p>IPO 的权重人工固定、奖励模型被当真值——作者自认“mitigating 非 eliminating” hacking。laos 立论（评估器与权限在进化循环之外）补位：<b style="color:var(--gold)">权重/奖励模型变更走版本化审计</b>——本波 reward_version 就是这颗种子。</p>
+    </div>
+    <div class="card">
+      <h3>“逐话语穷举部署不起”是调度问题</h3>
+      <p>best-of-8 全知全能但太贵，IPO 用蒸馏换部署延迟——“用训练时算力换部署时延迟”的经典调度权衡，与 evolve iterations 上限、mixed execution 结论同域。</p>
+    </div>
+    <div class="card">
+      <h3>ASR 条件是外部幻觉入口</h3>
+      <p>转写由 Whisper 一次性固定，作者承认依赖仍在。laos 三通道 ASR + AgenticSR refiner 正是条件输入治理层；论文 WER 对参照转写而非条件转写评分=“抄条件不得分”，与 laos 引用/实测不混写同构。</p>
+    </div>
+  </div>
+  <div class="foot"><span>nanoLAOS · AuraSE 取长补短波次交接</span><span>· v0.35.1 · 1121 tests（aor-waves 在途）</span></div>
+</section>
+
+<section class="slide">
+  <h2>明确不做 + 红线维持<span class="en">what we refused</span></h2>
+  <div class="row">
+    <div class="card">
+      <h3>三条不做（防走偏）</h3>
+      <ul>
+        <li><b>jitmem curator 不引入差距比例采样</b>——确定性 top-k 是可调试/可复现特性，briefing 随机化有害无益</li>
+        <li><b>SE/生成式音频本体不做</b>——零依赖红线；未来只可能 drivers 子进程形态</li>
+        <li><b>telemetry 冻结面不动</b>——23 事件/138 字段过设计评审；三维约定立在 drivers/README</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>红线维持（不改判）</h3>
+      <ul>
+        <li>auto-gain/04“生成式不进记忆链路”维持——最优系统 WER 仍 8.22%，幻觉可压不可灭</li>
+        <li>生成式产出只进<b>评测副本</b>不进<b>记忆副本</b>（与 AGC“增益只作用于送推理副本”同一条红线）</li>
+        <li>保真 ≥60% 是文档级约定（违规 review 层拦，不做代码强制）</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot"><span>nanoLAOS · AuraSE 取长补短波次交接</span><span>· v0.35.1 · 1121 tests（aor-waves 在途）</span></div>
+</section>
+
+<section class="slide">
+  <h2>Subagent-Driven 执行实录<span class="en">SDD first full run</span></h2>
+  <div class="row">
+    <div class="card">
+      <h3>流程</h3>
+      <ul>
+        <li>每任务新实现者 + 独立评审（评审者复算手算锚点、重跑模块测试、独立论证字节级不变性）</li>
+        <li>终审 whole-plan Clean；两条 Minor 仍裁定修复波（新鲜代码真边界一行可修，不带债交接）</li>
+        <li>修复波 scoped 复审 both ADDRESSED；台账 rulings 全录（存 var/，gitignored）</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>三查纪律实证（本波抓到 5 条真错）</h3>
+      <table>
+        <tr><td class="mono">①</td><td>测试计数漂移（写 20 实测 18）</td></tr>
+        <tr><td class="mono">②</td><td>名不副实的断言辅助函数</td></tr>
+        <tr><td class="mono">③</td><td>值域 (0,1] 应为 [0,1] 闭端</td></tr>
+        <tr><td class="mono">④</td><td>“追加一例”实为两例</td></tr>
+        <tr><td class="mono">⑤</td><td>fixture 自相矛盾（执行中抓到）</td></tr>
+      </table>
+      <p style="margin-top:14px;color:var(--dim)">纪律有效，别省——已固化进 plans/README.md 头部。</p>
+    </div>
+  </div>
+  <div class="foot"><span>nanoLAOS · AuraSE 取长补短波次交接</span><span>· v0.35.1 · 1121 tests（aor-waves 在途）</span></div>
+</section>
+
+<section class="slide">
+  <h2>环境阻断与解锁路径<span class="en">blockers, root-caused</span></h2>
+  <div class="row">
+    <div class="card">
+      <h3>archify 双阻断（根因实证）</h3>
+      <ul>
+        <li><b>deliver/finalize</b>：本机 Windows/NTFS 上 <span class="mono">lstatSync().dev ≡ 0n</span> 而 <span class="mono">fstatSync().dev</span>=卷 ID → 锁身份校验恒拒</li>
+        <li><b>browser-check</b>：Chrome 可用但巡检不完成（同类宿主不兼容）</li>
+        <li><b>已达成的门禁</b>：validate ✅（候选冻结）/ render ✅ / check ✅——健康环境重跑 finalize 即补齐</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>evolve e2e（继承自 RSI 波）</h3>
+      <ul>
+        <li>LLM 后端 BLOCKED：唯一 key 是内网网关会话密钥（七端点 401）</li>
+        <li>解锁：装 ollama 或任一 OpenAI 兼容 key → followups T3 的 <span class="mono">scripts/evolve_e2e.py</span> 已写成代码</li>
+      </ul>
+      <h3 style="margin-top:20px">分支状态</h3>
+      <p>本波全部在 <span class="mono">aor-waves</span>（录音回放波 v0.36.0 在途）；合并时机归波主，本波不占版本号。</p>
+    </div>
+  </div>
+  <div class="foot"><span>nanoLAOS · AuraSE 取长补短波次交接</span><span>· v0.35.1 · 1121 tests（aor-waves 在途）</span></div>
+</section>
+
+<section class="slide">
+  <h2>资产索引<span class="en">where everything lives</span></h2>
+  <div class="row">
+    <div class="card">
+      <h3>文档与图</h3>
+      <ul>
+        <li>交接文档：<span class="mono">docs/guide/aurase-adoption-handover.md</span>（L0–L4）</li>
+        <li>调研主篇：<span class="mono">docs/research/2026-10-09-aurase-ipo.md</span>（§4 取长补短裁决）</li>
+        <li>archify 图：<span class="mono">docs/diagrams/aurase-adoption-architecture.html</span>（candidate 同名并存）</li>
+        <li>drawio 图：<span class="mono">docs/diagrams/aurase-adoption-handover.drawio</span>（0 错 0 警）</li>
+        <li>本 PPT：<span class="mono">docs/ppt/laos-aurase-adoption-handover.html</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>关键 commit（aor-waves）</h3>
+      <p class="mono" style="line-height:1.9">baddb0c 调研+复现<br>ebec4c9 计划（三查修错四条）<br>55e787c RewardSpec+aggregate<br>8a28b82 契约+审计条件键<br>2fdbb69 drivers/README 立约<br>99af75d null/NaN 边界修复波<br>ec448f6 登记收尾</p>
+    </div>
+  </div>
+  <div class="sub" style="margin-top:24px">姊妹交接：<span class="mono">docs/guide/rsi-evolve-handover.md</span>（openevolve 驱动波，已合并 master 565dec8）——evolve.run 基座在那边。</div>
+  <div class="foot"><span>nanoLAOS · AuraSE 取长补短波次交接</span><span>· v0.35.1 · 1121 tests（aor-waves 在途）</span></div>
+</section>
+
+</div>
+<div id="hud"></div>
+<div id="hint">←/→ 翻页 · E 编辑</div>
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var idx=0,key='aurase-adoption-handover-pos';
+  try{idx=Math.min(slides.length-1,parseInt(localStorage.getItem(key)||'0',10)||0)}catch(e){}
+  function show(){slides.forEach(function(s,i){s.classList.toggle('active',i===idx)});
+    document.getElementById('hud').textContent=(idx+1)+' / '+slides.length;
+    try{localStorage.setItem(key,String(idx))}catch(e){}}
+  document.addEventListener('keydown',function(e){
+    if(document.activeElement&&document.activeElement.isContentEditable)return;
+    if(e.key==='ArrowRight'||e.key==='PageDown'){idx=Math.min(slides.length-1,idx+1);show()}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){idx=Math.max(0,idx-1);show()}
+    else if(e.key==='e'||e.key==='E'){var s=slides[idx];s.contentEditable=s.contentEditable!=='true'}
+  });
+  function fit(){var s=Math.min(innerWidth/1920,innerHeight/1080);
+    document.getElementById('stage').style.transform='translate(-50%,-50%) scale('+s+')';}
+  addEventListener('resize',fit);fit();show();
+})();
+</script>
+</body>
+</html>

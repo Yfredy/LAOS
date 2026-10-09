@@ -1,0 +1,332 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "laos · AuraSE 取长补短——奖励治理面与审计版本化",
+    "locale": "zh-CN",
+    "output": "docs/diagrams/aurase-adoption-architecture.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "git@github.com:Yfredy/LAOS.git",
+      "revision": "8d63a4505b385a247e592d41298c3d18e8f61b4c",
+      "link_mode": "local-only"
+    },
+    "views": [
+      {
+        "id": "reward-chain",
+        "label": "奖励链（治理面）",
+        "focus": [
+          "rewardspec",
+          "aggregate",
+          "evolveresult",
+          "audit"
+        ],
+        "note": "spec 组装→集内聚合→版本透传→审计条件键：奖励构成全程可追溯，不带 reward 时字节级不变"
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "rewardspec",
+      "type": "backend",
+      "label": "RewardSpec",
+      "sublabel": "版本化奖励规格·EINVAL 校验",
+      "pos": [
+        200,
+        100
+      ],
+      "sources": [
+        {
+          "path": "laos/evolve.py",
+          "line": 141,
+          "end_line": 168,
+          "label": "三字段与 fail-loud 校验"
+        }
+      ],
+      "size": [
+        240,
+        90
+      ]
+    },
+    {
+      "id": "aggregate",
+      "type": "backend",
+      "label": "aggregate()",
+      "sublabel": "集内 min-max·[0,1] 闭区间",
+      "pos": [
+        580,
+        100
+      ],
+      "sources": [
+        {
+          "path": "laos/evolve.py",
+          "line": 170,
+          "end_line": 198,
+          "label": "归一+翻转+加权和（4:2:2:2）"
+        }
+      ],
+      "size": [
+        240,
+        90
+      ]
+    },
+    {
+      "id": "evolveresult",
+      "type": "backend",
+      "label": "EvolveResult",
+      "sublabel": "可选 reward 字段·from_payload 容缺",
+      "pos": [
+        200,
+        320
+      ],
+      "sources": [
+        {
+          "path": "laos/evolve.py",
+          "line": 44,
+          "end_line": 70,
+          "label": "可选 reward 字段默认空"
+        }
+      ],
+      "size": [
+        240,
+        90
+      ]
+    },
+    {
+      "id": "audit",
+      "type": "database",
+      "label": "AuditLog",
+      "sublabel": "event:evolve 条件键 reward_version",
+      "pos": [
+        580,
+        320
+      ],
+      "sources": [
+        {
+          "path": "laos/kernel.py",
+          "line": 995,
+          "end_line": 996,
+          "label": "仅非空写入（字节级不变）"
+        }
+      ],
+      "size": [
+        240,
+        90
+      ]
+    },
+    {
+      "id": "tests",
+      "type": "database",
+      "label": "tests/test_evolve.py",
+      "sublabel": "32 例·手算锚点",
+      "pos": [
+        200,
+        540
+      ],
+      "sources": [
+        {
+          "path": "tests/test_evolve.py",
+          "line": 324,
+          "end_line": 398,
+          "label": "奖励面测试+手算锚点"
+        }
+      ],
+      "size": [
+        240,
+        90
+      ]
+    },
+    {
+      "id": "drvreadme",
+      "type": "frontend",
+      "label": "drivers/README.md",
+      "sublabel": "模块地图+奖励面用法·保真≥60%",
+      "pos": [
+        200,
+        760
+      ],
+      "sources": [
+        {
+          "path": "drivers/README.md",
+          "line": 19,
+          "end_line": 39,
+          "label": "奖励面用法（先登记）"
+        }
+      ],
+      "size": [
+        240,
+        90
+      ]
+    },
+    {
+      "id": "halo3",
+      "type": "security",
+      "label": "三维幻觉审计约定",
+      "sublabel": "WER/SBS/SIM·触发即生效",
+      "pos": [
+        580,
+        540
+      ],
+      "sources": [
+        {
+          "path": "drivers/README.md",
+          "line": 27,
+          "end_line": 39,
+          "label": "生成式组件上线前置约定"
+        }
+      ],
+      "size": [
+        240,
+        90
+      ]
+    },
+    {
+      "id": "ipo",
+      "type": "backend",
+      "label": "repro/aurase_ipo.py",
+      "sublabel": "决策面规则版·23 测",
+      "pos": [
+        200,
+        980
+      ],
+      "sources": [
+        {
+          "path": "zones/Repro-ZCode/repro/aurase_ipo.py",
+          "line": 1,
+          "end_line": 60,
+          "label": "决策面（零 import 转译）"
+        }
+      ],
+      "size": [
+        240,
+        90
+      ]
+    },
+    {
+      "id": "paper",
+      "type": "external",
+      "label": "AuraSE 论文",
+      "sublabel": "arXiv 2610.06632v1",
+      "pos": [
+        580,
+        760
+      ],
+      "sources": [
+        {
+          "path": "docs/research/2026-10-09-aurase-ipo.md",
+          "line": 1,
+          "end_line": 20,
+          "label": "调研+裁决+复现对账"
+        }
+      ],
+      "size": [
+        240,
+        90
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "奖励治理面——laos 核心（纯 stdlib·纯加法）",
+      "wraps": [
+        "rewardspec",
+        "aggregate",
+        "evolveresult",
+        "audit",
+        "tests"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "drivers/ 立约层（重依赖止步·加驱动先登记）",
+      "wraps": [
+        "drvreadme",
+        "halo3"
+      ]
+    },
+    {
+      "kind": "security-group",
+      "label": "复现区——决策面规则版（zones/Repro-ZCode·不进主套件）",
+      "wraps": [
+        "ipo"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "证据源（论文与调研）",
+      "wraps": [
+        "paper"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "spec-aggregate",
+      "from": "rewardspec",
+      "to": "aggregate",
+      "label": "spec 传入",
+      "variant": "emphasis",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "aggregate-result",
+      "from": "aggregate",
+      "to": "evolveresult",
+      "label": "填 version/detail",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "result-audit",
+      "from": "evolveresult",
+      "to": "audit",
+      "label": "条件键 reward_version",
+      "variant": "security",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "tests-spec",
+      "from": "tests",
+      "to": "rewardspec",
+      "label": "钉住校验与锚点",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "ipo-tests",
+      "from": "ipo",
+      "to": "tests",
+      "label": "语义源（零 import）",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "paper-ipo",
+      "from": "paper",
+      "to": "ipo",
+      "label": "论文→规则版复现",
+      "fromSide": "left",
+      "toSide": "right"
+    },
+    {
+      "id": "paper-halo3",
+      "from": "paper",
+      "to": "halo3",
+      "label": "§4 裁决→立约",
+      "variant": "security",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "readme-halo3",
+      "from": "drvreadme",
+      "to": "halo3",
+      "label": "同文件立约",
+      "fromSide": "right",
+      "toSide": "left"
+    }
+  ]
+}

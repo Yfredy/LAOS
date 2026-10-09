@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "command": "finalize",
+  "status": "fail",
+  "type": "architecture",
+  "quality": "showcase",
+  "startedAt": "2026-10-09T14:53:06.815Z",
+  "specification": {
+    "path": "C:\\Users\\yaoyue\\CodeBuddy\\Claw\\laos\\.archify\\architecture-aurase-adoption-20261009-233000\\candidate.json",
+    "sha256": "5d3d679894b28f4248e56bb321b033891a393c1e27054d3a713ee16cdbcd59b4",
+    "bytes": 6594
+  },
+  "artifact": {
+    "path": "C:\\Users\\yaoyue\\CodeBuddy\\Claw\\laos\\docs\\diagrams\\aurase-adoption-architecture.html"
+  },
+  "stages": {
+    "validate": {
+      "status": "not-run",
+      "execution": "embedded-in-deliver"
+    },
+    "deliver": {
+      "status": "fail",
+      "exitCode": 1,
+      "durationMs": 274,
+      "command": [
+        "C:\\Users\\yaoyue\\nodejs22\\node.exe",
+        "C:\\Users\\yaoyue\\.agents\\skills\\archify\\bin\\archify.mjs",
+        "deliver",
+        "architecture",
+        "C:\\Users\\yaoyue\\CodeBuddy\\Claw\\laos\\.archify\\architecture-aurase-adoption-20261009-233000\\candidate.json",
+        "C:\\Users\\yaoyue\\CodeBuddy\\Claw\\laos\\docs\\diagrams\\aurase-adoption-architecture.html",
+        "--quality",
+        "showcase",
+        "--repo-root",
+        "C:\\Users\\yaoyue\\CodeBuddy\\Claw\\laos",
+        "--json"
+      ],
+      "receipt": {
+        "schemaVersion": 1,
+        "ok": false,
+        "command": "deliver",
+        "receiptId": "253c333c-4b81-4fd5-94e4-990437399c39",
+        "stage": "prepare",
+        "type": "architecture",
+        "input": "C:\\Users\\yaoyue\\CodeBuddy\\Claw\\laos\\.archify\\architecture-aurase-adoption-20261009-233000\\candidate.json",
+        "output": "C:\\Users\\yaoyue\\CodeBuddy\\Claw\\laos\\docs\\diagrams\\aurase-adoption-architecture.html",
+        "error": "Could not start delivery for \"C:\\Users\\yaoyue\\CodeBuddy\\Claw\\laos\\docs\\diagrams\\aurase-adoption-architecture.html\": Delivery lock path identity could not be verified safely.",
+        "diagnostics": [
+          {
+            "code": "delivery/lock-acquire",
+            "severity": "error",
+            "message": "Could not start delivery for \"C:\\Users\\yaoyue\\CodeBuddy\\Claw\\laos\\docs\\diagrams\\aurase-adoption-architecture.html\": Delivery lock path identity could not be verified safely.",
+            "subject": {
+              "output": "C:\\Users\\yaoyue\\CodeBuddy\\Claw\\laos\\docs\\diagrams\\aurase-adoption-architecture.html",
+              "lock": "C:\\Users\\yaoyue\\CodeBuddy\\Claw\\laos\\docs\\diagrams\\.archify-delivery-lock.json"
+            },
+            "evidence": {
+              "reason": "Delivery lock path identity could not be verified safely."
+            },
+            "supportedFixes": [
+              "resolve the reported filesystem error and any lock cleanup error, then retry"
+            ]
+          }
+        ],
+        "update": {
+          "status": "unavailable",
+          "installedVersion": null,
+          "availableVersion": null,
+          "releaseNotes": null,
+          "checkedAt": null,
+          "source": null,
+          "noticeRequired": false,
+          "noticeText": null,
+          "reason": "disabled"
+        }
+      }
+    }
+  },
+  "diagnostics": [
+    {
+      "code": "delivery/lock-acquire",
+      "severity": "error",
+      "message": "Could not start delivery for \"C:\\Users\\yaoyue\\CodeBuddy\\Claw\\laos\\docs\\diagrams\\aurase-adoption-architecture.html\": Delivery lock path identity could not be verified safely.",
+      "subject": {
+        "output": "C:\\Users\\yaoyue\\CodeBuddy\\Claw\\laos\\docs\\diagrams\\aurase-adoption-architecture.html",
+        "lock": "C:\\Users\\yaoyue\\CodeBuddy\\Claw\\laos\\docs\\diagrams\\.archify-delivery-lock.json"
+      },
+      "evidence": {
+        "reason": "Delivery lock path identity could not be verified safely."
+      },
+      "supportedFixes": [
+        "resolve the reported filesystem error and any lock cleanup error, then retry"
+      ]
+    }
+  ],
+  "evidence": {
+    "receipt": "C:\\Users\\yaoyue\\CodeBuddy\\Claw\\laos\\docs\\diagrams\\aurase-adoption-architecture.finalize.json",
+    "summaryReceipt": "C:\\Users\\yaoyue\\CodeBuddy\\Claw\\laos\\docs\\diagrams\\aurase-adoption-architecture.finalize-summary.json"
+  },
+  "visualReview": "not-requested",
+  "failedStage": "deliver",
+  "finishedAt": "2026-10-09T14:53:07.687Z",
+  "durationMs": 872,
+  "update": {
+    "status": "unavailable",
+    "installedVersion": null,
+    "availableVersion": null,
+    "releaseNotes": null,
+    "checkedAt": null,
+    "source": null,
+    "noticeRequired": false,
+    "noticeText": null,
+    "reason": "invalid-local-release"
+  }
+}

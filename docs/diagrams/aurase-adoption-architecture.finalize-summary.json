@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "command": "finalize",
+  "status": "fail",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "C:\\Users\\yaoyue\\CodeBuddy\\Claw\\laos\\.archify\\architecture-aurase-adoption-20261009-233000\\candidate.json",
+    "sha256": "5d3d679894b28f4248e56bb321b033891a393c1e27054d3a713ee16cdbcd59b4",
+    "bytes": 6594
+  },
+  "artifact": {
+    "path": "C:\\Users\\yaoyue\\CodeBuddy\\Claw\\laos\\docs\\diagrams\\aurase-adoption-architecture.html"
+  },
+  "gates": {
+    "validate": "not-run",
+    "deliver": "fail",
+    "check": "not-run",
+    "browser-check": "not-run"
+  },
+  "failedStage": "deliver",
+  "diagnostics": [
+    {
+      "code": "delivery/lock-acquire",
+      "severity": "error",
+      "message": "Could not start delivery for \"C:\\Users\\yaoyue\\CodeBuddy\\Claw\\laos\\docs\\diagrams\\aurase-adoption-architecture.html\": Delivery lock path identity could not be verified safely.",
+      "subject": {
+        "output": "C:\\Users\\yaoyue\\CodeBuddy\\Claw\\laos\\docs\\diagrams\\aurase-adoption-architecture.html",
+        "lock": "C:\\Users\\yaoyue\\CodeBuddy\\Claw\\laos\\docs\\diagrams\\.archify-delivery-lock.json"
+      },
+      "evidence": {
+        "reason": "Delivery lock path identity could not be verified safely."
+      },
+      "supportedFixes": [
+        "resolve the reported filesystem error and any lock cleanup error, then retry"
+      ]
+    }
+  ],
+  "diagnosticSummary": {
+    "total": 1,
+    "shown": 1,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "C:\\Users\\yaoyue\\CodeBuddy\\Claw\\laos\\docs\\diagrams\\aurase-adoption-architecture.finalize.json",
+    "summaryReceipt": "C:\\Users\\yaoyue\\CodeBuddy\\Claw\\laos\\docs\\diagrams\\aurase-adoption-architecture.finalize-summary.json"
+  },
+  "update": {
+    "status": "unavailable",
+    "installedVersion": null,
+    "availableVersion": null,
+    "releaseNotes": null,
+    "checkedAt": null,
+    "source": null,
+    "noticeRequired": false,
+    "noticeText": null,
+    "reason": "invalid-local-release"
+  },
+  "visualReview": "not-requested",
+  "durationMs": 872
+}
