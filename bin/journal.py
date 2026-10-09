@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """journal —— 听觉日志管线 CLI（第 3 段：批量转写 → 记忆 → 即焚）。
 
-    python bin/journal.py [--journal-dir DIR] [--keep-hours H] [--dry-run]
+    python bin/journal.py [--journal-dir DIR] [--keep-hours H] [--dry-run] [--diary]
 
 流程：扫描 var/ear/journal/rec-*.wav → 逐段转写（ear.transcribe 双通道）
 → mem.remember(kind="journal", tags=[情感]) → rec.gc（默认 6h 即焚）→
@@ -9,7 +9,7 @@
   kind="soundscape" 记忆（spectral=True 默认开；--diary 收尾生成当日日记）
 打印时间线与情感统计。
 
-零依赖：转写函数可注入（测试）；默认用 drv_ear.transcribe（驱动进程内）。
+零依赖：转写函数可注入（测试）；默认用 drv_ear.ear_transcribe（驱动进程内）。
 """
 
 from __future__ import annotations
@@ -41,7 +41,7 @@ def run_pipeline(journal_dir: Path, memory, *, transcribe=None,
     """
     if transcribe is None:
         import drv_ear
-        transcribe = drv_ear.transcribe
+        transcribe = drv_ear.ear_transcribe
 
     import time as _time
 

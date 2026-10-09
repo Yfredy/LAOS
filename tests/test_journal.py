@@ -125,6 +125,25 @@ class TestJournalPipeline(unittest.TestCase):
         self.assertEqual(len(list(self.journal_dir.glob("*.wav"))), 0)
         self.assertEqual(len(result["soundscape_hours"]), 1)
 
+    def test_default_transcribe_resolution_uses_ear_transcribe(self):
+        # 回归钉：默认转写解析必须指向真实导出名 ear_transcribe
+        #（预存 bug：曾引用不存在的 drv_ear.transcribe，CLI 裸跑 AttributeError；
+        #  测试里因 setUp 打了同名 mock 而长期漏网）
+        import drv_ear
+        real = drv_ear.ear_transcribe
+        drv_ear.ear_transcribe = self._transcribe
+        setUp_fake = drv_ear.transcribe      # setUp 的旧 mock 名：先摘除，
+        del drv_ear.transcribe               # 还原"真实模块无 transcribe"面
+        try:
+            from journal import run_pipeline
+            result = run_pipeline(self.journal_dir, self.memory,
+                                  gc_keep_hours=None)  # 不传 transcribe：走默认解析
+            self.assertEqual(len(result["ok"]), 2)
+            self.assertEqual(len(result["soundscape_hours"]), 1)
+        finally:
+            drv_ear.ear_transcribe = real
+            drv_ear.transcribe = setUp_fake
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
