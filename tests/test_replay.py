@@ -22,6 +22,7 @@ sys.path.insert(0, str(REPO))
 sys.path.insert(0, str(REPO / "drivers"))
 
 import drv_mic  # noqa: E402
+from laos.context import ContextManager  # noqa: E402
 from laos.mcp import CallResult  # noqa: E402
 from laos.ringbuf import AudioRingBuffer  # noqa: E402
 
@@ -84,6 +85,95 @@ class TestMicReplayTool(unittest.TestCase):
         os.environ["LAOS_REPLAY_RING_S"] = "abc"
         self.assertEqual(drv_mic._ring_seconds_from_env(), 30.0)
         del os.environ["LAOS_REPLAY_RING_S"]
+
+
+class _FakeDriver:
+    """MCPClient 替身：按工具名回放预制 CallResult（或 callable(args)）。"""
+
+    def __init__(self, tools, results):
+        self.tools = {t: None for t in tools}
+        self._results = results
+
+    def call_tool(self, name, args):
+        r = self._results[name]
+        return r(args) if callable(r) else r
+
+    def close(self):  # shutdown() -> unload_driver() 会调 client.close()
+        pass
+
+
+class TestRecReplayBuiltin(unittest.TestCase):
+    """内核内建 rec.replay：mic+ear 组装 / caps / 审计 / 降级路径。"""
+
+    def setUp(self):
+        self._td = tempfile.TemporaryDirectory()
+        from laos.kernel import AgentKernel
+        self.kernel = AgentKernel(Path(self._td.name) / "var")
+        wav = Path(self._td.name) / "replay-0001-0.wav"
+        wav.write_bytes(b"RIFF--fake-wav--bytes")
+        snap = CallResult.ok_text(json.dumps(
+            {"ok": True, "wav": str(wav), "seconds": 20,
+             "ring_seconds": 25, "sample_rate": 16000}))
+        tr = CallResult.ok_text(json.dumps(
+            {"text": "刚刚没听清的那句话", "language": "zh", "emotions": [],
+             "source": "funasr", "latency_ms": 100}))
+        self.kernel.drivers["mic"] = _FakeDriver(["mic.replay"],
+                                                  {"mic.replay": snap})
+        self.kernel.drivers["ear"] = _FakeDriver(["ear.transcribe"],
+                                                  {"ear.transcribe": tr})
+        self.pid = self.kernel.spawn(name="replayer",
+                                     caps=["rec.replay"],
+                                     ctx=ContextManager(system_prompt="t",
+                                                        max_tokens=2000)).pid
+
+    def tearDown(self):
+        self.kernel.shutdown()
+        self._td.cleanup()
+
+    def test_replay_combines_mic_and_ear(self):
+        result = asyncio.run(self.kernel.syscall(
+            self.pid, "rec.replay", {"seconds": 20}))
+        self.assertTrue(result.ok, result.text)
+        payload = json.loads(result.text)
+        self.assertEqual(payload["text"], "刚刚没听清的那句话")
+        self.assertEqual(payload["source"], "funasr")
+        self.assertEqual(payload["seconds"], 20)
+
+    def test_replay_transcribe_false_skips_ear(self):
+        result = asyncio.run(self.kernel.syscall(
+            self.pid, "rec.replay", {"seconds": 20, "transcribe": False}))
+        payload = json.loads(result.text)
+        self.assertEqual(payload["text"], "")
+        self.assertEqual(payload["source"], "none")
+        self.assertEqual(payload["transcribe_ms"], 0)
+
+    def test_replay_writes_mic_privacy_audit_metadata_only(self):
+        asyncio.run(self.kernel.syscall(self.pid, "rec.replay", {}))
+        recs = [r for r in self.kernel.audit.records
+                if r.get("event") == "mic" and r.get("tool") == "rec.replay"]
+        self.assertEqual(len(recs), 1)
+        self.assertNotIn("text", recs[0])  # 只记元数据，转写文本永不入审计
+        self.assertIn("seconds", recs[0])
+
+    def test_replay_denied_without_cap(self):
+        pid2 = self.kernel.spawn(name="noright", caps=["msg.*"],
+                                 ctx=ContextManager(system_prompt="t",
+                                                    max_tokens=2000)).pid
+        result = asyncio.run(self.kernel.syscall(pid2, "rec.replay", {}))
+        self.assertFalse(result.ok)
+        self.assertIn("EPERM", result.text)
+
+    def test_replay_missing_mic_driver_fails_enoent(self):
+        del self.kernel.drivers["mic"]
+        result = asyncio.run(self.kernel.syscall(self.pid, "rec.replay", {}))
+        self.assertFalse(result.ok)
+        self.assertIn("ENOENT", result.text)
+
+    def test_replay_private_tools_marks_taint(self):
+        from laos.sentinel import Sentinel, SentinelConfig
+        self.kernel.sentinel = Sentinel(SentinelConfig(mode="auto"))
+        asyncio.run(self.kernel.syscall(self.pid, "rec.replay", {}))
+        self.assertTrue(self.kernel.sentinel.is_tainted(self.pid))
 
 
 if __name__ == "__main__":

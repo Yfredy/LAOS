@@ -249,7 +249,7 @@ class AuditLog:
 # confirm 回调——押给一次作业。此集合内的派发走 asyncio.to_thread 让出
 # 循环（MCP 驱动路径同款）；msg.*/mem.* 纯内存，保持内联不付线程切换。
 # 前置闸门全部留在循环线程，事后记账（stats/audit）两条路径同形。
-_BLOCKING_BUILTINS = frozenset({"evolve.run"})
+_BLOCKING_BUILTINS = frozenset({"evolve.run", "rec.replay"})
 
 
 class AgentKernel:
@@ -389,6 +389,17 @@ class AgentKernel:
                                                "minimum": 1}},
                  "required": ["target", "evaluator", "iterations"]},
                 reversible=True, risk="medium"),
+            "rec.replay": ToolSpec(
+                "rec.replay",
+                "录音回放：取监听会话最近 N 秒音频快照（mic.replay），可选"
+                "ear 三通道转写。读隐私源（置污）；LAOS_REC=0 时驱动侧拒绝",
+                {"type": "object",
+                 "properties": {"seconds": {"type": "number", "minimum": 1,
+                                            "maximum": 120},
+                                "transcribe": {"type": "boolean"},
+                                "language": {"type": "string"}},
+                 "required": []},
+                reversible=True, risk="low"),
         }
         self._builtin_impls: dict[str, Callable] = {
             "msg.send": self._impl_msg_send,
@@ -402,6 +413,7 @@ class AgentKernel:
             "mem.curate": self._impl_mem_curate,
             "mem.outcome": self._impl_mem_outcome,
             "evolve.run": self._impl_evolve_run,
+            "rec.replay": self._impl_rec_replay,
         }
         self._mailboxes: dict[int, list[dict]] = {}
         # 运行时能力委托：pid -> [{"caps": CapabilitySet, "remaining": int,
@@ -982,6 +994,57 @@ class AgentKernel:
                           "sha256": result.best_program_sha256})
         return CallResult.ok_text(json.dumps(asdict(result),
                                              ensure_ascii=False, sort_keys=True))
+
+    def _impl_rec_replay(self, pcb: PCB, args: dict) -> "CallResult":
+        """录音回放组装（阻塞型内建，to_thread 派发）：mic.replay 取快照
+        → ear.transcribe 转写 → 合并 JSON。直接同步 call_tool——MCPClient
+        ._rpc 全程持 threading.Lock，跨线程安全；不经事件循环 driver 锁，
+        HTTP 线程 asyncio.run 内调用也不会劈锁（laosweb /api/replay 路径）。
+        """
+        from .mcp import CallResult
+        mic = self.drivers.get("mic")
+        if mic is None or "mic.replay" not in mic.tools:
+            return CallResult.fail("ENOENT: mic driver not loaded")
+        seconds = float(args.get("seconds", 20))
+        language = str(args.get("language") or "auto")
+        transcribe = bool(args.get("transcribe", True))
+        t0 = time.perf_counter()
+        snap = mic.call_tool("mic.replay", {"seconds": seconds})
+        if not snap.ok:
+            return CallResult.fail(snap.text)
+        try:
+            payload = json.loads(snap.text)
+        except json.JSONDecodeError:
+            return CallResult.fail(
+                f"EIO: mic.replay bad payload: {snap.text[:120]}")
+        payload.update({"text": "", "language": "", "emotions": [],
+                        "source": "none", "transcribe_ms": 0})
+        if transcribe:
+            ear = self.drivers.get("ear")
+            if ear is None or "ear.transcribe" not in ear.tools:
+                return CallResult.fail("ENOENT: ear driver not loaded")
+            t1 = time.perf_counter()
+            tr = ear.call_tool("ear.transcribe",
+                               {"wav": payload["wav"], "language": language})
+            payload["transcribe_ms"] = round((time.perf_counter() - t1) * 1000)
+            if not tr.ok:
+                return CallResult.fail(tr.text)
+            try:
+                item = json.loads(tr.text)
+            except json.JSONDecodeError:
+                return CallResult.fail("EIO: ear.transcribe bad payload")
+            payload.update({"text": item.get("text", ""),
+                            "language": item.get("language", ""),
+                            "emotions": item.get("emotions", []),
+                            "source": item.get("source", "")})
+        # 隐私红线：rec.replay 暴露拾音内容，按 mic.* 同口径补 event:"mic"
+        # 审计——只记元数据（秒数/是否转写），文本与音频永不入审计
+        self.audit.write({"t": time.time(), "event": "mic", "pid": pcb.pid,
+                          "tool": "rec.replay", "ok": True, "denied": False,
+                          "seconds": payload.get("seconds"),
+                          "transcribe": transcribe})
+        payload["ms"] = round((time.perf_counter() - t0) * 1000)
+        return CallResult.ok_text(json.dumps(payload, ensure_ascii=False))
 
     def _deny(self, pcb: PCB, tool: str, args: dict, started: float, err: str):
         from .mcp import CallResult
