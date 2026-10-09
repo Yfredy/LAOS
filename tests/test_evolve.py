@@ -9,6 +9,8 @@ ENODEV 装配面 / payload round-trip。
 """
 from __future__ import annotations
 
+import asyncio
+import os
 import sys
 import tempfile
 import unittest
@@ -20,6 +22,7 @@ sys.path.insert(0, str(REPO))
 
 from laos.evolve import (EvolveGate, EvolveJob, EvolveResult,  # noqa: E402
                          register_executor, run_job)
+from laos.kernel import AgentKernel, CapabilitySet, PCB  # noqa: E402
 
 
 def _job(**kw):
@@ -106,6 +109,84 @@ class TestPayload(unittest.TestCase):
         bad2["iterations_completed"] = -1
         with self.assertRaises(ValueError):
             EvolveResult.from_payload(bad2)
+
+
+class TestEnvRoots(unittest.TestCase):
+    """env 红线：LAOS_EVOLVE_ROOTS 只能扩非禁区根，禁区永不可经 env 放行。"""
+
+    def test_env_expands_allow_roots(self):
+        with mock.patch.dict(os.environ, {"LAOS_EVOLVE_ROOTS": "var/custom"},
+                             clear=False):
+            EvolveGate().check(_job(target="var/custom/prog.py",
+                                    evaluator="var/custom/eval.py"))  # 不抛即过
+
+    def test_forbidden_root_still_rejected_under_env(self):
+        with mock.patch.dict(os.environ, {"LAOS_EVOLVE_ROOTS": "laos"},
+                             clear=False):
+            with self.assertRaises(ValueError) as cm:
+                EvolveGate().check(_job(target="laos/kernel.py"))
+        self.assertIn("EPERM", str(cm.exception))
+        self.assertIn("禁区", str(cm.exception))
+
+    def test_deep_dotdot_escape_is_eperm(self):
+        with self.assertRaises(ValueError) as cm:
+            EvolveGate().check(
+                _job(target="var/rsi/jobs/../../../../laos/kernel.py"))
+        self.assertIn("EPERM", str(cm.exception))
+
+
+class TestEvolveSyscall(unittest.TestCase):
+    def setUp(self):
+        self.td = tempfile.TemporaryDirectory()
+        self.k = AgentKernel(Path(self.td.name) / "var", audit_mode="w",
+                             confirm=lambda op: False)
+
+    def tearDown(self):
+        self.k.shutdown()
+        self.td.cleanup()
+        import laos.evolve as ev
+        ev._executors.clear()
+
+    def _pcb(self, caps):
+        pcb = PCB(pid=1, name="evo", caps=CapabilitySet(caps), budget=None)
+        self.k.procs[1] = pcb
+        return pcb
+
+    def _args(self):
+        return {"target": "var/rsi/jobs/d/initial_program.py",
+                "evaluator": "var/rsi/jobs/d/evaluator.py", "iterations": 5}
+
+    def test_eperm_without_cap(self):
+        self._pcb([])
+        res = asyncio.run(self.k.syscall(1, "evolve.run", self._args()))
+        self.assertFalse(res.ok)
+        self.assertIn("EPERM", res.error)
+
+    def test_enODEV_without_driver(self):
+        self._pcb(["evolve.*"])
+        res = asyncio.run(self.k.syscall(1, "evolve.run", self._args()))
+        self.assertFalse(res.ok)
+        self.assertIn("ENODEV", res.error)
+
+    def test_ok_with_fake_executor_and_audit(self):
+        register_executor(lambda job: EvolveResult(
+            0.9, "var/rsi/jobs/d/out.py", "ab" * 32, 5, 1.0, "var/rsi/jobs/d"))
+        self._pcb(["evolve.*"])
+        res = asyncio.run(self.k.syscall(1, "evolve.run", self._args()))
+        self.assertTrue(res.ok, getattr(res, "error", res))
+        import json as _json
+        payload = _json.loads(res.text)
+        self.assertEqual(payload["best_score"], 0.9)
+        events = [r for r in self.k.audit.records if r.get("event") == "evolve"]
+        self.assertTrue(events and events[-1]["sha256"] == "ab" * 32)
+
+    def test_gate_violation_fails_not_crashes(self):
+        self._pcb(["evolve.*"])
+        bad = self._args()
+        bad["target"] = "laos/kernel.py"
+        res = asyncio.run(self.k.syscall(1, "evolve.run", bad))
+        self.assertFalse(res.ok)
+        self.assertIn("EPERM", res.error)
 
 
 if __name__ == "__main__":
