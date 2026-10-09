@@ -5,6 +5,16 @@
 
 ## [Unreleased]
 
+## [v0.36.0] - 2026-10-09
+
+### Added
+- feat(laos): **录音回放 rec.replay——全天候录音新能力**（"帮我这个时间点前 15–20 秒回放，辅助没听清/听障场景"）。四层：① `laos/ringbuf.py` **内存环形缓冲**（纯 stdlib 线程安全；**内存预算红线**：默认 30s=960KB、clamp 5..120s（`LAOS_REPLAY_RING_S`），权威时域存储在 ADSP，AP 环冲只是回放镜像）。② `mic.replay` 驱动工具：监听会话环冲快照落 var/ear/replay/（mtime 序只留 20 份即焚；`LAOS_REC=0` 同闸门 EACCES）。③ **内核内建 `rec.replay`**（阻塞型 to_thread）：跨驱动同步组装 mic.replay→ear.transcribe（MCPClient._rpc 全程持 threading.Lock，HTTP 线程 asyncio.run 不劈锁）；自补 `event:"mic"` 审计（成败两路、只记元数据）+ **syscall 审计 result 按 tool 抹除**（转写文本与音频永不入任何审计记录，测试钉死全记录扫描）+ sentinel private_tools 置污。④ **laosweb `/api/replay` + 「录音回放」卡**：秒数选择（15/20/30/60）、音频 base64 重听、ASR 文字、元信息行；operator 授 rec.replay。摘要模型扩展位预留（`_impl_rec_replay` 转写块后，本期未实现）
+- feat(evolve)（并行波随合并）：**奖励治理面**——RewardSpec+aggregate（AuraSE 4:2:2:2 防单指标 hacking）+ EvolveResult 可选 reward 字段与 reward_version 版本化 + null→空串防审计污染/NaN 权重 EINVAL 边界；zones/Repro-ZCode 新增 AuraSE-IPO 规则版复现（+23 区测）
+- docs(research): Interspeech 2026 语音增强风向学习（115 篇六风向；EoW arXiv:2602.15518 ●↔wakegate 远线、SBM arXiv:2510.16834 ●、Ouroboros 后门=治理前置第四条印证链）
+
+### Fixed
+- fix(kernel): rec.replay 审计封口（终审 C1——通用 syscall 审计曾把转写 JSON 持久进 result[:500]；实证复现后按 tool 抹除 + 失败路径 event:mic 补账 + prune mtime 序 + README 模块数 47→49）；drv_mic/evolve 随合并的边界修复（venv ENOENT 化/EIO/顺序无关测试）
+
 ## [v0.35.1] - 2026-10-09
 
 ### Fixed
