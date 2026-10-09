@@ -127,6 +127,8 @@ prompt → structured context → workflow → harness code → optimizer code �
 
 **实践入口排序**（按"能不能真上手跑 + 学到多少"）：① OpenEvolve——唯一能在 laos 纪律内试跑的（临时物进 var/，conda 红线外装），进化循环本身也是"评估器在循环外"的最小活样本；② rrsi——跑不动的部分当治理模式精读（critic/pruner/退火预算/worktree 隔离，与 laos sentinel/GrantStore/风险账本一一对应）；③ dgm——自改写 agent 的正典实现，读代码理解 archive 与自指回路；④ EvoAgentX/Agent0——框架型与训练型，远期参照。
 
+> 2026-10-09 后续：①已兑现——OpenEvolve 经 `drivers/drv_evolve.py`（venv 子进程）+ `laos/evolve.py`（gate/装配面）+ 内建 syscall `evolve.run`（caps→validate→sentinel→audit 全链）接入 laos，主套件 1078 绿；真跑 e2e **收档 BLOCKED**（环境无可用 LLM 后端：唯一 key 是 ZCode 沙箱内部网关会话密钥，对七端点全 401、网关域名公网 NXDOMAIN、无 ollama，证据原文见 var/rsi/openevolve/OBSERVATIONS.md §后端/§e2e）；②的治理模式精读由本落地自然覆盖一半（worktree 隔离对照 cow.py 另案）。
+
 **GitHub Trending 实况（2026-10-09 当日页）**：无任何以 RSI/self-improvement 为主题的仓库上榜——**这波是论文先行、工具未爆**（RSIGym 才 4 个 commit）。邻接上榜者：claude-mem（agent 持久记忆，页面读数 ~98.8k★）、mattpocock/skills（agent 技能包，页面读数 ~281k★）、morloto/rea（agent 逆向工程）、anthropics/knowledge-work-plugins（Claude Cowork 插件）——记忆/技能/插件这三大"持久化自我改进基础设施"在榜，恰是 §2.2 第二层（persistent self-improvement）的民间形态。
 
 ## 8. laos 契合点与裁决
@@ -136,11 +138,11 @@ prompt → structured context → workflow → harness code → optimizer code �
 | # | 采纳点 | 裁决 |
 |---|---|---|
 | 1 | "评估器与权限控制在进化循环之外"（Weng 七瓶颈之五）+ AIDE² 证据（reward hacking 55%→32% 但仍有 32%，且非显式优化所得）——行业自己论证了治理基座必须独立于被优化的 agent | ● 叙事消化：立此存照为 laos 定位的第一行业级佐证，与 [2026-10-08-aios-agentos-landscape](2026-10-08-aios-agentos-landscape.md) 的"OS 内核派空位"判断互证 |
-| 2 | 自修改路径的哨兵覆盖：RSI 场景=agent 写自身 harness/技能/配置文件。检查 sentinel 六级判定与 caps 是否把"自我修改"当受控行作（可写自身路径集合） | ◐ P2 对照检查（audit 一轮，不动架构） |
+| 2 | 自修改路径的哨兵覆盖：RSI 场景=agent 写自身 harness/技能/配置文件。检查 sentinel 六级判定与 caps 是否把"自我修改"当受控行作（可写自身路径集合） | ◐ P2 → **● 已落地**（evolve.run gate：禁区永不可放行，var/rsi/jobs 允许根，env 只扩不缩；syscall 全链 caps→validate→sentinel→audit 有测试覆盖） |
 | 3 | 技能污染/不可逆性（He Ye 脉络一）↔ laos 已有 CowFS 原子替换+sha256 与 provenance taint：接受的技能改动可回滚、带出处、缺陷可阻断引用 | ◐ P3 对照确认覆盖度（机制已在，写清映射即可） |
 | 4 | RRSI 的 pruner（删太小/太贵/失效改动）与退火编辑预算需要**外部数据面**：laos 风险账本+telemetry 天然可充当每轮改动的成本/收益记录器 | ◐ P3（等 laos 有真实自改进循环时兑现） |
 | 5 | RSIGym auth_server（密钥/权限/预算记账先于一切服务启动）与 caps+GrantStore（approved/scope/reason 三字段）同构 | ● 已消化（设计互证，写进叙事；不引代码——其依赖栈 Docker/Harbor/Tinker/GPU 云预算全部违反零依赖与 conda 红线） |
-| 6 | RSI-Index 口径 `(final−initial)/(1−initial)` 作为自改进效率的测量纪律 | ◐ P3（未来演示用，telemetry 字段预留即可） |
+| 6 | RSI-Index 口径 `(final−initial)/(1−initial)` 作为自改进效率的测量纪律 | ◐ P3（未来演示用，telemetry 字段预留即可；2026-10-09 e2e 未真跑——后端 BLOCKED，实测口径**未记**，解锁后补） |
 | 7 | Weng 瓶颈三"负面结果的保存" ↔ JitMem mem.outcome 已记成败；检查 curate 是否会把负面结果裁掉 | ◐ P2 对照检查（与 #2 同轮 audit） |
 | 8 | 跑 RSIGym/复现 AIDE²/Dream-RSI | ○ 不做：重依赖（Docker/Harbor/E2B/Tinker/前沿模型 API/$500×5 预算）全线违反零依赖红线；本文为文献调研，不承诺复现 |
 
