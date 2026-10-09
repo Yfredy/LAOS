@@ -43,6 +43,12 @@ push master+tag → GitHub Release 页。漏掉任何一步都算发版事故。
     zones/ 下，zone 树不得再裸奔根层
   - `corpus/` 语料、`drivers/` 重依赖驱动子进程、`scripts/` 工具、
     `tests/` 测试、`docs/` 文档、`var/` 本地处
+  - `.agents/skills/`（2026-10-09 登记）：项目级 agent 技能库——首个
+    `xhs-vision-digest`（小红书逐图转写调研流程，含 playbook/acquisition
+    参考与 transcript 样例）；新技能按 `技能名/SKILL.md` 平铺并在此登记
+  - `.zcode/workflows/`（2026-10-09 登记）：ZCode 已保存动态工作流——
+    首个 `xhs-digest-fanout`（小红书调研 digest 阶段并行产出）；.gitignore
+    用 `.zcode/*` + `!.zcode/workflows/` 只放行此子目录，会话草稿仍本地
 - **docs/ 一主题一目录**（design/diagrams/guide/images/ppt/research/
   review/superpowers），根层只留 PROJECT_OVERVIEW.md；过期内容沉没进
   archive，不散落。**唯一例外**：docs/research/ 按日期前缀平铺——

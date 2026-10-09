@@ -3,7 +3,9 @@ __pycache__/
 var/
 *.log
 .superpowers/
-.zcode/
+# ZCode session/draft artifacts stay local; saved workflows ARE committed
+.zcode/*
+!.zcode/workflows/
 .venv-audio/
 
 # always-on recording sandbox
