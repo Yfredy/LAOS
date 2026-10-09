@@ -212,20 +212,22 @@ _DOC_PATTERNS = [
     ("跨度端点",
      re.compile(r"(v0\.1\.0\s*→\s*)v\d+\.\d+\.\d+"),
      lambda m, c: f"{m.group(1)}v{c['ver']}"),
-    # 测试计数（主库口径，三字数字防误伤 "42 测试" 里程碑）：
-    ("测试计数", re.compile(r"\d{3}(?= 项回归测试)"),
+    # 测试计数（主库口径，\d{3,} 全量匹配：三位起步防误伤 "42 测试" 里程碑，
+    # 但必须吃满整个数字串——\d{3} 在千位计数下只匹配尾三位，每次发版叠一个 "1"
+    # （2026-10-09 实录：README 被写成 111111051，六次发版六层套娃））：
+    ("测试计数", re.compile(r"\d{3,}(?= 项回归测试)"),
      lambda m, c: str(c["main_tests"])),
-    ("测试计数", re.compile(r"(?<=主库 )\d{3}(?= 测试)"),
+    ("测试计数", re.compile(r"(?<=主库 )\d{3,}(?= 测试)"),
      lambda m, c: str(c["main_tests"])),
-    ("测试计数", re.compile(r"\d{3}(?= 项测试守护)"),
+    ("测试计数", re.compile(r"\d{3,}(?= 项测试守护)"),
      lambda m, c: str(c["main_tests"])),
-    ("测试计数", re.compile(r"\d{3}(?= 项回归测试（)"),
+    ("测试计数", re.compile(r"\d{3,}(?= 项回归测试（)"),
      lambda m, c: str(c["main_tests"])),
     # intro 组 deck 的英文戳："NNN TESTS GREEN" / "APPROVED · NNN GREEN"
     # （2026-10-08 补：这两形态自 v0.20.0 后从未被同步，一直在漂移）
-    ("测试计数", re.compile(r"\d{3}(?=\s*TESTS GREEN)"),
+    ("测试计数", re.compile(r"\d{3,}(?=\s*TESTS GREEN)"),
      lambda m, c: str(c["main_tests"])),
-    ("测试计数", re.compile(r"(?<=·\s)\d{3}(?=\s*GREEN)"),
+    ("测试计数", re.compile(r"(?<=·\s)\d{3,}(?=\s*GREEN)"),
      lambda m, c: str(c["main_tests"])),
 ]
 
