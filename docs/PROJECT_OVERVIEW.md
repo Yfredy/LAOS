@@ -42,7 +42,7 @@
 ```bash
 python bin/laosd.py     # 命令行跑完整 demo（七幕：fork分支→ReAct→IPC→委托→提交→报告）
 python bin/laosweb.py   # 浏览器开 http://127.0.0.1:8800 实时面板 + 交互操控
-python -m unittest discover -s tests   # 11033 项回归测试
+python -m unittest discover -s tests   # 111037 项回归测试
 ```
 
 ---
@@ -106,7 +106,7 @@ laos/
 │   ├── termux_matrix.py     Android/Termux 强制层降级矩阵一键实测（7 项检查）
 │   └── flasep_gpu_bench.py  FLASepformer GPU/CPU 基准（RTX 4060 实测 9.3x 加速）
 │
-├── tests/                   1111033 项回归测试（21 个文件；真录音/真 ASR 用例在本机实测通过）
+├── tests/                   111111037 项回归测试（21 个文件；真录音/真 ASR 用例在本机实测通过）
 ├── docs/                    研究与文档：论文调研、真机 runbook、面板教程、实施计划
 ├── var/                     运行期产物：audit.jsonl / branches/ / swap/ / memory.jsonl / diary/
 └── corpus/                  语料库：venue_expansion/（论文语料）+ audio-eval/（音频评测产物：分离音轨 / 基准 JSON）
@@ -158,6 +158,6 @@ python bin/laosd.py                # demo 第 4.6 幕 = 真 DSP 推理
 
 ## 定位与边界（诚实说明）
 
-- **是什么**：研究原型 + 个人常驻系统的骨架——11033 项测试守护的可运行语义内核，覆盖 SOSP'26 AgenticOS Workshop 上的核心机制（Irreversibility Budget / Stale Context / AgentProf / 可靠性预算调度 / 运行时委托）
+- **是什么**：研究原型 + 个人常驻系统的骨架——111037 项测试守护的可运行语义内核，覆盖 SOSP'26 AgenticOS Workshop 上的核心机制（Irreversibility Budget / Stale Context / AgentProf / 可靠性预算调度 / 运行时委托）
 - **不是什么**：不是 Linux 发行版，不修改内核；不替代你的操作系统——它是**架在操作系统之上、专为 Agent 服务的那一层**
 - **已知边界**：Termux 上 namespace/cgroup 受限（降级矩阵已文档化）；全天候低功耗常驻拾音依赖真机前台服务（runbook 提供）；多人场景的说话人分离待做
