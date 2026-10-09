@@ -41,7 +41,7 @@ push master+tag → GitHub Release 页。漏掉任何一步都算发版事故。
   - `zones/` 四棵 zone 树（Trae=哨兵对照 / ZCode=隔离区 / DB=沙箱 /
     Repro-ZCode=复现区）——release.py 的 zone 路径与 DOC_GLOBS 都锚在
     zones/ 下，zone 树不得再裸奔根层
-  - `corpus/` 语料、`drivers/` 重依赖驱动子进程、`scripts/` 工具、
+  - `corpus/` 语料、`drivers/` 重依赖驱动子进程（自带 README：模块地图+奖励治理面+三维幻觉审计约定）、`scripts/` 工具、
     `tests/` 测试、`docs/` 文档、`var/` 本地处
 - **docs/ 一主题一目录**（design/diagrams/guide/images/ppt/research/
   review/superpowers），根层只留 PROJECT_OVERVIEW.md；过期内容沉没进
