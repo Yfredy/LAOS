@@ -56,3 +56,11 @@ python scripts/check_agc_table.py docs/research/auto-gain/*.md
 
 > 三个调研校验器均支持多文件位置参数与 `--selftest`。
 > **耗时提示**：主库全量与交接门禁都含完整测试跑（两次实测 105s/371s），新人首次跑请预留时间，不要误判为卡死或改用子集跑。
+
+## 4. 相关文档
+
+- [README.md](../README.md) —— 项目全貌（§六 四段漏斗 / §八 目录结构 / §十二 版本与发布；末尾有指向本文件的入口行）
+- [AGENTS.md](../AGENTS.md) —— 代理工作记忆：纪律与红线（本文件不复制其内容）
+- [docs/PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) —— 项目概览
+- [docs/research/INDEX.md](research/INDEX.md) —— 全部调研资产的导航中枢（104+ 份）
+- [docs/superpowers/plans/README.md](superpowers/plans/README.md) —— 41 份计划的完成状态登记（**checkbox 不代表完成度，以 git 为准**）

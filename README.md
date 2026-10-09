@@ -476,6 +476,8 @@ Brain 的快问快答通道（`laos/judge.py`）：给定 (context, question)，
 
 ---
 
+> **新人上手**：从 [docs/ONBOARDING.md](docs/ONBOARDING.md) 进——事实基线（含产出命令）+ 第一小时路径 + 交接门禁 `python scripts/check_onboarding.py`。
+
 ## 十二、版本与发布
 
 ### 版本语义
