@@ -12,11 +12,11 @@ permissions:
 
 jobs:
   apk:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04  # 钉版本：ubuntu-latest 2026-10-19 迁 Ubuntu 26，新镜像+Gradle 组合的历史兼容坑不值得赌
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "17"
@@ -24,7 +24,7 @@ jobs:
       # ubuntu-latest 预装 Android SDK（含 cmdline-tools 与已接受的许可），
       # 不用 setup-android——v3 在新 runner 镜像上有兼容问题且本就多余。
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v5
         with:
           gradle-version: "8.10.2"   # 仓内无 gradlew（刻意不提交 wrapper 二进制），CI 装指定版
 
