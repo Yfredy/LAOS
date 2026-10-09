@@ -23,7 +23,7 @@ REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
 from laos.evolve import (EvolveGate, EvolveJob, EvolveResult,  # noqa: E402
-                         register_executor, run_job)
+                         RewardSpec, aggregate, register_executor, run_job)
 from laos.kernel import AgentKernel, CapabilitySet, PCB  # noqa: E402
 
 
@@ -281,6 +281,73 @@ class TestEvolveRunYieldsLoop(unittest.TestCase):
         self.assertLess(ms, er)  # 快 syscall 先落账
         ev_rows = [r for r in rows if r.get("event") == "evolve"]
         self.assertTrue(ev_rows and ev_rows[-1]["sha256"] == "ab" * 32)
+
+
+class TestRewardSpec(unittest.TestCase):
+    def test_valid_spec(self):
+        s = RewardSpec({"OVRL": 4.0, "WER": 2.0, "SIM": 2.0, "SBS": 2.0},
+                       frozenset({"WER"}), version="aurase-4222")
+        self.assertEqual(s.version, "aurase-4222")
+
+    def test_empty_or_nonpositive_weights_rejected(self):
+        for bad in ({}, {"OVRL": 0.0}, {"OVRL": -1.0}):
+            with self.assertRaises(ValueError) as cm:
+                RewardSpec(bad)
+            self.assertIn("EINVAL", str(cm.exception))
+
+    def test_lower_better_must_be_subset(self):
+        with self.assertRaises(ValueError):
+            RewardSpec({"OVRL": 1.0}, frozenset({"WER"}))
+
+    def test_blank_version_rejected(self):
+        with self.assertRaises(ValueError):
+            RewardSpec({"OVRL": 1.0}, version="")
+
+
+class TestAggregate(unittest.TestCase):
+    # 调研文档 §3 手算例的独立复算（与复现区测试各自独立，不共享代码）：
+    # OVRL [3.0,3.2,3.4]→[0,.5,1]；WER(lower) [.10,.08,.12]→[.5,1,0]；
+    # SIM [.70,.75,.75]→[0,1,1]；SBS [.90,.90,.88]→[1,1,0]；
+    # 4:2:2:2（和 10）→ cand0=0.3 / cand1=0.8 / cand2=0.6
+    CANDS = {
+        "c0": {"OVRL": 3.0, "WER": 0.10, "SIM": 0.70, "SBS": 0.90},
+        "c1": {"OVRL": 3.2, "WER": 0.08, "SIM": 0.75, "SBS": 0.90},
+        "c2": {"OVRL": 3.4, "WER": 0.12, "SIM": 0.75, "SBS": 0.88},
+    }
+    SPEC = RewardSpec({"OVRL": 4.0, "WER": 2.0, "SIM": 2.0, "SBS": 2.0},
+                      frozenset({"WER"}), version="aurase-4222")
+
+    def test_hand_computed_4222(self):
+        r = aggregate(self.CANDS, self.SPEC)
+        self.assertEqual(
+            [round(r["c0"], 10), round(r["c1"], 10), round(r["c2"], 10)],
+            [0.3, 0.8, 0.6])
+
+    def test_winner_not_ovrl_best(self):
+        # 4:2:2:2 下总分王 c1 不是 OVRL 最高的 c2——保真 60% 拉回内容
+        r = aggregate(self.CANDS, self.SPEC)
+        self.assertEqual(max(r, key=r.get), "c1")
+
+    def test_constant_metric_is_neutral_full(self):
+        # brief 笔误修正：b 的 F 原为 0.9（与"双指标无区分度"矛盾，
+        # 0.9≠0.5 有区分度会得 {'a': 0.5, 'b': 1.0}）；按测试名/注释/
+        # 断言三处一致意图 + 复现区 test_constant_is_neutral_full
+        # （[5.0, 5.0]）口径，改为常量 0.5
+        cands = {"a": {"Q": 1.0, "F": 0.5}, "b": {"Q": 1.0, "F": 0.5}}
+        spec = RewardSpec({"Q": 1.0, "F": 1.0}, version="t")
+        self.assertEqual(aggregate(cands, spec),
+                         {"a": 1.0, "b": 1.0})  # 双指标无区分度 → 中性满分
+
+    def test_rewards_within_unit(self):
+        r = aggregate(self.CANDS, self.SPEC)
+        self.assertTrue(all(0.0 <= v <= 1.0 for v in r.values()))
+        # 全指标垫底的候选恰好得 0.0（值域闭端）
+        worst = {"w": {m: (max(c[m] for c in self.CANDS.values())
+                           if m == "WER" else
+                           min(c[m] for c in self.CANDS.values()))
+                       for m in self.SPEC.weights}}
+        merged = dict(self.CANDS, **worst)
+        self.assertEqual(aggregate(merged, self.SPEC)["w"], 0.0)
 
 
 if __name__ == "__main__":

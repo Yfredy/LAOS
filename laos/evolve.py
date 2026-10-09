@@ -20,7 +20,7 @@ from typing import Callable
 
 __all__ = ["DEFAULT_MAX_ITERATIONS", "DEFAULT_ROOTS", "DEFAULT_TIMEOUT_S",
            "FORBIDDEN_ROOTS", "EvolveGate", "EvolveJob", "EvolveResult",
-           "register_executor", "run_job", "status"]
+           "RewardSpec", "aggregate", "register_executor", "run_job", "status"]
 
 DEFAULT_ROOTS = ("var/rsi/jobs",)
 FORBIDDEN_ROOTS = ("laos/", "drivers/", "tests/", "bin/", "clients/",
@@ -126,3 +126,59 @@ def status() -> str:
             f"roots={EvolveGate()._roots()} "
             f"max_iterations={DEFAULT_MAX_ITERATIONS} "
             f"timeout_s={DEFAULT_TIMEOUT_S}")
+
+
+@dataclass(frozen=True)
+class RewardSpec:
+    """多目标奖励规格（AuraSE IPO 4:2:2:2 的 laos 化：防单指标 hacking
+    的权重结构 + 版本化锚点——权重变更=新 version，经审计可追溯）。
+
+    约定（docs/research/2026-10-09-aurase-ipo.md §4.1#2）：涉及
+    质量/保真两类指标的 spec，保真份额建议 ≥60% 起步（ AuraSE
+    OVRL:WER:SIM:SBS = 40%:60% 的配比是防 hacking 的实证模板）。
+    """
+    weights: dict[str, float]
+    lower_better: frozenset[str] = frozenset()
+    version: str = "v0"
+
+    def __post_init__(self):
+        if not self.weights or any(w <= 0 for w in self.weights.values()):
+            raise ValueError(
+                f"EINVAL: RewardSpec.weights 须非空且全为正，实测 {self.weights}")
+        if not self.lower_better <= self.weights.keys():
+            raise ValueError(
+                f"EINVAL: lower_better {sorted(self.lower_better)} 须为 "
+                f"weights 键子集 {sorted(self.weights)}")
+        if not self.version:
+            raise ValueError("EINVAL: RewardSpec.version 不得为空串")
+
+
+def aggregate(candidates: dict[str, dict[str, float]],
+              spec: RewardSpec) -> dict[str, float]:
+    """候选集内多目标聚合：逐指标 min-max 归一（无区分度→全员 1.0）、
+    lower_better 翻转、加权和按权重和归一。返回 候选名→奖励 ∈ [0,1]
+    （全指标垫底=0.0 闭端）。
+
+    语义源=zones/Repro-ZCode/repro/aurase_ipo.py（零 import，独立转译）；
+    归一化在候选集内进行——集内单指标排序不变，加权交互后语义完好。
+    """
+    if not candidates:
+        return {}
+    names = list(candidates)
+    total_w = sum(spec.weights.values())
+    out: dict[str, float] = {}
+    per_metric: dict[str, list[float]] = {}
+    for metric, w in spec.weights.items():
+        vals = [candidates[n][metric] for n in names]
+        lo, hi = min(vals), max(vals)
+        if hi == lo:
+            norm = [1.0] * len(vals)  # 无区分度：中性满分（保序恒等）
+        else:
+            norm = [(v - lo) / (hi - lo) for v in vals]
+        if metric in spec.lower_better:
+            norm = [1.0 - x for x in norm]
+        per_metric[metric] = norm
+    for i, n in enumerate(names):
+        out[n] = sum(w * per_metric[m][i] for m, w in spec.weights.items()
+                     ) / total_w
+    return out
