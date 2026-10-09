@@ -1063,6 +1063,45 @@ def _chat_view(tail: int = 20) -> list[dict]:
         return [dict(m) for m in list(_chat_log)[-tail:]]
 
 
+def _chat_memory_enabled() -> bool:
+    """LAOS_CHAT_MEMORY=0 关闭对话记忆（默认开——个人 agent 的记忆即产品）。"""
+    return os.environ.get("LAOS_CHAT_MEMORY", "1").strip().lower()         not in ("0", "false", "no", "off")
+
+
+def _chat_recall_context(query: str, k: int = 4) -> str:
+    """按本轮问句召回相关记忆，拼成 system 附注（无内核/无命中→空串）。
+
+    只取 text（人写行优先的召回打分由 MemoryStore 自理），内容进 prompt
+    但**不进审计**——审计侧 event:'llm' 仍只记元数据。
+    """
+    k_ = get_kernel()
+    mem = getattr(k_, "memory", None) if k_ is not None else None
+    if mem is None:
+        return ""
+    try:
+        hits = [str(r.get("text", "")) for r in mem.recall(query, k=k)
+                if str(r.get("text", "")).strip()]
+    except Exception:
+        return ""
+    if not hits:
+        return ""
+    return "\n\n相关记忆（此前留存，供参考）：\n" + "\n".join(f"- {h}" for h in hits)
+
+
+def _chat_remember(text: str, model: str) -> None:
+    """用户话轮落库：kind=chat、origin=user——**用户的话就是人写行**
+    （jitmem 去重豁免、'人写一行胜模型行'同款保护）。只记用户侧：
+    助手回复可由模型再生，入库只会污染召回。失败静默（记忆不阻断对话）。"""
+    k_ = get_kernel()
+    mem = getattr(k_, "memory", None) if k_ is not None else None
+    if mem is None:
+        return
+    try:
+        mem.remember("chat", text, tags=["chat", model], origin="user")
+    except Exception:
+        pass
+
+
 def _audit_llm(model: str, started: float, ok: bool,
                out_len: int = 0, err: str = "") -> None:
     """LLM 调用审计：只记 模型/耗时/成败/长度——内容永不入审计（隐私红线）。"""
@@ -1098,7 +1137,9 @@ def _handle_chat(body: dict) -> tuple[int, dict]:
     if client is None:
         return 503, {"error": "LLM 未配置：设 LAOS_LLM_BASE_URL 与 "
                               "LAOS_LLM_MODEL（可选 LAOS_LLM_KEY）后重启 laosweb"}
-    messages = [{"role": "system", "content": client.system}]
+    system = client.system + (_chat_recall_context(text)
+                               if _chat_memory_enabled() else "")
+    messages = [{"role": "system", "content": system}]
     messages += [{"role": m["role"], "content": m["text"]} for m in _chat_view(CHAT_LOG_CAP)]
     messages.append({"role": "user", "content": text})
     started = time.monotonic()
@@ -1113,6 +1154,8 @@ def _handle_chat(body: dict) -> tuple[int, dict]:
         _chat_log.append({"role": "assistant", "text": reply})
         del _chat_log[:-CHAT_LOG_CAP]
     _audit_llm(client.model, started, ok=True, out_len=len(reply))
+    if _chat_memory_enabled():
+        _chat_remember(text, client.model)
     return 200, {"ok": True, "reply": reply, "model": client.model,
                  "ms": ms, "log": _chat_view()}
 

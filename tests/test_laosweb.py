@@ -976,6 +976,42 @@ class TestChatApi(KernelTestCase):
         self.assertTrue(state["chat"]["configured"])
         self.assertEqual(state["chat"]["model"], "stub-model")
 
+    def test_user_turn_remembered_as_human_row(self):
+        import laosweb
+        laosweb._llm = self._StubClient("好的")
+        laosweb._handle_chat({"text": "我偏好浓缩咖啡"})
+        rows = [r for r in self.kernel.memory.recall("浓缩", k=10)
+                if r.get("kind") == "chat"]
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["origin"], "user")   # 用户的话=人写行
+        self.assertIn("stub-model", rows[0]["tags"])
+
+    def test_memory_disabled_by_env(self):
+        import laosweb
+        laosweb._llm = self._StubClient("好的")
+        with mock.patch.dict(os.environ, {"LAOS_CHAT_MEMORY": "0"}):
+            laosweb._handle_chat({"text": "这句不落库"})
+        self.assertEqual([r for r in self.kernel.memory.recall("不落库", k=10)
+                          if r.get("kind") == "chat"], [])
+
+    def test_recall_injects_relevant_memory_into_system(self):
+        import laosweb
+        self.kernel.memory.remember("fact", "意式浓缩咖啡的粉水比是 1:2",
+                                    tags=["咖啡"], origin="user")
+        laosweb._llm = self._StubClient("答")
+        laosweb._handle_chat({"text": "浓缩咖啡怎么配"})
+        system = laosweb._llm.calls[0][0]["content"]
+        self.assertIn("1:2", system)                 # 相关记忆进了 prompt
+        self.assertIn("相关记忆", system)
+
+    def test_reset_keeps_memory(self):
+        import laosweb
+        laosweb._llm = self._StubClient("好的")
+        laosweb._handle_chat({"text": "记住我喜欢安静"})
+        laosweb._handle_chat({"reset": True})
+        self.assertTrue([r for r in self.kernel.memory.recall("安静", k=10)
+                         if r.get("kind") == "chat"])  # 记忆不随会话清空
+
     def test_page_wires_chat_dom(self):
         # 前端契约：对话卡 DOM 锚点与 XSS 纪律（textContent，无 innerHTML）
         from laosweb import PAGE
