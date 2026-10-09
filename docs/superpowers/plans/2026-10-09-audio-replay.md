@@ -4,7 +4,7 @@
 
 **Goal:** 全天候录音加"录音回放"：一键取当前时间点前 15–60 秒（默认 20s）音频，重听 + 简单 ASR 转写成文字——辅助没听清/听障场景；为后期"摘要回顾模型"留结构化扩展位。
 
-**Architecture:** 三层组装。① `laos/ringbuf.py`（纯 stdlib）内存环形缓冲：drv_mic 监听线程持续喂入，只留最近 N 秒（默认 60s，上限 300s），不落盘、进程即逝。② 驱动层 `mic.replay`（drv_mic 新工具）：显式 syscall 才把环冲快照写成 WAV（stdlib wave，即焚目录只留 20 份）。③ 内核内建 `rec.replay`（阻塞型，to_thread 派发）：同步串调 mic/ear 两个驱动客户端（MCPClient._rpc 全程持 threading.Lock，跨线程安全，绕开事件循环 driver 锁），合并音频快照+ear 三通道转写为一份 JSON，并按隐私红线补 `event:"mic"` 审计（只记元数据）。laosweb `/api/replay` + 「录音回放」卡片收尾（音频 base64 回传重听 + 文字展示）。摘要钩子=响应结构已含转写全文与时长，未来加 `summarize` 步骤的位置在 `_impl_rec_replay` 转写块之后（见 §扩展位，本期不实现）。
+**Architecture:** 三层组装。① `laos/ringbuf.py`（纯 stdlib）内存环形缓冲：drv_mic 监听线程持续喂入，只留最近 N 秒（默认 30s=960KB、clamp 5..120s——手机内存预算红线；权威时域存储在 ADSP，AP 环冲只是回放镜像），不落盘、进程即逝。② 驱动层 `mic.replay`（drv_mic 新工具）：显式 syscall 才把环冲快照写成 WAV（stdlib wave，即焚目录只留 20 份）。③ 内核内建 `rec.replay`（阻塞型，to_thread 派发）：同步串调 mic/ear 两个驱动客户端（MCPClient._rpc 全程持 threading.Lock，跨线程安全，绕开事件循环 driver 锁），合并音频快照+ear 三通道转写为一份 JSON，并按隐私红线补 `event:"mic"` 审计（只记元数据）。laosweb `/api/replay` + 「录音回放」卡片收尾（音频 base64 回传重听 + 文字展示）。摘要钩子=响应结构已含转写全文与时长，未来加 `summarize` 步骤的位置在 `_impl_rec_replay` 转写块之后（见 §扩展位，本期不实现）。
 
 **Tech Stack:** Python 3 纯 stdlib（wave/threading/asyncio/json/base64）；零新依赖；测试 unittest（miniconda python）。
 
@@ -13,6 +13,7 @@
 ## Global Constraints
 
 - 零依赖红线：`laos/` 核心纯 stdlib；`laos/ringbuf.py` 只准 import 标准库。
+- **内存预算（2026-10-09 用户约束，手机内存有限）**：回放环冲默认 **30s=960KB**（16kHz PCM16=32KB/s），clamp 5..120s（上限 3.84MB）；权威时域音频存储在 **ADSP**（用户部署形态），AP 侧环冲只是回放交接的小镜像——不得以任何理由放大默认值；`LAOS_REPLAY_RING_S` 可调但 clamp 不可放宽。
 - conda 红线：测试只用 `C:/Users/yaoyue/miniconda3/python.exe`；禁止 pip install。
 - 隐私红线：录音只由显式 syscall 触发（环冲由既有 `mic.listen_start` 拉起后才有数据）；`LAOS_REC=0` 时 `mic.replay`/`rec.replay` 一律 EACCES；音频快照只在显式回放 syscall 内落盘（var/ear/replay/，只留最近 20 份）；审计只记元数据（秒数/成败/耗时），**转写文本与音频字节永不入审计**。
 - `rec.replay` 读隐私源 → sentinel `private_tools` 置污（与 `mic.segments` 同级待遇）。
@@ -29,7 +30,7 @@
 
 **Interfaces:**
 - Consumes: 无（纯新模块）。
-- Produces: `AudioRingBuffer(sample_rate: int = 16000, max_seconds: float = 60.0)`，方法 `feed(pcm16_bytes: bytes) -> None`、`snapshot(seconds: float) -> bytes`（PCM16 LE 字节，不足给全部）、`available_seconds() -> float`、`wav_bytes(seconds: float) -> bytes`（44 字节 WAV 头+PCM16 单声道）。线程安全。Task 2 依赖这些名字与签名。
+- Produces: `AudioRingBuffer(sample_rate: int = 16000, max_seconds: float = 30.0)`，方法 `feed(pcm16_bytes: bytes) -> None`、`snapshot(seconds: float) -> bytes`（PCM16 LE 字节，不足给全部）、`available_seconds() -> float`、`wav_bytes(seconds: float) -> bytes`（44 字节 WAV 头+PCM16 单声道）。线程安全。Task 2 依赖这些名字与签名。
 
 - [ ] **Step 1: 写失败测试**
 
@@ -130,7 +131,8 @@ Expected: FAIL/ERROR `ModuleNotFoundError: No module named 'laos.ringbuf'`
 """AudioRingBuffer —— 回放用音频环形缓冲（纯 stdlib，内存即焚）。
 
 录音回放（rec.replay / mic.replay）的底座：监听线程把每个音频块 feed 进来，
-缓冲只保留最近 max_seconds 秒 PCM16 字节（约 32KB/s @16kHz 单声道），超龄
+缓冲只保留最近 max_seconds 秒 PCM16 字节（约 32KB/s @16kHz 单声道，
+默认 30s≈960KB——手机内存预算内的小镜像，权威时域存储在 ADSP），超龄
 即弃——不落盘、不进审计、进程退出即消失。音频落盘只发生在显式回放
 syscall（mic.replay）内部（隐私红线，见 drivers/drv_mic.py 头注）。
 """
@@ -145,7 +147,7 @@ import wave
 class AudioRingBuffer:
     """线程安全的 PCM16 单声道环形缓冲。"""
 
-    def __init__(self, sample_rate: int = 16000, max_seconds: float = 60.0):
+    def __init__(self, sample_rate: int = 16000, max_seconds: float = 30.0):
         self.sample_rate = int(sample_rate)
         self.max_bytes = int(self.sample_rate * 2 * float(max_seconds))
         self._buf = bytearray()
@@ -289,6 +291,17 @@ class TestMicReplayTool(unittest.TestCase):
         files = sorted(Path("var", "ear", "replay").glob("replay-*.wav"))
         self.assertEqual(len(files), 20)
 
+    def test_ring_seconds_env_clamped_to_budget(self):
+        # 内存预算红线：默认 30s、下限 5s、上限 120s、坏值回落 30s
+        self.assertEqual(drv_mic._ring_seconds_from_env(), 30.0)
+        os.environ["LAOS_REPLAY_RING_S"] = "9999"
+        self.assertEqual(drv_mic._ring_seconds_from_env(), 120.0)
+        os.environ["LAOS_REPLAY_RING_S"] = "3"
+        self.assertEqual(drv_mic._ring_seconds_from_env(), 5.0)
+        os.environ["LAOS_REPLAY_RING_S"] = "abc"
+        self.assertEqual(drv_mic._ring_seconds_from_env(), 30.0)
+        del os.environ["LAOS_REPLAY_RING_S"]
+
 
 if __name__ == "__main__":
     unittest.main()
@@ -297,7 +310,7 @@ if __name__ == "__main__":
 - [ ] **Step 2: 跑测试确认失败**
 
 Run: `cd C:\Users\yaoyue\CodeBuddy\Claw\laos && C:/Users/yaoyue/miniconda3/python.exe -m unittest tests.test_replay -v 2>&1 | tail -5`
-Expected: 6 ERROR——`mic_replay` 不存在（`AttributeError: module 'drv_mic' has no attribute 'mic_replay'` 或同类）
+Expected: 7 ERROR——`mic_replay` 不存在（`AttributeError: module 'drv_mic' has no attribute 'mic_replay'` 或同类）
 
 - [ ] **Step 3: 实现 drv_mic 改动**
 
@@ -330,20 +343,25 @@ from laos.ringbuf import AudioRingBuffer  # noqa: E402
 
 ```python
 # 回放环形缓冲（laos.ringbuf）：仅监听会话期间供给，内存即焚——
-# listen_start 每次新建（回放窗口=本次监听会话），stop 保留到进程退出
+# listen_start 每次新建（回放窗口=本次监听会话），stop 保留到进程退出。
+# 内存预算（手机）：默认 30s=960KB、clamp 5..120s，权威时域存储在 ADSP
 _ring: AudioRingBuffer | None = None
 _ring_seq = 0  # 回放快照命名单调递增：裁旧后文件名也不会被复用
+
+
+def _ring_seconds_from_env() -> float:
+    """环冲容量（秒）：LAOS_REPLAY_RING_S 覆盖，clamp 5..120（预算红线）。"""
+    try:
+        v = float(os.environ.get("LAOS_REPLAY_RING_S", "30"))
+    except ValueError:
+        v = 30.0
+    return max(5.0, min(120.0, v))
 ```
 
 （d）`mic_listen_start`：函数首行 `global _listen_thread, _listen_error` 改为 `global _listen_thread, _listen_error, _ring`；锁内 `_listen_error = ""` 之后插入：
 
 ```python
-        try:
-            _ring_s = float(os.environ.get("LAOS_REPLAY_RING_S", "60"))
-        except ValueError:
-            _ring_s = 60.0
-        _ring = AudioRingBuffer(SAMPLE_RATE,
-                                max(5.0, min(300.0, _ring_s)))
+        _ring = AudioRingBuffer(SAMPLE_RATE, _ring_seconds_from_env())
 ```
 
 （e）`_listen_loop` 读块处（`data, _frames = stream.read(chunk)` 与 `buffer.extend` 之间）插入：
@@ -373,7 +391,7 @@ def mic_replay(seconds: float = 20.0) -> str:
     if ring is None or ring.available_seconds() < 0.1:
         raise RuntimeError(
             "ENOENT: replay ring empty (call mic.listen_start first)")
-    seconds = max(0.5, min(float(seconds), 300.0))
+    seconds = max(0.5, min(float(seconds), 120.0))
     out_dir = Path("var") / "ear" / "replay"
     out_dir.mkdir(parents=True, exist_ok=True)
     _ring_seq += 1
@@ -408,7 +426,7 @@ def _prune_replay_dir(out_dir: Path, keep: int = 20) -> None:
 - [ ] **Step 4: 跑测试确认通过（含既有 drv_mic 回归）**
 
 Run: `cd C:\Users\yaoyue\CodeBuddy\Claw\laos && C:/Users/yaoyue/miniconda3/python.exe -m unittest tests.test_replay tests.test_ear_mic -v 2>&1 | tail -4`
-Expected: test_replay `Ran 6 tests ... OK`；test_ear_mic 全绿（status 子串断言不受 `ring=` 追加影响；若出现精确相等断言失败，把该断言改为子串断言再继续）
+Expected: test_replay `Ran 7 tests ... OK`；test_ear_mic 全绿（status 子串断言不受 `ring=` 追加影响；若出现精确相等断言失败，把该断言改为子串断言再继续）
 
 - [ ] **Step 5: 提交**
 
@@ -542,7 +560,7 @@ _BLOCKING_BUILTINS = frozenset({"evolve.run", "rec.replay"})
                 "ear 三通道转写。读隐私源（置污）；LAOS_REC=0 时驱动侧拒绝",
                 {"type": "object",
                  "properties": {"seconds": {"type": "number", "minimum": 1,
-                                            "maximum": 300},
+                                            "maximum": 120},
                                 "transcribe": {"type": "boolean"},
                                 "language": {"type": "string"}},
                  "required": []},
@@ -944,7 +962,7 @@ git push origin master --tags
 
 ## 扩展位（本期不实现，禁止顺手实现）
 
-**摘要回顾模型**（spec 后半句）：插入点是 `laos/kernel.py` `_impl_rec_replay` 的转写块之后、审计写入之前——届时给 `rec.replay` 的 ToolSpec 加 `"summarize": {"type": "boolean"}` 参数，true 时把 `payload["text"]` 送 `laos/llm.py` LLMClient（或 JitMem 摘要内建）产出 `payload["summary"]`；laosweb 前端在 `#replay-out` 追加一个 summary 节点即可，API 形状向后兼容。环冲上限已放宽到 300s（`LAOS_REPLAY_RING_S`），"更长时间的音频"无需改缓冲层。触发条件：用户明确提出下一波。
+**摘要回顾模型**（spec 后半句）：插入点是 `laos/kernel.py` `_impl_rec_replay` 的转写块之后、审计写入之前——届时给 `rec.replay` 的 ToolSpec 加 `"summarize": {"type": "boolean"}` 参数，true 时把 `payload["text"]` 送 `laos/llm.py` LLMClient（或 JitMem 摘要内建）产出 `payload["summary"]`；laosweb 前端在 `#replay-out` 追加一个 summary 节点即可，API 形状向后兼容。环冲上限已到 120s（`LAOS_REPLAY_RING_S`，clamp 5..120——内存预算红线；ADSP 侧时域存储不受此限），"更长时间的音频"靠 ADSP 侧权威存储 + 分段快照组合，无需放大 AP 环冲。触发条件：用户明确提出下一波。
 
 ## 现状锚点（写计划时核实过的代码事实）
 
