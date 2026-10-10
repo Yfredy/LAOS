@@ -5,6 +5,12 @@
 
 ## [Unreleased]
 
+## [v0.38.0] - 2026-10-10
+
+### Added
+- feat(kernel): **rec.replay 摘要扩展位兑现**——新参 `summarize`（默认 false 全 opt-in）：转写文本经 `laos/llm.py` LLMClient 压成 ≤60 字中文摘要；软降级状态机 `summary_status`（off/ok/unconfigured/failed），回放本体永不因摘要失败；摘要为衍生文本同样不入任何审计，event:mic 增加 summarize 元数据位。laosweb「录音回放」卡新「摘要」开关与渲染（未配置显示提示）。6 例新增测试，全套 **1146 全绿**
+- docs(releases): **发版内容归档制度化**——`docs/releases/` 每版一文件（元信息头+详细正文+索引），`scripts/gen_release_notes.py` 发版后生成对齐；41 个历史版本全量补档（v0.36/0.37/0.38 用 Release 页加长版，存 extended/）
+
 ## [v0.37.0] - 2026-10-09
 
 ### Added

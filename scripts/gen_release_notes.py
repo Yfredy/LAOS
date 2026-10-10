@@ -16,10 +16,9 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 CL = REPO / "CHANGELOG.md"
 OUT = REPO / "docs" / "releases"
-EXTENDED = {  # Release 页加长版正文（本地留档）
-    "v0.36.0": REPO / "docs" / "releases" / "extended" / "v0.36.0.md",
-    "v0.37.0": REPO / "docs" / "releases" / "extended" / "v0.37.0.md",
-}
+# Release 页加长版正文：docs/releases/extended/<tag>.md 存在即用（动态发现）
+EXT_DIR = REPO / "docs" / "releases" / "extended"
+EXTENDED = {p.stem: p for p in sorted(EXT_DIR.glob("v*.md"))} if EXT_DIR.exists() else {}
 
 VER_RE = re.compile(r"^## \[(v[0-9]+\.[0-9]+\.[0-9]+)\] - (\d{4}-\d{2}-\d{2})\s*$")
 
