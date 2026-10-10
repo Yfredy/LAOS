@@ -147,6 +147,6 @@ res = asyncio.run(k.syscall(1, "evolve.run", {
 - **调研**：`docs/research/2026-10-09-rsi-landscape.md`（RSIGym/九篇论文/ICLR26 Workshop 110 篇/开源生态/laos 裁决 ●◐○）
 - **计划**：`docs/superpowers/plans/2026-10-09-openevolve-trial-and-laos-driver.md`（已执行主体）/ `2026-10-09-evolve-followups.md`（待执行三件）
 - **图**：`docs/diagrams/rsi-evolve-architecture.html`（archify 交互图，candidate JSON 同名并存）/ `docs/diagrams/rsi-evolve-handover.drawio`（drawio 源，浏览器打开方式见文件头注释）
-- **PPT**：`docs/ppt/laos-rsi-evolve-handover.html`（10 页，frontend-slides 血统，←/→ 翻页、E 键编辑）
+- **PPT**：`docs/ppt/laos-rsi-evolve-handover.html`（10 页，frontend-slides 血统，←/→ 翻页、E 键编辑）；`docs/ppt/laos-rsi-handover-ppt-master.pptx`（12 页原生 PPTX，ppt-master 蓝图风，双质检门 passed + LibreOffice 12 页渲染验证，含演讲者备注）
 - **关键 commit**（master 侧）：20e2ae8（laos/evolve.py）→ 99fac0f（env 红线测试）→ 0462915（evolve.run）→ 558f93d（驱动）→ 301da48（F-A/F-B）→ befb9ec（终审修复波）→ 565dec8（合并）
 - **试跑证据**：`var/rsi/openevolve/OBSERVATIONS.md`（安装/后端探测/解锁路径，gitignored——本仓 clone 后按 L1 重建）
