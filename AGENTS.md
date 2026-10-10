@@ -70,3 +70,14 @@ push master+tag → GitHub Release 页。漏掉任何一步都算发版事故。
   （现行体例），写完必跑三查（spec 覆盖/占位符扫描/类型一致性），跨 Task
   引用原文重复禁"类似 Task N"（执行者乱序读是常态）；状态登记在
   plans/README.md，新计划与状态变更同步登记。细则见该文件头部。
+- **GitHub 通道排障序（2026-10-10 实录）**：本机 `http.proxy=127.0.0.1:7897`
+  的**上游出口**会单独故障（SSL 握手重置数小时），而**直连与 SSH 往往正常**
+  ——推送/API 失败先按序探测三条通道（`curl -x 代理` / `curl 直连` /
+  `git ls-remote`），哪条通走哪条，**不要在坏代理上空转重试**（曾有 3 小时
+  60+ 次白试）；git 单次绕代理用 `git -c http.proxy= push ...`。外发动作
+  （push/tag/Release 页）失败时起后台退避重试循环并如实记录，恢复后闭环，
+  终态不可得时不假定成功。
+- **发版内容归档（2026-10-10 制度化）**：`docs/releases/` 每版一文件
+  （元信息头+详细正文）+ README 索引，Release 页加长版存 `extended/`；
+  **每次发版后跑 `python scripts/gen_release_notes.py` 重新对齐并随发版提交**
+  （与 CHANGELOG 同属发版链，漏跑算发版事故）。
