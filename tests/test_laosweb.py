@@ -1173,3 +1173,64 @@ class TestReplayApi(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class TestReplaySummarizeApi(unittest.TestCase):
+    """POST /api/replay {"summarize": true}：透传内核扩展位，软降级不入错误。"""
+
+    def setUp(self):
+        self._prev_kernel = laosweb.get_kernel()
+        self._prev_pid = laosweb._operator_pid
+        # Windows：audit.jsonl 句柄异步释放，忽略残留清理错误不影响断言
+        self._td = tempfile.TemporaryDirectory(ignore_cleanup_errors=True)
+        from laos.kernel import AgentKernel
+        from laos.mcp import CallResult
+        self.kernel = AgentKernel(Path(self._td.name) / "var")
+
+        class _FakeDriver:
+            def __init__(self, tools, results):
+                self.tools = {t: None for t in tools}
+                self._results = results
+
+            def call_tool(self, name, args):
+                r = self._results[name]
+                return r(args) if callable(r) else r
+
+            def close(self):
+                pass  # shutdown→unload_driver 需要
+
+        wav = Path(self._td.name) / "replay-0001-0.wav"
+        wav.write_bytes(b"RIFF--fake-wav--bytes")
+        snap = CallResult.ok_text(json.dumps(
+            {"ok": True, "wav": str(wav), "seconds": 20,
+             "ring_seconds": 20, "sample_rate": 16000}))
+        tr = CallResult.ok_text(json.dumps(
+            {"text": "一段话", "language": "zh", "emotions": [],
+             "source": "funasr", "latency_ms": 5}))
+        self.kernel.drivers["mic"] = _FakeDriver(["mic.replay"],
+                                                  {"mic.replay": snap})
+        self.kernel.drivers["ear"] = _FakeDriver(["ear.transcribe"],
+                                                  {"ear.transcribe": tr})
+        laosweb.set_kernel(self.kernel)
+        laosweb._operator_pid = self.kernel.spawn(
+            name="operator", caps=["msg.*", "rec.replay"],
+            ctx=ContextManager()).pid
+
+    def tearDown(self):
+        laosweb.set_kernel(self._prev_kernel)
+        laosweb._operator_pid = self._prev_pid
+        self.kernel.shutdown()
+        self._td.cleanup()
+
+    def test_summarize_passes_through_and_soft_degrades(self):
+        import os
+        from unittest import mock
+        env = {k: v for k, v in os.environ.items()
+               if not k.startswith("LAOS_LLM_")}
+        with mock.patch.dict(os.environ, env, clear=True):
+            code, body = laosweb._handle_replay({"seconds": 20,
+                                                 "summarize": True})
+        self.assertEqual(code, 200, body)
+        self.assertIn("summary_status", body)
+        self.assertEqual(body["summary_status"], "unconfigured")
+        self.assertEqual(body["summary"], "")

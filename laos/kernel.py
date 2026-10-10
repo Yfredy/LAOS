@@ -392,12 +392,15 @@ class AgentKernel:
             "rec.replay": ToolSpec(
                 "rec.replay",
                 "录音回放：取监听会话最近 N 秒音频快照（mic.replay），可选"
-                "ear 三通道转写。读隐私源（置污）；LAOS_REC=0 时驱动侧拒绝",
+                "ear 三通道转写；summarize=true 时再经 LLM 产一句中文摘要"
+                "（LAOS_LLM_* 未配置则软降级，回放本体不受影响）。"
+                "读隐私源（置污）；LAOS_REC=0 时驱动侧拒绝",
                 {"type": "object",
                  "properties": {"seconds": {"type": "number", "minimum": 1,
                                             "maximum": 120},
                                 "transcribe": {"type": "boolean"},
-                                "language": {"type": "string"}},
+                                "language": {"type": "string"},
+                                "summarize": {"type": "boolean"}},
                  "required": []},
                 reversible=True, risk="low"),
         }
@@ -1012,6 +1015,7 @@ class AgentKernel:
         seconds = float(args.get("seconds", 20))
         language = str(args.get("language") or "auto")
         transcribe = bool(args.get("transcribe", True))
+        summarize = bool(args.get("summarize", False))
 
         # M2：失败路径同样补 event:"mic" 账——ok:False + 纯元数据（请求
         # 秒数/是否转写/短 errno 注记），文本与音频永不入审计
@@ -1037,7 +1041,8 @@ class AgentKernel:
             return CallResult.fail(
                 f"EIO: mic.replay bad payload: {snap.text[:120]}")
         payload.update({"text": "", "language": "", "emotions": [],
-                        "source": "none", "transcribe_ms": 0})
+                        "source": "none", "transcribe_ms": 0,
+                        "summary": "", "summary_status": "off"})
         if transcribe:
             ear = self.drivers.get("ear")
             if ear is None or "ear.transcribe" not in ear.tools:
@@ -1059,6 +1064,27 @@ class AgentKernel:
                             "language": item.get("language", ""),
                             "emotions": item.get("emotions", []),
                             "source": item.get("source", "")})
+        # 摘要扩展位（v0.38.0）：summarize 且有转写时经 LLM 压成一句中文；
+        # 未配置/失败一律软降级（回放本体永不因摘要失败），状态机 off/ok/
+        # unconfigured/failed。摘要属衍生文本，同样不入任何审计。
+        if summarize and transcribe and payload["text"]:
+            from .llm import LLMClient, LLMError
+            client = LLMClient.from_env()
+            if client is None:
+                payload["summary_status"] = "unconfigured"
+            else:
+                try:
+                    payload["summary"] = client.chat([
+                        {"role": "system",
+                         "content": "你是 laos 的回放摘要器。把转写压缩成一句"
+                                    "不超过 60 字的中文摘要，只依据给定文本，"
+                                    "不要补充。"},
+                        {"role": "user", "content": payload["text"]}]).strip()
+                    payload["summary_status"] = "ok" if payload["summary"] \
+                        else "failed"
+                except LLMError:
+                    payload["summary"] = ""
+                    payload["summary_status"] = "failed"
         # 隐私红线：rec.replay 暴露拾音内容，按 mic.* 同口径补 event:"mic"
         # 审计——只记元数据（秒数/是否转写），文本与音频永不入审计；
         # syscall 审计的 result 字段同样对 rec.replay 抹除（派发尾部
@@ -1067,7 +1093,8 @@ class AgentKernel:
         self.audit.write({"t": time.time(), "event": "mic", "pid": pcb.pid,
                           "tool": "rec.replay", "ok": True, "denied": False,
                           "seconds": payload.get("seconds"),
-                          "transcribe": transcribe})
+                          "transcribe": transcribe,
+                          "summarize": summarize})
         payload["ms"] = round((time.perf_counter() - t0) * 1000)
         return CallResult.ok_text(json.dumps(payload, ensure_ascii=False))
 

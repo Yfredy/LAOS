@@ -209,3 +209,96 @@ class TestRecReplayBuiltin(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestReplaySummarize(unittest.TestCase):
+    """rec.replay summarize 扩展位（v0.38.0）：LLM 摘要软降级，永不炸回放。"""
+
+    def setUp(self):
+        self._td = tempfile.TemporaryDirectory()
+        from laos.kernel import AgentKernel
+        self.kernel = AgentKernel(Path(self._td.name) / "var")
+        wav = Path(self._td.name) / "replay-0001-0.wav"
+        wav.write_bytes(b"RIFF--fake-wav--bytes")
+        snap = CallResult.ok_text(json.dumps(
+            {"ok": True, "wav": str(wav), "seconds": 20,
+             "ring_seconds": 25, "sample_rate": 16000}))
+        tr = CallResult.ok_text(json.dumps(
+            {"text": "刚才那段没听清的话，讲了三件事", "language": "zh",
+             "emotions": [], "source": "funasr", "latency_ms": 100}))
+        self.kernel.drivers["mic"] = _FakeDriver(["mic.replay"],
+                                                  {"mic.replay": snap})
+        self.kernel.drivers["ear"] = _FakeDriver(["ear.transcribe"],
+                                                  {"ear.transcribe": tr})
+        self.pid = self.kernel.spawn(name="summer",
+                                     caps=["rec.replay"],
+                                     ctx=ContextManager()).pid
+
+    def tearDown(self):
+        self.kernel.shutdown()
+        self._td.cleanup()
+
+    def _call(self, **kw):
+        return asyncio.run(self.kernel.syscall(self.pid, "rec.replay", kw))
+
+    def test_summarize_true_produces_summary(self):
+        import laos.llm as llm_mod
+
+        class _FakeLLM:
+            def chat(self, messages):
+                return "讲了三件事的一句话摘要"
+
+        orig = llm_mod.LLMClient.from_env
+        llm_mod.LLMClient.from_env = classmethod(lambda cls: _FakeLLM())
+        try:
+            r = self._call(seconds=20, transcribe=True, summarize=True)
+        finally:
+            llm_mod.LLMClient.from_env = orig
+        self.assertTrue(r.ok, r.text)
+        p = json.loads(r.text)
+        self.assertEqual(p["summary"], "讲了三件事的一句话摘要")
+        self.assertEqual(p["summary_status"], "ok")
+
+    def test_summarize_without_llm_soft_degrades(self):
+        import laos.llm as llm_mod
+        orig = llm_mod.LLMClient.from_env
+        llm_mod.LLMClient.from_env = classmethod(lambda cls: None)
+        try:
+            r = self._call(seconds=20, transcribe=True, summarize=True)
+        finally:
+            llm_mod.LLMClient.from_env = orig
+        self.assertTrue(r.ok, r.text)  # 回放本体永不因摘要失败
+        p = json.loads(r.text)
+        self.assertEqual(p["summary"], "")
+        self.assertEqual(p["summary_status"], "unconfigured")
+
+    def test_summarize_llm_error_soft_degrades(self):
+        import laos.llm as llm_mod
+
+        class _BadLLM:
+            def chat(self, messages):
+                raise llm_mod.LLMError("boom")
+
+        orig = llm_mod.LLMClient.from_env
+        llm_mod.LLMClient.from_env = classmethod(lambda cls: _BadLLM())
+        try:
+            r = self._call(seconds=20, transcribe=True, summarize=True)
+        finally:
+            llm_mod.LLMClient.from_env = orig
+        self.assertTrue(r.ok, r.text)
+        p = json.loads(r.text)
+        self.assertEqual(p["summary"], "")
+        self.assertEqual(p["summary_status"], "failed")
+
+    def test_summarize_off_by_default_and_needs_transcribe(self):
+        p = json.loads(self._call(seconds=20).text)
+        self.assertEqual(p["summary_status"], "off")
+        p2 = json.loads(self._call(seconds=20, transcribe=False,
+                                    summarize=True).text)
+        self.assertEqual(p2["summary_status"], "off")
+
+    def test_audit_carries_summarize_flag(self):
+        self._call(seconds=20, transcribe=True, summarize=True)
+        recs = [r for r in self.kernel.audit.records
+                if r.get("event") == "mic" and r.get("tool") == "rec.replay"]
+        self.assertTrue(recs and recs[-1].get("summarize") is True)

@@ -404,6 +404,8 @@ table.tbl{width:100%;border-collapse:collapse}
             <option value="30">30s</option>
             <option value="60">60s</option>
           </select>
+          <label style="display:flex;align-items:center;gap:4px;font-size:14px;color:var(--muted)">
+            <input type="checkbox" id="replay-sum" title="LLM 一句话摘要（需 LAOS_LLM_*）">摘要</label>
           <button class="act primary" id="btn-replay">⟲ 回放</button>
         </div>
         <div id="replay-out" class="muted">重听最近一段音频并转写成文字（需常听会话在跑）</div>
@@ -895,7 +897,8 @@ $("#btn-replay").onclick = async () => {
   out.classList.remove("muted");
   out.textContent = "回放中…（转写可能要几秒）";
   const r = await post("/api/replay",
-                       { seconds: +$("#replay-sec").value, transcribe: true });
+                       { seconds: +$("#replay-sec").value, transcribe: true,
+                         summarize: $("#replay-sum").checked });
   if (!r.ok || !r.data || r.data.ok === undefined) {
     out.textContent = (r.data && r.data.error) || `回放失败（HTTP ${r.status}）`;
     return;
@@ -911,6 +914,17 @@ $("#btn-replay").onclick = async () => {
   meta.textContent = `${r.data.seconds}s / 环冲 ${r.data.ring_seconds}s · ` +
     `${r.data.source} · 转写 ${r.data.transcribe_ms}ms · 共 ${r.data.ms}ms`;
   out.append(audio, text, meta);
+  if (r.data.summary) {
+    const s = document.createElement("div");
+    s.textContent = "摘要：" + r.data.summary;
+    s.style.color = "var(--accent)";
+    out.append(s);
+  } else if (r.data.summary_status === "unconfigured") {
+    const n = document.createElement("div");
+    n.className = "muted";
+    n.textContent = "（摘要未配置：设 LAOS_LLM_BASE_URL / LAOS_LLM_MODEL 后可用）";
+    out.append(n);
+  }
 };
 const micBtn = $("#btn-llm-mic");
 micBtn.addEventListener("touchstart", e => { e.preventDefault(); micStart(); });
@@ -1389,7 +1403,8 @@ def _handle_replay(body: dict) -> tuple[int, dict]:
     → 最近 N 秒监听音频 + ear 三通道转写；wav 以 base64 回传供 <audio> 重听。
     需要 mic.listen_start 会话在跑（未监听 → 502 带内核原因）。审计走内核
     syscall 记录 + 内建补的 event:"mic"（本端点不另记）。摘要扩展位：未来
-    summarize 步骤插在内核 _impl_rec_replay 转写块之后，本端点形状不变。
+    summarize=true 时透传内核摘要扩展位（LLM 软降级，summary/summary_status
+    随 payload 返回）。
     """
     import base64
 
@@ -1403,10 +1418,11 @@ def _handle_replay(body: dict) -> tuple[int, dict]:
     seconds = max(1.0, min(seconds, 60.0))  # web 面板上限 60s（b64 体量）
     language = str(body.get("language") or "auto")
     transcribe = bool(body.get("transcribe", True))
+    summarize = bool(body.get("summarize", False))
     result = asyncio.run(kernel.syscall(
         _operator_pid, "rec.replay",
         {"seconds": seconds, "transcribe": transcribe,
-         "language": language}))
+         "summarize": summarize, "language": language}))
     if not result.ok:
         return 502, {"error": result.text}
     try:
