@@ -1,7 +1,7 @@
 # docs/research 调研资产清单（INDEX）
 
 > laos 调研资产权威清单：每份文档一句话定位 + 关键数字（均抄自各文档自身原文，未凭文件名推断）。
-> 盘点日期：2026-10-06（2026-10-07 增补 4 份调研 + 3 份评审与设计；2026-10-08 持续增补：arvis/muse-gadget-sdk 报告 + 语音三域收尾 16 份；2026-10-09 增补：小红书「AI音频研究」134 篇逐图全量调研 1 份 + RSI 方向全景 1 份 + Qwen Audio Agent Runtime 单篇 1 份 + Week41 AI 周报 1 份 + Interspeech 2026 语音增强风向 1 份 + AuraSE-IPO 复现 1 份）。共 110 份 .md（不含本文件；2026-10-09 openevolve-driver 合并后复核基数 111 = 109 份资产 + capstone + 本文件，本次增补后 112 = 110 份资产 + capstone + 本文件）。此前头部写的分项口径（66+2+17+3=88）与实数漂移，分项归属核对归属"INDEX 预存计数漂移归属波"排队项，此处只对准总数。
+> 盘点日期：2026-10-06（2026-10-07 增补 4 份调研 + 3 份评审与设计；2026-10-08 持续增补：arvis/muse-gadget-sdk 报告 + 语音三域收尾 16 份；2026-10-09 增补：小红书「AI音频研究」134 篇逐图全量调研 1 份 + RSI 方向全景 1 份 + Qwen Audio Agent Runtime 单篇 1 份 + Week41 AI 周报 1 份 + Interspeech 2026 语音增强风向 1 份 + AuraSE-IPO 复现 1 份）。共 110 份 .md（不含本文件；2026-10-09 openevolve-driver 合并后复核基数 111 = 109 份资产 + capstone + 本文件，AuraSE 增补后 112 = 110 份资产 + capstone + 本文件；2026-10-11 增补 Linux 收包六图 1 份后 113 = 111 份资产 + capstone + 本文件）。此前头部写的分项口径（66+2+17+3=88）与实数漂移，分项归属核对归属"INDEX 预存计数漂移归属波"排队项，此处只对准总数。
 
 ## 导航：按问题找文档
 
@@ -26,6 +26,7 @@
 - [2026-09-11-aed-agc-model-landscape.md](2026-09-11-aed-agc-model-landscape.md) — 听觉链路另两个能力的选型地图：AED 的 DCASE 低复杂度硬约束与 AGC 的 ML 化现状。
 - [2026-09-12-speech-model-frontiers.md](2026-09-12-speech-model-frontiers.md) — SER/AED/AGC 之外的六大语音领域（说话人/前端触发/编解码生成/副语言健康）51 篇逐篇跟踪。
 - [2026-10-09-interspeech2026-se-trends.md](2026-10-09-interspeech2026-se-trends.md) — Interspeech 2026 语音增强 115 篇风向（一步生成式/幻觉记账/延迟旋钮/Enroll-on-Wakeup/后门攻击）：EoW 唤醒段当注册音 ◐ 远线，生成式幻觉红线获学界印证 ●。
+- [2026-10-11-linux-rx-path.md](2026-10-11-linux-rx-path.md) — 《Linux 收包的一生》六图逐图转写（kernel-internals.org 图解重述）：RX 全链路与 laos 五道闸九处同构——"就绪≠调度"补进三解耦族，治理前置教科书案例 ●。
 - [speech-emotion/2026-09-landscape.md](speech-emotion/2026-09-landscape.md) — SER 侧的交叉收敛篇：46 条记录只交叉不新增，选型前的最后一道核对。
 
 **想做 Agent 治理层（laosd 薄内核）/ 判断层？**
@@ -110,6 +111,7 @@
 | [2026-10-09-xhs-qwen-audio-agent-runtime.md](2026-10-09-xhs-qwen-audio-agent-runtime.md) | 小红书《Voice Agent 的真正壁垒可能不是语音模型》单篇学习（jimmy_cat，1 篇 2 图逐图转写）→ QwenAudio/qwen-audio-agent v2.0.0 + arXiv:2609.25195 三链核实**零讹变**——Frontend/Backend Agent + Orchestration Runtime，两个解耦（打断≠取消、完成≠交付）上升为 runtime 法定职责，"Voice Model ≠ Voice Agent" | 座舱基准 "134 cases…mixed execution achieves a task success rate of **91.04%**, compared with **72.39% and 80.60%**"、"reduces mean task execution latency by **26.73% and 30.91%**"（摘要原文）；裁决 ●叙事/互证×3（两解耦=OS 信号语义、mixed execution=调度策略证据）+ ◐ACP/A2A 对照 + ○不引 Node.js 本体（零依赖红线）；"完成≠交付"半边为 laos 后台任务语音化第一缺口 |
 | [2026-10-09-aurase-ipo.md](2026-10-09-aurase-ipo.md) | AuraSE-IPO 学习与规则版复现（arXiv 2610.06632v1，CUHK-SZ+MSR）：低幻觉生成式语音增强——双流 MMDiT（文本锚内容/退化音频独占通道）+ IPO（8 推理配置→4:2:2:2 多目标奖励→差距比例偏好对→锚点前移蒸馏回固定 10 步 ODE）；决策面规则版落 Repro-ZCode（23 例手算锚点，区合计 94 绿） | 合成集 12 项指标 11 项第一（带混响 WER **8.22%** vs 噪声输入 10.82%——内容首次全面反超）；**GT-DPO 崩点 WER 13.35%**（真值当偏好赢家）；最优策略胜率仅 18.3%（uniform 12.5%）——无单一配置占优；裁决 ●幻觉三维审计 schema（WER/SBS/SIM）+锚点相对性纪律（与 JitMem"相对优于绝对"互证）/ ◐4:2:2:2 权重结构（保真≥60% 起步）+T_r 复用预算 / ○神经复现与 SE 进核心（红线） |
 | [2026-10-09-interspeech2026-se-trends.md](2026-10-09-interspeech2026-se-trends.md) | 微信公众号《Interspeech 2026 语音增强技术风向》（声息实验室）学习与溯源：115 篇（67 SE+29 TSE/分离+10 ANC/声区/丢包+9 评测）六风向——一步生成式（SBM arXiv:2510.16834 ●）/幻觉记账（StuPASE/UniSE/ETH 多指标奖励）/延迟旋钮/Enroll-on-Wakeup（arXiv:2602.15519 ●，唤醒词段免费注册音）/Ouroboros 前端后门 | 裁决 D1–D8：EoW 说话人自适应 ◐ 远线（触发=A 档真机∧多说话人 CER 实测劣化，与 AEC3 同波）；"生成式修复不入记忆链路"红线（auto-gain/04:24）**获学界正面印证 ●**；Ouroboros=治理前置第四条印证链（Anthropic/Muse/dots 之后）；ASR-as-judge 盲区→评测裁判须与被测通道异源；延迟旋钮与 dialogsched 预算家族同构互证；纯学习波代码零改动 |
+| [2026-10-11-linux-rx-path.md](2026-10-11-linux-rx-path.md) | 小红书《Linux收包的一生：6张图看懂》学习（kernel-internals.org 图解重述，双跳转述已声明；6 图逐图视觉转写）：RX 全链路 NIC→驱动→NAPI→协议栈→Socket→应用——描述符/buffer 分工、中断合并+NAPI budget 批量、AF_PACKET 观察旁路、Recv-Q 积压量化 | 九处同构对照：五道闸/审计与记忆分工/EDQUOT 预算制/Patient Bytes/观察不入派发路径逐一同构 ●；**"就绪≠调度"补进三解耦族**（打断≠取消、完成≠交付之后第三条）●；裁决 D1–D4，纯学习波零代码 |
 ## 二、全天候录音调研组（always-on-recording/，5 份）
 
 | 文件 | 一句话定位 | 关键数字 / 规模（抄原句） |
