@@ -14,6 +14,7 @@
 
 - 零依赖红线：`laos/` 新增四模块（speaker/audiodream/duty/burnt）只准 import 标准库；`drivers/` 侧改动同样不得新增顶层依赖（重依赖仍只进驱动子进程 .venv-audio）。
 - conda 红线：只用 `C:/Users/yaoyue/miniconda3/python.exe`；禁止 `pip install` 进主环境；测试命令一律用该解释器绝对路径。
+- **体量红线（内核/常驻语境新增，2026-10-12）**：laos 是内核治理 + 手机端常驻 lifelog（`ringbuf` 30s≈960KB"小镜像"、"权威时域存储在 ADSP"即此纪律），任何进**常驻/内核热路径**的模型后端**权重体量上限设 ~50MB 级**（含分带推理内存，非仅磁盘大小）；超限模型**只能走离线/桌面批处理后处理**（journal `--diar` 阶段），**不得进手机常驻链路、不得进 `laos/` 核心**。选型必须并列报"磁盘 MB + 峰值 RAM + CPU/GPU"三项，缺任一项不得进产品链路。
 - 隐私红线（本波最高优先，四段各自强化）：
   - **A**：聚类只产"会话内序号标签"（S1/S2…），质心向量、原始声纹、任何可跨会话识别个体的特征**一律不落盘、不进记忆、不进审计**；跨会话身份关联明确列为不实现（open problem，见 §A 设计说明）。
   - **B**：缺页召回**永不复活音频字节**——只对既有文本记忆做语义标注，音频即焚后不可逆。
@@ -423,17 +424,18 @@ git commit -m "feat(diary): 第六章按 speaker 标签聚合+README 缺口#1 �
 |---|---|---|---|
 | 任务匹配 | **端到端直接出帧级说话人标签**（无需自建聚类） | VAD+声纹嵌入+谱聚类（需自己排到达顺序） | segmentation+嵌入+聚类流水线 |
 | 到达顺序=身份 | **原生 AOSC 机制**（论文核心卖点即"arrival-time ordering"）——**正是 Task A1 docstring 已点名对标的方法论**（`laos/speaker.py:144`） | 需后处理按首现重排 | 需后处理按首现重排 |
-| 许可证（商用兼容） | 代码 Apache-2.0；权重 **CC-BY-4.0**（可商用，需署名）✅ | **Apache-2.0**（最干净，可商用）✅ | 代码 MIT；**3.1 权重 gated**（须接受用户条款 + HF token，接入有摩擦）；新 Community-1 更开放 |
+| 许可证（商用兼容） | 代码 Apache-2.0；权重 **NVIDIA Open Model License**（可商用、无营收门槛——2026-10-12 复核纠正：原记"CC-BY-4.0"有误，那只是第三方 CoreML 转换仓的自选许可；NVIDIA 模型卡明示 governed by the NVIDIA Open Model License Agreement）✅ | **Apache-2.0**（最干净，可商用）✅ | 代码 MIT；**3.1 权重 gated**（须接受用户条款 + HF token，接入有摩擦）；新 Community-1 更开放 |
 | 流式/采样率 | **流式**、16kHz——契合漏斗常驻检测语义 ✅ | 批处理、16kHz（journal 离线阶段可用） | 批处理、16kHz |
-| 算力 | 论文口径 **GPU 为主**（社区有 ONNX/Rust 移植，CPU 需自行验证） | CAM++ 轻量，CPU 友好 | GPU/CPU 皆可（VRAM 6–8GB 参考） |
+| 算力 | NeMo 口径 **GPU 为主**；社区已有 ExecuTorch/xnnpack **CPU** 移植（附 AMI DER 实测）与 CoreML ANE 移植——CPU 可跑，但体量仍超标 | CAM++ 轻量，**CPU 友好** | GPU/CPU 皆可（VRAM 6–8GB 参考） |
 | 隐私红线适配 | **不建跨会话声纹库天然达成**（会话内标签，不产持久向量）✅ | 需保证嵌入用完即弃、不落盘（本波已如此约束） | 同 CAM++ |
+| **体量（本波新增硬判据）** | **117M 参数**（4spk-v2.1 口径，三源证实）：gguf F32 **471MB** / F16 **237MB** / Q8_0 **139MB**（transcribe.cpp 实测口径），CoreML fp16 ~230MB——**全部 >100MB，超 ~50MB 上限** ❌ | CAM++ 编码 **7.2M 参数**（D-TDNN+上下文掩码，arXiv:2303.00332 系，三源证实 7.18–7.2M）：fp32 ≈29MB（参数推衍；ModelScope 卡 JS 渲染未取到实测值，拉取时实测补报），int8 ONNX 更小——**体量达标** ✅ | segmentation-3.0（1.5M，PyanNet SincNet+BiLSTM）+ 嵌入 WeSpeaker ResNet34 **6.6M / ONNX 28MB（fp16 tflite 13.4MB）**，合计数十 MB——**大体达标**（嵌入 fp16 后仅 13.4MB） |
 | 依赖体量 | NeMo+PyTorch，**重** | 中（可 ONNX 化） | 中（pyannote.audio 3.x） |
 
-**裁决（推荐排序）**：
-1. **首选 = Streaming Sortformer**：它就是把"到达顺序=身份"作为核心机制的模型，与本波 Task A 的方法论**同源**，且流式、16k、CC-BY-4.0 可商用。唯一门槛是 GPU/NeMo 体量——因此只作**驱动侧可选后端**，不进主套件、不进核心。
-2. **次选 = 3D-Speaker / CAM++**：Apache-2.0 最干净、国产 ModelScope 原生、CAM++ 编码相对轻，适合 CPU/离线批处理增强；缺点是需自己补一步"按首现重排标签"（本附录 Task A4 即为把该重排收敛成内核纯函数）。
-3. **不推荐进产品链路 = pyannote 3.1**：权重 gated + 需 token 接受条款，接入摩擦与可复现性差；Community-1 若后续许可稳定可复议。
-- **许可证一律在拉取权重时二次确认**（卡片口径随版本变）。
+**裁决（推荐排序 · 已按体量红线重排）**：体量是内核/手机端常驻链路的硬约束，故按"进哪条路径"分两档，而非单一首选：
+1. **常驻/热路径可选后端首选 = 3D-Speaker / CAM++**：**体量达标（7.2M 参数，fp32 ≈29MB 参数推衍、int8 更小，拉取时实测补报）+ Apache-2.0（最干净）+ CPU 友好 + 国产 ModelScope 原生**——四项同时满足本波体量红线与许可要求，是唯一可考虑挂进常驻/近常驻链路的候选。代价：需补"按首现重排标签"一步（Task A4 即把该重排收敛成内核纯函数）。
+2. **离线/桌面后处理档 = Streaming Sortformer**：概念最贴合（AOSC=到达顺序=身份，正是 `speaker.py:144` 对标方法论）、流式、权重 NVIDIA Open Model License 可商用，但 **117M 参数 / fp32 ~471MB · fp16 ~237MB · Q8_0 ~139MB（transcribe.cpp 实测口径）/ GPU 为主 → 触体量红线，禁入手机常驻链路**；只作 journal `--diar` 的**桌面批处理后处理**可选档（拉取时须实测磁盘 MB + 峰值 RAM 再决定）。
+3. **不推荐进产品链路 = pyannote 3.1**：3.1 权重 gated + 需 HF token 接受条款，接入摩擦与可复现性差；Community-1 若许可稳定可复议。
+- **许可证与体量一律在拉取权重时二次确认**（卡片口径随版本变；MB 以实测为准，不用宣称值）。
 
 **正确的升级姿势（不改红线、不改核心零依赖承诺）**：内核 `laos/speaker.py` 继续做**默认**（无模型/离线兜底）；diarization 模型作为 `drivers/drv_ear.py` 侧（或新 `drv_diar.py`）的**可选后端**，产出会话内到达顺序标签后，经下面 Task A4 的归一化函数回灌 journal，标签契约与 A1 完全一致（仍是 `S1/S2…`，不建声纹库）。Task A4 提供这个跨后端归一的**内核侧纯 stdlib 函数**（零依赖、可单测），是模型并入的唯一合法接缝。
 
@@ -515,7 +517,7 @@ git add laos/speaker.py tests/test_speaker.py
 git commit -m "feat(speaker): normalize_arrival_labels 到达顺序归一——diarization 后端唯一内核接缝（A4）"
 ```
 
-> **模型接入边界（务必遵守，勿在本波越界）**：Sortformer/CAM++ 的权重下载、torch/NeMo 安装、GPU 探测**全部只发生在驱动子进程 `.venv-audio`**（如新 `drivers/drv_diar.py` 或 drv_ear 的可选工具），产出的段级 raw id 序列经 `normalize_arrival_labels` 回灌 `bin/journal.py`。**主测试套件不 import 任何模型依赖**；`laos/` 核心保持零依赖；`speaker.py` 的 `label_speakers` 仍是无模型时的默认路径。驱动侧模型的挂载（权重拉取/推理/降级）属独立后续波，本波只交付这个可单测的内核归一接缝 + 评估裁决。
+> **模型接入边界（务必遵守，勿在本波越界）**：Sortformer/CAM++ 的权重下载、torch/NeMo 安装、GPU 探测**全部只发生在驱动子进程 `.venv-audio`**（如新 `drivers/drv_diar.py` 或 drv_ear 的可选工具），产出的段级 raw id 序列经 `normalize_arrival_labels` 回灌 `bin/journal.py`。**主测试套件不 import 任何模型依赖**；`laos/` 核心保持零依赖；`speaker.py` 的 `label_speakers` 仍是无模型时的默认路径。**体量闸门（本波新增）**：驱动后端挂载前必须实测并报"磁盘 MB + 峰值 RAM + CPU/GPU"三项——**≤ ~50MB 者才可评估进常驻/近常驻链路（CAM++ 档）**；**> 100MB / GPU 级（Sortformer 117M）只准挂 journal `--diar` 离线后处理，禁入手机常驻链路**。驱动侧模型的挂载（权重拉取/推理/降级/体量实测）属独立后续波，本波只交付这个可单测的内核归一接缝 + 评估裁决。
 
 > **Section A 收尾**：可独立发版（走 AGENTS.md 发版纪律 `python scripts/release.py --apply`）。测试数以实跑为准记录。A4 属零依赖内核接缝，与 A1–A3 同波可交付；模型后端本身（drv_diar/Sortformer/CAM++）留下一波，不在本波发版口径内。
 
@@ -1193,7 +1195,7 @@ Expected: `AST ok`；人工核四模块 import 仅 stdlib + 既有 laos 模块�
 
 ## Self-Review 结论（作者自查）
 
-- **spec 覆盖**：A→缺口#1+调研P1；B→教训④缺页语义；C→声景反向调度（被动记忆升级闭环）；D→PIPL"证明删了"审计。四方向全部有 Task 落地，无悬空需求。**追加需求（2026-10-12 用户点名外部模型评估）也已覆盖**：评估一（FLASepformer-JAEC，分离）裁决不并入并记驱动侧 ASR 可选前置级；评估二（Sortformer/3D-Speaker/pyannote，diarization）裁决作驱动侧可选后端，并交付**Task A4 `normalize_arrival_labels`** 作为模型接入的唯一内核接缝（纯 stdlib、可单测）。**两则评估均于 2026-10-12 当日复核补全事实链**：FLASepformer = arXiv:2508.19528（Libri2Mix-100 SI-SNRi 20.3 dB，CC BY-NC 4.0 禁商用）；JAEC = 10ms 帧 / 22ms 固定延迟 / CPU RTF ≤0.0039（许可证转述 Apache-2.0，单一来源待确认）；**两模型早已落地为 `drivers/drv_audio.py` 的 `audio.separate`/`audio.aec`**（laosd 加载 + venv 门控测试，本机 `.venv-audio` 可跑真实推理）——挂载点已存在，缺的是默认链路接线与许可证放行，结论（不并入 Task A、维持 opt-in）不变。
+- **spec 覆盖**：A→缺口#1+调研P1；B→教训④缺页语义；C→声景反向调度（被动记忆升级闭环）；D→PIPL"证明删了"审计。四方向全部有 Task 落地，无悬空需求。**追加需求（2026-10-12 用户点名外部模型评估）也已覆盖**：评估一（FLASepformer-JAEC，分离）裁决不并入并记驱动侧 ASR 可选前置级；评估二（Sortformer/3D-Speaker/pyannote，diarization）裁决作驱动侧可选后端，并交付**Task A4 `normalize_arrival_labels`** 作为模型接入的唯一内核接缝（纯 stdlib、可单测）。**追加体量红线（2026-10-12 用户指令：内核/手机端须控模型大小）**：Global Constraints 新增体量闸门（常驻链路 ≤ ~50MB），评估二排序按此重排——**CAM++（~30MB/Apache/CPU）升常驻首选，Sortformer（117M/数百 MB/GPU）降为 journal 离线后处理档**。**两则评估均于 2026-10-12 当日复核补全事实链**：FLASepformer = arXiv:2508.19528（Libri2Mix-100 SI-SNRi 20.3 dB，CC BY-NC 4.0 禁商用）；JAEC = 10ms 帧 / 22ms 固定延迟 / CPU RTF ≤0.0039（许可证转述 Apache-2.0，单一来源待确认）；**两模型早已落地为 `drivers/drv_audio.py` 的 `audio.separate`/`audio.aec`**（laosd 加载 + venv 门控测试，本机 `.venv-audio` 可跑真实推理）——挂载点已存在，缺的是默认链路接线与许可证放行，结论（不并入 Task A、维持 opt-in）不变。
 - **占位符扫描**：无 "TBD/加适当处理/为上述写测试"；每个改 kernel/memory 的步骤都给了目标代码块；diary/`_Path`/kernel 顶部导入处标注"先读现有实现再对齐"，因这些是**读现场确认动作**而非占位（Step 明确给出确认命令）。模型侧（drv_diar/Sortformer/CAM++ 权重下载与推理）**刻意不写成 TDD Task**——它进不了主套件（重依赖只在 `.venv-audio`，AGENTS.md 红线）且需 GPU，故只给"归一接缝 A4 + 裁决 + 挂载边界注记"，非占位而是明确划出后续波边界。
 - **类型一致**：`bands_of/to_centroid/centroid_distance/label_speakers`（A1）在 A2 消费名一致；**`normalize_arrival_labels(raw_ids: list[str]) -> list[str]`（A4 新增）在 A4 测试/实现/挂载注记三处签名一致，且与 `label_speakers` 同型同义（list[str]，S1/S2… 到达顺序）**；`compute_duty/threshold_offset/BASE_THRESHOLD_DBFS`（C1）在 C2 一致；`record_burn/load_receipts/verify_deletion/RECEIPT_NAME/content_hash`（D1）在 D2 一致；`dream_recall/is_burned`（B1）在 B2 一致；`mark_burned`（B2 新增 memory.py 方法）签名单一来源。
 - **已知松耦合点（非 bug，刻意）**：B2 的 `has_audio` 回填与 D 的销毁回执本期各自独立（B 默认 live、gc 置 False；D 只写 burnt.jsonl），避免 B↔D 循环依赖；未来迭代可让 B 读 D 回执统一。已在 Section D 收尾注明。
