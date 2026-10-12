@@ -1,7 +1,7 @@
 # 计划状态登记（plans/）
 
 > **本仓库约定：计划正文的 checkbox 执行时不勾选——完成度看 commit 与落点，不看 checkbox。**
-> 状态三值：`已执行`（交付物在 git 历史可证）/ `部分执行` / `待执行`。本表 46 份（2026-10-09 复盘点 42 + 新增 audio-replay/aor-lifelog/aurase-adoption/evolve-followups）。
+> 状态三值：`已执行`（交付物在 git 历史可证）/ `部分执行` / `待执行`。本表 48 份（2026-10-09 复盘点 42 + 新增 audio-replay/aor-lifelog/aurase-adoption/evolve-followups + 2026-10-12 auditory-governance-wave + 2026-10-12 audiovisual-innovation）。
 > 排查命令：`git log --oneline --all -- <落点路径>`。
 
 ## 计划编写纪律（2026-10-09 制度化，取自 writing-plans 技能查漏补缺）
@@ -63,3 +63,5 @@
 | 2026-10-09-aor-lifelog.md | 已执行 | 生活日志双记忆：laos/soundscape.py（Goertzel+LUFS，-inf floor 防护）+ laos/rhythm.py（拾音时刻 [HH:MM] 前缀优先）+ journal --diary（含预存 ear_transcribe 名字 bug 修复）+ diary 第六章（SECTION_TITLES 5→6）；SDD 六任务+终审修复波（C1 拾音时刻/I1 不炸批/I2 锚）；v0.37.0 发版（1140 绿）；§功能版图交付 |
 | 2026-10-09-aurase-adoption.md | 已执行 | T1-T3+终审修复波全落地：laos/evolve.py RewardSpec+aggregate（55e787c）+ EvolveResult 可选 reward 字段+审计条件键 reward_version（8a28b82，字节级不变实测钉住）+ drivers/README 立约+AGENTS.md 登记（2fdbb69）+ null/NaN 边界修复（99af75d）；Subagent-Driven 执行（三任务各自评审通过+终审 Clean）；test_evolve 32 例，全量 1121 绿；随 aor-waves 波后下一 MINOR 携带 |
 | 2026-10-09-evolve-followups.md | 待执行 | openevolve 终审遗留三件（决策已预决按推荐）：① evolve.run 默认入 sentinel always_ask（③ 级全 mode 生效，② 显式 rule 唯一免问通道）② AuditLog.rotate() 持 _wlock（(epoch,seq) 键全库唯一硬契约，并发压测钉不变式）③ scripts/evolve_e2e.py 解锁 runbook（--check 探测 rc=0/2 口径 + 全链真跑自动留痕 asks/事件循环让出实证/checkpoint 布局钉死，产物只落 var/）+ §8/#9 回写 |
+| 2026-10-12-auditory-governance-wave.md | 待执行 | 听觉治理波（四方向 A/B/C/D，内核侧纯 stdlib + 驱动挂钩，8 Task）：A 说话人分离（laos/speaker.py 7 带谱质心到达顺序贪心聚类，不建跨会话声纹库；journal `[S1]` 标签 + diary 第六章聚合）；B 听觉缺页召回（laos/audiodream.py 即焚后 audio_status=burned 软降级，永不复活字节；memory.mark_burned + recall 套壳）；C 声景驱动调度（laos/duty.py 聚合声景反推 VAD 阈值偏移 ±5，drv_rec 下段 rec_start 消费，不改显式 syscall/LAOS_REC=0 红线）；D 即焚销毁回执（laos/burnt.py rec_gc/journal 删除前 sha256 回执、哈希算完即弃，新增 burn.verify 只读核验）。建议优先序 A→D→B→C |
+| 2026-10-12-audiovisual-innovation.md | 待执行（构思+路线图，Wave 1 可执行） | 音视频创新波：§0 勘察坐实三大空白——视觉栈为零（51 模块无一涉视觉）、screen.shot 无人消费、空间音频三件（binaural/foa/micgeom）只被自己测试引用；§1 七方向含 4 条明确否决（视觉常驻 AED/跨会话声纹/唇读/截屏喂多模态）；Wave 1 屏幕语义漏斗（laos/screenlog.py 界面签名丢弃 text/id + bin/screenlog.py LAOS_SCREENLOG 门控 + diary 第七章双模态时间线，XML 字节零落盘），代码已在 var/scratch 试跑并通过（修掉单样本抖动劈断会话的真 bug）；Wave 2 听觉预算/听觉 taint、Wave 3 空间方向（硬门：drv_mic CHANNELS=1 需 LAOS_MIC_CHANNELS=2）接口已冻结待拆独立计划 |
