@@ -269,6 +269,13 @@ def zone_test_counts(main_by_run: bool = False) -> dict:
     return counts
 
 
+#: 文件名带 ISO 日期的「现场记录」类报告（如 2026-10-18-ppt-audit.md）：
+#: 它们是某日取证/审计的快照，锚点数字必须停在当天——随后续发版刷新
+#: 等于伪造历史。2026-10-18 实录：docs/ppt/*.md glob 曾把审计报告里的
+#: "1146 TESTS GREEN" 取证行刷成新发版数，靠人工 checkout 才回退。
+_DATED_REPORT_RE = re.compile(r"\d{4}-\d{2}-\d{2}")
+
+
 def sync_docs(version: str, *, dry_run: bool = False,
               globs: list[str] | None = None, counts: dict | None = None,
               detail: bool = False) -> list[str]:
@@ -295,6 +302,14 @@ def sync_docs(version: str, *, dry_run: bool = False,
             paths = sorted(REPO.glob(pattern_glob))
         for path in paths:
             if not path.is_file():
+                continue
+            if _DATED_REPORT_RE.search(path.name):
+                # dated 现场记录：排除 + 透明报告（防静默漏同步的误判）
+                try:
+                    rel = path.relative_to(REPO)
+                except ValueError:
+                    rel = path
+                report.append(f"docs-sync: {rel} (dated 现场记录，排除刷新)")
                 continue
             text = path.read_text(encoding="utf-8")
             new_text, hits = text, 0

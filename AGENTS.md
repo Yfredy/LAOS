@@ -19,7 +19,16 @@
 3. `sync_docs()` 自动改写上述全部介绍文件的五类锚点（当前版本声明/封面
    stamp/页脚/版本跨度端点/测试计数），主库计数用实跑数、页脚总数含
    隔离区+复现区；**带日期的里程碑史（如 "v0.12.0 (10-05)"）永远不动**；
+   **文件名带 ISO 日期的现场记录（如 `2026-10-18-ppt-audit.md`）排除刷新**
+   ——审计/取证报告的锚点必须停在当天，刷新即伪造历史（2026-10-18 实录
+   + 回归测试 `test_dated_field_report_excluded` 钉死）；
 4. `--dry-run` 同样输出完整同步报告（不写文件）。
+
+**PPT 锚点 = release.py 职责**（2026-10-18 补，ppt-audit §4-②）：deck 的
+版本/测试锚点一律由发版链自动刷，人工只在构建新 deck 时填初始值；发现
+deck 锚点腐化，修 release.py 的同步面，不要在 deck 上手改（手改会被下次
+发版覆盖，且掩盖同步面缺口）。二进制 deck（pptx/ppt-master）无文本锚点
+可刷，重建时人工对齐。
 
 之后照旧：CHANGELOG 人工插入该版段落 → release commit → annotated tag →
 push master+tag → GitHub Release 页。漏掉任何一步都算发版事故。

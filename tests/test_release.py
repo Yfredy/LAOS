@@ -186,6 +186,26 @@ class SyncDocs(unittest.TestCase):
         report = release.sync_docs("0.16.0", globs=["no_such_file.md"])
         self.assertEqual(len(report), 1)  # 只有 ctx 行
 
+    def test_dated_field_report_excluded(self):
+        """2026-10-18 实录：DOC_GLOBS 的 docs/ppt/*.md 会把 dated 审计报告
+        （2026-10-18-ppt-audit.md 的 "1146 TESTS GREEN" 取证行）刷成新值——
+        文件名带 ISO 日期的报告是现场记录，不随后续发版漂移；活文档照常同步。"""
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            tmp = Path(d)
+            dated = tmp / "2026-10-18-ppt-audit.md"
+            dated.write_text("stamp 已刷 **1146 TESTS GREEN**\n", encoding="utf-8")
+            living = tmp / "laos-intro-outline.md"
+            living.write_text("# 765 项回归测试\n", encoding="utf-8")
+            report = release.sync_docs("0.39.0", globs=[str(dated), str(living)])
+            # dated 报告一字未动
+            self.assertIn("1146 TESTS GREEN", dated.read_text(encoding="utf-8"))
+            # 活文档照常同步
+            self.assertNotIn("765", living.read_text(encoding="utf-8"))
+            # 跳过必须透明：报告里有排除行
+            self.assertTrue(
+                any("排除" in line for line in report), report)
+
 
 class TestTestCountAnchorFullMatch(unittest.TestCase):
     """2026-10-09 实录 bug 的回归钉：测试计数锚点 \d{3} 只吃尾三位，
