@@ -58,6 +58,13 @@
 | 2026-10-18 | arXiv·AGC | abs:"automatic gain control" AND abs:audio | 不限（实得 2026） | 1 | 0 |
 | 2026-10-18 | arXiv·SER on-device | abs:"speech emotion recognition" AND abs:"on-device" | 不限（实得 2020–2026） | 20 | 9 |
 | 2026-10-18 | arXiv·AV×event | abs:"audio-visual" AND abs:"sound event" | 不限（实得 2017–2026） | 27 | 17 |
+| 2026-10-18（v2 补检） | arXiv·AGC 定向① | abs:"automatic gain control"（**不加** abs:audio 二次过滤） | 不限（实得 2005–2026） | 46 | 9 |
+| 2026-10-18（v2 补检） | arXiv·AGC 定向② | abs:"adaptive gain control" | 不限 | 13 | 3 |
+| 2026-10-18（v2 补检） | arXiv·AGC 定向③ | abs:"gain control" AND abs:loudness | 不限 | 3 | 1 |
+| 2026-10-18（v2 补检） | arXiv·AGC 定向④ | abs:"neural AGC" OR abs:"learned gain" | 不限（空集） | 0 | 0 |
+| 2026-10-18（v2 补检） | arXiv·AGC 定向⑤ | abs:"loudness normalization" AND abs:neural | 不限（空集） | 0 | 0 |
+| 2026-10-18（v2 补检） | ISCA·Interspeech 2026 全目录 | 目录页 767 条逐条标题筛 `gain\|AGC\|loudness\|level\|normaliz\|dynamic range` | 2026 | 767 | 1 |
+| 2026-10-18（v2 补检） | Crossref·AGC 定向 | query.bibliographic=neural automatic gain control speech, filter=type:proceedings-article, rows=20, offset=0 | 不限 | 20（total-results 1,098,205，取前 20 条标题筛选） | 2 |
 | 2026-10-18 | 领域表·speech-emotion/ | (六表逐行，00–06) | 2017-2026 | 46 | 6 |
 | 2026-10-18 | 领域表·audio-events/ | (六表逐行，00–07) | 2017-2026 | 58 | 17 |
 | 2026-10-18 | 领域表·auto-gain/ | (六表逐行，00–07) | 2017-2026 | 38 | 12 |
@@ -71,6 +78,14 @@
 - **arXiv 通道状态**：六条查询全部 curl exit 0，合计 87 条 `<entry>`，无证书/网关错误，未触发降级预案。其中 `abs:"agent operating system" AND (abs:audio OR abs:speech)` 返回空集（totalResults=0）——「AgentOS × 音频」在 arXiv 摘要层尚无成型文献，该维度只能由 AgentOS 通用文献与音频侧文献两侧夹逼。
 - **语料通道的零候选**：AED/AGC/SER 三条命中 2/15/49 条，但 `laos_topic` 是 venue 级粗标，命中项多为波束成形、HRTF、TTS 等相邻主题，逐条筛后 0 条进 §3——语料只到标题/摘要层，模型级证据必须回领域表。
 - **领域表命中口径**：speech-emotion 46 / audio-events 58 / auto-gain 35 条 schema + 3 条多模态（合计 38）/ always-on 41（六表数据行）/ agentos-governance 49（窄分支），与 §1.6 盘点一致，非本次新增。
+
+**v2 补检（2026-10-18 23:20–23:40）口径说明——v1 的 AGC 检索式本身把语料切没了：**
+
+- **v1 的 `abs:"automatic gain control" AND abs:audio` 是过窄式**。v2 去掉 `AND abs:audio` 后同一通道从 **1 条变成 46 条**（定向①）。原因：以增益为主业的音频论文常在摘要里写 speech/loudness/enhancement 而**不写 audio**，与 "audio" 求交后整批被切掉。v1 §6.2「arXiv 只回 1 条、纳入 0」的结论是**检索式缺陷的产物，不是领域空无**——这是 v2 推翻 v1「没有纯神经增益模型」的直接原因。
+- **定向④⑤（`neural AGC` / `learned gain` / `neural loudness normalization`）全部空集**：说明「神经 AGC」尚未形成稳定的术语标签，领域内仍在用 `automatic gain control`、`adaptive gain control`、`loudness normalization` 这些**旧词**命名新方法。因此**术语越新，检索越要退回旧词**。
+- **ISCA 通道状态修正**：v1 记录「`interspeech_2026` 仍 404，Interspeech 语料上限 2025」。v2 复核时 `https://www.isca-archive.org/interspeech_2026/` 返回 **http 200、1,031,929 字节、767 篇论文**——**该限制已失效**，v1 §9.1 的相关表述按此修正。767 篇中标题命中增益相关词者 37 条，逐条看标题后**只有 1 篇是真 AGC**（`ijjada26` WaveNorm），其余为 "level"/"normalization" 的无关义项（如 Level=熟练度、ITN=inverse text normalization）。
+- **Crossref 通道**：`total-results` 为 1,098,205（该查询在 Crossref 上几乎是全文匹配，量级不可用），**只取前 20 条标题做人工筛选**，命中 2 条（NN3A 2022、AGC+多风格训练 KWS 2015）。total-results 不写入「命中」列，因为它是噪声而非检索深度。
+- **三条通道的纳入候选数**：arXiv 9 + 3 + 1 + 0 + 0 = 13，ISCA 1，Crossref 2，合计 16 条候选 → §3 台账 C112–C127，去重后纳入 11 条（S81–S91）。
 
 ## 3. 筛选与排除
 
@@ -196,8 +211,27 @@
 | C109 | [LeakyPick: IoT audio spy detector](https://arxiv.org/abs/2007.00500) | 2020 | 纳入 S78 | 合规：常驻麦克风的窃听检测，对抗面证据 |
 | C110 | [FSD50K: open dataset of human-labeled sound events](https://arxiv.org/abs/2010.00475) | 2022 | 纳入 S79 | 指标条件：开放标注事件集的评测口径与许可条件（正式发表 IEEE/ACM TASLP 2022，arXiv 2020） |
 | C111 | [Self-sustaining micro-watt programmable smart audio sensor for always-on](https://ieeexplore.ieee.org/document/8752147) | 2019 | 纳入 S80 | 端侧证据：自供能微瓦常驻音频传感，能量预算下界 |
+| C112 | [WaveNorm: A Low-Complexity Time-Domain Neural Adaptive Gain Control](https://www.isca-archive.org/interspeech_2026/ijjada26_interspeech.html) | 2026 | 纳入 S81 | **推翻 v1 结论**：唯一「纯增益闭环 + 因果 + 端侧资源画像」的神经模型 |
+| C113 | [SE-AGCNet: Joint Speech Enhancement and Loudness Control](https://arxiv.org/abs/2606.25959) | 2026 | 纳入 S82 | 联合(SE+AGC)；提出 SE-AGC-DataGen 与 LUFS/St LUFS/LRA 标准评测 |
+| C114 | [基于 FRCRN 的多任务音频 AI-AGC 增益调节算法（电子学报）](https://www.newit.ejournal.org.cn/en/article/154598364) | 未给出（期刊页未标年） | 纳入 S83 | 联合(SE+AGC)：共享特征提取 + 注意力增益 + 多频段增益调节 |
+| C115 | [NN3A: Neural Network supported AEC, NS and AGC for RTC](https://arxiv.org/abs/2110.08437) | 2022（arXiv 2021） | 纳入 S84 | 3A 统一神经前端，AGC 为多任务模型的一条支路 |
+| C116 | [NeuralEcho: Self-Attentive RNN for Unified AES and SE](https://arxiv.org/abs/2205.10401) | 2022 | 纳入 S85 | 全深度学习前端，显式「开发 AGC 分支形成 all-in-one」 |
+| C117 | [Trainable Frontend for Robust and Far-Field Keyword Spotting（PCEN）](https://arxiv.org/abs/1607.05666) | 2016 | 纳入 S86 | **窗外例外**：可学习 AGC 前端的奠基工作，PCEN 即 AGC 型动态压缩 |
+| C118 | [Automatic gain control and multi-style training for robust small-footprint keyword spotting](https://api.crossref.org/works?query.bibliographic=automatic+gain+control+and+multi-style+training+keyword+spotting) | 2015 | 纳入 S87 | **窗外例外**：WaveNorm 引用的「小 footprint KWS 的 AGC + 多风格训练」源头 |
+| C119 | [Spiking Cochlea with System-level Local Automatic Gain Control](https://arxiv.org/abs/2202.06707) | 2022 | 纳入 S88 | 硅耳蜗通道级 AGC，只需计数与加法；32 dB 输入范围下的分类增益有实测 |
+| C120 | [Robust sound event detection in bioacoustic sensor networks（PCEN 用于 SED）](https://arxiv.org/abs/1905.08352) | 2019 | 纳入 S89 | **跨域证据**：AGC 型前端（PCEN）对 AED 跨环境鲁棒性的实测增量 |
+| C121 | [Improvement of DNN-Based Speech Enhancement with Non-Normalized Features by Using an AGC（AES 147, 10256）](https://aes.org/publications/elibrary-page/?id=20629) | 2019 | 纳入 S90 | AGC 作为 DNN-SE 预处理，解决非归一化特征的电平漂移 |
+| C122 | [Speech Signal Improvement Using Causal Generative Diffusion Models（ICASSP 2023）](https://arxiv.org/abs/2209.15097) | 2023 | 纳入 S91 | 子模块(宿主：生成式修复)：因果递归 AGC 服务于扩散模型输入缩放 |
+| C123 | Carnival AGC（WaveNorm 引为深度基线的开源神经 AGC） | 未给出 | **排除** | 一手来源不可达：论文引用仓库 2026-10-18 核对返回 404，按裁定 R3 不入矩阵，转 §6 脚注二手口径 |
+| C124 | 射频/雷达/光通信 AGC 一批（DARISAA 抗干扰、GNSS jamming AGC、VLC AGC、EDFA 数字孪生、MU-MIMO 联合 AGC、跨阻放大器 AGC） | 2016–2026 | **排除** | 非音频：控制对象是射频链路/光功率的接收电平，与音频增益闭环不同轴 |
+| C125 | Harnessing the VO2 Phase Transition for AGC in Transimpedance Amplifiers | 2026 | **排除** | 非音频：模拟电路级增益控制，无音频信号链语义 |
+| C126 | BeatGain: A Rhythmic Pattern Enhancement Algorithm for Music Listening with Cochlear Implants（Interspeech 2026） | 2026 | **排除** | 音乐 + 临床（人工耳蜗），与常驻语音链路不同轴，且 §1.4 已排除纯音乐 |
+| C127 | Deep Control: a simple automatic gain control for memory efficient training of deep convnets | 2017 | **排除** | 同名异义：控制的是训练期梯度/学习率，不是音频信号增益 |
 
 读法与边界：
+
+- **C112–C127 为 v2 补检的 16 条候选**（2026-10-18 23:20–23:40，三条通道见 §2 的 v2 口径说明）。纳入 11 条（S81–S91），排除 5 条。排除理由一律落到五个既有维度之一：**C123 端侧证据缺**（一手来源不可达）、**C124/C125 指标条件不可比**（控制对象非音频电平）、**C126 合规冲突**（音乐 + 临床）、**C127 指标条件不可比**（同名异义，控制对象是训练期梯度）。
+- **C117/C118 两条例外按 §7 [U01] 的既有机制处理**：它们早于 2017-01-01，但「可学习 AGC 前端」这条路线在窗内所有工作（S81/S82/S83/S86 的直接前身）都以它们为基线，且 PCEN 至今仍是音频前端的事实标准，故作为**第 8、9 条窗外例外**登记，理由与 §1.6 的七条同类。
 
 - 「决定」列的 `纳入 Sxx` 是后续唯一可引用编号；排除行不占号，C 号只用于本表定位。
 - C001–C111 为固定候选号，跟着论文走、不跟着行号走：本次年份修正使块内重排后，C078（Miipher-2）在表内升到 C076 之前，块内 C 序允许局部非单调。
@@ -850,6 +884,94 @@
 - 指标与条件：always-on 特征提取 26.89 µW；含 MEMS 麦克风与能量采集的整机 63 µW；两类音频流检测准确率 100%。
 - 局限：两类音频流、100% 准确率是小规模演示，不能当泛化精度；依赖室内光照，暗处即失效；128 路特征 + 模板式模式识别，不是深度模型，类别扩展性差；2019 年工艺，面积/效率已被后续工作超越。
 - 对话：与 S64 的 8.62 µW SLU、S67 的 988 nW 前端构成"自供能整机 → 端到端理解 → 单点前端"的功耗谱；与 S72 的 47 nW VAD 说明"检测"与"供电"是两笔账；其 63 µW 整机是 §2 里"常驻链路可以做到无电池"的唯一公开证据。
+
+### [S81] WaveNorm: A Low-Complexity Time-Domain Neural Adaptive Gain Control for Real-Time Speech Applications
+- 问题：传统 AGC 依赖手工包络检波器加**固定**起音/释放时间常数，只看信号能量、不区分语音/瞬态噪声/背景声，在快速幅度变化、大瞬态与起伏噪声下产生削波、跟随延迟、增益泵浦（pumping）与噪声过放。
+- 方法：**纯增益闭环**——把增益学成因果映射 `g(t)=f_θ(x(1:t))`，输出 `ŷ(t)=g(t)·x(t)`，损失是输出与 ITU-T P.56/P.79 归一化目标语音的误差（即"向目标响度对齐的回归"，**不是掩码预测**）。架构全在时域：膨胀分组 Conv1D ×3 编码器（多尺度包络动态，指数递增 dilation）→ **GRU bottleneck**（汇总响度历史，抑制泵浦）→ 转置 Conv1D ×3 解码器；无 STFT，保留相位与前视零开销。
+- 数据：48 kHz 训练；TIMIT（clean）与 VoiceBank+DEMAND（noisy）做输出 RMS 分布分析；VAD 实验用 TIMIT + DNS3 构造的内部集；另在 16 kHz 标准集加评以便与常用基准对齐。说话人无关。
+- 指标与条件：**49M MACs、55 KB 内存**（论文自述 "optimized for edge deployment"）。Silero VAD 固定阈值 0.5 下 FPR **0.272** / FNR 0.022 / Precision 0.957 / Recall 0.978 / AUC **0.96**；对照 None 0.302/0.028/0.952/0.972/0.92、WebRTC 0.304/0.019/0.953/0.981/0.93、Carnival 0.277/0.030/0.956/0.970/0.92。作降噪前端使 NISQA：DFN2 3.22→3.57、DTLN 2.28→2.49、GTCRN 2.92→3.13；DNSMOS：2.92→3.14、2.66→2.94、2.79→2.95。**参数量：未给出。**
+- 局限：**①参数量未给出**——论文只报 MACs 与内存（裁定 R2：两者语义不同，禁止用 55 KB 折算参数量）。**②闭环指标零报告**——收敛时间、稳态误差、增益波动（LU 峰峰值）、过冲/下冲、削波率一项都没报，报的全是**下游代理指标**；下游变好不等于环本身达标（一个整体抬高电平的环同样能让 VAD 少漏检）。③P.56/P.79 只作训练目标参照，未报达标数字。④深度基线 Carnival 的仓库 2026-10-18 核对 404，该列数字不可复现。⑤实验全在文件级语料上做，**未涉及真实采集链路，故不回答二次增益问题**。⑥未给出每帧延迟实测与开源。
+- 对话：与 [S56] RNNoise / [S53] GTCRN / [S52] DeepFilterNet3 同处小型档，但**控制对象根本不同**——后者输出频带掩码（相邻：增强），本条输出时变增益（纯增益）；这是本综述里第一次出现"小型档有真 AGC"。与 [S58] WebRTC AGC2 的直接对照是它的核心价值，但对照只发生在 VAD/降噪代理指标上，**不在 AGC 自己的尺子上**——这正是 §6.6 三条准入门槛的第一条。与 [S88] 硅耳蜗 AGC 构成"通用核学出来的增益 vs 专用硅数出来的增益"两端。
+
+### [S82] SE-AGCNet: An End-to-End Framework for Joint Speech Enhancement and Loudness Control in Meeting Scenarios
+- 问题：传统音频前端把 SE 与 AGC 做成级联离散模块，顺序两难——AGC 在 SE 前会**无差别放大噪声**（降 SNR、增加后续去噪难度）；AGC 在 SE 后性能受制于 SE 质量（残余噪声被放大），且 SE 模型倾向**过抑制低音量语音**（远场/轻声被当噪声切掉）。
+- 方法：端到端**联合(SE+AGC)** 训练。核心主张是"协同"：SE 被鼓励保留低音量语音（因为音量归一由 AGC 组件负责），AGC 则不会放大残余背景噪声。框架声明**可接入多种既有 SE 架构**，故无固定骨干。提出 `SE-AGC-DataGen` 数据仿真管线，针对"AGC 无公开数据集"这一空白。引入标准化响度评测：**集成响度 LUFS、短时响度 St LUFS、响度范围 LRA**（依 ITU-R BS.1770 / EBU R128）。
+- 数据：会议场景（麦克风距离差、说话风格差异、头部移动造成的音量起伏）；`SE-AGC-DataGen` 仿真生成；**具体语料规模与小时数未核实**（本卡片只到 §1–§2，§4 结果表未逐行核实）。
+- 指标与条件：LUFS / St LUFS / LRA 三项响度指标 + 语音质量指标 + 下游 ASR 的 WER/CER。**具体数值未核实，本卡片不引用**。
+- 局限：参数量**未给出**（框架无固定骨干）；未声明因果性与实时性，会议场景定位偏**离线后处理**；端到端联合使 AGC 不可独立拆分与单独部署；结果表数字本报告未逐行核实；既有统一 3A 框架被其批评为"把 AGC 当无算法的后处理模块"或"AGC 目标由专有内部工具生成、无法复现"。
+- 对话：与 [S81] WaveNorm 是"纯增益 vs 联合"的两条路线——前者可以单独替换 AGC2，后者只能整体替换前端。与 [S84] NN3A、[S85] NeuralEcho 同属"把 AGC 塞进统一前端"的一族，但本条**首次给出标准化响度指标**（LUFS/LRA），是这一族里唯一朝"可横比尺子"走的一步。它指出的"SE 过抑制低音量语音"与 [S58] AGC2 的噪声门 −50 dBFS 是同一个失效面的两种表述。
+
+### [S83] 基于 FRCRN 的多任务音频 AI-AGC 增益调节算法（电子学报）
+- 问题：现有 AI-AGC 研究"仅仅是通过卷积神经网络优化 AGC 的场景适配能力"，而降噪模块与 AGC 串联造成**特征提取流程相互割裂**、算力冗余，且**降噪与增益调节无法协同**。
+- 方法：基于 FRCRN 的**多任务一体化**架构。共享特征提取层：257 维复数频谱（幅度+相位）与 40 维梅尔频谱拼接归一为 **297 维联合特征** → 3 层复数卷积（3×3 卷积核、32 通道）捕获频域长程相关 → 2 层双向 FSMN 建模时序长程依赖 → **128 维复数融合特征**；其后并行走降噪分支与智能增益模块，增益经注意力机制多步计算生成，再经掩码处理、**多频段增益调节**与逆 STFT 输出时域信号。
+- 数据：期刊页未披露语料规模与评测集（未核实）。
+- 指标与条件：**未核实**（本卡片只到 §2.1.1，结果表未读）。
+- 局限：只到 §2.1.1，**结果与数据集未核实，本报告不引用任何数值**；变体参数量未报，**不得把基础 FRCRN 的 10.27M（[S54]）套用为本文数字**；双向 FSMN 暗示**非因果/离线**，与常驻实时链路不兼容；未与 WebRTC AGC2 头对头。
+- 对话：与 [S54] FRCRN 同骨干——[S54] 在本综述里记 `非AGC(相邻：增强)`，本条把同一骨干扩展出增益分支，是"增强模型长出增益能力"的直接样本，也是裁定 R1 第 2 条 `联合(SE+AGC)` 的命名来源。与 [S82] SE-AGCNet 是同一思路的中英文两版，差别在于本条明确"共享特征提取层省算力"，[S82] 明确"标准化响度指标"。
+
+### [S84] NN3A: Neural Network supported Acoustic Echo Cancellation, Noise Suppression and Automatic Gain Control for Real-Time Communications
+- 问题：实时通信（RTC）普遍需要 AEC + NS + AGC 三个模块；分模型串联与端到端替代方案各有代价，需要一条把三者统一、且能权衡"残余抑制 vs 近端语音失真"的路线。
+- 方法：**3A 统一神经前端**——自适应滤波器 + 多任务模型（残余回声抑制、降噪、近端语音活动检测），AGC 为其中的一条支路。关键贡献是**损失加权函数**，显式权衡残余抑制与近端语音失真的 trade-off；并研究联合模型训练的若干实践问题。
+- 数据：论文未在本卡片核实到的层面披露（摘要口径）。
+- 指标与条件：摘要口径称"优于分模型方法与端到端替代方案"，**未给出具体数值**；参数量、延迟、算力均未给出。
+- 局限：**摘要口径**，未读全文，不引用具体数值；参数量/延迟/算力全未给出，无法定档；AGC 是多任务模型的一条支路，**不是可独立拆出的增益模块**；年份取正式发表年 2022（arXiv 2021-10）。
+- 对话：本条是"AGC 在神经 3A 前端里是常客"的第一条硬证据——它证明到 2021 年工业界已经在**用神经网络做 AGC**，只是 AGC 不是主角。与 [S85] NeuralEcho 同族；与 [S81] WaveNorm 的差别是主次关系反转：这里 AGC 是配角，那里 AGC 是全部。这一族的存在是 v2 把"神经 AGC 从排除名单移到观察名单"的重要依据。
+
+### [S85] NeuralEcho: A Self-Attentive Recurrent Neural Network for Unified Acoustic Echo Suppression and Speech Enhancement
+- 问题：全双工通信中扬声器回放造成的回声，与噪声、目标语音三者的统计量需要联合估计；既有联合方法 F-T-LSTM 在质量、识别率与模型复杂度上均有提升空间。
+- 方法：全深度学习框架，**隐式估计回声/噪声/目标语音的二阶统计量**，用基于 attention 的 RNN 联合解回声与噪声抑制；可配合说话人嵌入做目标语音增强；**并显式开发一条 AGC 分支，形成 all-in-one 前端**。
+- 数据：论文未在本卡片核实到的层面披露（摘要口径）。
+- 指标与条件：摘要口径称在客观语音质量、识别准确率与模型复杂度上优于 F-T-LSTM，**未给出具体数值**；AGC 分支的独立指标未报。
+- 局限：**摘要口径**；参数量/延迟/算力未给出，无法定档；**AGC 分支无独立指标**，其效果只能从整体前端收益里推断；"all-in-one"意味着无法单独评估或替换其 AGC 部分。
+- 对话：与 [S84] NN3A 同族，互为印证——两条独立工作（不同团队）都选择在统一前端里挂 AGC 分支，说明"AGC 作为前端组件"在工业界已是共识。与 [S82] SE-AGCNet 的差别：本条先做 AEC+SE 再补 AGC，[S82] 从一开始就把 AGC 与 SE 联合优化；后者在方法论上更彻底，前者在工程上更渐进。
+
+### [S86] Trainable Frontend For Robust and Far-Field Keyword Spotting（PCEN）
+- 问题：远场条件下信号因距离衰减，**响度变化**会显著损害关键词检测（KWS）；广泛使用的静态压缩（log 或 root）无法自适应。
+- 方法：提出 **PCEN（per-channel energy normalization）**——核心是**用基于 AGC 的动态压缩替换静态压缩**，对每个频带独立做自动增益控制；进一步**把 PCEN 建模为神经网络层**，与 KWS 声学模型**联合优化**其高维参数。
+- 数据：大规模重录的噪声与远场评测集（Google 内部集，规模未披露）。
+- 指标与条件：PCEN 显著提升识别性能；**联合训练的 PCEN 前端"在不增加模型复杂度与推理时延成本"的前提下进一步显著改善**。具体数值未在本卡片核实（摘要口径）。
+- 局限：**摘要口径**；评测集为内部集、不可复现；2016-07 早于检索窗下界（**窗外例外**，第 8 条）；PCEN 是**特征级**增益控制（作用于梅尔子带能量），与波形级增益闭环不同一作用点；KWS 场景的结论不能直接外推到通用音频事件识别。
+- 对话：**本条是「可学习 AGC」这条路线的事实源头**——它 2016 年就把 AGC 写成了可微分层，比 [S81] WaveNorm 的"神经 AGC"早十年，且不需要单独训练一个网络。与 [S89] 构成完整证据链：PCEN 从 KWS 出发，被 [S89] 证明在**音频事件检测**上同样有效（相对提升 40.8%）。这条链是本综述里"A GC 对 AED 有价值"的第一个**跨域实测**证据，也是 v1 完全缺失的一环。与 [S87] 同作者同系列，一起构成 Google 在这条线上的两篇奠基作。
+
+### [S87] Automatic gain control and multi-style training for robust small-footprint keyword spotting
+- 问题：小 footprint 关键词 spotting 模型在实际设备上的响度变化下鲁棒性不足。
+- 方法：把**自动增益控制**放进前端，并与**多风格训练（multi-style training, MTR）** 配合，使模型对响度与信道变化鲁棒。
+- 数据：未核实（本报告只取得 Crossref 元数据：标题、年份、会议论文类型）。
+- 指标与条件：**未给出（口径）**——本报告只到标题级元数据，未读全文、未取得任何数值。
+- 局限：**标题级证据**（Crossref 元数据），是本综述证据等级最低的一档，只用于证明该路线存在与其在领域内的引用地位；2015 年早于检索窗下界（**窗外例外**，第 9 条）；[S81] WaveNorm 明确把"用于小 footprint 关键词检测的自动增益控制与多风格训练工作"列为**已有基于学习的增益控制路线之一**，本条即其指称对象。
+- 对话：与 [S86] PCEN 同为 Google 同一团队在 2015–2016 年的工作，构成"AGC 前端 + 多风格训练"这一组合的源头；[S81] WaveNorm 在 2026 年仍把它们列为必须对照的**已有学习式增益控制**，说明这条线十年未断。收录价值是**谱系**，不是数值——本报告不引用它的任何数字。
+
+### [S88] Spiking Cochlea with System-level Local Automatic Gain Control
+- 问题：把**通道级局部 AGC** 电路做进硅耳蜗一直困难，原因是晶体管失配与模型复杂度。
+- 方法：绕开电路实现，改用**系统级算法**：测量各通道的输出脉冲活动，动态自适应该通道带通滤波器增益，使**平均输出脉冲率保持在定义区间内**。该机制**只需要计数与加法**，硬件成本极低。
+- 数据：输入信号跨 **32 dB** 范围的分类任务；语音 vs 噪声二分类；两种分类器接收耳蜗脉冲特征。
+- 指标与条件：输入跨 32 dB 范围时，启用 AGC 后——**逻辑回归分类器平均提升 6%、相对提升 40.8%**；DNN 分类器有类似提升，平均准确率 **96%**（对照组逻辑回归最佳 91%）。
+- 局限：论文自述 AGC 机制"可在未来设计中以低硬件成本实现"，**当前是算法评估，不是已流片的电路**——故其功耗优势是设计预期而非实测；32 dB 是论文设定的输入范围，不等于真实室内动态范围；分类任务是语音 vs 噪声二分类，比 527 类 tagging 简单三个数量级；脉冲域特征与通用 PCM 链路的接口未给出。
+- 对话：与 [S72] 47 nW VAD、[S74] 0.36 µW 两级门控、[S64] 8.62 µW 前端同属"专用硅/专用编码"一侧，是 AGC 在**功耗极端端**的答案：不是把神经网络缩小，而是把增益控制退化成计数。与 [S81] WaveNorm 形成对照——同样 32 dB 级别的动态范围问题，[S81] 用 49M MACs 的因果网络学，本条用计数加法数；**端侧 AGC 的真正分野在这里，不在参数量**。其 40.8% 相对提升也是 AGC 对**分类任务**有直接收益的少数实测之一（与 [S89] 同向）。
+
+### [S89] Robust sound event detection in bioacoustic sensor networks
+- 问题：生物声学传感器网络（自主录音单元 ARU）长期录音，环境噪声随时间与跨传感器变化，**损害 SED 模型的泛化**；以 CNN 为代表的时频域方法在异构声学环境下不可靠。
+- 方法：在时频域对梅尔谱**每个子带施加短期（60 ms）自动增益控制**——即 **PCEN**；再以**上下文自适应神经网络（CA-NN）层**替换网络最后的 dense 层，引入长期（30 分钟）上下文。两者结合。
+- 数据：6 台 ARU 录制的 10 小时夜间鸟类迁徙录音，检测鸟类飞行叫声；异构背景噪声。
+- 指标与条件：从该任务上 SOTA 的 CNN 出发，**PCEN（短期 AGC）与 CA-NN（长期上下文）结合带来跨域鲁棒性提升**；具体数值未在本卡片逐行核实（摘要口径）。
+- 局限：**摘要口径**，结果表未逐行核实；任务域是生物声学（鸟类飞行叫声），与室内 527 类 AudioSet tagging 不同轴；10 小时 6 台设备的规模对跨环境泛化结论偏小；PCEN 的 60 ms 窗口是**特征级**归一，不等价于波形级增益闭环。
+- 对话：**本条是 AGC 与 AED 之间唯一一条跨域实测证据**——v1 §5 与 §6 完全分立、互不引用，本条把它们接起来：增益控制不是一个只服务于"听感"的配件，它直接改善**事件检测在异构噪声下的泛化**。与 [S86] PCEN 是同一方法的跨任务迁移（KWS → 生物声学 SED），这两条共同说明"AGC 型前端"的收益可以跨任务复现。与 [S63] 的 10 类 ASC、[S31] 的 527 类 tagging 不同轴，不可比。
+
+### [S90] Improvement of DNN-Based Speech Enhancement with Non-Normalized Features by Using an Automatic Gain Control
+- 问题：**非归一化特征**（如 log-power spectra）下，带噪语音的峰值电平与训练集差异大时，DNN 语音增强性能会退化。
+- 方法：把 **AGC 作为预处理**引入——先用 AGC 统一所有语音的峰值电平再训练，使模型在训练与推理处于同一电平区间；并**与特征补偿方法结合**进一步提升。
+- 数据：未核实（摘要口径）。
+- 指标与条件：摘要口径称"在带噪语音峰值大范围变化时能保持性能一致"，**未给出具体数值**。
+- 局限：**摘要口径**，未读全文；AES Convention 论文（147 届，Paper 10256，2019-10-06）；参数量/延迟未给出；AGC 在此是**训练与推理的前置条件**，不是被评估的对象。
+- 对话：与 [S82] SE-AGCNet 指出的"SE 与 AGC 的顺序两难"是同一个问题的两个年代：本条 2019 年给出的答案是"AGC 放前面、统一峰值"，[S82] 2026 年指出这个答案的代价——**AGC 在前会无差别放大噪声、降低 SNR**。两条相隔七年构成 `能力→失效` 的完整链条，是本综述里少见的同问题跨年代对照。它同时说明：**电平漂移对神经前端是真实存在的失效模式**，不是经典 DSP 时代遗留的伪问题。
+
+### [S91] Speech Signal Improvement Using Causal Generative Diffusion Models（ICASSP 2023）
+- 问题：真实通信音频同时受混响、噪声、削波、丢包等多种畸变；多数基于扩散的语音增强**非因果**，需要未来上下文，无法用于实时；而扩散模型对**输入缩放极度敏感**，离线全局归一化又破坏因果性。
+- 方法：NCSN++ 主干的因果化改造——调整 2D 卷积 padding 去除前视、BatchNorm 换成 **Cumulative GroupNorm**（只递归聚合过去帧统计量）；并设计**因果 AGC**：递归跟踪帧最大值，配**因果 VAD** 仅在语音段启动跟踪；训练用随机级联的畸变链（混响→噪声→丢包）。
+- 数据：VCTK（干净语音）、QUT（噪声）、DNS Challenge RIR（混响）。
+- 指标与条件：ICASSP 2023 Speech Signal Improvement Challenge **非实时赛道第 5 名**；ITU-T P.835 MOS 信号质量 **3.119**、总体 **2.842**；**20 ms 全局延迟**；RTX 2080 Ti 上 **0.02 s/帧**。论文自述加 AGC 后 DNSMOS 分布显著向高质量偏移。
+- 局限：**表格核实口径**（经二手来源转述论文表格，未读原文 PDF）；AGC 是稳定性配件、**子模块**，无独立参数量与独立指标；非实时赛道、0.02 s/帧，**端侧不可行**；论文自述极端畸变下模型可能"幻觉"出语音成分。
+- 对话：与 [S48] UNIVERSE++、[S45] Miipher-2、[S49] AudioSR 同处大型档的"生成式修复"一族，但本条是唯一**自带 AGC** 的——说明即使是大模型，输入缩放问题也得靠增益控制兜底，这从反面印证 AGC 不是一个可以被更大的模型"顺便解决"的问题。与 [S81] WaveNorm 构成 AGC 的两个极端：一个 49M MACs 专门做增益，一个在 0.02 s/帧的扩散模型里做配件。与 [S57] FFmpeg loudnorm 的"离线两遍测量"是同一类思路在神经语境下的重演——都是先知道整体电平再定增益，都因此不能进实时环。
 
 ## 5. 叙事大纲
 
