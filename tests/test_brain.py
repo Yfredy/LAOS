@@ -61,5 +61,42 @@ class TestThinkTemperature(unittest.TestCase):
         self.assertEqual(payload["temperature"], 0)
 
 
+def _toolcall_response(arguments: str, call_id: str = "c1"):
+    body = json.dumps({"choices": [{"message": {"content": "",
+        "tool_calls": [{"id": call_id,
+                        "function": {"name": "sys.info",
+                                     "arguments": arguments}}]}}]}).encode()
+    resp = mock.Mock()
+    resp.read.return_value = body
+    resp.__enter__ = mock.Mock(return_value=resp)
+    resp.__exit__ = mock.Mock(return_value=False)
+    return resp
+
+
+class TestParseFailure(unittest.TestCase):
+    def _brain(self):
+        return OpenAIChatBrain(api_key="sk-test", base_url="https://x.test/v1")
+
+    def test_bad_arguments_becomes_retryable(self):
+        with mock.patch("laos.brain.urllib.request.urlopen",
+                        return_value=_toolcall_response('{"x": ')):
+            thought = self._brain().think([{"role": "user", "content": "t"}],
+                                          [{"name": "sys.info"}])
+        self.assertTrue(thought.retryable)
+        self.assertEqual(thought.tool_calls, [])
+        self.assertFalse(thought.finish)
+        self.assertIn("解析失败", thought.text)
+        self.assertIn("c1", thought.text)
+
+    def test_valid_arguments_still_parses(self):
+        with mock.patch("laos.brain.urllib.request.urlopen",
+                        return_value=_toolcall_response('{"path": "/p"}')):
+            thought = self._brain().think([{"role": "user", "content": "t"}],
+                                          [{"name": "fs.read"}])
+        self.assertFalse(thought.retryable)
+        self.assertEqual(len(thought.tool_calls), 1)
+        self.assertEqual(thought.tool_calls[0].arguments, {"path": "/p"})
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

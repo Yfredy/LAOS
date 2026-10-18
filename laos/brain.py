@@ -209,18 +209,22 @@ class OpenAIChatBrain(Brain):
 
         choice = body["choices"][0]["message"]
         calls = choice.get("tool_calls") or []
-        if calls:
-            return Thought(
-                text=choice.get("content") or "",
-                tool_calls=[
-                    ToolCall(
-                        c["function"]["name"],
-                        json.loads(c["function"]["arguments"] or "{}"),
-                        c.get("id", ""),
-                    )
-                    for c in calls
-                ],
-            )
+        parsed: list[ToolCall] = []
+        for c in calls:
+            try:
+                args = json.loads(c["function"]["arguments"] or "{}")
+            except (json.JSONDecodeError, TypeError, AttributeError) as exc:
+                # 整轮作废：一个坏 call 不放过、也不单独执行好 call——
+                # 半套工具调用比没有调用更危险（esp32 同款纪律）
+                return Thought(
+                    text=(f"tool_call 参数解析失败（call_id={c.get('id', '')}）："
+                          f"arguments 不是合法 JSON（{exc}），"
+                          f"请严格按 inputSchema 重新生成"),
+                    tool_calls=[], finish=False, retryable=True)
+            parsed.append(ToolCall(
+                c["function"]["name"], args, c.get("id", "")))
+        if parsed:
+            return Thought(text=choice.get("content") or "", tool_calls=parsed)
         return Thought(text=choice.get("content") or "", finish=True)
 
 
