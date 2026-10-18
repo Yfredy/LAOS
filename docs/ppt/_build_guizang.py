@@ -7,7 +7,7 @@ SRC = Path(r"C:\Users\yaoyue\.agents\skills\guizang-ppt-skill\assets\template-sw
 DST = Path(r"C:\Users\yaoyue\CodeBuddy\Claw\laos\docs\ppt\laos-intro-guizang.html")
 
 CHROME = ('<header class="chrome-min"><div class="l">laos · Linux AgentOS · Field Note 01</div>'
-          '<div class="r">SS · 26.10.05 · {n:02d} / 12</div></header>')
+          '<div class="r">SS · 26.10.18 · {n:02d} / 12</div></header>')
 
 SECTIONS = []
 
@@ -317,7 +317,7 @@ SECTIONS.append('''
         </div>
         <div data-anim="signature" style="display:flex;justify-content:space-between;align-items:end;border-top:1px solid rgba(255,255,255,.22);padding-top:2vh;position:relative;z-index:1">
           <div class="t-meta" style="color:rgba(255,255,255,.62)">Yfredy/LAOS</div>
-          <div class="t-meta" style="color:rgba(255,255,255,.62)">26.10.05</div>
+          <div class="t-meta" style="color:rgba(255,255,255,.62)">26.10.18</div>
         </div>
       </div>
       <div class="half" style="padding:5.6vh 3.6vw 4.4vh;justify-content:space-between">

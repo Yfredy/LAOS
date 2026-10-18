@@ -422,6 +422,33 @@ class DeckAnchorForms(unittest.TestCase):
                               release_date="2026-10-18")
             self.assertEqual(f.read_text(encoding="utf-8"), text)
 
+    def test_chrome_dot_date_family(self):
+        # chrome 日期族（2026-10-18 收口原「deferred」）：guizang 每页页眉
+        # `SS · 26.10.05 · NN / 19`、尾页署名 t-meta 裸日期、/LAOS 尾脚、
+        # pptmaster FIELD NOTE 01——与同 deck 封面 2026-10-18 自相矛盾。
+        # 页序与系列号必须原样保留。
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            f = Path(d) / "deck.html"
+            f.write_text(
+                '<header class="chrome-min"><div class="r">SS · 26.10.05 · 03 / 19</div></header>\n'
+                '<p class="t-meta">github.com/Yfredy/LAOS · 26.10.05</p>\n'
+                '<div class="t-meta" style="color:rgba(255,255,255,.62)">26.10.05</div>\n'
+                '<text>FIELD NOTE 01 · 26.10.05</text>\n'
+                '<span>GITHUB.COM/YFREDY/LAOS · 26.10.05 · ARCHIVE CLOSED</span>\n',
+                encoding="utf-8")
+            release.sync_docs("0.39.0", globs=[str(f)], counts=self.COUNTS,
+                              release_date="2026-10-18")
+            text = f.read_text(encoding="utf-8")
+            self.assertIn('SS · 26.10.18 · 03 / 19', text)
+            self.assertIn('github.com/Yfredy/LAOS · 26.10.18', text)
+            self.assertIn('color:rgba(255,255,255,.62)">26.10.18</div>', text)
+            self.assertIn('FIELD NOTE 01 · 26.10.18', text)
+            self.assertIn('GITHUB.COM/YFREDY/LAOS · 26.10.18 · ARCHIVE CLOSED', text)
+            release.sync_docs("0.39.0", globs=[str(f)], counts=self.COUNTS,
+                              release_date="2026-10-18")
+            self.assertEqual(f.read_text(encoding="utf-8"), text)
+
     def test_pill_days_minors_optional_version(self):
         # pill 形态：「30 天 · 12 个 MINOR 版本」（funding）与「30 天 · 12 个
         # MINOR」（detailed，无「版本」后缀）——原模式 `版本?` 只让「本」可选，
@@ -551,8 +578,8 @@ class NarrativeAnchorGroupNumbers(unittest.TestCase):
         年份形态、短形态、「到」字形态都必须随发版日走到 10-18——guizang
         D2「44 天」卡实录：天数刷了、短日期端点没刷，同卡 "44 天" 对
         "09-04 → 10-05"（31 天）自相矛盾；html-ppt D2 标题"09-04 到
-        10-05"同页 kicker 已刷 44 天，端点同样漏刷。页眉 chrome
-        "SS · 26.10.05" 不在同步面。"""
+        10-05"同页 kicker 已刷 44 天，端点同样漏刷。页眉 chrome 的点分
+        日期族另由 test_chrome_dot_date_family 钉住（同批收口）。"""
         text = self._sync(
             '<p class="sub reveal">2026-09-04 → 10-05：三十天，十二个 MINOR</p>\n'
             '<span class="t-meta">09-04 → 10-05</span>\n'
@@ -561,7 +588,7 @@ class NarrativeAnchorGroupNumbers(unittest.TestCase):
         self.assertIn('2026-09-04 → 10-18：四十四天，三十九个 MINOR', text)
         self.assertIn('<span class="t-meta">09-04 → 10-18</span>', text)
         self.assertIn('09-04 到 10-18：<em>一个完整需求波次', text)
-        self.assertIn('SS · 26.10.05 · 01 / 19', text)  # chrome 日期不动
+        self.assertIn('SS · 26.10.18 · 01 / 19', text)  # chrome 随发版日（见 chrome 族测试）
         # 幂等：二次 apply 零变化（短形态不得误食年形态尾部）
         import tempfile
         with tempfile.TemporaryDirectory() as d:

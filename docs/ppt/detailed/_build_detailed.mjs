@@ -9,7 +9,7 @@ const DST = 'C:/Users/yaoyue/CodeBuddy/Claw/laos/docs/ppt/detailed/laos-detailed
 const N_TOTAL = 19;
 const chrome = (n) =>
   `<header class="chrome-min"><div class="l">laos · Linux AgentOS · 详细技术深潜</div>` +
-  `<div class="r">SS · 26.10.05 · ${String(n).padStart(2, '0')} / ${N_TOTAL}</div></header>`;
+  `<div class="r">SS · 26.10.18 · ${String(n).padStart(2, '0')} / ${N_TOTAL}</div></header>`;
 
 const S = [];
 
@@ -615,7 +615,7 @@ S.push(`
         </div>
         <div data-anim="signature" style="display:flex;justify-content:space-between;align-items:end;border-top:1px solid rgba(255,255,255,.22);padding-top:2vh;position:relative;z-index:1">
           <div class="t-meta" style="color:rgba(255,255,255,.62)">Yfredy/LAOS</div>
-          <div class="t-meta" style="color:rgba(255,255,255,.62)">26.10.05</div>
+          <div class="t-meta" style="color:rgba(255,255,255,.62)">26.10.18</div>
         </div>
       </div>
       <div class="half" style="padding:5.6vh 3.6vw 4.4vh;justify-content:space-between">

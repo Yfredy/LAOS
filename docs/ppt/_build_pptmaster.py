@@ -24,7 +24,7 @@ def head(n, tag):
 def foot():
     return (f'<line x1="72" y1="668" x2="1208" y2="668" stroke="{LINE}" stroke-width="1"/>'
             f'<text x="72" y="692" font-family="{F}" font-size="11" fill="{MUTE}">github.com/Yfredy/LAOS · v0.39.0</text>'
-            f'<text x="1208" y="692" font-family="{F}" font-size="11" fill="{MUTE}" text-anchor="end">FIELD NOTE 01 · 26.10.05</text>')
+            f'<text x="1208" y="692" font-family="{F}" font-size="11" fill="{MUTE}" text-anchor="end">FIELD NOTE 01 · 26.10.18</text>')
 
 def page(fname, role, n, tag, body):
     svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" '
@@ -263,7 +263,7 @@ body = (
     + body_t(72, 480, "一个完整需求波次 = 一次 MINOR；合规红线前置（EU AI Act / PIPL / 拒绝伪装采集）。", 16, SUB)
     + body_t(72, 548, "NEXT", 13, MUTE, 400, 4)
     + body_t(72, 584, "drv_screen 真机验收 → 外挂驱动 PoC（mobile-mcp）→ bs1770 响度合入主库", 18, ACC, 700)
-    + body_t(72, 632, "github.com/Yfredy/LAOS · 26.10.05", 15, MUTE)
+    + body_t(72, 632, "github.com/Yfredy/LAOS · 26.10.18", 15, MUTE)
 )
 PAGES.append(page("12_ending.svg", "ending", 12, "AS-BUILT", body))
 

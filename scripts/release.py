@@ -1091,6 +1091,27 @@ _DOC_PATTERNS = [
     ("封面stamp",
      re.compile(r'(>)\d{4}-\d{2}-\d{2}(\s*·\s*github\.com/Yfredy/LAOS</span>)'),
      lambda m, c: f"{m.group(1)}{c['date']}{m.group(2)}"),
+    # chrome 日期族（点分短日期，2026-10-18 收口原「deferred」）：
+    # guizang 每页页眉 `SS · 26.10.05 · NN / 19`、尾页署名 t-meta 裸日期、
+    # `github.com/Yfredy/LAOS · 26.10.05` 尾脚、pptmaster `FIELD NOTE 01 · …`
+    # ——与同 deck 封面的 2026-10-18 自相矛盾。页序/系列号用 lookahead
+    # 原样保留（构建脚本里是 `{n:02d}`/`${String(n)...}` 占位符，不能吃进 span）。
+    ("封面stamp",
+     re.compile(r'(SS · )\d{2}\.\d{2}\.\d{2}(?= · )'),
+     lambda m, c: f"{m.group(1)}{c['short_date']}"),
+    ("封面stamp",
+     re.compile(r'(github\.com/Yfredy/LAOS · )\d{2}\.\d{2}\.\d{2}'),
+     lambda m, c: f"{m.group(1)}{c['short_date']}"),
+    # huashu 尾页大写尾脚（无版本号）：GITHUB.COM/YFREDY/LAOS · 26.10.05 · ARCHIVE CLOSED
+    ("封面stamp",
+     re.compile(r'(GITHUB\.COM/YFREDY/LAOS · )\d{2}\.\d{2}\.\d{2}'),
+     lambda m, c: f"{m.group(1)}{c['short_date']}"),
+    ("封面stamp",
+     re.compile(r'(FIELD NOTE 01 · )\d{2}\.\d{2}\.\d{2}'),
+     lambda m, c: f"{m.group(1)}{c['short_date']}"),
+    ("封面stamp",
+     re.compile(r'(<div class="t-meta" style="color:rgba\(255,255,255,\.62\)">)\d{2}\.\d{2}\.\d{2}(</div>)'),
+     lambda m, c: f"{m.group(1)}{c['short_date']}{m.group(2)}"),
     # 讲稿 talk 数组里的版本基准声明（与封面 stamp 同源）
     ("封面stamp",
      re.compile(r'(声明版本基准：v)\d+\.\d+\.\d+(\s*·\s*)\d{4}-\d{2}-\d{2}'),

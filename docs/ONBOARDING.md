@@ -7,7 +7,7 @@
 
 | 事实 | 值 | 产出命令 |
 |---|---|---|
-| 主库测试数 | 1192 项（`OK (skipped=5)`；v0.39.0 发版时点 1158，其后 +1 dated 排除回归 +6 锚点同步回归 +15 综述校验器回归 +4 锚点组号回归 +1 日期端点回归 +4 破千冻结回归 +1 卡片天数回归 +1 设备驱动回归 +1 pill 形态回归） | `python -m unittest discover -s tests 2>&1 \| tail -3` |
+| 主库测试数 | 1193 项（`OK (skipped=5)`；v0.39.0 发版时点 1158，其后 +1 dated 排除回归 +6 锚点同步回归 +15 综述校验器回归 +4 锚点组号回归 +1 日期端点回归 +4 破千冻结回归 +1 卡片天数回归 +1 设备驱动回归 +1 pill 形态回归 +1 chrome 日期族回归） | `python -m unittest discover -s tests 2>&1 \| tail -3` |
 | 主库测试耗时 | **1–7 分钟**（两次实测 105s / 371s，机器负载敏感） | 同上命令自带计时 |
 | 主库模块数 | 51 个 `laos/*.py` | `python -c "import pathlib;print(len(list(pathlib.Path('laos').glob('*.py'))))"` |
 | 测试文件数 | 90 个 `tests/test_*.py` | `python -c "import pathlib;print(len(list(pathlib.Path('tests').glob('test_*.py'))))"` |
@@ -35,7 +35,7 @@
 1. **读纪律（10 min）**：[AGENTS.md](../AGENTS.md) 全文——发版纪律、conda 红线、零依赖、隐私红线、叙事红线，全部是硬约束。
 2. **跑通门禁（1–7 分钟，实测 105s/371s 负载敏感，耐心等勿当卡死）**：
    Run: `python -m unittest discover -s tests 2>&1 | tail -3`
-   Expected: `Ran 1192 tests` + `OK (skipped=5)`（skip 原因见 §0；README/PROJECT_OVERVIEW 等介绍文件为**发版时点口径** v0.39.0/1158，本表为**门禁实跑口径**，两档差 +34 项未发版回归，下次发版由 release.py 统一刷新）
+   Expected: `Ran 1193 tests` + `OK (skipped=5)`（skip 原因见 §0；README/PROJECT_OVERVIEW 等介绍文件为**发版时点口径** v0.39.0/1158，本表为**门禁实跑口径**，两档差 +35 项未发版回归，下次发版由 release.py 统一刷新）
 3. **看主入口**：`bin/laosctl.py`（CLI）、`bin/laosd.py`（薄内核守护）、`bin/laosweb.py`（Web 控制面，`python bin/laosweb.py` → `http://127.0.0.1:8800`）。
 4. **跑认知 demo（30 秒讲清 kernel+Agent+MCP）**：
    Run: `bash demos/agentos-demo/run_demo.sh`（Windows 上经 WSL 或 Git Bash；`.gitattributes` 已设 `*.sh eol=lf`）
