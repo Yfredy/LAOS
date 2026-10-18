@@ -1,7 +1,7 @@
 # docs/research 调研资产清单（INDEX）
 
 > laos 调研资产权威清单：每份文档一句话定位 + 关键数字（均抄自各文档自身原文，未凭文件名推断）。
-> 盘点日期：2026-10-06（2026-10-07 增补 4 份调研 + 3 份评审与设计；2026-10-08 持续增补：arvis/muse-gadget-sdk 报告 + 语音三域收尾 16 份；2026-10-09 增补：小红书「AI音频研究」134 篇逐图全量调研 1 份 + RSI 方向全景 1 份 + Qwen Audio Agent Runtime 单篇 1 份 + Week41 AI 周报 1 份 + Interspeech 2026 语音增强风向 1 份 + AuraSE-IPO 复现 1 份）。共 110 份 .md（不含本文件；2026-10-09 openevolve-driver 合并后复核基数 111 = 109 份资产 + capstone + 本文件，AuraSE 增补后 112 = 110 份资产 + capstone + 本文件；2026-10-11 增补 Linux 收包六图 1 份后 113 = 111 份资产 + capstone + 本文件；2026-10-13 增补 STEPX Neo 智能体手机拆解 1 份后 114 = 112 份资产 + capstone + 本文件）。此前头部写的分项口径（66+2+17+3=88）与实数漂移，分项归属核对归属"INDEX 预存计数漂移归属波"排队项，此处只对准总数。
+> 盘点日期：2026-10-06（2026-10-07 增补 4 份调研 + 3 份评审与设计；2026-10-08 持续增补：arvis/muse-gadget-sdk 报告 + 语音三域收尾 16 份；2026-10-09 增补：小红书「AI音频研究」134 篇逐图全量调研 1 份 + RSI 方向全景 1 份 + Qwen Audio Agent Runtime 单篇 1 份 + Week41 AI 周报 1 份 + Interspeech 2026 语音增强风向 1 份 + AuraSE-IPO 复现 1 份）。共 110 份 .md（不含本文件；2026-10-09 openevolve-driver 合并后复核基数 111 = 109 份资产 + capstone + 本文件，AuraSE 增补后 112 = 110 份资产 + capstone + 本文件；2026-10-11 增补 Linux 收包六图 1 份后 113 = 111 份资产 + capstone + 本文件；2026-10-13 增补 STEPX Neo 智能体手机拆解 1 份后 114 = 112 份资产 + capstone + 本文件；2026-10-15 增补 esp32-iphone-agent 借鉴清单 1 份后 115 = 113 份资产 + capstone + 本文件；2026-10-18 增补《OS 老兵 Agent 变现》长文学习 1 份后 116 = 114 份资产 + capstone + 本文件）。此前头部写的分项口径（66+2+17+3=88）与实数漂移，分项归属核对归属"INDEX 预存计数漂移归属波"排队项，此处只对准总数。
 
 ## 导航：按问题找文档
 
@@ -28,10 +28,12 @@
 - [2026-10-09-interspeech2026-se-trends.md](2026-10-09-interspeech2026-se-trends.md) — Interspeech 2026 语音增强 115 篇风向（一步生成式/幻觉记账/延迟旋钮/Enroll-on-Wakeup/后门攻击）：EoW 唤醒段当注册音 ◐ 远线，生成式幻觉红线获学界印证 ●。
 - [2026-10-11-linux-rx-path.md](2026-10-11-linux-rx-path.md) — 《Linux 收包的一生》六图逐图转写（kernel-internals.org 图解重述）：RX 全链路与 laos 五道闸九处同构——"就绪≠调度"补进三解耦族，治理前置教科书案例 ●。
 - [2026-10-13-stepx-neo-agent-phone.md](2026-10-13-stepx-neo-agent-phone.md) — STEPX Neo/Step AOS 1.0 拆解（新智元发布会报道原文直取）：大模型原生手机八处过人之处逐条拆 + §3.9 功能层四件套解剖（全天候感知三承诺/双域六层记理忆/H2A2A 办事链/越用越聪明）+ 与 laos 十三条对照——安全四点（可信/可见/可控/可逆）与 sentinel+不可逆预算逐词同构 ●，记忆哲学（持久双域 vs 即焚不建声纹）为根本分歧 ⚠️，「社恐破冰机」skill 为人脸+社交记忆红线反面教材；AgentOS 命题第五条商业印证链。
+- [2026-10-18-os-veteran-agent-monetize.md](2026-10-18-os-veteran-agent-monetize.md) — 《你的二十年系统功底，在 Agent 时代怎么变现？》（AI架构前哨）学习：OS↔Agent 全模块映射（System Prompt=/etc/profile、Agent Loop=PID 1、Context=RAM、Tool Call=syscall、A2A=IPC、MCP=POSIX）+ laos 逐条对照——AgentOS 命题**第六条印证链**（理论化最强）●，文章点破「很多框架在重 invent OS 机制而不自知」= laos 差异化空位实锤；分歧：文章脚手架止步单 Agent 运行时，无治理内核层。
 - [speech-emotion/2026-09-landscape.md](speech-emotion/2026-09-landscape.md) — SER 侧的交叉收敛篇：46 条记录只交叉不新增，选型前的最后一道核对。
 
 **想做 Agent 治理层（laosd 薄内核）/ 判断层？**
 
+- [2026-10-15-esp32-iphone-agent-borrowing.md](2026-10-15-esp32-iphone-agent-borrowing.md) — esp32-iphone-agent 借鉴清单（本地私有仓库 33 文件通读 + 无硬件端到端模拟实证）：9 项可落地借鉴（P0×3/P1×3/P2×3）+ 4 项不适用 + 5 项反向借鉴；核心判断是「动作后闭环验证」落差——laos `screen.*` syscall 只证明命令已发出、不证明屏幕已响应（`drv_screen.py:84-88`），顺带定位 `brain.py:211` JSON 解析崩与 `agent.py:124-159` 死循环无检测两个现存洞；第一波实施计划已写。
 - [agentos-landscape-2026-08.md](agentos-landscape-2026-08.md) — 「AgentOS」八种含义与 L0–L3 强制力光谱，内核语义层设计的坐标系。
 - [2026-09-21-jev-decision-model-survey.md](2026-09-21-jev-decision-model-survey.md) — 判断层选型：Jev 三判型技术实质 + laos 11 处硬阈值映射 + 端侧实测真数字（不用 README 宣称值）。
 - [aios-deep-dive-2026-08.md](aios-deep-dive-2026-08.md) — AIOS 逐机制拆解与 laos 直接对比，内核该抄什么、缺什么。
@@ -48,7 +50,7 @@
 
 - [2026-10-09-rsi-landscape.md](2026-10-09-rsi-landscape.md) — 2026-09/10 RSI 论文浪潮全景（RSIGym 环境 / AIDE² 自改写 / RRSI 正则化 / Last AI 路线图 + ICLR 26 Workshop 110 篇 + 开源生态 + 产业动态）与 laos「进化循环外裁判席」裁决。
 
-## 一、主报告（根目录，36 份）
+## 一、主报告（根目录，37 份）
 
 | 文件 | 一句话定位 | 关键数字 / 规模（抄原句） |
 |---|---|---|
@@ -114,6 +116,8 @@
 | [2026-10-09-interspeech2026-se-trends.md](2026-10-09-interspeech2026-se-trends.md) | 微信公众号《Interspeech 2026 语音增强技术风向》（声息实验室）学习与溯源：115 篇（67 SE+29 TSE/分离+10 ANC/声区/丢包+9 评测）六风向——一步生成式（SBM arXiv:2510.16834 ●）/幻觉记账（StuPASE/UniSE/ETH 多指标奖励）/延迟旋钮/Enroll-on-Wakeup（arXiv:2602.15519 ●，唤醒词段免费注册音）/Ouroboros 前端后门 | 裁决 D1–D8：EoW 说话人自适应 ◐ 远线（触发=A 档真机∧多说话人 CER 实测劣化，与 AEC3 同波）；"生成式修复不入记忆链路"红线（auto-gain/04:24）**获学界正面印证 ●**；Ouroboros=治理前置第四条印证链（Anthropic/Muse/dots 之后）；ASR-as-judge 盲区→评测裁判须与被测通道异源；延迟旋钮与 dialogsched 预算家族同构互证；纯学习波代码零改动 |
 | [2026-10-11-linux-rx-path.md](2026-10-11-linux-rx-path.md) | 小红书《Linux收包的一生：6张图看懂》学习（kernel-internals.org 图解重述，双跳转述已声明；6 图逐图视觉转写）：RX 全链路 NIC→驱动→NAPI→协议栈→Socket→应用——描述符/buffer 分工、中断合并+NAPI budget 批量、AF_PACKET 观察旁路、Recv-Q 积压量化 | 九处同构对照：五道闸/审计与记忆分工/EDQUOT 预算制/Patient Bytes/观察不入派发路径逐一同构 ●；**"就绪≠调度"补进三解耦族**（打断≠取消、完成≠交付之后第三条）●；裁决 D1–D4，纯学习波零代码 |
 | [2026-10-13-stepx-neo-agent-phone.md](2026-10-13-stepx-neo-agent-phone.md) | STEPX Neo/Step AOS 1.0 拆解（新智元微信公号发布会报道**原文直取成功**，非重构）：全球首款"大模型原生智能体手机"八处过人之处逐条拆解 + **§3.9 功能层四件套解剖**（全天候感知三承诺+AI 键+背屏六状态窗 / 双域六层×记理忆 / Amoo 办事链 H2A2A 多智能体协商 / "越用越聪明"=记忆积累+检索而非微调）+ 与 laos 十三条对照总表 + 六条可借鉴动作（按成本排序） | 八处过人之处：倒推式产品定义（软硬模三位一体）/「智能体的器官」进 OS/意图即服务/双域六层三步记忆/安全四点（可信·可见·可控·可逆）/Step Studio 开放能力栈/六麦+低功耗音频芯片/AI 实体键；3999 元全栈+每月百亿 Token+星辰船票五年 0 元置换；**安全四点与 laos sentinel+irreversibility budget 几乎逐词同构**（AgentOS 命题第五条商业印证链）；记忆哲学（持久 vs 即焚）为根本分歧；H2A2A=caps/GrantStore 同权模型商业验证；「社恐破冰机」skill（持久人脸+社交记忆）为 laos 隐私红线反面教材；厂商数字全部 🔶 未实测不得进事实层 |
+| [2026-10-15-esp32-iphone-agent-borrowing.md](2026-10-15-esp32-iphone-agent-borrowing.md) | esp32-iphone-agent 借鉴清单（本地私有仓库，33 源文件逐行通读 + 无硬件端到端模拟实证；诚实声明：非公开文献、无二手转述）：AirPlay 眼 + ESP32-S3 HID 手（板子零逻辑）+ planner/actor 脑 + 服务端闭环的全拆解，与 laos 逐项对照 | 9 项可落地借鉴（P0×3/P1×3/P2×3）：动作后闭环验证（结构化 dump 差分为主、PIL 像素差分兜底且只活 drivers/ 子进程）/ 重复无效动作检测 + 温度阶梯 0→0.4→0.8 / BlindError 式绝不盲操作 / 动作后缓存失效 / SkillStore 证据门槛 / 审计记"世界反应" / 驱动健康度 / calib.py 接验证证据流 / 无硬件测试增量；**核心落差：`drv_screen.py:84-88` 返回值只证明命令已发出**；顺带定位两个现存洞（`brain.py:211` JSON 解析直接崩、`agent.py:124-159` 死循环仅靠 max_steps 截断）；4 项不适用（坐标校准/home 归零/AirPlay/行协议）+ 5 项反向借鉴；第一波计划 `plans/2026-10-15-brain-reliability-repeat-guard.md` 已写 |
+| [2026-10-18-os-veteran-agent-monetize.md](2026-10-18-os-veteran-agent-monetize.md) | 《你的二十年系统功底，在 Agent 时代怎么变现？》（AI架构前哨 2026-05-04，约 1.5 万字 OS 老兵视角长文）学习：Agent 运行时逐模块 OS 映射 + laos 对照 + 引用弹药库 | 全模块映射：System Prompt=/etc/profile（15k token 占 128K 约 12%，prompt injection=提权攻击）/ Agent Loop=PID 1（120s 超时→SIGTERM→5s→SIGKILL）/ Context Window=RAM（overflow 策略各有 OS 对应，MemGPT=虚拟内存）/ Tool Call=syscall（Claude Code 26 钩子≈LSM，Codex 沙箱≈MAC，MCP=POSIX，A2A=IPC=D-Bus）/ Session=进程（checkpoint≈CRIU）；**AgentOS 命题第六条印证链（理论化最强）**：「Agent 不替代 OS」「Agent 下半场是系统工程的比拼」；**差异化空位实锤**：文章点破「很多框架在重 invent OS 机制而不自知」（共享历史无 IPC、限工具无 capability）= laos 显式化的正是这层；分歧：文章脚手架止步单 Agent 运行时，无治理内核层（权限/预算/审计），文章对记忆「原始」的批评反证 laos burn+TTL 代差；🔶 产品数字均作者口径未回源，AIOS 论文建议单独精读（本仓未覆盖） |
 ## 二、全天候录音调研组（always-on-recording/，5 份）
 
 | 文件 | 一句话定位 | 关键数字 / 规模（抄原句） |
