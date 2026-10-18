@@ -6,7 +6,7 @@
 ## P1 封面
 - 标题：**laos · Linux AgentOS**
 - 副题：Linux 内核的 Agent 治理层 —— 内核强制的能力边界，而不是提示词恳求
-- 版本 v0.9.0 ｜ GitHub: Yfredy/LAOS ｜ 主库 353 + AlwaysOnRec 279 + Repro 71 = 703 项测试
+- 版本 v0.39.0 ｜ GitHub: Yfredy/LAOS ｜ 主库 1159 项测试全绿（另隔离区 279 + 复现区 94）
 
 ## P2 问题
 - 今天的 AI Agent 拿着用户的全部权限在裸奔：
@@ -39,7 +39,7 @@
 - eBPF profiler + CoW：行为画像与执行隔离
 
 ## P7 驱动即设备
-- 内建：drv_mic（麦克风）/ drv_ear（ASR+评估）/ drv_screen（adb 屏幕操控+pkg 白名单）/ drv_notify / drv_comms / drv_battery / drv_events / drv_npu
+- 内建 17 个 MCP 驱动：基础三件 fs/proc/sys ｜ 听觉链路 rec/mic/ear/audio ｜ 能力扩展 genie/evolve/clef/apps ｜ 设备面 screen/notify/comms/battery/events/npu
 - 手机五层能力：屏幕操控→LLM→通知→通信→传感器（对标 Mobile MCP 30 工具差距分析）
 - **外挂路线**：kernel.load_driver 一行把任意 MCP 服务器（如 mobile-mcp）insmod 成内核驱动——遥测必须关
 
@@ -56,7 +56,7 @@
 ## P10 研究语料（不是拍脑袋设计）
 - 双会议全量遍历：Interspeech 5,507 + ICASSP 14,285 = **19,792 篇**
 - 开源普查 3,724 仓库；多顶会切片 35 venue / 9,908 条（数据源结构性地图）
-- 采纳总纲 76 条映射（●已落地 33 / ◐推荐 23 / ○不做 20）
+- 调研文档 **116 份**（INDEX 现行登记）；采纳总账见 capstone——每条 ●已落地/●已消化/◐P0–P3/○不做 四态闭环
 
 ## P11 复现隔离区（六来源 71 测试）
 BS.1770-4 响度计量（R128 校准点 −23.00 LUFS ±0.1）｜FxLMS 主动降噪（音调 >20dB）｜说话人头部朝向论文全管线（冒烟 holdout 56.5°）｜PhaseCoder 几何无关麦位编码（对齐官方 JAX 源码）｜Pipecat 帧管道（打断作废排队帧）｜unique_lock 语义
@@ -65,4 +65,4 @@ BS.1770-4 响度计量（R128 校准点 −23.00 LUFS ±0.1）｜FxLMS 主动降
 ## P12 版本治理与路线
 - v0.1.0 → v0.39.0 语义化版本 + Keep a Changelog + GitHub Release 页（一个完整需求波次 = 一次 MINOR）
 - 合规红线：EU AI Act 职场情绪识别禁令 / PIPL 声纹单独同意 / 拒绝伪装采集链路
-- Roadmap：drv_screen 多轮真机验收 → 外挂驱动 PoC（mobile-mcp）→ bs1770 响度合入主库 → SHO 指令定向过 mic.* 闸门
+- Roadmap：drv_screen 多轮真机验收 → 外挂驱动 PoC（mobile-mcp）→ 更多论文复现（bs1770 响度已合入 ✓）→ SHO 指令定向过 mic.* 闸门

@@ -38,7 +38,7 @@ laos 是 **Linux 内核的 Agent 治理扩展（Linux AgentOS 的用户态部分
 ```
 laos/laos/        ★ 内核（语义层，纯标准库）：syscall 闸门链 / 记忆 / 风险账本 / 调度 /
                     分支(fork-COW) / seccomp / 强制层后端(linux|android|stub) / VAD / 剖析
-laos/drivers/     ★ 设备驱动（15 个 MCP Server 子进程）：fs / proc / sys / npu(QNN真机) /
+laos/drivers/     ★ 设备驱动（17 个 MCP Server 子进程）：fs / proc / sys / npu(QNN真机) /
                     audio(分离+AEC) / ear(ASR双通道) / mic / rec(听觉日志) / genie(端侧LLM) /
                     screen(adb操控+pkg白名单) / apps(启停) / notify / comms(短信TTS) / battery / events
 laos/bin/         ★ 用户入口：laosd(引导demo) / laosweb(实时面板+操控) / laosctl(审计回放) /
@@ -66,7 +66,7 @@ laos/zones/AlwaysOnRec-ZCode/ 隔离实现区：全天候录音前沿增量（�
 | 🔧 **纯工程能力**（14 项，无模型参与） | 任何机器都成立的基础设施 | 四段漏斗管线 · 记忆库+日记 · laosweb 面板（四 tab/PWA）· 安卓客户端（WebView 壳+原生语音桥，CI 出 APK）· 审计+埋点 · 事件路由 · 发版管线（真跑门禁+锚点同步）· 交接门禁 · 调研校验器 · 语料库（19,792 论文+123,271 行）· ste lint · 17 个设备驱动 |
 | 🛡 **内核治理**（7 项，别处没有的） | Agent 之下不只是 API 的那一层 | syscall 五道闸 · Sentinel 六级动作闸+taint 永不回退 · scoped grants 审批 · seccomp 强制层 · 不可逆风险预算 · 分支与上下文 · 隐私四件套（`LAOS_REC=0` 全禁录） |
 
-**数据面板**：51 个核心模块 · 1146 项测试全绿 · 17 个驱动 · 108 份调研 · 0 第三方依赖（核心包纯 stdlib）。
+**数据面板**：51 个核心模块 · 1158 项测试全绿 · 17 个驱动 · 116 份调研 · 0 第三方依赖（核心包纯 stdlib）。
 
 **三分钟上手 SOP**：①`LAOS_LLM_*=… python bin/laosweb.py` → ②手机装 [Release](https://github.com/Yfredy/LAOS/releases) 的 APK 填电脑 IP（或 Chrome 加主屏幕）→ ③打字/🎙 说话，说的话自动进长期记忆 → ④审批卡与治理 tab 管权限、审计 tab 看每一步。
 
@@ -147,7 +147,7 @@ MCP（Model Context Protocol）已经是事实标准，它的角色非常接近 
 |---|---|---|
 | 进程 `task_struct` | Agent 进程 | `PCB`（pid / caps / state / budget） + `Agent` |
 | 系统调用 | MCP tool call | `kernel.syscall(pid, tool, args)` |
-| 设备驱动 | MCP Server | `drivers/drv_fs.py`、`drv_proc.py`、`drv_sys.py`、`drv_npu.py`、`drv_audio.py`（需 .venv-audio）、`drv_screen.py`（adb 屏幕操控）、`drv_mic.py`/`drv_ear.py`（麦克风/ASR 双通道）、`drv_genie.py`（端侧 LLM）、`drv_notify.py`/`drv_comms.py`/`drv_battery.py`/`drv_events.py`（通信/传感）、`drv_rec.py`（VAD 触发录音） |
+| 设备驱动 | MCP Server | `drivers/drv_fs.py`、`drv_proc.py`、`drv_sys.py`、`drv_npu.py`（QNN真机）、`drv_audio.py`（需 .venv-audio）、`drv_screen.py`（adb 屏幕操控）、`drv_mic.py`/`drv_ear.py`（麦克风/ASR 双通道）、`drv_genie.py`（端侧 LLM）、`drv_notify.py`/`drv_comms.py`/`drv_battery.py`/`drv_events.py`（通信/传感）、`drv_rec.py`（VAD 触发录音）、`drv_apps.py`（adb 应用管理）、`drv_clef.py`/`drv_evolve.py`（重依赖决策/进化后端，chroot/子进程隔离） |
 | `/dev`、`/proc` | 驱动注册表 | `kernel.syscall_table`（tool → driver） |
 | init / udev | 引导器 | `bin/laosd.py` |
 | capability / seccomp | 能力表 + Linux 隔离 | `CapabilitySet` + `sandbox.py` |
@@ -531,12 +531,14 @@ Brain 的快问快答通道（`laos/judge.py`）：给定 (context, question)，
 ### 发布流程（五步，第 2 步自动同步全部介绍文档）
 
 1. **需求完成**：波次的全部提交进入 master，遵循 conventional commits（`feat:` / `fix:` / `docs:` / `chore:`）。
-2. **推导版本号 + 全量文档同步**：`python scripts/release.py --apply`——先真跑主库测试套件（**不绿拒绝发版**），然后：三棵树（`laos/` + 两个隔离区）`__version__` 同步；**自动改写全部介绍性文件**（本 README、PROJECT_OVERVIEW、`docs/ppt/` 全部 md/html 牌组、隔离区 README）的版本号与测试计数锚点（封面 stamp / "开源 vX" / 页脚 / 版本跨度端点 / 计数；带日期的里程碑史不动），并打印 CHANGELOG 草稿段（默认 dry-run 只看不写）。
+2. **推导版本号 + 全量文档同步**：`python scripts/release.py --apply`——先真跑主库测试套件（**不绿拒绝发版**），然后：三棵树（`laos/` + 两个隔离区）`__version__` 同步；**自动改写全部介绍性文件**（本 README、PROJECT_OVERVIEW、`docs/ppt/` 全部 md/html 牌组、隔离区 README）的版本号与测试计数锚点（封面 stamp / "开源 vX" / 页脚 / 版本跨度端点 / 计数；带日期的里程碑史不动；文件名带 ISO 日期的现场记录——审计/取证报告——自动排除刷新），并打印 CHANGELOG 草稿段（默认 dry-run 只看不写）。
 3. **誊写 CHANGELOG**：把草稿段人工誊入 `CHANGELOG.md` 的 Unreleased，改标题为 `## [v0.x.y] - YYYY-MM-DD` 并补一句波次主题，提交。
 4. **打 tag 并推送**：`git tag -a v0.x.y -m "一句话波次主题" && git push origin master --tags`。GitHub Release 页在网页上建，notes 直接粘贴 CHANGELOG 对应段落。
 5. **核验**：确认 tag、Release 页、介绍文档版本三者一致（`release.py` 第 2 步的输出报告逐文件列了改动处数）。
 
 > 纪律来源：AGENTS.md「发版即全量文档同步」（2026-10-06 用户指令）。
+
+> **两类锚点的特殊口径**（2026-10-18 ppt-audit §4-④）：**handover 系列**（`laos-rsi-evolve-handover.html` / `laos-aurase-adoption-handover.*`）是带日期的场景快照——正文内容定格在快照当日（如 Oct 11 RSI 交接），封面 stamp/开源行仍随发版自动刷新；对外引用其数字时**以快照日期为准**，不当现行事实。**文件名带 ISO 日期的现场记录**（如 `docs/ppt/2026-10-18-ppt-audit.md`）由 `sync_docs` 自动排除刷新，锚点停在当天。
 
 ### breaking 标注约定
 

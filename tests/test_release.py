@@ -207,6 +207,204 @@ class SyncDocs(unittest.TestCase):
                 any("排除" in line for line in report), report)
 
 
+class DeckAnchorForms(unittest.TestCase):
+    """2026-10-18 补：deck 页首/页脚/封面/终场卡的其余版本与测试锚形态。
+
+    这些形态此前不在同步面内，detailed·funding 的 v0.12.0/765 长期漂移；
+    同时钉住"三段式算术式重算"——防止主库计数模式把 `= 703` 直接刷成
+    主库数，造出 353+350=1159 的假等式（当日实测事故）。
+    """
+
+    COUNTS = {"main_tests": 1159, "iso_tests": 279, "repro_tests": 94}
+
+    def _fixture(self, tmp: Path) -> Path:
+        f = tmp / "deck.html"
+        f.write_text(
+            '<span class="fnum">v0.12.0 · 765 tests · 15 drivers · 01 / 19</span>\n'
+            '<span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span>\n'
+            '<span class="meta">V0.12.0 · 765 TESTS · 15 DRV · 12 MINOR</span>\n'
+            '<span class="seal">v0.12.0 · 2026-10-05</span>\n'
+            '<p>v0.12.0 · 2026-10-05 · github.com/Yfredy/LAOS</p>\n'
+            '<p>REV v0.12.0 · 2026-10-05</p>\n'
+            '<p>GITHUB.COM/YFREDY/LAOS · V0.12.0 · 26.10.05 · 765 TESTS</p>\n'
+            'v0.1.0（09-04）→ v0.12.0（10-05）\n'
+            'v0.1.0..v0.12.0\n'
+            '主库 353 + 隔离区 350 = 703 项测试全绿\n'
+            'v0.12.0 · GitHub Yfredy/LAOS · 703 tests green (主库353 + 隔离区350)\n'
+            '主库 1146 项测试全绿\n'
+            '<h2 class="h-xl">30 天，12 个版本，<br/>765 项测试全绿。</h2>\n'
+            '<span class="pill">765 项测试全绿</span>\n'
+            '<span class="mono p">765</span> green（主库 1159 + 隔离区 279 + 复现区 94）\n'
+            '<div class="ledger-num">765</div>\n'
+            '  <div class="ledger-label"><div>TESTS GREEN</div></div>\n'
+            '<tr><td>测试</td><td class="m">765</td><td>主库 1159 / 隔离区 279</td></tr>\n'
+            'v0.12.0 (10-05) 双工时序\n',
+            encoding="utf-8")
+        return f
+
+    def test_chrome_version_date_and_total_synced(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            f = self._fixture(Path(d))
+            release.sync_docs("0.39.0", globs=[str(f)], counts=self.COUNTS,
+                              release_date="2026-10-18")
+            text = f.read_text(encoding="utf-8")
+            self.assertIn("v0.39.0 · 1532 tests · 15 drivers", text)
+            self.assertIn("v0.39.0 · 1532 TESTS · 15 DRIVERS", text)
+            self.assertIn("V0.39.0 · 1532 TESTS · 15 DRV", text)
+            self.assertIn("v0.39.0 · 2026-10-18", text)
+            self.assertIn("V0.39.0 · 26.10.18 · 1532 TESTS", text)
+            self.assertIn("v0.1.0（09-04）→ v0.39.0（10-18）", text)
+            self.assertIn("v0.1.0..v0.39.0", text)
+            self.assertIn("1532 tests green (主库1159 + 隔离区279 + 复现区 94)", text)
+            # 裸 "N 项测试全绿" 在 deck（html）里是三树合计：原 765（415+279+71）
+            # 不得被刷成主库 1159（2026-10-18 实测的口径错位）
+            self.assertIn("30 天，12 个版本，<br/>1532 项测试全绿", text)
+            self.assertIn('<span class="pill">1532 项测试全绿</span>', text)
+            # 合计展示位（字体/台账/表格大数字）同样按三树合计刷新
+            self.assertIn('<span class="mono p">1532</span> green（主库', text)
+            self.assertIn('<div class="ledger-num">1532</div>', text)
+            self.assertIn('<td class="m">1532</td><td>主库', text)
+
+    def test_markdown_bare_green_count_uses_main_run(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            f = Path(d) / "intro.md"
+            f.write_text("51 个核心模块 · 1146 项测试全绿 · 17 个驱动\n",
+                         encoding="utf-8")
+            release.sync_docs("0.39.0", globs=[str(f)], counts=self.COUNTS,
+                              release_date="2026-10-18")
+            text = f.read_text(encoding="utf-8")
+            self.assertIn("· 1159 项测试全绿 ·", text)
+            self.assertNotIn("1532", text)
+
+    def test_onboarding_and_living_guide_forms(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            f = Path(d) / "onboarding.md"
+            f.write_text(
+                "| 主库测试数 | 1146 项（`OK (skipped=5)`） |\n"
+                "Expected: `Ran 1146 tests` + `OK (skipped=5)`\n"
+                "> 数字口径：v0.39.0 ｜ 1146 项测试（2026-10-18 实跑）｜ 51 模块\n"
+                "- **1146 项测试全绿**（主库，2026-10-18 实跑；skipped=5）\n",
+                encoding="utf-8")
+            release.sync_docs("0.40.0", globs=[str(f)],
+                              counts={"main_tests": 1200,
+                                      "iso_tests": 280, "repro_tests": 95},
+                              release_date="2026-10-25")
+            text = f.read_text(encoding="utf-8")
+            self.assertIn("| 主库测试数 | 1200 项（", text)
+            self.assertIn("`Ran 1200 tests`", text)
+            self.assertIn("1200 项测试（2026-10-25 实跑）", text)
+            self.assertIn("**1200 项测试全绿**（主库，2026-10-25 实跑", text)
+
+    def test_composition_recomputed_not_overwritten(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            f = self._fixture(Path(d))
+            release.sync_docs("0.39.0", globs=[str(f)], counts=self.COUNTS,
+                              release_date="2026-10-18")
+            text = f.read_text(encoding="utf-8")
+            self.assertIn("主库 1159 + 隔离区 279 + 复现区 94 = 1532 项测试全绿", text)
+            self.assertNotIn("353 + 350 = 1159", text)
+            self.assertIn("主库 1159 项测试全绿", text)
+            # 幂等：同步输出必须能被同一套模式再次匹配（2026-10-18 实测：
+            # "…… + 隔离区 350)" 的输出加了复现区后旧模式不再命中，合计
+            # 从第二次发版起就冻住了）。第二次同步必须零变化。
+            release.sync_docs("0.39.0", globs=[str(f)], counts=self.COUNTS,
+                              release_date="2026-10-18")
+            self.assertEqual(f.read_text(encoding="utf-8"), text)
+
+    def test_zone_breakdown_and_arithmetic_forms(self):
+        """三树明细/比例条/算术式与 funding chrome 的收口形态。
+
+        合计已刷而明细停在旧值时同页自相矛盾；比例条必须与数字同源重算。
+        同时钉住边界：六来源 "71 项测试" 是复现区的合法子集（94 = 71 + 23），
+        不得被三树明细模式误伤。
+        """
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            f = Path(d) / "deck.html"
+            f.write_text(
+                '<span class="chip">v<b>0.12.0</b></span>\n'
+                '<span class="chip"><b>765</b> 测试全绿</span>\n'
+                '<div class="ticker">[<b>V0.12.0</b>]&nbsp;[TESTS <b>765 GREEN</b>]</div>\n'
+                '<p>SRC / <b>v0.12.0</b></p>\n'
+                '<div><div class="bignum">765</div><hr class="hair">\n'
+                '  <p style="x">测试全绿 · TDD 先红后绿<br>主库 1159 / 隔离区 279 / 复现区 94</p></div>\n'
+                '<span class="cmd">$ pytest -q --co | tail -1 → 765 collected · 765 passed</span>\n'
+                '<p><span style="font-weight:700">laos</span> 主库 <span class="c mono" style="font-size:19px">415 tests</span></p>\n'
+                '<p><span style="font-weight:700">Repro</span> 复现区 <span class="c mono" style="font-size:19px">71 tests</span></p>\n'
+                '<div class="stbar">\n'
+                '  <div style="flex:54.2;background:var(--green)">415</div>\n'
+                '  <div style="flex:36.5;background:var(--blue)">279</div>\n'
+                '  <div style="flex:9.3;background:var(--purple)">71</div>\n'
+                '</div>\n'
+                '<div class="splitbar">\n'
+                '  <div class="sg1" style="width:54.2%">主库 415</div>\n'
+                '  <div class="sg2" style="width:36.5%">AlwaysOnRec 279</div>\n'
+                '  <div class="sg3" style="width:9.3%">Repro 71</div>\n'
+                '</div>\n'
+                '<div class="legend"><span><b>54.2%</b> 内核与驱动语义</span>'
+                '<span><b>36.5%</b> 录音沙箱</span><span><b>9.3%</b> 论文复现</span></div>\n'
+                '<span class="ledger-num">415</span>\n'
+                '  <div class="ledger-label"><div>laos 主库</div></div>\n'
+                '<span class="ledger-num">71</span>\n'
+                '  <div class="ledger-label"><div>Repro 复现区</div></div>\n'
+                '<tr><td><b>laos</b> 主库</td><td>内核 + 驱动</td><td class="mono">415</td></tr>\n'
+                '<tr><td><b>Repro</b></td><td>论文复现区</td><td class="mono">71</td></tr>\n'
+                '<div class="foot"><span>D · 质量文化组</span><span>765 = 415 + 279 + 71</span></div>\n'
+                '<div class="c3 panel"><div class="gold mono" style="font-size:64px;font-weight:800">765</div>'
+                '<div class="caption">测试全绿<br>415 主库 + 279 隔离 + 71 复现</div></div>\n'
+                '<p>六来源 71 项测试：TDD</p>\n'
+                '<p>**v0.39.0 ｜ 765 项测试（实跑）**</p>\n'
+                '<p>工程质量被主库 765 项测试全绿和 116 份调研兜住。</p>\n'
+                '<p>我们用主库 765 项测试全绿兜住行为。</p>\n',
+                encoding="utf-8")
+            release.sync_docs("0.39.0", globs=[str(f)], counts=self.COUNTS,
+                              release_date="2026-10-18")
+            text = f.read_text(encoding="utf-8")
+            self.assertIn('<span class="chip">v<b>0.39.0</b></span>', text)
+            self.assertIn('<span class="chip"><b>1532</b> 测试全绿</span>', text)
+            self.assertIn('[<b>V0.39.0</b>]', text)
+            self.assertIn('[TESTS <b>1532 GREEN</b>]', text)
+            self.assertIn('SRC / <b>v0.39.0</b>', text)
+            self.assertIn('<div class="bignum">1532</div>', text)
+            self.assertIn('→ 1532 collected · 1532 passed', text)
+            self.assertIn('font-size:19px">1159 tests', text)
+            self.assertIn('font-size:19px">94 tests', text)
+            self.assertIn('flex:75.7;background:var(--green)">1159', text)
+            self.assertIn('flex:18.2;background:var(--blue)">279', text)
+            self.assertIn('flex:6.1;background:var(--purple)">94', text)
+            self.assertIn('width:75.7%">主库 1159', text)
+            self.assertIn('width:18.2%">AlwaysOnRec 279', text)
+            self.assertIn('width:6.1%">Repro 94', text)
+            self.assertIn('<b>75.7%</b> 内核与驱动语义', text)
+            self.assertIn('<b>18.2%</b> 录音沙箱', text)
+            self.assertIn('<b>6.1%</b> 论文复现', text)
+            self.assertIn('1532 = 1159 + 279 + 94', text)
+            self.assertIn('1532</div><div class="caption">测试全绿<br>1159 主库 + 279 隔离 + 94 复现', text)
+            # 复现区合法子集不得被明细锚误伤
+            self.assertIn('六来源 71 项测试', text)
+            # 讲稿类裸主库口径
+            self.assertIn('｜ 1159 项测试（实跑）', text)
+            self.assertIn('被主库 1159 项测试全绿', text)
+            self.assertIn('用主库 1159 项测试全绿', text)
+            # 幂等：第二轮零变化
+            release.sync_docs("0.39.0", globs=[str(f)], counts=self.COUNTS,
+                              release_date="2026-10-18")
+            self.assertEqual(f.read_text(encoding="utf-8"), text)
+
+    def test_dated_milestone_history_untouched(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            f = self._fixture(Path(d))
+            release.sync_docs("0.39.0", globs=[str(f)], counts=self.COUNTS,
+                              release_date="2026-10-18")
+            self.assertIn("v0.12.0 (10-05) 双工时序",
+                          f.read_text(encoding="utf-8"))
+
+
 class TestTestCountAnchorFullMatch(unittest.TestCase):
     """2026-10-09 实录 bug 的回归钉：测试计数锚点 \d{3} 只吃尾三位，
     千位计数下每次发版叠一个 "1"（README 被写成 111111051）。锚点必须
@@ -217,6 +415,7 @@ class TestTestCountAnchorFullMatch(unittest.TestCase):
         (r"(?<=主库 )\d{3,}(?= 测试)", "主库 1051 测试"),
         (r"\d{3,}(?= 项测试守护)", "1051 项测试守护"),
         (r"\d{3,}(?= 项回归测试（)", "1051 项回归测试（注"),
+        (r"(?<!\d)(?<!主库 )([=+]\s*)?(\d{3,})(?= 项测试全绿)", "1051 项测试全绿"),
         (r"\d{3,}(?=\s*TESTS GREEN)", "1051 TESTS GREEN"),
         (r"(?<=·\s)\d{3,}(?=\s*GREEN)", "· 1051 GREEN"),
     ]
@@ -299,10 +498,14 @@ class TestNewDomainAxisAndDocGlobs(unittest.TestCase):
                     "docs/ppt/laos-intro-huashu.html",
                     "docs/ppt/laos-detailed-outline.md",
                     "docs/ppt/laos-funding-outline.md",
+                    "docs/ONBOARDING.md",
+                    "docs/guide/laos-feishu-intro.md",
                     "zones/AlwaysOnRec-Trae/README.md",
                     "zones/AlwaysOnRec-DB/README.md",
                     "zones/AlwaysOnRec-ZCode/README.md"):
             self.assertIn(rel, covered, f"DOC_GLOBS 漏覆盖 {rel}")
+        # 讲稿/lecture 是某日快照（开场声明 10-05 封面数字），不进同步面
+        self.assertNotIn("docs/guide/laos-feishu-intro-speech.md", covered)
 
 
 if __name__ == "__main__":

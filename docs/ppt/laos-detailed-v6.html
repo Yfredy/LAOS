@@ -6,7 +6,7 @@
 <title>laos · Linux AgentOS — 详细技术深潜 v6（合成版）</title>
 <!--
   laos 详细版 v6 —— 五 skill 取长补短合成版（wave2 第 6 版）
-  底稿：docs/ppt/laos-detailed-outline.md（18 内容域，数字全部真实，v0.12.0 基准）
+  底稿：docs/ppt/laos-detailed-outline.md（18 内容域，数字全部真实，v0.39.0 基准）
   合成公式（溯源）：
     ppt-master      → 字号角色体系（1280 舞台 11-52 ×1.5 → 17-78px）、Hero breathing 大数字页、全文本可编辑
     guizang         → 12 列 Swiss 网格 + data-layout 版式登记、mono 锚点扫读表格、accent 只承载治理事实
@@ -178,7 +178,7 @@
     <div class="title">laos</div>
     <div class="eq">Linux AgentOS = Linux kernel + Agent + MCP</div>
     <div style="display:flex;gap:16px">
-      <span class="stamp">v0.39.0</span><span class="stamp">765 tests</span>
+      <span class="stamp">v0.39.0</span><span class="stamp">1532 tests</span>
       <span class="stamp">15 drivers</span><span class="stamp">12 minors / 30 天</span>
     </div>
   </div>
@@ -229,7 +229,7 @@
       <span class="body">关键判断：Agent 时代的「内核」不是重写调度器，而是给工具调用装上 <span class="mono ikb">syscall 语义</span>——能力、预算、审计、判断，四件事在派发之前完成。</span>
     </div>
   </div>
-  <div class="foot"><span>A · 开场组</span><span>laos v0.12.0</span></div>
+  <div class="foot"><span>A · 开场组</span><span>laos v0.39.0</span></div>
   <aside class="notes" hidden>左右两栏是同一件事的两面：左边是 Linux 已经给了什么，右边是 laos 把 Agent 世界翻译成 OS 世界的词表。加粗那句是全片立论——治理发生在派发之前，不是事后复盘。</aside>
 </section>
 
@@ -426,10 +426,10 @@
 <!-- P13 Hero 765 -->
 <section class="slide hero" data-layout="V6-HERO-765" id="s13">
   <div class="kicker">D1 · 质量与 文化</div>
-  <div class="n">765</div>
-  <div class="decomp"><b>415</b> 主库 <span class="vline"></span> <b>279</b> AlwaysOnRec <span class="vline"></span> <b>71</b> Repro</div>
+  <div class="n">1532</div>
+  <div class="decomp"><b>1159</b> 主库 <span class="vline"></span> <b>279</b> AlwaysOnRec <span class="vline"></span> <b>94</b> Repro</div>
   <div class="caption" style="max-width:900px">三棵树全绿 · TDD 先红后绿 · 每晚 <span class="mono">unittest discover</span> 全量回归</div>
-  <div class="foot" style="border-color:var(--line)"><span>D · 质量文化组</span><span>765 = 415 + 279 + 71</span></div>
+  <div class="foot" style="border-color:var(--line)"><span>D · 质量文化组</span><span>1532 = 1159 + 279 + 94</span></div>
   <aside class="notes" hidden>呼吸页，一个数字：765。拆成三棵树——主库、录音隔离区、论文复现区。TDD 纪律是先红后绿，任何一行产品代码都有先失败的测试。</aside>
 </section>
 
@@ -541,7 +541,7 @@
   <div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:36px;text-align:center">
     <div class="kicker" style="color:var(--mist)">E3 · 结案</div>
     <div style="font:800 var(--mega)/1.3 var(--sans);color:var(--white);max-width:1500px">Agent 需要的不是更强的模型，<br>是一个会说「不」的内核</div>
-    <div class="eq" style="font-size:var(--body)">github.com/Yfredy/LAOS · v0.39.0 · 1531 tests</div>
+    <div class="eq" style="font-size:var(--body)">github.com/Yfredy/LAOS · v0.39.0 · 1532 tests</div>
     <div style="display:flex;gap:16px"><span class="stamp">闸门链 ×8</span><span class="stamp">驱动 ×15</span><span class="stamp">版本 ×12</span></div>
   </div>
   <aside class="notes" hidden>收尾回声：封面三个印章在这里变成三个名词。留一句话给观众——我们不是在做更聪明的模型，是在做敢把钥匙交给 Agent 之前的那把锁。Q&amp;A。</aside>

@@ -1239,9 +1239,9 @@
       <div data-anim="kicker" class="t-meta" style="color:rgba(255,255,255,.78);letter-spacing:.22em">LINUX AGENTOS · TECHNICAL DEEP DIVE</div>
       <h1 data-anim="title" style="align-self:center;font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(7.4vw,13.4vh);line-height:.98;letter-spacing:-.025em;color:#fff">把 Linux 变成<br/>Agent 的<span style="font-style:italic;font-weight:300">操作系统</span></h1>
       <div data-anim="bottom" style="display:grid;grid-template-rows:auto auto;gap:1.6vh;border-top:1px solid rgba(255,255,255,.22);padding-top:2vh">
-        <div data-anim="lead" class="lead" style="max-width:58ch;color:rgba(255,255,255,.86);font-weight:300">详细技术深潜——Linux AgentOS = Linux kernel + Agent + MCP。Linux 内核的 Agent 扩展（用户态 · 零内核改动）：15 个驱动 · 8 环 syscall 闸门 · 765 项测试全绿。</div>
+        <div data-anim="lead" class="lead" style="max-width:58ch;color:rgba(255,255,255,.86);font-weight:300">详细技术深潜——Linux AgentOS = Linux kernel + Agent + MCP。Linux 内核的 Agent 扩展（用户态 · 零内核改动）：15 个驱动 · 8 环 syscall 闸门 · 1532 项测试全绿。</div>
         <div style="display:flex;justify-content:space-between;align-items:end">
-          <div class="t-meta" style="color:rgba(255,255,255,.6)">v0.12.0 · 2026-10-05 · github.com/Yfredy/LAOS</div>
+          <div class="t-meta" style="color:rgba(255,255,255,.6)">v0.39.0 · 2026-10-18 · github.com/Yfredy/LAOS</div>
           <div class="t-meta" style="color:rgba(255,255,255,.6)">→ swipe / arrow keys</div>
         </div>
       </div>
@@ -1621,15 +1621,15 @@
     <header class="chrome-min"><div class="l">laos · Linux AgentOS · 详细技术深潜</div><div class="r">SS · 26.10.05 · 13 / 19</div></header>
     <div data-anim="line" style="display:flex;flex-direction:column;gap:1vh;padding-top:.4vh">
       <span class="t-cat">Quality · 测试与质量</span>
-      <h2 class="h-xl" style="font-weight:200;font-size:min(4.4vw,7.8vh);line-height:1;letter-spacing:-.03em">765 项测试，全绿。</h2>
+      <h2 class="h-xl" style="font-weight:200;font-size:min(4.4vw,7.8vh);line-height:1;letter-spacing:-.03em">1532 项测试，全绿。</h2>
       <p style="font-size:max(18px,1vw);color:var(--text-secondary);max-width:64ch;line-height:1.7;font-weight:300;margin-top:2.6vh">TDD 纪律——先红后绿，每任务一 commit；版本纪律——SemVer + conventional commits。</p>
     </div>
     <div data-anim="ledger" style="flex:1;margin-top:2.4vh;padding-bottom:2.6vh;min-height:0"><div class="ledger-row" style="display:grid;grid-template-columns:auto 1fr auto;gap:2vw;align-items:center;padding:1.5vh 0;border-bottom:1px solid var(--border-subtle)">
-      <span class="ledger-num" style="font-weight:200;font-size:min(4vw,7vh);line-height:.95;letter-spacing:-.03em;font-feature-settings:'tnum';color:var(--accent)">765</span>
+      <span class="ledger-num" style="font-weight:200;font-size:min(4vw,7vh);line-height:.95;letter-spacing:-.03em;font-feature-settings:'tnum';color:var(--accent)">1532</span>
       <div class="ledger-label"><div style="font-weight:500;font-size:max(17px,1.2vw);margin-bottom:.4vh">测试全绿</div>
-      <p style="font-size:max(15px,.92vw);color:var(--text-secondary)">主库 415 + AlwaysOnRec 279 + Repro 71</p></div>
+      <p style="font-size:max(15px,.92vw);color:var(--text-secondary)">主库 1159 + AlwaysOnRec 279 + Repro 94</p></div>
       <i data-lucide="check-circle-2" style="width:1.8vw;height:1.8vw;stroke-width:1.4;color:var(--text-helper)"></i></div><div class="ledger-row" style="display:grid;grid-template-columns:auto 1fr auto;gap:2vw;align-items:center;padding:1.5vh 0;border-bottom:1px solid var(--border-subtle)">
-      <span class="ledger-num" style="font-weight:200;font-size:min(4vw,7vh);line-height:.95;letter-spacing:-.03em;font-feature-settings:'tnum';">415</span>
+      <span class="ledger-num" style="font-weight:200;font-size:min(4vw,7vh);line-height:.95;letter-spacing:-.03em;font-feature-settings:'tnum';">1159</span>
       <div class="ledger-label"><div style="font-weight:500;font-size:max(17px,1.2vw);margin-bottom:.4vh">laos 主库</div>
       <p style="font-size:max(15px,.92vw);color:var(--text-secondary)">纯 stdlib，零第三方依赖</p></div>
       <i data-lucide="layout-grid" style="width:1.8vw;height:1.8vw;stroke-width:1.4;color:var(--text-helper)"></i></div><div class="ledger-row" style="display:grid;grid-template-columns:auto 1fr auto;gap:2vw;align-items:center;padding:1.5vh 0;border-bottom:1px solid var(--border-subtle)">
@@ -1637,13 +1637,13 @@
       <div class="ledger-label"><div style="font-weight:500;font-size:max(17px,1.2vw);margin-bottom:.4vh">AlwaysOnRec 隔离区</div>
       <p style="font-size:max(15px,.92vw);color:var(--text-secondary)">常开录音沙箱的专属测试</p></div>
       <i data-lucide="shield" style="width:1.8vw;height:1.8vw;stroke-width:1.4;color:var(--text-helper)"></i></div><div class="ledger-row" style="display:grid;grid-template-columns:auto 1fr auto;gap:2vw;align-items:center;padding:1.5vh 0;border-bottom:1px solid var(--border-subtle)">
-      <span class="ledger-num" style="font-weight:200;font-size:min(4vw,7vh);line-height:.95;letter-spacing:-.03em;font-feature-settings:'tnum';">71</span>
+      <span class="ledger-num" style="font-weight:200;font-size:min(4vw,7vh);line-height:.95;letter-spacing:-.03em;font-feature-settings:'tnum';">94</span>
       <div class="ledger-label"><div style="font-weight:500;font-size:max(17px,1.2vw);margin-bottom:.4vh">Repro 复现区</div>
       <p style="font-size:max(15px,.92vw);color:var(--text-secondary)">论文复现全部隔离</p></div>
       <i data-lucide="flask-conical" style="width:1.8vw;height:1.8vw;stroke-width:1.4;color:var(--text-helper)"></i></div><div class="ledger-row" style="display:grid;grid-template-columns:auto 1fr auto;gap:2vw;align-items:center;padding:1.5vh 0;border-bottom:1px solid var(--border-subtle)">
       <span class="ledger-num" style="font-weight:200;font-size:min(4vw,7vh);line-height:.95;letter-spacing:-.03em;font-feature-settings:'tnum';">12</span>
       <div class="ledger-label"><div style="font-weight:500;font-size:max(17px,1.2vw);margin-bottom:.4vh">MINOR · 30 天</div>
-      <p style="font-size:max(15px,.92vw);color:var(--text-secondary)">v0.1.0（09-04）→ v0.12.0（10-05）</p></div>
+      <p style="font-size:max(15px,.92vw);color:var(--text-secondary)">v0.1.0（09-04）→ v0.39.0（10-18）</p></div>
       <i data-lucide="git-tag" style="width:1.8vw;height:1.8vw;stroke-width:1.4;color:var(--text-helper)"></i></div></div>
   </div>
 </section>
@@ -1873,12 +1873,12 @@
           <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2.6vh 0;border-top:1px solid var(--border-subtle)">
             <div style="font-family:var(--sans);font-weight:200;font-size:min(4.4vw,7.8vh);line-height:.9;color:var(--text-primary)">02</div>
             <div><h3 style="font-weight:400;font-size:max(18px,1.8vw);margin-bottom:1.6vh">深潜</h3>
-            <p style="font-size:max(16px,.94vw);line-height:1.6;color:var(--text-secondary)">8 环 syscall 闸门 · 15 驱动 · 端侧听觉栈 · 全双工轮转 · 765 项测试全绿。</p></div>
+            <p style="font-size:max(16px,.94vw);line-height:1.6;color:var(--text-secondary)">8 环 syscall 闸门 · 15 驱动 · 端侧听觉栈 · 全双工轮转 · 1532 项测试全绿。</p></div>
           </div>
           <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2.6vh 0;border-top:1px solid var(--border-subtle);border-bottom:2px solid var(--accent)">
             <div style="font-family:var(--sans);font-weight:200;font-size:min(4.4vw,7.8vh);line-height:.9;color:var(--accent)">03</div>
             <div><h3 style="font-weight:400;font-size:max(18px,1.8vw);margin-bottom:1.6vh;color:var(--accent)">仓库</h3>
-            <p style="font-size:max(16px,.94vw);line-height:1.6;color:var(--text-secondary)">github.com/Yfredy/LAOS · v0.12.0 · 2026-10-05。</p></div>
+            <p style="font-size:max(16px,.94vw);line-height:1.6;color:var(--text-secondary)">github.com/Yfredy/LAOS · v0.39.0 · 2026-10-18。</p></div>
           </div>
         </div>
         <div class="t-meta" style="color:var(--text-helper);text-align:right">→ 完 · END OF DEEP DIVE</div>

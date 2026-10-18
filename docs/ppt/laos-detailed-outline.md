@@ -1,6 +1,6 @@
 # laos 详细版项目介绍 —— 共享底稿（wave2，供 5 个 PPT skill 各自渲染）
 
-> 版本基准：v0.12.0（2026-10-05）。所有数字均来自仓库真实状态，禁止虚构。
+> 版本基准：v0.39.0（2026-10-18）。所有数字均来自仓库真实状态，禁止虚构。
 > 详细版定位：上一波 12 页概览的**深潜版**——每一页都下钻到机制层。
 > 页数指引：18-24 页（各 skill 版式不同可微调，内容域不得缺）。
 
@@ -12,7 +12,7 @@
 - 标题：laos —— Linux AgentOS
 - 副题：Linux 内核的 Agent 扩展（用户态 · 零内核改动）· 详细技术深潜
 - 一句话：Linux AgentOS = Linux kernel + Agent + MCP
-- 版本角标：v0.12.0 · 2026-10-05
+- 版本角标：v0.39.0 · 2026-10-18
 
 **A2 命题**
 - 不改一行内核代码，把 Linux 变成 Agent 的操作系统
@@ -83,12 +83,12 @@
 ### D. 质量与文化组
 
 **D1 测试与质量**
-- 765 测试全绿：主库 415 + AlwaysOnRec 279 + Repro 71
+- 主库 1159 项测试全绿（另隔离区 279 + 复现区 94）
 - TDD 纪律：先红后绿，每任务一 commit
-- 版本纪律：SemVer + conventional commits；30 天 12 个 MINOR 版本（v0.1.0 → v0.39.0）
+- 版本纪律：SemVer + conventional commits；44 天 39 个 MINOR 版本（v0.1.0 → v0.39.0）
 
 **D2 版本史时间线（12 段，每段一句话）**
-- v0.1.0 (09-04) baseline 149 文件 / v0.2.0 (09-05) 强制层 seccomp+CoW+eBPF+FleetLedger / v0.3.0 (09-09) AgentProf+MCP Tasks+信箱+laosweb+drv_npu / v0.4.0 (09-11) 听觉+记忆+日记 / v0.5.0 (09-11) 五层手机能力+双沙箱 / v0.6.0 (09-18) 语料库 19,792 论文+3,724 OSS / v0.7.0 (09-28) Jev 四闸门 / v0.8.0-v0.10.0 (10-05) 复现采纳三连（SHO/PhaseCoder/ANC/LUFS/Pipecat/unique_lock→loudness/turnbuf/locks+五套 PPT）/ v0.11.0 (10-05) 手机操控四件套+drv_apps+micgeom / v0.12.0 (10-05) 双工时序+轮转策略+双耳线索+FOA
+- v0.1.0 (09-04) baseline 149 文件 / v0.2.0 (09-05) 强制层 seccomp+CoW+eBPF+FleetLedger / v0.3.0 (09-09) AgentProf+MCP Tasks+信箱+laosweb+drv_npu / v0.4.0 (09-11) 听觉+记忆+日记 / v0.5.0 (09-11) 五层手机能力+双沙箱 / v0.6.0 (09-18) 语料库 19,792 论文+3,724 OSS / v0.7.0 (09-28) Jev 四闸门 / v0.8.0-v0.10.0 (10-05) 复现采纳三连（SHO/PhaseCoder/ANC/LUFS/Pipecat/unique_lock→loudness/turnbuf/locks+五套 PPT）/ v0.11.0 (10-05) 手机操控四件套+drv_apps+micgeom / v0.12.0 (10-05) 双工时序+轮转策略+双耳线索+FOA / v0.13.0-v0.17.0 (10-06) confgate+paired VAD 指标→Transformer 效率时间线→AgenticASR 复现+refiner 规则基→refiner 自纠错升级→whistle channel 端到端→voicenpu_engine 复现 / v0.18.0-v0.21.0 (10-07) 顶会语料 38 venue/120,234 行→语料复用四线→上线前评审+埋点设计→埋点核心+换肤 v0.35 / v0.22.0-v0.30.0 (10-08) Clef 判断层→caps 能力注册表→JIT Memory→AI 输出可理解性→对话管线装配（+v0.26.1 release 工具债）→Linux AgentOS 认知 demo→Sentinel 动作闸（+v0.28.1 终审）→laosweb v3→ARVIS 话轮路由 / v0.31.0-v0.37.0 (10-09) 个人 agent 三件→agent 记忆闭环→语音桥→预编译 APK→测试计数锚点千位 bug（v0.35.1）→录音回放 rec.replay→生活日志双记忆 / v0.38.0 (10-10) rec.replay 摘要扩展位 / v0.39.0 (10-18) Brain 可靠性第一波（retryable+温度阶梯+重复检测）
 
 **D3 复现文化（Repro-ZCode）**
 - 71 测试隔离区：能复现的论文全部复现（BS.1770 响度 / FxLMS ANC >20dB / ShoNet DOA / PhaseCoder MPE 逐行对齐）
@@ -96,7 +96,7 @@
 - 采纳漏斗：复现 → 裁决（●执行/◐基础件/○不做）→ 主库落地 → 文档执行注记
 
 **D4 调研语料库**
-- 47 份调研文档 + capstone 采纳总账（每条：来源/可取之处/落点/状态）
+- 116 份调研文档 + capstone 采纳总账（每条：来源/可取之处/落点/状态）
 - 19,792 篇双会议论文（ICASSP 2022-2026 14,285 + Interspeech 2021-2025 5,507，全量 100%）
 - 3,724 个 OSS 星标仓库（去噪后：core 132 / ref 2,864 / unrelated 728）
 
@@ -114,9 +114,9 @@
 
 **E3 收尾页**
 - 一句话：Agent 需要的不是更强的模型，是一个会说"不"的内核
-- 仓库：github.com/Yfredy/LAOS · v0.12.0 · 765 测试
+- 仓库：github.com/Yfredy/LAOS · v0.39.0 · 1159 测试
 
 ## 版式注意
 - 每页信息密度可以高（这是详细版），但必须有清晰层级（kicker/标题/正文/角标）
-- 数字角标统一：版本 v0.12.0 · 测试 765 · 驱动 15 · 版本 12 个
+- 数字角标统一：版本 v0.39.0 · 测试 1159 · 驱动 17 · 版本 39 个
 - 论文/机制引用标注来源（arXiv 号或 docs/research/ 路径）

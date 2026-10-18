@@ -29,6 +29,7 @@ import argparse
 import re
 import subprocess
 import sys
+from datetime import date as _date
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
@@ -182,11 +183,26 @@ DOC_GLOBS = [
     "README.md",
     "docs/PROJECT_OVERVIEW.md",
     "docs/ppt/*.md",     # 三组 outline（detailed/funding/intro）+ ppt README（无锚点零命中无害）
-    "docs/ppt/*.html",   # intro 组 deck（v6 系）；detailed/funding 组在下面两条
-    "docs/ppt/detailed/*.html",
-    "docs/ppt/funding/*.html",
+    # 2026-10-18：三条显式 html glob 收敛为递归式（ppt-audit §4-②）——等价
+    # 19 文件实测相同，且新建子目录的 deck 自动纳入同步面
+    "docs/ppt/**/*.html",
+    # 2026-10-18：ONBOARDING 与飞书介绍活文档此前在 DOC_GLOBS 外、靠发版时手工
+    # 对齐（CHANGELOG v0.39.0 明载）。只收这两个「活文档」：docs/guide 下的
+    # 讲稿/lecture 目录是某日快照（开场会声明 10-05 封面数字），纳入同步面
+    # 等于改写历史陈述。
+    "docs/ONBOARDING.md",
+    "docs/guide/laos-feishu-intro.md",
     "zones/AlwaysOnRec-*/README.md",   # 三棵树（Trae/DB/ZCode；ZCode 暂无锚点零命中无害）
 ]
+
+def _split_pcts(counts: dict) -> tuple[float, float, float]:
+    """三树占比（一位小数），最大树吸收舍入残差使三数合计恰为 100.0。"""
+    total = counts["main_tests"] + counts["iso_tests"] + counts["repro_tests"]
+    iso = round(counts["iso_tests"] * 100 / total, 1)
+    repro = round(counts["repro_tests"] * 100 / total, 1)
+    main = round(100.0 - iso - repro, 1)
+    return main, iso, repro
+
 
 #: 替换模式（带上下文锚点，防误伤历史里程碑行：带日期的 v0.x.y (MM-DD) 不匹配）。
 #  每条 = (锚点名, 编译好的正则, 格式化函数(lambda m, ctx -> str))——锚点名供
@@ -200,18 +216,123 @@ _DOC_PATTERNS = [
     ("封面stamp",
      re.compile(r'(<span class="stamp">)v\d+\.\d+\.\d+(</span>)'),
      lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}"),
-    # deck 正文："开源 vX.Y.Z ·"
+    # deck 正文："开源 vX.Y.Z ·" / "开源 <b>vX.Y.Z</b>" / 药丸 "开源 vX.Y.Z"
     ("开源行",
      re.compile(r"(开源\s*)v\d+\.\d+\.\d+(\s*·)"),
+     lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}"),
+    ("开源行",
+     re.compile(r"(开源\s*)v\d+\.\d+\.\d+"),
+     lambda m, c: f"{m.group(1)}v{c['ver']}"),
+    ("开源行",
+     re.compile(r"(开源\s*<b>)v\d+\.\d+\.\d+(</b>)"),
      lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}"),
     # deck 页脚："github.com/Yfredy/LAOS · vX.Y.Z · NNN tests"
     ("deck页脚",
      re.compile(r"(github\.com/Yfredy/LAOS\s*·\s*)v\d+\.\d+\.\d+(\s*·\s*)\d+(\s*tests)"),
      lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}{c['total_tests']}{m.group(3)}"),
-    # outline 跨度端点："v0.1.0 → vX.Y.Z"
+    # ── deck 其余版本锚（2026-10-18 补，ppt-audit §4-② 收口）─────────────
+    # 此前只覆盖 stamp / 开源行 / 一种页脚；detailed·funding 的页首、台账
+    # 页脚、封面与终场卡的版本锚从未进同步面，这是 v0.9.0/v0.12.0 漂移
+    # 一个多月的另一半原因。全部锚在结构上下文上：带日期的里程碑史
+    # （v0.12.0 (10-05) / v0.1.0（09-04）→ …）不会命中。
+    ("封面stamp",
+     re.compile(r'(class="(?:seal|pill)">)[vV]\d+\.\d+\.\d+(\s*·\s*)\d{4}-\d{2}-\d{2}(</span>)'),
+     lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}{c['date']}{m.group(3)}"),
+    ("封面stamp",
+     re.compile(r'(class="t-meta"[^>]*>)[vV]\d+\.\d+\.\d+(\s*·\s*)\d{4}-\d{2}-\d{2}'),
+     lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}{c['date']}"),
+    ("封面stamp",
+     re.compile(r'(class="t-meta"[^>]*>)[vV]\d+\.\d+\.\d+'),
+     lambda m, c: f"{m.group(1)}v{c['ver']}"),
+    ("封面stamp",
+     re.compile(r'(>)[vV]\d+\.\d+\.\d+(\s*·\s*)\d{4}-\d{2}-\d{2}(\s*·\s*github\.com/Yfredy/LAOS)'),
+     lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}{c['date']}{m.group(3)}"),
+    ("封面stamp",
+     re.compile(r'(>)[vV]\d+\.\d+\.\d+(\s*·\s*GitHub\s+)'),
+     lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}"),
+    ("封面stamp",
+     re.compile(r'(REV\s+)[vV]\d+\.\d+\.\d+(\s*·\s*)\d{4}-\d{2}-\d{2}'),
+     lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}{c['date']}"),
+    ("封面stamp",
+     re.compile(r'(REV\s+)[vV]\d+\.\d+\.\d+(\s*·\s*)\d{2}\.\d{2}\.\d{2}'),
+     lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}{c['short_date']}"),
+    ("封面stamp",
+     re.compile(r'(<span class="p">)[vV]\d+\.\d+\.\d+(</span>)'),
+     lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}"),
+    ("封面stamp",
+     re.compile(r'(>)[vV]\d+\.\d+\.\d+(\s*开源)'),
+     lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}"),
+    ("封面stamp",
+     re.compile(r'(laos(?:\s*·\s*Linux AgentOS)?\s+)[vV]\d+\.\d+\.\d+(\s*——)'),
+     lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}"),
+    ("封面stamp",
+     re.compile(r'(版本基准\s*)[vV]\d+\.\d+\.\d+'),
+     lambda m, c: f"{m.group(1)}v{c['ver']}"),
+    ("封面stamp",
+     re.compile(r'(数字全部真实，)[vV]\d+\.\d+\.\d+(\s*基准)'),
+     lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}"),
+    ("封面stamp",
+     re.compile(r'(laos · Linux AgentOS · )[vV]\d+\.\d+\.\d+'),
+     lambda m, c: f"{m.group(1)}v{c['ver']}"),
+    ("封面stamp",
+     re.compile(r'(创新融资\s*·\s*项目介绍\s*·\s*)[vV]\d+\.\d+\.\d+'),
+     lambda m, c: f"{m.group(1)}v{c['ver']}"),
+    ("封面stamp",
+     re.compile(r'(class="dim mt-s">)[vV]\d+\.\d+\.\d+(\s*全量)'),
+     lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}"),
+    # funding 封面角标 / 备忘录 SRC 行 / ticker 三段式：版本号被 <b> 包起来
+    # 的正文字形（2026-10-18 收口时实测 funding-huashu 封面仍标 v0.12.0）
+    ("封面stamp",
+     re.compile(r'(<span class="chip">v<b>)\d+\.\d+\.\d+(</b></span>)'),
+     lambda m, c: f"{m.group(1)}{c['ver']}{m.group(2)}"),
+    ("封面stamp",
+     re.compile(r'(SRC / <b>v)\d+\.\d+\.\d+(</b>)'),
+     lambda m, c: f"{m.group(1)}{c['ver']}{m.group(2)}"),
+    ("封面stamp",
+     re.compile(r'(\[<b>V)\d+\.\d+\.\d+(</b>\])'),
+     lambda m, c: f"{m.group(1)}{c['ver']}{m.group(2)}"),
+    ("deck页脚",
+     re.compile(r'(<span>laos\s*)[vV]\d+\.\d+\.\d+(</span>)'),
+     lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}"),
+    ("deck页脚",
+     re.compile(r'(shutdown — )[vV]\d+\.\d+\.\d+'),
+     lambda m, c: f"{m.group(1)}v{c['ver']}"),
+    # 跨度端点的短形态："语义化版本 v0.1 → v0.9"
+    ("跨度端点",
+     re.compile(r'(语义化版本 v0\.1\s*→\s*)[vV]\d+\.\d+(?!\.\d)'),
+     lambda m, c: f"{m.group(1)}v{c['ver'].rsplit('.', 1)[0]}"),
+    ("deck页脚",
+     re.compile(r'(github\.com/Yfredy/LAOS\s*·\s*)[vV]\d+\.\d+\.\d+(\s*·\s*)\d{4}-\d{2}-\d{2}'),
+     lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}{c['date']}"),
+    ("deck页脚",
+     re.compile(r'(\[ OK \]</span>\s*)[vV]\d+\.\d+\.\d+(\s*·\s*)\d{4}-\d{2}-\d{2}'),
+     lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}{c['date']}"),
+    # detailed frontend 页脚：<span class="fnum">v0.12.0 · 765 tests · 15 drivers
+    ("deck页脚",
+     re.compile(r'(<span class="fnum">)[vV]\d+\.\d+\.\d+(\s*·\s*)\d+(\s*tests)'),
+     lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}{c['total_tests']}{m.group(3)}"),
+    # detailed html-ppt 页首：class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS
+    ("deck页首",
+     re.compile(r'(class="mono">)[vV]\d+\.\d+\.\d+(\s*·\s*)\d+(\s*TESTS)(\s*·)'),
+     lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}{c['total_tests']}{m.group(3)}{m.group(4)}"),
+    # detailed huashu 页脚：class="meta">V0.12.0 · 765 TESTS · 15 DRV
+    ("deck页脚",
+     re.compile(r'(class="meta">)[vV]\d+\.\d+\.\d+(\s*·\s*)\d+(\s*TESTS)(\s*·)'),
+     lambda m, c: f"{m.group(1)}V{c['ver']}{m.group(2)}{c['total_tests']}{m.group(3)}{m.group(4)}"),
+    # detailed huashu 尾页：GITHUB.COM/... · V0.12.0 · 26.10.05 · 765 TESTS
+    ("deck页脚",
+     re.compile(r'(GITHUB\.COM/YFREDY/LAOS\s*·\s*)[vV]\d+\.\d+\.\d+(\s*·\s*)\d{2}\.\d{2}\.\d{2}(\s*·\s*)\d+(\s*TESTS)'),
+     lambda m, c: f"{m.group(1)}V{c['ver']}{m.group(2)}{c['short_date']}{m.group(3)}{c['total_tests']}{m.group(4)}"),
+    # outline 跨度端点："v0.1.0 → vX.Y.Z" / "v0.1.0..vX.Y.Z" / 带日期的区间
     ("跨度端点",
      re.compile(r"(v0\.1\.0\s*→\s*)v\d+\.\d+\.\d+"),
      lambda m, c: f"{m.group(1)}v{c['ver']}"),
+    ("跨度端点",
+     re.compile(r"(v0\.1\.0\.\.)[vV]\d+\.\d+\.\d+"),
+     lambda m, c: f"{m.group(1)}v{c['ver']}"),
+    ("跨度端点",
+     re.compile(r"(v0\.1\.0（09-04）→\s*)[vV]\d+\.\d+\.\d+(（)\d{2}-\d{2}(）)"),
+     lambda m, c: f"{m.group(1)}v{c['ver']}{m.group(2)}{c['date'][5:]}{m.group(3)}"),
     # 测试计数（主库口径，\d{3,} 全量匹配：三位起步防误伤 "42 测试" 里程碑，
     # 但必须吃满整个数字串——\d{3} 在千位计数下只匹配尾三位，每次发版叠一个 "1"
     # （2026-10-09 实录：README 被写成 111111051，六次发版六层套娃））：
@@ -223,12 +344,260 @@ _DOC_PATTERNS = [
      lambda m, c: str(c["main_tests"])),
     ("测试计数", re.compile(r"\d{3,}(?= 项回归测试（)"),
      lambda m, c: str(c["main_tests"])),
+    # "N 项测试全绿"（README 数据面板 / guide 口径行）——
+    # 2026-10-18 实录：该形态不在上述任一模式内，README L69 停在 1146 而
+    # 实跑已 1159，故补此模式收口。
+    # 但 "主库 353 + 隔离区 350 = 1159 项测试全绿" 这类算术式里的数字是
+    # 合计而非主库（2026-10-18 实测：上一版同步把它刷成 353+350=1159 的
+    # 假等式）——前置 "= "/"+ " 的合计一律不碰，交给三段式模式重算。
+    # 显式「主库 N 项测试全绿」永远是主库口径（outline 常用），与文件类型无关
+    ("测试计数", re.compile(r"(主库\s*)\d{3,}(?= 项测试全绿)"),
+     lambda m, c: f"{m.group(1)}{c['main_tests']}"),
+    # 裸 "N 项测试全绿" 的口径按文件类型分：deck（html）说三树合计，markdown
+    # 介绍文档说主库实跑数（AGENTS.md：页脚/展示用总数，README 用主库实跑）。
+    # 2026-10-18 修正：上一版一律按主库刷，把 deck 里原本 765（415+279+71）
+    # 的合计写成 1159，数值自洽但口径错了；"主库 N" 前缀仍固定主库。
+    ("测试计数", re.compile(r"(?<!\d)(?<!主库 )([=+]\s*)?(\d{3,})(?= 项测试全绿)"),
+     lambda m, c: m.group(0) if m.group(1)
+     else str(c["total_tests"] if c["is_html"] else c["main_tests"])),
     # intro 组 deck 的英文戳："NNN TESTS GREEN" / "APPROVED · NNN GREEN"
     # （2026-10-08 补：这两形态自 v0.20.0 后从未被同步，一直在漂移）
     ("测试计数", re.compile(r"\d{3,}(?=\s*TESTS GREEN)"),
      lambda m, c: str(c["main_tests"])),
     ("测试计数", re.compile(r"(?<=·\s)\d{3,}(?=\s*GREEN)"),
      lambda m, c: str(c["main_tests"])),
+    # ── 测试计数的 deck 展示形态（2026-10-18 补）────────────────────────
+    # 页脚/页首/印章口径 = 三树合计（AGENTS.md：页脚总数含隔离区+复现区）
+    ("测试计数",
+     re.compile(r'(<span class="stamp">)\d+(\s*tests</span>)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(<span class="stamp">)\d+(\s*测试全绿</span>)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(<span class="mono p">)\d+(</span>\s*测试\s*·\s*<span class="mono p">)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
+    # 三树组件式（主库/隔离区/复现区 三段齐全时才重算，杜绝单点改写）
+    ("测试计数",
+     re.compile(r"(主库\s*)\d+(\s*[+/·]\s*(?:隔离区|AlwaysOnRec)\s*)\d+(\s*[+/·]\s*(?:复现区|Repro)\s*)\d+"),
+     lambda m, c: (f"{m.group(1)}{c['main_tests']}{m.group(2)}"
+                   f"{c['iso_tests']}{m.group(3)}{c['repro_tests']}")),
+    ("测试计数",
+     re.compile(r"(主库\s*)\d+(\s*\+\s*隔离区\s*)\d+(\s*=\s*)\d+(\s*项测试全绿)"),
+     lambda m, c: (f"{m.group(1)}{c['main_tests']}{m.group(2)}{c['iso_tests']}"
+                   f" + 复现区 {c['repro_tests']}{m.group(3)}{c['total_tests']}{m.group(4)}")),
+    # 四段式（三树 + 合计）：必须能重匹配自己的输出，否则第二次发版起
+    # 明细会继续更新而合计永远停在第一次同步的数（2026-10-18 实测：
+    # intro-guizang 停在 1532）。三树式同理，输出形态与输入一致。
+    ("测试计数",
+     re.compile(r"(主库\s*)\d+(\s*\+\s*隔离区\s*)\d+(\s*\+\s*复现区\s*)\d+(\s*=\s*)\d+(\s*项测试全绿)"),
+     lambda m, c: (f"{m.group(1)}{c['main_tests']}{m.group(2)}{c['iso_tests']}"
+                   f"{m.group(3)}{c['repro_tests']}{m.group(4)}"
+                   f"{c['total_tests']}{m.group(5)}")),
+    ("测试计数",
+     re.compile(r'(·\s*)\d+(\s*tests green \(主库)\s*\d+(\s*\+\s*隔离区)\s*\d+'
+                r'(?:\s*\+\s*复现区\s*\d+)?(\))'),
+     lambda m, c: (f"{m.group(1)}{c['total_tests']}{m.group(2)}{c['main_tests']}"
+                   f"{m.group(3)}{c['iso_tests']} + 复现区 {c['repro_tests']}{m.group(4)}")),
+    # ONBOARDING 与飞书介绍活文档（2026-10-18 收进 DOC_GLOBS）：
+    # 前者是"主库测试数 | N 项"表格行与 `Ran N tests` 期望值，后者是
+    # 口径头的 "N 项测试（DATE 实跑）" 与 "N 项测试全绿（主库，DATE 实跑）"。
+    # 只命中带结构上下文的形态，日期同步到发版日（活文档的"实跑"就是当下）。
+    ("测试计数",
+     re.compile(r"(\|\s*主库测试数\s*\|\s*)\d{3,}(?=\s*项（)"),
+     lambda m, c: f"{m.group(1)}{c['main_tests']}"),
+    ("测试计数",
+     re.compile(r"(\bRan\s+)\d{3,}(?=\s*tests)"),
+     lambda m, c: f"{m.group(1)}{c['main_tests']}"),
+    # 讲稿类活文档的裸主库口径（"实跑"是讲稿锚点声明的固定措辞）
+    ("测试计数",
+     re.compile(r"(｜\s*)\d{3,}(?=\s*项测试（实跑）)"),
+     lambda m, c: f"{m.group(1)}{c['main_tests']}"),
+    ("测试计数",
+     re.compile(r"(\d{3,})(\s*项测试（)\d{4}-\d{2}-\d{2}(\s*实跑）)"),
+     lambda m, c: f"{c['main_tests']}{m.group(2)}{c['date']}{m.group(3)}"),
+    ("测试计数",
+     re.compile(r"(\d{3,})(\s*项测试全绿\*{0,2}（主库，)\d{4}-\d{2}-\d{2}(\s*实跑[^）]*）)"),
+     lambda m, c: f"{c['main_tests']}{m.group(2)}{c['date']}{m.group(3)}"),
+    # ── deck 正文的「合计」展示位（2026-10-18 补）──────────────────────
+    # 面板/台账/终场卡把测试总数单独做成了大字号，此前只刷三树明细，
+    # 合计停在旧值（765），造成同页"明细已新、合计仍旧"的分裂。以下每条
+    # 都锚死展示结构（class/相邻文案），不动讲稿里的"765 测试"叙述
+    # （那类常带 415+279+71 算术，属于重建时的人工内容）。
+    ("测试计数",
+     re.compile(r'(<span class="mono p">)\d+(</span>\s*green（主库)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(→\s*)\d+( collected · )\d+( passed)'),
+     lambda m, c: (f"{m.group(1)}{c['total_tests']}{m.group(2)}"
+                   f"{c['total_tests']}{m.group(3)}")),
+    ("测试计数",
+     re.compile(r'(合计\s*<span[^>]*>)\d+( 全绿</span>)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(<span class="ledger-num"[^>]*>)\d+(</span>\s*<div class="ledger-label"><div[^>]*>测试全绿)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(<div class="ledger-num"[^>]*>)\d+(</div>\s*<div class="ledger-label"><div[^>]*>TESTS GREEN)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(<h2><span class="gold">)\d+(</span> 测试，全绿)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(<div class="bignum" style="font-size:120px">)\d+(</div>\s*<hr class="hair">\s*<p[^>]*>全仓测试总数)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(<span class="tag green">)\d+( 测试</span>)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(<b>)\d+(</b> 全绿（主库)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(<tr><td>测试</td><td class="m">)\d+(</td><td>主库)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(·\s*)\d+( 测试</div>)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
+    # ── 三树明细展示位与算术式（2026-10-18 收口）───────────────────────
+    # 合计刷了、明细没刷，同页会自相矛盾（"合计 1537" 旁边写 "主库 415"）。
+    # 明细锚一律绑死树名/色块结构，避免碰到"六来源 71 项测试"这类合法子集
+    # 数字（复现区现行 94 = 六来源 71 + AuraSE 规则版 23，两者不是同一量）。
+    ("测试计数",
+     re.compile(r'(font-weight:700">laos</span> 主库 <span class="c mono" style="font-size:19px">)\d+( tests)'),
+     lambda m, c: f"{m.group(1)}{c['main_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(font-weight:700">Repro</span> 复现区 <span class="c mono" style="font-size:19px">)\d+( tests)'),
+     lambda m, c: f"{m.group(1)}{c['repro_tests']}{m.group(2)}"),
+    # 比例条：数字与宽度必须同源重算，否则条形与标签打架
+    ("测试计数",
+     re.compile(r'(<div class="stbar">\s*<div style="flex:)[\d.]+(;background:var\(--green\)">)\d+'
+                r'(</div>\s*<div style="flex:)[\d.]+(;background:var\(--blue\)">)\d+'
+                r'(</div>\s*<div style="flex:)[\d.]+(;background:var\(--purple\)">)\d+(</div>)'),
+     lambda m, c: (f"{m.group(1)}{_split_pcts(c)[0]:.1f}{m.group(2)}{c['main_tests']}"
+                   f"{m.group(3)}{_split_pcts(c)[1]:.1f}{m.group(4)}{c['iso_tests']}"
+                   f"{m.group(5)}{_split_pcts(c)[2]:.1f}{m.group(6)}{c['repro_tests']}{m.group(7)}")),
+    ("测试计数",
+     re.compile(r'(<div class="sg1" style="width:)[\d.]+(%">主库 )\d+(</div>)'),
+     lambda m, c: f"{m.group(1)}{_split_pcts(c)[0]:.1f}{m.group(2)}{c['main_tests']}{m.group(3)}"),
+    ("测试计数",
+     re.compile(r'(<div class="sg2" style="width:)[\d.]+(%">AlwaysOnRec )\d+(</div>)'),
+     lambda m, c: f"{m.group(1)}{_split_pcts(c)[1]:.1f}{m.group(2)}{c['iso_tests']}{m.group(3)}"),
+    ("测试计数",
+     re.compile(r'(<div class="sg3" style="width:)[\d.]+(%">Repro )\d+(</div>)'),
+     lambda m, c: f"{m.group(1)}{_split_pcts(c)[2]:.1f}{m.group(2)}{c['repro_tests']}{m.group(3)}"),
+    ("测试计数",
+     re.compile(r'(<div class="legend"><span><b>)[\d.]+(%</b> 内核与驱动语义</span><span><b>)'
+                r'[\d.]+(%</b> 录音沙箱</span><span><b>)[\d.]+(%</b> 论文复现)'),
+     lambda m, c: (f"{m.group(1)}{_split_pcts(c)[0]:.1f}{m.group(2)}"
+                   f"{_split_pcts(c)[1]:.1f}{m.group(3)}"
+                   f"{_split_pcts(c)[2]:.1f}{m.group(4)}")),
+    # guizang 台账行：树名在 ledger-label 里
+    ("测试计数",
+     re.compile(r'(<span class="ledger-num"[^>]*>)\d+(</span>\s*<div class="ledger-label"><div[^>]*>laos 主库)'),
+     lambda m, c: f"{m.group(1)}{c['main_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(<span class="ledger-num"[^>]*>)\d+(</span>\s*<div class="ledger-label"><div[^>]*>Repro 复现区)'),
+     lambda m, c: f"{m.group(1)}{c['repro_tests']}{m.group(2)}"),
+    # html-ppt 三树表
+    ("测试计数",
+     re.compile(r'(<tr><td><b>laos</b> 主库</td><td>内核 \+ 驱动</td><td class="mono">)\d+(</td>)'),
+     lambda m, c: f"{m.group(1)}{c['main_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(<tr><td><b>Repro</b></td><td>论文复现区</td><td class="mono">)\d+(</td>)'),
+     lambda m, c: f"{m.group(1)}{c['repro_tests']}{m.group(2)}"),
+    # funding 封面角标 / 里程碑大数字 / ticker
+    ("测试计数",
+     re.compile(r'(<span class="chip"><b>)\d+(</b> 测试全绿)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(\[TESTS <b>)\d+( GREEN</b>\])'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(<div class="bignum">)\d+(</div><hr class="hair">\s*<p[^>]*>测试全绿)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
+    # v6 合成版：算术式必须四数同源重算
+    ("测试计数",
+     re.compile(r'(<span>D · 质量文化组</span><span>)\d+( = )\d+( \+ )\d+( \+ )\d+(</span>)'),
+     lambda m, c: (f"{m.group(1)}{c['total_tests']}{m.group(2)}{c['main_tests']}"
+                   f"{m.group(3)}{c['iso_tests']}{m.group(4)}{c['repro_tests']}{m.group(5)}")),
+    ("测试计数",
+     re.compile(r'(<div class="gold mono" style="font-size:64px;font-weight:800">)\d+'
+                r'(</div><div class="caption">测试全绿<br>)\d+( 主库 \+ )\d+( 隔离 \+ )\d+( 复现</div>)'),
+     lambda m, c: (f"{m.group(1)}{c['total_tests']}{m.group(2)}{c['main_tests']}"
+                   f"{m.group(3)}{c['iso_tests']}{m.group(4)}{c['repro_tests']}{m.group(5)}")),
+    # 底稿（docs/ppt/*.md）的角标/仓库行：测试数写成"… · N 测试"或
+    # "… N 版本/N 测试/…"。锚死行首标签，dated 版本史行不命中。
+    ("测试计数",
+     re.compile(r"(仓库：[^\n]*?·\s*)\d+(?= 测试)"),
+     lambda m, c: f"{m.group(1)}{c['main_tests']}"),
+    ("测试计数",
+     re.compile(r"(角标：[^\n]*?·\s*)\d+(?= 测试)"),
+     lambda m, c: f"{m.group(1)}{c['main_tests']}"),
+    ("测试计数",
+     re.compile(r"(角标[^\n]*?·\s*测试\s*)\d+(?=\s*·)"),
+     lambda m, c: f"{m.group(1)}{c['main_tests']}"),
+    ("测试计数",
+     re.compile(r"(版本/)\d+(?= 测试/)"),
+     lambda m, c: f"{m.group(1)}{c['main_tests']}"),
+    ("测试计数",
+     re.compile(r"(版本\s*/\s*)\d+(?= 测试\s*/)"),
+     lambda m, c: f"{m.group(1)}{c['main_tests']}"),
+    ("测试计数",
+     re.compile(r'(\b)\d+(?=\s*测试全绿)'),
+     lambda m, c: str(c["total_tests"])),
+    ("测试计数",
+     re.compile(r'(<span class="hl">)\d+(</span>\s*测试全绿)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(<h2 class="h2 mt-s">)\d+(\s*全绿)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(>)\d+(\s*项测试，全绿)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(class="stat-num">)\d+(\s*<small>GREEN)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(class="stat-num">)\d+(</p><p class="stat-sub">测试全绿)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(data-count=")\d+(">)\d+(</span>\s*<span class="k">测试全绿)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}{c['total_tests']}{m.group(3)}"),
+    ("测试计数",
+     re.compile(r'(class="n">)\d+(</div>\s*<div class="decomp">)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(<b>)\d+(</b>\s*主库)'),
+     lambda m, c: f"{m.group(1)}{c['main_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(<b>)\d+(</b>\s*AlwaysOnRec)'),
+     lambda m, c: f"{m.group(1)}{c['iso_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(<b>)\d+(</b>\s*Repro)'),
+     lambda m, c: f"{m.group(1)}{c['repro_tests']}{m.group(2)}"),
+    # intro 封面三树药丸
+    ("测试计数",
+     re.compile(r'(<span class="pill">主库\s*)\d+(\s*tests)'),
+     lambda m, c: f"{m.group(1)}{c['main_tests']}{m.group(2)}"),
+    ("测试计数",
+     re.compile(r'(<span class="pill">AlwaysOnRec\s*)\d+'),
+     lambda m, c: f"{m.group(1)}{c['iso_tests']}"),
+    ("测试计数",
+     re.compile(r'(<span class="pill">Repro\s*)\d+'),
+     lambda m, c: f"{m.group(1)}{c['repro_tests']}"),
+    # detailed 质量页四张卡
+    ("测试计数",
+     re.compile(r'(data-tag="主库"><p class="stat-num">)\d+'),
+     lambda m, c: f"{m.group(1)}{c['main_tests']}"),
+    ("测试计数",
+     re.compile(r'(data-tag="录音隔离区"><p class="stat-num">)\d+'),
+     lambda m, c: f"{m.group(1)}{c['iso_tests']}"),
+    ("测试计数",
+     re.compile(r'(data-tag="复现区"><p class="stat-num">)\d+'),
+     lambda m, c: f"{m.group(1)}{c['repro_tests']}"),
+    ("测试计数",
+     re.compile(r'(data-tag="合计"[^>]*><p class="stat-num">)\d+(\s*<small>GREEN)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
 ]
 
 
@@ -278,20 +647,27 @@ _DATED_REPORT_RE = re.compile(r"\d{4}-\d{2}-\d{2}")
 
 def sync_docs(version: str, *, dry_run: bool = False,
               globs: list[str] | None = None, counts: dict | None = None,
-              detail: bool = False) -> list[str]:
+              detail: bool = False, release_date: str | None = None) -> list[str]:
     """发版时同步全部介绍性文件（README/PROJECT_OVERVIEW/全部 PPT deck）。
 
     规则来源：AGENTS.md 记忆条目"每次发版更新所有介绍性文档"（2026-10-06）。
     只动"当前版本声明/封面 stamp/页脚/版本跨度端点/测试计数"五类锚点，
     带日期的里程碑史（如 "v0.12.0 (10-05)"）不动。返回逐文件报告行。
     counts 缺省用静态计数；发版主流程传 main_by_run 的实跑数。
+    release_date 缺省取当天（仅用于与当前版本同排的封面日期戳；历史里程碑
+    日期不在同步面内）。
     detail=True（"项"模式）：报告行附逐锚点命中细目
     `[当前版本行×1,deck页脚×2,...]`，供终审五类锚点核查使用。
     """
     counts = counts or zone_test_counts()
+    iso_date = release_date or _date.today().isoformat()
     ctx = {"ver": version,
            "main_tests": counts["main_tests"],
-           "total_tests": counts["main_tests"] + counts["iso_tests"] + counts["repro_tests"]}
+           "iso_tests": counts["iso_tests"],
+           "repro_tests": counts["repro_tests"],
+           "total_tests": counts["main_tests"] + counts["iso_tests"] + counts["repro_tests"],
+           "date": iso_date,
+           "short_date": iso_date[2:].replace("-", ".")}
     report = [f"docs-sync ctx: v{version}, 主库 {ctx['main_tests']} 测试, "
               f"总 {ctx['total_tests']} tests（含隔离 {counts['iso_tests']} + 复现 {counts['repro_tests']}）"]
     for pattern_glob in (globs or DOC_GLOBS):
@@ -314,8 +690,9 @@ def sync_docs(version: str, *, dry_run: bool = False,
             text = path.read_text(encoding="utf-8")
             new_text, hits = text, 0
             per_anchor: dict[str, int] = {}
+            fctx = {**ctx, "is_html": path.suffix.lower() == ".html"}
             for name, rx, fmt in _DOC_PATTERNS:
-                new_text, n = rx.subn(lambda m, f=fmt: f(m, ctx), new_text)
+                new_text, n = rx.subn(lambda m, f=fmt: f(m, fctx), new_text)
                 hits += n
                 if n:
                     per_anchor[name] = per_anchor.get(name, 0) + n

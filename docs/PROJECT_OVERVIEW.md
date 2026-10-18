@@ -76,7 +76,7 @@ laos/
 │   ├── profiling.py         eBPF profiling：bpftrace 采集驱动进程真实 syscall（内核真值）
 │   └── validate.py          参数 schema 校验（堵"工具管理器无校验"的洞）
 │
-├── drivers/                 ★ 设备驱动（每个=一个 MCP Server 子进程，14 个）
+├── drivers/                 ★ 设备驱动（每个=一个 MCP Server 子进程，17 个）
 │   ├── drv_fs.py            文件系统：read/write/append/list/stat（jail 内）
 │   ├── drv_proc.py          进程：exec（白名单+危险模式拦截）/list
 │   ├── drv_sys.py           系统信息：info（主机名脱敏）/load

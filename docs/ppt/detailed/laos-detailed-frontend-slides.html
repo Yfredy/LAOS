@@ -248,16 +248,16 @@ table.t th{color:var(--green-dim);font-weight:400;font-family:var(--mono);font-s
         <p class="reveal c mono">$ laosd boot --verbose</p>
         <p class="reveal"><span class="ok">[ OK ]</span> syscall 闸门链 · <span class="mono p">8</span> 环就绪（caps → audit）</p>
         <p class="reveal"><span class="ok">[ OK ]</span> 驱动子进程 · <span class="mono p">15</span> × drv_* 重依赖隔离</p>
-        <p class="reveal"><span class="ok">[ OK ]</span> 测试 · <span class="mono p">765</span> green（主库 415 + 隔离区 279 + 复现区 71）</p>
+        <p class="reveal"><span class="ok">[ OK ]</span> 测试 · <span class="mono p">1532</span> green（主库 1159 + 隔离区 279 + 复现区 94）</p>
         <h1 class="reveal mono glowtitle" style="font-size:84px;color:var(--green);margin:22px 0 8px">laos · Linux AgentOS</h1>
         <p class="reveal" style="font-size:30px">Linux 内核的 Agent 扩展（用户态 · 零内核改动） <span class="c">·</span> 详细技术深潜</p>
         <p class="reveal mono" style="font-size:26px;color:var(--green);margin-top:16px">Linux AgentOS = Linux kernel + Agent + MCP</p>
-        <p class="reveal c mono" style="font-size:21px;margin-top:18px">v0.12.0 · 2026-10-05 · github.com/Yfredy/LAOS</p>
+        <p class="reveal c mono" style="font-size:21px;margin-top:18px">v0.39.0 · 2026-10-18 · github.com/Yfredy/LAOS</p>
         <p class="reveal"><span class="prompt">~/laos $</span> <span class="cursor"></span></p>
       </div>
     </div>
   </div>
-  <div class="pagefoot"><span>laos · DETAILED DIVE · BOOT</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 01 / 19</span></div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · BOOT</span><span class="fnum">v0.39.0 · 1532 tests · 15 drivers · 01 / 19</span></div>
 </section>
 
 <!-- === SLIDE 02 · MANIFEST (TOC) === -->
@@ -276,7 +276,7 @@ table.t th{color:var(--green-dim);font-weight:400;font-family:var(--mono);font-s
       </div>
     </div>
   </div>
-  <div class="pagefoot"><span>laos · DETAILED DIVE · MANIFEST</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 02 / 19</span></div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · MANIFEST</span><span class="fnum">v0.39.0 · 1532 tests · 15 drivers · 02 / 19</span></div>
 </section>
 
 <!-- === SLIDE 03 · A2 THESIS === -->
@@ -315,7 +315,7 @@ table.t th{color:var(--green-dim);font-weight:400;font-family:var(--mono);font-s
       </div>
     </div>
   </div>
-  <div class="pagefoot"><span>laos · DETAILED DIVE · THESIS</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 03 / 19</span></div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · THESIS</span><span class="fnum">v0.39.0 · 1532 tests · 15 drivers · 03 / 19</span></div>
 </section>
 
 <!-- === SLIDE 04 · A3 LANDSCAPE === -->
@@ -352,7 +352,7 @@ table.t th{color:var(--green-dim);font-weight:400;font-family:var(--mono);font-s
       </div>
     </div>
   </div>
-  <div class="pagefoot"><span>laos · DETAILED DIVE · LANDSCAPE</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 04 / 19</span></div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · LANDSCAPE</span><span class="fnum">v0.39.0 · 1532 tests · 15 drivers · 04 / 19</span></div>
 </section>
 
 <!-- === SLIDE 05 · B1 ARCHITECTURE === -->
@@ -396,16 +396,16 @@ table.t th{color:var(--green-dim);font-weight:400;font-family:var(--mono);font-s
         <div class="card blue reveal" style="flex:1.35">
           <h3 style="color:var(--blue)">三棵树 · 三个测试区</h3>
           <div class="klist" style="font-size:23px">
-            <p><span class="mono" style="color:var(--blue);font-weight:700">laos</span> 主库 <span class="c mono" style="font-size:19px">415 tests</span></p>
+            <p><span class="mono" style="color:var(--blue);font-weight:700">laos</span> 主库 <span class="c mono" style="font-size:19px">1159 tests</span></p>
             <p><span class="mono" style="color:var(--blue);font-weight:700">AlwaysOnRec</span> 隔离区 <span class="c mono" style="font-size:19px">279 tests</span></p>
-            <p><span class="mono" style="color:var(--blue);font-weight:700">Repro</span> 复现区 <span class="c mono" style="font-size:19px">71 tests</span></p>
+            <p><span class="mono" style="color:var(--blue);font-weight:700">Repro</span> 复现区 <span class="c mono" style="font-size:19px">94 tests</span></p>
             <p class="c" style="font-size:20px">常驻录音与论文复现各自隔离，主库保持洁净</p>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="pagefoot"><span>laos · DETAILED DIVE · ARCHITECTURE</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 05 / 19</span></div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · ARCHITECTURE</span><span class="fnum">v0.39.0 · 1532 tests · 15 drivers · 05 / 19</span></div>
 </section>
 
 <!-- === SLIDE 06 · B2 GATE CHAIN (CORE PAGE, 8-RING PIPELINE) === -->
@@ -448,7 +448,7 @@ table.t th{color:var(--green-dim);font-weight:400;font-family:var(--mono);font-s
       </div>
     </div>
   </div>
-  <div class="pagefoot"><span>laos · DETAILED DIVE · GATE CHAIN</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 06 / 19</span></div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · GATE CHAIN</span><span class="fnum">v0.39.0 · 1532 tests · 15 drivers · 06 / 19</span></div>
 </section>
 
 <!-- === SLIDE 07 · B3 BRANCH & MEMORY === -->
@@ -496,7 +496,7 @@ table.t th{color:var(--green-dim);font-weight:400;font-family:var(--mono);font-s
       </div>
     </div>
   </div>
-  <div class="pagefoot"><span>laos · DETAILED DIVE · BRANCH · MEMORY</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 07 / 19</span></div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · BRANCH · MEMORY</span><span class="fnum">v0.39.0 · 1532 tests · 15 drivers · 07 / 19</span></div>
 </section>
 
 <!-- === SLIDE 08 · B4 JEV === -->
@@ -532,7 +532,7 @@ table.t th{color:var(--green-dim);font-weight:400;font-family:var(--mono);font-s
       </div>
     </div>
   </div>
-  <div class="pagefoot"><span>laos · DETAILED DIVE · JEV</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 08 / 19</span></div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · JEV</span><span class="fnum">v0.39.0 · 1532 tests · 15 drivers · 08 / 19</span></div>
 </section>
 
 <!-- === SLIDE 09 · C1 DRIVERS === -->
@@ -574,7 +574,7 @@ table.t th{color:var(--green-dim);font-weight:400;font-family:var(--mono);font-s
       </div>
     </div>
   </div>
-  <div class="pagefoot"><span>laos · DETAILED DIVE · DRIVERS</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 09 / 19</span></div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · DRIVERS</span><span class="fnum">v0.39.0 · 1532 tests · 15 drivers · 09 / 19</span></div>
 </section>
 
 <!-- === SLIDE 10 · C2 HEARING STACK (FUNNEL) === -->
@@ -594,7 +594,7 @@ table.t th{color:var(--green-dim);font-weight:400;font-family:var(--mono);font-s
       </div>
     </div>
   </div>
-  <div class="pagefoot"><span>laos · DETAILED DIVE · HEARING STACK</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 10 / 19</span></div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · HEARING STACK</span><span class="fnum">v0.39.0 · 1532 tests · 15 drivers · 10 / 19</span></div>
 </section>
 
 <!-- === SLIDE 11 · C3 DUPLEX TRIO === -->
@@ -640,7 +640,7 @@ table.t th{color:var(--green-dim);font-weight:400;font-family:var(--mono);font-s
       </div>
     </div>
   </div>
-  <div class="pagefoot"><span>laos · DETAILED DIVE · DUPLEX TRIO</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 11 / 19</span></div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · DUPLEX TRIO</span><span class="fnum">v0.39.0 · 1532 tests · 15 drivers · 11 / 19</span></div>
 </section>
 
 <!-- === SLIDE 12 · C4 ALWAYSONREC === -->
@@ -680,23 +680,23 @@ table.t th{color:var(--green-dim);font-weight:400;font-family:var(--mono);font-s
       </div>
     </div>
   </div>
-  <div class="pagefoot"><span>laos · DETAILED DIVE · ALWAYSONREC</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 12 / 19</span></div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · ALWAYSONREC</span><span class="fnum">v0.39.0 · 1532 tests · 15 drivers · 12 / 19</span></div>
 </section>
 
 <!-- === SLIDE 13 · D1 QUALITY === -->
 <section class="slide">
   <div class="slide-content">
-    <p class="kicker reveal"><span class="grp d">D1 · 质量</span><span class="cmd">$ pytest -q --co | tail -1 → 765 collected · 765 passed</span></p>
-    <h2 class="pt reveal"><span class="hl">765</span> 测试全绿 <span class="hl">·</span> TDD 纪律</h2>
-    <p class="sub reveal">三个测试区各守一棵树 —— 主库 415 · 隔离区 279 · 复现区 71</p>
+    <p class="kicker reveal"><span class="grp d">D1 · 质量</span><span class="cmd">$ pytest -q --co | tail -1 → 1211 collected</span></p>
+    <h2 class="pt reveal"><span class="hl">1532</span> 测试全绿 <span class="hl">·</span> TDD 纪律</h2>
+    <p class="sub reveal">三个测试区各守一棵树 —— 主库 1159 · 隔离区 279 · 复现区 94</p>
     <div class="body-zone">
       <div class="reveal">
         <div class="stbar">
-          <div style="flex:54.2;background:var(--green)">415</div>
-          <div style="flex:36.5;background:var(--blue)">279</div>
-          <div style="flex:9.3;background:var(--purple)">71</div>
+          <div style="flex:75.7;background:var(--green)">1159</div>
+          <div style="flex:18.1;background:var(--blue)">279</div>
+          <div style="flex:6.1;background:var(--purple)">94</div>
         </div>
-        <p class="mono c" style="font-size:20px;margin-top:10px;text-align:center">laos 主库 415 · AlwaysOnRec 279 · Repro 71 ── 合计 <span style="color:var(--green)">765 全绿</span></p>
+        <p class="mono c" style="font-size:20px;margin-top:10px;text-align:center">laos 主库 1159 · AlwaysOnRec 279 · Repro 94 ── 合计 <span style="color:var(--green)">1532 全绿</span></p>
       </div>
       <div class="grid2" style="flex:1;margin-top:22px">
         <div class="card reveal">
@@ -716,13 +716,13 @@ table.t th{color:var(--green-dim);font-weight:400;font-family:var(--mono);font-s
       </div>
     </div>
   </div>
-  <div class="pagefoot"><span>laos · DETAILED DIVE · QUALITY</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 13 / 19</span></div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · QUALITY</span><span class="fnum">v0.39.0 · 1532 tests · 15 drivers · 13 / 19</span></div>
 </section>
 
 <!-- === SLIDE 14 · D2 VERSION HISTORY === -->
 <section class="slide">
   <div class="slide-content">
-    <p class="kicker reveal"><span class="grp d">D2 · 版本史</span><span class="cmd">$ git log --oneline v0.1.0..v0.12.0 → 30 天 · 12 MINOR</span></p>
+    <p class="kicker reveal"><span class="grp d">D2 · 版本史</span><span class="cmd">$ git log --oneline v0.1.0..v0.39.0 → 30 天 · 12 MINOR</span></p>
     <h2 class="pt reveal">版本史时间线 <span class="hl">v0.1.0 → v0.39.0</span></h2>
     <p class="sub reveal">2026-09-04 → 10-05：三十天，十二个 MINOR，一步一个需求波次</p>
     <div class="body-zone">
@@ -740,7 +740,7 @@ table.t th{color:var(--green-dim);font-weight:400;font-family:var(--mono);font-s
       </div>
     </div>
   </div>
-  <div class="pagefoot"><span>laos · DETAILED DIVE · VERSION HISTORY</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 14 / 19</span></div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · VERSION HISTORY</span><span class="fnum">v0.39.0 · 1532 tests · 15 drivers · 14 / 19</span></div>
 </section>
 
 <!-- === SLIDE 15 · D3 REPRO CULTURE === -->
@@ -783,7 +783,7 @@ table.t th{color:var(--green-dim);font-weight:400;font-family:var(--mono);font-s
       </div>
     </div>
   </div>
-  <div class="pagefoot"><span>laos · DETAILED DIVE · REPRO CULTURE</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 15 / 19</span></div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · REPRO CULTURE</span><span class="fnum">v0.39.0 · 1532 tests · 15 drivers · 15 / 19</span></div>
 </section>
 
 <!-- === SLIDE 16 · D4 CORPUS === -->
@@ -823,7 +823,7 @@ table.t th{color:var(--green-dim);font-weight:400;font-family:var(--mono);font-s
       </div>
     </div>
   </div>
-  <div class="pagefoot"><span>laos · DETAILED DIVE · CORPUS</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 16 / 19</span></div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · CORPUS</span><span class="fnum">v0.39.0 · 1532 tests · 15 drivers · 16 / 19</span></div>
 </section>
 
 <!-- === SLIDE 17 · E1 RED LINES === -->
@@ -858,7 +858,7 @@ table.t th{color:var(--green-dim);font-weight:400;font-family:var(--mono);font-s
       </div>
     </div>
   </div>
-  <div class="pagefoot"><span>laos · DETAILED DIVE · RED LINES</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 17 / 19</span></div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · RED LINES</span><span class="fnum">v0.39.0 · 1532 tests · 15 drivers · 17 / 19</span></div>
 </section>
 
 <!-- === SLIDE 18 · E2 ROADMAP === -->
@@ -897,24 +897,24 @@ table.t th{color:var(--green-dim);font-weight:400;font-family:var(--mono);font-s
       </div>
     </div>
   </div>
-  <div class="pagefoot"><span>laos · DETAILED DIVE · ROADMAP</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 18 / 19</span></div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · ROADMAP</span><span class="fnum">v0.39.0 · 1532 tests · 15 drivers · 18 / 19</span></div>
 </section>
 
 <!-- === SLIDE 19 · E3 CLOSING === -->
 <section class="slide">
   <div class="slide-content" style="justify-content:center;align-items:center">
     <div class="term" style="width:1460px">
-      <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">shutdown — detailed dive v0.12.0</span></div>
+      <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">shutdown — detailed dive v0.39.0</span></div>
       <div class="term-body" style="font-size:26px">
         <p class="reveal mono glowtitle" style="font-size:52px;color:var(--green);line-height:1.35">Agent 需要的不是更强的模型，<br>是一个会说「不」的内核。</p>
-        <p class="reveal" style="margin-top:26px"><span class="ok">[ OK ]</span> v0.12.0 · 2026-10-05 · <span class="mono p">765</span> 测试 · <span class="mono p">15</span> 驱动 · <span class="mono p">12</span> 个 MINOR</p>
+        <p class="reveal" style="margin-top:26px"><span class="ok">[ OK ]</span> v0.39.0 · 2026-10-18 · <span class="mono p">1532</span> 测试 · <span class="mono p">15</span> 驱动 · <span class="mono p">12</span> 个 MINOR</p>
         <p class="reveal"><span class="ok">[ OK ]</span> 18 内容域深潜完毕：闸门链 · 分支内存 · Jev · 听觉栈 · 全双工 · 复现文化</p>
         <p class="reveal mono" style="margin-top:26px;color:var(--text-dim)">github.com/Yfredy/LAOS</p>
         <p class="reveal"><span class="prompt">~/laos $</span> <span class="cursor"></span></p>
       </div>
     </div>
   </div>
-  <div class="pagefoot"><span>laos · DETAILED DIVE · END</span><span class="fnum">v0.12.0 · 765 tests · 15 drivers · 19 / 19</span></div>
+  <div class="pagefoot"><span>laos · DETAILED DIVE · END</span><span class="fnum">v0.39.0 · 1532 tests · 15 drivers · 19 / 19</span></div>
 </section>
 
 </main>

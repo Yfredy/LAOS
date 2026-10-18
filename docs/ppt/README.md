@@ -74,7 +74,7 @@ ppt-master 字号角色体系+Hero breathing 大数字 ｜ guizang 12 列 Swiss 
 | html-ppt | [funding/laos-funding-html-ppt.html](funding/laos-funding-html-ppt.html) | 15 | ledger-ink 主题（令牌 0 字面色）；15 页逐字路演稿含投资人 Q&A 预埋 |
 | huashu | [funding/laos-funding-huashu.html](funding/laos-funding-huashu.html) + [方向板](funding/laos-funding-huashu-directions.html) + gate 文件 | 15 | Playwright 0 溢出（修复 4 处后）；壹贰叁防涂改数字=台账母题同构 |
 
-**v6 合成版**：[laos-funding-v6.html](laos-funding-v6.html)（16 页 = 15 内容页 + 1 页 v6 出处附录）——同上公式，融资特化：huashu 壹贰叁痛点三柱、示例红章、诚实框正色；guizang 四象限/真比例用资塔；ppt-master 结论式标题+breathing 四大数（12/765/19,792/4）；每页 S 键逐字路演稿。视觉验收 11/12 直接过，P14 面板空置被判 fail → 已修（台账面板化）并复审。
+**v6 合成版**：[laos-funding-v6.html](laos-funding-v6.html)（16 页 = 15 内容页 + 1 页 v6 出处附录）——同上公式，融资特化：huashu 壹贰叁痛点三柱、示例红章、诚实框正色；guizang 四象限/真比例用资塔；ppt-master 结论式标题+breathing 四大数（12/1538/19,792/4）；每页 S 键逐字路演稿。视觉验收 11/12 直接过，P14 面板空置被判 fail → 已修（台账面板化）并复审。
 
 ## 第二波裁决（增量结论）
 

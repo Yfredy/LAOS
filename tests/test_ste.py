@@ -132,9 +132,15 @@ class TestSteCli(unittest.TestCase):
             fh.write(content)
             path = fh.name
         try:
+            # 父进程解码固定 utf-8；同时给子进程钉住 PYTHONIOENCODING，否则
+            # 子进程按 locale(GBK) 输出、父进程按 GBK 解码时，若外部已设
+            # PYTHONIOENCODING=utf-8 就会 UnicodeDecodeError → stdout=None
+            # （2026-10-18 实录：同一套件带该环境变量跑出 2 errors）。
+            env = {**os.environ, "PYTHONIOENCODING": "utf-8"}
             return subprocess.run(
                 [sys.executable, "-m", "laos.ste", path],
-                capture_output=True, text=True, cwd=str(REPO))
+                capture_output=True, encoding="utf-8", env=env,
+                cwd=str(REPO))
         finally:
             Path(path).unlink(missing_ok=True)
 

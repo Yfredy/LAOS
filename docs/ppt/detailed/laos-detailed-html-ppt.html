@@ -106,23 +106,23 @@ h1 em,h2 em,.h1 em,.h2 em{font-style:normal;color:var(--accent-3)}
   </p>
   <p class="lede mt-m">详细技术深潜版 —— 上一波 12 页概览的下钻：每一页都进到机制层。</p>
   <div class="row mt-l" style="gap:14px">
-    <span class="pill pill-accent">765 测试全绿</span>
+    <span class="pill pill-accent">1532 测试全绿</span>
     <span class="pill">15 个驱动</span>
     <span class="pill">30 天 · 12 个 MINOR</span>
     <span class="pill">47 份调研文档</span>
-    <span class="seal">v0.12.0 · 2026-10-05</span>
+    <span class="seal">v0.39.0 · 2026-10-18</span>
   </div>
   <div class="deck-footer"><span>github.com/Yfredy/LAOS</span><span class="slide-number" data-current="1" data-total="20"></span></div>
   <aside class="notes">
     <p><strong>开场定位</strong>：上一波十二页是"这个项目是什么"，今天这一场是"它是怎么做到的"。</p>
-    <p>一句话先把公式立住：<strong>Linux kernel + Agent + MCP</strong>——不发明新范式，只做正确组合。角上四个数字先报一遍：<strong>765 项测试全绿、15 个驱动、30 天发了 12 个 MINOR 版本、47 份调研文档</strong>，每个数字今天都会下钻到来源。</p>
+    <p>一句话先把公式立住：<strong>Linux kernel + Agent + MCP</strong>——不发明新范式，只做正确组合。角上四个数字先报一遍：<strong>1532 项测试全绿、15 个驱动、30 天发了 12 个 MINOR 版本、47 份调研文档</strong>，每个数字今天都会下钻到来源。</p>
     <p><em>过渡句</em>：接下来一小时走五组十八个内容域，先给一张深潜地图。</p>
   </aside>
 </section>
 
 <!-- ================= 02 · 深潜地图 ================= -->
 <section class="slide" data-title="深潜地图">
-  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.39.0 · 1532 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
   <p class="kicker">§ 00 · DEEP-DIVE MAP · 五组十八域</p>
   <h2 class="h2 mt-s">深潜地图：五组 · 18 个内容域。</h2>
   <div class="mt-l" style="display:grid;grid-template-columns:repeat(5,1fr);gap:18px">
@@ -158,7 +158,7 @@ h1 em,h2 em,.h1 em,.h2 em{font-style:normal;color:var(--accent-3)}
 
 <!-- ================= 03 · A2 命题 ================= -->
 <section class="slide" data-title="A2 命题">
-  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.39.0 · 1532 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
   <p class="kicker">§ A2 · DESIGN THESIS · 命题</p>
   <h2 class="h2 mt-s">不改一行内核代码，<em>把 Linux 变成 Agent 的操作系统。</em></h2>
   <div class="g2 mt-l">
@@ -192,7 +192,7 @@ h1 em,h2 em,.h1 em,.h2 em{font-style:normal;color:var(--accent-3)}
 
 <!-- ================= 04 · A3 AgentOS 坐标 ================= -->
 <section class="slide" data-title="A3 AgentOS 坐标">
-  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.39.0 · 1532 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
   <p class="kicker">§ A3 · LANDSCAPE POSITION · 与"AgentOS 八种含义"的坐标</p>
   <h2 class="h2 mt-s">市面"AgentOS"至少 8 种含义，<em>laos 落在 L2。</em></h2>
   <div class="mt-l" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
@@ -237,7 +237,7 @@ h1 em,h2 em,.h1 em,.h2 em{font-style:normal;color:var(--accent-3)}
 
 <!-- ================= 05 · B1 总体架构 ================= -->
 <section class="slide" data-title="B1 总体架构分层">
-  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.39.0 · 1532 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
   <p class="kicker">§ B1 · ARCHITECTURE · 总体架构分层</p>
   <h2 class="h2 mt-s">四层栈 + 三棵树，<em>重依赖只活在驱动子进程。</em></h2>
   <div class="mt-l" style="display:grid;grid-template-columns:1.25fr .9fr;gap:28px;align-items:start">
@@ -270,9 +270,9 @@ h1 em,h2 em,.h1 em,.h2 em{font-style:normal;color:var(--accent-3)}
       <div class="tag-card" data-tag="三棵树">
         <table class="spec-table">
           <tr><th>树</th><th>职责</th><th>测试</th></tr>
-          <tr><td><b>laos</b> 主库</td><td>内核 + 驱动</td><td class="mono">415</td></tr>
+          <tr><td><b>laos</b> 主库</td><td>内核 + 驱动</td><td class="mono">1159</td></tr>
           <tr><td><b>AlwaysOnRec</b></td><td>录音隔离区</td><td class="mono">279</td></tr>
-          <tr><td><b>Repro</b></td><td>论文复现区</td><td class="mono">71</td></tr>
+          <tr><td><b>Repro</b></td><td>论文复现区</td><td class="mono">94</td></tr>
         </table>
       </div>
     </div>
@@ -288,7 +288,7 @@ h1 em,h2 em,.h1 em,.h2 em{font-style:normal;color:var(--accent-3)}
 
 <!-- ================= 06 · B2 闸门链（核心页） ================= -->
 <section class="slide" data-title="B2 Syscall 闸门链 ★核心">
-  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.39.0 · 1532 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
   <p class="kicker">§ B2 · SYSCALL GATE CHAIN · 全片核心</p>
   <h2 class="h2 mt-s">每一次 tool call，过八环闸门。<em>拒绝发生在派发之前。</em></h2>
   <p class="mono mt-m" style="font-size:17px;color:var(--text-2)">agent → ①能力表 → ②task_scope → ③schema → ④EDQUOT → ⑤FleetLedger → ⑥Jev预审 → ⑦确认横幅 → ⑧派发+审计</p>
@@ -314,7 +314,7 @@ h1 em,h2 em,.h1 em,.h2 em{font-style:normal;color:var(--accent-3)}
 
 <!-- ================= 07 · B3 分支与内存 ================= -->
 <section class="slide" data-title="B3 分支与内存模型">
-  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.39.0 · 1532 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
   <p class="kicker">§ B3 · BRANCH & MEMORY · 分支与内存模型</p>
   <h2 class="h2 mt-s">类 git 语义的 Agent 上下文：<em>分支试错，合并回主线。</em></h2>
   <div class="g3 mt-l">
@@ -343,7 +343,7 @@ h1 em,h2 em,.h1 em,.h2 em{font-style:normal;color:var(--accent-3)}
 
 <!-- ================= 08 · B4 Jev ================= -->
 <section class="slide" data-title="B4 判断层 Jev">
-  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.39.0 · 1532 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
   <p class="kicker">§ B4 · JUDGMENT LAYER · 判断层 Jev</p>
   <h2 class="h2 mt-s">闸门链第六环：<em>Jev 快问快答判断层。</em></h2>
   <div class="g3 mt-l">
@@ -378,7 +378,7 @@ h1 em,h2 em,.h1 em,.h2 em{font-style:normal;color:var(--accent-3)}
 
 <!-- ================= 09 · C1 驱动全景 ================= -->
 <section class="slide" data-title="C1 驱动全景 · 15 驱动">
-  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.39.0 · 1532 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
   <p class="kicker">§ C1 · DRIVER MANIFEST · 驱动全景</p>
   <h2 class="h2 mt-s">15 个驱动 = 3 听觉 + 6 手机 + 6 系统。</h2>
   <div class="mt-l" style="display:grid;grid-template-columns:1fr 1.35fr 1fr;gap:18px">
@@ -416,7 +416,7 @@ h1 em,h2 em,.h1 em,.h2 em{font-style:normal;color:var(--accent-3)}
 
 <!-- ================= 10 · C2a 听觉栈 · 前段 ================= -->
 <section class="slide" data-title="C2a 听觉栈 · VAD 与响度">
-  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.39.0 · 1532 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
   <p class="kicker">§ C2 · HEARING STACK (1/2) · 端侧听觉栈前段</p>
   <h2 class="h2 mt-s">先扔掉无声，再量准响度。</h2>
   <div class="g2 mt-l">
@@ -454,7 +454,7 @@ h1 em,h2 em,.h1 em,.h2 em{font-style:normal;color:var(--accent-3)}
 
 <!-- ================= 11 · C2b 听觉栈 · 空间音频 ================= -->
 <section class="slide" data-title="C2b 听觉栈 · 空间音频">
-  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.39.0 · 1532 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
   <p class="kicker">§ C2 · HEARING STACK (2/2) · 空间音频四件套</p>
   <h2 class="h2 mt-s">从双耳线索到声场编码，<em>每件都对得上官方实现。</em></h2>
   <div class="g4 mt-l">
@@ -491,7 +491,7 @@ h1 em,h2 em,.h1 em,.h2 em{font-style:normal;color:var(--accent-3)}
 
 <!-- ================= 12 · C3 全双工三件套 ================= -->
 <section class="slide" data-title="C3 全双工轮转三件套">
-  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.39.0 · 1532 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
   <p class="kicker">§ C3 · FULL-DUPLEX TURN-TAKING · 全双工轮转三件套</p>
   <h2 class="h2 mt-s">什么时候说话，<em>是工程问题不是礼貌问题。</em></h2>
   <div class="stack mt-l">
@@ -524,7 +524,7 @@ h1 em,h2 em,.h1 em,.h2 em{font-style:normal;color:var(--accent-3)}
 
 <!-- ================= 13 · C4 AlwaysOnRec ================= -->
 <section class="slide" data-title="C4 AlwaysOnRec 双沙箱">
-  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.39.0 · 1532 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
   <p class="kicker">§ C4 · ALWAYS-ON REC · 常开录音双沙箱</p>
   <h2 class="h2 mt-s">常开，但每一步都有牙齿。<em>四条红线一条都不能破。</em></h2>
   <div class="mt-l" style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
@@ -562,14 +562,14 @@ h1 em,h2 em,.h1 em,.h2 em{font-style:normal;color:var(--accent-3)}
 
 <!-- ================= 14 · D1 测试与质量 ================= -->
 <section class="slide" data-title="D1 测试与质量">
-  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.39.0 · 1532 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
   <p class="kicker">§ D1 · TEST & QUALITY · 测试与质量</p>
-  <h2 class="h2 mt-s">765 全绿，<em>每一项都是先红后绿。</em></h2>
+  <h2 class="h2 mt-s">1532 全绿，<em>每一项都是先红后绿。</em></h2>
   <div class="g4 mt-l">
-    <div class="tag-card" data-tag="主库"><p class="stat-num">415</p><p class="dim mt-s">laos 内核 + 驱动</p></div>
+    <div class="tag-card" data-tag="主库"><p class="stat-num">1159</p><p class="dim mt-s">laos 内核 + 驱动</p></div>
     <div class="tag-card" data-tag="录音隔离区"><p class="stat-num">279</p><p class="dim mt-s">AlwaysOnRec</p></div>
-    <div class="tag-card" data-tag="复现区"><p class="stat-num">71</p><p class="dim mt-s">Repro（D3 展开）</p></div>
-    <div class="tag-card" data-tag="合计" style="border:1.5px solid var(--accent)"><p class="stat-num">765 <small>GREEN</small></p><p class="dim mt-s">v0.12.0 全量</p></div>
+    <div class="tag-card" data-tag="复现区"><p class="stat-num">94</p><p class="dim mt-s">Repro（D3 展开）</p></div>
+    <div class="tag-card" data-tag="合计" style="border:1.5px solid var(--accent)"><p class="stat-num">1532 <small>GREEN</small></p><p class="dim mt-s">v0.39.0 全量</p></div>
   </div>
   <div class="g2 mt-l">
     <div class="tag-card" data-tag="TDD 纪律">
@@ -589,7 +589,7 @@ h1 em,h2 em,.h1 em,.h2 em{font-style:normal;color:var(--accent-3)}
 
 <!-- ================= 15 · D2 版本史 ================= -->
 <section class="slide" data-title="D2 版本史时间线">
-  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.39.0 · 1532 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
   <p class="kicker">§ D2 · RELEASE TIMELINE · 30 天 12 个 MINOR</p>
   <h2 class="h2 mt-s">09-04 到 10-05：<em>一个完整需求波次 = 一次 MINOR。</em></h2>
   <div class="mt-l" style="display:grid;grid-template-columns:1fr 1fr;gap:0 40px">
@@ -620,7 +620,7 @@ h1 em,h2 em,.h1 em,.h2 em{font-style:normal;color:var(--accent-3)}
 
 <!-- ================= 16 · D3 复现文化 ================= -->
 <section class="slide" data-title="D3 复现文化 Repro-ZCode">
-  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.39.0 · 1532 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
   <p class="kicker">§ D3 · REPRO CULTURE · 复现文化 Repro-ZCode</p>
   <h2 class="h2 mt-s">能复现的论文，<em>全部复现成测试。</em></h2>
   <div class="g3 mt-l">
@@ -658,7 +658,7 @@ h1 em,h2 em,.h1 em,.h2 em{font-style:normal;color:var(--accent-3)}
 
 <!-- ================= 17 · D4 语料库 ================= -->
 <section class="slide" data-title="D4 调研语料库">
-  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.39.0 · 1532 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
   <p class="kicker">§ D4 · EVIDENCE CORPUS · 调研语料库</p>
   <h2 class="h2 mt-s">设计不拍脑袋：<em>两万篇论文 + 三千个仓库。</em></h2>
   <div class="g3 mt-l">
@@ -687,7 +687,7 @@ h1 em,h2 em,.h1 em,.h2 em{font-style:normal;color:var(--accent-3)}
 
 <!-- ================= 18 · E1 红线 ================= -->
 <section class="slide" data-title="E1 安全与合规红线">
-  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.39.0 · 1532 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
   <p class="kicker">§ E1 · RED LINES · 安全与合规红线</p>
   <h2 class="h2 mt-s">能力可以有，<em>红线内的能力永远不做。</em></h2>
   <div class="mt-l" style="display:grid;grid-template-columns:1.15fr 1fr;gap:24px">
@@ -724,7 +724,7 @@ h1 em,h2 em,.h1 em,.h2 em{font-style:normal;color:var(--accent-3)}
 
 <!-- ================= 19 · E2 路线图 ================= -->
 <section class="slide" data-title="E2 路线图">
-  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.39.0 · 1532 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
   <p class="kicker">§ E2 · ROADMAP · 路线图</p>
   <h2 class="h2 mt-s">近期补回归，中期开生态，<em>远期造参考机。</em></h2>
   <div class="g3 mt-l">
@@ -761,13 +761,13 @@ h1 em,h2 em,.h1 em,.h2 em{font-style:normal;color:var(--accent-3)}
 
 <!-- ================= 20 · E3 收尾 ================= -->
 <section class="slide" data-title="E3 收尾">
-  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.12.0 · 765 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
+  <div class="deck-header"><span>laos · Linux AgentOS — 详细技术深潜</span><span class="mono">v0.39.0 · 1532 TESTS · 15 DRIVERS · 12 RELEASES</span></div>
   <p class="kicker">§ E3 · CLOSING · 收尾</p>
   <h2 class="h1 mt-s" style="font-size:64px">Agent 需要的不是更强的模型，<br><em>是一个会说"不"的内核。</em></h2>
   <div class="row mt-l" style="gap:14px">
     <span class="pill pill-accent">github.com/Yfredy/LAOS</span>
-    <span class="pill">v0.12.0 · 2026-10-05</span>
-    <span class="seal">1158 TESTS GREEN</span>
+    <span class="pill">v0.39.0 · 2026-10-18</span>
+    <span class="seal">1159 TESTS GREEN</span>
   </div>
   <p class="lede mt-l">今天十八个域讲完：八环闸门、十五个驱动、四条录音红线、七百六十五项测试——<b>欢迎来仓库验证每一个数字。</b></p>
   <div class="deck-footer"><span>github.com/Yfredy/LAOS · 26.10.05</span><span class="slide-number" data-current="20" data-total="20"></span></div>
