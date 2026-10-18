@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>writing-plans 技能拆解 · 计划工程学与 Skill 工作流</title>
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--border:#30363d;--fg:#e6edf3;--dim:#8b949e;--acc:#2dd4af;--warn:#f59e0b;--bad:#f87171;--code:#1c2128;--acc2:#79c0ff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font:15px/1.75 "Segoe UI",system-ui,-apple-system,sans-serif}
+.wrap{display:flex;max-width:1280px;margin:0 auto}
+nav{position:sticky;top:0;align-self:flex-start;width:236px;height:100vh;overflow-y:auto;padding:28px 14px;border-right:1px solid var(--border);background:var(--panel);flex-shrink:0}
+nav h1{font-size:15px;color:var(--acc);margin-bottom:16px;line-height:1.5}
+nav a{display:block;color:var(--dim);text-decoration:none;font-size:13px;padding:6px 10px;border-radius:6px;margin-bottom:2px}
+nav a:hover{color:var(--fg);background:#1f2630}
+main{flex:1;padding:36px 44px;max-width:940px;min-width:0}
+h2{font-size:21px;color:var(--acc);margin:44px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+h2:first-child{margin-top:0}
+h3{font-size:16px;margin:26px 0 8px;color:var(--fg)}
+p{margin:10px 0;color:var(--fg)}
+li{margin:6px 0 6px 22px}
+strong{color:#fff}
+em{color:var(--warn);font-style:normal}
+code{background:var(--code);border:1px solid var(--border);border-radius:4px;padding:1px 6px;font:13px/1.6 Consolas,monospace;color:#79c0ff}
+pre{background:var(--code);border:1px solid var(--border);border-radius:8px;padding:16px;overflow-x:auto;margin:12px 0}
+pre code{background:none;border:none;padding:0;color:#a5d6ff;font-size:12.5px;line-height:1.7;white-space:pre}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{border:1px solid var(--border);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--panel);color:var(--acc);font-weight:600}
+td{color:var(--fg)}
+.thesis{background:linear-gradient(135deg,#14261f,#161b22);border:1px solid #2dd4af55;border-radius:10px;padding:18px 20px;margin:18px 0}
+.note{background:var(--panel);border-left:3px solid var(--acc);padding:12px 16px;margin:14px 0;border-radius:0 8px 8px 0;font-size:14px}
+.badbox{background:#1c1417;border-left:3px solid var(--bad);padding:12px 16px;margin:14px 0;border-radius:0 8px 8px 0;font-size:14px}
+.warnbox{background:#1f1a12;border-left:3px solid var(--warn);padding:12px 16px;margin:14px 0;border-radius:0 8px 8px 0;font-size:14px}
+ul.check{list-style:none;margin-left:0}
+ul.check li{margin-left:0;padding-left:26px;position:relative}
+ul.check li:before{content:"☐";position:absolute;left:4px;color:var(--acc)}
+.meta{color:var(--dim);font-size:13px;margin-bottom:6px}
+.k{color:var(--acc2)}
+.footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--border);color:var(--dim);font-size:12.5px}
+.figure{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:18px;margin:16px 0;overflow-x:auto}
+@media(max-width:900px){nav{display:none}main{padding:20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+<h1>writing-plans 拆解<br><small style="color:var(--dim);font-weight:400">计划工程学 · Skill 工作流 · laos 增量</small></h1>
+<a href="#s0">0 · 一句话论点</a>
+<a href="#s1">1 · 十条硬要求</a>
+<a href="#s2">2 · 它在防什么</a>
+<a href="#s3">3 · 端到端工作流</a>
+<a href="#s4">4 · laos 增量纪律</a>
+<a href="#s5">5 · 计划骨架模板</a>
+<a href="#s6">6 · 三个真实坑</a>
+<a href="#s7">7 · Skill 工程学五要素</a>
+<a href="#s8">8 · 验收清单</a>
+<a href="#s9">9 · 边界与诚实声明</a>
+</nav>
+<main>
+
+<h2 id="s0">0 · 一句话论点</h2>
+<div class="thesis">
+<p><strong>计划不是记录，是"写给零上下文执行者的可执行契约"。</strong>writing-plans 的每一条苛刻要求——无占位符、2–5 分钟一步、跨 Task 签名逐字一致——都不是文档洁癖，而是对冲同一个风险：<strong>执行者（人或子代理）看不到你的脑子，只看纸面</strong>。纸面缺一寸，执行就偏一尺。</p>
+<p><strong>Skill 是同一范式的另一半</strong>：把流程、交付物定义与禁止事项在动手前写死，让模型无法用更便宜的产物交差。文章里那句「不能只给一份目录或几张表格就算完成」，和 writing-plans 的「TBD / 加适当错误处理 = 计划失败」，是同一条规则在两个领域的投影。</p>
+<p class="meta">学习对象：<code>~/.workbuddy/skills/writing-plans/SKILL.md</code> + <code>plan-document-reviewer-prompt.md</code>；配套技能 <code>executing-plans</code> / <code>subagent-driven-development</code> / <code>finishing-a-development-branch</code>。<br>
+关联来源：微信「AI前沿速递」《WorkBuddy + 综述Skill，20 分钟写出一篇投稿级综述》（2026-10-18），其综述 SOP 已沉淀在 <code>docs/research/2026-10-18-litreview-skill-workflow.md</code>，本文不重复、只取同构部分（§7）。<br>
+同名 Markdown：<code>docs/research/2026-10-18-writing-plans-methodology.md</code>。</p>
+</div>
+
+<h2 id="s1">1 · 技能原文拆解：十条硬要求</h2>
+<table>
+<tr><th>#</th><th>条文（技能明文）</th><th>一句话意图</th></tr>
+<tr><td>1</td><td>Overview：假设工程师对代码库<strong>零上下文</strong>、判断力可疑；DRY / YAGNI / TDD / 频繁提交</td><td>计划的读者是"聪明的陌生人"，不是未来的自己</td></tr>
+<tr><td>2</td><td>Scope Check：spec 覆盖多个独立子系统 → <strong>拆成多份计划</strong>，每份都能独立产出可测试软件</td><td>一份计划只解决一个可验收的切面</td></tr>
+<tr><td>3</td><td>File Structure：先定文件与职责，再定 Task；小文件优先；一起改的文件放一起；按职责而非技术层切分</td><td>分解决策在写代码前锁定</td></tr>
+<tr><td>4</td><td>Task Right-Sizing：Task = 携带自己测试周期、值得单独过评审门的<strong>最小单元</strong>；setup/配置/脚手架/文档折进需要它的 Task</td><td>切分点是"评审者可能否决这个而批准相邻那个"</td></tr>
+<tr><td>5</td><td>Bite-Sized：每步 2–5 分钟、一个动作（写失败测试 → 跑它确认红 → 最小实现 → 跑绿 → 提交）</td><td>粒度小到不可能走神</td></tr>
+<tr><td>6</td><td>Plan Header：Goal / Architecture / Tech Stack / <strong>Spec（路径）</strong> + Global Constraints + 执行子技能声明</td><td>spec 随计划同行，计划从 spec 立论</td></tr>
+<tr><td>7</td><td>Task Structure：Files（Create / Modify <code>path:123-145</code> / Test）+ <strong>Interfaces（Consumes / Produces 精确签名）</strong> + checkbox 步骤（代码块必给）</td><td>执行者只见自己那一段，靠 Interfaces 学邻段名字</td></tr>
+<tr><td>8</td><td>No Placeholders：禁 TBD /「加适当错误处理」/「为上述写测试」/「类似 Task N」/ 无代码块的描述性步骤</td><td>占位符 = 计划失败，不是待办</td></tr>
+<tr><td>9</td><td>Self-Review（<strong>自查非派发</strong>）：① spec 覆盖 ② 占位符扫描 ③ 类型一致性</td><td>三查是发布闸门</td></tr>
+<tr><td>10</td><td>Execution Handoff：保存后给用户二选一（Subagent-Driven 推荐 / Inline Execution），各自绑定 REQUIRED SUB-SKILL</td><td>计划写完不是终点，交接才是</td></tr>
+</table>
+
+<div class="note">
+<strong>配套评审模板</strong>（<code>plan-document-reviewer-prompt.md</code>）给出派发式评审的四维度：Completeness / Spec Alignment / Task Decomposition / Buildability，并附一条校准线——<em>只在"会导致实现期真问题"时才提 issue，否则放行</em>。这条校准线很关键：它把评审员从"文风挑刺"拉回"实现风险"。
+</div>
+
+<h2 id="s2">2 · 每条在防哪个失效模式</h2>
+<table>
+<tr><th>失效模式</th><th>症状</th><th>被哪条挡住</th></tr>
+<tr><td><strong>F1 上下文缺失</strong></td><td>执行者不知道仓库约定，凭直觉写</td><td>#1 零上下文假设 + #6 Global Constraints 逐字照抄数值</td></tr>
+<tr><td><strong>F2 占位符糊弄</strong></td><td>「处理边界情况」→ 实现时随手糊</td><td>#8 明令 + #9② 扫描</td></tr>
+<tr><td><strong>F3 类型漂移</strong></td><td>Task 3 叫 <code>clearLayers()</code>，Task 7 变 <code>clearFullLayers()</code></td><td>#7 Produces 块 + #9③ 一致性</td></tr>
+<tr><td><strong>F4 乱序阅读</strong></td><td>子代理并行执行，只看到自己那一段</td><td>#7 Interfaces + 本仓"原文重复、禁参见"</td></tr>
+<tr><td><strong>F5 一步太大</strong></td><td>一次改三个文件，红绿分不清</td><td>#5 每步 2–5 分钟</td></tr>
+<tr><td><strong>F6 交付降级</strong></td><td>拿目录 / 表格冒充成品</td><td>#6 Spec 字段 + 交付物清单</td></tr>
+<tr><td><strong>F7 与 spec 脱节</strong></td><td>计划自己发明需求</td><td>#6 Spec 路径 + #9① 覆盖检查</td></tr>
+<tr><td><strong>F8 无粒度提交</strong></td><td>一堆改动一个 commit，回滚困难</td><td>#5 每 Task 一 commit + 落点可 <code>git log</code> 证明</td></tr>
+</table>
+
+<h2 id="s3">3 · 端到端工作流（想法 → 落地）</h2>
+
+<div class="figure">
+<svg viewBox="0 0 900 250" width="900" height="250" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, system-ui, sans-serif">
+  <defs>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 z" fill="#2dd4af"/>
+    </marker>
+  </defs>
+  <rect x="8" y="26" width="120" height="58" rx="8" fill="#161b22" stroke="#30363d"/>
+  <text x="68" y="48" fill="#2dd4af" font-size="12" text-anchor="middle">P0 理清需求</text>
+  <text x="68" y="66" fill="#8b949e" font-size="11" text-anchor="middle">brainstorming</text>
+  <line x1="128" y1="55" x2="152" y2="55" stroke="#2dd4af" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <rect x="154" y="26" width="120" height="58" rx="8" fill="#161b22" stroke="#30363d"/>
+  <text x="214" y="48" fill="#2dd4af" font-size="12" text-anchor="middle">P1 隔离工作区</text>
+  <text x="214" y="66" fill="#8b949e" font-size="11" text-anchor="middle">using-git-worktrees</text>
+  <line x1="274" y1="55" x2="298" y2="55" stroke="#2dd4af" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <rect x="300" y="26" width="132" height="58" rx="8" fill="#14261f" stroke="#2dd4af"/>
+  <text x="366" y="48" fill="#2dd4af" font-size="12" text-anchor="middle">P2 写计划</text>
+  <text x="366" y="66" fill="#e6edf3" font-size="11" text-anchor="middle">writing-plans</text>
+  <line x1="432" y1="55" x2="456" y2="55" stroke="#2dd4af" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <rect x="458" y="26" width="120" height="58" rx="8" fill="#161b22" stroke="#30363d"/>
+  <text x="518" y="48" fill="#2dd4af" font-size="12" text-anchor="middle">P3 三查</text>
+  <text x="518" y="66" fill="#8b949e" font-size="11" text-anchor="middle">覆盖/占位/类型</text>
+  <line x1="578" y1="55" x2="602" y2="55" stroke="#2dd4af" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <rect x="604" y="26" width="150" height="58" rx="8" fill="#14261f" stroke="#2dd4af"/>
+  <text x="679" y="48" fill="#2dd4af" font-size="12" text-anchor="middle">P4 执行</text>
+  <text x="679" y="66" fill="#e6edf3" font-size="11" text-anchor="middle">subagent-driven（推荐）</text>
+  <line x1="754" y1="55" x2="778" y2="55" stroke="#2dd4af" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <rect x="780" y="26" width="112" height="58" rx="8" fill="#161b22" stroke="#30363d"/>
+  <text x="836" y="48" fill="#2dd4af" font-size="12" text-anchor="middle">P6 收尾</text>
+  <text x="836" y="66" fill="#8b949e" font-size="11" text-anchor="middle">finishing-a-branch</text>
+
+  <path d="M836,84 L836,120 L60,120 L60,150" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#ar)"/>
+  <rect x="8" y="152" width="150" height="54" rx="8" fill="#1f1a12" stroke="#f59e0b"/>
+  <text x="83" y="174" fill="#f59e0b" font-size="12" text-anchor="middle">P5 可选：派发式评审</text>
+  <text x="83" y="192" fill="#e6edf3" font-size="11" text-anchor="middle">plan-document-reviewer</text>
+
+  <line x1="158" y1="179" x2="200" y2="179" stroke="#2dd4af" stroke-width="1.5" marker-end="url(#ar)"/>
+  <rect x="202" y="152" width="150" height="54" rx="8" fill="#161b22" stroke="#30363d"/>
+  <text x="277" y="174" fill="#2dd4af" font-size="12" text-anchor="middle">P7 发版（本仓）</text>
+  <text x="277" y="192" fill="#8b949e" font-size="11" text-anchor="middle">release.py --apply</text>
+
+  <text x="380" y="174" fill="#8b949e" font-size="11.5">回归线：计划被评审打回 / 阻塞即停 → 回到 P2 修计划，不猜</text>
+  <text x="380" y="196" fill="#8b949e" font-size="11.5">本仓红线：主库测试不绿 → 发版链直接拒发</text>
+</svg>
+</div>
+
+<table>
+<tr><th>阶段</th><th>技能</th><th>输入</th><th>产出</th><th>关键动作</th></tr>
+<tr><td>P0</td><td>brainstorming</td><td>模糊想法</td><td>设计 spec</td><td>多方案取舍写进 spec，不写进计划</td></tr>
+<tr><td>P1</td><td>using-git-worktrees</td><td>spec</td><td>独立 worktree</td><td>不在 master 上直接实施</td></tr>
+<tr><td>P2</td><td><strong>writing-plans</strong></td><td>spec</td><td><code>docs/superpowers/plans/YYYY-MM-DD-&lt;name&gt;.md</code></td><td>四段头 + Global Constraints + File Structure + Task×N</td></tr>
+<tr><td>P3</td><td>（自查，不派发）</td><td>计划 + spec</td><td>修正后的计划</td><td>覆盖 / 占位符 / 类型一致性</td></tr>
+<tr><td>P4</td><td>subagent-driven-development（推荐）或 executing-plans</td><td>计划</td><td>代码 + 测试 + 逐 Task commit</td><td>每 Task 一子代理 + 两阶段评审；阻塞即停，不猜</td></tr>
+<tr><td>P5</td><td>plan-document-reviewer（可选）</td><td>计划 + spec</td><td>Approved / Issues</td><td>只在会导致实现期真问题时提 issue</td></tr>
+<tr><td>P6</td><td>finishing-a-development-branch</td><td>全绿分支</td><td>合并 / PR</td><td>验证测试 → 给选项 → 执行选择</td></tr>
+<tr><td>P7</td><td>scripts/release.py --apply</td><td>主库绿</td><td>版本与文档锚点同步 + tag + Release</td><td>测试不绿直接拒发版</td></tr>
+</table>
+
+<div class="note">
+<strong>本仓实例（2026-10-18 当天跑通）</strong>：<code>2026-10-18-audio-agentos-litreview-survey.md</code>——Spec 指向综述工作流文档；Global Constraints 11 条逐字锁定数值（规模分档 <code>[0,30M) / [30M,500M) / [500M,+∞)</code> 左闭右开、AudioSet 必须标 <code>AS-20K/AS-2M/full</code>、证据等级四值 <code>全文/表格核实/摘要/二手</code>、<code>--strict</code> 参考文献 ≥60 篇）；9 个 Task，Task 1 的 Produces 直接给出 <code>run_checks(survey_path, survey_text, evidence_path, evidence_text, strict=False) -&gt; list[Violation]</code> 与 36 个规则名，后续 Task 全部按规则名与退出码验收。这就是"跨 Task 靠 Produces 学名字"的标准样本。
+</div>
+
+<h2 id="s4">4 · laos 增量纪律：原技能没有的部分</h2>
+<p>本仓 <code>docs/superpowers/plans/README.md</code> 已于 2026-10-09 把该技能内化为三条增量纪律，另有三条仓库特有约定：</p>
+<table>
+<tr><th>维度</th><th>writing-plans 原文</th><th>laos 增量</th><th>为什么加</th></tr>
+<tr><td>三查</td><td>#9 自查三项</td><td>同三项，但明确<strong>保存前必跑、不派发子代理</strong></td><td>派发会把"写计划"变成"等评审"，拖慢节奏</td></tr>
+<tr><td>Task 尺寸</td><td>#4 自带测试周期的最小单元</td><td>追加：步骤 2–5 分钟，但 <strong>Task 不是步骤的机械聚合</strong></td><td>防止把 40 步拆成 40 个 Task</td></tr>
+<tr><td>跨 Task 引用</td><td>#7 Interfaces</td><td>追加硬禁令：<strong>禁"类似 Task N"，代码块照抄</strong></td><td>zones/ 并行执行是常态，执行者乱序读</td></tr>
+<tr><td>完成度判据</td><td>checkbox 勾选</td><td><strong>checkbox 执行时不勾选</strong>；判据 = 交付物在 <code>git log --all -- &lt;path&gt;</code> 可证 + 验收清单</td><td>勾选是自证，git 历史是他证</td></tr>
+<tr><td>状态登记</td><td>无</td><td><code>plans/README.md</code> 状态表三值（已执行 / 部分执行 / 待执行）+ 落点摘要</td><td>50 份计划需要单一状态入口</td></tr>
+<tr><td>数值纪律</td><td>#6 逐字照抄</td><td>追加：分档<strong>左闭右开</strong>、数字写实跑值而非静态计数</td><td>跨文档引用同一阈值时口径必须唯一</td></tr>
+</table>
+<div class="warnbox">
+<em>一句话概括差异</em>：<strong>writing-plans 管"计划怎么写"，本仓纪律管"计划怎么被证伪"。</strong>后者补上了原技能的空白——原技能假设执行完就结束，本仓要求三个月后还能用 git 证明做过什么。
+</div>
+
+<h2 id="s5">5 · 可复用计划骨架（本仓体例，直接抄）</h2>
+<pre><code># &lt;功能名&gt; Implementation Plan
+
+&gt; **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development
+&gt; (recommended) or superpowers:executing-plans to implement this plan task-by-task.
+&gt; Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** 一句话说明构建什么
+**Architecture:** 2–3 句说明路径与取舍
+**Tech Stack:** 关键技术 / 库（含版本与依赖边界）
+**Spec:** `&lt;spec 路径&gt;` —— 计划从 spec 立论，执行者两份都读
+
+## Global Constraints
+- 每条一行，数值**逐字照抄 spec**，正文不得改写
+- 依赖红线 / 目录纪律 / 既有校验器必须常绿 / 发版锚点不动 …
+
+## File Structure
+| 路径 | 职责 |        ← 新增文件在此登记，临时物只进 var/
+
+### Task N: &lt;组件名&gt;
+**Files:** Create / Modify `path:行号` / Test
+**Interfaces:**
+- Consumes: 前序 Task 提供的精确签名
+- Produces: 后续 Task 依赖的精确签名与返回类型（逐字符一致）
+- [ ] Step 1: 写失败测试（**给完整测试代码**）
+- [ ] Step 2: 跑，确认红（给命令 + 期望报错原文）
+- [ ] Step 3: 最小实现（给代码，禁止占位符）
+- [ ] Step 4: 跑，确认绿
+- [ ] Step 5: commit（给 git add 与 commit message）</code></pre>
+<p><strong>保存前必跑</strong>：spec 覆盖 → 占位符扫描 → 类型一致性。<strong>保存后必登记</strong>：<code>plans/README.md</code> 状态表加一行（落点摘要 + 状态）。</p>
+
+<h2 id="s6">6 · 三个真实坑（严格按体例也会踩）</h2>
+<div class="badbox">
+<p><strong>2026-10-18 brain 可靠性波实录</strong>：计划本身完全合规，实现期仍抓到三个坑——</p>
+<p>① <strong>断言漏记收尾轮</strong>：脚本 Brain 每次 <code>think</code> 都记账，断言只算了部分序列 → 收尾 done 轮的 temperature 没算进去。<br>
+② <strong>计数器生命周期错位</strong>：<code>repeat_counts</code> 初始化写在步循环内 → 按步清零、跨步永远到不了阈值 3。<em>规则：计数器的生命周期必须与语义辖域一致。</em><br>
+③ <strong>abstract 签名变更的连锁</strong>：<code>think</code> 加参后，全仓 <code>def think(</code> 的旧签名 test double 秒崩 TypeError，且崩在轮询断言之前，极难定位。</p>
+<p><strong>裁决原则</strong>：以 Produces 语义 + 测试意图为准，偏差写进 commit body，不静默改测试。</p>
+</div>
+<p>⚠️ 推论：<strong>计划自带的测试代码也会错</strong>。所以"跑红 → 跑绿"不只是验证实现，也在验证计划；发现测试本身错了，改测试并说明，而不是把实现改成让错测试通过。</p>
+
+<h2 id="s7">7 · Skill 工程学：writing-plans 与 LitReview 的五处同构</h2>
+<p>文章把 Skill 定义为「一份给 AI 的任务说明」。把两个技能放在一起看，<strong>有效的 Skill 都有同样的五要素</strong>：</p>
+<table>
+<tr><th>要素</th><th>writing-plans</th><th>lit-review（据文章）</th><th>作用</th></tr>
+<tr><td>① 触发条件</td><td>"有 spec、写代码前"</td><td>"要写综述时"</td><td>防止在不该用的时候被调用</td></tr>
+<tr><td>② 流程前置规定</td><td>四段头 → File Structure → Task 分解 → 步骤</td><td>定范围 → 查筛读 → 比较 → 成文</td><td><strong>不允许模型自己发明顺序</strong></td></tr>
+<tr><td>③ 交付物定义</td><td>完整计划（含代码块的步骤）</td><td>完整综述 + 参考文献</td><td>定义质量下限</td></tr>
+<tr><td>④ 反降级硬边界</td><td>禁 TBD / 禁"适当处理" / 禁"类似 Task N"</td><td>禁只给目录或表格</td><td>堵住最便宜的交差方式</td></tr>
+<tr><td>⑤ 自审与门禁</td><td>Self-Review 三查</td><td>未核实内容必须标注</td><td>让模型自己先过一遍</td></tr>
+</table>
+<div class="note">
+<strong>可用于以后写任何 Skill 的推论</strong>：<em>流程与交付物定义决定上限，反降级边界决定下限。</em>只写流程、不写禁止事项的 Skill，模型会用最小代价满足流程——那正是文章里"目录 + 几张表格"的结局。
+</div>
+
+<h2 id="s8">8 · 计划写作验收清单</h2>
+<h3>写之前</h3>
+<ul class="check">
+<li>有 spec，且路径写进了 Header；spec 覆盖多个独立子系统 → 已拆成多份计划</li>
+<li>worktree / 隔离区已就绪（不在 master 上实施）</li>
+</ul>
+<h3>写之中</h3>
+<ul class="check">
+<li>File Structure 先于 Task 定稿；一起改的文件放一起</li>
+<li>每个 Task 自带测试周期；setup / 文档已折进需要它的 Task</li>
+<li>每步 2–5 分钟、一个动作、代码块完整（测试步骤必给测试代码）</li>
+<li>Global Constraints 数值逐字照抄 spec（含左闭右开这类边界写法）</li>
+<li>Interfaces 的 Produces 与后续 Task 的 Consumes 逐字符一致</li>
+</ul>
+<h3>写之后（三查 + 登记）</h3>
+<ul class="check">
+<li>spec 每个需求都能指到某个 Task</li>
+<li>全文无 TBD / "加适当错误处理" / "为上述写测试" / "类似 Task N"</li>
+<li>跨 Task 的函数名、参数、字段名、规则名无漂移</li>
+<li>已登记进 <code>plans/README.md</code> 状态表</li>
+<li>已向用户给出执行方式二选一并绑定子技能</li>
+</ul>
+<h3>交付后</h3>
+<ul class="check">
+<li>每 Task 一 commit，落点可用 <code>git log --oneline --all -- &lt;path&gt;</code> 证明</li>
+<li>checkbox 保持未勾选（完成度看 git，不看勾）</li>
+</ul>
+
+<h2 id="s9">9 · 边界与诚实声明</h2>
+<ul>
+<li><strong>适用边界</strong>：writing-plans 面向<strong>代码实施</strong>。调研 / 综述类任务沿用其骨架时，必须额外加「证据等级」与「来源诚实」两栏（本仓做法：核验层级四值 + 未核实清单隔离），否则会产出"看起来完整、实际无法溯源"的产物。</li>
+<li><strong>不声称</strong>：本文未修改 writing-plans，也未生成新实施计划；§5 骨架是本仓体例的复述，不是新规。</li>
+<li><strong>引用边界</strong>：微信文章的综述 SOP 完整沉淀在 <code>2026-10-18-litreview-skill-workflow.md</code>，本文只在 §7 取其与计划技能的同构关系。</li>
+<li><strong>待裁决项</strong>：<code>plan-document-reviewer</code> 的派发式评审在本仓从未使用（一直用自查三查）。是否在 20+ Task 的大计划上启用一次，属于流程选择题，本文不代为决定。</li>
+</ul>
+
+<div class="footer">
+生成于 2026-10-18 · laos / nanoLAOS 仓库 · 配套 Markdown：<code>docs/research/2026-10-18-writing-plans-methodology.md</code><br>
+进度与状态入口：<code>docs/superpowers/plans/README.md</code>；综述工作流：<code>docs/research/2026-10-18-litreview-skill-workflow.md</code>
+</div>
+
+</main>
+</div>
+</body>
+</html>
