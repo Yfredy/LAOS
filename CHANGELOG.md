@@ -5,6 +5,19 @@
 
 ## [Unreleased]
 
+## [v0.39.0] - 2026-10-18
+
+### Added
+- feat(brain): **Brain 可靠性第一波**（spec: `docs/research/2026-10-15-esp32-iphone-agent-borrowing.md`，两个现存洞的修复）——`Thought` 新增 `retryable` 标志；`think(messages, tools, temperature=0)` 三档签名落地，`OpenAIChatBrain` 把 temperature 透传进请求体（默认 0——首轮从「服务器默认 1.0」变为显式确定性）。tests/test_brain.py 新建，6 例
+- feat(agent): **温度重试阶梯与重试上限**——`Agent.run` 连续 retryable 轮依次以 0→0.4→0.8 调 think（esp32 同款三档），超过 2 次仍不可用以 ok=False + 「模型连续 3 轮输出不可用」中止，非 retryable 轮重置计数；`_RETRY_TEMPERATURE_LADDER`/`_MAX_RETRYABLE_RETRIES` 模块常量
+- feat(agent): **重复 syscall 检测器**——同 tool+同规范化参数跨步累计，第 3 次原样发起经 `ctx.notice` 注入「重复动作警告…必须更换策略…禁止原样重试」（每个 key 仅通告一次），治 max_steps 硬截断前的死循环烧预算
+
+### Fixed
+- fix(brain): **tool_call 参数非法 JSON 不再崩 think()**——任一 call 的 `function.arguments` 解析失败时整轮作废，返回 `retryable=True` 的 Thought（不执行半套调用、不抛异常、不吞成 finish）
+
+### Changed
+- 主库测试 1146 → **1158 全绿**（tests/test_brain.py + tests/test_agent_reliability.py 共 12 例新增）；发版 v0.39.0 全介绍面锚点同步（含 ONBOARDING/guide/PPT 讲稿手工对齐，DOC_GLOBS 外文件）
+
 ## [v0.38.0] - 2026-10-10
 
 ### Added
