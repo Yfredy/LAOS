@@ -139,7 +139,7 @@
 | C052 | [TRILLsson: distilled universal paralinguistic representations](https://www.isca-archive.org/interspeech_2022/shor22_interspeech.html) | 2022 | 纳入 S34 | 端侧证据：蒸馏到 5M 级表征，可穿戴可用的最小档 |
 | C053 | [BEATs iter3+ (audio pre-training with acoustic tokenizers)](https://arxiv.org/abs/2212.09058) | 2022 | 纳入 S35 | 指标条件：迭代蒸馏强基线的 AudioSet 口径 |
 | C054 | [AST: audio spectrogram transformer](https://arxiv.org/abs/2104.01778) | 2021 | 纳入 S36 | 指标条件：ViT 路线基准锚点，含 patch 与算力条件 |
-| C055 | [PaSST-S: efficient training of audio transformers with patchout](https://arxiv.org/abs/2110.05069) | 2021 | 纳入 S37 | 指标条件：patchout 效率口径，与 AST 同源可比 |
+| C055 | [PaSST-S: efficient training of audio transformers with patchout](https://arxiv.org/abs/2110.05069) | 2022 | 纳入 S37 | 指标条件：patchout 效率口径，与 AST 同源可比（正式发表 Interspeech 2022） |
 | C056 | [PANNs-CNN14 (large-scale pretrained audio neural networks)](https://arxiv.org/abs/1912.10211) | 2020 | 纳入 S38 | 指标条件：CNN14 通用基线，含 multi-adds 口径 |
 | C057 | [YAMNet (AudioSet MobileNetV1 tagging)](https://github.com/tensorflow/models/tree/master/research/audioset/yamnet) | 2017 | 纳入 S39 | 端侧证据：TFLite/TFLite Micro 官方导出，小型档事实基准 |
 | C058 | [openSMILE ComParE_2016 feature set + linear classifier](https://github.com/audeering/opensmile) | 2016 | 纳入 S40 | 端侧证据：非神经特征集在 MCU 直跑，零量化成本 |
@@ -169,7 +169,7 @@
 | C082 | [MossFormer2 (speech separation/enhancement, 55.7M)](https://arxiv.org/abs/2312.11825) | 2023 | 纳入 S51 | 指标条件：中型档参数量-指标对照，非实时路径 |
 | C083 | [DeepFilterNet3](https://github.com/Rikorose/DeepFilterNet) | 2023 | 纳入 S52 | 端侧证据：CPU 上 0.1–0.2 实时因子，增益/降噪同栈 |
 | C084 | [GTCRN (grouped temporal convolutional recurrent network)](https://github.com/Xiaobin-Rong/gtcrn) | 2023 | 纳入 S53 | 端侧证据：48K 参数级，MCU 可用的小型档下限 |
-| C085 | [FRCRN (frequency recurrent CRN, DNS challenge)](https://github.com/Audio-Westlake/FRCRN) | 2022 | 纳入 S54 | 指标条件：10M 级增强的 DNS 榜单口径 |
+| C085 | [FRCRN (frequency recurrent CRN, DNS challenge)](https://arxiv.org/abs/2206.07293) | 2022 | 纳入 S54 | 指标条件：10M 级增强的 DNS 榜单口径（原 GitHub 仓库已失效，改用 arXiv 2206.07293） |
 | C086 | [LAION-CLAP: large-scale contrastive language-audio pretraining](https://arxiv.org/abs/2211.06687) | 2022 | 纳入 S55 | 多模态：音-文对齐支撑零样本事件，检索式开放词表 |
 | C087 | [RNNoise (recurrent neural network noise suppression)](https://arxiv.org/abs/1709.08243) | 2017 | 纳入 S56 | 端侧证据：85K 参数定点 C，常驻降噪的功耗基准 |
 | C088 | [FFmpeg loudnorm filter (EBU R128)](https://ffmpeg.org/ffmpeg-filters.html#loudnorm) | 2016 | 纳入 S57 | 指标条件：离线响度归一（EBU R128 两遍测量），给统一电平口径 |
@@ -194,7 +194,7 @@
 | C107 | [Silero VAD](https://github.com/snakers4/silero-vad) | 2021 | 纳入 S76 | 端侧证据：ONNX 可达的轻量 VAD，常驻门控的事实标准 |
 | C108 | [Sound event detection with binary neural networks on power-constrained IoT](https://arxiv.org/abs/2101.04446) | 2021 | 纳入 S77 | 端侧证据：二值网络在紧功耗 IoT 上做 SED，含片上预算 |
 | C109 | [LeakyPick: IoT audio spy detector](https://arxiv.org/abs/2007.00500) | 2020 | 纳入 S78 | 合规：常驻麦克风的窃听检测，对抗面证据 |
-| C110 | [FSD50K: open dataset of human-labeled sound events](https://arxiv.org/abs/2010.00475) | 2020 | 纳入 S79 | 指标条件：开放标注事件集的评测口径与许可条件 |
+| C110 | [FSD50K: open dataset of human-labeled sound events](https://arxiv.org/abs/2010.00475) | 2022 | 纳入 S79 | 指标条件：开放标注事件集的评测口径与许可条件（正式发表 IEEE/ACM TASLP 2022，arXiv 2020） |
 | C111 | [Self-sustaining micro-watt programmable smart audio sensor for always-on](https://ieeexplore.ieee.org/document/8752147) | 2019 | 纳入 S80 | 端侧证据：自供能微瓦常驻音频传感，能量预算下界 |
 
 读法与边界：
@@ -711,7 +711,7 @@
 - 问题：128 KiB 参数、30 MMACs 的官方预算下，声学场景分类的官方基线到底能做到多少。
 - 方法：简化 CP-Mobile（MobileNet 系）卷积网络，PyTorch + Lightning 训练，Freq-MixStyle 增强，推理时转 fp16；无外部预训练。
 - 数据：TAU Urban Acoustic Scenes 2022 Mobile（10 类城市场景），仅用 25% 标签训练。
-- 指标与条件：61,148 参数（fp16 122,296 B）；DCASE2025 Task1 宏平均准确率 53.24%；约 29.42 MMACs/1 s；预算为 128 KiB / 30 MMACs（fp16 上限 65,536 参数、int8 上限 131,072 参数）。
+- 指标与条件：61,148 参数（fp16 122,296 B）；DCASE2025 Task1 宏平均准确率 53.24%（split 未在 README 复现，见 §7 U04）；约 29.42 MMACs/1 s；预算为 128 KiB / 30 MMACs（fp16 上限 65,536 参数、int8 上限 131,072 参数）。
 - 局限：53.2% 是 10 类场景分类，不是事件检测，不能与 mAP/PSDS 同表；61K 参数是 fp16 折算值，换 int8 才有 131K 空间，但输出头一换 527 类就吃掉一半预算（int8 下 67 KB）；城市场景、域内设备，跨设备/跨城市未验证；只有 25% 标签，标签效率的收益与精度上限混在一起。
 - 对话：与 S31 的 mn04（11 MMACs/s、mAP 0.432）说明"同算力预算下 tagging 与 ASC 是两条赛道"；与 S53 的 48K 参数降噪同处"几十 KB"档；其 128 KiB 口径是 S77 的 512 kB 与 S39 的 3.7M 之间的预算锚点。
 
@@ -839,7 +839,7 @@
 - 问题：需要一个许可清晰、类别足够多的事件集，替代不可分发的 AudioSet。
 - 方法：从 Freesound 采集并众包标注，多标签、层级类别（144 叶节点 + 56 中间节点），按 AudioSet 本体组织。
 - 数据：51,197 段片段、108.3 小时、200 类（144 叶 + 56 中间）。
-- 指标与条件：51,197 clips / 108.3 h / 200 类；ICASSP 2022（arXiv 2020）；开放许可（CC），是少数可商用的事件集。
+- 指标与条件：51,197 clips / 108.3 h / 200 类；IEEE/ACM TASLP 2022（arXiv 2020）；开放许可（CC），是少数可商用的事件集。
 - 局限：200 类远少于 AudioSet 527 类，家庭长尾事件（玻璃碎、婴儿咳）覆盖不足；片段来自 Freesound，录制设备与场景分布偏"作品化"，不是常驻佩戴录音；众包标注有噪声，多标签一致性未在域表量化；与 AudioSet 训练的模型不可直接混评。
 - 对话：与 S38/S39 的 AudioSet 训练模型构成"许可可用 vs 规模更大"的取舍；与 S37 的 PaSST-S FSD50K mAP 0.653 是同一评测口径；其 200 类层级本体是 S24/S55 开放词表落地时的标签骨架。
 
@@ -901,10 +901,10 @@
 
 探测方法：对 §10 的 80 条链接逐条发 `GET`，带 `Range: bytes=0-0`（服务器不支持 Range 时回 200），超时 8 s，UA `laos-survey/1.0`。首轮 21 条非 2xx 顺序复测一次，10 条恢复为 2xx（瞬时抖动）；下表是复测后的最终状态。
 
-汇总：**2xx 69 条**（206 共 41、200 共 21、202 共 7）、**403 5 条**、**404 1 条**、**ERR 5 条**。
+汇总：**2xx 70 条**（206 共 42、200 共 21、202 共 7）、**403 5 条**、**ERR 5 条**。原 404 的 S54 已改用 arXiv 镜像链接（见下），故最终状态无 404。
 
 - 403：S02、S11、S18、S20、S66（全部是 ACM DOI 的出版商反爬；链接可用性未变，venue 另由 Crossref 元数据核）。
-- 404：S54（`github.com/Audio-Westlake/FRCRN` 仓库已不存在）。这是真死链，不是反爬；卡片内容按领域表保留，**不移入 §7**（§7 的 U01–U10 与正文 §9.3 一一对应，不增号），在此记录为"链接失效、内容未回原文"。
+- 404：S54 原链 `github.com/Audio-Westlake/FRCRN` 仓库已不存在，已替换为 `arxiv.org/abs/2206.07293`（探测 206，arXiv API 标题与 FRCRN 一致）；§10 与 §3 同步替换，死链不再保留。
 - ERR：S30、S42、S44（HuggingFace）、S58（webrtc.googlesource.com）、S59（developer.android.com），均为本机 `WinError 10060` 连接超时，非 404；WebFetch 同样失败，故这三类主机的数字只按领域表核，不声称回原文。
 
 | 编号 | 状态 | 链接 | 备注 |
@@ -962,7 +962,7 @@
 | S51 | 200 | https://arxiv.org/abs/2312.11825 |  |
 | S52 | 206 | https://github.com/Rikorose/DeepFilterNet |  |
 | S53 | 206 | https://github.com/Xiaobin-Rong/gtcrn |  |
-| S54 | 404 | https://github.com/Audio-Westlake/FRCRN | GitHub 仓库不存在（FRCRN），链接与卡片保留，内容一致性未核 |
+| S54 | 206 | https://arxiv.org/abs/2206.07293 | 原链 `github.com/Audio-Westlake/FRCRN` 为 404，已替换为 arXiv；标题经 arXiv API 核对一致 |
 | S55 | 200 | https://arxiv.org/abs/2211.06687 |  |
 | S56 | 200 | https://arxiv.org/abs/1709.08243 |  |
 | S57 | 206 | https://ffmpeg.org/ffmpeg-filters.html#loudnorm |  |
@@ -1022,7 +1022,7 @@
 | AgentOS | S63 | 61,148 参数、122,296 B、29.42 MMACs | GitHub README WebFetch 正文 | 一致（原文，WebFetch） |
 | AgentOS | S63 | 53.24% 宏平均准确率 | 同一 README 结果表：General 50.72±0.47、device-specific 51.89±0.05 | **未核（README 无 53.24；疑为 eval split，出处未定位）** |
 
-25 组里 24 组一致、1 组未核，没有出现需要改数的"修正（原文）"。未核的一组是 S63 的 53.24%：卡片与正文都没有写 split，而官方 README 的 dev split 是 50.72/51.89；53.24 可能来自挑战赛 eval split 的官方结果页，但本轮没有回该页，故不把它写成"已核"。读者应把 53.24% 当"官方口径的宏平均"读，不与 README 的 dev split 数字相减。
+25 组里 24 组一致、1 组未核，没有出现需要改数的"修正（原文）"。未核的一组是 S63 的 53.24%：卡片与正文都没有写 split，而官方 README 的 dev split 是 50.72/51.89；53.24 可能来自挑战赛 eval split 的官方结果页，但本轮没有回该页，故不把它写成"已核"。读者应把 53.24% 当"官方口径的宏平均"读，不与 README 的 dev split 数字相减；该 split 问题已并入 §7 的 U04。
 
 ### 6.4 四个 URL 定点探测
 
@@ -1032,7 +1032,7 @@
 | --- | --- | --- | --- |
 | S22 | arXiv 摘要页 | 206（`Range` 命中部分内容），正文含 61.4/23 MB/46.64 | arXiv 侧可回原文摘要；数字与摘要一致，但正文表格仍未读 |
 | S02 | ACM DOI | 403（Forbidden） | 出版商反爬，**不能**据此说链接失效；venue 由 Crossref `api.crossref.org/works/10.1145/3770855.3817987` 的 `container-title`（KDD '26）核 |
-| S54 | GitHub 仓库 | 404（Not Found） | 真死链：`Audio-Westlake/FRCRN` 不存在；内容只到领域表口径，未回仓库 |
+| S54 | arXiv 摘要页（替换原 GitHub 死链） | 原链 404；替换链 206，arXiv API 标题为 FRCRN: Boosting Feature Representation using Frequency Recurrence for Monaural Speech Enhancement | 死链必须替换；替换后标题可核，但论文表格仍未读 |
 | S57 | 官方文档 | 206，loudnorm 段含 `Default value is -24.0 / 7 / -2.0` | 文档类来源可回原文；S57 的默认值属于"原文核实"，不是领域表转引 |
 
 补充：HuggingFace（S30/S42/S44）、webrtc.googlesource.com（S58）、developer.android.com（S59）在本机与 WebFetch 两侧都不可达，已归入 6.2 的 ERR，不在这里重复计为"已探测原文"。
@@ -1071,8 +1071,8 @@ venue 只用三种可辩护的来源：卡片/标题明示、链接或 DOI 前�
 | venue 类型 | 条数 | 编号 |
 | --- | --- | --- |
 | 具体会议/期刊（共 27） | 27 | 见下 |
-| `arXiv` | 34 | 其余 arXiv 链接 |
-| `官方仓库` | 15 | GitHub 11：S39、S40、S41、S47、S50、S52、S53、S54、S60、S63、S76；HuggingFace 3：S30、S42、S44；WebRTC 1：S58 |
+| `arXiv` | 35 | 其余 arXiv 链接（含 S54 的死链替换） |
+| `官方仓库` | 14 | GitHub 10：S39、S40、S41、S47、S50、S52、S53、S60、S63、S76；HuggingFace 3：S30、S42、S44；WebRTC 1：S58 |
 | `官方文档` | 2 | S57（FFmpeg）、S59（Android） |
 | `二手报道（venue 未核）` | 2 | S61、S70 |
 
@@ -1086,18 +1086,19 @@ venue 只用三种可辩护的来源：卡片/标题明示、链接或 DOI 前�
 
 例外与更正（必须留痕）：
 
-- **S79**：卡片写"ICASSP 2022"，但 Crossref `10.1109/taslp.2021.3133208` 的 `container-title` 是 **IEEE/ACM TASLP**，2022 年卷；两者不符，§10 以 Crossref 为准，不沿用卡片那句。
+- **S79**：卡片原写"ICASSP 2022"，Crossref `10.1109/taslp.2021.3133208` 的 `container-title` 是 **IEEE/ACM TASLP**，2022 年卷；卡片与 §3/§10 已统一为 `IEEE/ACM TASLP 2022`（arXiv 2020 在卡片保留），以 Crossref 为准。
+- **S37**：卡片与 §3 原按 arXiv 记 2021，正式发表为 **Interspeech 2022**；§3 与 §10 已统一为 2022，卡片保留 arXiv 2110.05069 的出处。
 - **S74**：Crossref 同名命中是 **ESSCIRC 2021** 的会议版，但所链 IEEE 文档 9888232 与领域表（`always-on-recording`）都标 **IEEE JSSC 2022**；§10 采用 `IEEE JSSC（领域表口径）`，不把会议版当所链版本。
 - **S80**：IEEE 文档号 8752147 与 DOI `10.1109/IGCC.2018.8752147` 的尾号一致，venue 记 **IGCC**；年份列沿用 §3 的 2019（IEEE Xplore 上线年），与会议年 2018 不同，属正常"会议年 vs 上线年"差异。
 - **S06**：年份列沿用 §3 的 2026（JPSP 卷期），Crossref `issued` 为 2025（在线先发）；venue 只写刊名，不写年份，避免与年份列冲突。
-- 其余"年份双写"条目（S35、S71、S73）在卡片 §4 已写明 arXiv 年与正式发表年；§10 的年份列按 §3 行原样保留，venue 列只写会议/期刊名，不重复年份。
+- 其余"年份双写"条目（S35、S71、S73）在卡片 §4 已写明 arXiv 年与正式发表年；§3 与 §10 的年份列统一取正式发表年（S35 2023、S71 2024、S73 2022，同 S37/S79 口径），venue 列只写会议/期刊名，不重复年份。
 
 ## 7. 未核实清单
 
 - [U01] 7 条早于 2017-01-01 检索窗的纳入条目（按名称登记，编号随重排可能变动）：Are women really more talkative than men?（2007）、Minimal-impact audio-based personal archives（2004）、openSMILE ComParE_2016 特征集（2016）、FFmpeg loudnorm（2016）、WebRTC APM AGC2（2013）、Android audiofx AutomaticGainControl（2010）、SpeexDSP AGC（2007）— 保留理由：经典 DSP 基线与端侧事实标准，日均词量/存储量级与实时增益环接口至今无等价替代 — 读者如何对待：只作基线对照与量级锚点，不与窗内神经模型的指标直接横比；工具类年份为首次公开可用年，§10 定稿前逐条回官方 changelog 复核 — 影响 §3、§6、§10
 - [U02] 代指行：wav2vec 2.0 base、SALMONN-7B/13B、Emotion-LLaMA 在 80 篇语料内没有独立卡片；§4 矩阵的 `代表文献` 取同档最近卡片（[S22]、[S46]）代指，数字取自领域表 `docs/research/speech-emotion/02-medium-models.md`、`03-large-models.md` 的表格核实口径，未回原文逐表核对（代指关系本身使数字归属不可逐项追溯）— 影响 §4（§4.4 矩阵与读表说明）、§7.1（代指行不参与折算）— 读者如何对待：只作量级参照，永不参与 §7 的跨领域折算
 - [U03] STEPX Neo（2026-10 发布）：只有产品稿二手口径，无论文、无卡片；§3.1 与 §3.4 用 [S05]/[S61] 作最接近的代指，产品稿未给功耗或延迟数字（无法核到系统调用语义）— 影响 §3（§3.1 判断、§3.4 应用矩阵第 2 行）— 读者如何对待：当二手产品色彩读，不能当作"音频系统调用面存在"的证据
-- [U04] DCASE Task 1 年度最高分 60.8%（2022 Chang_HYU）/ 62.7%（2023 CPJKU）/ 62.1%（2024 Cai_XJTLU）/ 61.5%（2025 Karasin_JKU）与官方基线 44.2% → 53.2%：取自官方结果页，经 `docs/research/audio-events/01-small-models.md` §2.1 汇总，本综述未为榜单另立卡片（榜单条目无法逐条对应到可引原文）— 影响 §5.2 — 读者如何对待：当赛事记录读，不当同行评审测量；年度间训练子集不同（2024 多子集、2025 仅 25% 标签），只能看窄带、不看趋势
+- [U04] DCASE Task 1 年度最高分 60.8%（2022 Chang_HYU）/ 62.7%（2023 CPJKU）/ 62.1%（2024 Cai_XJTLU）/ 61.5%（2025 Karasin_JKU）与官方基线 44.2% → 53.2%：取自官方结果页，经 `docs/research/audio-events/01-small-models.md` §2.1 汇总，本综述未为榜单另立卡片（榜单条目无法逐条对应到可引原文）；另 [S63] 的 53.24% 在官方 README 只回 dev split 50.72（General）/51.89（device-specific），53.24 的 split 出处未定位 — 影响 §5.1、§5.2、§7.1 — 读者如何对待：当赛事记录读，不当同行评审测量；年度间训练子集不同（2024 多子集、2025 仅 25% 标签），只能看窄带、不看趋势；53.24 不与 README 的 dev split 相减
 - [U05] emotion2vec+ large 参数量两口径冲突：实测/checkpoint 反推 164M（config depth 8 / embed_dim 1024）对官方标称 ~300M（[S30]），未拆层核对哪一口径含帧级头 — 影响 §4.2、§4.4 — 读者如何对待：两口径并列引用，按 300M 记手机端代价，不能只取其一
 - [U06] SALMONN 的 7B/13B 取自 HF 卡标称，未逐层加总双编码器（Whisper + BEATs）；AED 领域表因总参数无法钉死而把它排除在外 — 影响 §4（矩阵大型档）、§7（折算排除）— 读者如何对待：大型档只按名义量级读，不当作可核到参数量的条目
 - [U07] DASM 总参数原文未公布（领域表 `audio-events/03-large-models.md` 估为'百万级'；若按字面 <30M 应入小型档）；§5.4 矩阵按族（CLAP 双塔 + 检测头）登记为中型，不是核到总数后的分档 — 影响 §5.4 — 读者如何对待：档位是临时值，核到总数应改档；42.2 是 PSDS1，不与任何 mAP 相减

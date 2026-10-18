@@ -164,7 +164,7 @@
 | [auto-gain/2026-09-landscape.md](auto-gain/2026-09-landscape.md) | AGC 收敛篇：交叉表 + "AGC 到底是不是模型问题"结论锚点 + 加在哪层决策表（含"什么都不加"行）+ 即焚兼容性 + HTML 全景（docs/auto-gain-models.html） | **"结论：分层 —— 闭环增益是 DSP 问题，噪声 + 音量不平衡场景是模型问题。不许骑墙。"**；增益只作用于送推理的副本，生成式不得用于产生记忆的链路 |
 | [auto-gain/07-adoption.md](auto-gain/07-adoption.md) | AGC 落地篇（收尾 Task 16）：**不加**——HY4 捕获链不动（二次增益不确定 + dbfs 原始电平语义必须保留） | 触发条件留档（"若未来切到 UNPROCESSED 或原生拿到未处理 PCM，重新评估"）；不做什么三条（不在采集前层做/不生成式/不作用于留存副本） |
 | [2026-10-18-audio-agentos-survey.md](2026-10-18-audio-agentos-survey.md) | 音频智能体综述正文（S0–S8，10 节）：AgentOS / 全天候录音 / SER / AED / AGC / 多模态六域合流，80 篇编号 S01–S80、三张条件矩阵 + 跨域折算禁令 | "纳入 80 篇（2004–2026）"；SER 小型档 5–25M、AED 128 KiB 档 61K 参数、AGC 主链不加闭环；`check_survey.py --strict` 违规 0 条 |
-| [2026-10-18-audio-agentos-survey-evidence.md](2026-10-18-audio-agentos-survey-evidence.md) | 综述证据附录：C001–C111 筛选台账、80 张六字段卡片、24 行叙事大纲、80 条链接可达性 + 25 组数字抽样 + 三项口径复核 | 纳入 80／排除 31；2xx 69、403 5、404 1、ERR 5；核验层级 表格核实 56／摘要 18／二手 6／全文 0 |
+| [2026-10-18-audio-agentos-survey-evidence.md](2026-10-18-audio-agentos-survey-evidence.md) | 综述证据附录：C001–C111 筛选台账、80 张六字段卡片、27 行叙事大纲、80 条链接可达性 + 25 组数字抽样 + 三项口径复核 | 纳入 80／排除 31；2xx 70、403 5、ERR 5；核验层级 表格核实 56／摘要 18／二手 6／全文 0 |
 
 ## 四、OSS 普查支撑（oss/，3 份）
 

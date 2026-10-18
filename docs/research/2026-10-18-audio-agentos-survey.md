@@ -209,7 +209,7 @@ AED 需要第四维 `任务类型`（tagging / SED / ASC / 开放词表）：同
 
 30M 以下的 AED 证据几乎都长在同一条赛道上：DCASE Task 1 低复杂度声学场景分类，预算 128 KiB 存储 + 30 MMACs/s。128 KiB 是字节不是参数：按 float32 折 32,768 参数，fp16 折 65,536，int8 折 131,072——同一份预算能装的参数个数随精度差 4 倍，孤立报"参数量"没有意义。更关键的是特征提取不计入复杂度账（DCASE 规则原文），而 log-mel 前端在 1 秒 44.1 kHz 音频上本身就要几十 MMACs，落地必须把它加回去。
 
-[S63] 的官方基线给出这条赛道的当前位置：61,148 参数（fp16 122,296 B）、29.42 MMACs/s、TAU Urban Acoustic Scenes 2022 Mobile 10 类、仅 25% 标签，宏平均准确率 53.24%。四年天花板则停在一条窄带里：60.8%（2022 Chang_HYU）→ 62.7%（2023 CPJKU）→ 62.1%（2024 Cai_XJTLU）→ 61.5%（2025 Karasin_JKU），没有趋势性提升；同期官方基线从 44.2% 升到 53.2%（2025 只给 25% 标签所以中间回落），涨的是基线与附加能力（少标签、跨设备），不是上限本身。2021 年的 76.1% 属于另一数据集且不计 MACs，与本段不可比。以上年度数字取自 DCASE 官方结果页，经 `docs/research/audio-events/01-small-models.md` §2.1 汇总，本综述不为它们另立卡片。
+[S63] 的官方基线给出这条赛道的当前位置：61,148 参数（fp16 122,296 B）、29.42 MMACs/s、TAU Urban Acoustic Scenes 2022 Mobile 10 类、仅 25% 标签，宏平均准确率 53.24%（split 未在 README 复现，见 §9 U04）。四年天花板则停在一条窄带里：60.8%（2022 Chang_HYU）→ 62.7%（2023 CPJKU）→ 62.1%（2024 Cai_XJTLU）→ 61.5%（2025 Karasin_JKU），没有趋势性提升；同期官方基线从 44.2% 升到 53.2%（2025 只给 25% 标签所以中间回落），涨的是基线与附加能力（少标签、跨设备），不是上限本身。2021 年的 76.1% 属于另一数据集且不计 MACs，与本段不可比。以上年度数字取自 DCASE 官方结果页，经 `docs/research/audio-events/01-small-models.md` §2.1 汇总，本综述不为它们另立卡片。
 
 128 KiB 装不下 527 类。输出头按 128 维嵌入算，`128 × 527 = 67,456` 参数，fp16 下 135 KB 已超过 128 KiB 全部预算，int8 下 67 KB 也占掉一半，还没算主干。所以这条预算只装得下 10 类场景或几十类门控词表。
 
@@ -265,7 +265,7 @@ laos 当前形态是 B 档：proot Ubuntu 里的 Python 进程只能消费 AP �
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | EfficientAT-mn04_as | 小型 | 0.983 | unknown | 否 | tagging | [S31] | 不足 1M 参数的 AudioSet tagging 下界，MIT 许可 | （AS-2M full mAP 0.432、11 MMACs/s 按 10 秒片段折算；靠 ImageNet→AudioSet 迁移 + PaSST 蒸馏，换域未验证；无公开端侧转换） |
 | YAMNet | 小型 | 3.7 | 是 | 否 | tagging | [S39] | 官方 TFLite / TFLite Micro 导出，端侧证据最完整 | （README balanced 口径 mAP 0.306（非 AS-20K/AS-2M full）、d′ 2.318、每 960 ms 69.2M 次乘加；IEMOCAP 4 类 56.1，预训练目标是事件分类不是情感） |
-| DCASE2025 Task 1 baseline | 小型 | 0.061 | unknown | 否 | ASC | [S63] | 128 KiB / 30 MMACs 预算内的官方基线，PyTorch 可复现 | （TAU Urban 2022 Mobile 10 类、25% 标签，宏平均准确率 53.24%、29.42 MMACs/s；fp16 权重 122,296 B；场景分类不是事件检测，跨设备未验证） |
+| DCASE2025 Task 1 baseline | 小型 | 0.061 | unknown | 否 | ASC | [S63] | 128 KiB / 30 MMACs 预算内的官方基线，PyTorch 可复现 | （TAU Urban 2022 Mobile 10 类、25% 标签，宏平均准确率 53.24%（split 未核，见 §9 U04）、29.42 MMACs/s；fp16 权重 122,296 B；场景分类不是事件检测，跨设备未验证） |
 | Dual-KD SED student | 小型 | 未给出（约为教师 1/3） | unknown | 否 | SED | [S29] | 双路蒸馏同时约束 clip 分类与帧级定位 | （摘要口径：只给参数降至约 1/3，无绝对 PSDS1/PSDS2；DESED 合成强标注训练 + 真实弱标注，合成域与真实录音有域隙） |
 | BNN-SED（GAP8） | 小型 | 未给出 | 是 | 否 | SED | [S77] | 二值化后总内存 262 kB，RISC-V MCU 上含 Mel 预处理 | （摘要口径：准确率 77.9%、比全精度低 7%，数据集与指标定义未标；原 CNN 815 kB 超出 512 kB 平台内存） |
 | TinyChirp（端侧交叉） | 小型 | 未给出 | 是 | 否 | tagging | [S68] | nRF52840 上端侧筛选，SD 写入 −90%、续航 2→8 周 | （鸟鸣闭集精度 >0.98；语谱图计算 2.4 s 比推理更贵；RAM 约 500 KB，节点仍保留 SD 卡与无线回传） |
@@ -273,7 +273,7 @@ laos 当前形态是 B 档：proot Ubuntu 里的 Python 进程只能消费 AP �
 | EAT-base | 中型 | 88 | unknown | 否 | tagging | [S32] | 10 epoch 预训练即到 0.486，训练成本低 | （AS-2M full mAP 0.486（10 ep）/ 0.489（30 ep）、AS-20K 0.403/0.413；未给 RTF 或单帧 MMACs） |
 | BEATs iter3+ | 中型 | 90 | unknown | 否 | tagging | [S35] | 迭代 tokenizer 自监督，单模型 0.486 | （AS-2M full mAP 0.486、AS-20K 0.389；集成 0.504/0.506 不可与单模型比；90M ViT 无手机实测） |
 | AST | 中型 | 87 | unknown | 否 | tagging | [S36] | 纯注意力无卷积的经典锚点 | （AS-2M full mAP 0.459（weight averaging）、AS-20K 0.347；已被 PaSST-S 与蒸馏模型超过，端侧无可行路径） |
-| PaSST-S | 中型 | 87 | unknown | 否 | tagging | [S37] | patchout 把训练成本降下来且不掉点 | （AS-2M full mAP 0.471；ESC-50 96.8%、FSD50K（[S79]）mAP 0.653、DCASE2020 76.3%，微调 <5 分钟为单卡口径；patchout 不省推理算力） |
+| PaSST-S | 中型 | 87 | unknown | 否 | tagging | [S37] | patchout 把训练成本降下来且不掉点 | （AS-2M full mAP 0.471；ESC-50 96.8%、FSD50K（数据集 [S79]）mAP 0.653、DCASE2020 76.3%，微调 <5 分钟为单卡口径；patchout 不省推理算力） |
 | PANNs-CNN14 | 中型 | 80.75 | unknown | 否 | tagging | [S38] | 纯监督可复现基线，mAUC 0.973 提供补充维度 | （AS-2M full mAP 0.431、d′ 2.732；4222 MMACs/s 约为 mn04 的 380 倍；仓库无 LICENSE，商用授权不明） |
 | DASM | 中型 | 未给出（CLAP 双塔 + 检测头） | unknown | 否 | 开放词表 | [S24] | 文本查询检任意目标，同域微调后 58.8 | （DESED PSDS1 42.2（非 mAP）对 CRNN 36.4；零样本 CLAP 22.8 / MGA-CLAP 24.6；参数量与推理成本原文未给） |
 | Whisper-AT | 大型 | 662 | 否 | 否 | tagging | [S50] | 冻结 ASR 骨干 + 7M 标签头，增量成本可算 | （AS-2M full mAP 0.415、AS-20K 0.328；655M 骨干须常驻，端侧不可行；只给 clip 级标签、无起止时间） |
@@ -456,7 +456,7 @@ mW、ms、MB 是三张独立的预算表，不是三种可以互换的计量单�
 - **[U01] 窗外 7 条例外**（日均词量、个人音频归档与五类经典 DSP 工具）——影响 §3、§6、§10。为何未核实：工具类年份取首次公开可用年，尚未逐条回官方 changelog 复核，条目按名称登记、编号随重排可能变动。读者应如何对待：只作基线对照与量级锚点，不与窗内神经模型的指标直接横比。
 - **[U02] §4.4 的三条代指行**（wav2vec 2.0、SALMONN、Emotion-LLaMA）——影响 §4（§4.4 矩阵与读表说明）、§7.1（代指行不参与折算）。为何未核实：80 篇内没有独立卡片，数字取自 `speech-emotion/02-medium-models.md`、`03-large-models.md` 的表格核实口径，未回原文逐表核对。读者应如何对待：只作量级参照，永不参与 §7 的跨领域折算。
 - **[U03] STEPX Neo（2026-10）**——影响 §3（§3.1 判断、§3.4 应用矩阵第 2 行）。为何未核实：只有产品稿二手口径，无论文、无卡片，§3 用 [S05]/[S61] 作最接近的代指。读者应如何对待：当二手产品色彩读，不能当作"音频系统调用面存在"的证据。
-- **[U04] DCASE Task 1 年度数字**（60.8%／62.7%／62.1%／61.5% 与基线 44.2%→53.2%，2022–2025）——影响 §5.2。为何未核实：取自官方结果页、经 `audio-events/01-small-models.md` §2.1 汇总，本综述未为榜单另立卡片，榜单也不是同行评审测量。读者应如何对待：当赛事记录读；年度间训练子集不同（2024 多子集、2025 仅 25% 标签），只能看窄带、不看趋势。
+- **[U04] DCASE Task 1 年度数字**（60.8%／62.7%／62.1%／61.5% 与基线 44.2%→53.2%，2022–2025；另有 [S63] 的 53.24% 宏平均，split 未在 README 复现——README 只给 dev split 50.72/51.89，53.24 的出处未定位）——影响 §5.1、§5.2、§7.1。为何未核实：取自官方结果页、经 `audio-events/01-small-models.md` §2.1 汇总，本综述未为榜单另立卡片，榜单也不是同行评审测量。读者应如何对待：当赛事记录读；年度间训练子集不同（2024 多子集、2025 仅 25% 标签），只能看窄带、不看趋势；53.24% 不与 README 的 dev split 相减，也不当可分模态复现值。
 - **[U05] emotion2vec+ large 参数量冲突**（实测/反推 164M 对官方标称 ~300M，[S30]）——影响 §4.2、§4.4。为何未核实：官方标称与 checkpoint 反推不一致，未拆层核对。读者应如何对待：两口径并列引用，按 300M 记手机端代价。
 - **[U06] SALMONN 的参数量与领域表排除**（7B／13B 取自 HF 卡标称）——影响 §4（大型档）、§7（折算排除）。为何未核实：未逐层加总双编码器，AED 领域表因总参数钉不死而不收。读者应如何对待：大型档只按名义量级读。
 - **[U07] DASM 的总参数**——影响 §5.4。为何未核实：原文未公布总参数（领域表 `audio-events/03-large-models.md` 估为'百万级'；若按字面 <30M 应入小型档），档位按族（CLAP 双塔 + 检测头）暂记中型。读者应如何对待：档位是临时值，核到总数应改档；42.2 是 PSDS1，不与任何 mAP 相减。
@@ -506,7 +506,7 @@ mW、ms、MB 是三张独立的预算表，不是三种可以互换的计量单�
 | S34 | TRILLsson: distilled universal paralinguistic representations | 2022 | Interspeech | https://www.isca-archive.org/interspeech_2022/shor22_interspeech.html | 表格核实 | 架构硬性截断在 2 秒窗，超过 2 秒才能判断的情绪状态在结构上看不到；IEMOCAP 68.5 与专用 emotion2vec（71.79）有 3 点差距；未找到公开的端侧转换案例（edge 列 unknown），"可穿戴可用"是参数量推断而非实测。 |
 | S35 | BEATs iter3+ (audio pre-training with acoustic tokenizers) | 2022 | ICML | https://arxiv.org/abs/2212.09058 | 表格核实 | 单模型 0.486 与 EAT-base 持平，迭代 tokenizer 的增益主要体现在集成；90M + ViT 的端侧成本高，无公开手机实测；AudioSet 本体不可获取，复现依赖镜像，跨库迁移未系统报告。 |
 | S36 | AST: audio spectrogram transformer | 2021 | arXiv | https://arxiv.org/abs/2104.01778 | 表格核实 | 0.459 已被同门 PaSST-S（0.471）与后续蒸馏模型超过，作为"锚点"而非"最优"；ViT-B 的算力/内存在端侧无可行路径；AS-20K 仅 0.347，说明数据规模对 Transformer 尤其关键。 |
-| S37 | PaSST-S: efficient training of audio transformers with patchout | 2021 | Interspeech | https://arxiv.org/abs/2110.05069 | 表格核实 | 仍是 87M ViT，patchout 省的是训练时间不是推理算力；ESC-50 96.8% 属小样本闭集，不能外推到开放场景；<5 分钟微调的硬件条件为单卡，未给端侧。 |
+| S37 | PaSST-S: efficient training of audio transformers with patchout | 2022 | Interspeech | https://arxiv.org/abs/2110.05069 | 表格核实 | 仍是 87M ViT，patchout 省的是训练时间不是推理算力；ESC-50 96.8% 属小样本闭集，不能外推到开放场景；<5 分钟微调的硬件条件为单卡，未给端侧。 |
 | S38 | PANNs-CNN14 (large-scale pretrained audio neural networks) | 2020 | arXiv | https://arxiv.org/abs/1912.10211 | 表格核实 | 0.431 是中型档下沿，却要 4222 MMACs/s——比 S31 的 11 MMACs/s 贵约 380 倍，是"参数不大但算力很贵"的典型；仓库无 LICENSE 文件，商用授权状态不明；纯监督、无蒸馏，已被同参数带的自监督/蒸馏模型拉开 7 个点。 |
 | S39 | YAMNet (AudioSet MobileNetV1 tagging) | 2017 | 官方仓库（GitHub） | https://github.com/tensorflow/models/tree/master/research/audioset/yamnet | 表格核实 | mAP 0.306 在 2026 年属低精度，只适合做"有无/粗类"门控；README 的 balanced 口径与域表推断的 full 口径不统一，直接横比会失真；521 类输出头对 MCU 仍偏大（int8 下仅头就占数百 KB）；SER 55–56 的水平说明它不能当情感模型用。 |
 | S40 | openSMILE ComParE_2016 feature set + linear classifier | 2016 | 官方仓库（GitHub） | https://github.com/audeering/opensmile | 表格核实 | 62.1 比 emotion2vec（71.79）低近 10 点，手工特征的天花板明确；6,373 维在 MCU 上要压成 eGeMAPS（88 维）才现实，压完精度进一步下降（MER2024 39.68 即此档）；openSMILE 为双许可，商用需 audiERING 授权，不能默认免费。 |
@@ -523,7 +523,7 @@ mW、ms、MB 是三张独立的预算表，不是三种可以互换的计量单�
 | S51 | MossFormer2 (speech separation/enhancement, 55.7M) | 2023 | arXiv | https://arxiv.org/abs/2312.11825 | 表格核实 | WSJ0-2mix 是仿真混合、两人闭集，真实重叠语音的 SI-SDRi 会显著下降；RTF 数字是 V100 上的，CPU 实时性标 unknown；分离输出两路，落地要选路/拼接，会引入新的错误源；55.7M 对常驻链路偏重。该条归类为 `非AGC(相邻：分离)`：分离是"多人说话"场景下增益/降噪之外必须比较的相邻手段。 |
 | S52 | DeepFilterNet3 | 2023 | 官方仓库（GitHub） | https://github.com/Rikorose/DeepFilterNet | 二手 | PESQ 是仿真失真度指标，与主观听感/事件保真度不完全一致；DF3 的 3.1 是"同架构未单列"的二手口径，不能当论文实测；RPi4 上 0.5–0.8 的 RTF 已接近实时边界，手机低端核会更紧；输出掩码不改变整体电平，不能替代 AGC。该条归类为 `非AGC(相邻：增强)`：降噪常被误当增益控制，必须明确它只改掩码不改电平。 |
 | S53 | GTCRN (grouped temporal convolutional recurrent network) | 2023 | 官方仓库（GitHub） | https://github.com/Xiaobin-Rong/gtcrn | 表格核实 | 16 kHz 窄带，对 8 kHz 以上（如烟雾报警器高频成分）无能为力；PESQ 2.87 是 2023 年的中档水平，比 S52 低约 0.2；48K 参数的容量决定了它只能处理稳态噪声，非稳态事件易被误抑；掩码不改电平。该条归类为 `非AGC(相邻：增强)`：它是"增强"在 MCU 上的体积下界。 |
-| S54 | FRCRN (frequency recurrent CRN, DNS challenge) | 2022 | 官方仓库（GitHub） | https://github.com/Audio-Westlake/FRCRN | 表格核实 | 权重非商用，laos 不能直接用；无公开端侧转换案例，10.27M 比 S53 贵约 200 倍而 PESQ 只高 0.34，边际收益很低；16 kHz 窄带；PESQ 提升不等于事件可懂度提升。该条归类为 `非AGC(相邻：增强)`，收录理由是"10M 级增强的榜单口径"这一档位需要锚点。 |
+| S54 | FRCRN (frequency recurrent CRN, DNS challenge) | 2022 | arXiv | https://arxiv.org/abs/2206.07293 | 表格核实 | 权重非商用，laos 不能直接用；无公开端侧转换案例，10.27M 比 S53 贵约 200 倍而 PESQ 只高 0.34，边际收益很低；16 kHz 窄带；PESQ 提升不等于事件可懂度提升。该条归类为 `非AGC(相邻：增强)`，收录理由是"10M 级增强的榜单口径"这一档位需要锚点。 |
 | S55 | LAION-CLAP: large-scale contrastive language-audio pretraining | 2022 | arXiv | https://arxiv.org/abs/2211.06687 | 表格核实 | 零样本比同表微调低 13.6 点，且文献普遍报告零样本与微调有 10–20 点落差；双塔含文本编码器，体积远大于 YAMNet 类；只给"像不像"的相似度，不给时间定位与置信校准；文本提示的措辞会显著改变结果，不可复现。该条归类为 `非AGC(相邻：检索)`，收录理由是"检索式开放词表"是事件发现的前置手段，与增益链无直接关系。 |
 | S56 | RNNoise (recurrent neural network noise suppression) | 2017 | arXiv | https://arxiv.org/abs/1709.08243 | 表格核实 | 指标是 DNSMOS（主观质量的自动代理），不是 PESQ，也不是事件保真度；0.085M 的容量只能处理稳态噪声，对突发事件的抑制/误抑都不可控；输出增益掩码不改整体电平；DNS4 与 VoiceBank-DEMAND 的分数不可横比。该条归类为 `非AGC(相邻：增强)`：它是常驻降噪的功耗/体积基准。 |
 | S57 | FFmpeg loudnorm filter (EBU R128) | 2016 | 官方文档（FFmpeg） | https://ffmpeg.org/ffmpeg-filters.html#loudnorm | 表格核实 | 必须预先分析整段音频，不能进实时采集环；目标是 LUFS，与 S58 的 dBFS 目标不可混用；双通会整体抬/降电平，若下游还有 AGC 就构成"二次增益"，是记忆链要避免的；对超短片段（<3 s）统计不稳。 |
@@ -548,5 +548,5 @@ mW、ms、MB 是三张独立的预算表，不是三种可以互换的计量单�
 | S76 | Silero VAD | 2021 | 官方仓库（GitHub） | https://github.com/snakers4/silero-vad | 表格核实 | 约 2 MB 与 47 nW ASIC（S72）差约五个数量级，只适合应用处理器；无公开 DER/虚警率基准，"事实标准"来自采用度而非精度证据；依赖 torch/onnxruntime，冷启动与内存占用未列；30 ms 帧对极短事件（门响、玻璃碎）可能整帧漏掉。 |
 | S77 | Sound event detection with binary neural networks on power-constrained IoT | 2021 | arXiv | https://arxiv.org/abs/2101.04446 | 摘要 | 77.9% 的数据集与指标定义摘要未标，不能与其他 SED 的 PSDS/F1 同表；7% 的掉点是二值化的固有代价；262 kB 仍高于 DCASE 的 128 KiB 预算；二值网络对域移与量化误差更敏感，跨设备未验证。 |
 | S78 | LeakyPick: IoT audio spy detector | 2020 | arXiv | https://arxiv.org/abs/2007.00500 | 表格核实 | 8 台设备的闭集，新设备/新固件需重新标定；依赖流量统计，全加密 + 恒定码率上传时特征会退化；94% 是"是否上传"的检测，不含内容与说话人；对抗者可主动伪装流量模式。 |
-| S79 | FSD50K: open dataset of human-labeled sound events | 2020 | IEEE/ACM TASLP（Crossref） | https://arxiv.org/abs/2010.00475 | 表格核实 | 200 类远少于 AudioSet 527 类，家庭长尾事件（玻璃碎、婴儿咳）覆盖不足；片段来自 Freesound，录制设备与场景分布偏"作品化"，不是常驻佩戴录音；众包标注有噪声，多标签一致性未在域表量化；与 AudioSet 训练的模型不可直接混评。 |
+| S79 | FSD50K: open dataset of human-labeled sound events | 2022 | IEEE/ACM TASLP（Crossref） | https://arxiv.org/abs/2010.00475 | 表格核实 | 200 类远少于 AudioSet 527 类，家庭长尾事件（玻璃碎、婴儿咳）覆盖不足；片段来自 Freesound，录制设备与场景分布偏"作品化"，不是常驻佩戴录音；众包标注有噪声，多标签一致性未在域表量化；与 AudioSet 训练的模型不可直接混评。 |
 | S80 | Self-sustaining micro-watt programmable smart audio sensor for always-on | 2019 | IGCC（Crossref） | https://ieeexplore.ieee.org/document/8752147 | 摘要 | 两类音频流、100% 准确率是小规模演示，不能当泛化精度；依赖室内光照，暗处即失效；128 路特征 + 模板式模式识别，不是深度模型，类别扩展性差；2019 年工艺，面积/效率已被后续工作超越。 |
