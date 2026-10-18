@@ -633,7 +633,7 @@
 - 数据：VoiceBank-DEMAND（16 kHz）。
 - 指标与条件：参数量 0.048M（论文记 23.7K 主体 / 39.6 MMACs，仓库口径 48K）；PESQ 2.87（VoiceBank-DEMAND）；ONNX Runtime Mobile INT8 可跑；MIT。
 - 局限：16 kHz 窄带，对 8 kHz 以上（如烟雾报警器高频成分）无能为力；PESQ 2.87 是 2023 年的中档水平，比 S52 低约 0.2；48K 参数的容量决定了它只能处理稳态噪声，非稳态事件易被误抑；掩码不改电平。该条归类为 `非AGC(相邻：增强)`：它是"增强"在 MCU 上的体积下界。
-- 对话：与 S56 的 RNNoise（85K、48 kHz）构成"窄带更小 vs 全带稍大"的取舍；与 S52 的 2.5M 形成三个数量级的阶梯；其 ONNX INT8 路径与 S76 的 ONNX 导出同属 S63 端侧预算讨论中"可部署"的一环。
+- 对话：与 S56 的 RNNoise（85K、48 kHz）构成"窄带更小 vs 全带稍大"的取舍；与 S52 的 2.5M 相差约 50 倍；其 ONNX INT8 路径与 S76 的 ONNX 导出同属 S63 端侧预算讨论中"可部署"的一环。
 
 ### [S54] FRCRN (frequency recurrent CRN, DNS challenge)
 - 问题：DNS 挑战赛路线的 10M 级增强网络，在官方榜单口径下能到多少。
@@ -785,7 +785,7 @@
 - 数据：GSCD 与 TIMIT（关键词/语音活动评测）。
 - 指标与条件：47 nW；面积 0.022 mm²；VAD 参数仅 45 个；GSCD/TIMIT 整体命中率 94% / 91%；0.9–1.3 V、0–60 °C 无显著退化。
 - 局限：45 参数意味着只能学"有声/无声"的粗边界，对音乐、键盘等非语音有声段无法区分；94%/91% 是命中率，虚警率与远端噪声条件未列；定制 65 nm，通用 MCU 上无法达到该功耗；无长时连续运行的漂移数据。
-- 对话：与 S76 的 Silero VAD（~2 MB、30 ms <1 ms CPU）相差约五个数量级，是"专用硅 vs 通用核"的极端对照；与 S67/S75 的 KWS 前端构成"VAD→特征→唤醒"的功耗阶梯；其 45 参数是"VAD 不需要深度网络"的实证。
+- 对话：与 S76 的 Silero VAD（~2 MB、30 ms <1 ms CPU）功耗相差约七个数量级（AP 空闲 400–1000 mW 对 47 nW），是"专用硅 vs 通用核"的极端对照；与 S67/S75 的 KWS 前端构成"VAD→特征→唤醒"的功耗阶梯；其 45 参数是"VAD 不需要深度网络"的实证。
 
 ### [S73] Ego4D: around the world in 3,000 hours of egocentric video
 - 问题：第一视角日常活动的大规模语料能到多大，情景记忆检索如何评测。
@@ -816,7 +816,7 @@
 - 方法：小型神经网络 VAD，官方提供 ONNX 导出；按 30 ms chunk 流式推理。
 - 数据：未给出（官方仓库未给统一评测集与 DER 口径）。
 - 指标与条件：MIT 许可；模型约 2 MB；30 ms chunk 在 CPU 上 <1 ms；ONNX 比原实现再快 4–5×；被 screenpipe / omi / say 等常驻项目采用。
-- 局限：约 2 MB 与 47 nW ASIC（S72）差约五个数量级，只适合应用处理器；无公开 DER/虚警率基准，"事实标准"来自采用度而非精度证据；依赖 torch/onnxruntime，冷启动与内存占用未列；30 ms 帧对极短事件（门响、玻璃碎）可能整帧漏掉。
+- 局限：约 2 MB 的软件 VAD 只能跑在应用处理器上（空闲 400–1000 mW 口径），与 47 nW ASIC（S72）相差约七个数量级；无公开 DER/虚警率基准，"事实标准"来自采用度而非精度证据；依赖 torch/onnxruntime，冷启动与内存占用未列；30 ms 帧对极短事件（门响、玻璃碎）可能整帧漏掉。
 - 对话：与 S72 的 47 nW VAD 构成"软件通用 vs 专用硅"的两端；与 S58 的 AGC2 内置 RNN VAD 是同一角色的两种实现；其 30 ms/<1 ms 是 S63 类端侧预算里"门控几乎免费"的依据。
 
 ### [S77] Sound event detection with binary neural networks on power-constrained IoT
