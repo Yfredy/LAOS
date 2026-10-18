@@ -31,12 +31,16 @@ class Thought:
     text: str = ""
     tool_calls: list[ToolCall] = field(default_factory=list)
     finish: bool = False
+    #: 本轮输出不可用（tool_call 参数解析失败等）：调用方应升温重试，
+    #: 不得当作结束。默认 False——既有全部构造点行为不变。
+    retryable: bool = False
 
 
 class Brain:
     name = "abstract"
 
-    def think(self, messages: list[dict], tools: list[dict]) -> Thought:
+    def think(self, messages: list[dict], tools: list[dict],
+              temperature: float = 0) -> Thought:
         raise NotImplementedError
 
 
@@ -86,7 +90,8 @@ class ScriptedBrain(Brain):
         return Thought(text=say, tool_calls=[ToolCall(name, args, f"c{step}")])
 
     # -- 主循环 ----------------------------------------------------------
-    def think(self, messages: list[dict], tools: list[dict]) -> Thought:
+    def think(self, messages: list[dict], tools: list[dict],
+              temperature: float = 0) -> Thought:
         available = {t["name"] for t in tools}
         self._step += 1
         step = self._step
@@ -180,8 +185,10 @@ class OpenAIChatBrain(Brain):
             for t in tools
         ]
 
-    def think(self, messages: list[dict], tools: list[dict]) -> Thought:
-        payload: dict[str, Any] = {"model": self.model, "messages": messages}
+    def think(self, messages: list[dict], tools: list[dict],
+              temperature: float = 0) -> Thought:
+        payload: dict[str, Any] = {"model": self.model, "messages": messages,
+                                   "temperature": float(temperature)}
         if tools:
             payload["tools"] = self._tools_payload(tools)
             payload["tool_choice"] = "auto"
