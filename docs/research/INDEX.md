@@ -49,7 +49,7 @@
 **想写文献综述 / 把综述流程固化成 skill？**
 
 - [2026-10-18-litreview-skill-workflow.md](2026-10-18-litreview-skill-workflow.md) — 《WorkBuddy + 综述Skill》学习：把文章可证的五步（主题范围→检索筛选阅读→比较→正文→完整综述+参考文献）展开成九步 SOP（S0 范围合同→S8 差异化适配），附质量六经验、增强提示词、11 项验收清单与 skill 最小骨架；核心判断「综述的价值在论文之间接不接得上」，并校正「20 分钟/投稿级」为「可打磨初稿」。
-- [2026-10-18-writing-plans-methodology.md](2026-10-18-writing-plans-methodology.md) — writing-plans 技能学习（配 HTML 版 [docs/guide/writing-plans-workflow.html](../guide/writing-plans-workflow.html)）：十条硬要求逐条拆解 → 它在防的八种失效模式 → P0–P7 端到端工作流 → 与 laos 增量纪律六处对照 → 可抄的计划骨架 → 与 LitReview 同构的「Skill 工程学五要素」（流程定上限、反降级边界定下限）。
+- [2026-10-18-writing-plans-methodology.md](2026-10-18-writing-plans-methodology.md) — writing-plans 技能学习（配**详尽版** HTML [docs/guide/writing-plans-workflow.html](../guide/writing-plans-workflow.html)：暗色侧栏导航 + P0–P7 流程 SVG + **10 张表** + 可抄骨架 + 三组验收清单）：十条硬要求逐条拆解 → 它在防的八种失效模式 → P0–P7 端到端工作流 → 与 laos 增量纪律六处对照 → 可抄的计划骨架（含占位符红榜 / Task 切分判据 / 步骤粒度正反例 / Produces 正反例）→ 与 LitReview 同构的「Skill 工程学五要素」（流程定上限、反降级边界定下限）。
 - [papers_index.md](papers_index.md) — 检索底座：本仓 115 篇 PDF 索引（只支撑候选发现，不替代全文精读）。
 
 **想了解 RSI / Agent 自我改进（论文浪潮与治理含义）？**

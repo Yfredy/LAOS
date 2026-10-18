@@ -173,14 +173,12 @@ Task 1 的 Produces 直接给出 `run_checks(survey_path, survey_text, evidence_
 - [ ] Global Constraints 数值逐字照抄 spec（含左闭右开这类边界写法）
 - [ ] Interfaces 的 Produces 与后续 Task 的 Consumes 逐字符一致
 
-**写之后（三查）**
+**写之后（三查 + 登记 + 交付）**
 - [ ] spec 每个需求都能指到某个 Task
 - [ ] 全文无 TBD / "加适当错误处理" / "为上述写测试" / "类似 Task N"
 - [ ] 跨 Task 的函数名、参数、字段名、规则名无漂移
 - [ ] 已登记进 `plans/README.md` 状态表
 - [ ] 已向用户给出执行方式二选一并绑定子技能
-
-**交付后**
 - [ ] 每 Task 一 commit，落点可用 `git log --oneline --all -- <path>` 证明
 - [ ] checkbox 保持未勾选（完成度看 git，不看勾）
 
