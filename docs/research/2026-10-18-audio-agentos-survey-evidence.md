@@ -132,7 +132,7 @@
 | C045 | [HiCMAE: hierarchical contrastive multimodal model for audio-visual SER](https://arxiv.org/abs/2401.05698) | 2024 | 纳入 S27 | 多模态：音视情感表征的可比增量，含模态缺失条件 |
 | C046 | [emotion2vec: self-supervised pre-training for speech emotion representation](https://aclanthology.org/2024.findings-acl.931/) | 2024 | 纳入 S28 | 指标条件：自监督情感表征的跨库口径与线性探针协议 |
 | C047 | [Dual knowledge distillation for efficient sound event detection](https://arxiv.org/abs/2402.02781) | 2024 | 纳入 S29 | 端侧证据：双蒸馏压缩 SED，给小型档上限 |
-| C048 | [emotion2vec+ large (FunASR 导出)](https://huggingface.co/emotion2vec/emotion2vec_plus_large) | 2024 | 纳入 S30 | 端侧证据：ONNX/FunASR 可导出，手机端可跑的中型权重 |
+| C048 | [emotion2vec+ large (FunASR 导出)](https://huggingface.co/emotion2vec/emotion2vec_plus_large) | 2024 | 纳入 S30 | 端侧证据：ONNX/FunASR 可导出，需量化+蒸馏后才可能进手机 |
 | C049 | [EfficientAT-mn04_as (Efficient Audio Transformer, width 0.4)](https://arxiv.org/abs/2211.04772) | 2023 | 纳入 S31 | 端侧证据：不足 1M 参数 + 蒸馏自 PaSST，小型档下界 |
 | C050 | [EAT-base: efficient audio transformer](https://arxiv.org/abs/2306.04186) | 2023 | 纳入 S32 | 指标条件：高效 Transformer 的 AudioSet 口径与 MACs 条件 |
 | C051 | [CED-Base: consistent ensemble distillation for audio tagging](https://arxiv.org/abs/2308.11957) | 2023 | 纳入 S33 | 指标条件：一致性蒸馏的强基线口径，作中型对照 |
@@ -393,7 +393,7 @@
 - 数据：未给出（摘要口径：未列语料名、小时数与正负样本配比）。
 - 指标与条件：未给出（摘要口径；延迟与目标平台在正文表格，本次未读到具体数值，故不引用）。
 - 局限：二类闭集任务，正类单一，遇到多源混响与近场音乐时误报率未知；"实时"缺平台主频/帧长说明；无跨城市录音的泛化证据，安全关键场景下漏检代价未被量化。
-- 对话：与 S24 的开放词表 AED 构成"窄闭集高可靠 vs 宽开放词表"的两端；与 S39 的 YAMNet 通用 521 类相比，说明专用小模型在单一安全事件上仍占优。
+- 对话：与 S24 的开放词表 AED 构成"窄闭集高可靠 vs 宽开放词表"的两端；专用二类模型是否在单一安全事件上优于 S39 的 YAMNet（521 类通用），待同条件对比后可判定——本卡数据与指标均未给出，不能先下"仍占优"结论。
 
 ### [S24] DASM: detect any sound (open-vocabulary AED)
 - 问题：闭集 AED 的类别表写死在训练集里，如何按文本查询检出任意目标声音。
@@ -457,7 +457,7 @@
 - 数据：AudioSet AS-2M full + ImageNet（AudioSet 本体官方已停止分发，复现依赖第三方镜像）。
 - 指标与条件：参数量 0.983M；AS-2M full tagging mAP 0.432；计算量 0.11 GMACs/10 s ≈ 11 MMACs/s（论文按 10 秒片段口径）；MIT 许可。
 - 局限：不足 1M 参数下 mAP 0.432，比中型档下沿（PANNs-CNN14 0.431）几乎不差，但这是蒸馏+ImageNet 迁移的红利，换域后是否仍成立未知；官方无端侧转换案例（edge 列 unknown）；527 类输出头本身就占参数预算的大头。
-- 对话：与 S39 的 YAMNet（3.7M / 0.306）构成"小 4 倍、高 12 点"的直接对照，是小型档的事实下界；与 S17 的 mn10/mn20 形成同一配方下的规模阶梯，用来分离"参数量"与"蒸馏配方"的贡献。
+- 对话：与 S39 的 YAMNet（3.7M / 0.306）构成"小 4 倍、高 12 点"的直接对照，是小型档的事实下界；与 `audio-events/01-small-models.md` 的 mn10/mn20 形成同一配方下的规模阶梯，用来分离"参数量"与"蒸馏配方"的贡献。
 
 ### [S32] EAT-base: efficient audio transformer
 - 问题：ViT 类音频 Transformer 的预训练太贵，能否用更少 epoch 达到同级 mAP。
@@ -518,10 +518,10 @@
 ### [S39] YAMNet (AudioSet MobileNetV1 tagging)
 - 问题：手机/微控制器上做 521 类音频事件 tagging，最小可用的官方基线是什么。
 - 方法：MobileNetV1 深度可分离卷积骨干 + 521 类 logistic 头，帧级 960 ms 输入，官方提供 TFLite / TFLite Micro 导出。
-- 数据：AudioSet（官方 README 与域表对划分的标注不一致，见下）；情感侧另在 IEMOCAP 与 SERAB 上做过特征/微调评测。
-- 指标与条件：3.7M 参数；每 960 ms 帧 69.2M multiplies（官方 README 逐字）；mAP 0.306（README 称 "balanced mAP"，域表主表标为 AS-2M full — 两处口径冲突，引用时须并列）；另 d′ 2.318、lwlrap 0.393；SER 侧 IEMOCAP 56.1、SERAB 55.1。
-- 局限：mAP 0.306 在 2026 年属低精度，只适合做"有无/粗类"门控；balanced 与 full 两种口径在源文档里未统一，直接横比会失真；521 类输出头对 MCU 仍偏大（int8 下仅头就占数百 KB）；SER 55–56 的水平说明它不能当情感模型用。
-- 对话：与 S31 的 mn04 是"同预算不同时代"的一对（3.7M/0.306 vs 0.98M/0.432）；作为 S76 类 VAD 之上的"事件门控"层，与 S23 的专用警笛检测构成通用/专用的取舍；其 TFLite 路径是 S61/S64 端侧证据链的起点。
+- 数据：AudioSet（官方 README 记 balanced 口径，域表按 AS-2M full 记属表级推断，见下）；情感侧另在 IEMOCAP 与 SERAB 上做过特征/微调评测。
+- 指标与条件：3.7M 参数；每 960 ms 帧 69.2M multiplies（官方 README 逐字）；mAP 0.306（README 原文称 "balanced mAP"，以此为准；域表的 AS-2M full 标注为表级推断，非源文档明示）；另 d′ 2.318、lwlrap 0.393；SER 侧 IEMOCAP 56.1、SERAB 55.1。
+- 局限：mAP 0.306 在 2026 年属低精度，只适合做"有无/粗类"门控；README 的 balanced 口径与域表推断的 full 口径不统一，直接横比会失真；521 类输出头对 MCU 仍偏大（int8 下仅头就占数百 KB）；SER 55–56 的水平说明它不能当情感模型用。
+- 对话：与 S31 的 mn04 是"同预算不同时代"的一对（3.7M/0.306 vs 0.98M/0.432）；作为 S76 类 VAD 之上的"事件门控"层，与 S23 的专用警笛检测构成通用/专用的取舍；其官方 TFLite/TFLite Micro 导出与 S76 的 ONNX 导出并列，是 S63 端侧预算讨论的起点之一。
 
 ### [S40] openSMILE ComParE_2016 feature set + linear classifier
 - 问题：不做神经预训练，纯手工声学特征 + 线性头在情感任务上还能到什么水平。
@@ -583,7 +583,7 @@
 - 问题：十亿级音频编码器冻结后接线性头，能在通用环境声任务上到什么水平。
 - 方法：Dasheng 自监督音频编码器（0.6B / 1.2B）冻结，接线性分类头在 HEAR 基准上评测。
 - 数据：VGGSound + AudioSet + MTG-Jamendo + ACAV100M，合计 272,356 小时。
-- 指标与条件：Dasheng-1.2B 参数量 1134M；HEAR 环境声域线性评测 83.2（多任务均值）；同族 0.6B 为 82.4；两个大模型均无公开的 AudioSet mAP（只有 86M 的 Base 报 0.497）。
+- 指标与条件：Dasheng-1.2B 参数量 1134M；HEAR 环境声域线性评测 83.2（多任务均值）；同族 0.6B 为 82.4；两个大模型均无公开的 AudioSet mAP（只有 86M 的 Base 报 0.497，AS-2M full）。
 - 局限：HEAR 是 19 项任务的平均分，不是 AudioSet mAP，不能与 S31–S38 的 mAP 同表比较；0.6B→1.2B 只 +0.8 分，规模收益已明显递减；服务端 GPU，无端侧转换案例。归类 `非AGC(相邻：事件判别)`，收录理由是它是"大型档下界"的锚点。
 - 对话：与 S33 的 CED-Base（86M/0.500 mAP）构成"×13 参数、不同指标"的对照，说明大模型的优势在广覆盖而非单榜；与 S43 共用 Dasheng 编码器，可把"编码器能力"与"LLM 解码"分开看；其 272,356 小时语料是 S73/S79 之外最大的公开音频预训练规模记录。
 
@@ -591,15 +591,15 @@
 - 问题：用扩散模型做通用语音复原（降噪/去混响/超分/去削波），主观听感能否超过判别式方法。
 - 方法：分数扩散 + 对抗训练 + 内容微调；推理 8 步、ε=1.3；非迭代掩码，直接生成波形。
 - 数据：16 kHz、55 种畸变链组合（训练期合成）。
-- 指标与条件：参数量 107.5M（训练期 HiFi-GAN 判别器另加 41.4M）；推理 8 步；RTF 0.015（RTX 4090，独立论文实测）；同系列 UNIVERSE 的 12 方听音中，生成式相对同容量回归版获 88% 偏好。
+- 指标与条件：参数量 107.5M（训练期 HiFi-GAN 判别器另加 41.4M）；推理 8 步；RTF 0.015（RTX 4090，另一篇独立论文实测，二手口径）；同系列 UNIVERSE 的 12 方听音中，生成式相对同容量回归版获 88% 偏好（二手口径，非 UNIVERSE++ 自身指标）。
 - 局限：论文明确写"扩散过程无法为流式适配"，这是根本限制而非工程问题；RTF 0.015 是 RTX 4090 数字，端侧无路径；88% 偏好是主观听音、非事件/内容保真度指标，且对照的是神经网络回归而非经典 DSP；生成式复原可能"补"出原音里没有的内容。该条归类为 `非AGC(相邻：修复·超分)`：量化"生成式复原值不值"的主观收益。
-- 对话：与 S45 的 USM 修复、S49 的超分共同构成"生成式复原"三件套，支撑不进记忆链的红线；与 S52/S53 的判别式掩码降噪对照，区分"改电平/改频谱"与"改内容"；其非因果性是 S65 流式化讨论的反面锚点。
+- 对话：与 S45 的 USM 修复、S49 的超分共同构成"生成式复原"三件套，支撑不进记忆链的红线；与 S52/S53 的判别式掩码降噪对照，区分"改电平/改频谱"与"改内容"；其非因果性与 S45 的离线修复同侧，和 S58 的实时增益环形成"离线/生成 vs 实时/因果"的对照。
 
 ### [S49] AudioSR: versatile audio super-resolution at scale
 - 问题：把 2–16 kHz 带宽的音频"脑补"到 48 kHz，生成式超分的实际代价与风险是什么。
 - 方法：潜空间扩散超分（AudioLDM 式）：VAE + Transformer U-Net + HiFi-GAN 声码器，DDIM 采样 50 步，5.12 s 块处理。
 - 数据：未给出（论文未在摘要列训练集名称与小时数）。
-- 指标与条件：参数量 672M（由第三方 INT4 移植模型卡分项加总 223M + 258M + 190M，非论文自报）；DDIM 50 步；INT4 MLX 移植实测 RTF 1.87（Apple Silicon M 系列，10.24 s 片段）；约 6 GB 显存。
+- 指标与条件：参数量 672M（二手口径：由第三方 INT4 移植模型卡分项加总 223M + 258M + 190M，非论文自报）；DDIM 50 步；INT4 MLX 移植实测 RTF 1.87（Apple Silicon M 系列，10.24 s 片段，同属二手口径）；约 6 GB 显存。
 - 局限：RTF 1.87 即处理 1 秒音频要 1.87 秒，连实时都做不到，端侧更无可能；论文与仓库许可冲突（MIT vs CC-BY-NC-4.0），商用状态不明；官方文档自述强噪声或混响会降低性能；超分本质是生成缺失频带，不能作为证据链的一环。该条归类为 `非AGC(相邻：修复·超分)`：它给出"超分能否实时"的否定答案。
 - 对话：与 S48 的扩散复原同属非因果生成路线；与 S57 的响度归一对照，说明"改带宽"与"改电平"是两类完全不同的操作；其许可冲突是 §10 核验层级要标"二手/冲突"的直接案例。
 
@@ -607,9 +607,9 @@
 - 问题：已有 ASR 骨干时，加一个事件标签头的增量成本有多小，能否顺带得到事件信息。
 - 方法：冻结 Whisper-Large 编码器（655M），仅训练 TL-Tr512 标签头（7M）在 AudioSet 上做多标签分类。
 - 数据：Whisper 680k 小时标注语音（骨干预训练）；标签头在 AudioSet 上训练。
-- 指标与条件：总参数 662M（655M 冻结 + 7M 头）；AS-2M full tagging mAP 41.5；AS-20K 32.8；BSD-2-Clause。
-- 局限：mAP 41.5 明显低于同表 86–90M 的音频专用模型（0.50 一线），因为骨干是为语音 ASR 训练的，对音乐/环境声表征不足；仍要 655M 骨干常驻，端侧不可行；标签头只给 clip 级标签、无起止时间。归类 `非AGC(相邻：事件判别)`，收录理由是"增量成本可算"这一工程事实。
-- 对话：与 S26 的"转写+情感+事件一体"思路同源，但 S50 把增量压到 7M；与 S39 的 YAMNet 对照，说明"蹭 ASR 骨干"在环境声上并不划算；其 41.5 是 S33 的 0.500 在另一指标口径下的参照点。
+- 指标与条件：总参数 662M（655M 冻结 + 7M 头）；AS-2M full tagging mAP 0.415；AS-20K mAP 0.328；BSD-2-Clause。
+- 局限：mAP 0.415 明显低于同表 86–90M 的音频专用模型（0.50 一线），因为骨干是为语音 ASR 训练的，对音乐/环境声表征不足；仍要 655M 骨干常驻，端侧不可行；标签头只给 clip 级标签、无起止时间。归类 `非AGC(相邻：事件判别)`，收录理由是"增量成本可算"这一工程事实。
+- 对话：与 S26 的"转写+情感+事件一体"思路同源，但 S50 把增量压到 7M；与 S39 的 YAMNet 对照，说明"蹭 ASR 骨干"在环境声上并不划算；其 0.415 与 S33 的 0.500 同为 AS-2M full tagging mAP，是同一指标下不同骨干的落差，不是两套指标口径。
 
 ### [S51] MossFormer2 (speech separation/enhancement, 55.7M)
 - 问题：单通道语音分离在中等参数量下，能把混叠语音的 SI-SDR 提到多高。
@@ -623,7 +623,7 @@
 - 问题：48 kHz 全带降噪能否在 CPU 上以 0.1–0.2 的实时因子跑，供桌面/边缘常驻。
 - 方法：ERB 频带特征 + DeepFilter 滤波（改进版），输出频带增益与滤波器系数；48 kHz / 20 ms 帧。
 - 数据：VoiceBank-DEMAND（仿真加噪的 48 kHz 语音）。
-- 指标与条件：参数量 2.5M；PESQ 约 3.1（VoiceBank-DEMAND；同架构 DF2 报 3.04，DF3 未在论文单列）；RTF 0.1–0.2（桌面 CPU）、0.5–0.8（RPi4）；Apache-2.0。
+- 指标与条件：参数量 2.5M；PESQ 约 3.1（VoiceBank-DEMAND；二手口径——同架构 DF2 报 3.04，DF3 未在论文单列）；RTF 0.1–0.2（桌面 CPU）、0.5–0.8（RPi4）；Apache-2.0。
 - 局限：PESQ 是仿真失真度指标，与主观听感/事件保真度不完全一致；DF3 的 3.1 是"同架构未单列"的二手口径，不能当论文实测；RPi4 上 0.5–0.8 的 RTF 已接近实时边界，手机低端核会更紧；输出掩码不改变整体电平，不能替代 AGC。该条归类为 `非AGC(相邻：增强)`：降噪常被误当增益控制，必须明确它只改掩码不改电平。
 - 对话：与 S53 的 48K 参数极简版构成"质量—体积"两端；与 S56 的 85K 定点 C 对照，说明 2.5M 已属"小型档上沿"；与 S58 的 AGC2 串联时须先降噪后测电平，否则噪声门会误判。
 
@@ -633,7 +633,7 @@
 - 数据：VoiceBank-DEMAND（16 kHz）。
 - 指标与条件：参数量 0.048M（论文记 23.7K 主体 / 39.6 MMACs，仓库口径 48K）；PESQ 2.87（VoiceBank-DEMAND）；ONNX Runtime Mobile INT8 可跑；MIT。
 - 局限：16 kHz 窄带，对 8 kHz 以上（如烟雾报警器高频成分）无能为力；PESQ 2.87 是 2023 年的中档水平，比 S52 低约 0.2；48K 参数的容量决定了它只能处理稳态噪声，非稳态事件易被误抑；掩码不改电平。该条归类为 `非AGC(相邻：增强)`：它是"增强"在 MCU 上的体积下界。
-- 对话：与 S56 的 RNNoise（85K、48 kHz）构成"窄带更小 vs 全带稍大"的取舍；与 S52 的 2.5M 形成三个数量级的阶梯；其 ONNX INT8 路径是 S61/S64 端侧证据链中"可部署"的一环。
+- 对话：与 S56 的 RNNoise（85K、48 kHz）构成"窄带更小 vs 全带稍大"的取舍；与 S52 的 2.5M 形成三个数量级的阶梯；其 ONNX INT8 路径与 S76 的 ONNX 导出同属 S63 端侧预算讨论中"可部署"的一环。
 
 ### [S54] FRCRN (frequency recurrent CRN, DNS challenge)
 - 问题：DNS 挑战赛路线的 10M 级增强网络，在官方榜单口径下能到多少。
@@ -657,7 +657,7 @@
 - 数据：DNS4 blind test（真实录制的盲测集）。
 - 指标与条件：参数量 0.085M；DNSMOS OVLMOS 3.38（DNS4 blind）；算力 <10 MFLOPS；48 kHz / 20 ms / 单通道；BSD-3-Clause；Cortex-A53 单核可实时。
 - 局限：指标是 DNSMOS（主观质量的自动代理），不是 PESQ，也不是事件保真度；0.085M 的容量只能处理稳态噪声，对突发事件的抑制/误抑都不可控；输出增益掩码不改整体电平；DNS4 与 VoiceBank-DEMAND 的分数不可横比。该条归类为 `非AGC(相邻：增强)`：它是常驻降噪的功耗/体积基准。
-- 对话：与 S53 的 GTCRN 构成 MCU 档的两个事实标准；与 S52 的 DFN3 是"0.085M vs 2.5M"的 30 倍阶梯；其 <10 MFLOPS 是 S76（VAD）与 S58（AGC2，~1–2 MCPS）之外第三条常驻链路的算力锚点。
+- 对话：与 S53 的 GTCRN 构成 MCU 档的两个事实标准；与 S52 的 DFN3 是"0.085M vs 2.5M"的 30 倍阶梯；其 <10 MFLOPS 是 S76（VAD）与 S58（AGC2，未给出 MCPS；01 §2.3 明确拒绝估算）之外第三条常驻链路的算力锚点。
 
 ### [S57] FFmpeg loudnorm filter (EBU R128)
 - 问题：离线批量音频如何统一到可比的响度电平，而不靠人耳试听。
@@ -841,7 +841,7 @@
 - 数据：51,197 段片段、108.3 小时、200 类（144 叶 + 56 中间）。
 - 指标与条件：51,197 clips / 108.3 h / 200 类；ICASSP 2022（arXiv 2020）；开放许可（CC），是少数可商用的事件集。
 - 局限：200 类远少于 AudioSet 527 类，家庭长尾事件（玻璃碎、婴儿咳）覆盖不足；片段来自 Freesound，录制设备与场景分布偏"作品化"，不是常驻佩戴录音；众包标注有噪声，多标签一致性未在域表量化；与 AudioSet 训练的模型不可直接混评。
-- 对话：与 S38/S39 的 AudioSet 训练模型构成"许可可用 vs 规模更大"的取舍；与 S33 的 PaSST FSD50K mAP 0.653 是同一评测口径；其 200 类层级本体是 S24/S55 开放词表落地时的标签骨架。
+- 对话：与 S38/S39 的 AudioSet 训练模型构成"许可可用 vs 规模更大"的取舍；与 S37 的 PaSST-S FSD50K mAP 0.653 是同一评测口径；其 200 类层级本体是 S24/S55 开放词表落地时的标签骨架。
 
 ### [S80] Self-sustaining micro-watt programmable smart audio sensor for always-on
 - 问题：不含电池、靠室内光供能，常驻音频传感能否自维持。
