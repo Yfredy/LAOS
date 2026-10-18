@@ -345,7 +345,7 @@ class TestAgent(KernelTestCase):
             def __init__(self) -> None:
                 self._step = 0
 
-            def think(self, messages, tools):
+            def think(self, messages, tools, temperature: float = 0):
                 self._step += 1
                 if self._step == 1:
                     return Thought(tool_calls=[ToolCall("sys.info", {}, "c1")])

@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 from dataclasses import dataclass, field
 
 from .brain import Brain, Thought
@@ -17,6 +18,11 @@ from .kernel import AgentKernel, PCB
 # 调度等待上界：200 轮 x 10ms ≈ 2s。挂起（token/err 预算耗尽）的 agent
 # 等满上界即收到调度拒绝，而不是永久自旋占住事件循环（R307）。
 _SCHED_WAIT_ROUNDS = 200
+
+# 温度重试阶梯（esp32-iphone-agent 同款三档）：首轮 0（确定性），
+# 第 1/2 次重试 0.4/0.8；超过 _MAX_RETRYABLE_RETRIES 次仍不可用即放弃。
+_RETRY_TEMPERATURE_LADDER: tuple[float, float] = (0.4, 0.8)
+_MAX_RETRYABLE_RETRIES: int = 2
 
 
 @dataclass
@@ -120,6 +126,7 @@ class Agent:
         except Exception:
             pass
         result = AgentResult(pid=self.pcb.pid, ok=False)
+        retryable_seen = 0
         try:
             for step in range(1, self.max_steps + 1):
                 # Stale Context：内核通告注入（HKU: 当上下文与现实不符时强制重读）
@@ -129,12 +136,31 @@ class Agent:
                             f"STALE: {stale_path} 已被外部修改，之前的读取结果不可信，请重新 fs.read"
                         )
                 tools = self.visible_tools
-                thought: Thought = await asyncio.to_thread(self.brain.think, ctx.messages, tools)
+                if retryable_seen:
+                    temperature = _RETRY_TEMPERATURE_LADDER[
+                        min(retryable_seen, len(_RETRY_TEMPERATURE_LADDER)) - 1]
+                else:
+                    temperature = 0
+                thought: Thought = await asyncio.to_thread(
+                    self.brain.think, ctx.messages, tools, temperature=temperature)
                 result.steps = step
 
                 if thought.text:
                     ctx.append("assistant", thought.text)
                     result.trace.append({"step": step, "say": thought.text})
+
+                if thought.retryable:
+                    # 本轮输出不可用（tool_call 参数解析失败）：升温重试，
+                    # 超限放弃——绝不把异常吞成 finish，也不空转烧预算
+                    retryable_seen += 1
+                    if retryable_seen > _MAX_RETRYABLE_RETRIES:
+                        result.answer = (
+                            f"模型连续 {retryable_seen} 轮输出不可用"
+                            f"（tool_call 参数解析失败），任务中止。")
+                        result.ok = False
+                        break
+                    continue
+                retryable_seen = 0
 
                 if not thought.tool_calls:
                     result.answer = thought.text
