@@ -8,7 +8,8 @@
     python scripts/check_survey.py --selftest
 
 非严格模式只校验已写内容（空小节/空参考文献表跳过），供写作过程逐节验证；
---strict 追加完整性要求（10 节齐全、纳入 >= 60 篇、矩阵行数下限、卡片/大纲全覆盖）。
+--strict 追加完整性要求（10 节齐全、纳入 >= 60 篇、矩阵行数下限、卡片/大纲全覆盖），
+且"表头+分隔线"不算数据：空参考文献表/空检索日志/空筛选台账在 strict 下均报违规。
 
 退出码：0 = 通过；1 = 有违规。
 """
@@ -122,6 +123,10 @@ def parse_refs(path: str, body: str, strict: bool):
             errs = require_cols(path, header, REF_COLS, "ref-schema")
             if errs:
                 return [], errs
+            if strict and not rows:
+                # 表头+分隔线不算参考文献：否则 80 篇表格被误删也能通过 strict
+                return [], [Violation(path, "ref-schema",
+                                      "参考文献表无数据行（仅表头）")]
             idx = {c: header.index(c) for c in REF_COLS}
             out = []
             for cells in rows:
@@ -294,14 +299,15 @@ def check_future_work(path, sections, refs, strict):
 def check_unverified(path, sections, refs):
     out = []
     levels = {r["编号"]: r["核验层级"] for r in refs}
-    if not levels:
-        return out
     for head, body in sections.items():
         if head.startswith("## 9."):
             continue
+        # 泄漏扫描与参考文献表是否为空无关：先扫再决定是否做弱证据口径检查
         if "[未核实]" in body:
             out.append(Violation(path, "unverified-leak",
                                  f"{head} 含 [未核实] 标记，应移入 §9"))
+        if not levels:
+            continue
         cited = CITE_RE.findall(body)
         weak = [rid for rid in cited if levels.get(rid) in ("摘要", "二手")]
         if weak and not re.search(r"摘要口径|二手口径", body):
@@ -333,14 +339,16 @@ def check_evidence(path, text, refs, strict):
     head, body = find_section(sections, "## 2.")
     if head is not None and body.strip():
         found = False
+        log_cols = ("检索日", "库/通道", "检索式", "年份窗", "命中")
         for header, rows in parse_tables(body):
-            if all(c in header for c in ("检索日", "库/通道", "检索式", "年份窗", "命中")):
+            # 表头+分隔线不算检索日志：否则整表数据行被删也能通过 strict
+            if rows and all(c in header for c in log_cols):
                 found = True
                 for n, cells in enumerate(rows, 1):
                     if len(cells) < 6 or any(not c.strip() for c in cells[:6]):
                         out.append(Violation(path, "search-log", f"检索日志第 {n} 行有空列"))
         if not found:
-            out.append(Violation(path, "search-log", "§2 缺检索日志表"))
+            out.append(Violation(path, "search-log", "§2 缺带数据行的检索日志表"))
     elif strict:
         out.append(Violation(path, "search-log", "§2 检索日志为空"))
 
@@ -348,7 +356,8 @@ def check_evidence(path, text, refs, strict):
     if head is not None and body.strip():
         found = False
         for header, rows in parse_tables(body):
-            if all(c in header for c in ("编号", "文献", "决定", "理由")):
+            # 同上：筛选台账必须有数据行，空表头不算证据
+            if rows and all(c in header for c in ("编号", "文献", "决定", "理由")):
                 found = True
                 iv = header.index("决定")
                 rv = header.index("理由")
@@ -362,7 +371,7 @@ def check_evidence(path, text, refs, strict):
                         out.append(Violation(path, "screen-reason",
                                              f"筛选第 {n} 行理由不足：{reason!r}"))
         if not found:
-            out.append(Violation(path, "screen-table", "§3 缺筛选表"))
+            out.append(Violation(path, "screen-table", "§3 缺带数据行的筛选表"))
     elif strict:
         out.append(Violation(path, "screen-table", "§3 筛选表为空"))
 
@@ -436,6 +445,9 @@ def run_checks(survey_path, survey_text, evidence_path, evidence_text, strict=Fa
     out.extend(ref_errs)
     if refs:
         out.extend(check_refs(survey_path, refs))
+    if refs or strict:
+        # strict 下即使 refs 为空也要跑：ref-count / cite-undefined /
+        # ref-count-claim 是"零参考文献照样通过"的防线，不能被 if refs 短路
         body = survey_text.split("## 10.")[0]
         out.extend(check_citations(survey_path, body, refs, strict))
     for prefix, (kind, min_rows) in SECTION_MATRIX.items():

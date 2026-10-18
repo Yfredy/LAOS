@@ -164,6 +164,33 @@ class CheckSurveyTest(unittest.TestCase):
         survey = survey.replace("本文纳入 1 篇文献。[S01]", "本文纳入 2 篇文献。[S01][S02]")
         self.assertIn("outline-coverage", rules(check(survey=survey, strict=True)))
 
+    def test_strict_empty_ref_table_and_unverified_leak(self):
+        # 回归（review 发现 1）：§10 只剩表头+分隔线时，严格模式的
+        # ref-count/citation 门禁与 [未核实] 泄漏扫描都不能整体失效。
+        ref_row = ("| S01 | Test Paper | 2024 | Interspeech | "
+                   "https://example.org/p1 | 全文 | 仅原型验证（n=1） |\n")
+        self.assertIn(ref_row, GOOD_SURVEY)
+        strict_vs = rules(check(survey=GOOD_SURVEY.replace(ref_row, ""), strict=True))
+        self.assertIn("ref-count", strict_vs)
+        self.assertIn("ref-schema", strict_vs)
+
+        leaked = GOOD_SURVEY.replace(ref_row, "").replace(
+            "| X | 耳机 | 端侧 | 显式 | 触发 | [S01] | 环形缓冲 | 仅原型验证（n=1） |",
+            "| X | 耳机 | 端侧 | 显式 | 触发 | [S01] | 环形缓冲 | 仅原型验证（n=1） |\n"
+            "[未核实] 某宣称数值待补原文")
+        self.assertIn("unverified-leak", rules(check(survey=leaked)))
+
+    def test_strict_header_only_evidence_ledgers(self):
+        # 回归（review 发现 2）：§2/§3 只剩表头时不得被当成"证据完整"。
+        log_row = "| 2026-10-18 | corpus | audio event | 2017-2026 | 10 | 3 |\n"
+        screen_row = "| C01 | Test Paper | 纳入 | 与核心问题直接相关 |\n"
+        self.assertIn(log_row, GOOD_EVIDENCE)
+        self.assertIn(screen_row, GOOD_EVIDENCE)
+        empty = GOOD_EVIDENCE.replace(log_row, "").replace(screen_row, "")
+        vs = rules(check(evidence=empty, strict=True))
+        self.assertIn("search-log", vs)
+        self.assertIn("screen-table", vs)
+
     def test_selftest_cli(self):
         self.assertEqual(cs.main(["--selftest"]), 0)
 
