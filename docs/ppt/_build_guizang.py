@@ -21,7 +21,7 @@ SECTIONS.append(f'''
       <div data-anim="kicker" class="t-meta" style="color:rgba(255,255,255,.78);letter-spacing:.22em">LINUX AGENTOS · FIELD NOTE 01</div>
       <h1 data-anim="title" style="align-self:center;font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(8.4vw,15vh);line-height:.96;letter-spacing:-.025em;color:#fff">Linux 内核的<br/><span style="font-style:italic;font-weight:300">Agent 治理层</span></h1>
       <div data-anim="bottom" style="display:grid;grid-template-rows:auto auto;gap:1.6vh;border-top:1px solid rgba(255,255,255,.22);padding-top:2vh">
-        <div data-anim="lead" class="lead" style="max-width:52ch;color:rgba(255,255,255,.86);font-weight:300">laos · Linux AgentOS v0.9.0 —— 用内核强制原语给 Agent 划出能力边界，而不是靠提示词恳求。主库 353 + 隔离区 350 = 703 项测试全绿。</div>
+        <div data-anim="lead" class="lead" style="max-width:52ch;color:rgba(255,255,255,.86);font-weight:300">laos · Linux AgentOS v0.39.0 —— 用内核强制原语给 Agent 划出能力边界，而不是靠提示词恳求。主库 1159 + 隔离区 279 + 复现区 94 = 1532 项测试全绿。</div>
         <div style="display:flex;justify-content:space-between;align-items:end">
           <div class="t-meta" style="color:rgba(255,255,255,.6)">GitHub · Yfredy/LAOS · 2026-10</div>
           <div class="t-meta" style="color:rgba(255,255,255,.6)">→ swipe / arrow keys</div>
@@ -312,7 +312,7 @@ SECTIONS.append('''
         </div>
         <div data-anim="manifesto" style="display:flex;flex-direction:column;gap:2vh;position:relative;z-index:1">
           <div class="t-meta" style="color:rgba(255,255,255,.78);letter-spacing:.22em;margin-bottom:1.6vh">MANIFESTO</div>
-          <h2 style="font-family:var(--sans),var(--sans-zh);font-size:min(7vw,12.5vh);line-height:.96;letter-spacing:-.025em;font-weight:200;color:#fff">v0.1 → v0.9，<br/>每一步都<span style="font-style:italic;font-weight:300">可追溯</span>。</h2>
+          <h2 style="font-family:var(--sans),var(--sans-zh);font-size:min(7vw,12.5vh);line-height:.96;letter-spacing:-.025em;font-weight:200;color:#fff">v0.1 → v0.39，<br/>每一步都<span style="font-style:italic;font-weight:300">可追溯</span>。</h2>
           <div style="font-family:var(--sans),var(--sans-zh);font-size:max(14px,1vw);line-height:1.6;color:rgba(255,255,255,.82);font-weight:400;max-width:36ch;margin-top:1.4vh">语义化版本 + Keep a Changelog + GitHub Release 页——一个完整需求波次 = 一次 MINOR。</div>
         </div>
         <div data-anim="signature" style="display:flex;justify-content:space-between;align-items:end;border-top:1px solid rgba(255,255,255,.22);padding-top:2vh;position:relative;z-index:1">
@@ -381,7 +381,7 @@ NOTES = [
          talk=["六来源 71 测试", "论文数字不作断言"]),
     dict(id="closing", title="版本治理与路线", section="收尾", minutes=0.6,
          purpose="给出可信的收束与下一步",
-         talk=["v0.1→v0.9 可追溯", "三个 Next 项目"]),
+         talk=["v0.1→v0.39 可追溯", "三个 Next 项目"]),
 ]
 
 src = SRC.read_text(encoding="utf-8")

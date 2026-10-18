@@ -82,12 +82,12 @@
   <p class="lede mt-m" style="font-size:26px">模型负责想，<span class="hl">laos 负责说"不"</span>。</p>
   <div class="row wrap mt-l" style="gap:14px">
     <span class="pill pill-accent">开源 v0.39.0</span>
-    <span class="pill">30 天 · 12 个 MINOR 版本</span>
+    <span class="pill">44 天 · 39 个 MINOR 版本</span>
     <span class="pill">1532 项测试全绿</span>
     <span class="pill">Linux 内核的用户态治理延伸</span>
   </div>
   <div class="deck-footer"><span>github.com/Yfredy/LAOS</span><span class="slide-number" data-current="1" data-total="15"></span></div>
-  <aside class="notes">各位好，我是 laos 的作者。今天不讲情怀，讲一个每家用 Agent 的企业都会撞上的问题，和我这三十天做出的答案。<b>laos 是Linux 内核的 Agent 治理层 —— 基座不变，治理延伸</b>。开场先立信任，角标三个数字全部公开可查：版本 v0.12.0、三十天十二个版本、七百六十五项测试全绿。今天十五页，五分钟讲清楚三件事——痛点为什么真实、壁垒为什么成立、这笔钱为什么现在进。</aside>
+  <aside class="notes">各位好，我是 laos 的作者。今天不讲情怀，讲一个每家用 Agent 的企业都会撞上的问题，和我这四十四天做出的答案。<b>laos 是Linux 内核的 Agent 治理层 —— 基座不变，治理延伸</b>。开场先立信任，角标三个数字全部公开可查：版本 v0.39.0、四十四天四十三个版本、一千五百三十二项测试全绿。今天十五页，五分钟讲清楚三件事——痛点为什么真实、壁垒为什么成立、这笔钱为什么现在进。</aside>
 </section>
 
 <!-- ============ P2 一页看懂 ============ -->
@@ -105,7 +105,7 @@
     </div>
     <div class="card" data-anim="rise-in">
       <p class="box-label">进展</p>
-      <p>开源 <b>v0.39.0</b> · <b>15 个设备驱动</b> · 端侧听觉栈全自研纯 stdlib · <b>19,792 篇</b>论文语料</p>
+      <p>开源 <b>v0.39.0</b> · <b>17 个设备驱动</b> · 端侧听觉栈全自研纯 stdlib · <b>19,792 篇</b>论文语料</p>
     </div>
     <div class="card card-accent" data-anim="rise-in">
       <p class="box-label">一句话</p>
@@ -113,7 +113,7 @@
     </div>
   </div>
   <div class="deck-footer"><span>laos · 创新融资项目介绍 · 2026-10</span><span class="slide-number" data-current="2" data-total="15"></span></div>
-  <aside class="notes">这一页如果只记住一页，就记它。问题一句话：Agent 直接拿工具，<b>没有"系统调用"层</b>——无预算、无审计、无回滚、无合规。方案一句话：laos 是用户态内核，每次工具调用都要过八环闸门。进展一句话：开源 v0.39.0、十五个设备驱动、听觉栈纯标准库自研、近两万篇论文语料。最后这张金卡是全场的钉子：<em>模型负责想，laos 负责说"不"</em>。带着这句话看后面十三页。</aside>
+  <aside class="notes">这一页如果只记住一页，就记它。问题一句话：Agent 直接拿工具，<b>没有"系统调用"层</b>——无预算、无审计、无回滚、无合规。方案一句话：laos 是用户态内核，每次工具调用都要过八环闸门。进展一句话：开源 v0.39.0、十七个设备驱动、听觉栈纯标准库自研、近两万篇论文语料。最后这张金卡是全场的钉子：<em>模型负责想，laos 负责说"不"</em>。带着这句话看后面十三页。</aside>
 </section>
 
 <!-- ============ P3 痛点三柱 ============ -->
@@ -184,7 +184,7 @@
     <div class="arch-core"><p class="box-label" style="color:var(--accent)">laos 内核</p>
       <h4>闸门链 · 调度 · 分支 · 记忆</h4><p class="dim">tool call = syscall</p></div>
     <div class="arch-link">⇄</div>
-    <div class="arch-node"><p class="box-label">驱动层</p><h4>15 个驱动子进程</h4><p class="dim">mic / ear / screen / notify / npu …</p></div>
+    <div class="arch-node"><p class="box-label">驱动层</p><h4>17 个驱动子进程</h4><p class="dim">mic / ear / screen / notify / npu …</p></div>
     <div class="arch-link">⇄</div>
     <div class="arch-node"><p class="box-label">系统</p><h4>Linux · MCP · 外设</h4><p class="dim">真实世界</p></div>
   </div>
@@ -195,7 +195,7 @@
   </div>
   <p class="lede mt-l">零依赖承诺：内核纯 Python stdlib —— <b>可进任何低端安卓 / 边缘盒子的 Python 环境</b>。</p>
   <div class="deck-footer"><span>laos · 创新融资项目介绍 · 2026-10</span><span class="slide-number" data-current="5" data-total="15"></span></div>
-  <aside class="notes">一句话定位：laos 是<b>Linux 内核的用户态治理延伸</b>。看这条链路：Agent 的每次工具调用，先过内核的闸门链、调度、分支和记忆，再到十五个驱动子进程，最后才落到 Linux、MCP 和外设——真实世界永远在内核之后。三件内核语义请记住：工具调用就是系统调用，MCP Server 就是设备驱动，能力表就是权限位。还有一个硬承诺：内核纯 Python 标准库、零依赖，低端安卓和边缘盒子都能跑。这不是规划稿，是已经跑起来的 v0.12.0。过渡：壁垒在哪里？接下来三页。</aside>
+  <aside class="notes">一句话定位：laos 是<b>Linux 内核的用户态治理延伸</b>。看这条链路：Agent 的每次工具调用，先过内核的闸门链、调度、分支和记忆，再到十七个驱动子进程，最后才落到 Linux、MCP 和外设——真实世界永远在内核之后。三件内核语义请记住：工具调用就是系统调用，MCP Server 就是设备驱动，能力表就是权限位。还有一个硬承诺：内核纯 Python 标准库、零依赖，低端安卓和边缘盒子都能跑。这不是规划稿，是已经跑起来的 v0.12.0。过渡：壁垒在哪里？接下来三页。</aside>
 </section>
 
 <!-- ============ P6 壁垒一 8 环闸门链 ============ -->
@@ -321,9 +321,9 @@
 <!-- ============ P10 里程碑与进展 ============ -->
 <section class="slide" data-title="里程碑与进展">
   <p class="kicker" data-anim="fade-up">TRACTION · ALL REAL, ALL AUDITABLE</p>
-  <h2 class="h2 mt-s" data-anim="fade-up">全部真实：30 天，12 个版本，1532 项测试全绿。</h2>
+  <h2 class="h2 mt-s" data-anim="fade-up">全部真实：44 天，43 个版本，1532 项测试全绿。</h2>
   <div class="grid g4 mt-l">
-    <div class="card" data-anim="rise-in"><p class="stat-num">12</p><p class="stat-sub">MINOR 版本 / <b>30 天</b><br>v0.1.0 → v0.39.0，每版本 tag+Release+CHANGELOG</p></div>
+    <div class="card" data-anim="rise-in"><p class="stat-num">39</p><p class="stat-sub">MINOR 版本 / <b>44 天</b><br>v0.1.0 → v0.39.0，每版本 tag+Release+CHANGELOG</p></div>
     <div class="card" data-anim="rise-in"><p class="stat-num">1532</p><p class="stat-sub">测试全绿 · TDD 先红后绿<br>主库 1159 / 隔离区 279 / 复现区 94</p></div>
     <div class="card" data-anim="rise-in"><p class="stat-num">19,792</p><p class="stat-sub">双会议论文全量语料<br>+ 3,724 星标库分级 + 47 份调研</p></div>
     <div class="card" data-anim="rise-in"><p class="stat-num">4 项</p><p class="stat-sub">论文级复现实证<br>响度 / ANC / DOA / MPE，与官方实现逐行对齐</p></div>
@@ -332,7 +332,7 @@
     <p><b>诚实呈现：</b>开源一个月，社区冷启动期 —— 尚无外部贡献者；增长曲线看 issue / PR 转化。</p>
   </div>
   <div class="deck-footer"><span>laos · 创新融资项目介绍 · 2026-10</span><span class="slide-number" data-current="10" data-total="15"></span></div>
-  <aside class="notes">这一页所有数字真实、公开、可查。三十天十二个 MINOR 版本，每个都有 tag、Release 和 CHANGELOG；七百六十五项测试全绿——主库四百一十五、隔离区二百七十九、复现区七十一，TDD 先红后绿；证据链是一万九千七百九十二篇论文、三千七百二十四个星标开源库、四十七份调研；复现能力有实证：响度、ANC、DOA、MPE 四项与官方实现逐行对齐。同时诚实讲：<b>开源一个月，还没有外部贡献者</b>，处在冷启动期，增长看 issue 和 PR 的转化——我们只报真实数字，这一点后面每页都一样。</aside>
+  <aside class="notes">这一页所有数字真实、公开、可查。四十四天三十九个 MINOR 版本，每个都有 tag、Release 和 CHANGELOG；一千五百三十二项测试全绿——主库一千一百五十九、隔离区二百七十九、复现区九十四，TDD 先红后绿；证据链是一万九千七百九十二篇论文、三千七百二十四个星标开源库、四十七份调研；复现能力有实证：响度、ANC、DOA、MPE 四项与官方实现逐行对齐。同时诚实讲：<b>开源一个月，还没有外部贡献者</b>，处在冷启动期，增长看 issue 和 PR 的转化——我们只报真实数字，这一点后面每页都一样。</aside>
 </section>
 
 <!-- ============ P11 商业模式 ============ -->
@@ -461,7 +461,7 @@
     <div class="card card-accent" data-anim="rise-in">
       <p class="box-label">团队 · 真实呈现</p>
       <p><b>独立开发者</b></p>
-      <p class="dim mt-s">30 天完成 12 版本 / 1159 测试 / 47 份调研 —— 这条 AI 协作流水线，就是 laos"用 OS 治理 Agent"的方法论实证。</p>
+      <p class="dim mt-s">44 天完成 43 版本 / 1532 测试 / 47 份调研 —— 这条 AI 协作流水线，就是 laos"用 OS 治理 Agent"的方法论实证。</p>
       <p class="dim mt-s">招人计划见路线图：+2 内核端侧，+2 合规 BD。</p>
     </div>
     <div class="card" data-anim="rise-in">
@@ -477,7 +477,7 @@
     <p style="font-family:var(--font-display);font-size:34px;text-align:center;margin:0">模型负责想，<span class="hl">laos 负责说"不"</span>。<span class="dim" style="font-size:20px;font-family:var(--font-mono)">· github.com/Yfredy/LAOS</span></p>
   </div>
   <div class="deck-footer"><span>laos · 创新融资项目介绍 · 2026-10</span><span class="slide-number" data-current="15" data-total="15"></span></div>
-  <aside class="notes">最后，团队和风险都摊开讲。团队就是我自己加一条 AI 协作流水线——三十天十二个版本、七百六十五项测试、四十七份调研，这条流水线本身就是产品方法论的证据：laos 讲的就是"用操作系统治理 Agent"，我自己就是这么干活的，招人计划在路线图里。三个风险：标准竞争，对策是深耕强制层与账本、保持标准中立；单人风险，对策是<b>首要融资用途就是建团队</b>；长销售周期，对策是先开发者后企业的开源漏斗。收尾一句话：模型负责想，laos 负责说"不"。代码全在 github.com/Yfredy/LAOS，欢迎逐行尽调，谢谢。</aside>
+  <aside class="notes">最后，团队和风险都摊开讲。团队就是我自己加一条 AI 协作流水线——四十四天四十三个版本、一千五百三十二项测试、四十七份调研，这条流水线本身就是产品方法论的证据：laos 讲的就是"用操作系统治理 Agent"，我自己就是这么干活的，招人计划在路线图里。三个风险：标准竞争，对策是深耕强制层与账本、保持标准中立；单人风险，对策是<b>首要融资用途就是建团队</b>；长销售周期，对策是先开发者后企业的开源漏斗。收尾一句话：模型负责想，laos 负责说"不"。代码全在 github.com/Yfredy/LAOS，欢迎逐行尽调，谢谢。</aside>
 </section>
 
 </div>

@@ -1,5 +1,5 @@
 // 组装 guizang 瑞士风 laos 详细技术深潜 deck：19 页 sections + SPEAKER_NOTES。
-// 内容唯一来源：docs/ppt/laos-detailed-outline.md（v0.12.0 · 2026-10-05），不虚构数字。
+// 内容唯一来源：docs/ppt/laos-detailed-outline.md（v0.39.0 · 2026-10-18），不虚构数字。
 // 版式：Swiss locked mode S01-S22 + SWISS-COVER-ASCII / SWISS-CLOSING-ASCII。
 import { readFileSync, writeFileSync } from 'node:fs';
 
@@ -23,9 +23,9 @@ S.push(`
       <div data-anim="kicker" class="t-meta" style="color:rgba(255,255,255,.78);letter-spacing:.22em">LINUX AGENTOS · TECHNICAL DEEP DIVE</div>
       <h1 data-anim="title" style="align-self:center;font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(7.4vw,13.4vh);line-height:.98;letter-spacing:-.025em;color:#fff">把 Linux 变成<br/>Agent 的<span style="font-style:italic;font-weight:300">操作系统</span></h1>
       <div data-anim="bottom" style="display:grid;grid-template-rows:auto auto;gap:1.6vh;border-top:1px solid rgba(255,255,255,.22);padding-top:2vh">
-        <div data-anim="lead" class="lead" style="max-width:58ch;color:rgba(255,255,255,.86);font-weight:300">详细技术深潜——Linux AgentOS = Linux kernel + Agent + MCP。Linux 内核的 Agent 扩展（用户态 · 零内核改动）：15 个驱动 · 8 环 syscall 闸门 · 765 项测试全绿。</div>
+        <div data-anim="lead" class="lead" style="max-width:58ch;color:rgba(255,255,255,.86);font-weight:300">详细技术深潜——Linux AgentOS = Linux kernel + Agent + MCP。Linux 内核的 Agent 扩展（用户态 · 零内核改动）：17 个驱动 · 8 环 syscall 闸门 · 1532 项测试全绿。</div>
         <div style="display:flex;justify-content:space-between;align-items:end">
-          <div class="t-meta" style="color:rgba(255,255,255,.6)">v0.12.0 · 2026-10-05 · github.com/Yfredy/LAOS</div>
+          <div class="t-meta" style="color:rgba(255,255,255,.6)">v0.39.0 · 2026-10-18 · github.com/Yfredy/LAOS</div>
           <div class="t-meta" style="color:rgba(255,255,255,.6)">→ swipe / arrow keys</div>
         </div>
       </div>
@@ -178,7 +178,7 @@ S.push(`
           </div>
           <div style="display:grid;grid-template-columns:auto 1fr;gap:1.2vw;align-items:baseline;padding:1.2vh 0;border-top:1px solid var(--border-subtle)">
             <span style="width:10px;height:10px;border:1px solid var(--ink)"></span>
-            <span style="font-size:max(16px,1vw)"><span style="font-weight:500">驱动子进程</span> · 15 × drv_*，重依赖隔离</span>
+            <span style="font-size:max(16px,1vw)"><span style="font-weight:500">驱动子进程</span> · 17 × drv_*，重依赖隔离</span>
           </div>
           <div style="display:grid;grid-template-columns:auto 1fr;gap:1.2vw;align-items:baseline;padding:1.2vh 0;border-top:1px solid var(--border-subtle);border-bottom:1px solid var(--border-subtle)">
             <span style="width:10px;height:10px;background:var(--grey-2)"></span>
@@ -322,12 +322,12 @@ S.push(`
     ${chrome(9)}
     <div data-anim="line" style="display:flex;flex-direction:column;gap:1.1vh;padding-top:.4vh">
       <span class="t-cat">Driver Panorama · 驱动全景</span>
-      <h2 class="h-xl" style="font-weight:200;font-size:min(4.2vw,7.4vh);line-height:1;letter-spacing:-.03em">驱动全景：15 个设备。</h2>
+      <h2 class="h-xl" style="font-weight:200;font-size:min(4.2vw,7.4vh);line-height:1;letter-spacing:-.03em">驱动全景：17 个设备。</h2>
     </div>
     <div data-anim="up" style="display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);gap:1.1vh 1.1vw;flex:1;min-height:0;margin-top:4.8vh">${drvCells}</div>
     <div style="display:flex;justify-content:space-between;align-items:end;margin-top:2vh;padding-bottom:2.8vh">
-      <span class="num-mega" style="font-size:min(5vw,8.8vh)">15</span>
-      <span class="t-meta">BUILT-IN DRIVERS · 听觉 3 · 手机 6 · 系统 6</span>
+      <span class="num-mega" style="font-size:min(5vw,8.8vh)">17</span>
+      <span class="t-meta">BUILT-IN DRIVERS · 听觉 3 · 手机 6 · 系统 8</span>
     </div>
   </div>
 </section>`);
@@ -425,11 +425,11 @@ S.push(`
 
 // ============ P13 · D1 测试与质量 · S20 ============
 const LEDGER = [
-  ['765', '测试全绿', '主库 415 + AlwaysOnRec 279 + Repro 71', 'check-circle-2', true],
-  ['415', 'laos 主库', '纯 stdlib，零第三方依赖', 'layout-grid', false],
+  ['1532', '测试全绿', '主库 1159 + AlwaysOnRec 279 + Repro 94', 'check-circle-2', true],
+  ['1159', 'laos 主库', '纯 stdlib，零第三方依赖', 'layout-grid', false],
   ['279', 'AlwaysOnRec 隔离区', '常开录音沙箱的专属测试', 'shield', false],
-  ['71', 'Repro 复现区', '论文复现全部隔离', 'flask-conical', false],
-  ['12', 'MINOR · 30 天', 'v0.1.0（09-04）→ v0.12.0（10-05）', 'git-tag', false],
+  ['94', 'Repro 复现区', '论文复现全部隔离', 'flask-conical', false],
+  ['39', 'MINOR · 44 天', 'v0.1.0（09-04）→ v0.39.0（10-18）', 'git-tag', false],
 ];
 const ledgerRows = LEDGER.map(([num, lbl, desc, ico, acc]) =>
   `<div class="ledger-row" style="display:grid;grid-template-columns:auto 1fr auto;gap:2vw;align-items:center;padding:1.5vh 0;border-bottom:1px solid var(--border-subtle)">
@@ -443,7 +443,7 @@ S.push(`
     ${chrome(13)}
     <div data-anim="line" style="display:flex;flex-direction:column;gap:1vh;padding-top:.4vh">
       <span class="t-cat">Quality · 测试与质量</span>
-      <h2 class="h-xl" style="font-weight:200;font-size:min(4.4vw,7.8vh);line-height:1;letter-spacing:-.03em">765 项测试，全绿。</h2>
+      <h2 class="h-xl" style="font-weight:200;font-size:min(4.4vw,7.8vh);line-height:1;letter-spacing:-.03em">1532 项测试，全绿。</h2>
       <p style="font-size:max(18px,1vw);color:var(--text-secondary);max-width:64ch;line-height:1.7;font-weight:300;margin-top:2.6vh">TDD 纪律——先红后绿，每任务一 commit；版本纪律——SemVer + conventional commits。</p>
     </div>
     <div data-anim="ledger" style="flex:1;margin-top:2.4vh;padding-bottom:2.6vh;min-height:0">${ledgerRows}</div>
@@ -462,7 +462,7 @@ const HIST = [
   ['v0.8.0–0.10.0', '10-05', '复现采纳三连：SHO / PhaseCoder / ANC / LUFS / Pipecat / unique_lock→loudness / turnbuf / locks + 五套 PPT', false],
   ['v0.11.0', '10-05', '手机操控四件套 + drv_apps + micgeom', false],
   ['v0.12.0', '10-05', '双工时序 + 轮转策略 + 双耳线索 + FOA', true],
-  ['30 天', '09-04 → 10-05', '从 baseline 到双工时序的完整冲刺', false],
+  ['44 天', '09-04 → 10-18', '从 baseline 到双工时序的完整冲刺', false],
   ['纪律', 'SEMVER', '语义化版本 + conventional commits', false],
 ];
 const histCells = HIST.map(([v, d, desc, acc]) =>
@@ -477,12 +477,12 @@ S.push(`
     ${chrome(14)}
     <div data-anim="line" style="display:flex;flex-direction:column;gap:1.1vh;padding-top:.4vh">
       <span class="t-cat">Release History · 版本史</span>
-      <h2 class="h-xl" style="font-weight:200;font-size:min(4.2vw,7.4vh);line-height:1;letter-spacing:-.03em">30 天，12 个 MINOR。</h2>
+      <h2 class="h-xl" style="font-weight:200;font-size:min(4.2vw,7.4vh);line-height:1;letter-spacing:-.03em">44 天，39 个 MINOR。</h2>
     </div>
     <div data-anim="up" style="display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:1.1vh 1.1vw;flex:1;min-height:0;margin-top:4.8vh">${histCells}</div>
     <div style="display:flex;justify-content:space-between;align-items:end;margin-top:2vh;padding-bottom:2.8vh">
-      <span class="num-mega" style="font-size:min(5vw,8.8vh)">12</span>
-      <span class="t-meta">MINOR RELEASES · V0.1.0 → V0.12.0 · 30 DAYS</span>
+      <span class="num-mega" style="font-size:min(5vw,8.8vh)">39</span>
+      <span class="t-meta">MINOR RELEASES · V0.1.0 → V0.39.0 · 44 DAYS</span>
     </div>
   </div>
 </section>`);
@@ -629,12 +629,12 @@ S.push(`
           <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2.6vh 0;border-top:1px solid var(--border-subtle)">
             <div style="font-family:var(--sans);font-weight:200;font-size:min(4.4vw,7.8vh);line-height:.9;color:var(--text-primary)">02</div>
             <div><h3 style="font-weight:400;font-size:max(18px,1.8vw);margin-bottom:1.6vh">深潜</h3>
-            <p style="font-size:max(16px,.94vw);line-height:1.6;color:var(--text-secondary)">8 环 syscall 闸门 · 15 驱动 · 端侧听觉栈 · 全双工轮转 · 765 项测试全绿。</p></div>
+            <p style="font-size:max(16px,.94vw);line-height:1.6;color:var(--text-secondary)">8 环 syscall 闸门 · 17 驱动 · 端侧听觉栈 · 全双工轮转 · 1532 项测试全绿。</p></div>
           </div>
           <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2.6vh 0;border-top:1px solid var(--border-subtle);border-bottom:2px solid var(--accent)">
             <div style="font-family:var(--sans);font-weight:200;font-size:min(4.4vw,7.8vh);line-height:.9;color:var(--accent)">03</div>
             <div><h3 style="font-weight:400;font-size:max(18px,1.8vw);margin-bottom:1.6vh;color:var(--accent)">仓库</h3>
-            <p style="font-size:max(16px,.94vw);line-height:1.6;color:var(--text-secondary)">github.com/Yfredy/LAOS · v0.12.0 · 2026-10-05。</p></div>
+            <p style="font-size:max(16px,.94vw);line-height:1.6;color:var(--text-secondary)">github.com/Yfredy/LAOS · v0.39.0 · 2026-10-18。</p></div>
           </div>
         </div>
         <div class="t-meta" style="color:var(--text-helper);text-align:right">→ 完 · END OF DEEP DIVE</div>
@@ -647,7 +647,7 @@ S.push(`
 const NOTES = [
   { id: 'cover', title: '把 Linux 变成 Agent 的操作系统', section: '开场', minutes: 0.5,
     purpose: '定调详细版：这是上一波 12 页概览的机制层下钻',
-    talk: ['封面公式先立住：kernel + Agent + MCP', '预告三个硬数字：15 驱动 / 8 环闸门 / 765 测试', '声明版本基准：v0.12.0 · 2026-10-05'],
+    talk: ['封面公式先立住：kernel + Agent + MCP', '预告三个硬数字：17 驱动 / 8 环闸门 / 1532 测试', '声明版本基准：v0.39.0 · 2026-10-18'],
     transition: '从公式直接进命题' },
   { id: 'thesis', title: '命题与四件内核遗产', section: '命题', minutes: 1.2,
     purpose: '给出公式与不动内核的立场',
@@ -677,9 +677,9 @@ const NOTES = [
     purpose: '展示判断层与诚实的校准文化',
     talk: ['三判型 Noul/Choice/Score，11 处硬阈值映射', 'judge 可透传：commit 与 remember 都能挂', '157.5ms 否证 15.6ms——慢 10 倍也如实写'],
     transition: '内核讲完，转向驱动生态' },
-  { id: 'drivers', title: '驱动全景 15 个设备（重点表格页）', section: '驱动', minutes: 1.6,
+  { id: 'drivers', title: '驱动全景 17 个设备（重点表格页）', section: '驱动', minutes: 1.6,
     purpose: '展示完整设备面与治理事实',
-    talk: ['按听觉 3 / 手机 6 / 系统 6 三组走', '蓝格是治理事实：load_driver 外挂需过闸', 'drv_screen 的七种操作都在 pkg 作用域内'],
+    talk: ['按听觉 3 / 手机 6 / 系统 8 三组走', '蓝格是治理事实：load_driver 外挂需过闸', 'drv_screen 的七种操作都在 pkg 作用域内'],
     transition: '挑最深的一条栈下钻：听觉' },
   { id: 'hearing', title: '端侧听觉栈六层', section: '驱动', minutes: 1.6,
     purpose: '展示最深的端侧工程链',
@@ -697,7 +697,7 @@ const NOTES = [
     purpose: '用账单式数据建立工程信任',
     talk: ['415 加 279 加 71 三个隔离区', 'TDD 先红后绿，每任务一 commit', 'SemVer + conventional commits 的版本纪律'],
     transition: '账单的纵轴就是版本史' },
-  { id: 'history', title: '30 天 12 个 MINOR（重点表格页）', section: '质量', minutes: 1.2,
+  { id: 'history', title: '44 天 39 个 MINOR（重点表格页）', section: '质量', minutes: 1.2,
     purpose: '展示版本演化的密度与轨迹',
     talk: ['从 v0.1.0 baseline 149 文件走到 v0.12.0 双工时序', 'v0.8 到 v0.10 复现采纳三连是转折点', '蓝格是当前版本'],
     transition: '版本史里最硬的是复现文化' },

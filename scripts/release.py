@@ -204,6 +204,104 @@ def _split_pcts(counts: dict) -> tuple[float, float, float]:
     return main, iso, repro
 
 
+# ── 叙事计数（驱动数/天数/版本数）与中文数词行文 ────────────────────────────
+
+#: 首版 v0.1.0 的 tag 日（2026-09-04）——deck「N 天」叙事锚的零点
+FIRST_RELEASE = _date(2026, 9, 4)
+
+_CN_DIGITS = {"0": "零", "1": "一", "2": "二", "3": "三", "4": "四",
+              "5": "五", "6": "六", "7": "七", "8": "八", "9": "九"}
+_CN_VAL = {v: int(k) for k, v in _CN_DIGITS.items()}
+
+
+def _cn(n: int) -> str:
+    """int → 中文数词（0–9999，deck 行文口径：十七 / 三十九 / 一千五百三十二）。
+
+    只服务牌组行文的保形转换（"十五个驱动"→"十七个驱动"）；1010 一类的
+    零位结构按"一千零一十"处理。数值越界直接抛错——行文出现超范围数词
+    说明锚点语义已变，应人工复核而非静默截断。
+    """
+    if not 0 <= n < 10000:
+        raise ValueError(f"_cn 仅支持 0–9999，得到 {n}")
+    if n < 10:
+        return _CN_DIGITS[str(n)]
+    if n < 20:
+        return "十" + ("" if n == 10 else _CN_DIGITS[str(n % 10)])
+    if n < 100:
+        tens, ones = divmod(n, 10)
+        return _CN_DIGITS[str(tens)] + "十" + (_CN_DIGITS[str(ones)] if ones else "")
+    if n < 1000:
+        hundreds, rest = divmod(n, 100)
+        head = _CN_DIGITS[str(hundreds)] + "百"
+        if rest == 0:
+            return head
+        if rest < 10:
+            return head + "零" + _CN_DIGITS[str(rest)]
+        return head + _cn(rest)
+    thousands, rest = divmod(n, 1000)
+    head = _CN_DIGITS[str(thousands)] + "千"
+    if rest == 0:
+        return head
+    if rest < 10:
+        return head + "零" + _CN_DIGITS[str(rest)]
+    if rest < 100:
+        return head + "零" + _cn(rest)
+    return head + _cn(rest)
+
+
+def _cn_parse(s: str) -> int:
+    """中文数词 → int（_cn 的逆；deck 行文出现的小数词足够，含十二/七百六十五）。"""
+    total = num = 0
+    for ch in s:
+        if ch in _CN_VAL:
+            num = _CN_VAL[ch]
+        elif ch == "十":
+            total += (num or 1) * 10
+            num = 0
+        elif ch == "百":
+            total += (num or 1) * 100
+            num = 0
+        elif ch == "千":
+            total += (num or 1) * 1000
+            num = 0
+        elif ch == "零":
+            continue
+        else:
+            raise ValueError(f"非中文数词字符: {ch!r} in {s!r}")
+    return total + num
+
+
+def intro_counts(version: str, release_date: str) -> dict:
+    """叙事计数：驱动数 / 天数 / 小版本数(minor) / 总版本数。
+
+    这些量随代码与发版自然增长，deck 里写死必腐化（2026-10-18 实录：三族
+    牌组停在 v0.12.0 时代的 15 驱动 / 30 天 / 12 MINOR，而仓库已是
+    17 驱动 / 44 天 / 39 MINOR / 43 版本）。git 不可用时 minors/versions
+    按 semver 推导（version 自身计入、漏历史 patch 发版，记保守下限），
+    drivers/days 永远可算（glob 与日期运算）。
+    """
+    drivers = len(list((REPO / "drivers").glob("drv_*.py")))
+    days = (_date.fromisoformat(release_date) - FIRST_RELEASE).days
+    minors = versions = 0
+    try:
+        out = subprocess.run(["git", "tag", "--sort=-v:refname"],
+                             cwd=REPO, capture_output=True, text=True,
+                             check=True, timeout=30)
+        for line in out.stdout.splitlines():
+            m = re.match(r"^v?(\d+)\.(\d+)\.(\d+)$", line.strip())
+            if not m:
+                continue
+            versions += 1
+            if int(m.group(3)) == 0:
+                minors += 1
+    except (OSError, subprocess.SubprocessError):
+        major, minor, patch = (int(p) for p in version.split("."))
+        minors = minor
+        versions = minor + (1 if patch else 0)
+    return {"drivers": drivers, "days": days,
+            "minors": minors, "versions": versions}
+
+
 #: 替换模式（带上下文锚点，防误伤历史里程碑行：带日期的 v0.x.y (MM-DD) 不匹配）。
 #  每条 = (锚点名, 编译好的正则, 格式化函数(lambda m, ctx -> str))——锚点名供
 #  sync_docs(detail=True) 的逐锚点细目（"项"模式）报告使用
@@ -428,9 +526,11 @@ _DOC_PATTERNS = [
      re.compile(r'(<span class="mono p">)\d+(</span>\s*green（主库)'),
      lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
     ("测试计数",
-     re.compile(r'(→\s*)\d+( collected · )\d+( passed)'),
-     lambda m, c: (f"{m.group(1)}{c['total_tests']}{m.group(2)}"
-                   f"{c['total_tests']}{m.group(3)}")),
+     # 2026-10-18：原 "→ N collected · N passed"（pytest --co 行）已按当日
+     # 实测改为 unittest discover 形态；该形态复跑可验且被下条 Ran 模式覆盖，
+     # 换成主库实跑口径的同步形态（原 collected 模式随之作废）
+     re.compile(r'(→\s*Ran\s+)\d+(\s*tests\s*·\s*OK)'),
+     lambda m, c: f"{m.group(1)}{c['main_tests']}{m.group(2)}"),
     ("测试计数",
      re.compile(r'(合计\s*<span[^>]*>)\d+( 全绿</span>)'),
      lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
@@ -598,6 +698,432 @@ _DOC_PATTERNS = [
     ("测试计数",
      re.compile(r'(data-tag="合计"[^>]*><p class="stat-num">)\d+(\s*<small>GREEN)'),
      lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(2)}"),
+    # ── 叙事计数锚点（2026-10-18 补，ppt-audit §6 遗留项收口）────────────
+    # 驱动数/天数/小版本数/总版本数此前不在五类锚点自动化面内，三族 deck 停在
+    # v0.12.0 时代的 15 驱动/30 天/12 MINOR（底稿已更正、html 无人跟进）。
+    # ctx["intro"] 由 intro_counts() 实算（glob + git tag + 日期运算）。
+    # 每条锚在结构上下文（class/相邻文案/完整短语）上；中文数词行文用 _cn()
+    # 保形转换，数词模式首字符排除"一"——定义句（"每个 MCP Server = 一个
+    # 驱动"/"一个 MINOR = 一个完整需求波次"）与演示句（"加载 3 个驱动"是
+    # Arabic 形态同样不命中）一律不碰。带日期的里程碑史不匹配这些形态。
+    #
+    # — 驱动数 —
+    # deck 页脚：<span class="fnum">vX · N tests · 15 drivers · NN / 19
+    ("驱动数",
+     re.compile(r'(<span class="fnum">[vV]\d+\.\d+\.\d+\s*·\s*\d+\s*tests\s*·\s*)\d+(\s*drivers)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['drivers']}{m.group(2)}"),
+    # deck 页首：class="mono">vX · N TESTS · 15 DRIVERS · 12 RELEASES
+    # （驱动数与总版本数同锚重算；版本/测试数已由前述模式先刷）
+    ("驱动数",
+     re.compile(r'(TESTS\s*·\s*)\d+(\s*DRIVERS\s*·\s*)\d+(\s*RELEASES)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['drivers']}{m.group(2)}"
+                   f"{c['intro']['versions']}{m.group(3)}")),
+    # huashu 页脚：class="meta">VX · N TESTS · 15 DRV · 12 MINOR
+    # （锚 class="meta" 防误伤方向稿里引用旧角标的叙述行）
+    ("驱动数",
+     re.compile(r'(class="meta">[vV]\d+\.\d+\.\d+\s*·\s*\d+\s*TESTS\s*·\s*)\d+(\s*DRV\s*·\s*)\d+(\s*MINOR)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['drivers']}{m.group(2)}"
+                   f"{c['intro']['minors']}{m.group(3)}")),
+    # v6 封面印章：15 drivers / 12 minors / 30 天 / 30 天 · 12 个版本
+    ("驱动数",
+     re.compile(r'(<span class="stamp">)\d+(\s*drivers</span>)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['drivers']}{m.group(2)}"),
+    ("天数版本数",
+     re.compile(r'(<span class="stamp">)\d+(\s*minors\s*/\s*)(\d+)(\s*天</span>)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['minors']}{m.group(2)}"
+                   f"{c['intro']['days']}{m.group(4)}")),
+    ("天数版本数",
+     re.compile(r'(<span class="stamp">)\d+(\s*天\s*·\s*)(\d+)(\s*个版本</span>)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['days']}{m.group(2)}"
+                   f"{c['intro']['versions']}{m.group(4)}")),
+    # 架构层标签 / 封面药丸 / 页面标题属性
+    ("驱动数",
+     re.compile(r'(<span class="layer-tag">)\d+(\s*DRIVERS</span>)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['drivers']}{m.group(2)}"),
+    ("驱动数",
+     re.compile(r'(<span class="pill">)\d+(\s*个驱动</span>)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['drivers']}{m.group(2)}"),
+    ("驱动数",
+     re.compile(r'(data-title="C1 驱动全景\s*·\s*)\d+(\s*驱动")'),
+     lambda m, c: f"{m.group(1)}{c['intro']['drivers']}{m.group(2)}"),
+    # 命令行：$ ls /laos/drivers/ -1 | wc -l → 15
+    ("驱动数",
+     re.compile(r'(ls /laos/drivers/ -1 \| wc -l → )\d+'),
+     lambda m, c: f"{m.group(1)}{c['intro']['drivers']}"),
+    # 正文/讲稿短语（锚相邻文案）
+    ("驱动数",
+     re.compile(r'(闸门\s*·\s*)\d+(\s*驱动\s*·\s*端侧)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['drivers']}{m.group(2)}"),
+    ("驱动数",
+     re.compile(r'(开源\s*v\d+\.\d+\.\d+\s*·\s*)\d+(\s*驱动\s*·\s*端侧)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['drivers']}{m.group(2)}"),
+    ("驱动数",
+     re.compile(r'(\d+)(\s*个驱动子进程)'),
+     lambda m, c: f"{c['intro']['drivers']}{m.group(2)}"),
+    ("驱动数",
+     re.compile(r'(驱动子进程\s*·\s*<span class="mono p">)\d+(</span>\s*×\s*drv_\*)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['drivers']}{m.group(2)}"),
+    ("驱动数",
+     re.compile(r'(驱动子进程</span>\s*·\s*)\d+(\s*×\s*drv_\*，重依赖隔离)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['drivers']}{m.group(2)}"),
+    ("驱动数",
+     re.compile(r'(驱动全景\s*<span class="hl">·</span>\s*)\d+(\s*个 drv_\* 子进程)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['drivers']}{m.group(2)}"),
+    ("驱动数",
+     re.compile(r'(驱动全景：)\d+(\s*个设备。)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['drivers']}{m.group(2)}"),
+    # guizang talk 数组 title：「驱动全景 15 个设备（重点表格页）」——
+    # 与 h2「驱动全景：N 个设备。」同源的计数锚（表格 15 张卡按审计裁定
+    # 保持代表驱动不动，仅计数锚同步）
+    ("驱动数",
+     re.compile(r'(title: "驱动全景 )(\d+)( 个设备（重点表格页）")'),
+     lambda m, c: f"{m.group(1)}{c['intro']['drivers']}{m.group(3)}"),
+    ("驱动数",
+     re.compile(r'(预告三个硬数字：)\d+(\s*驱动\s*/\s*8\s*环闸门\s*/\s*)\d+(\s*测试)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['drivers']}{m.group(2)}"
+                   f"{c['total_tests']}{m.group(3)}")),
+    ("驱动数",
+     re.compile(r'(进展锚点：)\d+(\s*驱动\s*/\s*纯 stdlib)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['drivers']}{m.group(2)}"),
+    ("驱动数",
+     re.compile(r'(Linux 内核的 Agent 扩展（用户态 · 零内核改动）：)\d+(\s*个驱动\s*·\s*8\s*环 syscall 闸门)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['drivers']}{m.group(2)}"),
+    # README 数据面板：… 项测试全绿 · 17 个驱动 · …（md 口径由测试模式先刷）
+    ("驱动数",
+     re.compile(r'(项测试全绿\s*·\s*)\d+(\s*个驱动)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['drivers']}{m.group(2)}"),
+    # PROJECT_OVERVIEW 驱动目录行（每个=一个 MCP Server 子进程，17 个）
+    ("驱动数",
+     re.compile(r'(drivers/\s*★\s*设备驱动（每个=一个 MCP Server 子进程，)\d+( 个）)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['drivers']}{m.group(2)}"),
+    # html-ppt C1 等数额：15 个驱动 = 3 听觉 + 6 手机 + 6 系统（系统段同源重算）
+    ("驱动数",
+     re.compile(r'(<h2 class="h2 mt-s">)\d+(\s*个驱动\s*=\s*)(\d+)(\s*听觉\s*\+\s*)(\d+)(\s*手机\s*\+\s*)(\d+)(\s*系统。</h2>)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['drivers']}{m.group(2)}{m.group(3)}{m.group(4)}"
+                   f"{m.group(5)}{m.group(6)}"
+                   f"{c['intro']['drivers'] - int(m.group(3)) - int(m.group(5))}{m.group(8)}")),
+    # 分解式无合计形态：听觉 3 · 手机 6 · 系统 6（系统段同源重算，与等数额 h2 同源；
+    # 讲稿 talk 数组用 "/" 分隔——两种分隔符都吃）
+    ("驱动数",
+     re.compile(r'(听觉\s*)(\d+)(\s*[·/]\s*手机\s*)(\d+)(\s*[·/]\s*系统\s*)(\d+)'),
+     lambda m, c: (f"{m.group(1)}{m.group(2)}{m.group(3)}{m.group(4)}{m.group(5)}"
+                   f"{c['intro']['drivers'] - int(m.group(2)) - int(m.group(4))}")),
+    # guizang 驱动页大数字：num-mega 15 + t-meta「BUILT-IN DRIVERS · …」
+    ("驱动数",
+     re.compile(r'(<span class="num-mega"[^>]*>)\d+(</span>\s*<span class="t-meta">BUILT-IN DRIVERS)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['drivers']}{m.group(2)}"),
+    # 角上四个数字（tests 数已由「N 项测试全绿」模式先刷成同锚值）
+    ("驱动数",
+     re.compile(r'(先报一遍：<strong>\d+\s*项测试全绿、)\d+(\s*个驱动、)(\d+)(\s*天发了\s*)(\d+)(\s*个 MINOR 版本、)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['drivers']}{m.group(2)}{c['intro']['days']}"
+                   f"{m.group(4)}{c['intro']['minors']}{m.group(6)}")),
+    # 目录标签「15 驱动 C1」/ 底稿「C1 驱动全景表（15 驱动）」
+    ("驱动数",
+     re.compile(r'(<p class="dim" style="font-size:15px">)\d+(\s*驱动 C1<br>)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['drivers']}{m.group(2)}"),
+    ("驱动数",
+     re.compile(r'(C1 驱动全景表（)\d+( 驱动）)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['drivers']}{m.group(2)}"),
+    # 中文数词三段算术：听觉三个、手机六个、系统六个，一共十五个
+    ("驱动数",
+     re.compile(r'(听觉)([一二三四五六七八九十百千零两]+)(、手机)([一二三四五六七八九十百千零两]+)'
+                r'(、系统)([一二三四五六七八九十百千零两]+)(，一共)([一二三四五六七八九十百千零两]+)(个)'),
+     lambda m, c: (f"{m.group(1)}{m.group(2)}{m.group(3)}{m.group(4)}{m.group(5)}"
+                   f"{_cn(c['intro']['drivers'] - _cn_parse(m.group(2)) - _cn_parse(m.group(4)))}"
+                   f"{m.group(7)}{_cn(c['intro']['drivers'])}{m.group(9)}")),
+    # 中文数词行文（保形转换；「一个驱动」定义句不命中——首字符排除"一"）
+    ("驱动数",
+     re.compile(r'(?<![一二三四五六七八九十百千零两])([二三四五六七八九十百千零两][一二三四五六七八九十百千零两]*)(个驱动)'),
+     lambda m, c: f"{_cn(c['intro']['drivers'])}{m.group(2)}"),
+    # 「N 个设备驱动」三形态（2026-10-18 补：outline 早写 17，decks 7 处
+    # 阿拉伯 + 1 处中文停在 15——audit 批「15→17 驱动」只覆盖了驱动子进程/
+    # DRIVERS 标签/RGE 印章，短语形态漏网）。数字单独成槽的加粗形
+    # （<b>15</b> 个设备驱动）与整体加粗形（<b>15 个设备驱动</b>）互斥。
+    ("驱动数",
+     re.compile(r'(<b>)(\d+)(</b>\s*个设备驱动)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['drivers']}{m.group(3)}"),
+    ("驱动数",
+     re.compile(r'(\d+)(\s*个设备驱动)'),
+     lambda m, c: f"{c['intro']['drivers']}{m.group(2)}"),
+    # 中文形：十五个设备驱动（notes 实录）。毯式首类排除「一」，
+    # 散文「一个设备驱动」不命中（当前语料无此形，防御性保持双轨制）。
+    ("驱动数",
+     re.compile(r'(?<![一二三四五六七八九十百千零两])([二三四五六七八九十百千零两][一二三四五六七八九十百千零两]*)(个设备驱动)'),
+     lambda m, c: f"{_cn(c['intro']['drivers'])}{m.group(2)}"),
+    # — 天数 / 版本数 —
+    # guizang 台账标签 / 大标题 / 章节眉
+    ("天数版本数",
+     re.compile(r'(">MINOR · )\d+( 天)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['days']}{m.group(2)}"),
+    ("天数版本数",
+     re.compile(r'(">MINOR VERSIONS / )\d+( 天)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['days']}{m.group(2)}"),
+    # ledger 大数字行：span 形态（detailed「MINOR · N 天」）与 div 形态
+    # （funding「MINOR VERSIONS / N 天」）——标签天数已同步，大数字不得停在旧值
+    ("天数版本数",
+     re.compile(r'(<span class="ledger-num"[^>]*>)\d+(</span>\s*<div class="ledger-label"><div[^>]*>MINOR)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['minors']}{m.group(2)}"),
+    ("天数版本数",
+     re.compile(r'(<div class="ledger-num"[^>]*>)\d+(</div>\s*<div class="ledger-label"><div[^>]*>MINOR VERSIONS)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['minors']}{m.group(2)}"),
+    # 版本史页大数字：num-mega 12 + t-meta「MINOR RELEASES · V0.1.0 → … · N DAYS」
+    ("天数版本数",
+     re.compile(r'(<span class="num-mega"[^>]*>)\d+(</span>\s*<span class="t-meta">MINOR RELEASES)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['minors']}{m.group(2)}"),
+    ("天数版本数",
+    re.compile(r'(<h2 class="h-xl"[^>]*>)\d+(\s*天，)(\d+)(\s*个 MINOR。</h2>)'),
+    lambda m, c: (f"{m.group(1)}{c['intro']['days']}{m.group(2)}"
+                  f"{c['intro']['minors']}{m.group(4)}")),
+    ("天数版本数",
+    re.compile(r'(<h2>)\d+(\s*天，)(\d+)(\s*个 MINOR，每版本)'),
+    lambda m, c: (f"{m.group(1)}{c['intro']['days']}{m.group(2)}"
+                  f"{c['intro']['minors']}{m.group(4)}")),
+    ("天数版本数",
+     re.compile(r'(<h2>)([二三四五六七八九十百千零两][一二三四五六七八九十百千零两]*)(天，<span class="gold">)'
+                r'([二三四五六七八九十百千零两][一二三四五六七八九十百千零两]*)(个 MINOR</span>。</h2>)'),
+     lambda m, c: (f"{m.group(1)}{_cn(c['intro']['days'])}{m.group(3)}"
+                   f"{_cn(c['intro']['minors'])}{m.group(5)}")),
+    ("天数版本数",
+    re.compile(r'(<h2 class="h-xl"[^>]*>)\d+(\s*天，)(\d+)(\s*个版本，)'),
+    lambda m, c: (f"{m.group(1)}{c['intro']['days']}{m.group(2)}"
+                  f"{c['intro']['versions']}{m.group(4)}")),
+    ("天数版本数",
+    re.compile(r'(<h2>)\d+(\s*天\s*)(\d+)(\s*版本，每一行)'),
+    lambda m, c: (f"{m.group(1)}{c['intro']['days']}{m.group(2)}"
+                  f"{c['intro']['versions']}{m.group(4)}")),
+    ("天数版本数",
+     re.compile(r'(letter-spacing:-\.01em">)\d+(\s*天</span>)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['days']}{m.group(2)}"),
+    # guizang 标题卡眉：MINOR RELEASES · V0.1.0 → V0.12.0 · 30 DAYS
+    #（跨度端点与天数同锚；短形态版本端点一并归队）
+    ("天数版本数",
+     re.compile(r'(MINOR RELEASES · V0\.1\.0 → V0\.)(\d+\.\d+)( · )(\d+)( DAYS)'),
+     lambda m, c: (f"{m.group(1)}{c['ver'].split('.', 1)[1]}{m.group(3)}"
+                   f"{c['intro']['days']}{m.group(5)}")),
+    # funding guizang 封面 t-meta：v0.39.0 · 30 天 12 版本 · 1532 测试
+    ("天数版本数",
+     re.compile(r'(t-meta"[^>]*>v[\d.]+ · )(\d+)(\s*天\s*)(\d+)(\s*版本 · )(\d+)(\s*测试)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['days']}{m.group(3)}"
+                   f"{c['intro']['versions']}{m.group(5)}{c['total_tests']}{m.group(7)}")),
+    # v6 funding 单句
+    ("天数版本数",
+     re.compile(r'(协作流水线，)(\d+)(\s*天的产出)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['days']}{m.group(3)}"),
+    ("天数版本数",
+     re.compile(r'(流水线\s*)(\d+)(\s*天做到这个产出)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['days']}{m.group(3)}"),
+    ("天数版本数",
+     re.compile(r'(，但\s*)(\d+)(\s*天的交付节奏)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['days']}{m.group(3)}"),
+    ("天数版本数",
+     re.compile(r'(font-size:64px;font-weight:800">)(\d+)(</div><div class="caption">个 MINOR 版本 / )(\d+)(\s*天)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['minors']}{m.group(3)}"
+                   f"{c['intro']['days']}{m.group(5)}")),
+    # funding 族绿签 / 大标题 / 计数 stat / 正文缎带
+    ("天数版本数",
+     re.compile(r'(<span class="tag green">)(\d+)(\s*天\s*·\s*)(\d+)(\s*个版本</span>)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['days']}{m.group(3)}"
+                   f"{c['intro']['versions']}{m.group(5)}")),
+    ("天数版本数",
+     re.compile(r'(<h2 class="title reveal d1">)(\d+)(\s*天\s*·\s*)(\d+)(\s*版本\s*·\s*)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['days']}{m.group(3)}"
+                   f"{c['intro']['versions']}{m.group(5)}")),
+    ("天数版本数",
+     re.compile(r'(data-count=")(\d+)(">)(\d+)(</span><span class="k">MINOR 版本)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['minors']}{m.group(3)}"
+                   f"{c['intro']['minors']}{m.group(5)}")),
+    ("天数版本数",
+     re.compile(r'(\d+)(\s*天完成\s*(?:<b[^>]*>)?)(\d+)(\s*版本\s*/\s*)(\d+)(\s*测试\s*/)'),
+     lambda m, c: (f"{c['intro']['days']}{m.group(2)}{c['intro']['versions']}"
+                   f"{m.group(4)}{c['total_tests']}{m.group(6)}")),
+    ("天数版本数",
+     re.compile(r'(独立开发者\s*[·：]\s*)(\d+)(\s*天\s*)(\d+)(\s*版本\s*/\s*)(\d+)(\s*测试\s*/)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['days']}{m.group(3)}"
+                   f"{c['intro']['versions']}{m.group(5)}{c['total_tests']}{m.group(7)}")),
+    # pill 形态：funding「30 天 · 12 个 MINOR 版本」与 detailed「30 天 · 12 个
+    # MINOR」——「版本」整词可选（原 `版本?` 只让「本」可选，「版」仍必需，
+    # detailed 无后缀形永远漏刷，2026-10-18 修复）
+    ("天数版本数",
+     re.compile(r'(<span class="pill">)(\d+)(\s*天\s*·\s*)(\d+)(\s*个 MINOR\s*(?:版本)?</span>)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['days']}{m.group(3)}"
+                   f"{c['intro']['minors']}{m.group(5)}")),
+    ("天数版本数",
+     re.compile(r'(全部真实：)(\d+)(\s*天，)(\d+)(\s*个版本，)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['days']}{m.group(3)}"
+                   f"{c['intro']['versions']}{m.group(5)}")),
+    ("天数版本数",
+     re.compile(r'(<p class="stat-num">)(\d+)(</p><p class="stat-sub">MINOR 版本 / <b>)(\d+)(\s*天</b>)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['minors']}{m.group(3)}"
+                   f"{c['intro']['days']}{m.group(5)}")),
+    ("天数版本数",
+     re.compile(r'(纯 stdlib；)(\d+)(\s*天\s*)(\d+)(\s*个版本、)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['days']}{m.group(3)}"
+                   f"{c['intro']['versions']}{m.group(5)}")),
+    ("天数版本数",
+     re.compile(r'(MINOR 版本 / )(\d+)(\s*天<br>)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['days']}{m.group(3)}"),
+    # kicker 命令行：→ 30 天 · 12 MINOR / ——30 天 12 个 MINOR（…）/
+    # § D2 · RELEASE TIMELINE · 30 天 12 个 MINOR / 30 天 12 个 MINOR（重点表格页）
+    ("天数版本数",
+     re.compile(r'(→\s*)(\d+)(\s*天\s*·\s*)(\d+)(\s*MINOR)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['days']}{m.group(3)}"
+                   f"{c['intro']['minors']}{m.group(5)}")),
+    ("天数版本数",
+     re.compile(r'(commits</b>——)(\d+)(\s*天\s*)(\d+)(\s*个 MINOR（)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['days']}{m.group(3)}"
+                   f"{c['intro']['minors']}{m.group(5)}")),
+    ("天数版本数",
+     re.compile(r'(RELEASE TIMELINE · )(\d+)(\s*天\s*)(\d+)(\s*个 MINOR)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['days']}{m.group(3)}"
+                   f"{c['intro']['minors']}{m.group(5)}")),
+    ("天数版本数",
+    re.compile(r'(title: ")\d+(\s*天\s*)(\d+)(\s*个 MINOR（重点表格页）")'),
+    lambda m, c: (f"{m.group(1)}{c['intro']['days']}{m.group(2)}"
+                  f"{c['intro']['minors']}{m.group(4)}")),
+    # frontend D2 页内嵌 span：30 天 <span class="mono pp" …>12</span> 个 MINOR
+    ("天数版本数",
+     re.compile(r'(<p>)\d+(\s*天\s*<span class="mono pp"[^>]*>)(\d+)(</span>\s*个 MINOR)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['days']}{m.group(2)}"
+                   f"{c['intro']['minors']}{m.group(4)}")),
+    # huashu 方向稿的 chip / r 行 / 台账表行 / ticker（模板态，随锚点刷新一致）
+    ("天数版本数",
+     re.compile(r'(<span class="chip">)(\d+)(\s*天\s*<b>)(\d+)(</b>\s*个版本</span>)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['days']}{m.group(3)}"
+                   f"{c['intro']['versions']}{m.group(5)}")),
+    ("天数版本数",
+     re.compile(r'(<span class="k">RELEASES</span><span class="v">)(\d+)(\s*天\s*<b>)(\d+)(</b>\s*个 MINOR 版本)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['days']}{m.group(3)}"
+                   f"{c['intro']['minors']}{m.group(5)}")),
+    ("天数版本数",
+     re.compile(r'(<tr><td>MINOR 版本</td><td class="m">)(\d+)(</td>)'),
+     lambda m, c: f"{m.group(1)}{c['intro']['minors']}{m.group(3)}"),
+    ("天数版本数",
+     re.compile(r'(\[RELEASES <b>)(\d+)(/)(\d+)(D</b>\])'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['versions']}{m.group(3)}"
+                   f"{c['intro']['days']}{m.group(5)}")),
+    ("天数版本数",
+     re.compile(r'(font-size:34px">)(\d+)(\s*天，)(\d+)(\s*个版本：)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['days']}{m.group(3)}"
+                   f"{c['intro']['versions']}{m.group(5)}")),
+    # huashu 版本纪律卡：commits；30 天 12 个 MINOR（v0.1.0 → v0.39.0）——
+    # 同行版本端点本就由跨度端点模式刷掉，卡片正文的天数/版本数却没有
+    # 专属锚，长期停在 30/12（2026-10-18 补；「commits；」前缀防误伤）
+    ("天数版本数",
+     re.compile(r'(commits；)(\d+)(\s*天\s*)(\d+)(\s*个 MINOR（)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['days']}{m.group(3)}"
+                   f"{c['intro']['minors']}{m.group(5)}")),
+    ("天数版本数",
+     re.compile(r'(数字大字化（)(\d+)(\s*天\s*)(\d+)(\s*版本\s*/\s*)(\d+)(\s*测试\s*/\s*8\s*环\s*/\s*)(\d+)(\s*驱动\s*/\s*19,792\s*论文）)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['days']}{m.group(3)}{c['intro']['versions']}"
+                   f"{m.group(5)}{c['total_tests']}{m.group(7)}{c['intro']['drivers']}{m.group(9)}")),
+    # v6 开场 notes 的四印章复述（版本/天数/测试/驱动一次重算）
+    ("天数版本数",
+     re.compile(r'(真实数字：)(\d+)(\s*个版本发在\s*)(\d+)(\s*天里，)(\d+)(\s*个测试每晚全绿)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['versions']}{m.group(3)}{c['intro']['days']}"
+                   f"{m.group(5)}{c['total_tests']}{m.group(7)}")),
+    ("天数版本数",
+     re.compile(r'(真实数字：)(\d+)(\s*天发了\s*)(\d+)(\s*个版本，)(\d+)(\s*个测试，)(\d+)(\s*个设备驱动。)'),
+     lambda m, c: (f"{m.group(1)}{c['intro']['days']}{m.group(3)}{c['intro']['versions']}"
+                   f"{m.group(5)}{c['total_tests']}{m.group(7)}{c['intro']['drivers']}{m.group(9)}")),
+    # 中文数词：天+个 MINOR / 天+个版本 成对才重写（单飞"三十天"不碰——
+    # 「第五天/七天即焚/一天/当天」类叙事安全）；个 MINOR / 个版本单项；
+    # 项测试 / 项全绿；讲稿的三树中文算术（主库…、隔离区…、复现区…）
+    ("天数版本数",
+     re.compile(r'(?<![一二三四五六七八九十百千零两])([二三四五六七八九十百千零两][一二三四五六七八九十百千零两]*)(天[，,、]?\s*)'
+                r'([二三四五六七八九十百千零两][一二三四五六七八九十百千零两]*)(个 MINOR)'),
+     lambda m, c: f"{_cn(c['intro']['days'])}{m.group(2)}{_cn(c['intro']['minors'])}{m.group(4)}"),
+    ("天数版本数",
+     re.compile(r'(?<![一二三四五六七八九十百千零两])([二三四五六七八九十百千零两][一二三四五六七八九十百千零两]*)(天[，,、]?\s*)'
+                r'([二三四五六七八九十百千零两][一二三四五六七八九十百千零两]*)(个版本)'),
+     lambda m, c: f"{_cn(c['intro']['days'])}{m.group(2)}{_cn(c['intro']['versions'])}{m.group(4)}"),
+    ("天数版本数",
+     re.compile(r'(和我这)([二三四五六七八九十百千零两][一二三四五六七八九十百千零两]*)(天做出的答案)'),
+     lambda m, c: f"{m.group(1)}{_cn(c['intro']['days'])}{m.group(3)}"),
+    # 动词分隔的中文对："三十天发十二个 MINOR"（"发"字隔开相邻配对形态）
+    ("天数版本数",
+     re.compile(r'(?<![一二三四五六七八九十百千零两])([二三四五六七八九十百千零两][一二三四五六七八九十百千零两]*)(天发)'
+                r'([二三四五六七八九十百千零两][一二三四五六七八九十百千零两]*)(个 MINOR)'),
+     lambda m, c: f"{_cn(c['intro']['days'])}{m.group(2)}{_cn(c['intro']['minors'])}{m.group(4)}"),
+    ("天数版本数",
+     re.compile(r'(?<![一二三四五六七八九十百千零两])([二三四五六七八九十百千零两][一二三四五六七八九十百千零两]*)(个 MINOR)'),
+     lambda m, c: f"{_cn(c['intro']['minors'])}{m.group(2)}"),
+    ("天数版本数",
+     # 「连发 N 个版本」是第一波收官史（里程碑叙事，不在同步面）：
+     # 负向后视挡住，否则 43 总版本会冒充"最后三天连发"数
+     re.compile(r'(?<![一二三四五六七八九十百千零两])(?<!连发)([二三四五六七八九十百千零两][一二三四五六七八九十百千零两]*)(个版本)'),
+     lambda m, c: f"{_cn(c['intro']['versions'])}{m.group(2)}"),
+    ("天数版本数",
+     re.compile(r'(?<![一二三四五六七八九十百千零两])([二三四五六七八九十百千零两][一二三四五六七八九十百千零两]*)(项测试)'),
+     lambda m, c: f"{_cn(c['total_tests'])}{m.group(2)}"),
+    # 破千分支：total_tests ≥1000 后 _cn() 输出以「一」开头（一千五百三十二），
+    # 上条毯式模式首字符类排除「一」防散文「一项测试」误伤，破千值从此永不可
+    # 匹配，锚点冻结在本次值（2026-10-18 全量扫描实测冻结 5 处显示位）。千
+    # 字面量分支接管 ≥1000：数词必须含「千」——散文「一项/每一项测试」无千
+    # 仍不可命中；两类按数量级互斥（<1000 走上条，≥1000 走本分支）。
+    ("天数版本数",
+     re.compile(r'(?<![一二三四五六七八九十百千零两])([一二三四五六七八九十百千零两]*千[一二三四五六七八九十百千零两]+)(项测试)'),
+     lambda m, c: f"{_cn(c['total_tests'])}{m.group(2)}"),
+    # 锚定形态（首尾皆字面量：先看测试规模：…项全绿）——数词类必须含「一」，
+    # 与三树算术同理：破千值一千五百三十二否则永不可匹配（2026-10-18 修复；
+    # 此前误随毯式排除「一」，intro deck 的 703→1532 只刷一次就冻结）。
+    ("天数版本数",
+     re.compile(r'(先看测试规模：)([一二三四五六七八九十百千零两]+)(项全绿)'),
+     lambda m, c: f"{m.group(1)}{_cn(c['total_tests'])}{m.group(3)}"),
+    # 三树中文算术：值槽含「一」（四百一十五/一千一百五十九），与毯式模式
+    # 不同——锚点是「主库/、隔离区/、复现区」字面量，无定义句误伤风险，
+    # 故数词类必须含「一」，否则四百一十五永不可匹配（2026-10-18 修复）
+    ("天数版本数",
+     re.compile(r'(主库)([一二三四五六七八九十百千零两]+)(、隔离区)([一二三四五六七八九十百千零两]+)(、复现区)([一二三四五六七八九十百千零两]+)'),
+     lambda m, c: (f"{m.group(1)}{_cn(c['main_tests'])}{m.group(3)}"
+                   f"{_cn(c['iso_tests'])}{m.group(5)}{_cn(c['repro_tests'])}")),
+    # 散点 Arabic 短语：D 组 765 测试 / 每个数字都在仓库里——765 项测试
+    ("天数版本数",
+     re.compile(r'(D\s*组\s*)(\d+)(\s*测试和复现文化)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(3)}"),
+    ("天数版本数",
+     re.compile(r'(每个数字都在仓库里——)(\d+)(\s*项测试、)'),
+     lambda m, c: f"{m.group(1)}{c['total_tests']}{m.group(3)}"),
+    # deck 复现区命令行：$ pytest zones/Repro-ZCode/ -q → 71 passed
+    ("测试计数",
+     re.compile(r'(pytest zones/Repro-ZCode/ -q → )\d+( passed)'),
+     lambda m, c: f"{m.group(1)}{c['repro_tests']}{m.group(2)}"),
+    # deck 封面/尾页的日期脚（无版本号同排的裸日期戳）
+    ("封面stamp",
+     re.compile(r'(>)\d{4}-\d{2}-\d{2}(\s*·\s*github\.com/Yfredy/LAOS</span>)'),
+     lambda m, c: f"{m.group(1)}{c['date']}{m.group(2)}"),
+    # 讲稿 talk 数组里的版本基准声明（与封面 stamp 同源）
+    ("封面stamp",
+     re.compile(r'(声明版本基准：v)\d+\.\d+\.\d+(\s*·\s*)\d{4}-\d{2}-\d{2}'),
+     lambda m, c: f"{m.group(1)}{c['ver']}{m.group(2)}{c['date']}"),
+    # 讲稿 notes 的版本角标（无日期同排形态）：「角标三个数字…：版本 v0.12.0、」
+    # 与「语义化版本 v0.1 → v0.39」（短端点，另一模式管）不撞：
+    # 要求完整 x.y.z 且后随「、」
+    ("封面stamp",
+     re.compile(r'(版本 v)\d+\.\d+\.\d+(?=、)'),
+     lambda m, c: f"{m.group(1)}{c['ver']}"),
+    # 短形态版本端点："v0.1 → v0.9"（intro 治理页三处，2026-10-18 收口）
+    ("跨度端点",
+     re.compile(r'(v0\.1\s*→\s*v0\.)\d+'),
+     lambda m, c: f"{m.group(1)}{c['ver'].split('.')[1]}"),
+    # 天数叙述的日期跨度端点："2026-09-04 → 10-05"——首版日（09-04）是
+    # 固定历史事实，末端随发版日走（与同行「N 天」叙述同源，2026-10-18 收口）
+    ("跨度端点",
+     re.compile(r'(2026-09-04\s*→\s*)\d{2}-\d{2}'),
+     lambda m, c: f"{m.group(1)}{c['date'][5:]}"),
+    # 短形态（无年份前缀）：guizang D2「44 天」卡实录——天数刷了、卡片
+    # 日期端点没刷，同卡 "44 天" 对 "09-04 → 10-05"（31 天）自相矛盾。
+    # (?<!-) 防误食上年份形态的尾部（两者替换值相同，纯粹为模式卫生）。
+    ("跨度端点",
+     re.compile(r'(?<!-)(09-04\s*→\s*)\d{2}-\d{2}'),
+     lambda m, c: f"{m.group(1)}{c['date'][5:]}"),
+    # 「到」字形态：html-ppt D2 标题"09-04 到 10-05：一个完整需求波次 =
+    # 一次 MINOR"——同页 kicker 已刷"44 天 39 个 MINOR"、frontend/guizang
+    # 两个姊妹 deck 的 headline 均已随发版日走到 10-18，唯此标题端点
+    # 漏刷（2026-10-18 收口；下方时间线表止于 v0.12.0 是内容级缺口，
+    # 不阻碍本锚点，与 frontend 表同样止于 v0.12.0 的处理一致）。
+    ("跨度端点",
+     re.compile(r'(?<!-)(09-04\s*到\s*)\d{2}-\d{2}'),
+     lambda m, c: f"{m.group(1)}{c['date'][5:]}"),
 ]
 
 
@@ -647,13 +1173,16 @@ _DATED_REPORT_RE = re.compile(r"\d{4}-\d{2}-\d{2}")
 
 def sync_docs(version: str, *, dry_run: bool = False,
               globs: list[str] | None = None, counts: dict | None = None,
+              intro: dict | None = None,
               detail: bool = False, release_date: str | None = None) -> list[str]:
     """发版时同步全部介绍性文件（README/PROJECT_OVERVIEW/全部 PPT deck）。
 
     规则来源：AGENTS.md 记忆条目"每次发版更新所有介绍性文档"（2026-10-06）。
-    只动"当前版本声明/封面 stamp/页脚/版本跨度端点/测试计数"五类锚点，
+    只动"当前版本声明/封面 stamp/页脚/版本跨度端点/测试计数/叙事计数"六类锚点，
     带日期的里程碑史（如 "v0.12.0 (10-05)"）不动。返回逐文件报告行。
     counts 缺省用静态计数；发版主流程传 main_by_run 的实跑数。
+    intro 缺省由 intro_counts(version, release_date) 实算（驱动数/天数/
+    minor/总版本）；测试可显式传入固定值。
     release_date 缺省取当天（仅用于与当前版本同排的封面日期戳；历史里程碑
     日期不在同步面内）。
     detail=True（"项"模式）：报告行附逐锚点命中细目
@@ -667,9 +1196,12 @@ def sync_docs(version: str, *, dry_run: bool = False,
            "repro_tests": counts["repro_tests"],
            "total_tests": counts["main_tests"] + counts["iso_tests"] + counts["repro_tests"],
            "date": iso_date,
-           "short_date": iso_date[2:].replace("-", ".")}
+           "short_date": iso_date[2:].replace("-", "."),
+           "intro": intro or intro_counts(version, iso_date)}
     report = [f"docs-sync ctx: v{version}, 主库 {ctx['main_tests']} 测试, "
-              f"总 {ctx['total_tests']} tests（含隔离 {counts['iso_tests']} + 复现 {counts['repro_tests']}）"]
+              f"总 {ctx['total_tests']} tests（含隔离 {counts['iso_tests']} + 复现 {counts['repro_tests']}）"
+              f"，驱动 {ctx['intro']['drivers']} / {ctx['intro']['days']} 天 / "
+              f"{ctx['intro']['minors']} MINOR / {ctx['intro']['versions']} 版本"]
     for pattern_glob in (globs or DOC_GLOBS):
         p = Path(pattern_glob)
         if p.is_absolute():  # 绝对路径（测试 fixture / 单文件点改）

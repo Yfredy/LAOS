@@ -1239,7 +1239,7 @@
       <div data-anim="kicker" class="t-meta" style="color:rgba(255,255,255,.78);letter-spacing:.22em">LINUX AGENTOS · TECHNICAL DEEP DIVE</div>
       <h1 data-anim="title" style="align-self:center;font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(7.4vw,13.4vh);line-height:.98;letter-spacing:-.025em;color:#fff">把 Linux 变成<br/>Agent 的<span style="font-style:italic;font-weight:300">操作系统</span></h1>
       <div data-anim="bottom" style="display:grid;grid-template-rows:auto auto;gap:1.6vh;border-top:1px solid rgba(255,255,255,.22);padding-top:2vh">
-        <div data-anim="lead" class="lead" style="max-width:58ch;color:rgba(255,255,255,.86);font-weight:300">详细技术深潜——Linux AgentOS = Linux kernel + Agent + MCP。Linux 内核的 Agent 扩展（用户态 · 零内核改动）：15 个驱动 · 8 环 syscall 闸门 · 1532 项测试全绿。</div>
+        <div data-anim="lead" class="lead" style="max-width:58ch;color:rgba(255,255,255,.86);font-weight:300">详细技术深潜——Linux AgentOS = Linux kernel + Agent + MCP。Linux 内核的 Agent 扩展（用户态 · 零内核改动）：17 个驱动 · 8 环 syscall 闸门 · 1532 项测试全绿。</div>
         <div style="display:flex;justify-content:space-between;align-items:end">
           <div class="t-meta" style="color:rgba(255,255,255,.6)">v0.39.0 · 2026-10-18 · github.com/Yfredy/LAOS</div>
           <div class="t-meta" style="color:rgba(255,255,255,.6)">→ swipe / arrow keys</div>
@@ -1399,7 +1399,7 @@
           </div>
           <div style="display:grid;grid-template-columns:auto 1fr;gap:1.2vw;align-items:baseline;padding:1.2vh 0;border-top:1px solid var(--border-subtle)">
             <span style="width:10px;height:10px;border:1px solid var(--ink)"></span>
-            <span style="font-size:max(16px,1vw)"><span style="font-weight:500">驱动子进程</span> · 15 × drv_*，重依赖隔离</span>
+            <span style="font-size:max(16px,1vw)"><span style="font-weight:500">驱动子进程</span> · 17 × drv_*，重依赖隔离</span>
           </div>
           <div style="display:grid;grid-template-columns:auto 1fr;gap:1.2vw;align-items:baseline;padding:1.2vh 0;border-top:1px solid var(--border-subtle);border-bottom:1px solid var(--border-subtle)">
             <span style="width:10px;height:10px;background:var(--grey-2)"></span>
@@ -1493,7 +1493,7 @@
     <header class="chrome-min"><div class="l">laos · Linux AgentOS · 详细技术深潜</div><div class="r">SS · 26.10.05 · 09 / 19</div></header>
     <div data-anim="line" style="display:flex;flex-direction:column;gap:1.1vh;padding-top:.4vh">
       <span class="t-cat">Driver Panorama · 驱动全景</span>
-      <h2 class="h-xl" style="font-weight:200;font-size:min(4.2vw,7.4vh);line-height:1;letter-spacing:-.03em">驱动全景：15 个设备。</h2>
+      <h2 class="h-xl" style="font-weight:200;font-size:min(4.2vw,7.4vh);line-height:1;letter-spacing:-.03em">驱动全景：17 个设备。</h2>
     </div>
     <div data-anim="up" style="display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);gap:1.1vh 1.1vw;flex:1;min-height:0;margin-top:4.8vh"><div class="card-fill" style="padding:1.3vh 1vw;display:flex;flex-direction:column;gap:.5vh;min-width:0;overflow:hidden">
             <span class="t-meta" style="font-size:max(11px,.68vw)">HEARING · 听觉</span>
@@ -1529,8 +1529,8 @@
             <span class="t-meta" style="font-size:max(11px,.68vw)">SYSTEM · 系统</span>
             <div style="font-family:var(--mono);font-weight:500;font-size:max(15px,1.02vw);letter-spacing:-.01em">drv_sys</div></div></div>
     <div style="display:flex;justify-content:space-between;align-items:end;margin-top:2vh;padding-bottom:2.8vh">
-      <span class="num-mega" style="font-size:min(5vw,8.8vh)">15</span>
-      <span class="t-meta">BUILT-IN DRIVERS · 听觉 3 · 手机 6 · 系统 6</span>
+      <span class="num-mega" style="font-size:min(5vw,8.8vh)">17</span>
+      <span class="t-meta">BUILT-IN DRIVERS · 听觉 3 · 手机 6 · 系统 8</span>
     </div>
   </div>
 </section>
@@ -1641,8 +1641,8 @@
       <div class="ledger-label"><div style="font-weight:500;font-size:max(17px,1.2vw);margin-bottom:.4vh">Repro 复现区</div>
       <p style="font-size:max(15px,.92vw);color:var(--text-secondary)">论文复现全部隔离</p></div>
       <i data-lucide="flask-conical" style="width:1.8vw;height:1.8vw;stroke-width:1.4;color:var(--text-helper)"></i></div><div class="ledger-row" style="display:grid;grid-template-columns:auto 1fr auto;gap:2vw;align-items:center;padding:1.5vh 0;border-bottom:1px solid var(--border-subtle)">
-      <span class="ledger-num" style="font-weight:200;font-size:min(4vw,7vh);line-height:.95;letter-spacing:-.03em;font-feature-settings:'tnum';">12</span>
-      <div class="ledger-label"><div style="font-weight:500;font-size:max(17px,1.2vw);margin-bottom:.4vh">MINOR · 30 天</div>
+      <span class="ledger-num" style="font-weight:200;font-size:min(4vw,7vh);line-height:.95;letter-spacing:-.03em;font-feature-settings:'tnum';">39</span>
+      <div class="ledger-label"><div style="font-weight:500;font-size:max(17px,1.2vw);margin-bottom:.4vh">MINOR · 44 天</div>
       <p style="font-size:max(15px,.92vw);color:var(--text-secondary)">v0.1.0（09-04）→ v0.39.0（10-18）</p></div>
       <i data-lucide="git-tag" style="width:1.8vw;height:1.8vw;stroke-width:1.4;color:var(--text-helper)"></i></div></div>
   </div>
@@ -1653,7 +1653,7 @@
     <header class="chrome-min"><div class="l">laos · Linux AgentOS · 详细技术深潜</div><div class="r">SS · 26.10.05 · 14 / 19</div></header>
     <div data-anim="line" style="display:flex;flex-direction:column;gap:1.1vh;padding-top:.4vh">
       <span class="t-cat">Release History · 版本史</span>
-      <h2 class="h-xl" style="font-weight:200;font-size:min(4.2vw,7.4vh);line-height:1;letter-spacing:-.03em">30 天，12 个 MINOR。</h2>
+      <h2 class="h-xl" style="font-weight:200;font-size:min(4.2vw,7.4vh);line-height:1;letter-spacing:-.03em">44 天，39 个 MINOR。</h2>
     </div>
     <div data-anim="up" style="display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:1.1vh 1.1vw;flex:1;min-height:0;margin-top:4.8vh"><div class="card-fill" style="padding:1.3vh 1vw;display:flex;flex-direction:column;gap:.7vh;min-width:0;overflow:hidden">
       <div style="display:flex;justify-content:space-between;align-items:baseline;gap:.6vw;flex-wrap:wrap">
@@ -1697,16 +1697,16 @@
         <span class="t-meta" style="font-size:max(11px,.7vw)">10-05</span></div>
       <p style="font-size:max(14px,.88vw);line-height:1.5;color:var(--accent-on);opacity:.92">双工时序 + 轮转策略 + 双耳线索 + FOA</p></div><div class="card-fill" style="padding:1.3vh 1vw;display:flex;flex-direction:column;gap:.7vh;min-width:0;overflow:hidden">
       <div style="display:flex;justify-content:space-between;align-items:baseline;gap:.6vw;flex-wrap:wrap">
-        <span style="font-family:var(--mono);font-weight:500;font-size:max(14px,1vw);letter-spacing:-.01em">30 天</span>
-        <span class="t-meta" style="font-size:max(11px,.7vw)">09-04 → 10-05</span></div>
+        <span style="font-family:var(--mono);font-weight:500;font-size:max(14px,1vw);letter-spacing:-.01em">44 天</span>
+        <span class="t-meta" style="font-size:max(11px,.7vw)">09-04 → 10-18</span></div>
       <p style="font-size:max(14px,.88vw);line-height:1.5;color:var(--text-secondary)">从 baseline 到双工时序的完整冲刺</p></div><div class="card-fill" style="padding:1.3vh 1vw;display:flex;flex-direction:column;gap:.7vh;min-width:0;overflow:hidden">
       <div style="display:flex;justify-content:space-between;align-items:baseline;gap:.6vw;flex-wrap:wrap">
         <span style="font-family:var(--mono);font-weight:500;font-size:max(14px,1vw);letter-spacing:-.01em">纪律</span>
         <span class="t-meta" style="font-size:max(11px,.7vw)">SEMVER</span></div>
       <p style="font-size:max(14px,.88vw);line-height:1.5;color:var(--text-secondary)">语义化版本 + conventional commits</p></div></div>
     <div style="display:flex;justify-content:space-between;align-items:end;margin-top:2vh;padding-bottom:2.8vh">
-      <span class="num-mega" style="font-size:min(5vw,8.8vh)">12</span>
-      <span class="t-meta">MINOR RELEASES · V0.1.0 → V0.12.0 · 30 DAYS</span>
+      <span class="num-mega" style="font-size:min(5vw,8.8vh)">39</span>
+      <span class="t-meta">MINOR RELEASES · V0.1.0 → V0.39.0 · 44 DAYS</span>
     </div>
   </div>
 </section>
@@ -1873,7 +1873,7 @@
           <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2.6vh 0;border-top:1px solid var(--border-subtle)">
             <div style="font-family:var(--sans);font-weight:200;font-size:min(4.4vw,7.8vh);line-height:.9;color:var(--text-primary)">02</div>
             <div><h3 style="font-weight:400;font-size:max(18px,1.8vw);margin-bottom:1.6vh">深潜</h3>
-            <p style="font-size:max(16px,.94vw);line-height:1.6;color:var(--text-secondary)">8 环 syscall 闸门 · 15 驱动 · 端侧听觉栈 · 全双工轮转 · 1532 项测试全绿。</p></div>
+            <p style="font-size:max(16px,.94vw);line-height:1.6;color:var(--text-secondary)">8 环 syscall 闸门 · 17 驱动 · 端侧听觉栈 · 全双工轮转 · 1532 项测试全绿。</p></div>
           </div>
           <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2.6vh 0;border-top:1px solid var(--border-subtle);border-bottom:2px solid var(--accent)">
             <div style="font-family:var(--sans);font-weight:200;font-size:min(4.4vw,7.8vh);line-height:.9;color:var(--accent)">03</div>
@@ -1890,7 +1890,7 @@
 <!-- 演讲备注：替换示例页时同步替换，id 必须与 section[data-slide-id] 一致。 -->
 <script>
 const SPEAKER_NOTES = [
-  { id: "cover", title: "把 Linux 变成 Agent 的操作系统", section: "开场", minutes: 0.5, purpose: "定调详细版：这是上一波 12 页概览的机制层下钻", talk: ["封面公式先立住：kernel + Agent + MCP","预告三个硬数字：15 驱动 / 8 环闸门 / 765 测试","声明版本基准：v0.12.0 · 2026-10-05"], transition: "从公式直接进命题" },
+  { id: "cover", title: "把 Linux 变成 Agent 的操作系统", section: "开场", minutes: 0.5, purpose: "定调详细版：这是上一波 12 页概览的机制层下钻", talk: ["封面公式先立住：kernel + Agent + MCP","预告三个硬数字：17 驱动 / 8 环闸门 / 1532 测试","声明版本基准：v0.39.0 · 2026-10-18"], transition: "从公式直接进命题" },
   { id: "thesis", title: "命题与四件内核遗产", section: "命题", minutes: 1.2, purpose: "给出公式与不动内核的立场", talk: ["namespace / cgroup / seccomp-BPF / landlock 各自的角色","四件遗产全部复用、零内核补丁","ink 条那句是全片题眼：syscall 语义"], transition: "词表映射让抽象命题落地" },
   { id: "mapping", title: "Linux 与 laos 词表映射", section: "命题", minutes: 0.8, purpose: "用熟悉概念映射新概念", talk: ["四组词一一对应：驱动 / 系统调用 / 薄内核 / 权限位","观众记住映射就记住了架构","tool call 每次过闸 = 系统调用语义的落点"], transition: "先说市面上别人怎么做 AgentOS" },
   { id: "landscape", title: "AgentOS 八种含义与 L2 落位", section: "定位", minutes: 1, purpose: "建立差异化坐标", talk: ["调研结论：同一个词至少 8 种所指","强制力光谱 L0 到 L3，laos 在 L2 用户态强制层","多数是框架/壳，laos 是治理内核：四件事在派发前完成"], transition: "坐标定了，下钻第一层：总体架构" },
@@ -1898,12 +1898,12 @@ const SPEAKER_NOTES = [
   { id: "gates", title: "syscall 八环闸门链（全片核心）", section: "内核", minutes: 1.8, purpose: "把强制讲到机制层", talk: ["按 01-08 顺序走：能力 / 作用域 / schema / 预算 / 计价 / 预审 / 人审 / 审计","举例 screen.tap 越过 pkg 白名单第 2 环即拒，不触 adb","这一页多停留，是全片核心"], transition: "闸门之外还有分支与记忆模型" },
   { id: "branch", title: "分支与内存模型", section: "内核", minutes: 1, purpose: "展示 Agent 上下文管理的 git 语义", talk: ["branch.py 分支树加 cow.py 写时复制","类似 git 语义：试错在分支、结论回主线","memory.py 记忆闸门：只记实际发生的交互"], transition: "第四个内核组件是判断层 Jev" },
   { id: "jev", title: "判断层 Jev 与诚实数字", section: "内核", minutes: 1.2, purpose: "展示判断层与诚实的校准文化", talk: ["三判型 Noul/Choice/Score，11 处硬阈值映射","judge 可透传：commit 与 remember 都能挂","157.5ms 否证 15.6ms——慢 10 倍也如实写"], transition: "内核讲完，转向驱动生态" },
-  { id: "drivers", title: "驱动全景 15 个设备（重点表格页）", section: "驱动", minutes: 1.6, purpose: "展示完整设备面与治理事实", talk: ["按听觉 3 / 手机 6 / 系统 6 三组走","蓝格是治理事实：load_driver 外挂需过闸","drv_screen 的七种操作都在 pkg 作用域内"], transition: "挑最深的一条栈下钻：听觉" },
+  { id: "drivers", title: "驱动全景 17 个设备（重点表格页）", section: "驱动", minutes: 1.6, purpose: "展示完整设备面与治理事实", talk: ["按听觉 3 / 手机 6 / 系统 8 三组走","蓝格是治理事实：load_driver 外挂需过闸","drv_screen 的七种操作都在 pkg 作用域内"], transition: "挑最深的一条栈下钻：听觉" },
   { id: "hearing", title: "端侧听觉栈六层", section: "驱动", minutes: 1.6, purpose: "展示最深的端侧工程链", talk: ["vad 到 ShoNet 六层走一遍","两个锚点：-23.00 LUFS 正负 0.1 与 diff 0.0","ShoNet 是 Repro 区的复现成果"], transition: "听觉之上是全双工轮转" },
   { id: "duplex", title: "全双工轮转三件套", section: "驱动", minutes: 1.2, purpose: "展示对话时序的机制层", talk: ["duplex 四能力分解 / turnpolicy 三态三闸 / turnbuf 打断即作废","三闸数字：200ms / 500ms / 250ms","来源：2026-09 周报波三篇"], transition: "常开能力如何被沙箱约束" },
   { id: "sandbox", title: "AlwaysOnRec 双沙箱", section: "驱动", minutes: 1.2, purpose: "展示最激进能力的克制设计", talk: ["四段漏斗走一遍，279 项测试兜底","四条红线一条都不能破","Apple Watch S12 范式对照"], transition: "机制讲完，看质量与节奏" },
   { id: "quality", title: "765 测试与版本纪律", section: "质量", minutes: 0.8, purpose: "用账单式数据建立工程信任", talk: ["415 加 279 加 71 三个隔离区","TDD 先红后绿，每任务一 commit","SemVer + conventional commits 的版本纪律"], transition: "账单的纵轴就是版本史" },
-  { id: "history", title: "30 天 12 个 MINOR（重点表格页）", section: "质量", minutes: 1.2, purpose: "展示版本演化的密度与轨迹", talk: ["从 v0.1.0 baseline 149 文件走到 v0.12.0 双工时序","v0.8 到 v0.10 复现采纳三连是转折点","蓝格是当前版本"], transition: "版本史里最硬的是复现文化" },
+  { id: "history", title: "44 天 39 个 MINOR（重点表格页）", section: "质量", minutes: 1.2, purpose: "展示版本演化的密度与轨迹", talk: ["从 v0.1.0 baseline 149 文件走到 v0.12.0 双工时序","v0.8 到 v0.10 复现采纳三连是转折点","蓝格是当前版本"], transition: "版本史里最硬的是复现文化" },
   { id: "repro", title: "复现文化与采纳漏斗", section: "质量", minutes: 1, purpose: "展示论文级诚实", talk: ["四个复现各有硬指标","诚实清单：40,295 缩到百样本，偏差写明","采纳漏斗：复现 / 裁决 / 落地 / 注记"], transition: "复现的证据来自语料库" },
   { id: "corpus", title: "调研语料库", section: "质量", minutes: 0.8, purpose: "证明设计有证据链", talk: ["19,792 / 5,507 / 3,724 / 47 四个数字","全量 100%，不做抽样","每条采纳总账：来源 / 可取之处 / 落点 / 状态"], transition: "能力之外还有不做的事" },
   { id: "redline", title: "安全与合规红线", section: "收尾", minutes: 1, purpose: "立原则：红线内永远不做", talk: ["jarvis 七文件一行不碰的实证","EU AI Act 与 PIPL 两条法条跟踪","原则一句话：能力可以有，红线永远不做"], transition: "最后看路线图" },

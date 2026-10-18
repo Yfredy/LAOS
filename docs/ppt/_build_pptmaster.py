@@ -23,7 +23,7 @@ def head(n, tag):
 
 def foot():
     return (f'<line x1="72" y1="668" x2="1208" y2="668" stroke="{LINE}" stroke-width="1"/>'
-            f'<text x="72" y="692" font-family="{F}" font-size="11" fill="{MUTE}">github.com/Yfredy/LAOS · v0.9.0</text>'
+            f'<text x="72" y="692" font-family="{F}" font-size="11" fill="{MUTE}">github.com/Yfredy/LAOS · v0.39.0</text>'
             f'<text x="1208" y="692" font-family="{F}" font-size="11" fill="{MUTE}" text-anchor="end">FIELD NOTE 01 · 26.10.05</text>')
 
 def page(fname, role, n, tag, body):
@@ -54,10 +54,10 @@ body = (
     + body_t(72, 330, "内核强制的能力边界，而不是提示词恳求", 26, INK, 400)
     + body_t(72, 376, "Linux kernel + Agent + MCP —— 不改内核一行代码", 20)
     + f'<rect x="72" y="430" width="440" height="86" fill="{ACCSOFT}"/>'
-    + body_t(96, 466, "703 项测试全绿", 22, ACC, 700)
-    + body_t(96, 496, "主库 353 · AlwaysOnRec 279 · Repro 71", 15, SUB)
+    + body_t(96, 466, "1532 项测试全绿", 22, ACC, 700)
+    + body_t(96, 496, "主库 1159 · AlwaysOnRec 279 · Repro 94", 15, SUB)
     + body_t(72, 585, "GitHub · Yfredy/LAOS", 16, SUB)
-    + body_t(72, 612, "2026-10-05 · v0.9.0", 15, MUTE)
+    + body_t(72, 612, "2026-10-18 · v0.39.0", 15, MUTE)
     + f'<circle cx="1150" cy="300" r="150" fill="none" stroke="{ACC}" stroke-width="2"/>'
     + f'<circle cx="1150" cy="300" r="104" fill="none" stroke="{LINE}" stroke-width="1"/>'
     + f'<circle cx="1150" cy="300" r="58" fill="none" stroke="{LINE}" stroke-width="1"/>'
@@ -259,7 +259,7 @@ body = (
     + title(72, 280, "能力边界写在内核里，", 52)
     + title(72, 348, "不写在提示词里。", 52, ACC)
     + f'<line x1="72" y1="400" x2="500" y2="400" stroke="{GOLD}" stroke-width="3"/>'
-    + body_t(72, 448, "v0.1 → v0.9 语义化版本 · Keep a Changelog · GitHub Release 页", 19, INK, 700)
+    + body_t(72, 448, "v0.1 → v0.39 语义化版本 · Keep a Changelog · GitHub Release 页", 19, INK, 700)
     + body_t(72, 480, "一个完整需求波次 = 一次 MINOR；合规红线前置（EU AI Act / PIPL / 拒绝伪装采集）。", 16, SUB)
     + body_t(72, 548, "NEXT", 13, MUTE, 400, 4)
     + body_t(72, 584, "drv_screen 真机验收 → 外挂驱动 PoC（mobile-mcp）→ bs1770 响度合入主库", 18, ACC, 700)

@@ -39,10 +39,10 @@ SECTIONS.append(f'''
       <div data-anim="kicker" class="t-meta" style="color:rgba(255,255,255,.78);letter-spacing:.22em">LAOS · LINUX AGENTOS · FUNDING DECK</div>
       <h1 data-anim="title" style="align-self:center;font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(7.6vw,13.5vh);line-height:.98;letter-spacing:-.025em;color:#fff">Linux 内核的<br/><span style="font-style:italic;font-weight:300">Agent 治理层</span></h1>
       <div data-anim="bottom" style="display:grid;grid-template-rows:auto auto;gap:1.6vh;border-top:1px solid rgba(255,255,255,.22);padding-top:2vh">
-        <div data-anim="lead" class="lead" style="max-width:54ch;color:rgba(255,255,255,.86);font-weight:300">laos v0.12.0 —— 8 环 syscall 闸门链 + 15 个设备驱动 + 全自研端侧听觉栈：模型负责想，laos 负责说「不」。</div>
+        <div data-anim="lead" class="lead" style="max-width:54ch;color:rgba(255,255,255,.86);font-weight:300">laos v0.39.0 —— 8 环 syscall 闸门链 + 17 个设备驱动 + 全自研端侧听觉栈：模型负责想，laos 负责说「不」。</div>
         <div style="display:flex;justify-content:space-between;align-items:end">
           <div class="t-meta" style="color:rgba(255,255,255,.6)">创新融资 · 项目介绍 · 2026-10</div>
-          <div class="t-meta" style="color:rgba(255,255,255,.6)">v0.12.0 · 30 天 12 版本 · 765 测试</div>
+          <div class="t-meta" style="color:rgba(255,255,255,.6)">v0.39.0 · 44 天 43 版本 · 1532 测试</div>
         </div>
       </div>
     </div>
@@ -60,7 +60,7 @@ SECTIONS.append(f'''
           <div class="t-meta" style="margin-bottom:2.4vh">IF THEY REMEMBER ONE SLIDE</div>
           <h1 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.2vw,9.2vh);line-height:1.06;letter-spacing:-.03em;color:var(--text-primary)">模型负责想，<br/>laos 负责说<span style="font-style:italic;font-weight:300;color:var(--accent)">「不」</span>。</h1>
         </div>
-        <div class="t-meta" style="color:var(--text-helper)">— laos · Linux AgentOS · v0.12.0</div>
+        <div class="t-meta" style="color:var(--text-helper)">— laos · Linux AgentOS · v0.39.0</div>
       </div>
       <div class="half b-grey" style="padding:5.6vh 3.6vw 4.4vh;justify-content:space-between">
         <div class="chrome-min" style="margin-bottom:0"><div class="l">AT A GLANCE</div><div class="r">03 BLOCKS</div></div>
@@ -75,7 +75,7 @@ SECTIONS.append(f'''
           </div>
           <div>
             <span class="t-cat">进展</span>
-            <p style="font-size:max(18px,1.05vw);line-height:1.65;color:var(--text-secondary);margin-top:.8vh">开源 v0.12.0 · 15 个设备驱动 · 端侧听觉栈全自研纯 stdlib · 19,792 篇论文语料。</p>
+            <p style="font-size:max(18px,1.05vw);line-height:1.65;color:var(--text-secondary);margin-top:.8vh">开源 v0.39.0 · 17 个设备驱动 · 端侧听觉栈全自研纯 stdlib · 19,792 篇论文语料。</p>
           </div>
         </div>
         <div class="t-meta" style="color:var(--text-helper)">一句话：模型负责想，laos 负责说「不」</div>
@@ -188,9 +188,9 @@ SECTIONS.append(f'''
       <div class="stack-block b-ink">
         <span class="layer-nb">LAYER 03</span>
         <span class="layer-icon"><i data-lucide="plug-zap"></i></span>
-        <div class="layer-ttl">15 个驱动子进程</div>
+        <div class="layer-ttl">17 个驱动子进程</div>
         <p class="layer-desc">drv_mic · drv_ear · drv_screen … ↔ Linux / MCP / 外设——每个驱动都是隔离子进程。</p>
-        <span class="layer-tag">15 DRIVERS</span>
+        <span class="layer-tag">17 DRIVERS</span>
       </div>
     </div>
     <div class="t-meta" style="margin-top:2vh;color:var(--text-helper)">零依赖承诺：内核纯 Python stdlib——可进任何低端安卓 / 边缘盒子的 Python 环境</div>
@@ -338,8 +338,8 @@ SECTIONS.append(f'''
 
 # ---------- P10 里程碑大数字（S20 账单） ----------
 LEDGER = [
-    ("12", "MINOR VERSIONS / 30 天", "v0.1.0 → v0.12.0，每版本有 tag + Release + CHANGELOG", "git-tag"),
-    ("765", "TESTS GREEN", "主库 415 · 隔离区 279 · 复现区 71，TDD 先红后绿", "check-check"),
+    ("39", "MINOR VERSIONS / 44 天", "v0.1.0 → v0.39.0，每版本有 tag + Release + CHANGELOG", "git-tag"),
+    ("1532", "TESTS GREEN", "主库 1159 · 隔离区 279 · 复现区 94，TDD 先红后绿", "check-check"),
     ("19,792", "PAPER CORPUS", "双会议全量论文语料，设计全部可溯源", "book-open"),
     ("3,724", "REPO SURVEY", "OSS 星标库分级 + 47 份调研文档", "github"),
     ("4", "PAPER-LEVEL REPRO", "响度 · ANC · DOA · MPE，与官方实现逐行对齐", "flask-conical"),
@@ -358,7 +358,7 @@ SECTIONS.append(f'''
     {CHROME.format(n=10)}
     <div style="display:flex;flex-direction:column;gap:1vh;padding-top:.6vh">
       <span class="t-cat">Traction · 全部真实</span>
-      <h2 class="h-xl" style="font-weight:200;font-size:min(4.4vw,7.8vh);line-height:1;letter-spacing:-.03em">30 天，12 个版本，<br/>765 项测试全绿。</h2>
+      <h2 class="h-xl" style="font-weight:200;font-size:min(4.4vw,7.8vh);line-height:1;letter-spacing:-.03em">44 天，43 个版本，<br/>1532 项测试全绿。</h2>
     </div>
     <div data-anim="ledger" style="display:flex;flex-direction:column;flex:1;justify-content:center;margin-top:.6vh">
       {rows}
@@ -529,7 +529,7 @@ SECTIONS.append(f'''
         <div data-anim="manifesto" style="display:flex;flex-direction:column;gap:2vh;position:relative;z-index:1">
           <div class="t-meta" style="color:rgba(255,255,255,.78);letter-spacing:.22em;margin-bottom:1.6vh">MANIFESTO</div>
           <h2 style="font-family:var(--sans),var(--sans-zh);font-size:min(5.4vw,9.6vh);line-height:.98;letter-spacing:-.025em;font-weight:200;color:#fff">模型负责想，<br/>laos 负责<br/>说<span style="font-style:italic;font-weight:300">「不」</span>。</h2>
-          <div style="font-family:var(--sans),var(--sans-zh);font-size:max(14px,1vw);line-height:1.6;color:rgba(255,255,255,.82);font-weight:400;max-width:36ch;margin-top:1.4vh">创新融资 · 项目介绍 · v0.12.0 · 765 测试全绿</div>
+          <div style="font-family:var(--sans),var(--sans-zh);font-size:max(14px,1vw);line-height:1.6;color:rgba(255,255,255,.82);font-weight:400;max-width:36ch;margin-top:1.4vh">创新融资 · 项目介绍 · v0.39.0 · 1532 测试全绿</div>
         </div>
         <div data-anim="signature" style="display:flex;justify-content:space-between;align-items:end;border-top:1px solid rgba(255,255,255,.22);padding-top:2vh;position:relative;z-index:1">
           <div class="t-meta" style="color:rgba(255,255,255,.62)">github.com/Yfredy/LAOS</div>
@@ -542,7 +542,7 @@ SECTIONS.append(f'''
           <li style="display:grid;grid-template-columns:auto 1fr;gap:1.8vw;align-items:start;padding:2.4vh 0;border-top:1px solid var(--border-subtle)">
             <div style="font-family:var(--sans);font-weight:200;font-size:min(4vw,7.2vh);line-height:.9;color:var(--text-primary)">01</div>
             <div><h3 style="font-weight:400;font-size:max(18px,1.7vw);line-height:1.2;letter-spacing:-.015em;color:var(--text-primary);margin-bottom:1vh">团队（真实呈现）</h3>
-            <p style="font-size:max(16px,.94vw);line-height:1.6;color:var(--text-secondary)">独立开发者：30 天 12 版本 / 765 测试 / 47 份调研的 AI 协作流水线，本身就是产品方法论证明。招人计划见路线图。</p></div>
+            <p style="font-size:max(16px,.94vw);line-height:1.6;color:var(--text-secondary)">独立开发者：44 天 43 版本 / 1532 测试 / 47 份调研的 AI 协作流水线，本身就是产品方法论证明。招人计划见路线图。</p></div>
           </li>
           <li style="display:grid;grid-template-columns:auto 1fr;gap:1.8vw;align-items:start;padding:2.4vh 0;border-top:1px solid var(--border-subtle)">
             <div style="font-family:var(--sans);font-weight:200;font-size:min(4vw,7.2vh);line-height:.9;color:var(--text-primary)">02</div>
@@ -568,7 +568,7 @@ NOTES = [
          transition="从定位直接进入「只记一页」的总览"),
     dict(id="one-slide", title="一页看懂", section="开场", minutes=1.0,
          purpose="如果只记住一页：问题-方案-进展",
-         talk=["无 syscall 层的 tool call 四无：预算/审计/回滚/合规", "8 环闸门链一句话带过，细节在第 6 页", "进展锚点：15 驱动 / 纯 stdlib / 19,792 语料"],
+         talk=["无 syscall 层的 tool call 四无：预算/审计/回滚/合规", "8 环闸门链一句话带过，细节在第 6 页", "进展锚点：17 驱动 / 纯 stdlib / 19,792 语料"],
          transition="总览抛出问题，下一页把问题拆成三根柱子"),
     dict(id="problem", title="痛点三柱", section="问题", minutes=1.2,
          purpose="把三条断层说具体，每柱一个场景",
@@ -600,7 +600,7 @@ NOTES = [
          transition="位置唯一，接下来用真实数字证明执行力"),
     dict(id="traction", title="里程碑与进展", section="进展", minutes=1.2,
          purpose="全部真实数字建立工程信任",
-         talk=["12 版本 / 765 测试 / 19,792 语料 / 3,724 仓库 / 4 项复现", "每版本 tag+Release+CHANGELOG 可查", "诚实呈现社区冷启动期", "数字全部可尽调"],
+         talk=["12 版本 / 1159 测试 / 19,792 语料 / 3,724 仓库 / 4 项复现", "每版本 tag+Release+CHANGELOG 可查", "诚实呈现社区冷启动期", "数字全部可尽调"],
          transition="执行力有据，下一页讲怎么收钱"),
     dict(id="business", title="商业模式", section="商业", minutes=1.0,
          purpose="三条收入线 + 定价哲学",
