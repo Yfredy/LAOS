@@ -1,7 +1,7 @@
 # 计划状态登记（plans/）
 
 > **本仓库约定：计划正文的 checkbox 执行时不勾选——完成度看 commit 与落点，不看 checkbox。**
-> 状态三值：`已执行`（交付物在 git 历史可证）/ `部分执行` / `待执行`。本表 50 份（2026-10-09 复盘点 42 + 新增 audio-replay/aor-lifelog/aurase-adoption/evolve-followups + 2026-10-12 auditory-governance-wave + 2026-10-12 audiovisual-innovation + 2026-10-15 brain-reliability-repeat-guard + 2026-10-18 audio-agentos-litreview-survey）。
+> 状态三值：`已执行`（交付物在 git 历史可证）/ `部分执行` / `待执行`。本表 51 份（2026-10-09 复盘点 42 + 新增 audio-replay/aor-lifelog/aurase-adoption/evolve-followups + 2026-10-12 auditory-governance-wave + 2026-10-12 audiovisual-innovation + 2026-10-15 brain-reliability-repeat-guard + 2026-10-18 audio-agentos-litreview-survey + 2026-10-18 audio-agentos-survey-v2）。
 > 排查命令：`git log --oneline --all -- <落点路径>`。
 
 ## 计划编写纪律（2026-10-09 制度化，取自 writing-plans 技能查漏补缺）
@@ -67,3 +67,4 @@
 | 2026-10-12-audiovisual-innovation.md | 待执行（构思+路线图，Wave 1 可执行） | 音视频创新波：§0 勘察坐实三大空白——视觉栈为零（51 模块无一涉视觉）、screen.shot 无人消费、空间音频三件（binaural/foa/micgeom）只被自己测试引用；§1 七方向含 4 条明确否决（视觉常驻 AED/跨会话声纹/唇读/截屏喂多模态）；Wave 1 屏幕语义漏斗（laos/screenlog.py 界面签名丢弃 text/id + bin/screenlog.py LAOS_SCREENLOG 门控 + diary 第七章双模态时间线，XML 字节零落盘），代码已在 var/scratch 试跑并通过（修掉单样本抖动劈断会话的真 bug）；Wave 2 听觉预算/听觉 taint、Wave 3 空间方向（硬门：drv_mic CHANNELS=1 需 LAOS_MIC_CHANNELS=2）接口已冻结待拆独立计划 |
 | 2026-10-15-brain-reliability-repeat-guard.md | 待执行 | 第一波（esp32 借鉴 #2，spec: research/2026-10-15-esp32-iphone-agent-borrowing）：修两个现存洞——① `brain.py:211` tool_call 参数非法 JSON 直接崩 think()（一次输出抖动报废整个任务）→ Thought 增 `retryable` 标志 + think 接受 `temperature`，任一坏 call 整轮转可重试（半套调用比没有调用更危险）；② `agent.py:124-159` 死循环仅靠 max_steps=12 硬截断、烧穿 token 预算 → 温度阶梯 0→0.4→0.8（esp32 同款三档，第 3 轮仍坏即 ok=False 放弃）+ 重复 syscall 检测器（同 tool+同参数第 3 次触发 `ctx.notice` 强制换策略，每 key 只通告一次）。四 Task 全 TDD，新增 tests/test_brain.py + tests/test_agent_reliability.py（含 kernel 装配自包含副本，守乱序阅读禁令）；不动 kernel/驱动，核心零依赖 |
 | 2026-10-18-audio-agentos-litreview-survey.md | 已执行 | 音频智能体综述（LitReview S0–S8，9 Task）：正文 `2026-10-18-audio-agentos-survey.md` + 证据附录 `-evidence.md` + `scripts/check_survey.py`/`tests/test_check_survey.py`（15 测试，strict 门禁）；覆盖 AgentOS×音频、多模态、全天候录音、SER、AED/AGC（3 档规模 × 端侧/多模态标记，AED 加任务类型、AGC 加经典 DSP 与作用点）；目标 80 篇纳入、每篇六字段卡片 + 条件化矩阵 + 未来方向溯源；本仓语料仅 123,271 条元数据/115 篇 PDF，不声称全量全文精读 |
+| 2026-10-18-audio-agentos-survey-v2.md | 已执行 | 综述 v2（9 Task）：**AGC 神经增益定向补检索**——arXiv 5 式/ISCA Interspeech 2026 全目录 767 篇/Crossref 三通道，新增卡片 **S81–S91**（WaveNorm Interspeech 2026 为唯一「纯增益+因果+端侧画像」条目），**推翻 v1「无纯神经增益模型」**（根因是 v1 检索式 `AND abs:audio` 把 46 条切到 1 条）；正文 §6 全章改写 + 新增 §6.6 准入门槛三条、§3.5 多媒体两条主线与成本闸、§3.6 三道闸小结；`auto-gain/00` 追加裁定 3/4/5（纯增益划界 / MACs≠参数量 / 失效仓库），02/03/04/05 域表回填（中型档记"小的有、中的没有"断层）；新增 `scripts/md2html_survey.py` + HTML 阅读版；文献 80→91 篇，strict 门禁 0 违规 |
