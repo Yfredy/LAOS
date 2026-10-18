@@ -191,6 +191,16 @@ class CheckSurveyTest(unittest.TestCase):
         self.assertIn("search-log", vs)
         self.assertIn("screen-table", vs)
 
+    def test_screen_decision_accepts_included_id(self):
+        # 回归（Task 3）：筛选台账的纳入行写 "纳入 S01"（编号即后续卡片/大纲
+        # 的唯一引用），校验器必须接受带号形式，同时仍拒绝无编号的胡乱写法。
+        numbered = GOOD_EVIDENCE.replace("| C01 | Test Paper | 纳入 |",
+                                        "| C01 | Test Paper | 纳入 S01 |")
+        self.assertEqual(check(evidence=numbered), [])
+        bad = GOOD_EVIDENCE.replace("| C01 | Test Paper | 纳入 |",
+                                    "| C01 | Test Paper | 纳入 S1 |")
+        self.assertIn("screen-decision", rules(check(evidence=bad)))
+
     def test_selftest_cli(self):
         self.assertEqual(cs.main(["--selftest"]), 0)
 

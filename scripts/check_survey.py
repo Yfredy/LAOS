@@ -364,7 +364,9 @@ def check_evidence(path, text, refs, strict):
                 for n, cells in enumerate(rows, 1):
                     cells = cells + [""] * (len(header) - len(cells))
                     dec, reason = cells[iv].strip(), cells[rv].strip()
-                    if dec not in ("纳入", "排除"):
+                    # 纳入行可带纳入编号（"纳入 S01"）：证据附录 §3 是卡片/大纲/
+                    # 参考文献的编号来源，带号是契约要求，不得判非法。
+                    if not re.fullmatch(r"纳入( S\d{2})?|排除", dec):
                         out.append(Violation(path, "screen-decision",
                                              f"筛选第 {n} 行决定 {dec!r} 非法"))
                     if len(reason) < 4 or reason == "不相关":
