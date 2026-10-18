@@ -101,7 +101,7 @@
 | C014 | [Overview of the L3DAS23 challenge on audio-visual extended reality](https://arxiv.org/abs/2402.09245) | 2024 | 纳入 S14 | 多模态：XR 场景音视任务与榜单口径，采集条件贴近可穿戴 |
 | C015 | [STARSS23: audio-visual dataset of spatial recordings of real scenes](https://arxiv.org/abs/2306.09126) | 2023 | 纳入 S15 | 多模态：真实场景音视空间标注，给事件-方位联合条件 |
 | C016 | [Privacy controls for always-listening devices (PhD dissertation)](https://digicoll.lib.berkeley.edu/record/273841/files/EECS-2022-249.pdf) | 2022 | 纳入 S16 | 合规：常驻聆听的隐私控制设计空间，含拒绝与遗忘机制 |
-| C017 | [AudioCLIP: extending CLIP to image, text and audio](https://arxiv.org/abs/2106.13043) | 2021 | 纳入 S17 | 多模态：音-图-文对齐，开放词表与跨模态检索的前提 |
+| C017 | [AudioCLIP: extending CLIP to image, text and audio](https://arxiv.org/abs/2106.13043) | 2022 | 纳入 S17 | 多模态：音-图-文对齐，开放词表与跨模态检索的前提（正式发表 ICASSP 2022） |
 | C018 | [Investigating users' preferences and expectations for always-listening voice assistants](https://doi.org/10.1145/3369807) | 2019 | 纳入 S18 | 合规：用户对常驻聆听的期望与拒绝边界（何时算越界） |
 | C019 | [Are women really more talkative than men? (Science 2007)](https://repository.arizona.edu/bitstream/10150/623432/1/EAR%20CDPS%20in%20press.pdf) | 2007 | 纳入 S19 | 常驻约束：日均词量的经典量化，常驻采集存储预算的锚点 |
 | C020 | [Minimal-impact audio-based personal archives](https://doi.org/10.1145/1026653.1026659) | 2004 | 纳入 S20 | 常驻约束：低开销个人音频归档的采集/留存设计 |
@@ -137,7 +137,7 @@
 | C050 | [EAT-base: efficient audio transformer](https://arxiv.org/abs/2306.04186) | 2023 | 纳入 S32 | 指标条件：高效 Transformer 的 AudioSet 口径与 MACs 条件 |
 | C051 | [CED-Base: consistent ensemble distillation for audio tagging](https://arxiv.org/abs/2308.11957) | 2023 | 纳入 S33 | 指标条件：一致性蒸馏的强基线口径，作中型对照 |
 | C052 | [TRILLsson: distilled universal paralinguistic representations](https://www.isca-archive.org/interspeech_2022/shor22_interspeech.html) | 2022 | 纳入 S34 | 端侧证据：蒸馏到 5M 级表征，可穿戴可用的最小档 |
-| C053 | [BEATs iter3+ (audio pre-training with acoustic tokenizers)](https://arxiv.org/abs/2212.09058) | 2022 | 纳入 S35 | 指标条件：迭代蒸馏强基线的 AudioSet 口径 |
+| C053 | [BEATs iter3+ (audio pre-training with acoustic tokenizers)](https://arxiv.org/abs/2212.09058) | 2023 | 纳入 S35 | 指标条件：迭代蒸馏强基线的 AudioSet 口径（正式发表 ICML 2023） |
 | C054 | [AST: audio spectrogram transformer](https://arxiv.org/abs/2104.01778) | 2021 | 纳入 S36 | 指标条件：ViT 路线基准锚点，含 patch 与算力条件 |
 | C055 | [PaSST-S: efficient training of audio transformers with patchout](https://arxiv.org/abs/2110.05069) | 2022 | 纳入 S37 | 指标条件：patchout 效率口径，与 AST 同源可比（正式发表 Interspeech 2022） |
 | C056 | [PANNs-CNN14 (large-scale pretrained audio neural networks)](https://arxiv.org/abs/1912.10211) | 2020 | 纳入 S38 | 指标条件：CNN14 通用基线，含 multi-adds 口径 |
@@ -186,7 +186,7 @@
 | C099 | [TinyChirp: bird song recognition with TinyML on low-power wireless sensors](https://arxiv.org/abs/2407.21453) | 2024 | 纳入 S68 | 端侧证据：TinyML 节点长期野外部署，含功耗与回传条件 |
 | C100 | [Self-learning for personalized keyword spotting on ultra-low-power audio sensors](https://arxiv.org/abs/2408.12481) | 2024 | 纳入 S69 | 端侧证据：微瓦级传感器上的自学习唤醒词，含片上预算 |
 | C101 | [Rewind / Limitless pendant (cloud always-on recorder)](https://limitless.ai/) | 2024 | 纳入 S70 | 合规：云常开路线停售停服的信任代价（二手口径） |
-| C102 | [Ego-Exo4D: first- and third-person video understanding](https://arxiv.org/abs/2311.18259) | 2023 | 纳入 S71 | 多模态：第一/第三人称同步采集，标注成本与对齐条件 |
+| C102 | [Ego-Exo4D: first- and third-person video understanding](https://arxiv.org/abs/2311.18259) | 2024 | 纳入 S71 | 多模态：第一/第三人称同步采集，标注成本与对齐条件（正式发表 CVPR 2024） |
 | C103 | [47 nW voice activity detector with short-time CNN features](https://doi.org/10.1109/JSSC.2023.3302791) | 2023 | 纳入 S72 | 端侧证据：纳瓦级 VAD 芯片，常驻触发的能耗下限 |
 | C104 | [Ego4D: around the world in 3,000 hours of egocentric video](https://arxiv.org/abs/2110.07058) | 2022 | 纳入 S73 | 常驻约束：三千小时级第一视角语料的采集规模与合规流程 |
 | C105 | [AAD-KWS: sub-µW keyword spotting chip with acoustic activity detection](https://ieeexplore.ieee.org/document/9888232) | 2022 | 纳入 S74 | 端侧证据：亚微瓦唤醒 + 活动检测联动，省掉常态推理 |
@@ -904,7 +904,7 @@
 汇总：**2xx 70 条**（206 共 42、200 共 21、202 共 7）、**403 5 条**、**ERR 5 条**。原 404 的 S54 已改用 arXiv 镜像链接（见下），故最终状态无 404。
 
 - 403：S02、S11、S18、S20、S66（全部是 ACM DOI 的出版商反爬；链接可用性未变，venue 另由 Crossref 元数据核）。
-- 404：S54 原链 `github.com/Audio-Westlake/FRCRN` 仓库已不存在，已替换为 `arxiv.org/abs/2206.07293`（探测 206，arXiv API 标题与 FRCRN 一致）；§10 与 §3 同步替换，死链不再保留。
+- 404（已修复）：S54 原链 `github.com/Audio-Westlake/FRCRN` 仓库已不存在，已替换为 `arxiv.org/abs/2206.07293`（探测 206，arXiv API 标题与 FRCRN 一致）；§10 与 §3 同步替换，死链不再保留。
 - ERR：S30、S42、S44（HuggingFace）、S58（webrtc.googlesource.com）、S59（developer.android.com），均为本机 `WinError 10060` 连接超时，非 404；WebFetch 同样失败，故这三类主机的数字只按领域表核，不声称回原文。
 
 | 编号 | 状态 | 链接 | 备注 |
@@ -1091,7 +1091,7 @@ venue 只用三种可辩护的来源：卡片/标题明示、链接或 DOI 前�
 - **S74**：Crossref 同名命中是 **ESSCIRC 2021** 的会议版，但所链 IEEE 文档 9888232 与领域表（`always-on-recording`）都标 **IEEE JSSC 2022**；§10 采用 `IEEE JSSC（领域表口径）`，不把会议版当所链版本。
 - **S80**：IEEE 文档号 8752147 与 DOI `10.1109/IGCC.2018.8752147` 的尾号一致，venue 记 **IGCC**；年份列沿用 §3 的 2019（IEEE Xplore 上线年），与会议年 2018 不同，属正常"会议年 vs 上线年"差异。
 - **S06**：年份列沿用 §3 的 2026（JPSP 卷期），Crossref `issued` 为 2025（在线先发）；venue 只写刊名，不写年份，避免与年份列冲突。
-- 其余"年份双写"条目（S35、S71、S73）在卡片 §4 已写明 arXiv 年与正式发表年；§3 与 §10 的年份列统一取正式发表年（S35 2023、S71 2024、S73 2022，同 S37/S79 口径），venue 列只写会议/期刊名，不重复年份。
+- 其余"年份双写"条目（S17、S35、S71、S73）在卡片 §4 已写明 arXiv 年与正式发表年；§3 与 §10 的年份列统一取正式发表年（S17 2022、S35 2023、S71 2024、S73 2022，同 S37/S79 口径），venue 列只写会议/期刊名，不重复年份。
 
 ## 7. 未核实清单
 
