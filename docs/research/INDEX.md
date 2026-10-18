@@ -1,7 +1,7 @@
 # docs/research 调研资产清单（INDEX）
 
 > laos 调研资产权威清单：每份文档一句话定位 + 关键数字（均抄自各文档自身原文，未凭文件名推断）。
-> 盘点日期：2026-10-06（2026-10-07 增补 4 份调研 + 3 份评审与设计；2026-10-08 持续增补：arvis/muse-gadget-sdk 报告 + 语音三域收尾 16 份；2026-10-09 增补：小红书「AI音频研究」134 篇逐图全量调研 1 份 + RSI 方向全景 1 份 + Qwen Audio Agent Runtime 单篇 1 份 + Week41 AI 周报 1 份 + Interspeech 2026 语音增强风向 1 份 + AuraSE-IPO 复现 1 份）。共 110 份 .md（不含本文件；2026-10-09 openevolve-driver 合并后复核基数 111 = 109 份资产 + capstone + 本文件，AuraSE 增补后 112 = 110 份资产 + capstone + 本文件；2026-10-11 增补 Linux 收包六图 1 份后 113 = 111 份资产 + capstone + 本文件；2026-10-13 增补 STEPX Neo 智能体手机拆解 1 份后 114 = 112 份资产 + capstone + 本文件；2026-10-15 增补 esp32-iphone-agent 借鉴清单 1 份后 115 = 113 份资产 + capstone + 本文件；2026-10-18 增补《OS 老兵 Agent 变现》长文学习 1 份后 116 = 114 份资产 + capstone + 本文件）。此前头部写的分项口径（66+2+17+3=88）与实数漂移，分项归属核对归属"INDEX 预存计数漂移归属波"排队项，此处只对准总数。
+> 盘点日期：2026-10-06（2026-10-07 增补 4 份调研 + 3 份评审与设计；2026-10-08 持续增补：arvis/muse-gadget-sdk 报告 + 语音三域收尾 16 份；2026-10-09 增补：小红书「AI音频研究」134 篇逐图全量调研 1 份 + RSI 方向全景 1 份 + Qwen Audio Agent Runtime 单篇 1 份 + Week41 AI 周报 1 份 + Interspeech 2026 语音增强风向 1 份 + AuraSE-IPO 复现 1 份）。共 110 份 .md（不含本文件；2026-10-09 openevolve-driver 合并后复核基数 111 = 109 份资产 + capstone + 本文件，AuraSE 增补后 112 = 110 份资产 + capstone + 本文件；2026-10-11 增补 Linux 收包六图 1 份后 113 = 111 份资产 + capstone + 本文件；2026-10-13 增补 STEPX Neo 智能体手机拆解 1 份后 114 = 112 份资产 + capstone + 本文件；2026-10-15 增补 esp32-iphone-agent 借鉴清单 1 份后 115 = 113 份资产 + capstone + 本文件；2026-10-18 增补《OS 老兵 Agent 变现》长文学习 1 份后 116 = 114 份资产 + capstone + 本文件；2026-10-18 增补《WorkBuddy + 综述 Skill》学习与 SOP 1 份后 117 = 115 份资产 + capstone + 本文件；2026-10-18 增补音频智能体综述正文与证据附录 2 份后 119 = 117 份资产 + capstone + 本文件）。此前头部写的分项口径（66+2+17+3=88）与实数漂移，分项归属核对归属"INDEX 预存计数漂移归属波"排队项，此处只对准总数。
 
 ## 导航：按问题找文档
 
@@ -45,6 +45,11 @@
 - [2026-09-14-papers-oss-full-survey.md](2026-09-14-papers-oss-full-survey.md) — 统一语料 19,792 篇的程序化总账（ICASSP+Interspeech 全量），每个数字可溯源。
 - [2026-09-14-audio-ai-agent-oss-landscape.md](2026-09-14-audio-ai-agent-oss-landscape.md) — 3,724 条 OSS 仓库的四段漏斗裁决表（core 132 / ref 2864 / unrelated 728），查项目适配结论看这份。
 - [corpus/（见第六节清单）](#六corpus-与数据语料数据文件只列规模) — 语料与爬虫本体：`papers_unified.jsonl`、各抓取脚本与 README 快照，回溯任何报告数字的最终出处。
+
+**想写文献综述 / 把综述流程固化成 skill？**
+
+- [2026-10-18-litreview-skill-workflow.md](2026-10-18-litreview-skill-workflow.md) — 《WorkBuddy + 综述Skill》学习：把文章可证的五步（主题范围→检索筛选阅读→比较→正文→完整综述+参考文献）展开成九步 SOP（S0 范围合同→S8 差异化适配），附质量六经验、增强提示词、11 项验收清单与 skill 最小骨架；核心判断「综述的价值在论文之间接不接得上」，并校正「20 分钟/投稿级」为「可打磨初稿」。
+- [papers_index.md](papers_index.md) — 检索底座：本仓 115 篇 PDF 索引（只支撑候选发现，不替代全文精读）。
 
 **想了解 RSI / Agent 自我改进（论文浪潮与治理含义）？**
 
@@ -118,6 +123,7 @@
 | [2026-10-13-stepx-neo-agent-phone.md](2026-10-13-stepx-neo-agent-phone.md) | STEPX Neo/Step AOS 1.0 拆解（新智元微信公号发布会报道**原文直取成功**，非重构）：全球首款"大模型原生智能体手机"八处过人之处逐条拆解 + **§3.9 功能层四件套解剖**（全天候感知三承诺+AI 键+背屏六状态窗 / 双域六层×记理忆 / Amoo 办事链 H2A2A 多智能体协商 / "越用越聪明"=记忆积累+检索而非微调）+ 与 laos 十三条对照总表 + 六条可借鉴动作（按成本排序） | 八处过人之处：倒推式产品定义（软硬模三位一体）/「智能体的器官」进 OS/意图即服务/双域六层三步记忆/安全四点（可信·可见·可控·可逆）/Step Studio 开放能力栈/六麦+低功耗音频芯片/AI 实体键；3999 元全栈+每月百亿 Token+星辰船票五年 0 元置换；**安全四点与 laos sentinel+irreversibility budget 几乎逐词同构**（AgentOS 命题第五条商业印证链）；记忆哲学（持久 vs 即焚）为根本分歧；H2A2A=caps/GrantStore 同权模型商业验证；「社恐破冰机」skill（持久人脸+社交记忆）为 laos 隐私红线反面教材；厂商数字全部 🔶 未实测不得进事实层 |
 | [2026-10-15-esp32-iphone-agent-borrowing.md](2026-10-15-esp32-iphone-agent-borrowing.md) | esp32-iphone-agent 借鉴清单（本地私有仓库，33 源文件逐行通读 + 无硬件端到端模拟实证；诚实声明：非公开文献、无二手转述）：AirPlay 眼 + ESP32-S3 HID 手（板子零逻辑）+ planner/actor 脑 + 服务端闭环的全拆解，与 laos 逐项对照 | 9 项可落地借鉴（P0×3/P1×3/P2×3）：动作后闭环验证（结构化 dump 差分为主、PIL 像素差分兜底且只活 drivers/ 子进程）/ 重复无效动作检测 + 温度阶梯 0→0.4→0.8 / BlindError 式绝不盲操作 / 动作后缓存失效 / SkillStore 证据门槛 / 审计记"世界反应" / 驱动健康度 / calib.py 接验证证据流 / 无硬件测试增量；**核心落差：`drv_screen.py:84-88` 返回值只证明命令已发出**；顺带定位两个现存洞（`brain.py:211` JSON 解析直接崩、`agent.py:124-159` 死循环仅靠 max_steps 截断）；4 项不适用（坐标校准/home 归零/AirPlay/行协议）+ 5 项反向借鉴；第一波计划 `plans/2026-10-15-brain-reliability-repeat-guard.md` 已写 |
 | [2026-10-18-os-veteran-agent-monetize.md](2026-10-18-os-veteran-agent-monetize.md) | 《你的二十年系统功底，在 Agent 时代怎么变现？》（AI架构前哨 2026-05-04，约 1.5 万字 OS 老兵视角长文）学习：Agent 运行时逐模块 OS 映射 + laos 对照 + 引用弹药库 | 全模块映射：System Prompt=/etc/profile（15k token 占 128K 约 12%，prompt injection=提权攻击）/ Agent Loop=PID 1（120s 超时→SIGTERM→5s→SIGKILL）/ Context Window=RAM（overflow 策略各有 OS 对应，MemGPT=虚拟内存）/ Tool Call=syscall（Claude Code 26 钩子≈LSM，Codex 沙箱≈MAC，MCP=POSIX，A2A=IPC=D-Bus）/ Session=进程（checkpoint≈CRIU）；**AgentOS 命题第六条印证链（理论化最强）**：「Agent 不替代 OS」「Agent 下半场是系统工程的比拼」；**差异化空位实锤**：文章点破「很多框架在重 invent OS 机制而不自知」（共享历史无 IPC、限工具无 capability）= laos 显式化的正是这层；分歧：文章脚手架止步单 Agent 运行时，无治理内核层（权限/预算/审计），文章对记忆「原始」的批评反证 laos burn+TTL 代差；🔶 产品数字均作者口径未回源，AIOS 论文建议单独精读（本仓未覆盖） |
+| [2026-10-18-litreview-skill-workflow.md](2026-10-18-litreview-skill-workflow.md) | 《WorkBuddy + 综述Skill，20分钟写出一篇投稿级综述》（AI前沿速递 2026-10-18，引流演示文）学习：LitReview 五步流程拆解 + 九步综述 SOP + 验收清单 + skill 最小骨架 | 演示口径：11 篇代表性论文（7 会议+4 期刊）、检索截止 2026-10-15、成品含摘要/关键词/正文/参考文献/第 7 节对比表/第 8 节后续方向；**可证的五步**=确定主题范围→查找筛选阅读→比较研究→完成正文→交付完整综述+参考文献（明确「目录或表格不算完成」）；**六个质量经验**=论文间承接优先于逐篇摘要 / 数字带实验条件 / 对比表先给地图 / future work 从局限长出 / 交付物定义决定下限 / AI 稿是可打磨初稿；九步 SOP 补上文章未展开的 S7 溯源核验与 S8 差异化声明；🔶「20 分钟」「投稿级」为引流口径，无文献清单/检索式/参考文献/Skill 本体，11 篇偏少；截图占位不可读，不评价实际表格质量 |
 ## 二、全天候录音调研组（always-on-recording/，5 份）
 
 | 文件 | 一句话定位 | 关键数字 / 规模（抄原句） |
@@ -157,6 +163,8 @@
 | [auto-gain/06-multimodal.md](auto-gain/06-multimodal.md) | AGC 多模态象限判定：**非空——"AGC 多模态预期为空"被证伪**（≥3 条真实工作，检索词逐条留档） | "判定：非空"；物理直觉（增益是瞬时电平闭环，视觉不提供瞬时电平信息）被真实工作推翻，如实回写 |
 | [auto-gain/2026-09-landscape.md](auto-gain/2026-09-landscape.md) | AGC 收敛篇：交叉表 + "AGC 到底是不是模型问题"结论锚点 + 加在哪层决策表（含"什么都不加"行）+ 即焚兼容性 + HTML 全景（docs/auto-gain-models.html） | **"结论：分层 —— 闭环增益是 DSP 问题，噪声 + 音量不平衡场景是模型问题。不许骑墙。"**；增益只作用于送推理的副本，生成式不得用于产生记忆的链路 |
 | [auto-gain/07-adoption.md](auto-gain/07-adoption.md) | AGC 落地篇（收尾 Task 16）：**不加**——HY4 捕获链不动（二次增益不确定 + dbfs 原始电平语义必须保留） | 触发条件留档（"若未来切到 UNPROCESSED 或原生拿到未处理 PCM，重新评估"）；不做什么三条（不在采集前层做/不生成式/不作用于留存副本） |
+| [2026-10-18-audio-agentos-survey.md](2026-10-18-audio-agentos-survey.md) | 音频智能体综述正文（S0–S8，10 节）：AgentOS / 全天候录音 / SER / AED / AGC / 多模态六域合流，80 篇编号 S01–S80、三张条件矩阵 + 跨域折算禁令 | "纳入 80 篇（2004–2026）"；SER 小型档 5–25M、AED 128 KiB 档 61K 参数、AGC 主链不加闭环；`check_survey.py --strict` 违规 0 条 |
+| [2026-10-18-audio-agentos-survey-evidence.md](2026-10-18-audio-agentos-survey-evidence.md) | 综述证据附录：C001–C111 筛选台账、80 张六字段卡片、24 行叙事大纲、80 条链接可达性 + 25 组数字抽样 + 三项口径复核 | 纳入 80／排除 31；2xx 69、403 5、404 1、ERR 5；核验层级 表格核实 56／摘要 18／二手 6／全文 0 |
 
 ## 四、OSS 普查支撑（oss/，3 份）
 

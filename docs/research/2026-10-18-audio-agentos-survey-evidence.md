@@ -887,6 +887,211 @@
 
 ## 6. 溯源核验记录
 
+### 6.1 核验边界
+
+先写清楚本轮**没有做什么**，避免把"表格核实"读成"读过全文"：
+
+- **没有逐篇读 PDF 全文。** 80 篇里 56 篇的数字可追到论文里的一张具体表格（卡片写明表号或指标条件），但本轮读的是领域表与卡片转引，不是 PDF 版面本身；其余 24 篇只到摘要或二手口径。
+- **没有做双人独立复核。** 80 条的纳入/排除、25 条数字抽样、80 条链接探测都是单人单次执行，没有第二人复算，也没有一致性系数（同 §9.2）。
+- **没有在 laos 目标机型上实测。** 功耗、延迟、RTF 全部是转引值；本记录只核"来源是否这样说"，不核"在目标硬件上是否成立"。
+- **URL 可达 ≠ 内容一致。** 6.2 只回答"链接今天能不能打开"，内容一致性由 6.3 的抽样回答；两者不能互相替代。
+- 探测时间 2026-10-18，单机单次；网络可达性会随地区、时段与反爬策略变化，403/ERR 不是永久结论。
+
+### 6.2 链接可达性（S01–S80 全量）
+
+探测方法：对 §10 的 80 条链接逐条发 `GET`，带 `Range: bytes=0-0`（服务器不支持 Range 时回 200），超时 8 s，UA `laos-survey/1.0`。首轮 21 条非 2xx 顺序复测一次，10 条恢复为 2xx（瞬时抖动）；下表是复测后的最终状态。
+
+汇总：**2xx 69 条**（206 共 41、200 共 21、202 共 7）、**403 5 条**、**404 1 条**、**ERR 5 条**。
+
+- 403：S02、S11、S18、S20、S66（全部是 ACM DOI 的出版商反爬；链接可用性未变，venue 另由 Crossref 元数据核）。
+- 404：S54（`github.com/Audio-Westlake/FRCRN` 仓库已不存在）。这是真死链，不是反爬；卡片内容按领域表保留，**不移入 §7**（§7 的 U01–U10 与正文 §9.3 一一对应，不增号），在此记录为"链接失效、内容未回原文"。
+- ERR：S30、S42、S44（HuggingFace）、S58（webrtc.googlesource.com）、S59（developer.android.com），均为本机 `WinError 10060` 连接超时，非 404；WebFetch 同样失败，故这三类主机的数字只按领域表核，不声称回原文。
+
+| 编号 | 状态 | 链接 | 备注 |
+| --- | --- | --- | --- |
+| S01 | 200 | https://doi.org/10.1609/aaai.v40i35.40230 |  |
+| S02 | 403 | https://doi.org/10.1145/3770855.3817987 | 出版商反爬（ACM DOI），非死链；venue 由 Crossref 元数据核 |
+| S03 | 200 | https://doi.org/10.24963/ijcai.2026/975 |  |
+| S04 | 200 | https://doi.org/10.1609/aaai.v40i20.38722 |  |
+| S05 | 206 | https://arxiv.org/abs/2601.02391 |  |
+| S06 | 200 | https://doi.org/10.1037/pspp0000534 |  |
+| S07 | 206 | https://arxiv.org/abs/2608.09435 |  |
+| S08 | 200 | https://doi.org/10.52202/085713-2791 |  |
+| S09 | 206 | https://aclanthology.org/2025.findings-acl.239/ |  |
+| S10 | 206 | https://arxiv.org/abs/2512.12772 |  |
+| S11 | 403 | https://doi.org/10.1145/3613905.3650872 | 出版商反爬（ACM DOI），非死链；venue 由 Crossref 元数据核 |
+| S12 | 206 | https://arxiv.org/abs/2404.03179 |  |
+| S13 | 206 | https://arxiv.org/abs/2406.15160 |  |
+| S14 | 206 | https://arxiv.org/abs/2402.09245 |  |
+| S15 | 206 | https://arxiv.org/abs/2306.09126 |  |
+| S16 | 202 | https://digicoll.lib.berkeley.edu/record/273841/files/EECS-2022-249.pdf |  |
+| S17 | 206 | https://arxiv.org/abs/2106.13043 |  |
+| S18 | 403 | https://doi.org/10.1145/3369807 | 出版商反爬（ACM DOI），非死链；venue 由 Crossref 元数据核 |
+| S19 | 206 | https://repository.arizona.edu/bitstream/10150/623432/1/EAR%20CDPS%20in%20press.pdf |  |
+| S20 | 403 | https://doi.org/10.1145/1026653.1026659 | 出版商反爬（ACM DOI），非死链；venue 由 Crossref 元数据核 |
+| S21 | 200 | https://arxiv.org/abs/2602.08240 |  |
+| S22 | 206 | https://arxiv.org/abs/2512.23435 |  |
+| S23 | 206 | https://arxiv.org/abs/2507.01563 |  |
+| S24 | 206 | https://arxiv.org/abs/2507.16343 |  |
+| S25 | 206 | https://arxiv.org/abs/2411.09339 |  |
+| S26 | 206 | https://arxiv.org/abs/2407.04051 |  |
+| S27 | 206 | https://arxiv.org/abs/2401.05698 |  |
+| S28 | 206 | https://aclanthology.org/2024.findings-acl.931/ |  |
+| S29 | 206 | https://arxiv.org/abs/2402.02781 |  |
+| S30 | ERR | https://huggingface.co/emotion2vec/emotion2vec_plus_large | 本机不可达（WinError 10060，huggingface.co），非 404；内容一致性未核 |
+| S31 | 206 | https://arxiv.org/abs/2211.04772 |  |
+| S32 | 206 | https://arxiv.org/abs/2306.04186 |  |
+| S33 | 206 | https://arxiv.org/abs/2308.11957 |  |
+| S34 | 200 | https://www.isca-archive.org/interspeech_2022/shor22_interspeech.html |  |
+| S35 | 206 | https://arxiv.org/abs/2212.09058 |  |
+| S36 | 206 | https://arxiv.org/abs/2104.01778 |  |
+| S37 | 206 | https://arxiv.org/abs/2110.05069 |  |
+| S38 | 206 | https://arxiv.org/abs/1912.10211 |  |
+| S39 | 206 | https://github.com/tensorflow/models/tree/master/research/audioset/yamnet |  |
+| S40 | 206 | https://github.com/audeering/opensmile |  |
+| S41 | 206 | https://github.com/NVIDIA/audio-flamingo |  |
+| S42 | ERR | https://huggingface.co/moonshotai/Kimi-Audio-7B-Instruct | 本机不可达（WinError 10060，huggingface.co），非 404；内容一致性未核 |
+| S43 | 206 | https://arxiv.org/abs/2508.03983 |  |
+| S44 | ERR | https://huggingface.co/Qwen/Qwen2.5-Omni-7B | 本机不可达（WinError 10060，huggingface.co），非 404；内容一致性未核 |
+| S45 | 206 | https://arxiv.org/abs/2505.04457 |  |
+| S46 | 206 | https://arxiv.org/abs/2407.10759 |  |
+| S47 | 206 | https://github.com/XiaoMi/dasheng |  |
+| S48 | 206 | https://arxiv.org/abs/2406.12194 |  |
+| S49 | 206 | https://arxiv.org/abs/2309.07314 |  |
+| S50 | 206 | https://github.com/yuangongnd/whisper-at |  |
+| S51 | 200 | https://arxiv.org/abs/2312.11825 |  |
+| S52 | 206 | https://github.com/Rikorose/DeepFilterNet |  |
+| S53 | 206 | https://github.com/Xiaobin-Rong/gtcrn |  |
+| S54 | 404 | https://github.com/Audio-Westlake/FRCRN | GitHub 仓库不存在（FRCRN），链接与卡片保留，内容一致性未核 |
+| S55 | 200 | https://arxiv.org/abs/2211.06687 |  |
+| S56 | 200 | https://arxiv.org/abs/1709.08243 |  |
+| S57 | 206 | https://ffmpeg.org/ffmpeg-filters.html#loudnorm |  |
+| S58 | ERR | https://webrtc.googlesource.com/src/+/main/modules/audio_processing/agc2/ | 本机不可达（WinError 10060，webrtc.googlesource.com），非 404；内容一致性未核 |
+| S59 | ERR | https://developer.android.com/reference/android/media/audiofx/AutomaticGainControl | 本机不可达（WinError 10060，developer.android.com），非 404；内容一致性未核 |
+| S60 | 206 | https://github.com/xiph/speexdsp |  |
+| S61 | 200 | https://www.iphoneplay.cn/2026/09/10/apple-watch-series-12-audio-intelligence-health/ |  |
+| S62 | 200 | https://arxiv.org/abs/2504.02624 |  |
+| S63 | 206 | https://github.com/CPJKU/dcase2025_task1_baseline |  |
+| S64 | 202 | https://doi.org/10.1109/ISSCC49661.2025.10904788 |  |
+| S65 | 200 | https://arxiv.org/abs/2507.18446 |  |
+| S66 | 403 | https://doi.org/10.1145/3643553 | 出版商反爬（ACM DOI），非死链；venue 由 Crossref 元数据核 |
+| S67 | 202 | https://doi.org/10.1109/ISSCC49657.2024.10454389 |  |
+| S68 | 200 | https://arxiv.org/abs/2407.21453 |  |
+| S69 | 200 | https://arxiv.org/abs/2408.12481 |  |
+| S70 | 200 | https://limitless.ai/ |  |
+| S71 | 200 | https://arxiv.org/abs/2311.18259 |  |
+| S72 | 202 | https://doi.org/10.1109/JSSC.2023.3302791 |  |
+| S73 | 200 | https://arxiv.org/abs/2110.07058 |  |
+| S74 | 202 | https://ieeexplore.ieee.org/document/9888232 |  |
+| S75 | 202 | https://doi.org/10.1109/JSSC.2020.3029097 |  |
+| S76 | 206 | https://github.com/snakers4/silero-vad |  |
+| S77 | 200 | https://arxiv.org/abs/2101.04446 |  |
+| S78 | 200 | https://arxiv.org/abs/2007.00500 |  |
+| S79 | 200 | https://arxiv.org/abs/2010.00475 |  |
+| S80 | 202 | https://ieeexplore.ieee.org/document/8752147 |  |
+
+### 6.3 数字抽样复核（5 领域 × 5 条）
+
+抽样口径：每个领域取 5 组正文实际用到的数字，逐组写"数字—对照对象—结论"。对照对象只有三类：领域表（`docs/research/{speech-emotion,audio-events,auto-gain,always-on-recording}/*.md`）、本轮 WebFetch 到的原文页面、或明确写"未核"。**没有一条声称读过 PDF 表格。**
+
+| 领域 | 编号 | 数字（本文用法） | 对照对象 | 结论 |
+| --- | --- | --- | --- | --- |
+| SER | S22 | IEMOCAP LOSO UAR 61.4（INT8）、23.49M、23 MB | `speech-emotion/01-small-models.md` DistilHuBERT 行 | 一致（领域表，未回原文） |
+| SER | S22 | RAVDESS 46.64、跨库掉 14.8 | 同上；`speech-emotion/04-edge-deployment.md` DistilHuBERT 行 | 一致（领域表，未回原文） |
+| SER | S27 | IEMOCAP UAR 66.85/67.46/68.21、WAR 62.70 | `speech-emotion/01-small-models.md` HiCMAE-T 行 | 一致（领域表，未回原文） |
+| SER | S28 | 93.79M、IEMOCAP WA 71.79、MER2024 WAF 56.08 | `speech-emotion/02-medium-models.md` emotion2vec 行 | 一致（领域表，未回原文） |
+| SER | S34 | TRILLsson1 5.0M、IEMOCAP 68.5、CREMA-D 81.3 | `speech-emotion/01-small-models.md` TRILLsson 1 行（arXiv 表 3 口径） | 一致（领域表，未回原文） |
+| AED | S31 | 0.983M、AS-2M full mAP 0.432、11 MMACs/s | `audio-events/01-small-models.md` mn04_as 行 | 一致（领域表，未回原文） |
+| AED | S33 | 86M、AS-2M full mAP 0.500、AS-20K 0.440 | `audio-events/02-medium-models.md` CED-Base 行 | 一致（领域表，未回原文） |
+| AED | S37 | 87M、AS-2M full mAP 0.471（单模型）/0.496（集成） | 同上 PaSST-S 行 | 一致（领域表，未回原文） |
+| AED | S38 | 80.75M、mAP 0.431、4222 MMACs/s | 同上 PANNs-CNN14 行 | 一致（领域表，未回原文） |
+| AED | S24 | DESED PSDS1 42.2（CRNN 基线 36.4，+5.8） | `audio-events/03-large-models.md` DASM 表（arXiv §5.3/Tab.2 转引） | 一致（领域表，未回原文） |
+| AGC | S57 | 默认 −24 LUFS、LRA 7 LU、真峰值 −2 dBTP | `ffmpeg.org/ffmpeg-filters.html#loudnorm` WebFetch 正文（"Default value is −24.0 / 7 / −2.0"） | 一致（原文，WebFetch） |
+| AGC | S52 | PESQ ~3.1、桌面 RTF 0.1–0.2、RPi4 0.5–0.8 | `auto-gain/02-small-models.md` DeepFilterNet3 行 | 一致（领域表，未回原文） |
+| AGC | S56 | 0.085M、< 10 MFLOPS | 同上 RNNoise 行 | 一致（领域表，未回原文） |
+| AGC | S58 | 10 ms 帧、3.0 dB/s、30 dB、headroom 1 dB、−50 dBFS | `auto-gain/01-classical-dsp.md` AGC2 行（源码常量口径） | 一致（领域表，未回原文） |
+| AGC | S60 | 定点路径不支持 AGC（源码 FIXME） | `auto-gain/01-classical-dsp.md` SpeexDSP 行 | 一致（领域表，未回原文） |
+| always-on | S69 | 8.2 mW、+19.2%/+16.0%、≤0.5M 参数 | arXiv 2408.12481 摘要 WebFetch 正文 | 一致（原文，WebFetch） |
+| always-on | S72 | 47 nW VAD | `always-on-recording/2026-09-landscape.md` §① 与 `academic-papers.md` 表 | 一致（领域表，未回原文） |
+| always-on | S67 | 988 nW、0.4 V | 同上 | 一致（领域表，未回原文） |
+| always-on | S64 | 8.62 µW、75 dB 动态范围 | 同上 | 一致（领域表，未回原文） |
+| always-on | S80 | 26.89 µW 特征提取 / 63 µW 整机 | `always-on-recording/academic-papers.md` 表 | 一致（领域表，未回原文） |
+| AgentOS | S06 | 11,950 / 13,349 词/天、2,197 人 | `always-on-recording/academic-papers.md` 注册报告行 | 一致（领域表，未回原文） |
+| AgentOS | S11 | 检测错误率 0.09±0.03、N=12 / N=168 | 同上 MeMic 行 | 一致（领域表，未回原文） |
+| AgentOS | S19 | 16,000 词/天、47,016 vs 695 | 同上 Mehl et al. 行 | 一致（领域表，未回原文） |
+| AgentOS | S63 | 61,148 参数、122,296 B、29.42 MMACs | GitHub README WebFetch 正文 | 一致（原文，WebFetch） |
+| AgentOS | S63 | 53.24% 宏平均准确率 | 同一 README 结果表：General 50.72±0.47、device-specific 51.89±0.05 | **未核（README 无 53.24；疑为 eval split，出处未定位）** |
+
+25 组里 24 组一致、1 组未核，没有出现需要改数的"修正（原文）"。未核的一组是 S63 的 53.24%：卡片与正文都没有写 split，而官方 README 的 dev split 是 50.72/51.89；53.24 可能来自挑战赛 eval split 的官方结果页，但本轮没有回该页，故不把它写成"已核"。读者应把 53.24% 当"官方口径的宏平均"读，不与 README 的 dev split 数字相减。
+
+### 6.4 四个 URL 定点探测
+
+从 80 条里挑四类代表链接，写清"探测到了什么、没探测到什么"：
+
+| 编号 | 类型 | 探测结果 | 能说明什么 |
+| --- | --- | --- | --- |
+| S22 | arXiv 摘要页 | 206（`Range` 命中部分内容），正文含 61.4/23 MB/46.64 | arXiv 侧可回原文摘要；数字与摘要一致，但正文表格仍未读 |
+| S02 | ACM DOI | 403（Forbidden） | 出版商反爬，**不能**据此说链接失效；venue 由 Crossref `api.crossref.org/works/10.1145/3770855.3817987` 的 `container-title`（KDD '26）核 |
+| S54 | GitHub 仓库 | 404（Not Found） | 真死链：`Audio-Westlake/FRCRN` 不存在；内容只到领域表口径，未回仓库 |
+| S57 | 官方文档 | 206，loudnorm 段含 `Default value is -24.0 / 7 / -2.0` | 文档类来源可回原文；S57 的默认值属于"原文核实"，不是领域表转引 |
+
+补充：HuggingFace（S30/S42/S44）、webrtc.googlesource.com（S58）、developer.android.com（S59）在本机与 WebFetch 两侧都不可达，已归入 6.2 的 ERR，不在这里重复计为"已探测原文"。
+
+### 6.5 口径复核三项
+
+| 口径 | 核对对象 | 结果 |
+| --- | --- | --- |
+| AudioSet 划分 | 正文 §5 矩阵与 S31/S33/S35/S36/S38/S39/S50 卡片 | 一致：主表一律记 `AS-2M full`，`AS-20K` 只进限制列；S39 的 0.306 是 README `balanced mAP`，单列不相减 |
+| AGC 作用点 | 正文 §6.5 读表说明与 S57/S58/S59/S64/S60 卡片 | 一致：S58 模拟段物理在采集前但第三方只能碰数字段，记 `采集后`；S64 通道级 AGC 记 `采集前`；S57 记 `离线`，与"离线只做开环归一"的判断一致 |
+| SER 类别数 | 正文 §4.4 矩阵与 S27/S28/S30/S39/S40 卡片 | 一致：S27 为 IEMOCAP 4/6 类、S28/S30 为 9 类标签（矩阵注明需重映射）、线性探针行一律 4 类；没有把 4 类与 6 类混成同一列 |
+
+### 6.6 核验层级判定规则与分布
+
+判定顺序（逐卡执行，命中即停）：
+
+1. 卡片出现 `二手口径`（或同义的 `二手实测`）→ `二手`；
+2. 否则出现 `摘要口径` 或 `仅标题` → `摘要`；
+3. 否则数字可追到某张具体论文表格（如 S34 的"表 3"）或领域表的表格行 → `表格核实`；
+4. 其余 → `全文`。
+
+实际分布：**`表格核实` 56、`摘要` 18、`二手` 6、`全文` 0**。
+
+- `二手` 6 篇：S27（卡片写"二手实测"）、S48、S49、S52、S61、S70。
+- `摘要` 18 篇：S02、S08（仅标题）+ S05、S07、S10、S12、S13、S14、S15、S21、S23、S25、S29、S64、S67、S75、S77、S80（摘要口径）。
+- `全文` 0 篇：本轮没有逐篇读 PDF。若把"有表格号"当成"读过全文"，这 56 篇就会被虚标为 `全文`，与 §9.1"多数停在表格核实"自相矛盾，也把"转引一张表"说成了"逐页读过"。**裁决：这 56 篇一律记 `表格核实`，只有真正逐页读过 PDF 的条目才允许记 `全文`。**
+
+U08 交叉核对：U08 列的 16 个编号（S05、S07、S10、S12、S13、S14、S15、S21、S23、S25、S29、S64、S67、S75、S77、S80）**全部落在 `摘要`**，16/16 命中，没有一条被标成 `表格核实` 或 `全文`。
+
+### 6.7 venue 判定与年份口径
+
+venue 只用三种可辩护的来源：卡片/标题明示、链接或 DOI 前缀无歧义、Crossref `container-title` 同名记录；三者都不成立时写来源类型（`arXiv`、`官方仓库`、`官方文档`、`二手报道（venue 未核）`），**不猜会议**。
+
+分布（80 条）：
+
+| venue 类型 | 条数 | 编号 |
+| --- | --- | --- |
+| 具体会议/期刊（共 27） | 27 | 见下 |
+| `arXiv` | 34 | 其余 arXiv 链接 |
+| `官方仓库` | 15 | GitHub 11：S39、S40、S41、S47、S50、S52、S53、S54、S60、S63、S76；HuggingFace 3：S30、S42、S44；WebRTC 1：S58 |
+| `官方文档` | 2 | S57（FFmpeg）、S59（Android） |
+| `二手报道（venue 未核）` | 2 | S61、S70 |
+
+27 条具体 venue 的判定依据：
+
+- **DOI/Crossref（14）**：S01、S04（AAAI）、S02（KDD）、S03（IJCAI）、S06（JPSP）、S08（NeurIPS）、S11（CHI EA）、S18、S66（IMWUT）、S20（ACM MM Workshop）、S64、S67（ISSCC）、S72、S75（IEEE JSSC）。
+- **ACL Anthology 链接（2）**：S09（ACL 2025 Findings）、S28（ACL 2024 Findings）。
+- **Crossref 同名 + 领域表（5）**：S34（Interspeech 2022）、S37（Interspeech 2022）、S74（IEEE JSSC）、S79（IEEE/ACM TASLP）、S80（IGCC）。
+- **卡片/标题明示（5）**：S17（ICASSP 2022）、S19（Science）、S35（ICML 2023）、S71（CVPR 2024）、S73（CVPR 2022）。
+- **学位论文（1）**：S16（UC Berkeley EECS-2022-249）。
+
+例外与更正（必须留痕）：
+
+- **S79**：卡片写"ICASSP 2022"，但 Crossref `10.1109/taslp.2021.3133208` 的 `container-title` 是 **IEEE/ACM TASLP**，2022 年卷；两者不符，§10 以 Crossref 为准，不沿用卡片那句。
+- **S74**：Crossref 同名命中是 **ESSCIRC 2021** 的会议版，但所链 IEEE 文档 9888232 与领域表（`always-on-recording`）都标 **IEEE JSSC 2022**；§10 采用 `IEEE JSSC（领域表口径）`，不把会议版当所链版本。
+- **S80**：IEEE 文档号 8752147 与 DOI `10.1109/IGCC.2018.8752147` 的尾号一致，venue 记 **IGCC**；年份列沿用 §3 的 2019（IEEE Xplore 上线年），与会议年 2018 不同，属正常"会议年 vs 上线年"差异。
+- **S06**：年份列沿用 §3 的 2026（JPSP 卷期），Crossref `issued` 为 2025（在线先发）；venue 只写刊名，不写年份，避免与年份列冲突。
+- 其余"年份双写"条目（S35、S71、S73）在卡片 §4 已写明 arXiv 年与正式发表年；§10 的年份列按 §3 行原样保留，venue 列只写会议/期刊名，不重复年份。
+
 ## 7. 未核实清单
 
 - [U01] 7 条早于 2017-01-01 检索窗的纳入条目（按名称登记，编号随重排可能变动）：Are women really more talkative than men?（2007）、Minimal-impact audio-based personal archives（2004）、openSMILE ComParE_2016 特征集（2016）、FFmpeg loudnorm（2016）、WebRTC APM AGC2（2013）、Android audiofx AutomaticGainControl（2010）、SpeexDSP AGC（2007）— 保留理由：经典 DSP 基线与端侧事实标准，日均词量/存储量级与实时增益环接口至今无等价替代 — 读者如何对待：只作基线对照与量级锚点，不与窗内神经模型的指标直接横比；工具类年份为首次公开可用年，§10 定稿前逐条回官方 changelog 复核 — 影响 §3、§6、§10
