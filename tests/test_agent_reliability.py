@@ -109,5 +109,66 @@ class TestRetryLadder(ReliabilityTestCase):
         self.assertEqual(brain.temperatures, [0, 0.4, 0, 0.4, 0])
 
 
+class _FixedCallBrain(Brain):
+    """永远发起同一个 syscall，绝不 finish（用于重复检测）。"""
+
+    name = "fixed"
+
+    def __init__(self, name="sys.info", arguments=None):
+        self._name = name
+        self._args = arguments or {}
+
+    def think(self, messages, tools, temperature: float = 0) -> Thought:
+        return Thought(text="再试一次",
+                       tool_calls=[ToolCall(self._name, dict(self._args), "c1")])
+
+
+class _AlternatingArgsBrain(Brain):
+    """同一工具但参数交替变化（不构成"原样重复"）。"""
+
+    name = "alternating"
+
+    def __init__(self):
+        self._n = 0
+
+    def think(self, messages, tools, temperature: float = 0) -> Thought:
+        self._n += 1
+        return Thought(text="",
+                       tool_calls=[ToolCall("sys.info",
+                                            {"n": self._n}, f"c{self._n}")])
+
+
+class TestRepeatGuard(ReliabilityTestCase):
+    def _notices(self, ctx):
+        return [m for m in ctx.messages
+                if m.get("role") == "user"
+                and str(m.get("content", "")).startswith("[kernel-notice]")]
+
+    def test_third_identical_call_triggers_notice(self):
+        brain = _FixedCallBrain()
+        agent = self.spawn(brain)
+        asyncio.run(agent.run("反复查询环境"))
+        notices = self._notices(agent.pcb.ctx)
+        self.assertEqual(len(notices), 1)
+        self.assertIn("重复动作警告", notices[0]["content"])
+        self.assertIn("sys.info", notices[0]["content"])
+        self.assertIn("必须更换策略", notices[0]["content"])
+        self.assertIn("禁止原样重试", notices[0]["content"])
+
+    def test_varying_args_never_triggers(self):
+        brain = _AlternatingArgsBrain()
+        agent = self.spawn(brain)
+        asyncio.run(agent.run("每轮不同参数"))
+        self.assertEqual(self._notices(agent.pcb.ctx), [])
+
+    def test_notice_fires_once_not_every_step(self):
+        brain = _FixedCallBrain()
+        agent = self.spawn(brain)
+        res = asyncio.run(agent.run("反复查询环境"))
+        # max_steps=12 默认：同一 call 发 12 次，通告只在第 3 次出现一次
+        self.assertEqual(res.steps, 12)
+        self.assertEqual(len(self._notices(agent.pcb.ctx)), 1)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

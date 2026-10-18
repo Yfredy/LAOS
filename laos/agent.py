@@ -127,6 +127,9 @@ class Agent:
             pass
         result = AgentResult(pid=self.pcb.pid, ok=False)
         retryable_seen = 0
+        # 重复动作计数：跨步累计（同一 tool+同参数第 3 次原样发起才通告）——
+        # 死循环烧预算的本质就是跨步重复，按步清零永远抓不到
+        repeat_counts: dict[str, int] = {}
         try:
             for step in range(1, self.max_steps + 1):
                 # Stale Context：内核通告注入（HKU: 当上下文与现实不符时强制重读）
@@ -171,6 +174,17 @@ class Agent:
                     continue  # 纯思考步，未结束则继续下一轮
 
                 for call in thought.tool_calls:
+                    key = (f"{call.name}|"
+                           f"{json.dumps(call.arguments, sort_keys=True, ensure_ascii=False)}")
+                    repeat_counts[key] = repeat_counts.get(key, 0) + 1
+                    if repeat_counts[key] == 3:
+                        # 同 tool + 同参数第 3 次原样发起：强制换策略
+                        # （esp32 _repeating 同款；每个 key 只通告一次）
+                        self.pcb.ctx.notice(
+                            f"重复动作警告：{call.name}("
+                            f"{json.dumps(call.arguments, sort_keys=True, ensure_ascii=False)}"
+                            f") 已第 3 次原样发起。必须更换策略——换工具、换参数"
+                            f"或换路径；禁止原样重试。")
                     out = await self._do_syscall(call)
                     ctx.append("tool", out, name=call.name)
                     result.trace.append(
