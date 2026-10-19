@@ -281,113 +281,199 @@ PAGE = r"""<!doctype html>
 <link rel="manifest" href="/manifest.webmanifest">
 <title>laos — 控制台</title>
 <style>
-/* 设计语言：iOS 系统分组风（取经 nanoMuse 主题令牌——GPL 只学设计零代码
-   拷贝）：暗色纯黑底+白卡，亮色灰底+白卡；accent 为去饱和蓝；胶囊按钮；
-   inset 分组卡片；聊天气泡非对称圆角。 */
-:root{--bg:#f2f2f7;--panel:#ffffff;--panel2:#f7f7fa;--ink:#1c1c1e;--muted:#6e6e73;
-      --accent:#015cfb;--acc-soft:#e5f0ff;--danger:#ff3b30;--ok:#34c759;--warn:#ff9500;
-      --line:#d1d1d6}
-[data-theme=dark]{--bg:#000000;--panel:#1c1c1e;--panel2:#2c2c2e;--ink:#e5e5ea;
-      --muted:#8e8e93;--accent:#58a6ff;--acc-soft:#1a2b4a;--danger:#ff453a;
-      --ok:#30d158;--warn:#ffd60a;--line:#38383a}
-*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);
-  font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",
-  "Microsoft YaHei",sans-serif;
-  padding-bottom:calc(64px + env(safe-area-inset-bottom));
+/* 工作台：高信息密度、清晰层级、桌面双栏与移动单栏。 */
+:root{--bg:#eef1f3;--panel:#ffffff;--panel2:#f5f7f8;--ink:#171a1d;--muted:#66717a;
+      --accent:#087a4b;--accent2:#2c6bed;--acc-soft:#e8f6ef;--danger:#cf3f38;
+      --ok:#168f59;--warn:#b86f12;--line:#d8dee2;--nav:#15191c;--nav-ink:#eef4f1}
+[data-theme=dark]{--bg:#0e1113;--panel:#181c1f;--panel2:#22272b;--ink:#eef3f1;
+      --muted:#98a39e;--accent:#39cf87;--accent2:#75a7ff;--acc-soft:#123525;
+      --danger:#ff6b63;--ok:#49d891;--warn:#f0aa4d;--line:#30373b;
+      --nav:#111416;--nav-ink:#eef4f1}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",
+  "Microsoft YaHei",sans-serif;letter-spacing:0;
+  padding-bottom:calc(60px + env(safe-area-inset-bottom));
   -webkit-tap-highlight-color:transparent}
-main{max-width:720px;margin:0 auto;padding:14px 16px 20px}
+main{max-width:1440px;margin:0 auto;padding:18px 16px 24px}
 main section{display:none} main section.on{display:block}
-main h2{font-size:26px;font-weight:800;letter-spacing:-.02em;margin:8px 2px 14px}
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
+  margin:0 0 12px;padding:0 2px}
+.page-head h2{font-size:24px;line-height:1.2;font-weight:750;margin:2px 0 0}
+.eyebrow{display:block;color:var(--accent);font:600 11px/1.4 ui-monospace,SFMono-Regular,
+  Consolas,monospace;text-transform:uppercase}
+.brand{display:none}
 nav#tabs{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;
-  background:color-mix(in srgb,var(--panel) 82%,transparent);
+  background:color-mix(in srgb,var(--panel) 92%,transparent);
   backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border-top:.5px solid var(--line);
-  padding-bottom:env(safe-area-inset-bottom);z-index:9}
-nav#tabs button{flex:1;padding:7px 0 5px;border:0;background:none;color:var(--muted);
-  font-size:10.5px;font-weight:500;cursor:pointer;line-height:1.3}
-nav#tabs button .ic{display:block;font-size:20px;margin-bottom:2px;font-weight:400}
-nav#tabs button.on{color:var(--accent);font-weight:700}
-@media(min-width:900px){ /* 桌面：侧栏恒显（参照 nanoMuse desktop.ts 语义） */
-  body{padding-bottom:0;padding-left:210px}
-  nav#tabs{flex-direction:column;justify-content:flex-start;top:0;bottom:0;left:0;
-    width:210px;border-top:0;border-right:.5px solid var(--line)}
-  nav#tabs button{text-align:left;padding:11px 20px;font-size:14px}
-  nav#tabs button .ic{display:inline;font-size:17px;margin-right:9px}
-  main{max-width:860px;padding:20px 30px}}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;
-  padding:14px;margin:0 0 14px;box-shadow:0 .5px 2px rgba(0,0,0,.04)}
-.card>b{font-size:14px;font-weight:700;display:block;margin-bottom:6px}
-.chip{display:inline-block;background:color-mix(in srgb,var(--accent) 12%,transparent);
-  color:var(--accent);border-radius:999px;padding:2px 11px;font-size:12px;margin:2px;
-  font-weight:600}
-.chip.ok{background:color-mix(in srgb,var(--ok) 15%,transparent);color:var(--ok)}
-.chip.err{background:color-mix(in srgb,var(--danger) 15%,transparent);color:var(--danger)}
+  border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);z-index:9}
+nav#tabs button{flex:1;min-height:56px;padding:6px 0 4px;border:0;background:none;
+  color:var(--muted);font:600 11px/1.3 inherit;cursor:pointer}
+nav#tabs button .ic{display:block;font-size:18px;margin-bottom:2px;color:currentColor}
+nav#tabs button.on{color:var(--accent)}
+.workspace-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+#chat-pending,.status-grid{grid-column:1/-1}
+.status-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.metric{min-width:0;padding:10px 12px;background:var(--panel);border:1px solid var(--line);
+  border-radius:8px}
+.metric span{display:block;color:var(--muted);font-size:11px}
+.metric b{display:block;margin-top:2px;font:650 15px/1.25 ui-monospace,SFMono-Regular,
+  Consolas,monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.metric.live b{color:var(--ok)}
+.metric.idle b{color:var(--muted)}
+.card{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:8px;
+  padding:16px;margin:0;box-shadow:none}
+.card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+  margin-bottom:12px}
+.card-head b,.card>b{font-size:14px;font-weight:700;display:block;margin:0}
+.card-meta{color:var(--muted);font:600 10px/1.4 ui-monospace,SFMono-Regular,
+  Consolas,monospace;text-transform:uppercase}
+.chip{display:inline-flex;align-items:center;background:var(--acc-soft);color:var(--accent);
+  border-radius:999px;padding:2px 8px;font-size:11px;margin:2px;font-weight:650}
+.chip.ok{background:color-mix(in srgb,var(--ok) 14%,transparent);color:var(--ok)}
+.chip.err{background:color-mix(in srgb,var(--danger) 14%,transparent);color:var(--danger)}
 .muted{color:var(--muted)} .danger{color:var(--danger)}
-.badge{border:1px solid currentColor;border-radius:5px;padding:0 5px;font-size:11px;
+.badge{border:1px solid currentColor;border-radius:4px;padding:0 5px;font-size:10px;
   margin:0 2px;white-space:nowrap}
-button.act{border:1px solid var(--line);background:var(--panel);color:var(--ink);
-  border-radius:999px;padding:7px 15px;font:inherit;font-size:14px;font-weight:600;
-  cursor:pointer;transition:transform .06s}
-button.act:active{transform:scale(.96)}
-button.act.primary{background:var(--accent);border-color:var(--accent);color:#fff}
-button.act.danger{color:var(--danger);border-color:var(--danger)}
-button.act.kill{padding:2px 10px;font-size:12px;color:var(--danger);
-  border-color:var(--danger)}
-button.act:disabled{opacity:.4;cursor:not-allowed}
-select,input{border:1px solid var(--line);background:var(--panel2);color:var(--ink);
-  border-radius:12px;padding:8px 11px;font:inherit}
-input[type=number]{width:76px}
+button.act{min-height:36px;border:1px solid var(--line);background:var(--panel2);
+  color:var(--ink);border-radius:7px;padding:7px 12px;font:600 13px/1.2 inherit;
+  cursor:pointer;transition:background .1s,border-color .1s}
+button.act:hover{border-color:color-mix(in srgb,var(--accent) 58%,var(--line))}
+button.act:active{background:color-mix(in srgb,var(--accent) 10%,var(--panel2))}
+button.act.primary{background:var(--accent);border-color:var(--accent);color:#07130d}
+[data-theme=dark] button.act.primary{color:#07130d}
+button.act.danger{color:var(--danger);border-color:color-mix(in srgb,var(--danger) 58%,var(--line))}
+button.act.kill{min-height:28px;padding:3px 8px;font-size:12px;color:var(--danger)}
+button.act:disabled{opacity:.38;cursor:not-allowed}
+select,input:not([type=checkbox]){min-height:38px;border:1px solid var(--line);background:var(--panel2);
+  color:var(--ink);border-radius:7px;padding:7px 10px;font:inherit}
+input[type=number]{width:72px}
+.check-label{display:inline-flex;align-items:center;gap:6px;min-height:38px;white-space:nowrap}
+.check-label input[type=checkbox]{width:16px;height:16px;min-height:0;margin:0;padding:0;
+  accent-color:var(--accent)}
 .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}
 .row input[type=text]{flex:1;min-width:150px}
-#chat-pending .card{border-color:var(--danger)}
-/* 对话卡：无边框通栏，气泡 iOS 非对称圆角，composer 胶囊条 */
-.card:has(> #llm-log){background:transparent;border:0;box-shadow:none;padding:0}
-#llm-log{max-height:56vh;overflow-y:auto;display:flex;flex-direction:column;gap:10px;
-  margin:4px 0 10px;padding:2px}
-.llm-u,.llm-a{padding:10px 14px;max-width:82%;white-space:pre-wrap;word-break:break-word;
-  font-size:15px;line-height:1.5}
-.llm-u{align-self:flex-end;border-radius:20px 20px 6px 20px;
-  background:var(--accent);color:#fff}
-.llm-a{align-self:flex-start;border-radius:20px 20px 20px 6px;
-  background:var(--panel);border:1px solid var(--line)}
-.card:has(> #llm-log) .row{background:var(--panel);border:1px solid var(--line);
-  border-radius:999px;padding:6px 8px;margin:0}
-.card:has(> #llm-log) .row input[type=text]{border:0;background:transparent;
-  padding:6px 8px;min-width:60px}
-.card:has(> #llm-log) .row button.act{border:0;background:var(--panel2);padding:8px 12px}
-.card:has(> #llm-log) .row button.act.primary{background:var(--accent);color:#fff}
+.conversation-card{display:flex;flex-direction:column;min-height:250px}
+.conversation-card .card-head{margin-bottom:4px}
+#llm-log{flex:1;min-height:120px;max-height:48vh;overflow-y:auto;display:flex;
+  flex-direction:column;justify-content:flex-end;gap:8px;padding:8px 2px 12px}
+.empty-state{min-height:110px;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;border:1px dashed var(--line);border-radius:7px;
+  color:var(--muted)}
+.empty-state b{color:var(--ink);font-size:14px;margin-bottom:3px}
+.empty-state code{font:12px/1.4 ui-monospace,SFMono-Regular,Consolas,monospace}
+.llm-u,.llm-a{padding:9px 12px;max-width:82%;white-space:pre-wrap;word-break:break-word;
+  font-size:14px;line-height:1.5}
+.llm-u{align-self:flex-end;border-radius:12px 12px 3px 12px;background:var(--accent);
+  color:#07130d}
+.llm-a{align-self:flex-start;border-radius:12px 12px 12px 3px;background:var(--panel2);
+  border:1px solid var(--line)}
+.composer{display:grid!important;grid-template-columns:minmax(0,1fr) auto auto auto;
+  flex-wrap:nowrap!important;background:var(--panel2);border:1px solid var(--line);
+  border-radius:8px;padding:5px;margin:0!important}
+.composer input[type=text]{border:0;background:transparent;padding:6px 8px;min-width:60px}
+.composer button.act{border:0;background:transparent;padding:7px 9px}
+.composer button.act.primary{background:var(--accent)}
 #btn-llm-mic[data-rec="1"]{background:var(--danger)!important;color:#fff}
-.arow{padding:4px 2px;border-bottom:.5px solid var(--line);white-space:nowrap;
+.controls-card{align-self:start}
+.tool-block{padding:12px 0;border-top:1px solid var(--line)}
+.tool-block:first-of-type{border-top:0;padding-top:0}
+.tool-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;
+  font-size:12px;font-weight:700}
+.tool-title span:last-child{color:var(--muted);font:10px/1.4 ui-monospace,SFMono-Regular,
+  Consolas,monospace}
+.tool-block .row{margin:6px 0}
+.tool-output{font-size:12px;min-height:18px}
+.approval-empty{display:flex;align-items:center;gap:10px;padding:10px 12px;
+  background:color-mix(in srgb,var(--ok) 8%,var(--panel));border:1px solid
+  color-mix(in srgb,var(--ok) 34%,var(--line));border-radius:8px}
+.approval-empty .approval-mark{display:grid;place-items:center;width:28px;height:28px;
+  border-radius:50%;background:color-mix(in srgb,var(--ok) 15%,transparent);color:var(--ok);
+  font-weight:800}
+.approval-empty b{display:block;font-size:13px}
+.approval-empty span:last-child{display:block;font-size:11px}
+.approval-card{border-color:var(--danger);background:color-mix(in srgb,var(--danger) 5%,var(--panel))}
+.mailbox-card{align-self:start}
+#chat-recv{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.rrow{display:inline-flex;align-items:center;gap:4px;padding:4px 6px;background:var(--panel2);
+  border:1px solid var(--line);border-radius:7px;white-space:nowrap;font-size:12px}
+.process-card{overflow:hidden}
+#chat-procs{overflow-x:auto}
+.arow{padding:7px 2px;border-bottom:1px solid var(--line);white-space:nowrap;
   overflow:hidden;text-overflow:ellipsis;font-size:12px;color:var(--muted)}
-.rrow{margin-right:12px;white-space:nowrap}
 table.tbl{width:100%;border-collapse:collapse}
-.tbl th,.tbl td{text-align:left;padding:5px 6px;border-bottom:.5px solid var(--line);
-  white-space:nowrap}
-.tbl th{color:var(--muted);font-weight:600}
-#v-memory h3{margin:16px 0 6px;font-size:13px;color:var(--muted);font-weight:600;
-  text-transform:uppercase;letter-spacing:.04em}
-.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;
+.tbl th,.tbl td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line);
+  white-space:nowrap;vertical-align:middle}
+.tbl th{color:var(--muted);font-size:11px;font-weight:650}
+.tbl td{font-size:12px}
+.tbl tr:last-child td{border-bottom:0}
+.caps-cell{max-width:280px;overflow:hidden;text-overflow:ellipsis;color:var(--muted)}
+.state-pill{display:inline-block;padding:1px 6px;border-radius:999px;background:var(--panel2);
+  color:var(--muted);font-size:10px}
+.state-pill.live{background:color-mix(in srgb,var(--ok) 12%,transparent);color:var(--ok)}
+.stream-card{min-height:180px}
+#v-memory h3{margin:16px 0 6px;font-size:12px;color:var(--muted);font-weight:650;
+  text-transform:uppercase}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;
   background:var(--ok);animation:pulse 1.2s ease-in-out infinite;vertical-align:middle}
 .dot.off{background:var(--muted);animation:none}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+@media(min-width:1000px){
+  body{padding:0 0 0 184px}
+  nav#tabs{top:0;bottom:0;left:0;right:auto;width:184px;flex-direction:column;
+    justify-content:flex-start;align-items:stretch;background:var(--nav);
+    border:0;border-right:1px solid color-mix(in srgb,var(--nav-ink) 10%,transparent);
+    padding:16px 12px}
+  .brand{display:flex;align-items:center;gap:10px;padding:7px 8px 22px;color:var(--nav-ink)}
+  .brand-mark{display:grid;place-items:center;width:30px;height:30px;border-radius:8px;
+    background:var(--accent);color:#07130d;font-weight:900}
+  .brand b{display:block;font-size:14px}.brand small{display:block;margin-top:1px;
+    color:color-mix(in srgb,var(--nav-ink) 55%,transparent);font:9px/1.3 ui-monospace,
+    SFMono-Regular,Consolas,monospace}
+  nav#tabs button{flex:0;display:flex;align-items:center;gap:10px;min-height:42px;
+    margin:2px 0;padding:0 10px;border-radius:7px;text-align:left;color:
+    color-mix(in srgb,var(--nav-ink) 62%,transparent);font-size:13px}
+  nav#tabs button .ic{display:inline;width:18px;margin:0;font-size:14px;text-align:center}
+  nav#tabs button.on{background:color-mix(in srgb,var(--accent) 14%,transparent);
+    color:var(--nav-ink)}
+  main{padding:24px 28px 36px}
+  .status-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
+  .workspace-grid{grid-template-columns:minmax(0,1.65fr) minmax(300px,.85fr)}
+  #chat-pending{grid-column:1/-1;grid-row:2}
+  .conversation-card{grid-column:1;grid-row:3}
+  .controls-card{grid-column:2;grid-row:3}
+  .process-card{grid-column:1;grid-row:4}
+  .mailbox-card{grid-column:2;grid-row:4}}
+@media(max-width:620px){
+  main{padding:14px 12px 20px}
+  .page-head h2{font-size:21px}
+  .status-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .status-grid .metric:last-child{grid-column:1/-1}
+  .card{padding:13px}
+  .composer{grid-template-columns:minmax(0,1fr) auto auto}
+  #btn-llm-tts{display:none}
+  .tbl th,.tbl td{padding:6px 5px}
+  .caps-cell{max-width:150px}}
 </style>
 </head>
 <body>
 <nav id="tabs">
-  <button data-view="chat" class="on"><span class="ic">💬</span><span>会话</span></button>
-  <button data-view="audit"><span class="ic">🧾</span><span>审计</span></button>
-  <button data-view="memory"><span class="ic">🧠</span><span>记忆</span></button>
-  <button data-view="gov"><span class="ic">🛡️</span><span>治理</span></button>
+  <div class="brand"><span class="brand-mark">N</span><span><b>nanoLAOS</b><small>CONTROL PLANE</small></span></div>
+  <button data-view="chat" class="on"><span class="ic">●</span><span>会话</span></button>
+  <button data-view="audit"><span class="ic">≡</span><span>审计</span></button>
+  <button data-view="memory"><span class="ic">◇</span><span>记忆</span></button>
+  <button data-view="gov"><span class="ic">⊞</span><span>治理</span></button>
 </nav>
 <main>
   <section data-view="chat" class="on">
-    <h2>会话</h2>
-    <div id="v-chat">
-      <div id="chat-status"></div>
+    <header class="page-head"><div><span class="eyebrow">Agent runtime</span><h2>会话工作台</h2></div></header>
+    <div id="v-chat" class="workspace-grid">
+      <div id="chat-status" class="status-grid"></div>
       <div id="chat-pending"></div>
-      <div class="card"><b id="llm-title">对话（未配置）</b>
+      <div class="card conversation-card">
+        <div class="card-head"><div><b id="llm-title">对话（未配置）</b><span class="card-meta">Agent channel</span></div></div>
         <div id="llm-log"></div>
-        <div class="row">
+        <div class="row composer">
           <input id="llm-in" type="text" placeholder="问你的 agent…">
           <button class="act" id="btn-llm-mic" title="按住说话">🎙</button>
           <button class="act primary" id="btn-llm-send">发送</button>
@@ -396,52 +482,68 @@ table.tbl{width:100%;border-collapse:collapse}
         </div>
         <div class="muted" id="llm-msg"></div>
       </div>
-      <div class="card"><b>录音回放</b>
-        <div class="row">
-          <select id="replay-sec" title="回放秒数">
-            <option value="15">15s</option>
-            <option value="20" selected>20s</option>
-            <option value="30">30s</option>
-            <option value="60">60s</option>
-          </select>
-          <label style="display:flex;align-items:center;gap:4px;font-size:14px;color:var(--muted)">
-            <input type="checkbox" id="replay-sum" title="LLM 一句话摘要（需 LAOS_LLM_*）">摘要</label>
-          <button class="act primary" id="btn-replay">⟲ 回放</button>
+      <aside class="card controls-card">
+        <div class="card-head"><div><b>运行控制</b><span class="card-meta">Local runtime</span></div></div>
+        <div class="tool-block">
+          <div class="tool-title"><span>录音回放</span><span>REPLAY</span></div>
+          <div class="row">
+            <select id="replay-sec" title="回放秒数">
+              <option value="15">15s</option>
+              <option value="20" selected>20s</option>
+              <option value="30">30s</option>
+              <option value="60">60s</option>
+            </select>
+            <label class="muted check-label"><input type="checkbox" id="replay-sum"
+              title="LLM 一句话摘要（需 LAOS_LLM_*）"> 摘要</label>
+            <button class="act primary" id="btn-replay">回放</button>
+          </div>
+          <div id="replay-out" class="muted tool-output">当前无回放结果</div>
         </div>
-        <div id="replay-out" class="muted">重听最近一段音频并转写成文字（需常听会话在跑）</div>
-      </div>
-      <div class="card"><b>operator 信箱</b>
+        <div class="tool-block">
+          <div class="tool-title"><span>演示内核</span><span>DEMO</span></div>
+          <div class="row">
+            <select id="restart-confirm">
+              <option value="no">横幅裁决</option>
+              <option value="auto-yes">自动放行</option>
+            </select>
+            <input id="restart-budget" type="number" min="2" step="1" value="3"
+                   title="必须 > reserve(1)：低于会连 operator 都 spawn 不进">
+            <button class="act" id="btn-restart">重跑</button>
+          </div>
+          <div class="muted tool-output" id="restart-msg"></div>
+        </div>
+        <div class="tool-block">
+          <div class="tool-title"><span>日记</span><span>MEMORY</span></div>
+          <button class="act" id="btn-diary">生成今日日记</button>
+          <span class="muted tool-output" id="diary-msg"></span>
+        </div>
+      </aside>
+      <div class="card mailbox-card">
+        <div class="card-head"><div><b>operator 信箱</b><span class="card-meta">Kernel IPC</span></div></div>
         <div class="row">
           <select id="msg-to"></select>
           <input id="msg-text" type="text" placeholder="以 operator 身份发给 agent…">
           <button class="act primary" id="btn-msg-send">发送</button>
         </div>
-        <div class="muted" id="msg-out">（发送 / 收取结果显示在这里）</div>
+        <div class="muted tool-output" id="msg-out">当前无消息结果</div>
         <div id="chat-recv"></div>
       </div>
-      <div class="card"><b>进程表</b><div id="chat-procs"></div></div>
-      <div class="card"><b>运维</b>
-        <div class="row">
-          <select id="restart-confirm">
-            <option value="no">横幅裁决</option>
-            <option value="auto-yes">自动放行</option>
-          </select>
-          <input id="restart-budget" type="number" min="2" step="1" value="3"
-                 title="必须 > reserve(1)：低于会连 operator 都 spawn 不进">
-          <button class="act" id="btn-restart">↻ 重跑</button>
-          <span class="muted" id="restart-msg"></span>
-        </div>
-        <div class="row">
-          <button class="act" id="btn-diary">生成今日日记</button>
-          <span class="muted" id="diary-msg"></span>
-        </div>
+      <div class="card process-card">
+        <div class="card-head"><div><b>Agent 进程</b><span class="card-meta">Process table</span></div></div>
+        <div id="chat-procs"></div>
       </div>
     </div>
   </section>
-  <section data-view="audit"><h2>审计</h2><div id="v-audit"></div></section>
-  <section data-view="memory"><h2>记忆</h2><div id="v-memory"></div></section>
+  <section data-view="audit">
+    <header class="page-head"><div><span class="eyebrow">System calls</span><h2>审计</h2></div></header>
+    <div id="v-audit" class="card stream-card"></div>
+  </section>
+  <section data-view="memory">
+    <header class="page-head"><div><span class="eyebrow">Episodic store</span><h2>记忆</h2></div></header>
+    <div id="v-memory" class="card"></div>
+  </section>
   <section data-view="gov">
-    <h2>治理</h2>
+    <header class="page-head"><div><span class="eyebrow">Policy engine</span><h2>治理</h2></div></header>
     <div id="v-gov">
       <div id="gov-gate"></div>
       <div class="card"><b>风险模式</b>
@@ -504,13 +606,17 @@ function renderStatus(s) {
   const box = $("#chat-status");
   box.replaceChildren();
   const st = s.status || {};
-  box.append(chip("uptime " + (st.uptime_s ?? "-") + "s"),
-             chip("进程 " + (st.processes ?? "-")),
-             chip("驱动 " + (st.drivers ?? "-")),
-             chip("审计 " + (s.audit || []).length + " 条"));
-  const demo = chip(s.demo_done ? "demo 已结束" : "demo 运行中");
-  demo.prepend(el("span", s.demo_done ? "dot off" : "dot"));
-  box.append(demo);
+  const add = (label, value, cls) => {
+    const m = el("div", cls ? "metric " + cls : "metric");
+    m.append(el("span", null, label), el("b", null, value));
+    box.append(m);
+  };
+  const up = Number(st.uptime_s);
+  add("运行时间", Number.isFinite(up) ? Math.round(up) + "s" : "-");
+  add("进程", st.processes ?? "-");
+  add("驱动", st.drivers ?? "-");
+  add("审计事件", (s.audit || []).length);
+  add("演示状态", s.demo_done ? "已结束" : "运行中", s.demo_done ? "idle" : "live");
 }
 
 // 审批卡四钮：拒绝 / 允许一次（不带 scope）/ 本会话 / 总是（后两者落 grant）。
@@ -524,14 +630,26 @@ const DECISIONS = [
 function renderPending(s) {
   const box = $("#chat-pending");
   box.replaceChildren();
-  for (const p of (s.pending_confirm || [])) {
-    const card = el("div", "card");
-    const head = el("div", "row");
-    head.append(chip(p.tool || "?"));
+  const pending = s.pending_confirm || [];
+  if (!pending.length) {
+    const empty = el("div", "approval-empty");
+    empty.append(el("span", "approval-mark", "✓"));
+    const copy = el("div");
+    copy.append(el("b", null, "无待审批"), el("span", "muted", "当前队列为空"));
+    empty.append(copy);
+    box.append(empty);
+  }
+  for (const p of pending) {
+    const card = el("div", "card approval-card");
+    const head = el("div", "card-head");
+    const title = el("div");
+    title.append(el("b", null, "需要审批"), el("span", "card-meta", p.tool || "?"));
+    head.append(title);
     // reason 徽标 = sentinel 决策因（如 risk-mode/taint-egress）：为什么问你
     if (p.reason) head.append(el("span", "badge danger", p.reason));
     card.append(head);
-    if (p.message) card.append(el("div", "muted", p.message));
+    card.append(el("div", "muted tool-output",
+                   p.message || "高风险调用正在等待人工裁决"));
     const acts = el("div", "row");
     for (const d of DECISIONS) {
       const b = el("button", "act " + (d.cls || ""), d.label);
@@ -553,7 +671,7 @@ function renderProcs(s) {
   box.replaceChildren();
   const tbl = el("table", "tbl");
   const hr = el("tr");
-  for (const h of ["pid", "name", "state", "caps", "sys", "deny", "risk", "✕"])
+  for (const h of ["PID", "进程", "状态", "能力", "调用", "拒绝", "风险", ""])
     hr.append(el("th", null, h));
   tbl.append(hr);
   for (const p of (s.procs || [])) {
@@ -561,8 +679,16 @@ function renderProcs(s) {
     const tr = el("tr");
     const put = (v, cls) => tr.append(el("td", cls, v));
     put(p.pid); put(p.name);
-    put(p.state, dead ? "danger" : "muted");
-    put((p.caps || []).join(" ") || "-");
+    const stateTd = el("td");
+    stateTd.append(el("span", dead ? "state-pill danger" : "state-pill live", p.state));
+    tr.append(stateTd);
+    const caps = p.caps || [];
+    const capsTd = el("td", "caps-cell");
+    capsTd.textContent = caps.length > 3
+      ? caps.slice(0, 3).join(" · ") + " · +" + (caps.length - 3)
+      : caps.join(" · ") || "-";
+    capsTd.title = caps.join(" ");
+    tr.append(capsTd);
     put(p.stats ? p.stats.syscalls : 0);
     put(p.stats ? p.stats.denied : 0);
     put(p.stats ? p.stats.risk : 0);
@@ -745,7 +871,14 @@ function renderLlm(c) {
   if (mic.dataset.rec !== "1") mic.disabled = !c.voice_configured;
   const log = $("#llm-log");
   log.textContent = "";
-  for (const m of (c.log || [])) {
+  const rows = c.log || [];
+  if (!rows.length) {
+    const empty = el("div", "empty-state");
+    empty.append(el("b", null, c.configured ? "新会话" : "模型未配置"));
+    empty.append(el("code", null, c.configured ? "READY" : "LAOS_LLM_*"));
+    log.append(empty);
+  }
+  for (const m of rows) {
     const b = document.createElement("div");
     b.className = m.role === "user" ? "llm-u" : "llm-a";
     b.textContent = m.text;               // XSS 纪律：textContent，永不拼 HTML
