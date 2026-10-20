@@ -476,6 +476,38 @@ class TestQpmInventory(unittest.TestCase):
         self.assertEqual(record["installed_versions"], ["2.51.40.260930"])
         self.assertEqual(record["local_build_ids"], ["v2.51.40.260930230134"])
 
+    def test_mixed_installed_and_missing_versions_only_lists_missing(self):
+        """已装+未装混态：`newer_than_local` 只能含未安装版本。
+
+        本地树同时含 2.51.1 与 2.51.40，QPM 列表里这两版已装、2.52.0 未装；
+        若过滤条件退化成 `>=` 或丢失"排除已装"，2.51.40.260930 会重新落
+        进 `newer_than_local`，本用例即失败。
+        """
+        installed = make_toolchain(root=Path("C:/qairt-2.51.1"))
+        newer = make_toolchain(
+            root=Path("C:/qairt-2.51.40"),
+            build_id="v2.51.40.260930230134",
+        )
+        record = _qpm_record(
+            (installed.root, newer.root),
+            (installed, newer),
+            {
+                "status": "available",
+                "product": "qualcomm_ai_runtime_community",
+                "command": "C:/qpm/qpm-cli.exe",
+                "available_versions": [
+                    "2.52.0.261001000000",
+                    "2.51.40.260930",
+                    "2.51.1.261002",
+                ],
+            },
+        )
+        self.assertEqual(record["status"], "unavailable")
+        self.assertEqual(record["newer_than_local"], ["2.52.0.261001000000"])
+        self.assertEqual(
+            record["installed_versions"], ["2.51.40.260930", "2.51.1.261002"]
+        )
+
 
 class TestVtcmEquivalence(unittest.TestCase):
     def artifact(self, variant_id: str, digest: str) -> BuildArtifact:

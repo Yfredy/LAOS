@@ -929,6 +929,341 @@ def verify_probe_parity(
     return gate
 
 
+REWRITE_SELECTED = "selected"
+REWRITE_BLOCKED = "blocked_on_isolated_interval"
+REWRITE_UNSUPPORTED = "unsupported_operator_family"
+
+# 二分停止条件会把剩余区间收敛到单一算子族；只有下列算子族存在定义良好
+# 的等价改写。没有隔离区间或算子族未注册时一律拒绝，不在证据不足时猜改写。
+REWRITE_BY_FAMILY: dict[str, str] = {
+    "Shape": "constant_fold_static_shape",
+    "Gather": "constant_fold_static_shape",
+    "ReduceMean": "reduction_decomposition",
+    "ReduceSum": "reduction_decomposition",
+    "Reshape": "layout_normalization",
+    "Transpose": "layout_normalization",
+}
+
+# HTP V81 不执行的算子：出现在最终路径即说明回退到 CPU，必须拒绝。
+CPU_ONLY_OPERATORS = frozenset(
+    {"NonMaxSuppression", "StringNormalizer", "TfIdfVectorizer", "Loop", "If", "Scan"}
+)
+
+
+@dataclass(frozen=True)
+class RewriteResult:
+    """一次语义改写的可审计结果；`parity` 必须是 40 条真实输入的 FP32 比较。"""
+
+    name: str
+    source_sha256: str
+    output_sha256: str
+    parity: dict[str, Any]
+    changed_nodes: tuple[str, ...]
+
+    def to_dict(self) -> dict[str, Any]:
+        payload = asdict(self)
+        payload["changed_nodes"] = list(self.changed_nodes)
+        return payload
+
+
+def select_rewrite(isolation: Mapping[str, Any]) -> dict[str, Any]:
+    """只从 `isolation.json` 的已验证区间选改写；没有证据就显式 blocked。"""
+    status = str(isolation.get("status") or "")
+    interval = isolation.get("interval")
+    families = tuple(str(item) for item in isolation.get("operator_families") or ())
+    record: dict[str, Any] = {
+        "status": REWRITE_BLOCKED,
+        "kind": None,
+        "interval": None,
+        "awaiting_interval": isolation.get("awaiting_interval"),
+        "operator_families": list(families),
+        "reason": (
+            f"isolation 状态为 {status or 'unknown'}，没有已验证的节点区间；"
+            "改写必须由真机隔离区间驱动，禁止凭猜测构造"
+        ),
+    }
+    if status != "verified" or interval is None:
+        return record
+    kinds = {REWRITE_BY_FAMILY.get(family) for family in families}
+    if len(families) != 1 or None in kinds:
+        record.update({
+            "status": REWRITE_UNSUPPORTED,
+            "reason": (
+                f"算子族 {list(families)} 没有已注册的等价改写；"
+                f"只接受单一且属于 {sorted(REWRITE_BY_FAMILY)} 的算子族"
+            ),
+        })
+        return record
+    record.update({
+        "status": REWRITE_SELECTED,
+        "kind": next(iter(kinds)),
+        "interval": [int(interval[0]), int(interval[1])],
+        "reason": f"隔离区间 {interval} 的单一算子族 {families[0]}",
+    })
+    return record
+
+
+def require_rewrite_parity(result: RewriteResult) -> None:
+    """硬门禁：改写必须在 40 条真实输入上过 FP32 parity，否则不得编译。"""
+    parity = result.parity or {}
+    max_abs = parity.get("max_abs")
+    median = parity.get("cosine_median")
+    minimum = parity.get("cosine_minimum")
+    detail = parity.get("reason") or "缺少 parity 证据"
+    if not parity.get("passed") or max_abs is None:
+        raise ValueError(f"改写 {result.name} 未通过 FP32 parity：{detail}")
+    if float(max_abs) == 0.0:
+        return
+    if median is None or minimum is None:
+        raise ValueError(
+            f"改写 {result.name} 的 FP32 parity 不是逐元素一致，且缺少 cosine 证据"
+        )
+    if float(median) < PARITY_MEDIAN_MIN or float(minimum) < PARITY_MINIMUM_MIN:
+        raise ValueError(
+            f"改写 {result.name} 未通过 FP32 parity：cosine median={median} "
+            f"minimum={minimum}（要求 median>={PARITY_MEDIAN_MIN} "
+            f"minimum>={PARITY_MINIMUM_MIN}）"
+        )
+
+
+def require_htp_executable(model: Path | "onnx.ModelProto") -> None:
+    """最终路径不得含 CPU 回退算子。"""
+    model_proto = _as_model(model)
+    offenders = sorted({node.op_type for node in model_proto.graph.node} & CPU_ONLY_OPERATORS)
+    if offenders:
+        raise ValueError(f"最终路径含 CPU 算子：{offenders}，拒绝上机")
+
+
+def _static_shapes(model: "onnx.ModelProto") -> dict[str, tuple[int, ...]]:
+    """经 shape inference 得到所有完全静态张量的 shape。"""
+    onnx = _require_onnx()
+    inferred = onnx.shape_inference.infer_shapes(model)
+    shapes = {
+        value.name: tuple(int(dim.dim_value) for dim in value.type.tensor_type.shape.dim)
+        for value in list(inferred.graph.input) + list(inferred.graph.value_info)
+        + list(inferred.graph.output)
+        if value.type.tensor_type.HasField("shape")
+        and all(
+            dim.HasField("dim_value") and int(dim.dim_value) > 0
+            for dim in value.type.tensor_type.shape.dim
+        )
+    }
+    for initializer in inferred.graph.initializer:
+        shapes[initializer.name] = tuple(int(dim) for dim in initializer.dims)
+    return shapes
+
+
+def _fold_static_shape(
+    model_proto: "onnx.ModelProto",
+) -> tuple["onnx.ModelProto", tuple[str, ...]]:
+    """把静态 `Shape` 及其常量 `Gather` 折成 `Constant`（语义等价的形状折叠）。"""
+    onnx = _require_onnx()
+    np = _require_numpy()
+    shapes = _static_shapes(model_proto)
+    constants: dict[str, tuple[str, "np.ndarray"]] = {}
+    nodes: list[Any] = []
+    changed: list[str] = []
+    indices = {
+        initializer.name: np.frombuffer(
+            initializer.raw_data, dtype="<i8"
+        ) if initializer.data_type == 7 else np.asarray(
+            initializer.int64_data, dtype="<i8"
+        )
+        for initializer in model_proto.graph.initializer
+    }
+    for node in model_proto.graph.node:
+        if node.op_type == "Shape" and len(node.input) == 1:
+            shape = shapes.get(node.input[0])
+            if shape is not None:
+                tensor = np.asarray(shape, dtype="<i8")
+                constants[node.output[0]] = (node.name, tensor)
+                nodes.append(
+                    onnx.helper.make_node(
+                        "Constant",
+                        [],
+                        [node.output[0]],
+                        name=node.name,
+                        value=onnx.helper.make_tensor(
+                            f"{node.output[0]}_value",
+                            onnx.TensorProto.INT64,
+                            [len(shape)],
+                            tensor.tolist(),
+                        ),
+                    )
+                )
+                changed.append(node.name)
+                continue
+        if (
+            node.op_type == "Gather"
+            and len(node.input) == 2
+            and node.input[0] in constants
+            and node.input[1] in indices
+        ):
+            tensor = constants[node.input[0]][1][indices[node.input[1]]]
+            nodes.append(
+                onnx.helper.make_node(
+                    "Constant",
+                    [],
+                    [node.output[0]],
+                    name=node.name,
+                    value=onnx.helper.make_tensor(
+                        f"{node.output[0]}_value",
+                        onnx.TensorProto.INT64,
+                        list(tensor.shape) or [1],
+                        tensor.reshape(-1).tolist(),
+                    ),
+                )
+            )
+            changed.append(node.name)
+            continue
+        nodes.append(node)
+
+    used = {name for node in nodes for name in node.input if name}
+    initializers = [
+        copy.deepcopy(initializer)
+        for initializer in model_proto.graph.initializer
+        if initializer.name in used
+    ]
+    graph = onnx.helper.make_graph(
+        nodes,
+        model_proto.graph.name,
+        copy.deepcopy(list(model_proto.graph.input)),
+        copy.deepcopy(list(model_proto.graph.output)),
+        initializer=initializers,
+    )
+    rewritten = onnx.helper.make_model(
+        graph,
+        opset_imports=copy.deepcopy(model_proto.opset_import),
+        producer_name="laos-speaker-qnn-rewrite",
+        ir_version=model_proto.ir_version,
+    )
+    return rewritten, tuple(changed)
+
+
+REWRITE_HANDLERS: dict[str, Callable[[Any], tuple[Any, tuple[str, ...]]]] = {
+    "constant_fold_static_shape": _fold_static_shape,
+}
+
+
+def verify_rewrite_parity(
+    model: Path,
+    rewritten: Path,
+    input_list: Path,
+) -> dict[str, Any]:
+    """改写后完整 FP32 输出 vs 原图，逐条比较 40 条真实输入。"""
+    np = _require_numpy()
+    ort = _import_onnxruntime()
+    original = _load_model(Path(model))
+    input_name, input_shape = _model_input_spec(original)
+    output_name = original.graph.output[0].name
+    entries = parse_input_list(Path(input_list))
+    if not entries:
+        raise ValueError("改写 parity 的 input list 为空")
+    original_session = ort.InferenceSession(
+        original.SerializeToString(), _session_options(),
+        providers=["CPUExecutionProvider"],
+    )
+    rewritten_proto = _load_model(Path(rewritten))
+    if rewritten_proto.graph.output[0].name != output_name:
+        return {
+            "passed": False,
+            "reason": "改写后输出张量名变化，无法逐条配对",
+            "max_abs": None,
+            "cosine_median": None,
+            "cosine_minimum": None,
+        }
+    rewritten_session = ort.InferenceSession(
+        rewritten_proto.SerializeToString(), _session_options(),
+        providers=["CPUExecutionProvider"],
+    )
+    reference: list["np.ndarray"] = []
+    candidate: list["np.ndarray"] = []
+    for _, raw_path in entries:
+        array = _input_array(raw_path, input_shape)
+        reference.append(
+            np.asarray(original_session.run([output_name], {input_name: array})[0])
+        )
+        candidate.append(
+            np.asarray(rewritten_session.run([output_name], {input_name: array})[0])
+        )
+    gate = parity_gate(
+        np.stack([value.reshape(-1) for value in reference], axis=0),
+        np.stack([value.reshape(-1) for value in candidate], axis=0),
+    )
+    gate["inputs"] = len(reference)
+    return gate
+
+
+def validate_rewrite_result(
+    result: RewriteResult,
+    isolation: Mapping[str, Any],
+    *,
+    model: Path | "onnx.ModelProto",
+    output: Path | None = None,
+) -> None:
+    """改写必须记录节点名、落在隔离区间内，且最终路径无 CPU 算子。"""
+    if not result.changed_nodes:
+        raise ValueError(f"改写 {result.name} 没有记录 changed_nodes")
+    interval = isolation.get("interval")
+    if interval is None:
+        raise ValueError("isolation 没有已验证区间，无法判定改写范围")
+    model_proto = _as_model(model)
+    positions = {node.name: index for index, node in enumerate(model_proto.graph.node)}
+    missing = [name for name in result.changed_nodes if name not in positions]
+    if missing:
+        raise ValueError(f"改写记录的节点不在原图里：{missing}")
+    outside = [
+        name
+        for name in result.changed_nodes
+        if not int(interval[0]) < positions[name] <= int(interval[1])
+    ]
+    if outside:
+        raise ValueError(f"改写范围 {outside} 超出隔离区间 {interval}，属于无关改写")
+    require_htp_executable(Path(output) if output is not None else model_proto)
+
+
+def apply_semantic_rewrite(
+    model: Path,
+    isolation: Mapping[str, Any],
+    output: Path,
+    *,
+    input_list: Path = DEFAULT_CALIBRATION,
+) -> RewriteResult:
+    """选改写 → 改写 → FP32 parity 硬门禁 → 记录 changed_nodes。
+
+    没有已验证隔离区间时直接拒绝（`blocked_on_isolated_interval`），
+    被 parity 门禁拒绝的产物会立即删除，绝不留下可被误编译的 ONNX。
+    """
+    selection = select_rewrite(isolation)
+    if selection["status"] != REWRITE_SELECTED:
+        raise ValueError(
+            f"改写被拒绝（{selection['status']}）：{selection['reason']}"
+        )
+    handler = REWRITE_HANDLERS.get(str(selection["kind"]))
+    if handler is None:
+        raise ValueError(f"改写族 {selection['kind']} 没有实现")
+    model = Path(model)
+    rewritten, changed = handler(_load_model(model))
+    if not changed:
+        raise ValueError(f"改写 {selection['kind']} 没有命中任何节点，拒绝生成空改写")
+    output = _output_path(Path(output), "rewrite.onnx")
+    _save_model(rewritten, output)
+    result = RewriteResult(
+        name=str(selection["kind"]),
+        source_sha256=_sha256(model),
+        output_sha256=_sha256(output),
+        parity=verify_rewrite_parity(model, output, Path(input_list)),
+        changed_nodes=tuple(changed),
+    )
+    try:
+        validate_rewrite_result(result, isolation, model=model, output=output)
+        require_rewrite_parity(result)
+    except ValueError:
+        output.unlink(missing_ok=True)
+        raise
+    return result
+
+
 def _transpose_axes(
     source: tuple[int, ...], target: tuple[int, ...]
 ) -> tuple[int, ...] | None:
@@ -1364,6 +1699,179 @@ def _device_available(serial: str | None) -> bool:
     return False
 
 
+MAX_PARTITION_CONTEXTS = 2
+_DTYPE_SIZES = {"float32": 4, "float16": 2, "int16": 2, "int8": 1, "uint8": 1}
+
+
+def dtype_size(dtype: str) -> int:
+    """cut 张量单元素字节数；未知 dtype 直接拒绝。"""
+    try:
+        return _DTYPE_SIZES[dtype]
+    except KeyError as exc:
+        raise ValueError(f"不支持的 cut dtype：{dtype}") from exc
+
+
+@dataclass(frozen=True)
+class PartitionPlan:
+    """双 context 分区：cut 两侧各一个 context，中间张量只走原生 I/O 搬运。"""
+
+    cut: TensorCut
+    prefix_context: BuildArtifact
+    suffix_context: BuildArtifact
+    transfer_bytes: int
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "cut": self.cut.to_dict(),
+            "prefix": self.prefix_context.to_dict(),
+            "suffix": self.suffix_context.to_dict(),
+            "transfer_bytes": self.transfer_bytes,
+        }
+
+
+def require_partition_limit(artifacts: Sequence[BuildArtifact]) -> None:
+    """双 context 是硬上限；三段及以上直接拒绝，不扩展试错空间。"""
+    if len(artifacts) > MAX_PARTITION_CONTEXTS:
+        raise ValueError(
+            f"分区最多 {MAX_PARTITION_CONTEXTS} 段，实际 {len(artifacts)} 段；"
+            "三段以上方案不进入本计划"
+        )
+
+
+def _partition_manifest(cut: TensorCut, output_dir: Path) -> Path:
+    """在 output_dir 上方最近三层里找 cut 的真实中间张量 manifest。"""
+    slug = _slug(f"{cut.node_index:04d}-{cut.tensor_name}")
+    base = Path(output_dir)
+    for ancestor in (base, *tuple(base.parents)[:3]):
+        candidate = ancestor / "intermediates" / slug / "manifest.json"
+        if candidate.is_file():
+            return candidate
+    raise ValueError(
+        f"找不到 cut {cut.tensor_name} 的真实中间张量 manifest"
+        f"（intermediates/{slug}/manifest.json）"
+    )
+
+
+def build_partition(
+    model: Path,
+    cut: TensorCut,
+    variant: BuildVariant,
+    output_dir: Path,
+    *,
+    input_list: Path = DEFAULT_CALIBRATION,
+    intermediate_manifest: Path | None = None,
+    serial: str | None = None,
+) -> PartitionPlan:
+    """构建 cut 两侧的 prefix + suffix context（同一 QAIRT build）。
+
+    suffix 只以 FP32 真实捕获的中间张量做校准；两侧上下文先过拼接 parity
+    与布局交接校验才返回。设备不在线时 `partition.json` 记
+    `device_unavailable`，不构造任何真机结论。
+    """
+    model = Path(model)
+    input_list = Path(input_list)
+    output_dir = Path(output_dir)
+    manifest_path = (
+        Path(intermediate_manifest)
+        if intermediate_manifest is not None
+        else _partition_manifest(cut, output_dir)
+    )
+    manifest = load_manifest(manifest_path)
+    if manifest.source_kind != SOURCE_KIND_REAL_AUDIO:
+        raise ValueError(
+            f"后缀校准必须来自 {SOURCE_KIND_REAL_AUDIO}，实际 {manifest.source_kind!r}"
+        )
+
+    prefix_dir = output_dir / "prefix"
+    suffix_dir = output_dir / "suffix"
+    prefix_onnx = prefix_dir / "onnx" / "prefix.onnx"
+    suffix_onnx = suffix_dir / "onnx" / "suffix.onnx"
+    extract_prefix(model, cut, prefix_onnx)
+    extract_suffix(model, cut, manifest_path, suffix_onnx, input_list=input_list)
+    prefix_list = prefix_dir / "input_list.txt"
+    shutil.copyfile(input_list, prefix_list)
+    suffix_list = write_suffix_calibration(manifest, suffix_dir / "input_list.txt")
+
+    parity = verify_probe_parity(model, prefix_onnx, suffix_onnx, cut, input_list)
+    write_json_atomic(output_dir / "parity.json", parity)
+    if not parity.get("passed"):
+        raise ValueError(f"双 context 分区未过 FP32 parity：{parity.get('reason')}")
+
+    prefix_variant = BuildVariant(
+        variant.toolchain,
+        variant.optimization_level,
+        variant.vtcm_mb,
+        variant.dlbc,
+        f"{PROBE_GRAPH_NAME}_partition_prefix_{cut.node_index:04d}",
+    )
+    suffix_variant = BuildVariant(
+        variant.toolchain,
+        variant.optimization_level,
+        variant.vtcm_mb,
+        variant.dlbc,
+        f"{PROBE_GRAPH_NAME}_partition_suffix_{cut.node_index:04d}",
+    )
+    prefix_artifact = build_w8a16_context(
+        prefix_onnx,
+        prefix_list,
+        prefix_variant,
+        prefix_dir,
+        expected_input_shape=CAMPLUS_INPUT_SHAPE,
+        expected_output_shape=tuple(cut.shape),
+    )
+    suffix_artifact = build_w8a16_context(
+        suffix_onnx,
+        suffix_list,
+        suffix_variant,
+        suffix_dir,
+        expected_input_shape=_qnn_input_shape(cut.shape),
+        expected_output_shape=CAMPLUS_OUTPUT_SHAPE,
+    )
+    require_partition_limit((prefix_artifact, suffix_artifact))
+    for artifact in (prefix_artifact, suffix_artifact):
+        if artifact.status not in (BUILD_READY, BUILD_CONFIG_WARNING):
+            raise ValueError(
+                f"分区 context 构建失败：{artifact.variant_id} "
+                f"{artifact.status}：{artifact.error}"
+            )
+
+    layout = verify_layout_handoff(
+        cut, manifest, prefix_artifact.metadata, suffix_artifact.metadata
+    )
+    write_json_atomic(output_dir / "layout.json", layout)
+    if not layout["verified"]:
+        raise ValueError(f"分区布局交接未验证：{layout.get('reason')}")
+
+    transfer_bytes = math.prod(cut.shape) * dtype_size(cut.dtype)
+    plan = PartitionPlan(cut, prefix_artifact, suffix_artifact, transfer_bytes)
+    device_online = _device_available(serial)
+    write_json_atomic(
+        output_dir / "partition.json",
+        {
+            "schema_version": SCHEMA_VERSION,
+            "generated_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+            "status": "device_unavailable" if not device_online else "device_pending",
+            "reason": (
+                "adb 无在线设备，host 侧构建完成但未上机"
+                if not device_online
+                else "context 已构建，双 context 串联真机运行尚未执行"
+            ),
+            "device": {"serial": serial, "available": device_online},
+            "plan": plan.to_dict(),
+            "parity": parity,
+            "layout": layout,
+            "pending": [
+                "设备恢复后先跑 prefix context，把原生输出按 layout.transpose_axes "
+                "搬到 suffix context 的原生输入，再跑 suffix context",
+                "同一真实输入连续 30 次完整 embedding：退出码 0、无 SSR、无 FastRPC "
+                "timeout、每次 192 个有限值，总 warm graph time < 1 s",
+                f"报告中间张量搬运成本 {transfer_bytes} 字节与两次 context 调度开销",
+            ],
+        },
+    )
+    return plan
+
+
 def _probe_record(
     spec: ProbeSpec,
     cut: TensorCut,
@@ -1782,6 +2290,8 @@ def run_stages(
         Path(entries[0][1]),
         runner,
     )
+    rewrite = select_rewrite(isolation)
+    write_json_atomic(probes_root / "rewrite.json", rewrite)
     payload = {
         "schema_version": SCHEMA_VERSION,
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
@@ -1808,6 +2318,7 @@ def run_stages(
         "suffixes": suffix_records,
         "parity_failures": parity_failures,
         "stage_outcome": stage_outcome,
+        "rewrite": rewrite,
     }
     write_json_atomic(probes_root / "stages.json", payload)
     write_json_atomic(probes_root / "isolation.json", isolation)
@@ -2006,11 +2517,92 @@ def _parser() -> argparse.ArgumentParser:
     stages.add_argument("--model", default=str(DEFAULT_MODEL))
     stages.add_argument("--calibration-list", default=str(DEFAULT_CALIBRATION))
     stages.add_argument("--output-root", default=str(DEBUG_ROOT))
+    rewrite = subcommands.add_parser("rewrite", help="从 isolation.json 选改写并落盘状态")
+    rewrite.add_argument("--isolation", default=str(DEBUG_ROOT / "probes/isolation.json"))
+    rewrite.add_argument("--model", default=str(DEFAULT_MODEL))
+    rewrite.add_argument("--calibration-list", default=str(DEFAULT_CALIBRATION))
+    rewrite.add_argument("--output")
+    partition = subcommands.add_parser("partition", help="构建 cut 两侧的双 context 备用分区")
+    partition.add_argument("--variant", required=True)
+    partition.add_argument("--cut-node", type=int, required=True)
+    partition.add_argument("--serial")
+    partition.add_argument("--model", default=str(DEFAULT_MODEL))
+    partition.add_argument("--calibration-list", default=str(DEFAULT_CALIBRATION))
+    partition.add_argument("--output-root", default=str(DEBUG_ROOT))
+    partition.add_argument("--optimization-level", type=int, default=2)
+    partition.add_argument("--vtcm-mb", type=int, default=4)
+    partition.add_argument("--dlbc", action="store_true")
     return parser
+
+
+def _rewrite_command(arguments: argparse.Namespace) -> int:
+    isolation_path = Path(arguments.isolation)
+    isolation = json.loads(isolation_path.read_text(encoding="utf-8"))
+    selection = select_rewrite(isolation)
+    write_json_atomic(isolation_path.parent / "rewrite.json", selection)
+    print(json.dumps(selection, ensure_ascii=False, sort_keys=True))
+    if selection["status"] != REWRITE_SELECTED:
+        return 0
+    result = apply_semantic_rewrite(
+        Path(arguments.model),
+        isolation,
+        Path(arguments.output)
+        if arguments.output
+        else isolation_path.parent / "rewrite" / "rewrite.onnx",
+        input_list=Path(arguments.calibration_list),
+    )
+    print(json.dumps(result.to_dict(), ensure_ascii=False, sort_keys=True))
+    return 0
+
+
+def _partition_command(arguments: argparse.Namespace) -> int:
+    output_root = Path(arguments.output_root)
+    artifact = _load_variant_artifact(arguments.variant, output_root)
+    toolchain = _resolve_toolchain(artifact)
+    stages = json.loads(
+        (output_root / "probes/stages.json").read_text(encoding="utf-8")
+    )
+    cut_row = next(
+        (
+            row
+            for row in stages.get("cuts") or ()
+            if int(row["node_index"]) == arguments.cut_node
+        ),
+        None,
+    )
+    if cut_row is None:
+        raise ValueError(f"stages.json 里没有节点 {arguments.cut_node} 的 cut")
+    cut = TensorCut(
+        int(cut_row["node_index"]),
+        str(cut_row["tensor_name"]),
+        tuple(int(dim) for dim in cut_row["shape"]),
+        str(cut_row["dtype"]),
+    )
+    variant = BuildVariant(
+        toolchain,
+        arguments.optimization_level,
+        arguments.vtcm_mb,
+        arguments.dlbc,
+        str(artifact.metadata.graph_name) if artifact.metadata else "campplus",
+    )
+    plan = build_partition(
+        Path(arguments.model),
+        cut,
+        variant,
+        output_root / "probes" / f"partition-{cut.node_index:04d}",
+        input_list=Path(arguments.calibration_list),
+        serial=arguments.serial,
+    )
+    print(json.dumps(plan.to_dict(), ensure_ascii=False, sort_keys=True))
+    return 0
 
 
 def main(argv: list[str] | None = None) -> int:
     arguments = _parser().parse_args(argv)
+    if arguments.command == "rewrite":
+        return _rewrite_command(arguments)
+    if arguments.command == "partition":
+        return _partition_command(arguments)
     payload = run_stages(
         arguments.variant,
         serial=arguments.serial,
@@ -2030,6 +2622,7 @@ def main(argv: list[str] | None = None) -> int:
             f"build={row.get('build_status')} device={(row.get('device') or {}).get('status')}"
         )
     print(json.dumps(payload["stage_outcome"], ensure_ascii=False, sort_keys=True))
+    print(json.dumps(payload["rewrite"], ensure_ascii=False, sort_keys=True))
     return 0 if not payload["parity_failures"] else 1
 
 

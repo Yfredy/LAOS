@@ -252,7 +252,13 @@ def _log_text(path: Path) -> str:
 
 
 def require_toolchain_files(toolchain: ToolchainSpec) -> None:
-    """同一 build 的全部必需文件必须在位，缺一即拒绝构建。"""
+    """十件必需文件必须全部在位，缺一即拒绝构建。
+
+    build ID 同号只覆盖 `discover_toolchains` 的 7 个 inventory 组件（其中
+    converter 无内嵌版本串、沿用首个探测值）；model-lib generator、
+    context utility、backend extension 不内嵌 build ID，这里只校验文件存在，
+    不能声称十件全部同号。
+    """
     paths = {
         "runner": toolchain.runner,
         "backend host": toolchain.backend_host,
@@ -277,7 +283,13 @@ def require_toolchain_files(toolchain: ToolchainSpec) -> None:
 def discover_toolchains(
     roots: tuple[Path, ...] = DEFAULT_QAIRT_ROOTS,
 ) -> tuple[ToolchainSpec, ...]:
-    """枚举本地 QAIRT 树；只收同 build 且组件齐全的候选。"""
+    """枚举本地 QAIRT 树；只收可探测组件同 build 且齐全的候选。
+
+    可探测组件是 `COMPONENT_PATHS` 的 7 项（converter 是 Python 脚本，
+    无内嵌版本串，沿用首个探测到的 build ID）；roots 来自
+    `DEFAULT_QAIRT_ROOTS` 或显式传入，**不读 `LAOS_QAIRT_ROOT`**——该环境
+    变量只由 `device.py` 的设备侧工具链发现使用。
+    """
     discovered: list[ToolchainSpec] = []
     for root in roots:
         root = Path(root)
@@ -1021,31 +1033,30 @@ def _qpm_record(
     record["local_build_ids"] = [spec.build_id for spec in toolchains]
     record["local_roots"] = [str(root) for root in roots]
     versions = list(record.get("available_versions") or [])
-    if versions and local:
-        newest_local = max(_version_key(version) for version in local)
-        newer = sorted(
-            (version for version in versions
-             if _version_key(version) > newest_local),
-            key=_version_key,
-            reverse=True,
-        )
-        record["newer_than_local"] = newer
-    else:
-        record.setdefault("newer_than_local", [])
     installed = [
         version for version in versions
         if any(spec.build_id.startswith("v" + version) for spec in toolchains)
     ]
     if installed:
         record["installed_versions"] = installed
+    if versions and local:
+        newest_local = max(_version_key(version) for version in local)
+        newer = sorted(
+            (version for version in versions
+             if _version_key(version) > newest_local and version not in installed),
+            key=_version_key,
+            reverse=True,
+        )
+        record["newer_than_local"] = newer
+    else:
+        record.setdefault("newer_than_local", [])
     if record.get("status") != "unavailable":
         newer = record.get("newer_than_local") or []
-        pending = [version for version in newer if version not in installed]
-        if pending:
+        if newer:
             record["status"] = "unavailable"
             record["reason"] = (
                 "QPM 有更新的 QAIRT（"
-                + ", ".join(pending)
+                + ", ".join(newer)
                 + "），但未下载安装（需 license 与重资产下载），"
                 "Stage A 无可用更新树"
             )

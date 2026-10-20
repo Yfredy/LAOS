@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import sys
 import tempfile
 import unittest
@@ -46,20 +47,32 @@ from scripts.speaker_qnn.probe import (  # noqa: E402
     DEFAULT_MODEL,
     IntermediateEntry,
     IntermediateManifest,
+    PartitionPlan,
     ProbeSpec,
+    REWRITE_BLOCKED,
+    REWRITE_SELECTED,
     SOURCE_KIND_REAL_AUDIO,
+    RewriteResult,
     TensorCut,
     _run_device_probes,
+    apply_semantic_rewrite,
     bisect_failure_interval,
     bisection_stop,
+    build_partition,
     capture_intermediates,
     discover_stage_cuts,
+    dtype_size,
     extract_prefix,
     extract_suffix,
     load_manifest,
     midpoint_cut,
     parity_gate,
+    require_htp_executable,
+    require_partition_limit,
+    require_rewrite_parity,
     run_bisection,
+    select_rewrite,
+    validate_rewrite_result,
     verify_layout_handoff,
     verify_probe_parity,
     write_suffix_calibration,
@@ -765,6 +778,7 @@ class TestStageDiscovery(_TempDirTest):
         self.assertEqual(cuts, discover_stage_cuts(model, sample))
 
 
+@NEEDS_ONNX
 @unittest.skipUnless(DEFAULT_MODEL.is_file(), "真实 CAM++ 模型不在本机")
 class TestRealStageCuts(unittest.TestCase):
     def test_real_campplus_stage_cuts_are_frozen(self) -> None:
@@ -789,6 +803,319 @@ class TestRealStageCuts(unittest.TestCase):
             ],
         )
         self.assertTrue(all(cut.shape and cut.dtype == "float32" for cut in cuts))
+
+
+def _rewrite_result(
+    *,
+    changed_nodes: tuple[str, ...] = ("stage1",),
+    parity: dict | None = None,
+) -> RewriteResult:
+    return RewriteResult(
+        name="constant_fold_static_shape",
+        source_sha256="a" * 64,
+        output_sha256="b" * 64,
+        parity=parity
+        if parity is not None
+        else {"passed": True, "mode": "exact", "max_abs": 0.0},
+        changed_nodes=changed_nodes,
+    )
+
+
+class TestRewriteGate(_TempDirTest):
+    def test_rewrite_must_pass_fp32_parity_before_qnn_build(self) -> None:
+        result = _rewrite_result(
+            parity={
+                "passed": False,
+                "mode": "cosine",
+                "reason": "cosine 漂移",
+                "max_abs": 1e-3,
+                "cosine_median": 0.99,
+                "cosine_minimum": 0.9,
+            }
+        )
+        with self.assertRaisesRegex(ValueError, "FP32 parity"):
+            require_rewrite_parity(result)
+
+    def test_exact_parity_is_accepted(self) -> None:
+        require_rewrite_parity(_rewrite_result())
+
+    def test_cosine_below_floor_is_rejected(self) -> None:
+        result = _rewrite_result(
+            parity={
+                "passed": True,
+                "mode": "cosine",
+                "max_abs": 1e-7,
+                "cosine_median": 0.9999995,
+                "cosine_minimum": 0.9999,
+            }
+        )
+        with self.assertRaisesRegex(ValueError, "FP32 parity"):
+            require_rewrite_parity(result)
+
+    def test_cosine_at_threshold_is_accepted(self) -> None:
+        result = _rewrite_result(
+            parity={
+                "passed": True,
+                "mode": "cosine",
+                "max_abs": 1e-7,
+                "cosine_median": 0.999999,
+                "cosine_minimum": 0.99999,
+            }
+        )
+        require_rewrite_parity(result)
+
+    def test_awaiting_isolation_blocks_rewrite(self) -> None:
+        isolation = {
+            "status": "awaiting_device",
+            "interval": None,
+            "awaiting_interval": [0, 3101],
+            "operator_families": [],
+        }
+        selection = select_rewrite(isolation)
+        self.assertEqual(selection["status"], REWRITE_BLOCKED)
+        self.assertIsNone(selection["kind"])
+        with self.assertRaisesRegex(ValueError, "blocked_on_isolated_interval"):
+            apply_semantic_rewrite(
+                Path("absent.onnx"), isolation, Path("rewrite.onnx")
+            )
+
+    def test_unsupported_operator_family_is_rejected(self) -> None:
+        selection = select_rewrite({
+            "status": "verified",
+            "interval": [10, 12],
+            "operator_families": ["MatMul", "Add"],
+        })
+        self.assertEqual(selection["status"], "unsupported_operator_family")
+
+    def test_missing_changed_node_names_are_rejected(self) -> None:
+        with self.assertRaisesRegex(ValueError, "changed_nodes"):
+            validate_rewrite_result(
+                _rewrite_result(changed_nodes=()),
+                {"status": "verified", "interval": [0, 1]},
+                model=Path("absent.onnx"),
+            )
+
+    @NEEDS_ONNX
+    def test_unrelated_rewrite_outside_interval_is_rejected(self) -> None:
+        model = self.root / "tiny.onnx"
+        onnx.save(_tiny_model(), str(model))
+        with self.assertRaisesRegex(ValueError, "超出隔离区间"):
+            validate_rewrite_result(
+                _rewrite_result(changed_nodes=("stage2",)),
+                {"status": "verified", "interval": [0, 1]},
+                model=model,
+            )
+
+    @NEEDS_ONNX
+    def test_cpu_operator_in_final_path_is_rejected(self) -> None:
+        graph = helper.make_graph(
+            [
+                helper.make_node(
+                    "NonMaxSuppression", ["boxes", "scores"], ["selected"],
+                    name="nms",
+                )
+            ],
+            "cpu",
+            [helper.make_tensor_value_info("boxes", TensorProto.FLOAT, [1, 4, 4])],
+            [helper.make_tensor_value_info("selected", TensorProto.INT64, [1, 1])],
+        )
+        model = self.root / "cpu.onnx"
+        onnx.save(
+            helper.make_model(
+                graph, opset_imports=[helper.make_opsetid("", 17)], ir_version=8
+            ),
+            str(model),
+        )
+        with self.assertRaisesRegex(ValueError, "CPU 算子"):
+            require_htp_executable(model)
+
+    @NEEDS_ONNX
+    def test_static_shape_rewrite_passes_exact_parity(self) -> None:
+        identity = helper.make_node("Identity", ["x"], ["x0"], name="identity")
+        shape_node = helper.make_node("Shape", ["x0"], ["s"], name="shape")
+        graph = helper.make_graph(
+            [identity, shape_node],
+            "shape-only",
+            [helper.make_tensor_value_info("x", TensorProto.FLOAT, [1, 4])],
+            [helper.make_tensor_value_info("s", TensorProto.INT64, [2])],
+            initializer=[],
+        )
+        model = self.root / "shape.onnx"
+        onnx.save(
+            helper.make_model(
+                graph, opset_imports=[helper.make_opsetid("", 17)], ir_version=8
+            ),
+            str(model),
+        )
+        result = apply_semantic_rewrite(
+            model,
+            {
+                "status": "verified",
+                "interval": [0, 1],
+                "operator_families": ["Shape"],
+            },
+            self.root / "rewrite.onnx",
+            input_list=_input_list(self.root),
+        )
+        self.assertEqual(result.changed_nodes, ("shape",))
+        self.assertEqual(result.parity["max_abs"], 0.0)
+        selection = select_rewrite({
+            "status": "verified",
+            "interval": [0, 1],
+            "operator_families": ["Shape"],
+        })
+        self.assertEqual(selection["status"], REWRITE_SELECTED)
+        self.assertEqual(selection["kind"], "constant_fold_static_shape")
+
+
+@NEEDS_ONNX
+class TestRewriteGateWithModel(_TempDirTest):
+    """落在隔离区间内的改写允许通过（与超范围/缺名字用例形成对照）。"""
+
+    def test_rewrite_inside_interval_is_accepted(self) -> None:
+        model = self.root / "tiny.onnx"
+        onnx.save(_tiny_model(), str(model))
+        validate_rewrite_result(
+            _rewrite_result(changed_nodes=("stage1",)),
+            {"status": "verified", "interval": [0, 2]},
+            model=model,
+        )
+
+
+class TestPartition(_TempDirTest):
+    def _manifest(self, *, source_kind: str = SOURCE_KIND_REAL_AUDIO) -> Path:
+        raw = self.root / "cut.raw"
+        raw.write_bytes(b"\x00" * 16)
+        manifest = self.root / "manifest.json"
+        manifest.write_text(
+            json.dumps({
+                "source_kind": source_kind,
+                "tensor_name": "h",
+                "node_index": 0,
+                "shape": [1, 4],
+                "dtype": "float32",
+                "model_sha256": "0" * 64,
+                "entries": [
+                    {
+                        "input_path": str(self.root / "input.raw"),
+                        "input_sha256": "0" * 64,
+                        "raw_path": str(raw),
+                        "sha256": "0" * 64,
+                        "shape": [1, 4],
+                        "dtype": "float32",
+                    }
+                ],
+            }),
+            encoding="utf-8",
+        )
+        return manifest
+
+    def test_transfer_bytes_is_cut_tensor_size(self) -> None:
+        cut = TensorCut(3093, "h", (1, 1024), "float32")
+        self.assertEqual(math.prod(cut.shape) * dtype_size(cut.dtype), 4096)
+        self.assertEqual(dtype_size("float32"), 4)
+        with self.assertRaisesRegex(ValueError, "dtype"):
+            dtype_size("int64")
+
+    def test_more_than_two_partitions_are_rejected(self) -> None:
+        artifacts = [
+            BuildArtifact(
+                variant_id=f"p{index}",
+                status="config_warning",
+                context_path=None,
+                metadata=None,
+                sha256={},
+                commands=(),
+                error=None,
+            )
+            for index in range(3)
+        ]
+        with self.assertRaisesRegex(ValueError, "最多"):
+            require_partition_limit(artifacts)
+
+    def test_non_real_suffix_calibration_is_rejected(self) -> None:
+        manifest = self._manifest(source_kind="random_tensor")
+        with self.assertRaisesRegex(ValueError, "fp32_real_audio"):
+            build_partition(
+                self.root / "absent.onnx",
+                TensorCut(0, "h", (1, 4), "float32"),
+                variant=mock.Mock(),
+                output_dir=self.root / "partition",
+                intermediate_manifest=manifest,
+            )
+
+    @NEEDS_ONNX
+    def test_partition_accounts_for_intermediate_transfer(self) -> None:
+        cut = TensorCut(0, "h", (1, 4), "float32")
+        input_list = _input_list(self.root)
+        manifest = self._manifest()
+        toolchain = mock.Mock(build_id="v2.51.1.261002102551", short_version="2.51.1")
+        variant = mock.Mock(
+            toolchain=toolchain,
+            optimization_level=2,
+            vtcm_mb=4,
+            dlbc=False,
+            graph_name="campplus",
+        )
+
+        def fake_extract(*args, **kwargs):
+            output = Path(args[-1])
+            output.parent.mkdir(parents=True, exist_ok=True)
+            output.write_bytes(b"onnx")
+            return mock.Mock()
+
+        def fake_build(model, calibration, build_variant, output_dir, **kwargs):
+            metadata = ContextMetadata(
+                build_id="v2.51.1.261002102551",
+                soc_model=87,
+                dsp_arch=81,
+                graph_name=build_variant.graph_name,
+                input_shape=(1, 80, 298),
+                output_shape=(1, 4),
+            )
+            return BuildArtifact(
+                variant_id=build_variant.variant_id,
+                status="config_warning",
+                context_path=str(Path(output_dir) / "context" / "g.bin"),
+                metadata=metadata,
+                sha256={"context": "c" * 64},
+                commands=(),
+                error=None,
+                warning="unexpected GraphHtpSettings option 66",
+            )
+
+        with mock.patch.object(probe_module, "extract_prefix", fake_extract), \
+                mock.patch.object(probe_module, "extract_suffix", fake_extract), \
+                mock.patch.object(
+                    probe_module, "verify_probe_parity",
+                    return_value={"passed": True, "max_abs": 0.0},
+                ), \
+                mock.patch.object(
+                    probe_module, "build_w8a16_context", fake_build
+                ), \
+                mock.patch.object(
+                    probe_module, "verify_layout_handoff",
+                    return_value={"verified": True},
+                ):
+            plan = build_partition(
+                self.root / "model.onnx",
+                cut,
+                variant,
+                self.root / "partition",
+                input_list=input_list,
+                intermediate_manifest=manifest,
+            )
+        self.assertIsInstance(plan, PartitionPlan)
+        self.assertEqual(
+            plan.transfer_bytes, math.prod(cut.shape) * dtype_size(cut.dtype)
+        )
+        self.assertEqual(plan.prefix_context.metadata.soc_model, 87)
+        record = json.loads(
+            (self.root / "partition" / "partition.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(record["status"], "device_unavailable")
+        self.assertIsNone(record["device"]["serial"])
+        self.assertEqual(record["plan"]["transfer_bytes"], plan.transfer_bytes)
 
 
 if __name__ == "__main__":
