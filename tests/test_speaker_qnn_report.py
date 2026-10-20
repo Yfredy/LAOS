@@ -160,6 +160,46 @@ def _reverse_key_order(value):
     return value
 
 
+def _section(report: str, heading: str) -> str:
+    start = report.index(heading)
+    end = report.find("\n## ", start + 1)
+    return report[start:] if end == -1 else report[start:end]
+
+
+def _columns(report: str, heading: str) -> tuple[str, str]:
+    """把一节拆成 `**实测：**` 列与 `**不可得：**` 列。"""
+    measured, _, unavailable = _section(report, heading).partition("**不可得：**")
+    return measured, unavailable
+
+
+def _full_pass_record(run_id: str = "run-pass") -> dict:
+    return {
+        "run_id": run_id,
+        "status": "pass",
+        "exit_code": 0,
+        "output_count": 192,
+        "finite": True,
+        "graph_execute_us": 41_000,
+    }
+
+
+def _complete_latency() -> dict:
+    return {
+        "cold_load_p50_ms": 12.5,
+        "cold_load_p95_ms": 15.0,
+        "graph_p50_ms": 42.0,
+        "graph_p95_ms": 45.0,
+        "graph_p99_ms": 47.0,
+        "end_to_end_p50_ms": 55.0,
+        "end_to_end_p95_ms": 60.0,
+        "throughput_ips": 18.18,
+        "io_p50_ms": 3.0,
+        "fbank_p50_ms": 4.0,
+        "transfer_p50_ms": 0.5,
+        "schedule_p50_ms": 1.0,
+    }
+
+
 class TestReportRendering(unittest.TestCase):
     def test_report_never_uses_timeout_as_latency(self):
         report = render_report(_incident_with_timeout(), _benchmark_without_success())
@@ -431,6 +471,167 @@ class TestReportEvidenceDerivation(unittest.TestCase):
         self.assertNotIn("没有任何一行同时满足", report)
         self.assertNotIn("没有任何一行是 `pass`", report)
         self.assertIn("graph 41.000 ms", report)
+
+    def test_full_pass_evidence_stays_in_measured_column(self):
+        incident = _incident_with_timeout()
+        incident["timeline"] = [_full_pass_record()]
+        benchmark = _benchmark_without_success()
+        benchmark["accuracy"] = {
+            "clean-6s": {
+                "reused_fp32": {
+                    "eer": 0.012,
+                    "top1": 0.98,
+                    "fixed_k_ari": 0.9,
+                    "online_ari": 0.85,
+                    "cluster_count": 4,
+                }
+            }
+        }
+        benchmark["latency"] = _complete_latency()
+        report = render_report(incident, benchmark)
+        measured, unavailable = _columns(report, "## 1. ")
+        self.assertIn("完整 192 维 embedding：`pass`", measured)
+        self.assertIn("accuracy", measured)
+        self.assertIn("见第 8 节", measured)
+        self.assertNotIn("pass", unavailable)
+        self.assertNotIn("accuracy", unavailable)
+        self.assertNotIn("见第 8 节", unavailable)
+        measured7, unavailable7 = _columns(report, "## 7. ")
+        self.assertIn("eer=", measured7)
+        self.assertNotIn("不计算任何准确率", measured7)
+        self.assertNotIn("accuracy", unavailable7)
+
+    def test_graph_only_latency_names_missing_components(self):
+        benchmark = _benchmark_without_success()
+        benchmark["latency"] = {
+            "cold_load_p50_ms": 12.5,
+            "cold_load_p95_ms": 15.0,
+            "graph_p50_ms": 42.0,
+            "graph_p95_ms": 45.0,
+            "graph_p99_ms": 47.0,
+            "end_to_end_p50_ms": None,
+            "end_to_end_p95_ms": None,
+            "throughput_ips": None,
+            "io_p50_ms": None,
+            "fbank_p50_ms": None,
+            "transfer_p50_ms": None,
+            "schedule_p50_ms": None,
+        }
+        report = render_report(_incident_with_timeout(), benchmark)
+        self.assertIn("缺少的组成项", report)
+        self.assertIn("runner I/O（io）", report)
+        self.assertIn("CPU FBank（fbank）", report)
+        self.assertIn("中间张量搬运（transfer）", report)
+        self.assertIn("第二次调度（schedule）", report)
+
+    def test_isolation_section_has_no_double_punctuation(self):
+        incident = _incident_with_timeout()
+        incident["isolation"]["probes"] = [
+            {
+                "probe_id": "prefix-a",
+                "kind": "prefix",
+                "node_interval": [0, 49],
+                "semantic_output_shape": [1, 320, 298],
+                "context_sha256": "d" * 64,
+                "graph_sha256": "e" * 64,
+                "device": None,
+            },
+            {
+                "probe_id": "prefix-b",
+                "kind": "prefix",
+                "node_interval": [0, 3076],
+                "semantic_output_shape": [1, 512, 149],
+                "context_sha256": None,
+                "graph_sha256": "f" * 64,
+                "device": None,
+            },
+        ]
+        report = render_report(incident, _benchmark_without_success())
+        self.assertNotIn("。；", report)
+        self.assertIn("；其中 1 个 probe 缺少 context SHA-256。", report)
+
+    def test_blocked_embedding_sentence_derives_timeline_statuses(self):
+        incident = _incident_with_timeout()
+        incident["timeline"] = [
+            {
+                "run_id": "run-execute-error",
+                "status": "execute_error",
+                "exit_code": 1,
+                "output_count": 0,
+                "finite": False,
+            },
+            {
+                "run_id": "run-load-error",
+                "status": "load_error",
+                "exit_code": 1,
+                "output_count": 0,
+                "finite": False,
+            },
+            {
+                "run_id": "run-ssr",
+                "status": "ssr",
+                "exit_code": 17,
+                "output_count": 0,
+                "finite": False,
+            },
+            {
+                "run_id": "run-smoke",
+                "status": "pass",
+                "exit_code": 0,
+                "output_count": 16,
+                "finite": True,
+            },
+        ]
+        report = render_report(incident, _benchmark_without_success())
+        self.assertIn("execute_error=1", report)
+        self.assertIn("load_error=1", report)
+        self.assertIn("ssr=1", report)
+        self.assertNotIn("全部 timeout/SSR", report)
+
+    def test_matrix_sentence_counts_rows_with_build_id(self):
+        incident = _incident_with_timeout()
+        incident["matrix"] = [
+            {
+                "variant_id": "with-build-id",
+                "kind": "full",
+                "stage": "compiler",
+                "status": "config_warning",
+                "metadata": {
+                    "build_id": "v2.51.1.261002102551",
+                    "soc_model": 87,
+                    "dsp_arch": 81,
+                },
+                "sha256": {"context": "a" * 64},
+            },
+            {
+                "variant_id": "metadata-without-build-id",
+                "kind": "smoke",
+                "stage": "eligibility",
+                "status": "config_warning",
+                "metadata": {"soc_model": 87, "dsp_arch": 81},
+                "sha256": {"context": "c" * 64},
+            },
+        ]
+        report = render_report(incident, _benchmark_without_success())
+        self.assertIn("2 行有元数据", report)
+        self.assertIn("1 行带 build ID", report)
+        self.assertNotIn("2 行有 build ID", report)
+
+    def test_smoke_pass_never_renders_graph_time(self):
+        incident = _incident_with_timeout()
+        incident["timeline"] = [
+            {
+                "run_id": "run-smoke",
+                "status": "pass",
+                "exit_code": 0,
+                "output_count": 16,
+                "finite": True,
+                "graph_execute_us": 12_000,
+            }
+        ]
+        report = render_report(incident, _benchmark_without_success())
+        self.assertNotIn("graph 12.000 ms", report)
+        self.assertIn("不是 192 维有限 embedding", report)
 
     def test_pass_label_depends_on_persisted_graph_time(self):
         incident = _incident_with_timeout()

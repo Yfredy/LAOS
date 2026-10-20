@@ -164,12 +164,19 @@ def _display_path(value: Any) -> str:
 def _status_label(
     status: Any, record: Mapping[str, Any] | None = None
 ) -> str:
-    """pass 标签由该行是否持久化 graph 时间决定，其余状态走固定词典。"""
+    """只有 192 维有限 embedding 的 pass 才渲染 graph 时间。"""
     name = str(status)
     if name == "pass":
         graph_us = (
             record.get("graph_execute_us") if isinstance(record, Mapping) else None
         )
+        if not isinstance(record, Mapping) or not _is_full_pass(record):
+            if graph_us is None:
+                return (
+                    "pass（通过；本次没有持久化 graph 时间，且不是 192 维有限 "
+                    "embedding，不计入速度值）"
+                )
+            return "pass（通过；不是 192 维有限 embedding，不计入速度值）"
         if graph_us is None:
             return "pass（通过；本次没有持久化 graph 时间，不计入速度值）"
         return f"pass（通过；graph {int(graph_us) / 1000.0:.3f} ms）"
@@ -225,23 +232,39 @@ def _section_measured(
     variants = incident.get("matrix") or []
     lines = ["## 1. 实测与不可得分列", "", "**实测：**"]
     measured: list[str] = []
+    full_pass = [record for record in timeline if _is_full_pass(record)]
     for record in timeline:
-        if record.get("status") != "pass":
+        if record.get("status") != "pass" or _is_full_pass(record):
             continue
-        graph_us = record.get("graph_execute_us")
-        tail = (
-            f"graph {int(graph_us) / 1000.0:.3f} ms。"
-            if graph_us is not None
-            else "该次没有持久化 graph 时间，不作为延迟数字。"
-        )
         measured.append(
             f"- 真机运行 `{_cell(record.get('run_id'))}` 为 pass："
             f"退出码 {_cell(record.get('exit_code'))}，"
-            f"{record.get('output_count')} 个输出元素且全部有限；{tail}"
+            f"{record.get('output_count')} 个输出元素（不是 192 维有限 embedding，"
+            "不作为速度值；该行不渲染 graph 时间）。"
+        )
+    if full_pass:
+        graph_us = full_pass[0].get("graph_execute_us")
+        tail = (
+            f"graph {int(graph_us) / 1000.0:.3f} ms"
+            if graph_us is not None
+            else "本次没有持久化 graph 时间"
+        )
+        runs = "、".join(
+            f"`{_cell(record.get('run_id'))}`" for record in full_pass
+        )
+        measured.append(
+            f"- CAM++ W8A16 完整 192 维 embedding：`pass`"
+            f"（{len(full_pass)} 次；运行 {runs}；{tail}）。"
         )
     if variants:
         with_metadata = sum(
             1 for variant in variants if isinstance(variant.get("metadata"), Mapping)
+        )
+        with_build_id = sum(
+            1
+            for variant in variants
+            if isinstance(variant.get("metadata"), Mapping)
+            and variant["metadata"].get("build_id")
         )
         with_context_hash = sum(
             1
@@ -251,7 +274,7 @@ def _section_measured(
         )
         measured.append(
             f"- 版本/配置矩阵：{len(variants)} 行离线构建产物；"
-            f"{with_metadata} 行有 build ID 与元数据，"
+            f"{with_metadata} 行有元数据，其中 {with_build_id} 行带 build ID；"
             f"{len(variants) - with_metadata} 行没有元数据；"
             f"{with_context_hash} 行记录了 context SHA-256（见第 3、6 节）。"
         )
@@ -274,24 +297,31 @@ def _section_measured(
             f"{_cell(fold.get('inputs'))} 条真实语音 FP32 输出逐元素一致"
             f"（`max_abs={fold.get('max_abs')}`）；这条路径没有解决真机超时。"
         )
+    if benchmark.get("accuracy") is not None:
+        measured.append(
+            "- EER、Top-1、固定 k ARI、在线 ARI 与簇数量：accuracy 已由 "
+            "benchmark.json 给出（见第 7 节）。"
+        )
+    if benchmark.get("latency") is not None:
+        measured.append("- 冷/暖延迟、端到端与吞吐：见第 8 节；soak 见第 9 节。")
     if not measured:
         measured.append("- 证据根没有任何真机产物：没有可报告的实测值。")
     lines.extend(measured)
     lines += ["", "**不可得：**"]
-    full_pass = [record for record in timeline if _is_full_pass(record)]
-    if full_pass:
-        graph_us = full_pass[0].get("graph_execute_us")
+    unavailable: list[str] = []
+    statuses: dict[str, int] = {}
+    for record in timeline:
+        key = str(record.get("status") or "unreadable")
+        statuses[key] = statuses.get(key, 0) + 1
+    if not full_pass:
         tail = (
-            f"graph {int(graph_us) / 1000.0:.3f} ms"
-            if graph_us is not None
-            else "本次没有持久化 graph 时间"
+            f"时间线状态分布：{_status_counts(statuses)}"
+            if statuses
+            else "证据根没有 device-runs 结果"
         )
-        unavailable = [
-            f"- CAM++ W8A16 完整 192 维 embedding：`pass`"
-            f"（{len(full_pass)} 次；{tail}）。"
-        ]
-    else:
-        unavailable = ["- CAM++ W8A16 完整 192 维 embedding：`blocked`（全部 timeout/SSR）。"]
+        unavailable.append(
+            f"- CAM++ W8A16 完整 192 维 embedding：`blocked`（{tail}）。"
+        )
     isolation = incident.get("isolation")
     if isinstance(isolation, Mapping):
         unavailable.append(
@@ -309,14 +339,10 @@ def _section_measured(
         unavailable.append(
             "- EER、Top-1、固定 k ARI、在线 ARI、阈值重标定与产品准入：全部不可得。"
         )
-    else:
-        unavailable.append("- EER、Top-1、ARI 等任务指标：见第 7 节。")
     if benchmark.get("latency") is None:
         unavailable.append(
             "- 冷/暖延迟 p50/p95/p99、端到端、吞吐与 30 分钟 soak：全部不可得。"
         )
-    else:
-        unavailable.append("- 冷/暖延迟、端到端与吞吐：见第 8 节；soak 见第 9 节。")
     lines.extend(unavailable)
     lines.append("")
     return lines
@@ -451,10 +477,12 @@ def _section_isolation(incident: Mapping[str, Any]) -> list[str]:
         measured = (
             f"**实测：** {len(probes)} 个 probe 中 {context_hashes} 个记录 "
             f"context SHA-256、{graph_hashes} 个记录 graph SHA-256；"
-            "切点与张量形状来自真实图结构。"
+            "切点与张量形状来自真实图结构"
         )
         if missing_context:
             measured += f"；其中 {missing_context} 个 probe 缺少 context SHA-256。"
+        else:
+            measured += "。"
     else:
         measured = "**实测：** 无；isolation.json 没有 probe 记录。"
     lines += [
@@ -614,10 +642,39 @@ def _section_hashes(incident: Mapping[str, Any]) -> list[str]:
     return lines
 
 
+def _accuracy_rows(accuracy: Any) -> list[str]:
+    """把 benchmark.json 的 accuracy 明细摊平成确定性行。"""
+    if not isinstance(accuracy, Mapping) or not accuracy:
+        return []
+    rows: list[str] = []
+    for condition in sorted(accuracy):
+        per_source = accuracy[condition]
+        if not isinstance(per_source, Mapping):
+            rows.append(f"- `{_cell(condition)}`：{_cell(per_source)}")
+            continue
+        for source in sorted(per_source):
+            metrics = per_source[source]
+            if not isinstance(metrics, Mapping):
+                rows.append(
+                    f"- `{_cell(condition)}`/{_cell(source)}：{_cell(metrics)}"
+                )
+                continue
+            parts = [
+                f"{key}={metrics[key]}"
+                for key in ("eer", "top1", "fixed_k_ari", "online_ari", "cluster_count")
+                if metrics.get(key) is not None
+            ]
+            rows.append(
+                f"- `{_cell(condition)}`/{_cell(source)}：" + "，".join(parts)
+            )
+    return rows
+
+
 def _section_accuracy(benchmark: Mapping[str, Any]) -> list[str]:
     status = benchmark.get("status")
     parity_present = benchmark.get("parity") is not None
-    accuracy_present = benchmark.get("accuracy") is not None
+    accuracy = benchmark.get("accuracy")
+    accuracy_present = accuracy is not None
     lines = [
         "## 7. Paired accuracy",
         "",
@@ -627,22 +684,35 @@ def _section_accuracy(benchmark: Mapping[str, Any]) -> list[str]:
         f"产品准入：`{_cell(benchmark.get('product_admission')) or 'blocked'}`",
         "",
     ]
+    if parity_present and accuracy_present:
+        lines.append("**实测：** parity 与任务指标都存在（明细如下）。")
+    elif parity_present:
+        lines.append("**实测：** parity 指标存在（见 benchmark.json）。")
+    elif accuracy_present:
+        lines.append("**实测：** 任务指标存在（明细如下）。")
+    else:
+        lines.append("**实测：** 无；没有 FP32/W8A16 paired embedding，不计算任何准确率。")
+    if accuracy_present:
+        lines.extend(_accuracy_rows(accuracy))
+    lines += [""]
+    absent: list[str] = []
+    if not parity_present:
+        absent.append("parity 指标不可得")
+    if not accuracy_present:
+        absent.append("EER、Top-1、固定 k ARI、在线 ARI、簇数量均不可得")
+    if (
+        benchmark.get("threshold_recalibration") in (None, "", "blocked")
+        or benchmark.get("product_admission") in (None, "", "blocked")
+    ):
+        absent.append(
+            "阈值重标定与产品准入保持 `blocked`，禁止用 FP32 阈值冒充 W8A16 阈值"
+        )
     lines.append(
-        "**实测：** parity 指标存在。"
-        if parity_present
-        else "**实测：** 无；没有 FP32/W8A16 paired embedding，不计算任何准确率。"
+        "**不可得：** " + "；".join(absent) + "。"
+        if absent
+        else "**不可得：** 无；本节所有指标都有实测值。"
     )
-    lines += [
-        "",
-        "**不可得：** "
-        + (
-            "accuracy 已由 benchmark.json 给出。"
-            if accuracy_present
-            else "EER、Top-1、固定 k ARI、在线 ARI、簇数量均不可得；"
-            "阈值重标定与产品准入保持 `blocked`，禁止用 FP32 阈值冒充 W8A16 阈值。"
-        ),
-        "",
-    ]
+    lines += [""]
     pending = benchmark.get("pending") or []
     for item in pending:
         lines.append(f"- 待办：{_cell(item)}")
@@ -658,10 +728,10 @@ def _metric_row(label: str, value: Any, unit: str) -> str:
 
 
 LATENCY_COMPONENTS = (
-    ("io_p50_ms", "runner I/O p50"),
-    ("fbank_p50_ms", "CPU FBank p50"),
-    ("transfer_p50_ms", "中间张量搬运 p50"),
-    ("schedule_p50_ms", "第二次调度 p50"),
+    ("io_p50_ms", "runner I/O p50", "runner I/O（io）"),
+    ("fbank_p50_ms", "CPU FBank p50", "CPU FBank（fbank）"),
+    ("transfer_p50_ms", "中间张量搬运 p50", "中间张量搬运（transfer）"),
+    ("schedule_p50_ms", "第二次调度 p50", "第二次调度（schedule）"),
 )
 
 
@@ -692,10 +762,10 @@ def _section_latency(benchmark: Mapping[str, Any]) -> list[str]:
         _metric_row("端到端 p95", latency.get("end_to_end_p95_ms"), "ms"),
         _metric_row("吞吐", latency.get("throughput_ips"), "IPS"),
     ]
-    for key, label in LATENCY_COMPONENTS:
+    for key, label, _ in LATENCY_COMPONENTS:
         lines.append(_metric_row(label, latency.get(key), "ms"))
     complete = latency.get("end_to_end_p50_ms") is not None and all(
-        latency.get(key) is not None for key, _ in LATENCY_COMPONENTS
+        latency.get(key) is not None for key, _, _ in LATENCY_COMPONENTS
     )
     lines += [""]
     if complete:
@@ -711,12 +781,23 @@ def _section_latency(benchmark: Mapping[str, Any]) -> list[str]:
         )
     missing = [
         label
-        for key, label in (("end_to_end_p50_ms", "端到端"), ("throughput_ips", "吞吐"))
+        for key, label, _ in (
+            ("end_to_end_p50_ms", "端到端", "端到端"),
+            ("throughput_ips", "吞吐", "吞吐"),
+        )
         + LATENCY_COMPONENTS
         if latency.get(key) is None
     ]
+    missing_components = [
+        name for key, _, name in LATENCY_COMPONENTS if latency.get(key) is None
+    ]
     lines += [""]
-    if missing:
+    if missing_components:
+        lines.append(
+            f"**不可得：** {'、'.join(missing)}没有实测值；缺少的组成项："
+            f"{'、'.join(missing_components)}。不估算。"
+        )
+    elif missing:
         lines.append(f"**不可得：** {'、'.join(missing)}没有实测值，不估算。")
     else:
         lines.append("**不可得：** 无；上表所有列出的项都有实测值。")

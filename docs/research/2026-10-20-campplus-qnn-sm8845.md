@@ -8,12 +8,12 @@
 ## 1. 实测与不可得分列
 
 **实测：**
-- 真机运行 `20261020-220201-smoke` 为 pass：退出码 0，16 个输出元素且全部有限；该次没有持久化 graph 时间，不作为延迟数字。
-- 真机运行 `20261020-220308-smoke` 为 pass：退出码 0，16 个输出元素且全部有限；该次没有持久化 graph 时间，不作为延迟数字。
-- 版本/配置矩阵：8 行离线构建产物；7 行有 build ID 与元数据，1 行没有元数据；8 行记录了 context SHA-256（见第 3、6 节）。
+- 真机运行 `20261020-220201-smoke` 为 pass：退出码 0，16 个输出元素（不是 192 维有限 embedding，不作为速度值；该行不渲染 graph 时间）。
+- 真机运行 `20261020-220308-smoke` 为 pass：退出码 0，16 个输出元素（不是 192 维有限 embedding，不作为速度值；该行不渲染 graph 时间）。
+- 版本/配置矩阵：8 行离线构建产物；7 行有元数据，其中 7 行带 build ID；1 行没有元数据；8 行记录了 context SHA-256（见第 3、6 节）。
 
 **不可得：**
-- CAM++ W8A16 完整 192 维 embedding：`blocked`（全部 timeout/SSR）。
+- CAM++ W8A16 完整 192 维 embedding：`blocked`（时间线状态分布：execute_error=2，load_error=1，pass=2，ssr=2）。
 - 节点区间隔离：`awaiting_device`，interval=null，awaiting_interval=[0,3101]。
 - 双 context 分区根因：`unproven`（status=`device_unavailable`）。
 - EER、Top-1、固定 k ARI、在线 ARI、阈值重标定与产品准入：全部不可得。
@@ -26,9 +26,9 @@
 | 20261020-220113-smoke | execute_error | 126 | 0 | False | execute_error（执行失败，不是速度值） |
 | 20261020-220125-smoke | load_error | 11 | 0 | False | load_error（context 未加载，不是速度值） |
 | 20261020-220145-smoke | execute_error | 127 | 0 | False | execute_error（执行失败，不是速度值） |
-| 20261020-220201-smoke | pass | 0 | 16 | True | pass（通过；本次没有持久化 graph 时间，不计入速度值） |
+| 20261020-220201-smoke | pass | 0 | 16 | True | pass（通过；本次没有持久化 graph 时间，且不是 192 维有限 embedding，不计入速度值） |
 | 20261020-220223-campplus-w8a16-v2 | ssr | 17 | 0 | False | CDSP SSR（FastRPC timeout 的下游后果，没有 embedding） |
-| 20261020-220308-smoke | pass | 0 | 16 | True | pass（通过；本次没有持久化 graph 时间，不计入速度值） |
+| 20261020-220308-smoke | pass | 0 | 16 | True | pass（通过；本次没有持久化 graph 时间，且不是 192 维有限 embedding，不计入速度值） |
 | 20261020-220315-campplus-w8a16-v2 | ssr | 17 | 0 | False | CDSP SSR（FastRPC timeout 的下游后果，没有 embedding） |
 
 **实测：** 上表逐条抄自 `device-runs/*/result.json`；`timeout` 与 `ssr` 状态来自 logcat 的 FastRPC 看门狗与 CDSP SSR 证据，不参与任何延迟统计。
@@ -57,7 +57,7 @@
 
 ## 4. 隔离区间
 
-**实测：** 7 个 probe 中 6 个记录 context SHA-256、7 个记录 graph SHA-256；切点与张量形状来自真实图结构。；其中 1 个 probe 缺少 context SHA-256。
+**实测：** 7 个 probe 中 6 个记录 context SHA-256、7 个记录 graph SHA-256；切点与张量形状来自真实图结构；其中 1 个 probe 缺少 context SHA-256。
 
 **不可得：** 设备离线，prefix/suffix 没有真机执行结果，因此没有二分进展（`awaiting_device`）。
 
@@ -153,7 +153,7 @@
 
 **实测：** 无；没有 FP32/W8A16 paired embedding，不计算任何准确率。
 
-**不可得：** EER、Top-1、固定 k ARI、在线 ARI、簇数量均不可得；阈值重标定与产品准入保持 `blocked`，禁止用 FP32 阈值冒充 W8A16 阈值。
+**不可得：** parity 指标不可得；EER、Top-1、固定 k ARI、在线 ARI、簇数量均不可得；阈值重标定与产品准入保持 `blocked`，禁止用 FP32 阈值冒充 W8A16 阈值。
 
 - 待办：首次成功门禁：同一真实输入连续 30 次、退出码全为 0、无 SSR、无 FastRPC 超时、每次 192 个有限值
 - 待办：用同一波形/FBank/裁剪顺序提取 paired FP32 与 W8A16 embedding
