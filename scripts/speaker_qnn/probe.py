@@ -932,6 +932,8 @@ def verify_probe_parity(
 REWRITE_SELECTED = "selected"
 REWRITE_BLOCKED = "blocked_on_isolated_interval"
 REWRITE_UNSUPPORTED = "unsupported_operator_family"
+REWRITE_UNSUPPORTED_KIND = "unsupported_kind"
+REWRITE_UNPROVEN = "unproven_isolation"
 
 # 二分停止条件会把剩余区间收敛到单一算子族；只有下列算子族存在定义良好
 # 的等价改写。没有隔离区间或算子族未注册时一律拒绝，不在证据不足时猜改写。
@@ -943,6 +945,13 @@ REWRITE_BY_FAMILY: dict[str, str] = {
     "Reshape": "layout_normalization",
     "Transpose": "layout_normalization",
 }
+
+# 只有真正有 handler 的 kind 才能在 select 阶段返回 `selected`；其余 kind
+# 在 select 阶段即拒绝，避免 `rewrite.json` 出现"已选中但不可 apply"。
+REWRITE_IMPLEMENTED_KINDS = frozenset({"constant_fold_static_shape"})
+
+# 改写 parity 的硬下限：只接受与完整校准集同样规模的 40 条真实输入。
+REWRITE_PARITY_INPUTS = 40
 
 # HTP V81 不执行的算子：出现在最终路径即说明回退到 CPU，必须拒绝。
 CPU_ONLY_OPERATORS = frozenset(
@@ -966,6 +975,91 @@ class RewriteResult:
         return payload
 
 
+def _rewrite_interval(interval: Any) -> tuple[int, int]:
+    """把 isolation 区间解析成 `(start, end)`；结构不合法直接拒绝。"""
+    if not isinstance(interval, (list, tuple)) or len(interval) != 2:
+        raise ValueError(
+            f"isolation.interval 必须是 [start, end] 两元区间，实际 {interval!r}"
+        )
+    try:
+        start, end = int(interval[0]), int(interval[1])
+    except (TypeError, ValueError) as exc:
+        raise ValueError(
+            f"isolation.interval 必须是整数区间，实际 {interval!r}"
+        ) from exc
+    if start < 0 or end <= start:
+        raise ValueError(
+            f"isolation.interval 必须满足 0 <= start < end，实际 {interval!r}"
+        )
+    return start, end
+
+
+def _isolation_evidence(
+    isolation: Mapping[str, Any],
+) -> list[tuple[int, str | None, bool]]:
+    """收集 `(节点索引, 真机状态, 是否有 probe context SHA-256)`。
+
+    `probes` 记录初始阶段 prefix 真机结果，`steps` 记录二分中点结果；
+    两者共同覆盖停止条件在首轮即满足（steps 为空）的已验证区间。
+    """
+    rows: list[tuple[int, str | None, bool]] = []
+    probes = isolation.get("probes")
+    for probe in probes if isinstance(probes, list) else ():
+        if not isinstance(probe, Mapping):
+            continue
+        node_interval = probe.get("node_interval")
+        if not isinstance(node_interval, (list, tuple)) or len(node_interval) != 2:
+            continue
+        device = probe.get("device")
+        status = device.get("status") if isinstance(device, Mapping) else None
+        rows.append((
+            int(node_interval[1]),
+            str(status) if status is not None else None,
+            bool(probe.get("context_sha256")),
+        ))
+    steps = isolation.get("steps")
+    for step in steps if isinstance(steps, list) else ():
+        if not isinstance(step, Mapping) or not isinstance(step.get("node_index"), int):
+            continue
+        device = step.get("device")
+        status = device.get("status") if isinstance(device, Mapping) else None
+        probe = step.get("probe")
+        rows.append((
+            int(step["node_index"]),
+            str(status) if status is not None else None,
+            bool(isinstance(probe, Mapping) and probe.get("context_sha256")),
+        ))
+    return rows
+
+
+def _isolation_provenance_problems(
+    isolation: Mapping[str, Any], interval: tuple[int, int]
+) -> list[str]:
+    """已验证区间必须能追到真机探针与探针哈希，且宽度已收敛。"""
+    start, end = interval
+    problems: list[str] = []
+    rows = _isolation_evidence(isolation)
+    if not rows:
+        problems.append("缺少真机探针证据（probes 与 steps 均为空）")
+    evidence = {index: (status, hashed) for index, status, hashed in rows}
+    allowed = {"pass"} | FAILING_STATUSES
+    for index, (status, hashed) in sorted(evidence.items()):
+        if status not in allowed:
+            problems.append(f"节点 {index} 缺有效真机状态（device.status={status!r}）")
+        if not hashed:
+            problems.append(f"节点 {index} 的 probe 缺 context SHA-256")
+    if end not in evidence or evidence[end][0] not in FAILING_STATUSES:
+        problems.append(f"区间终点 {end} 没有失败 probe 的真机证据")
+    if start != 0 and (start not in evidence or evidence[start][0] != "pass"):
+        problems.append(f"区间起点 {start} 没有通过 probe 的真机证据")
+    if end - start > BISECTION_MAX_NODES:
+        problems.append(
+            f"区间宽度 {end - start} 超过二分停止阈值 {BISECTION_MAX_NODES}，"
+            "未收敛区间不能作为改写依据"
+        )
+    return problems
+
+
 def select_rewrite(isolation: Mapping[str, Any]) -> dict[str, Any]:
     """只从 `isolation.json` 的已验证区间选改写；没有证据就显式 blocked。"""
     status = str(isolation.get("status") or "")
@@ -984,6 +1078,7 @@ def select_rewrite(isolation: Mapping[str, Any]) -> dict[str, Any]:
     }
     if status != "verified" or interval is None:
         return record
+    bounds = _rewrite_interval(interval)
     kinds = {REWRITE_BY_FAMILY.get(family) for family in families}
     if len(families) != 1 or None in kinds:
         record.update({
@@ -994,11 +1089,30 @@ def select_rewrite(isolation: Mapping[str, Any]) -> dict[str, Any]:
             ),
         })
         return record
+    kind = next(iter(kinds))
+    if kind not in REWRITE_IMPLEMENTED_KINDS:
+        record.update({
+            "status": REWRITE_UNSUPPORTED_KIND,
+            "interval": list(bounds),
+            "reason": (
+                f"算子族 {families[0]} 对应改写 {kind}，但该改写没有实现；"
+                "未实现的 kind 不能被选中"
+            ),
+        })
+        return record
+    problems = _isolation_provenance_problems(isolation, bounds)
+    if problems:
+        record.update({
+            "status": REWRITE_UNPROVEN,
+            "interval": list(bounds),
+            "reason": "；".join(problems),
+        })
+        return record
     record.update({
         "status": REWRITE_SELECTED,
-        "kind": next(iter(kinds)),
-        "interval": [int(interval[0]), int(interval[1])],
-        "reason": f"隔离区间 {interval} 的单一算子族 {families[0]}",
+        "kind": kind,
+        "interval": list(bounds),
+        "reason": f"隔离区间 {list(bounds)} 的单一算子族 {families[0]}",
     })
     return record
 
@@ -1006,6 +1120,12 @@ def select_rewrite(isolation: Mapping[str, Any]) -> dict[str, Any]:
 def require_rewrite_parity(result: RewriteResult) -> None:
     """硬门禁：改写必须在 40 条真实输入上过 FP32 parity，否则不得编译。"""
     parity = result.parity or {}
+    inputs = parity.get("inputs")
+    if not isinstance(inputs, int) or inputs != REWRITE_PARITY_INPUTS:
+        raise ValueError(
+            f"改写 {result.name} 的 FP32 parity 只覆盖 {inputs} 条输入，"
+            f"必须覆盖 {REWRITE_PARITY_INPUTS} 条真实输入"
+        )
     max_abs = parity.get("max_abs")
     median = parity.get("cosine_median")
     minimum = parity.get("cosine_minimum")
@@ -1053,10 +1173,23 @@ def _static_shapes(model: "onnx.ModelProto") -> dict[str, tuple[int, ...]]:
     return shapes
 
 
+def _int_attribute(node: Any, name: str) -> int | None:
+    for attribute in node.attribute:
+        if attribute.name == name:
+            return int(attribute.i)
+    return None
+
+
 def _fold_static_shape(
     model_proto: "onnx.ModelProto",
+    interval: tuple[int, int],
 ) -> tuple["onnx.ModelProto", tuple[str, ...]]:
-    """把静态 `Shape` 及其常量 `Gather` 折成 `Constant`（语义等价的形状折叠）。"""
+    """把隔离区间内的静态 `Shape` 及其常量 `Gather` 折成 `Constant`。
+
+    只处理 `interval[0] < index <= interval[1]` 的节点；区间外原样保留。
+    区间内出现无法安全折叠的算子（Shape 带部分 start/end、Gather 非 axis 0、
+    输入 shape 非静态、非常量索引）时直接拒绝，不做猜测。
+    """
     onnx = _require_onnx()
     np = _require_numpy()
     shapes = _static_shapes(model_proto)
@@ -1071,34 +1204,63 @@ def _fold_static_shape(
         )
         for initializer in model_proto.graph.initializer
     }
-    for node in model_proto.graph.node:
-        if node.op_type == "Shape" and len(node.input) == 1:
+    for index, node in enumerate(model_proto.graph.node):
+        in_interval = interval[0] < index <= interval[1]
+        if not in_interval:
+            nodes.append(node)
+            continue
+        if node.op_type == "Shape":
+            if len(node.input) != 1:
+                raise ValueError(f"区间内 Shape {node.name} 输入数不是 1，无法安全折叠")
             shape = shapes.get(node.input[0])
-            if shape is not None:
-                tensor = np.asarray(shape, dtype="<i8")
-                constants[node.output[0]] = (node.name, tensor)
-                nodes.append(
-                    onnx.helper.make_node(
-                        "Constant",
-                        [],
-                        [node.output[0]],
-                        name=node.name,
-                        value=onnx.helper.make_tensor(
-                            f"{node.output[0]}_value",
-                            onnx.TensorProto.INT64,
-                            [len(shape)],
-                            tensor.tolist(),
-                        ),
-                    )
+            if shape is None:
+                raise ValueError(
+                    f"区间内 Shape {node.name} 的输入 {node.input[0]} 不是静态 shape，"
+                    "无法安全折叠"
                 )
-                changed.append(node.name)
-                continue
-        if (
-            node.op_type == "Gather"
-            and len(node.input) == 2
-            and node.input[0] in constants
-            and node.input[1] in indices
-        ):
+            start = _int_attribute(node, "start")
+            end = _int_attribute(node, "end")
+            if (start is not None and start != 0) or (
+                end is not None and end != len(shape)
+            ):
+                raise ValueError(
+                    f"区间内 Shape {node.name} 带 start/end=({start},{end})，"
+                    f"全量 shape 长度为 {len(shape)}，无法安全折叠"
+                )
+            tensor = np.asarray(shape, dtype="<i8")
+            constants[node.output[0]] = (node.name, tensor)
+            nodes.append(
+                onnx.helper.make_node(
+                    "Constant",
+                    [],
+                    [node.output[0]],
+                    name=node.name,
+                    value=onnx.helper.make_tensor(
+                        f"{node.output[0]}_value",
+                        onnx.TensorProto.INT64,
+                        [len(shape)],
+                        tensor.tolist(),
+                    ),
+                )
+            )
+            changed.append(node.name)
+            continue
+        if node.op_type == "Gather":
+            axis = _int_attribute(node, "axis")
+            if axis is not None and axis != 0:
+                raise ValueError(
+                    f"区间内 Gather {node.name} 的 axis={axis}，"
+                    "只有 axis=0 的静态 Shape 索引可以安全折叠"
+                )
+            if (
+                len(node.input) != 2
+                or node.input[0] not in constants
+                or node.input[1] not in indices
+            ):
+                raise ValueError(
+                    f"区间内 Gather {node.name} 不是静态 Shape 上的常量索引，"
+                    "无法安全折叠"
+                )
             tensor = constants[node.input[0]][1][indices[node.input[1]]]
             nodes.append(
                 onnx.helper.make_node(
@@ -1116,7 +1278,9 @@ def _fold_static_shape(
             )
             changed.append(node.name)
             continue
-        nodes.append(node)
+        raise ValueError(
+            f"区间内节点 {node.name}（{node.op_type}）不属于该改写族，无法安全折叠"
+        )
 
     used = {name for node in nodes for name in node.input if name}
     initializers = [
@@ -1140,7 +1304,9 @@ def _fold_static_shape(
     return rewritten, tuple(changed)
 
 
-REWRITE_HANDLERS: dict[str, Callable[[Any], tuple[Any, tuple[str, ...]]]] = {
+REWRITE_HANDLERS: dict[
+    str, Callable[[Any, tuple[int, int]], tuple[Any, tuple[str, ...]]]
+] = {
     "constant_fold_static_shape": _fold_static_shape,
 }
 
@@ -1243,7 +1409,9 @@ def apply_semantic_rewrite(
     if handler is None:
         raise ValueError(f"改写族 {selection['kind']} 没有实现")
     model = Path(model)
-    rewritten, changed = handler(_load_model(model))
+    rewritten, changed = handler(
+        _load_model(model), (int(selection["interval"][0]), int(selection["interval"][1]))
+    )
     if not changed:
         raise ValueError(f"改写 {selection['kind']} 没有命中任何节点，拒绝生成空改写")
     output = _output_path(Path(output), "rewrite.onnx")
@@ -1711,6 +1879,14 @@ def dtype_size(dtype: str) -> int:
         raise ValueError(f"不支持的 cut dtype：{dtype}") from exc
 
 
+PARTITION_SELECTION_BASIS = "smallest_intermediate_only"
+PARTITION_SOLVES_ROOT_CAUSE = "unproven"
+PARTITION_UPGRADE_RULE = (
+    "只有 isolation 已验证且故障区间完全落在 prefix 之外"
+    "（interval[0] >= cut.node_index）时，才把该分区升级为根因候选"
+)
+
+
 @dataclass(frozen=True)
 class PartitionPlan:
     """双 context 分区：cut 两侧各一个 context，中间张量只走原生 I/O 搬运。"""
@@ -1726,6 +1902,8 @@ class PartitionPlan:
             "prefix": self.prefix_context.to_dict(),
             "suffix": self.suffix_context.to_dict(),
             "transfer_bytes": self.transfer_bytes,
+            "selection_basis": PARTITION_SELECTION_BASIS,
+            "solves_root_cause": PARTITION_SOLVES_ROOT_CAUSE,
         }
 
 
@@ -1736,6 +1914,34 @@ def require_partition_limit(artifacts: Sequence[BuildArtifact]) -> None:
             f"分区最多 {MAX_PARTITION_CONTEXTS} 段，实际 {len(artifacts)} 段；"
             "三段以上方案不进入本计划"
         )
+
+
+def partition_candidate_upgrade(
+    isolation: Mapping[str, Any] | None, cut: TensorCut
+) -> dict[str, Any]:
+    """按真机隔离区间判断该分区能否从"最小中间张量"升级为根因候选。"""
+    record: dict[str, Any] = {"eligible": False, "condition": PARTITION_UPGRADE_RULE}
+    if not isolation or isolation.get("status") != "verified":
+        record["reason"] = "isolation 尚未验证，分区只按最小中间张量选择，不能声称解决根因"
+        return record
+    interval = isolation.get("interval")
+    if not isinstance(interval, (list, tuple)) or len(interval) != 2:
+        record["reason"] = f"isolation 区间不完整：{interval!r}"
+        return record
+    first = int(interval[0])
+    if first >= cut.node_index:
+        record.update({
+            "eligible": True,
+            "reason": (
+                f"故障区间 {list(interval)} 完全落在 prefix（节点 <= {cut.node_index}）之外"
+            ),
+        })
+        return record
+    record["reason"] = (
+        f"故障区间 {list(interval)} 与 prefix（节点 <= {cut.node_index}）重叠；"
+        "该分区不能解决主体超时"
+    )
+    return record
 
 
 def _partition_manifest(cut: TensorCut, output_dir: Path) -> Path:
@@ -1761,6 +1967,7 @@ def build_partition(
     input_list: Path = DEFAULT_CALIBRATION,
     intermediate_manifest: Path | None = None,
     serial: str | None = None,
+    isolation: Mapping[str, Any] | None = None,
 ) -> PartitionPlan:
     """构建 cut 两侧的 prefix + suffix context（同一 QAIRT build）。
 
@@ -1788,6 +1995,9 @@ def build_partition(
     suffix_onnx = suffix_dir / "onnx" / "suffix.onnx"
     extract_prefix(model, cut, prefix_onnx)
     extract_suffix(model, cut, manifest_path, suffix_onnx, input_list=input_list)
+    # 两个分区 ONNX 与改写走同一 CPU 算子门禁：任一含 CPU-only 算子即拒绝编译。
+    require_htp_executable(prefix_onnx)
+    require_htp_executable(suffix_onnx)
     prefix_list = prefix_dir / "input_list.txt"
     shutil.copyfile(input_list, prefix_list)
     suffix_list = write_suffix_calibration(manifest, suffix_dir / "input_list.txt")
@@ -1858,6 +2068,9 @@ def build_partition(
             ),
             "device": {"serial": serial, "available": device_online},
             "plan": plan.to_dict(),
+            "selection_basis": PARTITION_SELECTION_BASIS,
+            "solves_root_cause": PARTITION_SOLVES_ROOT_CAUSE,
+            "candidate_upgrade": partition_candidate_upgrade(isolation, cut),
             "parity": parity,
             "layout": layout,
             "pending": [
@@ -2539,17 +2752,36 @@ def _rewrite_command(arguments: argparse.Namespace) -> int:
     isolation_path = Path(arguments.isolation)
     isolation = json.loads(isolation_path.read_text(encoding="utf-8"))
     selection = select_rewrite(isolation)
-    write_json_atomic(isolation_path.parent / "rewrite.json", selection)
+    record_path = isolation_path.parent / "rewrite.json"
     print(json.dumps(selection, ensure_ascii=False, sort_keys=True))
     if selection["status"] != REWRITE_SELECTED:
+        write_json_atomic(record_path, selection)
         return 0
-    result = apply_semantic_rewrite(
-        Path(arguments.model),
-        isolation,
-        Path(arguments.output)
-        if arguments.output
-        else isolation_path.parent / "rewrite" / "rewrite.onnx",
-        input_list=Path(arguments.calibration_list),
+    try:
+        result = apply_semantic_rewrite(
+            Path(arguments.model),
+            isolation,
+            Path(arguments.output)
+            if arguments.output
+            else isolation_path.parent / "rewrite" / "rewrite.onnx",
+            input_list=Path(arguments.calibration_list),
+        )
+    except Exception as exc:
+        # apply 失败必须原子改写为 apply_failed，不能留下"selected 但没产出"的假状态。
+        write_json_atomic(
+            record_path,
+            selection | {
+                "status": "apply_failed",
+                "reason": f"{type(exc).__name__}: {exc}",
+            },
+        )
+        raise
+    write_json_atomic(
+        record_path,
+        selection | {
+            "output_sha256": result.output_sha256,
+            "changed_nodes": list(result.changed_nodes),
+        },
     )
     print(json.dumps(result.to_dict(), ensure_ascii=False, sort_keys=True))
     return 0
@@ -2585,6 +2817,12 @@ def _partition_command(arguments: argparse.Namespace) -> int:
         arguments.dlbc,
         str(artifact.metadata.graph_name) if artifact.metadata else "campplus",
     )
+    isolation_path = output_root / "probes" / "isolation.json"
+    isolation = (
+        json.loads(isolation_path.read_text(encoding="utf-8"))
+        if isolation_path.is_file()
+        else None
+    )
     plan = build_partition(
         Path(arguments.model),
         cut,
@@ -2592,6 +2830,7 @@ def _partition_command(arguments: argparse.Namespace) -> int:
         output_root / "probes" / f"partition-{cut.node_index:04d}",
         input_list=Path(arguments.calibration_list),
         serial=arguments.serial,
+        isolation=isolation,
     )
     print(json.dumps(plan.to_dict(), ensure_ascii=False, sort_keys=True))
     return 0

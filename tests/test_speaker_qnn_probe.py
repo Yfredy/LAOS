@@ -50,7 +50,10 @@ from scripts.speaker_qnn.probe import (  # noqa: E402
     PartitionPlan,
     ProbeSpec,
     REWRITE_BLOCKED,
+    REWRITE_PARITY_INPUTS,
     REWRITE_SELECTED,
+    REWRITE_UNPROVEN,
+    REWRITE_UNSUPPORTED_KIND,
     SOURCE_KIND_REAL_AUDIO,
     RewriteResult,
     TensorCut,
@@ -67,6 +70,7 @@ from scripts.speaker_qnn.probe import (  # noqa: E402
     load_manifest,
     midpoint_cut,
     parity_gate,
+    partition_candidate_upgrade,
     require_htp_executable,
     require_partition_limit,
     require_rewrite_parity,
@@ -816,9 +820,42 @@ def _rewrite_result(
         output_sha256="b" * 64,
         parity=parity
         if parity is not None
-        else {"passed": True, "mode": "exact", "max_abs": 0.0},
+        else {
+            "passed": True,
+            "mode": "exact",
+            "max_abs": 0.0,
+            "inputs": REWRITE_PARITY_INPUTS,
+        },
         changed_nodes=changed_nodes,
     )
+
+
+def _verified_isolation(
+    *,
+    interval: tuple[int, int] = (0, 1),
+    families: tuple[str, ...] = ("Shape",),
+    steps: list[dict] | None = None,
+) -> dict:
+    """构造一份带真机证据的已验证 isolation（仅用于门禁测试）。"""
+    if steps is None:
+        steps = [{
+            "node_index": interval[1],
+            "probe": {"context_sha256": "a" * 64},
+            "device": {"status": "timeout"},
+        }]
+        if interval[0] != 0:
+            steps.append({
+                "node_index": interval[0],
+                "probe": {"context_sha256": "b" * 64},
+                "device": {"status": "pass"},
+            })
+    return {
+        "status": "verified",
+        "interval": list(interval),
+        "operator_families": list(families),
+        "probes": [],
+        "steps": steps,
+    }
 
 
 class TestRewriteGate(_TempDirTest):
@@ -831,6 +868,7 @@ class TestRewriteGate(_TempDirTest):
                 "max_abs": 1e-3,
                 "cosine_median": 0.99,
                 "cosine_minimum": 0.9,
+                "inputs": REWRITE_PARITY_INPUTS,
             }
         )
         with self.assertRaisesRegex(ValueError, "FP32 parity"):
@@ -838,6 +876,18 @@ class TestRewriteGate(_TempDirTest):
 
     def test_exact_parity_is_accepted(self) -> None:
         require_rewrite_parity(_rewrite_result())
+
+    def test_short_input_list_is_rejected(self) -> None:
+        result = _rewrite_result(
+            parity={
+                "passed": True,
+                "mode": "exact",
+                "max_abs": 0.0,
+                "inputs": REWRITE_PARITY_INPUTS - 1,
+            }
+        )
+        with self.assertRaisesRegex(ValueError, str(REWRITE_PARITY_INPUTS)):
+            require_rewrite_parity(result)
 
     def test_cosine_below_floor_is_rejected(self) -> None:
         result = _rewrite_result(
@@ -847,6 +897,7 @@ class TestRewriteGate(_TempDirTest):
                 "max_abs": 1e-7,
                 "cosine_median": 0.9999995,
                 "cosine_minimum": 0.9999,
+                "inputs": REWRITE_PARITY_INPUTS,
             }
         )
         with self.assertRaisesRegex(ValueError, "FP32 parity"):
@@ -860,6 +911,7 @@ class TestRewriteGate(_TempDirTest):
                 "max_abs": 1e-7,
                 "cosine_median": 0.999999,
                 "cosine_minimum": 0.99999,
+                "inputs": REWRITE_PARITY_INPUTS,
             }
         )
         require_rewrite_parity(result)
@@ -886,6 +938,31 @@ class TestRewriteGate(_TempDirTest):
             "operator_families": ["MatMul", "Add"],
         })
         self.assertEqual(selection["status"], "unsupported_operator_family")
+
+    def test_kind_without_handler_is_not_selected(self) -> None:
+        selection = select_rewrite(_verified_isolation(
+            interval=(10, 12), families=("ReduceMean",)
+        ))
+        self.assertEqual(selection["status"], REWRITE_UNSUPPORTED_KIND)
+        self.assertIsNone(selection["kind"])
+
+    def test_verified_isolation_without_probe_evidence_is_unproven(self) -> None:
+        isolation = _verified_isolation(steps=[])
+        selection = select_rewrite(isolation)
+        self.assertEqual(selection["status"], REWRITE_UNPROVEN)
+
+    def test_unconverged_interval_is_unproven(self) -> None:
+        selection = select_rewrite(_verified_isolation(interval=(0, 20)))
+        self.assertEqual(selection["status"], REWRITE_UNPROVEN)
+        self.assertIn("阈值", selection["reason"])
+
+    def test_empty_interval_raises_value_error(self) -> None:
+        with self.assertRaisesRegex(ValueError, "interval"):
+            select_rewrite({
+                "status": "verified",
+                "interval": [],
+                "operator_families": ["Shape"],
+            })
 
     def test_missing_changed_node_names_are_rejected(self) -> None:
         with self.assertRaisesRegex(ValueError, "changed_nodes"):
@@ -949,23 +1026,49 @@ class TestRewriteGate(_TempDirTest):
         )
         result = apply_semantic_rewrite(
             model,
-            {
-                "status": "verified",
-                "interval": [0, 1],
-                "operator_families": ["Shape"],
-            },
+            _verified_isolation(interval=(0, 1)),
             self.root / "rewrite.onnx",
-            input_list=_input_list(self.root),
+            input_list=_input_list(self.root, rows=REWRITE_PARITY_INPUTS),
         )
         self.assertEqual(result.changed_nodes, ("shape",))
         self.assertEqual(result.parity["max_abs"], 0.0)
-        selection = select_rewrite({
-            "status": "verified",
-            "interval": [0, 1],
-            "operator_families": ["Shape"],
-        })
+        self.assertEqual(result.parity["inputs"], REWRITE_PARITY_INPUTS)
+        selection = select_rewrite(_verified_isolation(interval=(0, 1)))
         self.assertEqual(selection["status"], REWRITE_SELECTED)
         self.assertEqual(selection["kind"], "constant_fold_static_shape")
+
+    @NEEDS_ONNX
+    def test_shape_rewrite_only_touches_nodes_inside_interval(self) -> None:
+        shape_outside = helper.make_node("Shape", ["x"], ["s0"], name="shape_outside")
+        identity = helper.make_node("Identity", ["x"], ["x1"], name="identity")
+        shape_inside = helper.make_node("Shape", ["x1"], ["s2"], name="shape_inside")
+        graph = helper.make_graph(
+            [shape_outside, identity, shape_inside],
+            "two-shapes",
+            [helper.make_tensor_value_info("x", TensorProto.FLOAT, [1, 4])],
+            [helper.make_tensor_value_info("s2", TensorProto.INT64, [2])],
+            initializer=[],
+        )
+        model = self.root / "two-shapes.onnx"
+        onnx.save(
+            helper.make_model(
+                graph, opset_imports=[helper.make_opsetid("", 17)], ir_version=8
+            ),
+            str(model),
+        )
+        output = self.root / "two-shapes-rewrite.onnx"
+        result = apply_semantic_rewrite(
+            model,
+            _verified_isolation(interval=(1, 2)),
+            output,
+            input_list=_input_list(self.root, rows=REWRITE_PARITY_INPUTS),
+        )
+        self.assertEqual(result.changed_nodes, ("shape_inside",))
+        rewritten = onnx.load(str(output))
+        self.assertEqual(
+            [node.name for node in rewritten.graph.node if node.op_type == "Shape"],
+            ["shape_outside"],
+        )
 
 
 @NEEDS_ONNX
@@ -1044,6 +1147,56 @@ class TestPartition(_TempDirTest):
                 intermediate_manifest=manifest,
             )
 
+    def test_candidate_upgrade_requires_interval_outside_prefix(self) -> None:
+        cut = TensorCut(100, "h", (1, 4), "float32")
+        self.assertFalse(
+            partition_candidate_upgrade(
+                {"status": "awaiting_device", "interval": None}, cut
+            )["eligible"]
+        )
+        self.assertFalse(
+            partition_candidate_upgrade(
+                {"status": "verified", "interval": [10, 50]}, cut
+            )["eligible"]
+        )
+        upgraded = partition_candidate_upgrade(
+            {"status": "verified", "interval": [100, 110]}, cut
+        )
+        self.assertTrue(upgraded["eligible"])
+        self.assertIn("condition", upgraded)
+
+    @NEEDS_ONNX
+    def test_partition_rejects_cpu_only_operator(self) -> None:
+        def fake_extract(*args, **kwargs):
+            output = Path(args[-1])
+            output.parent.mkdir(parents=True, exist_ok=True)
+            node = helper.make_node("Loop", ["x"], ["y"], name="cpu_loop")
+            graph = helper.make_graph(
+                [node],
+                "cpu",
+                [helper.make_tensor_value_info("x", TensorProto.FLOAT, [1, 4])],
+                [helper.make_tensor_value_info("y", TensorProto.FLOAT, [1, 4])],
+            )
+            onnx.save(
+                helper.make_model(
+                    graph, opset_imports=[helper.make_opsetid("", 17)], ir_version=8
+                ),
+                str(output),
+            )
+            return mock.Mock()
+
+        with mock.patch.object(probe_module, "extract_prefix", fake_extract), \
+                mock.patch.object(probe_module, "extract_suffix", fake_extract):
+            with self.assertRaisesRegex(ValueError, "CPU 算子"):
+                build_partition(
+                    self.root / "model.onnx",
+                    TensorCut(0, "h", (1, 4), "float32"),
+                    variant=mock.Mock(),
+                    output_dir=self.root / "partition",
+                    input_list=_input_list(self.root),
+                    intermediate_manifest=self._manifest(),
+                )
+
     @NEEDS_ONNX
     def test_partition_accounts_for_intermediate_transfer(self) -> None:
         cut = TensorCut(0, "h", (1, 4), "float32")
@@ -1061,7 +1214,7 @@ class TestPartition(_TempDirTest):
         def fake_extract(*args, **kwargs):
             output = Path(args[-1])
             output.parent.mkdir(parents=True, exist_ok=True)
-            output.write_bytes(b"onnx")
+            onnx.save(_tiny_model(), str(output))
             return mock.Mock()
 
         def fake_build(model, calibration, build_variant, output_dir, **kwargs):
@@ -1116,6 +1269,10 @@ class TestPartition(_TempDirTest):
         self.assertEqual(record["status"], "device_unavailable")
         self.assertIsNone(record["device"]["serial"])
         self.assertEqual(record["plan"]["transfer_bytes"], plan.transfer_bytes)
+        self.assertEqual(record["selection_basis"], "smallest_intermediate_only")
+        self.assertEqual(record["solves_root_cause"], "unproven")
+        self.assertEqual(record["plan"]["selection_basis"], "smallest_intermediate_only")
+        self.assertFalse(record["candidate_upgrade"]["eligible"])
 
 
 if __name__ == "__main__":
