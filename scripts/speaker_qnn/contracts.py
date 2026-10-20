@@ -165,13 +165,11 @@ def validate_sm8845_context(
         )
 
 
-# 看门狗证据有两种真实形态：客户端主动终止
-# （`... remote session control ... timeout: 10000`）与 CDSP 崩溃报告
-# （`crashed in thread "fr/<pid>/..." ... timeout: 10000`）。
-_TIMEOUT_RE = re.compile(
-    r"(?:remote session control[^\n]*?|crashed in thread[^\n]*?)\btimeout\s*:\s*(\d+)",
-    re.I,
-)
+# 只有客户端主动终止才算看门狗证据：
+# `Intentional crash triggered using remote session control ... timeout: 10000`
+# （历史 logcat:727）。cdsprpcd 的 `crashed in thread ... timeout: 10000`
+# （logcat:739）是会话配置回显，任何 DSP 崩溃都带，不能当超时。
+_TIMEOUT_RE = re.compile(r"remote session control[^\n]*?timeout\s*:\s*(\d+)", re.I)
 _INTENTIONAL_CRASH_RE = re.compile(r"intentional crash triggered", re.I)
 _SSR_RE = re.compile(
     r"SSR detected|SSR in progress|Single-Core SSR|SSR successfully recovered",

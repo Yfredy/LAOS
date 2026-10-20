@@ -106,8 +106,8 @@ class TestClassifyDeviceRun(unittest.TestCase):
         self.assertEqual(result.status, "pass")
         self.assertIsNone(result.timeout_ms)
 
-    def test_cdsp_crash_report_is_timeout(self) -> None:
-        """历史 logcat:739：cdsprpcd 崩溃报告用 `crashed in thread` 标注超时。"""
+    def test_cdsp_crash_report_alone_is_not_timeout(self) -> None:
+        """历史 logcat:739 的 `crashed in thread ... timeout` 只是会话配置回显。"""
         crash = (
             '10-20 21:43:23.208  2677  2850 V adsprpc : 68032a:587: CDSP0:[R]: '
             'Process "/frpc/f0589320 qnn-net-run" crashed in thread '
@@ -115,7 +115,30 @@ class TestClassifyDeviceRun(unittest.TestCase):
             "sc: 0x7020100 handle: 0x2cba90 tidA: 14734 because Application "
             "called qurt_exit() "
         )
-        result = classify_device_run(stdout="Graph Execution failure", logcat=crash, output=None)
+        result = classify_device_run(
+            stdout="Graph Execution failure",
+            logcat=crash + "\n10-20 21:43:23.208 14734 14739 E QNN: SSR detected\n",
+            output=None,
+        )
+        self.assertEqual(result.status, "ssr")
+        self.assertIsNone(result.timeout_ms)
+
+    def test_crash_report_with_watchdog_line_is_timeout(self) -> None:
+        """加回 logcat:727 的看门狗行后才是 timeout。"""
+        watchdog = (
+            "10-20 21:43:23.206 14734 14739 E qnn-net-run: Intentional crash "
+            "triggered using remote session control for libQnnHtpV81Skel.so "
+            "timeout: 10000 domain: 100000"
+        )
+        crash = (
+            '10-20 21:43:23.208  2677  2850 V adsprpc : 68032a:587: CDSP0:[R]: '
+            'Process "/frpc/f0589320 qnn-net-run" crashed in thread '
+            '"fr/14734/14740/" libQnnHtpV81Skel.so timeout: 10000 domain: 100000 '
+            "because Application called qurt_exit()"
+        )
+        result = classify_device_run(
+            stdout="Graph Execution failure", logcat=f"{watchdog}\n{crash}", output=None
+        )
         self.assertEqual(result.status, "timeout")
         self.assertEqual(result.timeout_ms, 10000)
 
