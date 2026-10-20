@@ -1840,18 +1840,7 @@ def _load_variant_artifact(variant_id: str, output_root: Path) -> BuildArtifact:
         raise FileNotFoundError(f"变体 artifact 不存在：{path}")
     payload = json.loads(path.read_text(encoding="utf-8"))
     row = payload.get("metadata")
-    metadata = (
-        ContextMetadata(
-            build_id=str(row["build_id"]),
-            soc_model=int(row["soc_model"]),
-            dsp_arch=int(row["dsp_arch"]),
-            graph_name=str(row["graph_name"]),
-            input_shape=tuple(int(value) for value in row["input_shape"]),
-            output_shape=tuple(int(value) for value in row["output_shape"]),
-        )
-        if row
-        else None
-    )
+    metadata = ContextMetadata.from_dict(row) if row else None
     return BuildArtifact(
         variant_id=str(payload["variant_id"]),
         status=str(payload["status"]),

@@ -36,17 +36,24 @@ import subprocess
 import sys
 import time
 from collections.abc import Mapping, Sequence
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from .contracts import (
+    DEFAULT_OUTPUT_FILE_DTYPE,
+    PROFILE_UNAVAILABLE,
     SCHEMA_VERSION,
+    ContextMetadata,
     load_context_metadata,
     validate_sm8845_context,
     write_json_atomic,
 )
-from .device import resolve_input_list, run_context
+from .device import (
+    require_sm8845_device,
+    resolve_input_list,
+    run_context,
+)
 
 if TYPE_CHECKING:  # 主库 discover 环境没有 numpy
     import numpy as np
@@ -84,6 +91,7 @@ PERF_PROFILES = (
     "low_balance",
 )
 SOAK_PERF_PROFILE = "sustained_high_performance"
+MODEL_LICENSE = "Apache-2.0"
 QNN_P50, QNN_P95, QNN_P99 = 0.50, 0.95, 0.99
 
 EXTRACTION_KIND = "campplus_embedding_extraction"
@@ -147,6 +155,11 @@ _GRAPH_TIME_RE = re.compile(
     r"([0-9]+(?:\.[0-9]+)?)\s*(us|µs|ms|s)\b",
     re.I,
 )
+# qnn-profile-viewer 文本把单位写在括号里：`Graph Execution Time (us): 4726`。
+_VIEWER_GRAPH_TIME_RE = re.compile(
+    r"execut[^\n]*?time\s*\(\s*(us|µs|ms|s)\s*\)\s*[:=]\s*([0-9]+(?:\.[0-9]+)?)",
+    re.I,
+)
 _THERMAL_RE = re.compile(
     r"Temperature\{\s*mValue=(-?[0-9]+(?:\.[0-9]+)?)\s*,\s*mType=-?[0-9]+\s*,\s*"
     r"mName=([A-Za-z0-9_]+)"
@@ -175,10 +188,21 @@ def percentile(values: Sequence[float], p: float) -> float:
 
 
 def parse_execution_timings(text: str) -> tuple[int, ...]:
-    """按出现顺序解析 profile 里所有 graph execute time，统一成微秒。"""
+    """按出现顺序解析 profile 里所有 graph execute time，统一成微秒。
+
+    优先 legacy runner 文本（`Graph execute time: 4726 us`）；没有命中时
+    回退 `qnn-profile-viewer` 文本（`Execution Time (us): 4726`）。
+    """
+    text = text or ""
+    legacy = tuple(
+        int(round(float(value) * _TIMING_UNIT_US[unit.lower()]))
+        for value, unit in _GRAPH_TIME_RE.findall(text)
+    )
+    if legacy:
+        return legacy
     return tuple(
         int(round(float(value) * _TIMING_UNIT_US[unit.lower()]))
-        for value, unit in _GRAPH_TIME_RE.findall(text or "")
+        for unit, value in _VIEWER_GRAPH_TIME_RE.findall(text)
     )
 
 
@@ -211,9 +235,11 @@ class DeviceUnavailableError(RuntimeError):
 
     status = STATUS_DEVICE_UNAVAILABLE
 
-    def __init__(self, reason: str) -> None:
+    def __init__(self, reason: str, *, status: str | None = None) -> None:
         super().__init__(reason)
         self.reason = reason
+        if status is not None:
+            self.status = status
 
     def to_dict(self) -> dict[str, Any]:
         return {"status": self.status, "reason": self.reason}
@@ -288,6 +314,13 @@ class LatencyMetrics:
     fbank_p50_ms: float | None = None
     transfer_p50_ms: float | None = None
     schedule_p50_ms: float | None = None
+    status: str = STATUS_PASS
+    perf_profile: str = "default"
+    device_serial: str | None = None
+    soc_model: int | None = None
+    dsp_arch: int | None = None
+    build_id: str | None = None
+    model_license: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -308,6 +341,14 @@ class SoakMetrics:
     max_skin_temp_c: float | None
     median_graph_ms: float
     final_graph_ms: float
+    status: str = STATUS_PASS
+    perf_profile: str = SOAK_PERF_PROFILE
+    device_serial: str | None = None
+    soc_model: int | None = None
+    dsp_arch: int | None = None
+    build_id: str | None = None
+    model_license: str | None = None
+    frequency_state_samples: int = 0
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -329,6 +370,7 @@ class LatencyEvent:
     transfer_us: int | None = None
     schedule_us: int | None = None
     profile_text: str = ""
+    profile_status: str = PROFILE_UNAVAILABLE
 
     @property
     def graph_time_us(self) -> int | None:
@@ -384,6 +426,19 @@ def summarize_latency(
     ordered = list(events)
     measured = [event for event in ordered[int(warmups):] if event.measured]
     if not measured:
+        # 只有"全部 pass 但都没有 graph 时间、且 profile 不可得"才是
+        # profile_unavailable；运行本身 timeout/ssr 时按聚合异常报出。
+        if ordered and all(
+            event.status == STATUS_PASS
+            and event.graph_time_us is None
+            and event.profile_status == PROFILE_UNAVAILABLE
+            for event in ordered
+        ):
+            raise DeviceUnavailableError(
+                "profile_unavailable：qnn-profile-viewer 未能把 "
+                "qnn-profiling-data*.log 转成文本，冷加载与 graph 时间不可得",
+                status=PROFILE_UNAVAILABLE,
+            )
         raise ValueError(
             f"warmup 之后没有任何 measured 事件（warmups={warmups}, events={len(ordered)}）"
         )
@@ -528,17 +583,29 @@ def qnn_dtype_itemsize(data_type: str) -> int:
 
 
 def _read_raw_output(
-    raw_path: Path, metadata: Any, embedding_dim: int
+    raw_path: Path,
+    metadata: Any,
+    embedding_dim: int,
+    *,
+    output_file_dtype: str | None = None,
 ) -> "np.ndarray":
-    """按 metadata 的 dtype 读设备原始输出，并校验元素个数。"""
+    """按 provenance 声明的落盘 dtype 读取设备原始输出，并校验元素个数。
+
+    `output_file_dtype` 来自 device run 的 result.json；缺省时才退回
+    context metadata 的 `output_data_type`（旧证据兼容）。
+    """
     np = _require_numpy()
     path = Path(raw_path)
     if not path.is_file():
         raise ValueError(f"原始输出不存在：{path}")
-    data_type = getattr(metadata, "output_data_type", None)
-    if not data_type:
-        raise ValueError("context metadata 缺少 output_data_type，无法读取原始输出")
-    data = np.fromfile(path, dtype=qnn_dtype_numpy(data_type))
+    if output_file_dtype:
+        data_type = output_file_dtype
+    else:
+        data_type = getattr(metadata, "output_data_type", None)
+        if not data_type:
+            raise ValueError("context metadata 缺少 output_data_type，无法读取原始输出")
+        data_type = qnn_dtype_numpy(data_type)
+    data = np.fromfile(path, dtype=data_type)
     shape = tuple(getattr(metadata, "output_shape", ()) or ())
     expected = math.prod(shape) if shape else int(embedding_dim)
     if int(expected) != int(embedding_dim) or data.size != int(embedding_dim):
@@ -549,19 +616,25 @@ def _read_raw_output(
 
 
 def read_device_output(
-    raw_path: Path, metadata: Any, *, embedding_dim: int = EMBEDDING_DIM
+    raw_path: Path,
+    metadata: Any,
+    *,
+    embedding_dim: int = EMBEDDING_DIM,
+    output_file_dtype: str | None = None,
 ) -> "np.ndarray":
     """读设备原始输出：量化则反量化，FP32 直接读，最后逐行 L2 归一化。"""
     np = _require_numpy()
-    data = _read_raw_output(raw_path, metadata, embedding_dim)
+    data = _read_raw_output(
+        raw_path, metadata, embedding_dim, output_file_dtype=output_file_dtype
+    )
     scale = getattr(metadata, "output_scale", None)
     offset = getattr(metadata, "output_offset", None)
-    if scale is not None and offset is not None:
+    if np.issubdtype(data.dtype, np.floating):
+        values = data.astype(np.float32).reshape(1, int(embedding_dim))
+    elif scale is not None and offset is not None:
         values = dequantize_embedding(
             data, scale=scale, offset=offset, embedding_dim=embedding_dim
         )
-    elif np.issubdtype(data.dtype, np.floating):
-        values = data.astype(np.float32).reshape(1, int(embedding_dim))
     else:
         raise ValueError("量化输出缺少 scale/offset，无法反量化")
     return l2_normalize(values, embedding_dim=embedding_dim)
@@ -1009,7 +1082,6 @@ def require_device_evidence(
         raise ValueError(
             "w8a16_provenance 缺少 item_ids_sha256，embedding 与 manifest 无法对账"
         )
-    itemsize = qnn_dtype_itemsize(provenance["output_dtype"])
     runs = provenance.get("device_runs")
     if not isinstance(runs, (list, tuple)) or not runs:
         raise DeviceUnavailableError("w8a16_provenance.device_runs 为空，没有真机 embedding 证据")
@@ -1049,6 +1121,22 @@ def require_device_evidence(
         output_path = _resolve_path(result_path.parent, output_value, "output_path")
         if not output_path.is_file():
             raise DeviceUnavailableError(f"真机运行的 output 文件缺失：{output_value}")
+        # 落盘 dtype 的唯一真源是 result.json 的 output_file_dtype：
+        # qnn-net-run 默认 float32（192×4=768 字节），只有 provenance 声明
+        # native_output 时才按 context dtype（U16 等）计算字节数。
+        declared_dtype = result.get("output_file_dtype")
+        if isinstance(declared_dtype, str) and declared_dtype:
+            if bool(result.get("native_output")):
+                expected_dtype = qnn_dtype_numpy(provenance["output_dtype"])
+                if declared_dtype != expected_dtype:
+                    raise DeviceUnavailableError(
+                        f"真机运行 {result_value} 声明 native_output={declared_dtype}，"
+                        f"与 provenance output_dtype={provenance['output_dtype']!r} 不符"
+                    )
+            itemsize = int(_require_numpy().dtype(declared_dtype).itemsize)
+        else:
+            # 旧 result.json 没有 dtype provenance：退回 context dtype 语义。
+            itemsize = qnn_dtype_itemsize(provenance["output_dtype"])
         expected_bytes = int(embedding_dim) * itemsize
         actual_bytes = output_path.stat().st_size
         if actual_bytes != expected_bytes:
@@ -1289,6 +1377,25 @@ def _load_variant(
     return variant_id, info_path, context_path, metadata
 
 
+def _run_output_file_dtype(run_path: Path, metadata: Any) -> str | None:
+    """从 device run 读取落盘 dtype；原生量化必须与 context dtype 一致。"""
+    try:
+        payload = json.loads(Path(run_path).read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError(f"device run 不可读：{run_path}: {exc}") from exc
+    declared = payload.get("output_file_dtype")
+    if not isinstance(declared, str) or not declared:
+        return None
+    if bool(payload.get("native_output")):
+        data_type = getattr(metadata, "output_data_type", None)
+        if not data_type or qnn_dtype_numpy(data_type) != declared:
+            raise ValueError(
+                f"device run 声明 native_output={declared}，"
+                f"但 context dtype={data_type!r} 不匹配（{run_path}）"
+            )
+    return declared
+
+
 def extract_embedding_sets(
     spec: Path, output_dir: Path, *, embedding_dim: int = EMBEDDING_DIM
 ) -> dict[str, Any]:
@@ -1361,20 +1468,29 @@ def extract_embedding_sets(
             if not isinstance(output, Mapping):
                 raise ValueError(f"{condition}/{item_id} 缺少 {label} 输出")
             raw_path = _resolve_path(spec_dir, output.get("raw"), f"{label}.raw")
-            values = read_device_output(
-                raw_path, variants[label][3], embedding_dim=embedding_dim
-            )
-            rows[label][condition].append(values[0])
-            run_record: dict[str, Any] = {
-                "raw": str(raw_path.resolve()),
-                "raw_sha256": _sha256(raw_path),
-            }
+            run_path: Path | None = None
             if output.get("run") is not None:
                 run_path = _resolve_path(spec_dir, output.get("run"), f"{label}.run")
                 if not run_path.is_file():
                     raise ValueError(
                         f"{condition}/{item_id} 的 {label}.run 不存在：{run_path}"
                     )
+            values = read_device_output(
+                raw_path,
+                variants[label][3],
+                embedding_dim=embedding_dim,
+                output_file_dtype=(
+                    _run_output_file_dtype(run_path, variants[label][3])
+                    if run_path is not None
+                    else None
+                ),
+            )
+            rows[label][condition].append(values[0])
+            run_record: dict[str, Any] = {
+                "raw": str(raw_path.resolve()),
+                "raw_sha256": _sha256(raw_path),
+            }
+            if run_path is not None:
                 run_record["run"] = str(run_path.resolve())
             record[label] = run_record
         item_records.append(record)
@@ -1745,11 +1861,26 @@ def _require_deliverable_artifact(artifact: Any) -> Any:
     return metadata
 
 
-def _profile_text(output_dir: Path) -> str:
-    path = Path(output_dir) / "profile.log"
-    if not path.is_file():
-        return ""
-    return path.read_text(encoding="utf-8", errors="replace")
+def _profile_text(output_dir: Path, result: Any = None) -> str:
+    """读取 device 运行持久化的 viewer 文本；缺省回退旧 `profile.log`。
+
+    `result.profile_paths` 是 `collect_profile` 写出的 `profile.txt` 真源；
+    只有旧证据没有该字段时才尝试运行目录里的 `profile.txt`/`profile.log`。
+    """
+    paths = [
+        Path(path)
+        for path in (getattr(result, "profile_paths", ()) or ())
+        if Path(path).is_file()
+    ]
+    if not paths:
+        for name in ("profile.txt", "profile.log"):
+            candidate = Path(output_dir) / name
+            if candidate.is_file():
+                paths.append(candidate)
+                break
+    return "\n".join(
+        path.read_text(encoding="utf-8", errors="replace") for path in paths
+    )
 
 
 def _collect_latency_events(
@@ -1784,7 +1915,8 @@ def _collect_latency_events(
                 status=result.status,
                 graph_us=result.graph_execute_us,
                 context_load_us=result.context_load_us,
-                profile_text=_profile_text(output_dir),
+                profile_text=_profile_text(output_dir, result),
+                profile_status=result.profile_status,
             )
         )
 
@@ -1797,13 +1929,23 @@ def _collect_latency_events(
         num_inferences=int(warmups) + int(measured),
         perf_profile=perf_profile,
     )
-    profile_text = _profile_text(output_dir)
+    profile_text = _profile_text(output_dir, result)
     timings = parse_execution_timings(profile_text)
     if result.status != STATUS_PASS:
-        events.append(LatencyEvent(status=result.status, profile_text=profile_text))
+        events.append(
+            LatencyEvent(
+                status=result.status,
+                profile_text=profile_text,
+                profile_status=result.profile_status,
+            )
+        )
         return events
     events.extend(
-        LatencyEvent(status=STATUS_PASS, graph_us=value)
+        LatencyEvent(
+            status=STATUS_PASS,
+            graph_us=value,
+            profile_status=result.profile_status,
+        )
         for value in timings[: int(warmups) + int(measured)]
     )
     return events
@@ -1814,6 +1956,8 @@ def run_latency_benchmark(
     warmups: int,
     measured: int,
     perf_profile: str,
+    *,
+    serial: str | None = None,
 ) -> LatencyMetrics:
     """跑冷加载 + measured 速度矩阵；设备离线时明确 `device_unavailable`。"""
     if int(warmups) < 0:
@@ -1824,18 +1968,29 @@ def run_latency_benchmark(
         raise ValueError(
             f"perf_profile 必须是 {PERF_PROFILES} 之一，实际 {perf_profile!r}"
         )
-    _require_deliverable_artifact(artifact)
-    serial = discover_device_serial()
+    metadata = _require_deliverable_artifact(artifact)
+    serial = serial or discover_device_serial()
     if serial is None:
         raise DeviceUnavailableError(
             "device_unavailable：adb 无在线设备，"
             f"{COLD_LOAD_SAMPLES} 次 fresh-process 冷加载与 {int(measured)} 次 measured"
             f"（{int(warmups)} 次 warmup，perf_profile={perf_profile}）未执行"
         )
+    require_sm8845_device(serial)
     events = _collect_latency_events(
         serial, artifact, int(warmups), int(measured), perf_profile
     )
-    return summarize_latency(events, warmups=COLD_LOAD_SAMPLES + int(warmups))
+    metrics = summarize_latency(events, warmups=COLD_LOAD_SAMPLES + int(warmups))
+    return replace(
+        metrics,
+        status=STATUS_PASS,
+        perf_profile=perf_profile,
+        device_serial=serial,
+        soc_model=metadata.soc_model,
+        dsp_arch=metadata.dsp_arch,
+        build_id=metadata.build_id,
+        model_license=MODEL_LICENSE,
+    )
 
 
 def _thermal_sample(serial: str) -> tuple[float | None, float | None]:
@@ -1854,22 +2009,55 @@ def _thermal_sample(serial: str) -> tuple[float | None, float | None]:
     return parse_thermal_sample(process.stdout or "")
 
 
+_FREQUENCY_STATE_PATHS = (
+    "/sys/class/devfreq/soc:qcom,cpu0-cpu-l3-lat/cur_freq",
+    "/sys/class/devfreq/soc:qcom,kgsl-3d0/cur_freq",
+)
+
+
+def _frequency_state_sample(serial: str) -> dict[str, str] | None:
+    """采样可用 devfreq 频率节点；节点不存在时安全跳过（返回 None）。"""
+    state: dict[str, str] = {}
+    for path in _FREQUENCY_STATE_PATHS:
+        try:
+            process = subprocess.run(
+                ["adb", "-s", serial, "shell", "cat", path],
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                timeout=30,
+                check=False,
+            )
+        except (OSError, subprocess.SubprocessError):
+            continue
+        value = (process.stdout or "").strip()
+        if process.returncode == 0 and value.isdigit():
+            state[path.rsplit("/", 1)[-1]] = value
+    return state or None
+
+
 def run_soak(
-    artifact: Any, duration_s: int, interval_s: float
+    artifact: Any,
+    duration_s: int,
+    interval_s: float,
+    *,
+    serial: str | None = None,
 ) -> SoakMetrics:
     """`sustained_high_performance` 下按固定间隔执行并采样温区。"""
     if int(duration_s) <= 0:
         raise ValueError(f"duration_s 必须 > 0，实际 {duration_s}")
     if float(interval_s) <= 0:
         raise ValueError(f"interval_s 必须 > 0，实际 {interval_s}")
-    _require_deliverable_artifact(artifact)
+    metadata = _require_deliverable_artifact(artifact)
     minutes = int(duration_s) / 60.0
-    serial = discover_device_serial()
+    serial = serial or discover_device_serial()
     if serial is None:
         raise DeviceUnavailableError(
             f"device_unavailable：adb 无在线设备，{int(duration_s)} 秒"
             f"（{minutes:g} 分钟）1 Hz soak 与温区采样未执行"
         )
+    require_sm8845_device(serial)
 
     artifact_dir = Path(str(artifact.context_path)).parent
     input_list = resolve_input_list(artifact_dir, None, smoke=False)
@@ -1878,6 +2066,7 @@ def run_soak(
     graph_ms: list[float] = []
     successful = 0
     failed = 0
+    frequency_samples = 0
     started = time.monotonic()
     tick = 0
     while True:
@@ -1894,11 +2083,24 @@ def run_soak(
             perf_profile=SOAK_PERF_PROFILE,
         )
         if result.status == STATUS_PASS and result.graph_execute_us is not None:
+            graph_us = int(result.graph_execute_us)
+            if graph_us >= WATCHDOG_MS * 1000:
+                raise ValueError(
+                    f"soak sample {tick}: graph {graph_us} us >= {WATCHDOG_MS} ms "
+                    "是 FastRPC timeout，不是速度值"
+                )
+            if graph_us >= RESIDENT_CAP_MS * 1000:
+                raise ValueError(
+                    f"soak sample {tick}: graph {graph_us} us >= {RESIDENT_CAP_MS} ms，"
+                    "单次推理判不可常驻，不能进 soak 速度样本"
+                )
             successful += 1
-            graph_ms.append(int(result.graph_execute_us) / 1000.0)
+            graph_ms.append(graph_us / 1000.0)
         else:
             failed += 1
         temperatures.append(_thermal_sample(serial))
+        if _frequency_state_sample(serial) is not None:
+            frequency_samples += 1
         # 绝对时刻调度：每次采样锚在 start + n*interval，运行耗时不会累积漂移。
         tick += 1
         remaining = started + tick * float(interval_s) - time.monotonic()
@@ -1918,7 +2120,120 @@ def run_soak(
         max_skin_temp_c=max_skin,
         median_graph_ms=percentile(graph_ms, QNN_P50),
         final_graph_ms=graph_ms[-1],
+        status=STATUS_PASS,
+        perf_profile=SOAK_PERF_PROFILE,
+        device_serial=serial,
+        soc_model=metadata.soc_model,
+        dsp_arch=metadata.dsp_arch,
+        build_id=metadata.build_id,
+        model_license=MODEL_LICENSE,
+        frequency_state_samples=frequency_samples,
     )
+
+
+def load_artifact(path: Path) -> Any:
+    """从 `artifact.json`（或所在目录）重建可上机的 BuildArtifact。"""
+    from .build import BuildArtifact
+
+    path = Path(path)
+    if path.is_dir():
+        path = path / "artifact.json"
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError(f"artifact 不可读：{path}: {exc}") from exc
+    row = payload.get("metadata")
+    return BuildArtifact(
+        variant_id=str(payload["variant_id"]),
+        status=str(payload["status"]),
+        context_path=payload.get("context_path"),
+        metadata=ContextMetadata.from_dict(row) if row else None,
+        sha256=dict(payload.get("sha256") or {}),
+        commands=tuple(payload.get("commands") or ()),
+        error=payload.get("error"),
+        warning=payload.get("warning"),
+    )
+
+
+def record_benchmark_section(
+    root: Path, section: str, metrics: Mapping[str, Any]
+) -> Path:
+    """把 latency/soak 结果合并进 `<root>/benchmark.json` 对应小节。"""
+    if section not in ("latency", "soak"):
+        raise ValueError(f"未知 benchmark 小节：{section!r}")
+    path = Path(root) / "benchmark.json"
+    record: dict[str, Any] = {}
+    if path.is_file():
+        try:
+            existing = json.loads(path.read_text(encoding="utf-8"))
+            if isinstance(existing, dict):
+                record = existing
+        except (OSError, json.JSONDecodeError):
+            record = {}
+    record.setdefault("schema_version", SCHEMA_VERSION)
+    record.setdefault("kind", "campplus_w8a16_benchmark")
+    record[section] = dict(metrics)
+    write_json_atomic(path, record)
+    return path
+
+
+def _main_metric(argv: Sequence[str], section: str) -> int:
+    parser = argparse.ArgumentParser(prog=f"benchmark {section}")
+    parser.add_argument("--artifact", required=True)
+    parser.add_argument("--root", default=str(DEFAULT_EVIDENCE_ROOT))
+    parser.add_argument("--serial")
+    parser.add_argument("--perf-profile", default="burst")
+    if section == "latency":
+        parser.add_argument("--warmups", type=int, default=100)
+        parser.add_argument("--measured", type=int, default=1000)
+    else:
+        parser.add_argument("--duration", type=int, default=1800)
+        parser.add_argument("--interval", type=float, default=1.0)
+    arguments = parser.parse_args(list(argv))
+    artifact_path = Path(arguments.artifact)
+    if not artifact_path.is_file():
+        artifact_path = artifact_path / "artifact.json"
+    try:
+        artifact = load_artifact(artifact_path)
+        if section == "latency":
+            metrics = run_latency_benchmark(
+                artifact,
+                arguments.warmups,
+                arguments.measured,
+                arguments.perf_profile,
+                serial=arguments.serial,
+            )
+        else:
+            metrics = run_soak(
+                artifact,
+                arguments.duration,
+                arguments.interval,
+                serial=arguments.serial,
+            )
+        output = record_benchmark_section(Path(arguments.root), section, metrics.to_dict())
+    except (ValueError, OSError, DeviceUnavailableError) as exc:
+        print(
+            json.dumps(
+                {
+                    "status": getattr(exc, "status", "error"),
+                    "reason": str(exc),
+                    "section": section,
+                },
+                ensure_ascii=False,
+            )
+        )
+        return 2
+    print(
+        json.dumps(
+            {
+                "status": STATUS_PASS,
+                "section": section,
+                "output": str(output),
+            },
+            ensure_ascii=False,
+        )
+    )
+    return 0
 
 
 def _main_extract(argv: Sequence[str]) -> int:
@@ -1950,6 +2265,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = list(sys.argv[1:] if argv is None else argv)
     if args and args[0] == "extract":
         return _main_extract(args[1:])
+    if args and args[0] in ("latency", "soak"):
+        return _main_metric(args[1:], args[0])
     parser = argparse.ArgumentParser(
         description="CAM++ W8A16 embedding parity 与任务准确率门禁"
     )

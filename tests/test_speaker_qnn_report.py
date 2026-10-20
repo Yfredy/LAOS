@@ -185,6 +185,8 @@ def _full_pass_record(run_id: str = "run-pass") -> dict:
 
 def _complete_latency() -> dict:
     return {
+        "status": "pass",
+        "perf_profile": "burst",
         "cold_load_p50_ms": 12.5,
         "cold_load_p95_ms": 15.0,
         "graph_p50_ms": 42.0,
@@ -279,6 +281,8 @@ class TestReportRendering(unittest.TestCase):
     def test_numeric_latency_only_rendered_when_present(self):
         benchmark = _benchmark_without_success()
         benchmark["latency"] = {
+            "status": "pass",
+            "perf_profile": "burst",
             "cold_load_p50_ms": 12.5,
             "cold_load_p95_ms": 15.0,
             "graph_p50_ms": 42.0,
@@ -299,6 +303,8 @@ class TestReportRendering(unittest.TestCase):
     def test_latency_section_never_composes_unmeasured_end_to_end(self):
         benchmark = _benchmark_without_success()
         benchmark["latency"] = {
+            "status": "pass",
+            "perf_profile": "burst",
             "cold_load_p50_ms": 12.5,
             "cold_load_p95_ms": 15.0,
             "graph_p50_ms": 42.0,
@@ -322,6 +328,8 @@ class TestReportRendering(unittest.TestCase):
     def test_soak_none_values_render_as_unavailable(self):
         benchmark = _benchmark_without_success()
         benchmark["soak"] = {
+            "status": "pass",
+            "perf_profile": "sustained_high_performance",
             "duration_s": 1800,
             "successful_runs": 1700,
             "failed_runs": 100,
@@ -334,6 +342,28 @@ class TestReportRendering(unittest.TestCase):
         self.assertIn("| battery 最高温 | 不可得 |", report)
         self.assertIn("| 中位 graph | 不可得 |", report)
         self.assertIn("21.000 ms", report)
+
+
+    def test_latency_numbers_without_status_are_not_rendered(self):
+        benchmark = _benchmark_without_success()
+        benchmark["latency"] = {"graph_p50_ms": 42.0, "perf_profile": "burst"}
+        report = render_report(_incident_with_timeout(), benchmark)
+        section = _section(report, "## 8. ")
+        self.assertNotIn("42.000 ms", section)
+        self.assertIn("不可得", section)
+        self.assertIn("status=`缺失`", section)
+
+    def test_soak_numbers_without_status_are_not_rendered(self):
+        benchmark = _benchmark_without_success()
+        benchmark["soak"] = {
+            "duration_s": 1800,
+            "final_graph_ms": 21.0,
+            "perf_profile": "sustained_high_performance",
+        }
+        report = render_report(_incident_with_timeout(), benchmark)
+        section = _section(report, "## 9. ")
+        self.assertNotIn("21.000 ms", section)
+        self.assertIn("status=`缺失`", section)
 
 
 class TestReportEvidenceDerivation(unittest.TestCase):
@@ -504,6 +534,8 @@ class TestReportEvidenceDerivation(unittest.TestCase):
     def test_graph_only_latency_names_missing_components(self):
         benchmark = _benchmark_without_success()
         benchmark["latency"] = {
+            "status": "pass",
+            "perf_profile": "burst",
             "cold_load_p50_ms": 12.5,
             "cold_load_p95_ms": 15.0,
             "graph_p50_ms": 42.0,
@@ -594,6 +626,8 @@ class TestReportEvidenceDerivation(unittest.TestCase):
     def test_partial_latency_pointer_stays_out_of_measured(self):
         benchmark = _benchmark_without_success()
         benchmark["latency"] = {
+            "status": "pass",
+            "perf_profile": "burst",
             "cold_load_p50_ms": 12.5,
             "cold_load_p95_ms": 15.0,
             "graph_p50_ms": 42.0,
@@ -687,6 +721,51 @@ class TestReportEvidenceDerivation(unittest.TestCase):
         report = render_report(incident, _benchmark_without_success())
         self.assertIn("本次没有持久化 graph 时间", report)
         self.assertIn("没有任何一行同时满足", report)
+
+
+    def test_isolation_resolved_reports_device_evidence(self):
+        incident = _incident_with_timeout()
+        incident["isolation"]["status"] = "isolated"
+        incident["isolation"]["interval"] = [0, 3093]
+        incident["timeline"] = [_full_pass_record()]
+        report = render_report(incident, _benchmark_without_success())
+        section = _section(report, "## 4. ")
+        self.assertNotIn("设备离线", section)
+        self.assertIn("isolated", section)
+        self.assertIn("真机已有 1 次完整 192 维有限 embedding", section)
+
+    def test_full_pass_evidence_binds_artifact_context_hash(self):
+        incident = _incident_with_timeout()
+        incident["matrix"][0]["status"] = "pass"
+        incident["timeline"] = [_full_pass_record()]
+        report = render_report(incident, _benchmark_without_success())
+        section = _section(report, "## 6. ")
+        self.assertIn("真机 pass 证据", section)
+        self.assertIn("a" * 64, section)
+        self.assertNotIn("没有任何 artifact 通过真机 pass", section)
+
+    def test_two_full_pass_uses_first_persisted_graph_time(self):
+        incident = _incident_with_timeout()
+        first = _full_pass_record("run-without-graph")
+        first["graph_execute_us"] = None
+        incident["timeline"] = [first, _full_pass_record("run-with-graph")]
+        report = render_report(incident, _benchmark_without_success())
+        measured, _ = _columns(report, "## 1. ")
+        self.assertIn("graph 41.000 ms", measured)
+
+    def test_ssr_with_watchdog_timeout_is_a_downstream_consequence(self):
+        incident = _incident_with_timeout()
+        incident["timeline"][0]["timeout_ms"] = 10_000
+        report = render_report(incident, _benchmark_without_success())
+        self.assertIn("下游后果", _section(report, "## 2. "))
+
+    def test_ssr_without_watchdog_evidence_is_cdsp_crash(self):
+        incident = _incident_with_timeout()
+        section = _section(
+            render_report(incident, _benchmark_without_success()), "## 2. "
+        )
+        self.assertIn("CDSP 崩溃", section)
+        self.assertNotIn("下游后果", section)
 
 
 class TestReportCollection(unittest.TestCase):

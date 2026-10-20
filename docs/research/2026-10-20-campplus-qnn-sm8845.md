@@ -27,9 +27,9 @@
 | 20261020-220125-smoke | load_error | 11 | 0 | False | load_error（context 未加载，不是速度值） |
 | 20261020-220145-smoke | execute_error | 127 | 0 | False | execute_error（执行失败，不是速度值） |
 | 20261020-220201-smoke | pass | 0 | 16 | True | pass（通过；本次没有持久化 graph 时间，且不是 192 维有限 embedding，不计入速度值） |
-| 20261020-220223-campplus-w8a16-v2 | ssr | 17 | 0 | False | CDSP SSR（FastRPC timeout 的下游后果，没有 embedding） |
+| 20261020-220223-campplus-w8a16-v2 | ssr | 17 | 0 | False | CDSP SSR（CDSP 崩溃，没有 embedding） |
 | 20261020-220308-smoke | pass | 0 | 16 | True | pass（通过；本次没有持久化 graph 时间，且不是 192 维有限 embedding，不计入速度值） |
-| 20261020-220315-campplus-w8a16-v2 | ssr | 17 | 0 | False | CDSP SSR（FastRPC timeout 的下游后果，没有 embedding） |
+| 20261020-220315-campplus-w8a16-v2 | ssr | 17 | 0 | False | CDSP SSR（CDSP 崩溃，没有 embedding） |
 
 **实测：** 上表逐条抄自 `device-runs/*/result.json`；`timeout` 与 `ssr` 状态来自 logcat 的 FastRPC 看门狗与 CDSP SSR 证据，不参与任何延迟统计。
 
@@ -162,12 +162,12 @@
 
 ## 8. 冷/暖延迟与吞吐
 
-**实测：** 无；没有任何 pass 的 CAM++ graph 执行。
+**实测：** 无；没有同时具备 pass 与 perf_profile 的延迟记录。
 
 **不可得：** `device_unavailable`——20 次 fresh-process 冷加载、`burst` 与 `sustained_high_performance` 下的 100 次 warmup + 1,000 次 measured 均未执行，因此 cold p50/p95、graph p50/p95/p99、端到端 p50/p95 与吞吐都不可得。`>= 10 s` 只可能记为 FastRPC timeout，不是推理延迟；`>= 1 s` 判不可常驻。
 
 ## 9. 30 分钟 soak
 
-**实测：** 无。
+**实测：** 无；没有同时具备 pass 与 perf_profile 的 soak 记录。
 
 **不可得：** `device_unavailable`——30 分钟（1,800 秒）1 Hz `sustained_high_performance` soak 未执行，battery/SKIN 温区、成功/失败计数、中位与末尾 graph 时间都不可得。

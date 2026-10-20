@@ -19,9 +19,11 @@ from __future__ import annotations
 import argparse
 import dataclasses
 import hashlib
+import math
 import os
 import re
 import shlex
+import struct
 import subprocess
 import sys
 import time
@@ -32,10 +34,12 @@ from pathlib import Path
 from .contracts import (
     CAMPLUS_INPUT_SHAPE,
     CAMPLUS_OUTPUT_SHAPE,
+    DEFAULT_OUTPUT_FILE_DTYPE,
+    PROFILE_OK,
+    PROFILE_UNAVAILABLE,
     DeviceRunResult,
     classify_device_run,
     load_context_metadata,
-    parse_profile_timings,
     validate_sm8845_context,
     write_json_atomic,
 )
@@ -50,6 +54,24 @@ DEBUG_ROOT = REPO / "var/speaker-benchmark/qnn/campplus-htp-debug"
 DEFAULT_TOOLCHAIN = REPO / "var/speaker-benchmark/qnn/sdk-2.51/qairt/2.51.1.261002"
 SMOKE_ARTIFACT = REPO / "var/speaker-benchmark/qnn/htp-smoke/context-valid"
 REMOTE_ROOT = "/data/local/tmp/nanolaos-qnn"
+
+# 输出落盘格式：默认 float32（qnn-net-run 已反量化）；原生 U16 只在显式
+# `--use_native_output_files` 时成立。
+OUTPUT_FILE_DTYPE = DEFAULT_OUTPUT_FILE_DTYPE
+SM8845_MODEL = "SM8845"
+SOC_MODEL_PROPERTY = "ro.soc.model"
+PROFILE_VIEWER_RELATIVE = "bin/x86_64-windows-msvc/qnn-profile-viewer.exe"
+_PROFILE_LOG_RE = re.compile(r"^qnn-profiling-data(?:_[^/]*)?\.log$")
+
+# 纯 stdlib 的原始输出检查：struct 格式 + 单元素字节数。
+_DTYPE_STRUCT = {
+    "<f4": ("f", 4),
+    "<f2": ("e", 2),
+    "<u2": ("H", 2),
+    "<i2": ("h", 2),
+    "<i4": ("i", 4),
+    "<u4": ("I", 4),
+}
 
 # adsprpc 在 `<进程名>.farf` 里读 DSP 侧 FARF 日志掩码；缺省只开 ERROR
 # （mask 8），DSP 的 `gpe_execute_novalidate` 与 FastRPC "Intentional crash
@@ -336,11 +358,163 @@ def resolve_input_list(artifact: Path, explicit: str | None, *, smoke: bool) -> 
     )
 
 
-def read_output(path: Path) -> "np.ndarray":
-    """qnn-net-run 默认按 float32 写输出（未加 --use_native_output_files）。"""
+def read_output(path: Path, dtype: str = OUTPUT_FILE_DTYPE) -> "np.ndarray":
+    """按 provenance 声明的 dtype 读输出；默认是 qnn-net-run 的 float32。"""
     if np is None:
         raise RuntimeError("读取 QNN 输出需要 numpy：请用 var/speaker-benchmark/.venv 运行")
-    return np.fromfile(Path(path), dtype="<f4")
+    return np.fromfile(Path(path), dtype=dtype)
+
+
+def inspect_output_file(
+    path: Path, expected_count: int, dtype: str = OUTPUT_FILE_DTYPE
+) -> dict[str, object]:
+    """纯 stdlib 检查单个输出文件：字节数、元素个数与有限性。"""
+    path = Path(path)
+    raw = path.read_bytes() if path.is_file() else b""
+    code, size = _DTYPE_STRUCT.get(dtype, (None, 0))
+    count = len(raw) // size if size else 0
+    count_ok = bool(size) and count == int(expected_count) and len(raw) == count * size
+    finite = False
+    if code is not None and count:
+        values = struct.unpack(f"<{count}{code}", raw[: count * size])
+        finite = all(math.isfinite(float(value)) for value in values)
+    return {
+        "path": str(path),
+        "dtype": dtype,
+        "bytes": len(raw),
+        "count": count,
+        "count_ok": count_ok,
+        "finite": finite,
+    }
+
+
+def inspect_outputs(
+    paths: "list[Path] | tuple[Path, ...]",
+    expected_count: int,
+    dtype: str = OUTPUT_FILE_DTYPE,
+) -> tuple[dict[str, object], ...]:
+    return tuple(inspect_output_file(path, expected_count, dtype) for path in paths)
+
+
+def stability_verdict(result: DeviceRunResult, num_inferences: int) -> str:
+    """30 次门禁逐次判定：每次都必须元素数完整且有限。"""
+    if result.status != "pass":
+        return result.status
+    if int(num_inferences) <= 1:
+        return "pass"
+    if len(result.per_run) != int(num_inferences):
+        return "execute_error"
+    for record in result.per_run:
+        if not record.get("count_ok") or not record.get("finite"):
+            return "execute_error"
+    return "pass"
+
+
+def profiling_log_names(listing: "str | list[str] | tuple[str, ...]") -> tuple[str, ...]:
+    """从目录列表里挑出 qnn-profiling-data*.log（qnn-net-run 写在 output/）。"""
+    lines = listing.splitlines() if isinstance(listing, str) else list(listing)
+    names: list[str] = []
+    for line in lines:
+        name = Path(line.strip()).name
+        if _PROFILE_LOG_RE.match(name):
+            names.append(name)
+    return tuple(names)
+
+
+@dataclass(frozen=True)
+class ProfileCollection:
+    """profile 收集结果；不可得是显式状态，不是聚合异常。"""
+
+    status: str
+    text: str
+    reason: str | None
+    paths: tuple[str, ...]
+
+
+def profile_viewer_path(toolchain: QairtToolchain | None = None) -> Path | None:
+    candidate = (toolchain or discover_toolchain()).root / PROFILE_VIEWER_RELATIVE
+    return candidate if candidate.is_file() else None
+
+
+def collect_profile(
+    output_dir: Path,
+    log_paths: "list[Path] | tuple[Path, ...]",
+    viewer_argv: "list[str] | None",
+) -> ProfileCollection:
+    """把二进制 profile 日志经 qnn-profile-viewer 转成文本并持久化。"""
+    output_dir = Path(output_dir)
+    logs = [Path(path) for path in log_paths]
+    if not logs:
+        return ProfileCollection(
+            PROFILE_UNAVAILABLE,
+            "",
+            "设备 output 目录没有 qnn-profiling-data*.log，profile 不可得",
+            (),
+        )
+    if not viewer_argv:
+        return ProfileCollection(
+            PROFILE_UNAVAILABLE,
+            "",
+            "本机 QAIRT 树缺少 qnn-profile-viewer，profile 不可得",
+            (),
+        )
+    sections: list[str] = []
+    for log in logs:
+        try:
+            completed = subprocess.run(
+                [str(part) for part in (*viewer_argv, "--input_log", str(log))],
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                timeout=300,
+                check=False,
+            )
+        except (OSError, subprocess.SubprocessError) as exc:
+            return ProfileCollection(
+                PROFILE_UNAVAILABLE, "", f"qnn-profile-viewer 执行失败：{exc}", ()
+            )
+        text = (completed.stdout or "") + (completed.stderr or "")
+        if completed.returncode != 0 or not text.strip():
+            return ProfileCollection(
+                PROFILE_UNAVAILABLE,
+                "",
+                f"qnn-profile-viewer 未能解析 {log.name}（exit {completed.returncode}）",
+                (),
+            )
+        sections.append(f"# {log.name}\n{text.strip()}\n")
+    combined = "\n".join(sections)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    profile = output_dir / "profile.txt"
+    profile.write_text(combined, encoding="utf-8", errors="replace")
+    return ProfileCollection(PROFILE_OK, combined, None, (str(profile),))
+
+
+def device_property(serial: str, name: str) -> str | None:
+    """读一个 Android system property；读不到返回 None。"""
+    try:
+        process = _run_adb(serial, "shell", f"getprop {name}", timeout=30)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    if process.returncode != 0:
+        return None
+    value = (process.stdout or "").strip()
+    return value or None
+
+
+def device_soc_model(serial: str) -> str | None:
+    return device_property(serial, SOC_MODEL_PROPERTY)
+
+
+def require_sm8845_device(serial: str) -> str:
+    """延迟/soak 必须绑定 SM8845 真机，型号不符直接拒绝。"""
+    model = device_soc_model(serial)
+    if model != SM8845_MODEL:
+        raise ValueError(
+            f"设备 {serial} 的 {SOC_MODEL_PROPERTY}={model!r}，"
+            f"要求 {SM8845_MODEL}；性能数据只能来自目标 SoC"
+        )
+    return model
 
 
 def _failure(
@@ -564,15 +738,38 @@ def run_context(
         )
 
     profile_text = ""
-    profile_path = output_dir / "profile.log"
-    profile_pull = _run_adb(serial, "pull", f"{remote_dir}/qnn-profiling-data.log",
-                            str(profile_path), timeout=120)
-    if profile_pull.returncode == 0 and profile_path.is_file():
-        profile_text = profile_path.read_text(encoding="utf-8", errors="replace")
-    elif profile_path.exists():
-        profile_path.unlink()
+    profile_status = PROFILE_UNAVAILABLE
+    profile_paths: tuple[str, ...] = ()
+    profile_logs = sorted(
+        (output_dir / "output").glob("qnn-profiling-data*.log")
+    )
+    if not profile_logs:
+        # 兼容旧路径：runner 也可能把日志写在远端运行目录根层。
+        listing = _run_adb(serial, "shell", f"ls {remote_dir}", timeout=60)
+        names = profiling_log_names(listing.stdout or "")
+        for name in names:
+            local = output_dir / name
+            pulled = _run_adb(
+                serial, "pull", f"{remote_dir}/{name}", str(local), timeout=120
+            )
+            if pulled.returncode == 0 and local.is_file():
+                profile_logs.append(local)
+    try:
+        viewer = profile_viewer_path(selected)
+    except (OSError, ValueError):
+        viewer = None
+    collection = collect_profile(
+        output_dir,
+        profile_logs,
+        [str(viewer)] if viewer is not None else None,
+    )
+    profile_status = collection.status
+    profile_text = collection.text
+    profile_paths = collection.paths
 
     output_files = sorted((output_dir / "output").rglob("*.raw"))
+    expected_count = math.prod(tuple(metadata.output_shape))
+    per_run = inspect_outputs(output_files, expected_count, OUTPUT_FILE_DTYPE)
     output_path = output_files[0] if output_files else None
     output_array = read_output(output_path) if output_path is not None else None
 
@@ -590,14 +787,18 @@ def run_context(
         profile_text=profile_text,
     )
     evidence = [output_dir / "stdout.log", logcat_path]
-    if profile_path.is_file():
-        evidence.append(profile_path)
+    evidence.extend(Path(path) for path in profile_paths)
     if output_path is not None:
         evidence.append(output_path)
     result = dataclasses.replace(
         result,
         output_path=str(output_path) if output_path is not None else None,
         evidence_paths=tuple(str(path) for path in evidence),
+        output_file_dtype=OUTPUT_FILE_DTYPE,
+        native_output=False,
+        per_run=per_run,
+        profile_status=profile_status,
+        profile_paths=profile_paths,
     )
     write_json_atomic(output_dir / "result.json", result.to_dict())
     return result

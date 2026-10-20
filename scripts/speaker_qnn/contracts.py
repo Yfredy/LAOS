@@ -20,6 +20,7 @@ import math
 import os
 import re
 import tempfile
+from collections.abc import Mapping
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Literal
@@ -28,6 +29,13 @@ if TYPE_CHECKING:  # 主库 discover 环境没有 numpy，运行时按需导入
     import numpy as np
 
 SCHEMA_VERSION = 1
+
+# qnn-net-run 默认把输出反量化成 float32 落盘；只有显式
+# `--use_native_output_files` 才按 context dtype（U16 等）写。dtype 是
+# provenance 的唯一真源，读取端一律从 result/artifact 取，不各自硬编码。
+DEFAULT_OUTPUT_FILE_DTYPE = "<f4"
+PROFILE_OK = "ok"
+PROFILE_UNAVAILABLE = "profile_unavailable"
 
 SM8845_SOC_MODEL = 87
 HTP_V81_DSP_ARCH = 81
@@ -72,13 +80,35 @@ class ContextMetadata:
         payload["output_shape"] = list(self.output_shape)
         return payload
 
+    @classmethod
+    def from_dict(cls, payload: Mapping[str, Any]) -> "ContextMetadata":
+        """`to_dict` 的逆运算：build/probe 重建 metadata 时不得丢量化字段。"""
+        return cls(
+            build_id=str(payload["build_id"]),
+            soc_model=int(payload["soc_model"]),
+            dsp_arch=int(payload["dsp_arch"]),
+            graph_name=str(payload["graph_name"]),
+            input_shape=tuple(int(value) for value in payload["input_shape"]),
+            output_shape=tuple(int(value) for value in payload["output_shape"]),
+            output_data_type=payload.get("output_data_type"),
+            output_quant_encoding=payload.get("output_quant_encoding"),
+            output_scale=payload.get("output_scale"),
+            output_offset=payload.get("output_offset"),
+        )
+
     def to_json(self) -> str:
         return json.dumps(self.to_dict(), ensure_ascii=False, indent=2, sort_keys=True)
 
 
 @dataclass(frozen=True)
 class DeviceRunResult:
-    """一次真机执行的判定结果；`pass` 之外都不是速度值。"""
+    """一次真机执行的判定结果；`pass` 之外都不是速度值。
+
+    `output_file_dtype`/`native_output` 是输出落盘格式的唯一真源：默认
+    float32（`<f4`，qnn-net-run 已反量化）；`<u2` 等原生量化格式只在显式
+    `--use_native_output_files` 时成立。`per_run` 记录多推理每次的完整性，
+    供 30 次门禁逐次判定。
+    """
 
     status: DeviceRunStatus
     exit_code: int
@@ -89,10 +119,17 @@ class DeviceRunResult:
     graph_execute_us: int | None
     timeout_ms: int | None
     evidence_paths: tuple[str, ...]
+    output_file_dtype: str = DEFAULT_OUTPUT_FILE_DTYPE
+    native_output: bool = False
+    per_run: tuple[dict[str, Any], ...] = ()
+    profile_status: str = PROFILE_UNAVAILABLE
+    profile_paths: tuple[str, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
         payload = asdict(self)
         payload["evidence_paths"] = list(self.evidence_paths)
+        payload["per_run"] = [dict(record) for record in self.per_run]
+        payload["profile_paths"] = list(self.profile_paths)
         return payload
 
     def to_json(self) -> str:
@@ -246,6 +283,15 @@ _EXEC_TIME_RE = re.compile(
     r"([0-9]+(?:\.[0-9]+)?)\s*(us|µs|ms|s)\b",
     re.I,
 )
+# qnn-profile-viewer 文本把单位写在括号里：`Execution Time (us): 42`。
+_VIEWER_LOAD_TIME_RE = re.compile(
+    r"load[^\n]*?time\s*\(\s*(us|µs|ms|s)\s*\)\s*[:=]\s*([0-9]+(?:\.[0-9]+)?)",
+    re.I,
+)
+_VIEWER_EXEC_TIME_RE = re.compile(
+    r"execut[^\n]*?time\s*\(\s*(us|µs|ms|s)\s*\)\s*[:=]\s*([0-9]+(?:\.[0-9]+)?)",
+    re.I,
+)
 
 
 def _flat_values(output: Any) -> list[float]:
@@ -274,9 +320,24 @@ def _parse_timing(pattern: re.Pattern[str], text: str) -> int | None:
     return int(round(value))
 
 
+def _parse_viewer_timing(pattern: re.Pattern[str], text: str) -> int | None:
+    """viewer 文本的组顺序是 (unit, value)，与 legacy 相反。"""
+    match = pattern.search(text or "")
+    if match is None:
+        return None
+    value = float(match.group(2)) * _TIMING_UNIT_US[match.group(1).lower()]
+    return int(round(value))
+
+
 def parse_profile_timings(text: str) -> tuple[int | None, int | None]:
     """从 qnn-profile-viewer 文本里取 (context load, graph execute) 微秒。"""
-    return _parse_timing(_LOAD_TIME_RE, text), _parse_timing(_EXEC_TIME_RE, text)
+    load = _parse_timing(_LOAD_TIME_RE, text)
+    if load is None:
+        load = _parse_viewer_timing(_VIEWER_LOAD_TIME_RE, text)
+    execute = _parse_timing(_EXEC_TIME_RE, text)
+    if execute is None:
+        execute = _parse_viewer_timing(_VIEWER_EXEC_TIME_RE, text)
+    return load, execute
 
 
 def classify_device_run(
@@ -287,6 +348,8 @@ def classify_device_run(
     expected_output_shape: tuple[int, ...] = CAMPLUS_OUTPUT_SHAPE,
     exit_code: int = 0,
     profile_text: str = "",
+    output_file_dtype: str = DEFAULT_OUTPUT_FILE_DTYPE,
+    native_output: bool = False,
 ) -> DeviceRunResult:
     """按证据强弱判定一次真机运行。
 
@@ -328,6 +391,8 @@ def classify_device_run(
         graph_execute_us=execute_us,
         timeout_ms=timeout_ms,
         evidence_paths=(),
+        output_file_dtype=output_file_dtype,
+        native_output=native_output,
     )
 
 

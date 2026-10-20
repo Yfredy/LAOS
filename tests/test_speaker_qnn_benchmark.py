@@ -33,10 +33,12 @@ from scripts.speaker_qnn.benchmark import (  # noqa: E402
     BLOCKED_ACTIONS,
     COLD_LOAD_SAMPLES,
     EMBEDDING_DIM,
+    MODEL_LICENSE,
     PERF_PROFILES,
     RECALIBRATED_W8A16_THRESHOLD,
     RESIDENT_CAP_MS,
     REUSED_FP32_THRESHOLD,
+    SOAK_PERF_PROFILE,
     STATUS_DEVICE_UNAVAILABLE,
     STATUS_GATE_FAILED,
     STATUS_INCOMPLETE,
@@ -66,6 +68,8 @@ from scripts.speaker_qnn.benchmark import (  # noqa: E402
     parse_thermal_sample,
     percentile,
     read_device_output,
+    record_benchmark_section,
+    require_device_evidence,
     round_robin_order,
     run_latency_benchmark,
     run_soak,
@@ -74,10 +78,14 @@ from scripts.speaker_qnn.benchmark import (  # noqa: E402
     summarize_thermal,
     write_embedding_set,
 )
+from scripts.speaker_qnn import benchmark as benchmark_module  # noqa: E402
+from scripts.speaker_qnn import device as device_module  # noqa: E402
 from scripts.speaker_qnn.build import BuildArtifact  # noqa: E402
 from scripts.speaker_qnn.contracts import (  # noqa: E402
+    PROFILE_UNAVAILABLE,
     ContextMetadata,
     load_context_metadata,
+    parse_profile_timings,
 )
 
 requires_numpy = unittest.skipIf(np is None, "主库测试环境没有 numpy")
@@ -193,9 +201,14 @@ def _write_variant(root: Path, variant_id: str, *, quantized: bool) -> dict:
     return {"variant_id": variant_id, "info_json": str(info), "context_bin": str(context_bin)}
 
 
-def _write_raw(path: Path, values, *, quantized: bool) -> Path:
+def _write_raw(
+    path: Path, values, *, quantized: bool, output_file_dtype: str | None = None
+) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
-    if quantized:
+    if output_file_dtype == "<f4":
+        # qnn-net-run 默认落 float32：写入的是已反量化的真实数值。
+        np.asarray(values, dtype="<f4").tofile(path)
+    elif quantized:
         encoded = np.rint(np.asarray(values, dtype=np.float64) / SCALE + OFFSET)
         np.clip(encoded, -32768, 32767).astype("<i2").tofile(path)
     else:
@@ -211,6 +224,8 @@ def _write_run(
     status: str = "pass",
     output_count: int = EMBEDDING_DIM,
     finite: bool = True,
+    output_file_dtype: str = "<f4",
+    native_output: bool = False,
 ) -> Path:
     path = root / "device-runs" / name / "result.json"
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -224,6 +239,8 @@ def _write_run(
         "graph_execute_us": None,
         "timeout_ms": None,
         "evidence_paths": [],
+        "output_file_dtype": output_file_dtype,
+        "native_output": native_output,
     }
     path.write_text(json.dumps(payload), encoding="utf-8")
     return path
@@ -233,6 +250,10 @@ def _pass_run(root: Path, name: str = "run-pass", *, itemsize: int = 2) -> Path:
     raw = root / "device-runs" / name / "output" / "embedding.raw"
     raw.parent.mkdir(parents=True, exist_ok=True)
     raw.write_bytes(b"\x00" * (EMBEDDING_DIM * itemsize))
+    if itemsize == 2:
+        return _write_run(
+            root, name, raw, output_file_dtype="<i2", native_output=True
+        )
     return _write_run(root, name, raw)
 
 
@@ -284,11 +305,13 @@ def _write_extraction_spec(
     conditions=TASK_MATRIX,
     w8a16=None,
     run_status: str = "pass",
+    device_output_dtype: str = "<i2",
 ) -> Path:
     """host 侧抽取夹具：真实 info.json 结构 + 合成原始输出 + 单次运行记录。"""
     embeddings, _ = _fixture_embeddings()
     if w8a16 is None:
         w8a16 = embeddings
+    native = device_output_dtype != "<f4"
     items: list[dict] = []
     first_raw: Path | None = None
     for condition in conditions:
@@ -301,7 +324,8 @@ def _write_extraction_spec(
             raw_w8a16 = _write_raw(
                 root / "raw" / "w8a16" / condition / f"{index}.raw",
                 w8a16[index],
-                quantized=True,
+                quantized=native,
+                output_file_dtype=device_output_dtype,
             )
             if first_raw is None:
                 first_raw = raw_w8a16
@@ -314,10 +338,23 @@ def _write_extraction_spec(
                 }
             )
     if run_status == "pass":
-        run = _write_run(root, "w8a16-pass", first_raw)
+        run = _write_run(
+            root,
+            "w8a16-pass",
+            first_raw,
+            output_file_dtype=device_output_dtype,
+            native_output=native,
+        )
     else:
         run = _write_run(
-            root, "w8a16-ssr", None, status="ssr", output_count=0, finite=False
+            root,
+            "w8a16-ssr",
+            None,
+            status="ssr",
+            output_count=0,
+            finite=False,
+            output_file_dtype=device_output_dtype,
+            native_output=native,
         )
     for item in items:
         item["w8a16"]["run"] = str(run)
@@ -337,11 +374,16 @@ def _build_evidence_root(
     conditions=TASK_MATRIX,
     w8a16=None,
     run_status: str = "pass",
+    device_output_dtype: str = "<i2",
 ) -> Path:
     manifest = root / "manifest.json"
     manifest.write_text(json.dumps(_manifest_payload(_speakers())), encoding="utf-8")
     spec = _write_extraction_spec(
-        root, conditions=conditions, w8a16=w8a16, run_status=run_status
+        root,
+        conditions=conditions,
+        w8a16=w8a16,
+        run_status=run_status,
+        device_output_dtype=device_output_dtype,
     )
     extract_embedding_sets(spec, root / "embeddings")
     return manifest
@@ -1400,6 +1442,216 @@ class TestDeviceBoundBenchmarks(unittest.TestCase):
             final_graph_ms=21.0,
         )
         self.assertIsNone(soak.to_dict()["max_skin_temp_c"])
+
+
+def _latency_events(count: int = COLD_LOAD_SAMPLES) -> list[LatencyEvent]:
+    """20 次冷加载 + 1 次 warmup + 2 次 measured；数值只是算法夹具。"""
+    return [
+        LatencyEvent(status="pass", graph_us=1_000, context_load_us=250_000)
+        for _ in range(count)
+    ] + [
+        LatencyEvent(status="pass", graph_us=5_000),
+        LatencyEvent(status="pass", graph_us=5_000),
+        LatencyEvent(status="pass", graph_us=6_000),
+    ]
+
+
+class TestOutputDtypeProvenance(unittest.TestCase):
+    """C1：落盘 dtype 只由 result.json 的 provenance 决定。"""
+
+    @requires_numpy
+    def test_float32_output_feeds_extraction_and_evidence(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            root = Path(raw_root)
+            spec = _write_extraction_spec(root, device_output_dtype="<f4")
+            record = extract_embedding_sets(spec, root / "embeddings")
+
+            item = json.loads(spec.read_text(encoding="utf-8"))["items"][0]
+            run_path = Path(item["w8a16"]["run"])
+            payload = json.loads(run_path.read_text(encoding="utf-8"))
+            self.assertEqual(payload["output_file_dtype"], "<f4")
+            self.assertFalse(payload["native_output"])
+            raw = Path(payload["output_path"])
+            self.assertEqual(raw.stat().st_size, EMBEDDING_DIM * 4)  # 768 字节
+
+            blocks, _ = load_embedding_set(root / "embeddings" / "w8a16.npz")
+            expected = l2_normalize(_fixture_embeddings()[0])
+            np.testing.assert_allclose(
+                blocks["clean-6s"], expected, rtol=0, atol=1e-6
+            )
+
+            records = require_device_evidence(
+                root / "manifest.json",
+                {"w8a16_provenance": _provenance([str(run_path)])},
+            )
+            self.assertEqual(len(records), 1)
+            self.assertEqual(
+                record["variants"]["w8a16"]["data_type"], W8A16_DTYPE
+            )
+
+    def test_float32_byte_count_mismatch_is_rejected(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            root = Path(raw_root)
+            short = root / "short.raw"
+            short.write_bytes(b"\x00" * (EMBEDDING_DIM * 4 - 1))
+            run = _write_run(root, "float32-short", short, output_file_dtype="<f4")
+            with self.assertRaises(DeviceUnavailableError) as caught:
+                require_device_evidence(
+                    root / "manifest.json",
+                    {"w8a16_provenance": _provenance([str(run)])},
+                )
+            self.assertIn("字节", caught.exception.reason)
+
+
+class TestViewerProfileTimings(unittest.TestCase):
+    """C2：qnn-profile-viewer 文本必须能被解析，不可得是显式状态。"""
+
+    def test_execution_timings_read_viewer_text(self):
+        text = "Graph Execution Time (us): 4726\nGraph Execution Time (ms): 5.0"
+        self.assertEqual(parse_execution_timings(text), (4726, 5000))
+
+    def test_profile_timings_read_viewer_text(self):
+        text = "Context Load Time (ms): 12.5\nExecution Time (us): 4726"
+        self.assertEqual(parse_profile_timings(text), (12500, 4726))
+
+    def test_all_pass_without_profile_is_explicit_unavailable(self):
+        events = [
+            LatencyEvent(status="pass", context_load_us=250_000)
+            for _ in range(3)
+        ]
+        with self.assertRaises(DeviceUnavailableError) as caught:
+            summarize_latency(events, warmups=0)
+        self.assertEqual(caught.exception.status, PROFILE_UNAVAILABLE)
+        self.assertIn("profile_unavailable", caught.exception.reason)
+
+
+class TestBenchmarkPersistence(unittest.TestCase):
+    """I4：latency/soak 合并进 benchmark.json，保留原有状态字段。"""
+
+    def test_sections_merge_and_preserve_benchmark_state(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            root = Path(raw_root)
+            (root / "benchmark.json").write_text(
+                json.dumps(
+                    {"status": "device_unavailable", "pending": ["首次成功门禁"]}
+                ),
+                encoding="utf-8",
+            )
+            latency = LatencyMetrics(
+                cold_load_p50_ms=10.0,
+                cold_load_p95_ms=11.0,
+                graph_p50_ms=20.0,
+                graph_p95_ms=21.0,
+                graph_p99_ms=22.0,
+                perf_profile="burst",
+                device_serial="327366100004",
+                soc_model=87,
+                dsp_arch=81,
+                build_id="v2.51.1.261002102551",
+                model_license=MODEL_LICENSE,
+            )
+            soak = SoakMetrics(
+                duration_s=1800,
+                successful_runs=1700,
+                failed_runs=100,
+                max_battery_temp_c=39.5,
+                max_skin_temp_c=None,
+                median_graph_ms=20.0,
+                final_graph_ms=21.0,
+                device_serial="327366100004",
+                soc_model=87,
+                dsp_arch=81,
+                build_id="v2.51.1.261002102551",
+                model_license=MODEL_LICENSE,
+            )
+            record_benchmark_section(root, "latency", latency.to_dict())
+            record_benchmark_section(root, "soak", soak.to_dict())
+            payload = json.loads((root / "benchmark.json").read_text(encoding="utf-8"))
+            self.assertEqual(payload["status"], "device_unavailable")
+            self.assertEqual(payload["pending"], ["首次成功门禁"])
+            self.assertEqual(payload["kind"], "campplus_w8a16_benchmark")
+            self.assertEqual(payload["latency"]["status"], "pass")
+            self.assertEqual(payload["latency"]["perf_profile"], "burst")
+            self.assertEqual(payload["latency"]["device_serial"], "327366100004")
+            self.assertEqual(payload["soak"]["status"], "pass")
+            self.assertEqual(payload["soak"]["perf_profile"], SOAK_PERF_PROFILE)
+
+    def test_unknown_section_is_rejected(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            with self.assertRaises(ValueError) as caught:
+                record_benchmark_section(Path(raw_root), "accuracy", {})
+            self.assertIn("小节", str(caught.exception))
+
+
+class TestDeviceIdentityBinding(unittest.TestCase):
+    """I5：latency/soak 必须绑定 SM8845 设备身份，型号不符拒绝。"""
+
+    def test_latency_benchmark_binds_device_identity(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            artifact = _passing_artifact(Path(raw_root))
+            with mock.patch.object(
+                benchmark_module,
+                "_collect_latency_events",
+                return_value=_latency_events(),
+            ), mock.patch.object(
+                device_module,
+                "_run_adb",
+                return_value=mock.Mock(returncode=0, stdout="SM8845\n"),
+            ):
+                metrics = run_latency_benchmark(
+                    artifact, 1, 2, "burst", serial="327366100004"
+                )
+            self.assertEqual(metrics.status, STATUS_PASS)
+            self.assertEqual(metrics.perf_profile, "burst")
+            self.assertEqual(metrics.device_serial, "327366100004")
+            self.assertEqual(metrics.soc_model, 87)
+            self.assertEqual(metrics.dsp_arch, 81)
+            self.assertEqual(metrics.build_id, "v2.51.1.261002102551")
+            self.assertEqual(metrics.model_license, MODEL_LICENSE)
+            payload = metrics.to_dict()
+            self.assertEqual(payload["perf_profile"], "burst")
+            self.assertEqual(payload["device_serial"], "327366100004")
+
+    def test_non_sm8845_device_is_rejected(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            artifact = _passing_artifact(Path(raw_root))
+            with mock.patch.object(
+                device_module,
+                "_run_adb",
+                return_value=mock.Mock(returncode=0, stdout="SM8750\n"),
+            ):
+                with self.assertRaisesRegex(ValueError, "SM8845"):
+                    run_latency_benchmark(
+                        artifact, 1, 2, "burst", serial="327366100004"
+                    )
+
+    def test_soak_rejects_non_resident_inference(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            artifact = _passing_artifact(Path(raw_root))
+            with mock.patch.object(
+                benchmark_module,
+                "require_sm8845_device",
+                return_value="SM8845",
+            ), mock.patch.object(
+                benchmark_module,
+                "resolve_input_list",
+                return_value=Path("input_list.txt"),
+            ), mock.patch.object(
+                benchmark_module,
+                "run_context",
+                return_value=mock.Mock(
+                    status="pass", graph_execute_us=RESIDENT_CAP_MS * 1_000
+                ),
+            ), mock.patch.object(
+                benchmark_module, "_thermal_sample", return_value=(30.0, 35.0)
+            ), mock.patch.object(
+                benchmark_module, "_frequency_state_sample", return_value=None
+            ), mock.patch(
+                "scripts.speaker_qnn.benchmark.time.sleep"
+            ):
+                with self.assertRaises(ValueError) as caught:
+                    run_soak(artifact, 1, 1.0, serial="327366100004")
+            self.assertIn("不可常驻", str(caught.exception))
 
 
 if __name__ == "__main__":

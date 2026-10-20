@@ -13,6 +13,7 @@ from __future__ import annotations
 import contextlib
 import io
 import math
+import struct
 import sys
 import tempfile
 import unittest
@@ -23,26 +24,38 @@ REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
 from scripts.speaker_qnn import device as device_module  # noqa: E402
-from scripts.speaker_qnn.contracts import classify_device_run  # noqa: E402
+from scripts.speaker_qnn.contracts import (  # noqa: E402
+    PROFILE_OK,
+    PROFILE_UNAVAILABLE,
+    DeviceRunResult,
+    classify_device_run,
+    parse_profile_timings,
+)
 from scripts.speaker_qnn.device import (  # noqa: E402
     ADSP_SEARCH_ROOTS,
     FARF_CONFIG_MASK,
     FARF_CONFIG_NAME,
+    OUTPUT_FILE_DTYPE,
     TOOLCHAIN_LAYOUT,
     TOOLCHAIN_VERSIONED,
     QairtToolchain,
     build_adsp_library_path,
     build_remote_command,
+    collect_profile,
     detect_build_id,
+    device_soc_model,
     farf_remote_path,
     filter_logcat_for_pid,
+    inspect_output_file,
     main,
     parse_input_list,
-    parse_profile_timings,
+    profiling_log_names,
     qnn_run_pid,
     require_same_build_id,
+    require_sm8845_device,
     resolve_input_list,
     stability_inputs,
+    stability_verdict,
     verify_toolchain,
     write_farf_config,
 )
@@ -410,6 +423,175 @@ class TestInputListResolution(unittest.TestCase):
                     code = main(["run", "--artifact", tmp, "--serial", "x"])
         self.assertEqual(code, 2)
         self.assertIn("找不到 input list", stderr.getvalue())
+
+
+class TestOutputDtypeProvenance(unittest.TestCase):
+    """qnn-net-run 默认落 float32；只有 provenance 声明才允许按原生量化读。"""
+
+    def test_default_dtype_is_float32(self):
+        self.assertEqual(OUTPUT_FILE_DTYPE, "<f4")
+        result = classify_device_run("", "", [1.0] * 192)
+        self.assertEqual(result.output_file_dtype, "<f4")
+        self.assertFalse(result.native_output)
+        payload = result.to_dict()
+        self.assertEqual(payload["output_file_dtype"], "<f4")
+        self.assertIs(payload["native_output"], False)
+
+    def test_native_dtype_is_only_recorded_when_explicit(self):
+        result = classify_device_run(
+            "", "", [1.0] * 192, output_file_dtype="<u2", native_output=True
+        )
+        self.assertEqual(result.output_file_dtype, "<u2")
+        self.assertTrue(result.native_output)
+
+
+class TestMultiRunOutputs(unittest.TestCase):
+    def test_inspect_output_file_counts_bytes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "run.raw"
+            path.write_bytes(struct.pack("<192f", *([1.0] * 192)))
+            record = inspect_output_file(path, 192, "<f4")
+            self.assertEqual(record["count"], 192)
+            self.assertEqual(record["bytes"], 768)
+            self.assertTrue(record["count_ok"])
+            self.assertTrue(record["finite"])
+
+    def test_inspect_output_file_flags_short_and_non_finite_files(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            short = Path(tmp) / "short.raw"
+            short.write_bytes(struct.pack("<191f", *([1.0] * 191)))
+            self.assertFalse(inspect_output_file(short, 192, "<f4")["count_ok"])
+            poisoned = Path(tmp) / "nan.raw"
+            values = [1.0] * 192
+            values[7] = math.nan
+            poisoned.write_bytes(struct.pack("<192f", *values))
+            self.assertFalse(inspect_output_file(poisoned, 192, "<f4")["finite"])
+
+    def test_run_seventeen_non_finite_fails_the_thirty_run_gate(self):
+        per_run = tuple(
+            {"count": 192, "count_ok": True, "finite": index != 16}
+            for index in range(30)
+        )
+        result = DeviceRunResult(
+            status="pass",
+            exit_code=0,
+            output_path="run.raw",
+            output_count=192,
+            finite=True,
+            context_load_us=None,
+            graph_execute_us=None,
+            timeout_ms=None,
+            evidence_paths=(),
+            per_run=per_run,
+        )
+        self.assertEqual(stability_verdict(result, 30), "execute_error")
+        healthy = DeviceRunResult(
+            status="pass",
+            exit_code=0,
+            output_path="run.raw",
+            output_count=192,
+            finite=True,
+            context_load_us=None,
+            graph_execute_us=None,
+            timeout_ms=None,
+            evidence_paths=(),
+            per_run=tuple({"count_ok": True, "finite": True} for _ in range(30)),
+        )
+        self.assertEqual(stability_verdict(healthy, 30), "pass")
+
+
+FAKE_VIEWER = """\
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("--input_log", required=True)
+parser.parse_args()
+print("Context Load Time: 12.5 ms")
+print("Graph Execute Time: 4.726 ms")
+"""
+
+
+class TestProfileCollection(unittest.TestCase):
+    def test_profiling_log_names_only_match_native_outputs(self):
+        listing = (
+            "input.raw\nqnn-profiling-data_0.log\n"
+            "qnn-profiling-data_1.log\nstdout.log\n"
+        )
+        self.assertEqual(
+            profiling_log_names(listing),
+            ("qnn-profiling-data_0.log", "qnn-profiling-data_1.log"),
+        )
+        self.assertEqual(profiling_log_names("qnn-profiling-data.log\n"), ("qnn-profiling-data.log",))
+
+    def test_binary_profile_is_converted_through_viewer(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            viewer = root / "fake_viewer.py"
+            viewer.write_text(FAKE_VIEWER, encoding="utf-8")
+            binary = root / "qnn-profiling-data_0.log"
+            binary.write_bytes(b"\x00\x01\x02")
+            collection = collect_profile(
+                root / "run", [binary], [sys.executable, str(viewer)]
+            )
+            self.assertEqual(collection.status, PROFILE_OK)
+            self.assertIn("Graph Execute Time", collection.text)
+            profile = root / "run" / "profile.txt"
+            self.assertTrue(profile.is_file())
+            self.assertIn("4.726", profile.read_text(encoding="utf-8"))
+            self.assertEqual(collection.paths, (str(profile),))
+
+    def test_missing_viewer_is_profile_unavailable(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            binary = root / "qnn-profiling-data_0.log"
+            binary.write_bytes(b"\x00")
+            collection = collect_profile(root / "run", [binary], None)
+            self.assertEqual(collection.status, PROFILE_UNAVAILABLE)
+            self.assertTrue(collection.reason)
+            self.assertFalse((root / "run" / "profile.txt").exists())
+
+    def test_absent_profiling_logs_are_profile_unavailable_not_an_exception(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            collection = collect_profile(Path(tmp), [], [sys.executable, "viewer"])
+            self.assertEqual(collection.status, PROFILE_UNAVAILABLE)
+            self.assertIn("qnn-profiling-data", collection.reason)
+
+    def test_failing_viewer_is_profile_unavailable(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            broken = root / "broken.py"
+            broken.write_text("raise SystemExit(3)\n", encoding="utf-8")
+            binary = root / "qnn-profiling-data_0.log"
+            binary.write_bytes(b"\x00")
+            collection = collect_profile(
+                root / "run", [binary], [sys.executable, str(broken)]
+            )
+            self.assertEqual(collection.status, PROFILE_UNAVAILABLE)
+            self.assertIn("qnn-profile-viewer", collection.reason)
+
+
+class TestDeviceIdentity(unittest.TestCase):
+    def _adb(self, value: str):
+        return mock.patch.object(
+            device_module,
+            "_run_adb",
+            return_value=mock.Mock(returncode=0, stdout=value + "\n", stderr=""),
+        )
+
+    def test_matching_soc_model_is_accepted(self):
+        with self._adb("SM8845"):
+            self.assertEqual(device_soc_model("327366100004"), "SM8845")
+            self.assertEqual(require_sm8845_device("327366100004"), "SM8845")
+
+    def test_mismatched_soc_model_is_rejected(self):
+        with self._adb("SM8750"):
+            with self.assertRaisesRegex(ValueError, "SM8845"):
+                require_sm8845_device("327366100004")
+
+    def test_missing_property_is_rejected(self):
+        with self._adb(""):
+            self.assertIsNone(device_soc_model("327366100004"))
+            with self.assertRaisesRegex(ValueError, "SM8845"):
+                require_sm8845_device("327366100004")
 
 
 if __name__ == "__main__":

@@ -15,6 +15,7 @@ context 的 build ID 必须与候选树一致、context generator 的
 from __future__ import annotations
 
 import json
+import hashlib
 import subprocess
 import sys
 import tempfile
@@ -27,6 +28,9 @@ sys.path.insert(0, str(REPO))
 
 import scripts.speaker_qnn.build as build_module  # noqa: E402
 from scripts.speaker_qnn.build import (  # noqa: E402
+    BUILD_CALIBRATION_REJECTED,
+    CALIBRATION_MANIFEST_NAME,
+    CALIBRATION_SUMS_NAME,
     MAX_FULL_GRAPH_VARIANTS,
     BuildArtifact,
     BuildVariant,
@@ -45,6 +49,7 @@ from scripts.speaker_qnn.build import (  # noqa: E402
     probe_qpm_candidates,
     read_context_metadata,
     require_toolchain_files,
+    validate_calibration,
     write_backend_configs,
 )
 
@@ -66,6 +71,7 @@ def make_toolchain(root: Path = Path("C:/qairt"), **overrides: object) -> Toolch
         "context_generator": (
             root / "bin/x86_64-windows-msvc/qnn-context-binary-generator.exe"
         ),
+        "profile_viewer": root / "bin/x86_64-windows-msvc/qnn-profile-viewer.exe",
     }
     values.update(overrides)
     return ToolchainSpec(**values)
@@ -84,6 +90,7 @@ MIXED_VERSION_INVENTORY = {
             "skel",
             "converter",
             "context_generator",
+            "profile_viewer",
         )
     },
 }
@@ -130,6 +137,7 @@ def make_toolchain_files(toolchain: ToolchainSpec) -> None:
         toolchain.model_lib_generator,
         toolchain.context_utility,
         toolchain.net_run_extensions,
+        toolchain.profile_viewer,
     ):
         Path(path).parent.mkdir(parents=True, exist_ok=True)
         Path(path).write_bytes(b"stub")
@@ -167,10 +175,61 @@ def fake_pipeline(*, info_overrides: dict | None = None, warning: bool = False):
     return run
 
 
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def write_calibration(
+    base: Path,
+    *,
+    records: int = 40,
+    speakers: int = 20,
+    overlap: bool = False,
+    corrupt_sha: bool = False,
+) -> Path:
+    """真实形状的校准清单：40 条 raw、20 个说话人、评估集排他。"""
+    calibration_dir = base / "calibration"
+    calibration_dir.mkdir(parents=True, exist_ok=True)
+    entries = []
+    for index in range(records):
+        speaker = f"{3000 + index % speakers}"
+        raw = calibration_dir / f"{index:03d}-{speaker}.raw"
+        raw.write_bytes(f"raw-{index}".encode("ascii"))
+        digest = _sha256(raw)
+        if corrupt_sha and index == 0:
+            digest = "0" * 64
+        entries.append(
+            {
+                "speaker": speaker,
+                "raw": f"calibration/{raw.name}",
+                "raw_sha256": digest,
+            }
+        )
+    excluded = [f"{9000 + index}" for index in range(speakers)]
+    if overlap:
+        excluded[0] = entries[0]["speaker"]
+    manifest_path = base / CALIBRATION_MANIFEST_NAME
+    manifest_path.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "evaluation_speakers_excluded": excluded,
+                "records": entries,
+            }
+        ),
+        encoding="utf-8",
+    )
+    (base / CALIBRATION_SUMS_NAME).write_text(
+        f"{_sha256(manifest_path)}  {CALIBRATION_MANIFEST_NAME}\n",
+        encoding="ascii",
+    )
+    return base / "input_list.txt"
+
+
 def make_build_inputs(root: Path) -> tuple[Path, Path, ToolchainSpec]:
     model = root / "model.onnx"
     model.write_bytes(b"onnx")
-    calibration = root / "input_list.txt"
+    calibration = write_calibration(root)
     calibration.write_text("x:=a.raw\n", encoding="ascii")
     toolchain = make_toolchain(root / "qairt")
     make_toolchain_files(toolchain)
@@ -195,6 +254,54 @@ class TestToolchainInventory(unittest.TestCase):
         toolchain = make_toolchain(skel=Path("C:/qairt/missing/libQnnHtpV81Skel.so"))
         with self.assertRaisesRegex(FileNotFoundError, "V81 skel"):
             require_toolchain_files(toolchain)
+
+
+class TestCalibrationGate(unittest.TestCase):
+    def test_valid_calibration_is_accepted(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            calibration = write_calibration(base)
+            summary = validate_calibration(calibration)
+            self.assertEqual(summary["records"], 40)
+            self.assertEqual(summary["speakers"], 20)
+
+    def test_record_count_mismatch_is_rejected(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            calibration = write_calibration(base, records=39)
+            with self.assertRaisesRegex(ValueError, "记录数"):
+                validate_calibration(calibration)
+
+    def test_raw_sha256_mismatch_is_rejected(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            calibration = write_calibration(base, corrupt_sha=True)
+            with self.assertRaisesRegex(ValueError, "SHA-256"):
+                validate_calibration(calibration)
+
+    def test_evaluation_speaker_overlap_is_rejected(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            calibration = write_calibration(base, overlap=True)
+            with self.assertRaisesRegex(ValueError, "重叠"):
+                validate_calibration(calibration)
+
+    def test_bad_calibration_refuses_build_before_converter(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            model, calibration, toolchain = make_build_inputs(root)
+            write_calibration(root, overlap=True)
+            variant = BuildVariant(
+                toolchain, 2, 4, False, "campplus_w8a16_static_stats"
+            )
+            output_dir = root / "builds/variant"
+            with mock.patch.object(
+                build_module, "_run_step", side_effect=AssertionError("不得启动转换")
+            ):
+                artifact = build_w8a16_context(model, calibration, variant, output_dir)
+            self.assertEqual(artifact.status, BUILD_CALIBRATION_REJECTED)
+            self.assertIn("校准清单被拒绝", artifact.error or "")
+            self.assertIsNone(artifact.context_path)
 
 
 class TestBuildCommands(unittest.TestCase):

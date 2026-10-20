@@ -94,6 +94,7 @@ COMPONENT_PATHS: dict[str, str] = {
     "skel": "lib/hexagon-v81/unsigned/libQnnHtpV81Skel.so",
     "converter": "bin/x86_64-windows-msvc/qnn-onnx-converter",
     "context_generator": "bin/x86_64-windows-msvc/qnn-context-binary-generator.exe",
+    "profile_viewer": "bin/x86_64-windows-msvc/qnn-profile-viewer.exe",
 }
 SHELL_COMPONENTS = frozenset({"converter"})  # Python 脚本无内嵌 build ID
 
@@ -101,13 +102,27 @@ BUILD_READY = "ready"
 BUILD_CONFIG_WARNING = "config_warning"
 BUILD_METADATA_REJECTED = "metadata_rejected"
 BUILD_ERROR = "build_error"
+BUILD_CALIBRATION_REJECTED = "calibration_rejected"
 # 只有这些状态算失败；device_unavailable / config_warning 是"未验证"，
 # 不构成升级 VTCM 的理由。
 FAILURE_STATUSES = frozenset(
-    {"build_error", "metadata_rejected", "load_error", "timeout", "ssr"}
+    {
+        "build_error",
+        "metadata_rejected",
+        "calibration_rejected",
+        "load_error",
+        "timeout",
+        "ssr",
+    }
 )
 
 STEP_TIMEOUT = 124  # 与 GNU coreutils 的超时退出码对齐
+
+# 校准清单：40 条真实语音、20 个说话人，评估集说话人必须完全排除。
+CALIBRATION_MANIFEST_NAME = "calibration_manifest.json"
+CALIBRATION_SUMS_NAME = "SHA256SUMS.txt"
+CALIBRATION_RECORDS = 40
+CALIBRATION_SPEAKERS = 20
 
 
 @dataclass(frozen=True)
@@ -123,6 +138,7 @@ class ToolchainSpec:
     skel: Path
     converter: Path
     context_generator: Path
+    profile_viewer: Path
 
     @classmethod
     def from_inventory(cls, inventory: Mapping[str, Any]) -> "ToolchainSpec":
@@ -252,12 +268,12 @@ def _log_text(path: Path) -> str:
 
 
 def require_toolchain_files(toolchain: ToolchainSpec) -> None:
-    """十件必需文件必须全部在位，缺一即拒绝构建。
+    """十一件必需文件必须全部在位，缺一即拒绝构建。
 
-    build ID 同号只覆盖 `discover_toolchains` 的 7 个 inventory 组件（其中
+    build ID 同号只覆盖 `discover_toolchains` 的 8 个 inventory 组件（其中
     converter 无内嵌版本串、沿用首个探测值）；model-lib generator、
     context utility、backend extension 不内嵌 build ID，这里只校验文件存在，
-    不能声称十件全部同号。
+    不能声称十一件全部同号。
     """
     paths = {
         "runner": toolchain.runner,
@@ -270,6 +286,7 @@ def require_toolchain_files(toolchain: ToolchainSpec) -> None:
         "model lib generator": toolchain.model_lib_generator,
         "context utility": toolchain.context_utility,
         "backend extension": toolchain.net_run_extensions,
+        "profile viewer": toolchain.profile_viewer,
     }
     missing = [
         f"{label}: {path}"
@@ -278,6 +295,107 @@ def require_toolchain_files(toolchain: ToolchainSpec) -> None:
     ]
     if missing:
         raise FileNotFoundError("QAIRT 文件缺失：\n  " + "\n  ".join(missing))
+
+
+_CALIBRATION_SHA_LINE_RE = re.compile(r"^([0-9a-fA-F]{64})\s+\*?(.+)$")
+
+
+def validate_calibration(calibration_list: Path) -> dict[str, Any]:
+    """校准清单门禁：40 条真实语音、20 个说话人、评估集完全排除。
+
+    除 manifest 自身的计数/排他约束外，逐条重算 raw 的 SHA-256，并把
+    `SHA256SUMS.txt` 里列出的每个文件也重算一遍；任何不一致都拒绝构建
+    （返回 `calibration_rejected`，不进入转换）。
+    """
+    base = Path(calibration_list).parent
+    manifest_path = base / CALIBRATION_MANIFEST_NAME
+    sums_path = base / CALIBRATION_SUMS_NAME
+    if not manifest_path.is_file():
+        raise ValueError(f"校准清单缺失：{manifest_path}")
+    if not sums_path.is_file():
+        raise ValueError(f"校准校验文件缺失：{sums_path}")
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError(f"校准清单不可读：{manifest_path}: {exc}") from exc
+    records = manifest.get("records")
+    if not isinstance(records, list) or len(records) != CALIBRATION_RECORDS:
+        raise ValueError(
+            f"校准清单记录数不符：期望 {CALIBRATION_RECORDS}，"
+            f"实际 {len(records) if isinstance(records, list) else '缺失'}"
+        )
+    speakers = {
+        str(record.get("speaker"))
+        for record in records
+        if isinstance(record, Mapping) and record.get("speaker") is not None
+    }
+    if len(speakers) != CALIBRATION_SPEAKERS:
+        raise ValueError(
+            f"校准清单说话人数不符：期望 {CALIBRATION_SPEAKERS}，实际 {len(speakers)}"
+        )
+    excluded = {
+        str(value)
+        for value in manifest.get("evaluation_speakers_excluded") or ()
+    }
+    overlap = sorted(speakers & excluded)
+    if overlap:
+        raise ValueError(
+            f"校准清单与评估集说话人重叠：{', '.join(overlap)}；校准必须完全排除评估集"
+        )
+    manifest_hashes: dict[str, str] = {}
+    for record in records:
+        if not isinstance(record, Mapping):
+            raise ValueError("校准清单 records 每条必须是对象")
+        raw_value = record.get("raw")
+        expected = record.get("raw_sha256")
+        if not isinstance(raw_value, str) or not raw_value:
+            raise ValueError(f"校准清单记录缺少 raw：{record!r}")
+        if not isinstance(expected, str) or not expected:
+            raise ValueError(f"校准清单记录缺少 raw_sha256：{raw_value}")
+        raw_path = Path(raw_value)
+        if not raw_path.is_absolute():
+            raw_path = (base / raw_path).resolve()
+        if not raw_path.is_file():
+            raise ValueError(f"校准 raw 不存在：{raw_path}")
+        actual = _sha256(raw_path)
+        if actual != expected.lower():
+            raise ValueError(
+                f"校准 raw SHA-256 不符：{raw_path} 期望 {expected} 实际 {actual}"
+            )
+        manifest_hashes[raw_path.resolve().as_posix()] = actual
+
+    sums_entries: dict[str, str] = {}
+    for line in sums_path.read_text(encoding="utf-8").splitlines():
+        match = _CALIBRATION_SHA_LINE_RE.match(line.strip())
+        if match is None:
+            continue
+        sums_entries[match.group(2).strip()] = match.group(1).lower()
+    if not sums_entries:
+        raise ValueError(f"SHA256 校验文件为空：{sums_path}")
+    for relative, expected in sums_entries.items():
+        item = Path(relative)
+        if not item.is_absolute():
+            item = base / item
+        if not item.is_file():
+            raise ValueError(f"SHA256SUMS.txt 列出的文件不存在：{item}")
+        actual = _sha256(item)
+        if actual != expected:
+            raise ValueError(
+                f"SHA256SUMS.txt 校验失败：{item} 期望 {expected} 实际 {actual}"
+            )
+    for relative, actual in manifest_hashes.items():
+        recorded = sums_entries.get(Path(relative).name)
+        if recorded is not None and recorded != actual:
+            raise ValueError(
+                f"manifest 与 SHA256SUMS.txt 的 raw 哈希不一致：{relative}"
+            )
+    return {
+        "manifest": str(manifest_path),
+        "manifest_sha256": _sha256(manifest_path),
+        "sums": str(sums_path),
+        "records": len(records),
+        "speakers": len(speakers),
+    }
 
 
 def discover_toolchains(
@@ -737,6 +855,14 @@ def build_w8a16_context(
     except FileNotFoundError as exc:
         _discard_workdir(work_dir)
         return _failure(variant, output_dir, BUILD_ERROR, str(exc))
+    try:
+        validate_calibration(calibration_list)
+    except ValueError as exc:
+        _discard_workdir(work_dir)
+        return _failure(
+            variant, output_dir, BUILD_CALIBRATION_REJECTED,
+            f"校准清单被拒绝：{exc}",
+        )
 
     base_sha = {
         "model": _sha256(model),
@@ -929,16 +1055,7 @@ def _artifact_from_row(row: Mapping[str, Any]) -> BuildArtifact:
         status=str(row["status"]),
         context_path=row.get("context"),
         metadata=(
-            ContextMetadata(
-                build_id=str(metadata["build_id"]),
-                soc_model=int(metadata["soc_model"]),
-                dsp_arch=int(metadata["dsp_arch"]),
-                graph_name=str(metadata["graph_name"]),
-                input_shape=tuple(int(value) for value in metadata["input_shape"]),
-                output_shape=tuple(int(value) for value in metadata["output_shape"]),
-            )
-            if metadata
-            else None
+            ContextMetadata.from_dict(metadata) if metadata else None
         ),
         sha256=dict(row.get("sha256") or {}),
         commands=tuple(row.get("commands") or ()),
@@ -977,7 +1094,7 @@ def _device_row(serial: str | None, artifact: BuildArtifact,
             "device_run": None,
             "stability_run": None,
         }
-    from .device import run_context  # 延迟导入：仅真机路径需要 numpy
+    from .device import run_context, stability_verdict  # 延迟导入：仅真机路径需要 numpy
 
     artifact_dir = Path(artifact.context_path or "").parent
     run_dir = artifact_dir.parent / "device-runs"
@@ -1002,7 +1119,7 @@ def _device_row(serial: str | None, artifact: BuildArtifact,
             num_inferences=num_inferences,
         )
         row["stability_run"] = stability.to_dict()
-        row["status"] = "pass" if stability.status == "pass" else stability.status
+        row["status"] = stability_verdict(stability, num_inferences)
     return row
 
 

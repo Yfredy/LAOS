@@ -118,6 +118,38 @@ class TestContextMetadataGate(unittest.TestCase):
             expected_output_shape=(1, 16),
         )
 
+
+class TestContextMetadataRoundTrip(unittest.TestCase):
+    def test_from_dict_preserves_output_quantization(self) -> None:
+        """build/probe 重建 metadata 时不能丢 dtype/scale/offset。"""
+        metadata = ContextMetadata(
+            build_id="v2.51.1.261002102551",
+            soc_model=87,
+            dsp_arch=81,
+            graph_name="campplus_w8a16_static_stats",
+            input_shape=(1, 80, 298),
+            output_shape=(1, 192),
+            output_data_type="QNN_DATATYPE_UFIXED_POINT_16",
+            output_quant_encoding="QNN_QUANTIZATION_ENCODING_SCALE_OFFSET",
+            output_scale=0.001,
+            output_offset=-32768,
+        )
+        self.assertEqual(ContextMetadata.from_dict(metadata.to_dict()), metadata)
+
+    def test_from_dict_accepts_missing_optional_fields(self) -> None:
+        metadata = ContextMetadata.from_dict(
+            {
+                "build_id": "v2.51.1.261002102551",
+                "soc_model": 87,
+                "dsp_arch": 81,
+                "graph_name": "smoke",
+                "input_shape": [1, 16],
+                "output_shape": [1, 16],
+            }
+        )
+        self.assertIsNone(metadata.output_data_type)
+        self.assertIsNone(metadata.output_scale)
+
     def test_metadata_serializes_shapes_as_lists(self) -> None:
         metadata = ContextMetadata(
             build_id="v2.51.1.261002102551",

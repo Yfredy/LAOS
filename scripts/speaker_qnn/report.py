@@ -180,6 +180,15 @@ def _status_label(
         if graph_us is None:
             return "pass（通过；本次没有持久化 graph 时间，不计入速度值）"
         return f"pass（通过；graph {int(graph_us) / 1000.0:.3f} ms）"
+    if name == "ssr":
+        timeout_ms = (
+            record.get("timeout_ms") if isinstance(record, Mapping) else None
+        )
+        if timeout_ms == WATCHDOG_MS:
+            return (
+                "CDSP SSR（FastRPC timeout 的下游后果，没有 embedding）"
+            )
+        return "CDSP SSR（CDSP 崩溃，没有 embedding）"
     return STATUS_LABELS.get(name, f"{status}（非 pass，不是速度值）")
 
 
@@ -253,7 +262,15 @@ def _section_measured(
             "不作为速度值；该行不渲染 graph 时间）。"
         )
     if full_pass:
-        graph_us = full_pass[0].get("graph_execute_us")
+        timed = next(
+            (
+                record
+                for record in full_pass
+                if record.get("graph_execute_us") is not None
+            ),
+            None,
+        )
+        graph_us = timed.get("graph_execute_us") if timed is not None else None
         tail = (
             f"graph {int(graph_us) / 1000.0:.3f} ms"
             if graph_us is not None
@@ -313,8 +330,13 @@ def _section_measured(
             "benchmark.json 给出（见第 7 节）。"
         )
     latency = benchmark.get("latency")
+    latency_gated = (
+        isinstance(latency, Mapping)
+        and latency.get("status") == "pass"
+        and bool(latency.get("perf_profile"))
+    )
     latency_complete = False
-    if isinstance(latency, Mapping):
+    if latency_gated:
         latency_complete = latency.get("end_to_end_p50_ms") is not None and all(
             latency.get(key) is not None for key, _, _ in LATENCY_COMPONENTS
         )
@@ -357,7 +379,7 @@ def _section_measured(
         unavailable.append(
             "- EER、Top-1、固定 k ARI、在线 ARI、阈值重标定与产品准入：全部不可得。"
         )
-    if not isinstance(latency, Mapping):
+    if not latency_gated:
         unavailable.append(
             "- 冷/暖延迟 p50/p95/p99、端到端、吞吐与 30 分钟 soak：全部不可得。"
         )
@@ -509,13 +531,41 @@ def _section_isolation(incident: Mapping[str, Any]) -> list[str]:
             measured += "。"
     else:
         measured = "**实测：** 无；isolation.json 没有 probe 记录。"
-    lines += [
-        measured,
-        "",
-        "**不可得：** 设备离线，prefix/suffix 没有真机执行结果，"
-        "因此没有二分进展（`awaiting_device`）。",
-        "",
+    full_pass = [
+        record
+        for record in incident.get("timeline") or ()
+        if _is_full_pass(record)
     ]
+    isolation_status = str(isolation.get("status") or "")
+    resolved = isolation_status not in (
+        "",
+        "blocked",
+        "awaiting_device",
+        "device_unavailable",
+    )
+    lines += [measured, ""]
+    if resolved and full_pass:
+        runs = "、".join(
+            f"`{_cell(record.get('run_id'))}`" for record in full_pass
+        )
+        lines += [
+            f"**实测：** isolation 状态 `{_cell(isolation_status)}`；"
+            f"真机已有 {len(full_pass)} 次完整 192 维有限 embedding（{runs}），"
+            "二分区间由真机证据推进，不再等待设备。",
+            "",
+        ]
+    elif resolved:
+        lines += [
+            f"**实测：** isolation 状态 `{_cell(isolation_status)}`；"
+            "真机尚无完整 192 维有限 embedding，区间结论仍不可得。",
+            "",
+        ]
+    else:
+        lines += [
+            "**不可得：** 设备离线，prefix/suffix 没有真机执行结果，"
+            f"因此没有二分进展（`{_cell(isolation_status) or 'awaiting_device'}`）。",
+            "",
+        ]
     if probes:
         lines += [
             "| probe | 类型 | 节点区间 | 语义输出 | context SHA-256 | graph SHA-256 | 真机 |",
@@ -655,14 +705,50 @@ def _section_hashes(incident: Mapping[str, Any]) -> list[str]:
         rows += 1
     if not rows:
         lines.append("| 无 | - | 不可得 |")
+    full_pass = [
+        record
+        for record in incident.get("timeline") or ()
+        if _is_full_pass(record)
+    ]
+    pass_artifact = next(
+        (
+            variant
+            for variant in incident.get("matrix") or ()
+            if isinstance(variant, Mapping)
+            and variant.get("status") == "pass"
+            and isinstance(variant.get("sha256"), Mapping)
+            and variant["sha256"].get("context")
+        ),
+        None,
+    )
     lines += [
         "",
         "**实测：** 上表哈希均由离线产物实算，可作为复现锚点。",
         "",
-        "**不可得：** 没有任何 artifact 通过真机 pass，因此不存在"
-        "「实测速度对应的产物」这一层哈希。",
-        "",
     ]
+    if full_pass and pass_artifact is not None:
+        runs = "、".join(
+            f"`{_cell(record.get('run_id'))}`" for record in full_pass
+        )
+        context_hash = pass_artifact["sha256"]["context"]
+        lines += [
+            f"**实测：** 真机 pass 证据（{runs}）对应 artifact "
+            f"`{_cell(pass_artifact.get('variant_id'))}`，"
+            f"context SHA-256 `{_cell(context_hash)}`。",
+            "",
+        ]
+    elif full_pass:
+        lines += [
+            "**不可得：** 时间线已有完整 192 维 pass，但矩阵中没有带 "
+            "context SHA-256 的 pass artifact，无法把速度/准确率绑到产物。",
+            "",
+        ]
+    else:
+        lines += [
+            "**不可得：** 没有任何 artifact 通过真机 pass，因此不存在"
+            "「实测速度对应的产物」这一层哈希。",
+            "",
+        ]
     return lines
 
 
@@ -762,9 +848,20 @@ LATENCY_COMPONENTS = (
 def _section_latency(benchmark: Mapping[str, Any]) -> list[str]:
     latency = benchmark.get("latency")
     lines = ["## 8. 冷/暖延迟与吞吐", ""]
-    if not isinstance(latency, Mapping):
+    gated = (
+        isinstance(latency, Mapping)
+        and latency.get("status") == "pass"
+        and bool(latency.get("perf_profile"))
+    )
+    if not gated:
+        detail = ""
+        if isinstance(latency, Mapping):
+            detail = (
+                f"记录 status=`{_cell(latency.get('status')) or '缺失'}`，"
+                f"perf_profile=`{_cell(latency.get('perf_profile')) or '缺失'}`；"
+            )
         lines += [
-            "**实测：** 无；没有任何 pass 的 CAM++ graph 执行。",
+            f"**实测：** 无；{detail}没有同时具备 pass 与 perf_profile 的延迟记录。",
             "",
             "**不可得：** `device_unavailable`——20 次 fresh-process 冷加载、"
             "`burst` 与 `sustained_high_performance` 下的 100 次 warmup + 1,000 次 "
@@ -775,6 +872,13 @@ def _section_latency(benchmark: Mapping[str, Any]) -> list[str]:
         ]
         return lines
     lines += [
+        f"- **perf_profile：** `{_cell(latency.get('perf_profile'))}`；"
+        f"status=`pass`；socModel=`{_cell(latency.get('soc_model'))}`，"
+        f"dspArch=`{_cell(latency.get('dsp_arch'))}`，"
+        f"buildId=`{_cell(latency.get('build_id'))}`，"
+        f"device=`{_cell(latency.get('device_serial'))}`，"
+        f"license=`{_cell(latency.get('model_license'))}`。",
+        "",
         "| 指标 | 数值 |",
         "|---|---:|",
         _metric_row("冷加载 p50", latency.get("cold_load_p50_ms"), "ms"),
@@ -832,9 +936,20 @@ def _section_latency(benchmark: Mapping[str, Any]) -> list[str]:
 def _section_soak(benchmark: Mapping[str, Any]) -> list[str]:
     soak = benchmark.get("soak")
     lines = ["## 9. 30 分钟 soak", ""]
-    if not isinstance(soak, Mapping):
+    gated = (
+        isinstance(soak, Mapping)
+        and soak.get("status") == "pass"
+        and bool(soak.get("perf_profile"))
+    )
+    if not gated:
+        detail = ""
+        if isinstance(soak, Mapping):
+            detail = (
+                f"记录 status=`{_cell(soak.get('status')) or '缺失'}`，"
+                f"perf_profile=`{_cell(soak.get('perf_profile')) or '缺失'}`；"
+            )
         lines += [
-            "**实测：** 无。",
+            f"**实测：** 无；{detail}没有同时具备 pass 与 perf_profile 的 soak 记录。",
             "",
             "**不可得：** `device_unavailable`——30 分钟（1,800 秒）1 Hz "
             "`sustained_high_performance` soak 未执行，battery/SKIN 温区、"
@@ -843,6 +958,12 @@ def _section_soak(benchmark: Mapping[str, Any]) -> list[str]:
         ]
         return lines
     lines += [
+        f"- **perf_profile：** `{_cell(soak.get('perf_profile'))}`；"
+        f"status=`pass`；socModel=`{_cell(soak.get('soc_model'))}`，"
+        f"dspArch=`{_cell(soak.get('dsp_arch'))}`，"
+        f"buildId=`{_cell(soak.get('build_id'))}`，"
+        f"device=`{_cell(soak.get('device_serial'))}`。",
+        "",
         "| 指标 | 数值 |",
         "|---|---:|",
         f"| 时长 | {_cell(soak.get('duration_s')) or '不可得'} s |",
@@ -856,9 +977,19 @@ def _section_soak(benchmark: Mapping[str, Any]) -> list[str]:
         "**实测：** 温区逐次来自 `dumpsys thermalservice`；skin 采样缺口允许为空，"
         "但全程无 battery 样本即拒绝出报告。",
         "",
-        "**不可得：** 频率状态与降频事件没有采样，不做推断。",
-        "",
     ]
+    frequency_samples = int(soak.get("frequency_state_samples") or 0)
+    if frequency_samples:
+        lines += [
+            f"**实测：** devfreq 频率状态采样 {frequency_samples} 次"
+            "（节点存在时记录 cur_freq）。",
+        ]
+    else:
+        lines += [
+            "**不可得：** 设备没有可读的 devfreq 频率节点，频率状态采样已安全跳过，"
+            "降频事件不做推断。",
+        ]
+    lines.append("")
     return lines
 
 
