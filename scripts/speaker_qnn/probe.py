@@ -32,10 +32,11 @@ import sys
 import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Callable, Literal, Sequence
+from typing import TYPE_CHECKING, Any, Callable, Literal, Mapping, Sequence
 
 from .build import (
     BUILD_CONFIG_WARNING,
+    BUILD_METADATA_REJECTED,
     BUILD_READY,
     BuildArtifact,
     BuildVariant,
@@ -649,7 +650,7 @@ def _verify_manifest(
     cut: TensorCut,
     manifest: IntermediateManifest,
     model: Path,
-    input_list: Path | None = None,
+    input_list: Path,
 ) -> None:
     if manifest.source_kind != SOURCE_KIND_REAL_AUDIO:
         raise ValueError(
@@ -699,8 +700,7 @@ def _verify_manifest(
             raise ValueError(f"中间张量元素数不匹配：{raw}")
         if not np.all(np.isfinite(data)):
             raise ValueError(f"中间张量含非有限值（NaN/Inf）：{raw}")
-    if input_list is not None:
-        _verify_input_list(manifest, Path(input_list))
+    _verify_input_list(manifest, Path(input_list))
     _verify_sample_entries(model, cut, manifest)
 
 
@@ -710,9 +710,13 @@ def extract_suffix(
     intermediate_manifest: Path,
     output: Path,
     *,
-    input_list: Path | None = None,
+    input_list: Path,
 ) -> ProbeSpec:
-    """节点 `cut.node_index+1..end` 的子图，输入唯一 cut 张量，输出原 embedding。"""
+    """节点 `cut.node_index+1..end` 的子图，输入唯一 cut 张量，输出原 embedding。
+
+    `input_list` 必须显式传入：manifest 与真实输入的同序绑定是校准来源
+    证明的一部分，不允许静默跳过。
+    """
     onnx = _require_onnx()
     model = Path(model)
     model_proto = _load_model(model)
@@ -1200,7 +1204,28 @@ def run_bisection(
                 "steps": steps,
             })
             return payload
-        spec, record, result = probe_at_cut(cut)
+        try:
+            spec, record, result = probe_at_cut(cut)
+        except Exception as exc:  # 单个中点失败不能中断整个二分、丢掉已有证据
+            steps.append({
+                "node_index": cut.node_index,
+                "cut": cut.to_dict(),
+                "probe": None,
+                "device": None,
+                "status": "probe_error",
+                "error": f"{type(exc).__name__}: {exc}",
+            })
+            payload.update({
+                "status": "probe_error",
+                "awaiting_interval": [start, end],
+                "stop_reason": (
+                    f"中点 cut {cut.node_index} 的 probe 构建/校验失败，"
+                    f"已保留 {len(steps)} 步证据后终止："
+                    f"{type(exc).__name__}: {exc}"
+                ),
+                "steps": steps,
+            })
+            return payload
         steps.append({
             "node_index": cut.node_index,
             "cut": cut.to_dict(),
@@ -1483,6 +1508,75 @@ def _probe_cut_on_device(
     return prefix_spec, record, result
 
 
+def _device_gate_reason(
+    record: Mapping[str, Any], artifact: BuildArtifact | None
+) -> str | None:
+    """上机门禁：返回拒绝原因；None 表示允许推送真机。
+
+    `layout_rejected` / `parity_rejected` / `metadata_rejected` 是语义或
+    元数据不成立的明确拒绝，不能因为 context 构建成功就放行。
+    """
+    status = str(record.get("build_status") or "")
+    if status in (BUILD_METADATA_REJECTED, "layout_rejected", "parity_rejected"):
+        return f"probe 记录状态为 {status}，拒绝上机"
+    if artifact is None:
+        return "probe 没有编译产物，不上机"
+    if artifact.metadata is None:
+        return "probe context 缺少元数据，不上机"
+    if artifact.status not in (BUILD_READY, BUILD_CONFIG_WARNING):
+        return f"probe context 构建状态为 {artifact.status}，不上机"
+    return None
+
+
+def _run_device_probes(
+    records: Sequence[tuple[ProbeSpec, dict[str, Any]]],
+    probe_artifacts: Mapping[str, BuildArtifact],
+    probe_lists: Mapping[str, Path],
+    probes_root: Path,
+    *,
+    device_online: bool,
+    serial: str | None,
+) -> tuple[dict[str, dict[str, Any]], list[tuple[ProbeSpec, DeviceRunResult]]]:
+    """逐个 probe 过上机门禁并推送真机；被拒绝的 probe 不调用 run_context。"""
+    device_runs: dict[str, dict[str, Any]] = {}
+    device_results: list[tuple[ProbeSpec, DeviceRunResult]] = []
+    for spec, record in records:
+        artifact = probe_artifacts.get(spec.probe_id)
+        reason = _device_gate_reason(record, artifact)
+        if reason is not None:
+            device_runs[spec.probe_id] = {
+                "status": "device_unavailable",
+                "reason": reason,
+                "device_run": None,
+            }
+            continue
+        if not device_online:
+            device_runs[spec.probe_id] = {
+                "status": "device_unavailable",
+                "reason": (
+                    "未提供 --serial" if not serial else f"adb 设备 {serial} 不在线"
+                ),
+                "device_run": None,
+            }
+            continue
+        result = run_context(
+            serial,
+            probes_root / spec.probe_id,
+            probe_lists[spec.probe_id],
+            probes_root / "device-runs" / spec.probe_id,
+            num_inferences=1,
+            expected_input_shape=tuple(artifact.metadata.input_shape),
+            expected_output_shape=tuple(artifact.metadata.output_shape),
+        )
+        device_runs[spec.probe_id] = {
+            "status": result.status,
+            "device_run": result.to_dict(),
+            "reason": None,
+        }
+        device_results.append((spec, result))
+    return device_runs, device_results
+
+
 def run_stages(
     variant_id: str,
     *,
@@ -1641,46 +1735,14 @@ def run_stages(
         ))
 
     device_online = _device_available(serial)
-    device_runs: dict[str, dict[str, Any]] = {}
-    device_results: list[tuple[ProbeSpec, DeviceRunResult]] = []
-    for spec, _ in prefixes + suffixes:
-        probe_artifact = probe_artifacts.get(spec.probe_id)
-        if probe_artifact is None:
-            continue
-        if (
-            probe_artifact.metadata is None
-            or probe_artifact.status not in (BUILD_READY, BUILD_CONFIG_WARNING)
-        ):
-            device_runs[spec.probe_id] = {
-                "status": "device_unavailable",
-                "reason": f"probe context 构建状态为 {probe_artifact.status}，不上机",
-                "device_run": None,
-            }
-            continue
-        if not device_online:
-            device_runs[spec.probe_id] = {
-                "status": "device_unavailable",
-                "reason": (
-                    "未提供 --serial" if not serial else f"adb 设备 {serial} 不在线"
-                ),
-                "device_run": None,
-            }
-            continue
-        result = run_context(
-            serial,
-            probes_root / spec.probe_id,
-            probe_lists[spec.probe_id],
-            probes_root / "device-runs" / spec.probe_id,
-            num_inferences=1,
-            expected_input_shape=tuple(probe_artifact.metadata.input_shape),
-            expected_output_shape=tuple(probe_artifact.metadata.output_shape),
-        )
-        device_runs[spec.probe_id] = {
-            "status": result.status,
-            "device_run": result.to_dict(),
-            "reason": None,
-        }
-        device_results.append((spec, result))
+    device_runs, device_results = _run_device_probes(
+        prefixes + suffixes,
+        probe_artifacts,
+        probe_lists,
+        probes_root,
+        device_online=device_online,
+        serial=serial,
+    )
 
     prefix_records = [
         record | {"spec": spec.to_dict(), "device": device_runs.get(spec.probe_id)}

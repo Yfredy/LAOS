@@ -36,6 +36,10 @@ except ImportError:  # 主库 discover 环境没有 onnx/numpy
     ort = None
     TensorProto = helper = None
 
+from unittest import mock  # noqa: E402
+
+import scripts.speaker_qnn.probe as probe_module  # noqa: E402
+from scripts.speaker_qnn.build import BuildArtifact  # noqa: E402
 from scripts.speaker_qnn.contracts import ContextMetadata, DeviceRunResult  # noqa: E402
 from scripts.speaker_qnn.probe import (  # noqa: E402
     DEFAULT_CALIBRATION,
@@ -45,6 +49,7 @@ from scripts.speaker_qnn.probe import (  # noqa: E402
     ProbeSpec,
     SOURCE_KIND_REAL_AUDIO,
     TensorCut,
+    _run_device_probes,
     bisect_failure_interval,
     bisection_stop,
     capture_intermediates,
@@ -183,7 +188,11 @@ class TestCaptureAndExtraction(_TempDirTest):
 
         prefix = extract_prefix(model, cut, self.root / "prefix.onnx")
         suffix = extract_suffix(
-            model, cut, manifests["h"], self.root / "suffix.onnx"
+            model,
+            cut,
+            manifests["h"],
+            self.root / "suffix.onnx",
+            input_list=input_list,
         )
         self.assertEqual(prefix.input_tensors, ("x",))
         self.assertEqual(prefix.output_tensors, ("h",))
@@ -238,7 +247,13 @@ class TestCaptureAndExtraction(_TempDirTest):
             model, (cut,), _input_list(self.root), self.root / "intermediates"
         )
         extract_prefix(model, cut, self.root / "prefix.onnx")
-        suffix = extract_suffix(model, cut, manifests["h"], self.root / "suffix.onnx")
+        suffix = extract_suffix(
+            model,
+            cut,
+            manifests["h"],
+            self.root / "suffix.onnx",
+            input_list=_input_list(self.root),
+        )
         self.assertEqual(suffix.input_tensors, ("h",))
         parity = verify_probe_parity(
             model,
@@ -260,7 +275,11 @@ class TestCaptureAndExtraction(_TempDirTest):
         )
         prefix_model = extract_prefix(model, cut, self.root / "prefix.onnx")
         suffix_model = extract_suffix(
-            model, cut, manifests["h"], self.root / "suffix.onnx"
+            model,
+            cut,
+            manifests["h"],
+            self.root / "suffix.onnx",
+            input_list=_input_list(self.root),
         )
         self.assertEqual(prefix_model.output_tensors, ("h",))
         self.assertEqual(suffix_model.input_tensors, ("h",))
@@ -310,7 +329,13 @@ class TestSuffixCalibrationGate(_TempDirTest):
             manifest, lambda payload: payload.update({"source_kind": "random_tensor"})
         )
         with self.assertRaisesRegex(ValueError, "fp32_real_audio"):
-            extract_suffix(model, cut, manifest, self.root / "suffix.onnx")
+            extract_suffix(
+                model,
+                cut,
+                manifest,
+                self.root / "suffix.onnx",
+                input_list=self.root / "input_list.txt",
+            )
 
     def test_tampered_intermediate_sha_is_rejected(self) -> None:
         model, cut, manifest = self._prepare()
@@ -320,7 +345,13 @@ class TestSuffixCalibrationGate(_TempDirTest):
 
         self._rewrite_manifest(manifest, tamper)
         with self.assertRaisesRegex(ValueError, "SHA-256"):
-            extract_suffix(model, cut, manifest, self.root / "suffix.onnx")
+            extract_suffix(
+                model,
+                cut,
+                manifest,
+                self.root / "suffix.onnx",
+                input_list=self.root / "input_list.txt",
+            )
 
     def test_random_tensor_manifest_is_rejected(self) -> None:
         model, cut, manifest = self._prepare()
@@ -351,7 +382,13 @@ class TestSuffixCalibrationGate(_TempDirTest):
         ).hexdigest()
         manifest.write_text(json.dumps(payload), encoding="utf-8")
         with self.assertRaisesRegex(ValueError, "非有限"):
-            extract_suffix(model, cut, manifest, self.root / "suffix.onnx")
+            extract_suffix(
+                model,
+                cut,
+                manifest,
+                self.root / "suffix.onnx",
+                input_list=self.root / "input_list.txt",
+            )
 
     def test_model_sha_mismatch_is_rejected(self) -> None:
         model, cut, manifest = self._prepare()
@@ -359,7 +396,13 @@ class TestSuffixCalibrationGate(_TempDirTest):
             manifest, lambda payload: payload.update({"model_sha256": "0" * 64})
         )
         with self.assertRaisesRegex(ValueError, "模型 SHA-256"):
-            extract_suffix(model, cut, manifest, self.root / "suffix.onnx")
+            extract_suffix(
+                model,
+                cut,
+                manifest,
+                self.root / "suffix.onnx",
+                input_list=self.root / "input_list.txt",
+            )
 
 
 @NEEDS_ONNX
@@ -538,6 +581,102 @@ class TestBisectionLoop(_TempDirTest):
         self.assertEqual(payload["steps"][0]["device"]["status"], "timeout")
         self.assertEqual(payload["steps"][1]["node_index"], 10)
         self.assertEqual(payload["steps"][1]["device"]["status"], "pass")
+
+    def test_probe_error_is_recorded_and_keeps_earlier_steps(self) -> None:
+        model = self.root / "chain.onnx"
+        onnx.save(_chain_model(41), str(model))
+        sample = _write_raw(self.root / "sample.raw", [1.0, 2.0, 3.0, 4.0])
+
+        def runner(cut: TensorCut):
+            if cut.node_index >= 30:
+                raise ValueError("布局交接未验证")
+            return _spec("prefix", cut.node_index), {"cut": cut.node_index}, _result("pass")
+
+        payload = run_bisection(model, (0, 40), sample, runner, device_online=True)
+        self.assertEqual(payload["status"], "probe_error")
+        self.assertFalse(payload["verified"])
+        self.assertIsNone(payload["interval"])
+        self.assertEqual(payload["awaiting_interval"], [20, 40])
+        self.assertEqual(len(payload["steps"]), 2)
+        self.assertEqual(payload["steps"][0]["node_index"], 20)
+        self.assertEqual(payload["steps"][0]["device"]["status"], "pass")
+        self.assertEqual(payload["steps"][1]["node_index"], 30)
+        self.assertEqual(payload["steps"][1]["status"], "probe_error")
+        self.assertIn("布局交接未验证", payload["steps"][1]["error"])
+
+
+class TestDeviceGate(unittest.TestCase):
+    def _artifact(self) -> BuildArtifact:
+        return BuildArtifact(
+            variant_id="test",
+            status="config_warning",
+            context_path="context.bin",
+            metadata=ContextMetadata(
+                build_id="v2.51.1.261002",
+                soc_model=87,
+                dsp_arch=81,
+                graph_name="campplus_probe_suffix_0747",
+                input_shape=(1, 149, 512),
+                output_shape=(1, 192),
+            ),
+            sha256={},
+            commands=(),
+            error=None,
+        )
+
+    def test_rejected_probes_are_not_pushed_to_device(self) -> None:
+        pushed: list[Path] = []
+
+        def fake_run_context(*args, **kwargs):
+            pushed.append(args[1])
+            return _result("pass")
+
+        specs = [
+            ProbeSpec(f"suffix-{node}", "suffix", node + 1, 3101, ("t",), ("embedding",))
+            for node in (747, 3076)
+        ]
+        records = [
+            (specs[0], {"probe_id": specs[0].probe_id, "build_status": "layout_rejected"}),
+            (specs[1], {"probe_id": specs[1].probe_id, "build_status": "metadata_rejected"}),
+        ]
+        with mock.patch.object(probe_module, "run_context", fake_run_context):
+            runs, results = _run_device_probes(
+                records,
+                {spec.probe_id: self._artifact() for spec in specs},
+                {spec.probe_id: Path("list.txt") for spec in specs},
+                Path("probes"),
+                device_online=True,
+                serial="327366100004",
+            )
+        self.assertEqual(pushed, [])
+        self.assertEqual(results, [])
+        for spec in specs:
+            self.assertEqual(runs[spec.probe_id]["status"], "device_unavailable")
+            self.assertIsNone(runs[spec.probe_id]["device_run"])
+        self.assertIn("layout_rejected", runs[specs[0].probe_id]["reason"])
+        self.assertIn("metadata_rejected", runs[specs[1].probe_id]["reason"])
+
+    def test_allowed_probe_is_pushed_once(self) -> None:
+        spec = ProbeSpec("suffix-747", "suffix", 748, 3101, ("t",), ("embedding",))
+        pushed: list[Path] = []
+
+        def fake_run_context(*args, **kwargs):
+            pushed.append(args[1])
+            return _result("pass")
+
+        with mock.patch.object(probe_module, "run_context", fake_run_context):
+            runs, results = _run_device_probes(
+                [(spec, {"probe_id": spec.probe_id, "build_status": "config_warning"})],
+                {spec.probe_id: self._artifact()},
+                {spec.probe_id: Path("list.txt")},
+                Path("probes"),
+                device_online=True,
+                serial="327366100004",
+            )
+        self.assertEqual(len(pushed), 1)
+        self.assertEqual(len(results), 1)
+        self.assertEqual(runs[spec.probe_id]["status"], "pass")
+        self.assertEqual(results[0][0], spec)
 
 
 @NEEDS_ONNX
