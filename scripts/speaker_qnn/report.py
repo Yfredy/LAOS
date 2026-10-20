@@ -30,7 +30,7 @@ EMBEDDING_DIM = 192
 WATCHDOG_MS = 10_000
 
 STATUS_LABELS = {
-    "pass": "pass（通过；本次没有持久化 graph 时间，不计入速度值）",
+    "pass": "pass（通过）",
     "timeout": "FastRPC timeout（10 秒看门狗触发，不是推理延迟）",
     "ssr": "CDSP SSR（FastRPC timeout 的下游后果，没有 embedding）",
     "load_error": "load_error（context 未加载，不是速度值）",
@@ -69,6 +69,8 @@ def collect_incident(root: Path) -> dict[str, Any]:
                 "output_count": int(payload.get("output_count") or 0),
                 "finite": bool(payload.get("finite")),
                 "timeout_ms": payload.get("timeout_ms"),
+                "graph_execute_us": payload.get("graph_execute_us"),
+                "context_load_us": payload.get("context_load_us"),
             }
         )
 
@@ -159,12 +161,47 @@ def _display_path(value: Any) -> str:
     return normalized
 
 
-def _status_label(status: Any) -> str:
-    return STATUS_LABELS.get(str(status), f"{status}（非 pass，不是速度值）")
+def _status_label(
+    status: Any, record: Mapping[str, Any] | None = None
+) -> str:
+    """pass 标签由该行是否持久化 graph 时间决定，其余状态走固定词典。"""
+    name = str(status)
+    if name == "pass":
+        graph_us = (
+            record.get("graph_execute_us") if isinstance(record, Mapping) else None
+        )
+        if graph_us is None:
+            return "pass（通过；本次没有持久化 graph 时间，不计入速度值）"
+        return f"pass（通过；graph {int(graph_us) / 1000.0:.3f} ms）"
+    return STATUS_LABELS.get(name, f"{status}（非 pass，不是速度值）")
+
+
+def _status_counts(statuses: Any) -> str:
+    """状态分布渲染成排序的 `k=v`，不暴露 Python dict repr。"""
+    if not isinstance(statuses, Mapping) or not statuses:
+        return "不可得"
+    return "，".join(
+        f"{_cell(key)}={_cell(statuses[key])}" for key in sorted(statuses)
+    )
+
+
+def _is_full_pass(record: Mapping[str, Any]) -> bool:
+    return (
+        record.get("status") == "pass"
+        and int(record.get("output_count") or 0) == EMBEDDING_DIM
+        and bool(record.get("finite"))
+    )
+
+
+def _terminal_status(incident: Mapping[str, Any]) -> str:
+    """终态优先由时间线实测决定；旧 `terminal_status` 只在没有证据时兜底。"""
+    if any(_is_full_pass(record) for record in incident.get("timeline") or ()):
+        return "pass"
+    return str(incident.get("terminal_status") or "blocked")
 
 
 def _header(incident: Mapping[str, Any]) -> list[str]:
-    terminal = str(incident.get("terminal_status") or "blocked")
+    terminal = _terminal_status(incident)
     device = incident.get("device") or {}
     serial = device.get("serial") if isinstance(device, Mapping) else None
     return [
@@ -181,37 +218,80 @@ def _header(incident: Mapping[str, Any]) -> list[str]:
     ]
 
 
-def _section_measured(incident: Mapping[str, Any]) -> list[str]:
+def _section_measured(
+    incident: Mapping[str, Any], benchmark: Mapping[str, Any]
+) -> list[str]:
     timeline = incident.get("timeline") or []
+    variants = incident.get("matrix") or []
     lines = ["## 1. 实测与不可得分列", "", "**实测：**"]
     measured: list[str] = []
     for record in timeline:
-        if record.get("status") == "pass":
-            measured.append(
-                f"- 真机运行 `{_cell(record.get('run_id'))}` 为 pass："
-                f"退出码 {_cell(record.get('exit_code'))}，"
-                f"{record.get('output_count')} 个输出元素且全部有限；"
-                "该次没有持久化 graph 时间，不作为延迟数字。"
-            )
-    if incident.get("matrix"):
-        measured.append(
-            f"- 版本/配置矩阵：{len(incident.get('matrix') or [])} 行离线构建产物，"
-            "每行都有 build ID、元数据与完整 SHA-256（见第 3、6 节）。"
+        if record.get("status") != "pass":
+            continue
+        graph_us = record.get("graph_execute_us")
+        tail = (
+            f"graph {int(graph_us) / 1000.0:.3f} ms。"
+            if graph_us is not None
+            else "该次没有持久化 graph 时间，不作为延迟数字。"
         )
-    measured.extend(
-        [
-            "- HTP V81 `y=x+1` smoke graph 真机通过（incident baseline 实录）："
-            "graph 4.726 ms、含 I/O 约 5.08 ms、`max_abs=3.0517578125e-05`；"
-            "`result.json` 未持久化 graph_execute_us，原始数值来自既有基线记录。",
-            "- 静态统计池化解剖：折叠为 149 帧后，40 条真实语音 FP32 输出逐元素一致"
-            "（`max_abs=0`）；这条路径没有解决真机超时。",
-        ]
-    )
+        measured.append(
+            f"- 真机运行 `{_cell(record.get('run_id'))}` 为 pass："
+            f"退出码 {_cell(record.get('exit_code'))}，"
+            f"{record.get('output_count')} 个输出元素且全部有限；{tail}"
+        )
+    if variants:
+        with_metadata = sum(
+            1 for variant in variants if isinstance(variant.get("metadata"), Mapping)
+        )
+        with_context_hash = sum(
+            1
+            for variant in variants
+            if isinstance(variant.get("sha256"), Mapping)
+            and variant["sha256"].get("context")
+        )
+        measured.append(
+            f"- 版本/配置矩阵：{len(variants)} 行离线构建产物；"
+            f"{with_metadata} 行有 build ID 与元数据，"
+            f"{len(variants) - with_metadata} 行没有元数据；"
+            f"{with_context_hash} 行记录了 context SHA-256（见第 3、6 节）。"
+        )
+    smoke = benchmark.get("smoke_baseline")
+    if isinstance(smoke, Mapping) and smoke.get("graph_us") is not None:
+        parts = [f"graph {int(smoke['graph_us']) / 1000.0:.3f} ms"]
+        if smoke.get("io_us") is not None:
+            parts.append(f"含 I/O {int(smoke['io_us']) / 1000.0:.3f} ms")
+        if smoke.get("max_abs") is not None:
+            parts.append(f"`max_abs={smoke['max_abs']}`")
+        measured.append(
+            "- HTP V81 `y=x+1` smoke graph 真机通过（既有基线记录）："
+            + "、".join(parts)
+            + "。"
+        )
+    fold = benchmark.get("static_stats_parity")
+    if isinstance(fold, Mapping) and fold.get("frames") is not None:
+        measured.append(
+            f"- 静态统计池化解剖：折叠为 {_cell(fold.get('frames'))} 帧后，"
+            f"{_cell(fold.get('inputs'))} 条真实语音 FP32 输出逐元素一致"
+            f"（`max_abs={fold.get('max_abs')}`）；这条路径没有解决真机超时。"
+        )
     if not measured:
         measured.append("- 证据根没有任何真机产物：没有可报告的实测值。")
     lines.extend(measured)
     lines += ["", "**不可得：**"]
-    unavailable = ["- CAM++ W8A16 完整 192 维 embedding：`blocked`（全部 timeout/SSR）。"]
+    full_pass = [record for record in timeline if _is_full_pass(record)]
+    if full_pass:
+        graph_us = full_pass[0].get("graph_execute_us")
+        tail = (
+            f"graph {int(graph_us) / 1000.0:.3f} ms"
+            if graph_us is not None
+            else "本次没有持久化 graph 时间"
+        )
+        unavailable = [
+            f"- CAM++ W8A16 完整 192 维 embedding：`pass`"
+            f"（{len(full_pass)} 次；{tail}）。"
+        ]
+    else:
+        unavailable = ["- CAM++ W8A16 完整 192 维 embedding：`blocked`（全部 timeout/SSR）。"]
     isolation = incident.get("isolation")
     if isinstance(isolation, Mapping):
         unavailable.append(
@@ -225,12 +305,18 @@ def _section_measured(incident: Mapping[str, Any]) -> list[str]:
             f"- 双 context 分区根因：`{_cell(partition.get('solves_root_cause'))}`"
             f"（status=`{_cell(partition.get('status'))}`）。"
         )
-    unavailable.append(
-        "- EER、Top-1、固定 k ARI、在线 ARI、阈值重标定与产品准入：全部不可得。"
-    )
-    unavailable.append(
-        "- 冷/暖延迟 p50/p95/p99、端到端、吞吐与 30 分钟 soak：全部不可得。"
-    )
+    if benchmark.get("accuracy") is None:
+        unavailable.append(
+            "- EER、Top-1、固定 k ARI、在线 ARI、阈值重标定与产品准入：全部不可得。"
+        )
+    else:
+        unavailable.append("- EER、Top-1、ARI 等任务指标：见第 7 节。")
+    if benchmark.get("latency") is None:
+        unavailable.append(
+            "- 冷/暖延迟 p50/p95/p99、端到端、吞吐与 30 分钟 soak：全部不可得。"
+        )
+    else:
+        unavailable.append("- 冷/暖延迟、端到端与吞吐：见第 8 节；soak 见第 9 节。")
     lines.extend(unavailable)
     lines.append("")
     return lines
@@ -248,19 +334,31 @@ def _section_timeline(incident: Mapping[str, Any]) -> list[str]:
         lines.append(
             f"| {_cell(record.get('run_id'))} | {_cell(record.get('status'))} | "
             f"{_cell(record.get('exit_code'))} | {record.get('output_count')} | "
-            f"{record.get('finite')} | {_status_label(record.get('status'))} |"
+            f"{record.get('finite')} | "
+            f"{_status_label(record.get('status'), record)} |"
         )
     if not timeline:
         lines.append("| 无 | 不可得 | - | 0 | False | 证据根没有 device-runs/*/result.json |")
-    lines += [
-        "",
-        "**实测：** 上表逐条抄自 `device-runs/*/result.json`；`timeout` 与 `ssr` "
-        "状态来自 logcat 的 FastRPC 看门狗与 CDSP SSR 证据，不参与任何延迟统计。",
-        "",
-        "**不可得：** 没有任何一行同时满足 pass、192 个有限输出，因此速度与准确率"
-        "都没有合法输入。",
-        "",
-    ]
+    full_pass = [record for record in timeline if _is_full_pass(record)]
+    if full_pass:
+        lines += [
+            "",
+            "**实测：** 上表逐条抄自 `device-runs/*/result.json`；`timeout` 与 `ssr` "
+            "状态来自 logcat 的 FastRPC 看门狗与 CDSP SSR 证据，不参与任何延迟统计。",
+            "",
+            f"**实测：** {len(full_pass)} 行同时满足 pass 与 192 个有限输出，"
+            "速度与准确率都有合法输入。",
+        ]
+    else:
+        lines += [
+            "",
+            "**实测：** 上表逐条抄自 `device-runs/*/result.json`；`timeout` 与 `ssr` "
+            "状态来自 logcat 的 FastRPC 看门狗与 CDSP SSR 证据，不参与任何延迟统计。",
+            "",
+            "**不可得：** 没有任何一行同时满足 pass、192 个有限输出，因此速度与准确率"
+            "都没有合法输入。",
+        ]
+    lines.append("")
     return lines
 
 
@@ -268,22 +366,41 @@ def _section_matrix(incident: Mapping[str, Any]) -> list[str]:
     variants = incident.get("matrix") or []
     summary = incident.get("matrix_summary") or {}
     toolchains = incident.get("toolchains") or []
+    warning_rows = [
+        variant for variant in variants if variant.get("status") == "config_warning"
+    ]
+    pass_rows = [variant for variant in variants if variant.get("status") == "pass"]
     lines = [
         "## 3. 版本与配置矩阵",
         "",
-        f"- 完整图行数：{_cell(summary.get('full_graph_rows'))}；"
-        f"完整图变体数：{_cell(summary.get('full_graph_variants'))}；"
-        f"状态分布：{_cell(summary.get('statuses'))}。",
+        f"- 完整图行数：{_cell(summary.get('full_graph_rows')) or '不可得'}；"
+        f"完整图变体数：{_cell(summary.get('full_graph_variants')) or '不可得'}；"
+        f"状态分布：{_status_counts(summary.get('statuses'))}。",
         "- QAIRT 树：" + "；".join(
             f"`{_cell(item.get('build_id'))}`（{_display_path(item.get('root'))}）"
             for item in toolchains
             if isinstance(item, Mapping)
         ) if toolchains else "- QAIRT 树：不可得（matrix.json 缺失）",
         "",
-        "**实测：** 每行都是离线构建产物；`config_warning` 行有 `unexpected "
-        "GraphHtpSettings option 66` 告警，未上机。",
-        "",
-        "**不可得：** 没有任何一行是 `pass`，完整图没有进入真机测速。",
+    ]
+    if warning_rows:
+        lines += [
+            f"**实测：** {len(warning_rows)} 行 `config_warning` 有 `unexpected "
+            "GraphHtpSettings option 66` 告警，未上机。",
+        ]
+    elif pass_rows:
+        lines += [f"**实测：** {len(pass_rows)} 行 `pass`，已进入真机测速。"]
+    else:
+        lines += ["**实测：** 无；没有任何行处于 `config_warning` 或 `pass`。"]
+    lines += [""]
+    if pass_rows:
+        lines += [
+            f"**不可得：** 其余 {len(variants) - len(pass_rows)} 行仍未 `pass`，"
+            "没有全部进入真机测速。",
+        ]
+    else:
+        lines += ["**不可得：** 没有任何一行是 `pass`，完整图没有进入真机测速。"]
+    lines += [
         "",
         "| 变体 | 类型 | 阶段 | 状态 | build ID | 元数据 | 备注 |",
         "|---|---|---|---|---|---|---|",
@@ -318,33 +435,51 @@ def _section_isolation(incident: Mapping[str, Any]) -> list[str]:
             "",
         ]
         return lines
+    probes = isolation.get("probes") or []
+    if probes:
+        context_hashes = sum(
+            1
+            for probe in probes
+            if isinstance(probe, Mapping) and probe.get("context_sha256")
+        )
+        graph_hashes = sum(
+            1
+            for probe in probes
+            if isinstance(probe, Mapping) and probe.get("graph_sha256")
+        )
+        missing_context = len(probes) - context_hashes
+        measured = (
+            f"**实测：** {len(probes)} 个 probe 中 {context_hashes} 个记录 "
+            f"context SHA-256、{graph_hashes} 个记录 graph SHA-256；"
+            "切点与张量形状来自真实图结构。"
+        )
+        if missing_context:
+            measured += f"；其中 {missing_context} 个 probe 缺少 context SHA-256。"
+    else:
+        measured = "**实测：** 无；isolation.json 没有 probe 记录。"
     lines += [
-        f"- 状态：`{_cell(isolation.get('status'))}`",
-        f"- 已验证区间：{_cell(isolation.get('interval')) or '无（`interval = null`）'}",
-        f"- 待验证区间：{_shape(isolation.get('awaiting_interval'))}",
-        f"- 节点总数：{_cell(isolation.get('node_count'))}",
-        f"- 原因：{_cell(isolation.get('reason'))}",
-        "",
-        "**实测：** prefix probe 的 context/graph SHA-256 已全部落盘（见第 6 节），"
-        "切点与张量形状来自真实图结构。",
+        measured,
         "",
         "**不可得：** 设备离线，prefix/suffix 没有真机执行结果，"
         "因此没有二分进展（`awaiting_device`）。",
         "",
     ]
-    probes = isolation.get("probes") or []
     if probes:
         lines += [
-            "| probe | 类型 | 节点区间 | 语义输出 | 真机 |",
-            "|---|---|---|---|---|",
+            "| probe | 类型 | 节点区间 | 语义输出 | context SHA-256 | graph SHA-256 | 真机 |",
+            "|---|---|---|---|---|---|---|",
         ]
         for probe in probes:
             if not isinstance(probe, Mapping):
                 continue
+            context_hash = probe.get("context_sha256")
+            graph_hash = probe.get("graph_sha256")
             lines.append(
                 f"| {_cell(probe.get('probe_id'))} | {_cell(probe.get('kind'))} | "
                 f"{_shape(probe.get('node_interval'))} | "
                 f"{_shape(probe.get('semantic_output_shape'))} | "
+                f"{'`' + _cell(context_hash) + '`' if context_hash else '无'} | "
+                f"{'`' + _cell(graph_hash) + '`' if graph_hash else '无'} | "
                 f"{'有' if probe.get('device') else '无（device_unavailable）'} |"
             )
         lines.append("")
@@ -392,15 +527,47 @@ def _section_fix(incident: Mapping[str, Any]) -> list[str]:
             lines.append(f"- 待办：{_cell(item)}")
     else:
         lines.append("- 双 context 分区：不可得（partition.json 缺失）。")
-    lines += [
-        "",
-        "**实测：** 分区两侧 context 均为 `config_warning` 离线产物，"
-        "40 条真实张量的 FP32 round-trip `max_abs=0`，布局转置已验证。",
-        "",
-        "**不可得：** 故障区间没有真机证据，分区只是按最小中间张量选择，"
-        "`solves_root_cause=unproven`，终态 `blocked`。",
-        "",
-    ]
+    measured_parts: list[str] = []
+    if isinstance(partition, Mapping):
+        plan = partition.get("plan")
+        sides: list[str] = []
+        if isinstance(plan, Mapping):
+            for name in ("prefix", "suffix"):
+                side = plan.get(name)
+                if isinstance(side, Mapping):
+                    sides.append(f"{name}=`{_cell(side.get('status'))}`")
+        if sides:
+            measured_parts.append("分区两侧 context 均为 " + "、".join(sides) + " 离线产物")
+        parity = partition.get("parity")
+        if isinstance(parity, Mapping) and parity.get("inputs") is not None:
+            measured_parts.append(
+                f"离线 round-trip 覆盖 {_cell(parity.get('inputs'))} 条真实张量"
+                f"（mode=`{_cell(parity.get('mode'))}`，"
+                f"`max_abs={parity.get('max_abs')}`）"
+            )
+        layout = partition.get("layout")
+        if isinstance(layout, Mapping) and layout.get("verified"):
+            measured_parts.append(
+                f"布局转置 {_shape(layout.get('transpose_axes'))} 已验证"
+                f"（{_cell(layout.get('samples'))} 个样本，"
+                f"`round_trip_max_abs={layout.get('round_trip_max_abs')}`）"
+            )
+    if measured_parts:
+        lines.append("")
+        lines.append("**实测：** " + "；".join(measured_parts) + "。")
+    else:
+        lines.append("")
+        lines.append("**实测：** 无；partition.json 没有 parity/layout 记录。")
+    lines += [""]
+    if isinstance(partition, Mapping):
+        lines.append(
+            "**不可得：** 故障区间没有真机证据，分区只是按最小中间张量选择，"
+            f"`solves_root_cause={_cell(partition.get('solves_root_cause')) or 'unproven'}`，"
+            f"终态 `{_terminal_status(incident)}`。"
+        )
+    else:
+        lines.append("**不可得：** partition.json 缺失，分区根因与终态都不可得。")
+    lines.append("")
     return lines
 
 
@@ -455,7 +622,7 @@ def _section_accuracy(benchmark: Mapping[str, Any]) -> list[str]:
         "## 7. Paired accuracy",
         "",
         f"- benchmark 状态：`{_cell(status) or 'device_unavailable'}`",
-        f"- 原因：{_cell(benchmark.get('reason')) or '证据根缺少 paired embedding'}",
+        f"- 原因：{_display_path(benchmark.get('reason')) or '证据根缺少 paired embedding'}",
         f"- 阈值重标定：`{_cell(benchmark.get('threshold_recalibration')) or 'blocked'}`；"
         f"产品准入：`{_cell(benchmark.get('product_admission')) or 'blocked'}`",
         "",
@@ -485,7 +652,17 @@ def _section_accuracy(benchmark: Mapping[str, Any]) -> list[str]:
 
 
 def _metric_row(label: str, value: Any, unit: str) -> str:
+    if value is None:
+        return f"| {label} | 不可得 |"
     return f"| {label} | {float(value):.3f} {unit} |"
+
+
+LATENCY_COMPONENTS = (
+    ("io_p50_ms", "runner I/O p50"),
+    ("fbank_p50_ms", "CPU FBank p50"),
+    ("transfer_p50_ms", "中间张量搬运 p50"),
+    ("schedule_p50_ms", "第二次调度 p50"),
+)
 
 
 def _section_latency(benchmark: Mapping[str, Any]) -> list[str]:
@@ -514,14 +691,36 @@ def _section_latency(benchmark: Mapping[str, Any]) -> list[str]:
         _metric_row("端到端 p50", latency.get("end_to_end_p50_ms"), "ms"),
         _metric_row("端到端 p95", latency.get("end_to_end_p95_ms"), "ms"),
         _metric_row("吞吐", latency.get("throughput_ips"), "IPS"),
-        "",
-        "**实测：** 上表数值来自 `benchmark.json` 的 latency 记录；"
-        "端到端是 graph、runner I/O、CPU FBank、中间张量搬运与第二次调度的"
-        "实测组成项之和。",
-        "",
-        "**不可得：** 未测项留空，不估算。",
-        "",
     ]
+    for key, label in LATENCY_COMPONENTS:
+        lines.append(_metric_row(label, latency.get(key), "ms"))
+    complete = latency.get("end_to_end_p50_ms") is not None and all(
+        latency.get(key) is not None for key, _ in LATENCY_COMPONENTS
+    )
+    lines += [""]
+    if complete:
+        lines.append(
+            "**实测：** 上表数值来自 `benchmark.json` 的 latency 记录；"
+            "端到端是 graph、runner I/O、CPU FBank、中间张量搬运与第二次调度的"
+            "实测组成项之和。"
+        )
+    else:
+        lines.append(
+            "**实测：** 上表数值来自 `benchmark.json` 的 latency 记录；"
+            "端到端与吞吐没有完整的实测组成项，保持不可得（不求和、不估算）。"
+        )
+    missing = [
+        label
+        for key, label in (("end_to_end_p50_ms", "端到端"), ("throughput_ips", "吞吐"))
+        + LATENCY_COMPONENTS
+        if latency.get(key) is None
+    ]
+    lines += [""]
+    if missing:
+        lines.append(f"**不可得：** {'、'.join(missing)}没有实测值，不估算。")
+    else:
+        lines.append("**不可得：** 无；上表所有列出的项都有实测值。")
+    lines.append("")
     return lines
 
 
@@ -541,13 +740,13 @@ def _section_soak(benchmark: Mapping[str, Any]) -> list[str]:
     lines += [
         "| 指标 | 数值 |",
         "|---|---:|",
-        f"| 时长 | {_cell(soak.get('duration_s'))} s |",
-        f"| 成功运行 | {_cell(soak.get('successful_runs'))} |",
-        f"| 失败运行 | {_cell(soak.get('failed_runs'))} |",
-        f"| battery 最高温 | {_cell(soak.get('max_battery_temp_c'))} °C |",
-        f"| SKIN 最高温 | {_cell(soak.get('max_skin_temp_c')) or '无（采样缺口）'} |",
-        f"| 中位 graph | {float(soak.get('median_graph_ms')):.3f} ms |",
-        f"| 末尾 graph | {float(soak.get('final_graph_ms')):.3f} ms |",
+        f"| 时长 | {_cell(soak.get('duration_s')) or '不可得'} s |",
+        f"| 成功运行 | {_cell(soak.get('successful_runs')) or '不可得'} |",
+        f"| 失败运行 | {_cell(soak.get('failed_runs')) or '不可得'} |",
+        _metric_row("battery 最高温", soak.get("max_battery_temp_c"), "°C"),
+        _metric_row("SKIN 最高温", soak.get("max_skin_temp_c"), "°C"),
+        _metric_row("中位 graph", soak.get("median_graph_ms"), "ms"),
+        _metric_row("末尾成功 graph", soak.get("final_graph_ms"), "ms"),
         "",
         "**实测：** 温区逐次来自 `dumpsys thermalservice`；skin 采样缺口允许为空，"
         "但全程无 battery 样本即拒绝出报告。",
@@ -566,7 +765,7 @@ def render_report(
     benchmark = benchmark if isinstance(benchmark, Mapping) else {}
     lines: list[str] = []
     lines += _header(incident)
-    lines += _section_measured(incident)
+    lines += _section_measured(incident, benchmark)
     lines += _section_timeline(incident)
     lines += _section_matrix(incident)
     lines += _section_isolation(incident)

@@ -151,6 +151,15 @@ def _minimal_root(root: Path) -> Path:
     return root
 
 
+def _reverse_key_order(value):
+    """递归反转 dict 键序，用于证明渲染不依赖映射迭代顺序。"""
+    if isinstance(value, dict):
+        return {key: _reverse_key_order(value[key]) for key in reversed(list(value))}
+    if isinstance(value, list):
+        return [_reverse_key_order(item) for item in value]
+    return value
+
+
 class TestReportRendering(unittest.TestCase):
     def test_report_never_uses_timeout_as_latency(self):
         report = render_report(_incident_with_timeout(), _benchmark_without_success())
@@ -166,9 +175,32 @@ class TestReportRendering(unittest.TestCase):
 
     def test_report_is_deterministic(self):
         first = render_report(_incident_with_timeout(), _benchmark_without_success())
-        second = render_report(_incident_with_timeout(), _benchmark_without_success())
+        shuffled_incident = _reverse_key_order(
+            json.loads(json.dumps(_incident_with_timeout(), ensure_ascii=False))
+        )
+        shuffled_benchmark = _reverse_key_order(
+            json.loads(json.dumps(_benchmark_without_success(), ensure_ascii=False))
+        )
+        second = render_report(shuffled_incident, shuffled_benchmark)
         self.assertEqual(first, second)
         self.assertTrue(first.endswith("\n"))
+
+    def test_status_distribution_is_rendered_as_sorted_kv(self):
+        report = render_report(_incident_with_timeout(), _benchmark_without_success())
+        self.assertIn("config_warning=1", report)
+        self.assertNotIn("{'config_warning'", report)
+
+    def test_benchmark_reason_paths_have_no_backslashes(self):
+        benchmark = _benchmark_without_success()
+        benchmark["reason"] = (
+            "缺少 paired embedding 文件："
+            "var\\speaker-benchmark\\qnn\\campplus-htp-debug\\embeddings\\fp32.npz"
+        )
+        report = render_report(_incident_with_timeout(), benchmark)
+        self.assertNotIn("\\", report)
+        self.assertIn(
+            "var/speaker-benchmark/qnn/campplus-htp-debug/embeddings/fp32.npz", report
+        )
 
     def test_report_separates_measured_from_unavailable(self):
         report = render_report(_incident_with_timeout(), _benchmark_without_success())
@@ -215,10 +247,206 @@ class TestReportRendering(unittest.TestCase):
             "end_to_end_p50_ms": 55.0,
             "end_to_end_p95_ms": 60.0,
             "throughput_ips": 18.18,
+            "io_p50_ms": 3.0,
+            "fbank_p50_ms": 4.0,
+            "transfer_p50_ms": 0.5,
+            "schedule_p50_ms": 1.0,
         }
         report = render_report(_incident_with_timeout(), benchmark)
         self.assertIn("42.000 ms", report)
         self.assertIn("18.180 IPS", report)
+
+    def test_latency_section_never_composes_unmeasured_end_to_end(self):
+        benchmark = _benchmark_without_success()
+        benchmark["latency"] = {
+            "cold_load_p50_ms": 12.5,
+            "cold_load_p95_ms": 15.0,
+            "graph_p50_ms": 42.0,
+            "graph_p95_ms": 45.0,
+            "graph_p99_ms": 47.0,
+            "end_to_end_p50_ms": None,
+            "end_to_end_p95_ms": None,
+            "throughput_ips": None,
+            "io_p50_ms": None,
+            "fbank_p50_ms": None,
+            "transfer_p50_ms": None,
+            "schedule_p50_ms": None,
+        }
+        report = render_report(_incident_with_timeout(), benchmark)
+        self.assertIn("42.000 ms", report)
+        self.assertIn("| 端到端 p50 | 不可得 |", report)
+        self.assertIn("| 吞吐 | 不可得 |", report)
+        self.assertIn("| runner I/O p50 | 不可得 |", report)
+        self.assertNotIn("实测组成项之和", report)
+
+    def test_soak_none_values_render_as_unavailable(self):
+        benchmark = _benchmark_without_success()
+        benchmark["soak"] = {
+            "duration_s": 1800,
+            "successful_runs": 1700,
+            "failed_runs": 100,
+            "max_battery_temp_c": None,
+            "max_skin_temp_c": None,
+            "median_graph_ms": None,
+            "final_graph_ms": 21.0,
+        }
+        report = render_report(_incident_with_timeout(), benchmark)
+        self.assertIn("| battery 最高温 | 不可得 |", report)
+        self.assertIn("| 中位 graph | 不可得 |", report)
+        self.assertIn("21.000 ms", report)
+
+
+class TestReportEvidenceDerivation(unittest.TestCase):
+    def test_matrix_sentence_counts_rows_without_metadata(self):
+        incident = _incident_with_timeout()
+        incident["matrix"] = [
+            {
+                "variant_id": "with-metadata",
+                "kind": "full",
+                "stage": "compiler",
+                "status": "config_warning",
+                "metadata": {
+                    "build_id": "v2.51.1.261002102551",
+                    "soc_model": 87,
+                    "dsp_arch": 81,
+                    "input_shape": [1, 80, 298],
+                    "output_shape": [1, 192],
+                },
+                "sha256": {"context": "a" * 64},
+            },
+            {
+                "variant_id": "without-metadata",
+                "kind": "smoke",
+                "stage": "eligibility",
+                "status": "metadata_rejected",
+                "metadata": None,
+                "sha256": {"context": "c" * 64},
+            },
+        ]
+        report = render_report(incident, _benchmark_without_success())
+        self.assertIn("2 行离线构建产物", report)
+        self.assertIn("1 行没有元数据", report)
+        self.assertNotIn("每行都有", report)
+
+    def test_probe_table_exposes_missing_context_hash(self):
+        incident = _incident_with_timeout()
+        incident["isolation"] = {
+            "status": "awaiting_device",
+            "interval": None,
+            "awaiting_interval": [0, 3101],
+            "node_count": 3101,
+            "reason": "设备不在 adb",
+            "probes": [
+                {
+                    "probe_id": "prefix-a",
+                    "kind": "prefix",
+                    "node_interval": [0, 49],
+                    "semantic_output_shape": [1, 320, 298],
+                    "context_sha256": "d" * 64,
+                    "graph_sha256": "e" * 64,
+                    "device": None,
+                },
+                {
+                    "probe_id": "prefix-b",
+                    "kind": "prefix",
+                    "node_interval": [0, 3076],
+                    "semantic_output_shape": [1, 512, 149],
+                    "context_sha256": None,
+                    "graph_sha256": "f" * 64,
+                    "device": None,
+                },
+            ],
+        }
+        report = render_report(incident, _benchmark_without_success())
+        self.assertNotIn("已全部落盘", report)
+        self.assertIn("1 个 probe 缺少 context SHA-256", report)
+        self.assertIn("d" * 64, report)
+        self.assertIn("f" * 64, report)
+
+    def test_fix_section_reads_partition_parity_and_layout(self):
+        incident = _incident_with_timeout()
+        incident["partition"] = {
+            "status": "device_unavailable",
+            "selection_basis": "smallest_intermediate_only",
+            "solves_root_cause": "unproven",
+            "parity": {"inputs": 40, "max_abs": 0.0, "mode": "exact", "passed": True},
+            "layout": {
+                "verified": True,
+                "transpose_axes": [0, 1],
+                "samples": 3,
+                "round_trip_max_abs": 0.0,
+            },
+            "plan": {
+                "cut": {
+                    "node_index": 3093,
+                    "tensor_name": "/xvector/stats/Concat_output_0",
+                    "shape": [1, 1024],
+                },
+                "transfer_bytes": 4096,
+            },
+        }
+        report = render_report(incident, _benchmark_without_success())
+        self.assertIn("40 条真实张量", report)
+        self.assertIn("max_abs=0", report)
+        self.assertIn("布局转置 [0,1] 已验证", report)
+
+    def test_smoke_baseline_renders_only_when_recorded(self):
+        benchmark = _benchmark_without_success()
+        benchmark["smoke_baseline"] = {
+            "graph_us": 4726,
+            "io_us": 5080,
+            "max_abs": 3.0517578125e-05,
+        }
+        benchmark["static_stats_parity"] = {"frames": 149, "inputs": 40, "max_abs": 0.0}
+        report = render_report(_incident_with_timeout(), benchmark)
+        self.assertIn("4.726 ms", report)
+        self.assertIn("3.0517578125e-05", report)
+        self.assertIn("149 帧", report)
+
+    def test_absent_evidence_never_prints_measured_numbers(self):
+        report = render_report({}, {"status": "device_unavailable"})
+        self.assertNotIn("4.726 ms", report)
+        self.assertNotIn("3.0517578125e-05", report)
+        self.assertNotIn("149 帧", report)
+        self.assertNotIn("40 条真实张量", report)
+        self.assertIn("不可得", report)
+
+    def test_status_sentences_follow_recovered_device_evidence(self):
+        incident = _incident_with_timeout()
+        incident["terminal_status"] = "blocked"  # 故意留旧的终态字段
+        incident["timeline"] = [
+            {
+                "run_id": "run-pass",
+                "status": "pass",
+                "exit_code": 0,
+                "output_count": 192,
+                "finite": True,
+                "graph_execute_us": 41_000,
+            }
+        ]
+        incident["matrix"][0]["status"] = "pass"
+        report = render_report(incident, _benchmark_without_success())
+        self.assertIn("- **终态：** `pass`", report)
+        self.assertIn("完整 192 维 embedding：`pass`", report)
+        self.assertNotIn("没有任何一行同时满足", report)
+        self.assertNotIn("没有任何一行是 `pass`", report)
+        self.assertIn("graph 41.000 ms", report)
+
+    def test_pass_label_depends_on_persisted_graph_time(self):
+        incident = _incident_with_timeout()
+        incident["timeline"] = [
+            {
+                "run_id": "run-pass",
+                "status": "pass",
+                "exit_code": 0,
+                "output_count": 16,
+                "finite": True,
+                "graph_execute_us": None,
+            }
+        ]
+        report = render_report(incident, _benchmark_without_success())
+        self.assertIn("本次没有持久化 graph 时间", report)
+        self.assertIn("没有任何一行同时满足", report)
 
 
 class TestReportCollection(unittest.TestCase):

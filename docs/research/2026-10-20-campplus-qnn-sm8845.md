@@ -10,9 +10,7 @@
 **实测：**
 - 真机运行 `20261020-220201-smoke` 为 pass：退出码 0，16 个输出元素且全部有限；该次没有持久化 graph 时间，不作为延迟数字。
 - 真机运行 `20261020-220308-smoke` 为 pass：退出码 0，16 个输出元素且全部有限；该次没有持久化 graph 时间，不作为延迟数字。
-- 版本/配置矩阵：8 行离线构建产物，每行都有 build ID、元数据与完整 SHA-256（见第 3、6 节）。
-- HTP V81 `y=x+1` smoke graph 真机通过（incident baseline 实录）：graph 4.726 ms、含 I/O 约 5.08 ms、`max_abs=3.0517578125e-05`；`result.json` 未持久化 graph_execute_us，原始数值来自既有基线记录。
-- 静态统计池化解剖：折叠为 149 帧后，40 条真实语音 FP32 输出逐元素一致（`max_abs=0`）；这条路径没有解决真机超时。
+- 版本/配置矩阵：8 行离线构建产物；7 行有 build ID 与元数据，1 行没有元数据；8 行记录了 context SHA-256（见第 3、6 节）。
 
 **不可得：**
 - CAM++ W8A16 完整 192 维 embedding：`blocked`（全部 timeout/SSR）。
@@ -39,10 +37,10 @@
 
 ## 3. 版本与配置矩阵
 
-- 完整图行数：5；完整图变体数：4；状态分布：{'config_warning': 7, 'metadata_rejected': 1}。
+- 完整图行数：5；完整图变体数：4；状态分布：config_warning=7，metadata_rejected=1。
 - QAIRT 树：`v2.47.0.260601114230`（var/speaker-benchmark/qnn/sdk/qairt/2.47.0.260601）；`v2.51.1.261002102551`（var/speaker-benchmark/qnn/sdk-2.51/qairt/2.51.1.261002）；`v2.51.40.260930230134`（var/speaker-benchmark/qnn/sdk-2.51.40/qairt/2.51.40.260930）
 
-**实测：** 每行都是离线构建产物；`config_warning` 行有 `unexpected GraphHtpSettings option 66` 告警，未上机。
+**实测：** 7 行 `config_warning` 有 `unexpected GraphHtpSettings option 66` 告警，未上机。
 
 **不可得：** 没有任何一行是 `pass`，完整图没有进入真机测速。
 
@@ -59,25 +57,19 @@
 
 ## 4. 隔离区间
 
-- 状态：`awaiting_device`
-- 已验证区间：无（`interval = null`）
-- 待验证区间：[0,3101]
-- 节点总数：3101
-- 原因：设备不在 adb，二分未取得真机证据（awaiting_device）
-
-**实测：** prefix probe 的 context/graph SHA-256 已全部落盘（见第 6 节），切点与张量形状来自真实图结构。
+**实测：** 7 个 probe 中 6 个记录 context SHA-256、7 个记录 graph SHA-256；切点与张量形状来自真实图结构。；其中 1 个 probe 缺少 context SHA-256。
 
 **不可得：** 设备离线，prefix/suffix 没有真机执行结果，因此没有二分进展（`awaiting_device`）。
 
-| probe | 类型 | 节点区间 | 语义输出 | 真机 |
-|---|---|---|---|---|
-| prefix-0049-head_Reshape_output_0 | prefix | [0,49] | [1,320,298] | 无（device_unavailable） |
-| prefix-0747-xvector_block1_Concat_11_output_ | prefix | [0,747] | [1,512,149] | 无（device_unavailable） |
-| prefix-2142-xvector_block2_Concat_23_output_ | prefix | [0,2142] | [1,1024,149] | 无（device_unavailable） |
-| prefix-3076-xvector_transit3_linear_Conv_out | prefix | [0,3076] | [1,512,149] | 无（device_unavailable） |
-| prefix-3077-xvector_out_nonlinear_relu_Relu_ | prefix | [0,3077] | [1,512,149] | 无（device_unavailable） |
-| prefix-3093-xvector_stats_Concat_output_0 | prefix | [0,3093] | [1,1024] | 无（device_unavailable） |
-| prefix-3101-embedding | prefix | [0,3101] | [1,192] | 无（device_unavailable） |
+| probe | 类型 | 节点区间 | 语义输出 | context SHA-256 | graph SHA-256 | 真机 |
+|---|---|---|---|---|---|---|
+| prefix-0049-head_Reshape_output_0 | prefix | [0,49] | [1,320,298] | `fd7e02711d9f8b0e133a8ef0de20d3e7fcbfa45045a89208f69b9a454e4c2a9d` | `c4987ad6f61cec0f2413add0472a09cc65182a9102bb3b7381a48776b9468563` | 无（device_unavailable） |
+| prefix-0747-xvector_block1_Concat_11_output_ | prefix | [0,747] | [1,512,149] | `fbc91be0bbb689d65bf41eb355b6d764295196c85ac124d081b24db3b136b89d` | `53187df22e094e21bdf378eed5bb0244ab80ea829606577d6f898667d07e9ae6` | 无（device_unavailable） |
+| prefix-2142-xvector_block2_Concat_23_output_ | prefix | [0,2142] | [1,1024,149] | `cbe29bd1db8eef5c9cfe00363ab7b40a6a1ce32eacfdc401518700cebdcecaf0` | `5ae8858086f32eac805b4068da119dbd31efb486636edeaf3229be8d7d1bbd3e` | 无（device_unavailable） |
+| prefix-3076-xvector_transit3_linear_Conv_out | prefix | [0,3076] | [1,512,149] | 无 | `40047c80b6af1b45ed267714a3827e51552a81d9ec062a0600ceb9397735ddc4` | 无（device_unavailable） |
+| prefix-3077-xvector_out_nonlinear_relu_Relu_ | prefix | [0,3077] | [1,512,149] | `5487594176e1e7a0aab6c3e49c4a754d3266c41049585d1dcd8283ec49899c70` | `a8e5303657501adaeb4e376f50718053dd253d879dbbb049b9be132575c12e3b` | 无（device_unavailable） |
+| prefix-3093-xvector_stats_Concat_output_0 | prefix | [0,3093] | [1,1024] | `94f7704d5448c1a9a61d43c7f77571d308307b819d2a6d47387c7694e206cff8` | `e6072dd32aa1d7c73e565999263b1e6acda8b3e206bd37d8eebfb5f9ee354ead` | 无（device_unavailable） |
+| prefix-3101-embedding | prefix | [0,3101] | [1,192] | `0827fc69d5c79a2e750384754db3112b277c4b17d0c30c38b6c88b47d7b41b8e` | `afcd56fa8f6238a7de9ebe9290f41b4dde938863a7b319ca030b0a1a08f5186e` | 无（device_unavailable） |
 
 ## 5. 选定修复 / 分区
 
@@ -90,7 +82,7 @@
 - 待办：同一真实输入连续 30 次完整 embedding：退出码 0、无 SSR、无 FastRPC timeout、每次 192 个有限值，总 warm graph time < 1 s
 - 待办：报告中间张量搬运成本 4096 字节与两次 context 调度开销
 
-**实测：** 分区两侧 context 均为 `config_warning` 离线产物，40 条真实张量的 FP32 round-trip `max_abs=0`，布局转置已验证。
+**实测：** 分区两侧 context 均为 prefix=`config_warning`、suffix=`config_warning` 离线产物；离线 round-trip 覆盖 40 条真实张量（mode=`exact`，`max_abs=0.0`）；布局转置 [0,1] 已验证（3 个样本，`round_trip_max_abs=0.0`）。
 
 **不可得：** 故障区间没有真机证据，分区只是按最小中间张量选择，`solves_root_cause=unproven`，终态 `blocked`。
 
@@ -156,7 +148,7 @@
 ## 7. Paired accuracy
 
 - benchmark 状态：`device_unavailable`
-- 原因：缺少 paired embedding 文件：var\speaker-benchmark\qnn\campplus-htp-debug\embeddings\fp32.npz；缺少 paired embedding 文件：var\speaker-benchmark\qnn\campplus-htp-debug\embeddings\w8a16.npz；缺少 embedding 抽取记录：var\speaker-benchmark\qnn\campplus-htp-debug\embeddings\extraction.json（extraction.json）
+- 原因：缺少 paired embedding 文件：var/speaker-benchmark/qnn/campplus-htp-debug/embeddings/fp32.npz；缺少 paired embedding 文件：var/speaker-benchmark/qnn/campplus-htp-debug/embeddings/w8a16.npz；缺少 embedding 抽取记录：var/speaker-benchmark/qnn/campplus-htp-debug/embeddings/extraction.json（extraction.json）
 - 阈值重标定：`blocked`；产品准入：`blocked`
 
 **实测：** 无；没有 FP32/W8A16 paired embedding，不计算任何准确率。

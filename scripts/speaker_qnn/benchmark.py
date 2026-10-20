@@ -31,7 +31,6 @@ import argparse
 import hashlib
 import json
 import math
-import os
 import re
 import subprocess
 import sys
@@ -270,16 +269,25 @@ class AccuracyMetrics:
 
 @dataclass(frozen=True)
 class LatencyMetrics:
-    """一次速度矩阵汇总；所有数值都是实测毫秒/IPS，不含任何看门狗超时。"""
+    """一次速度矩阵汇总；所有数值都是实测毫秒/IPS，不含任何看门狗超时。
+
+    端到端与吞吐只有在每个 measured 事件都测到 graph、runner I/O、CPU FBank、
+    中间张量搬运与第二次调度时才成立；缺任一项即为 `None`（报告渲染成
+    「不可得」），绝不由缺项求和推算。
+    """
 
     cold_load_p50_ms: float
     cold_load_p95_ms: float
     graph_p50_ms: float
     graph_p95_ms: float
     graph_p99_ms: float
-    end_to_end_p50_ms: float
-    end_to_end_p95_ms: float
-    throughput_ips: float
+    end_to_end_p50_ms: float | None = None
+    end_to_end_p95_ms: float | None = None
+    throughput_ips: float | None = None
+    io_p50_ms: float | None = None
+    fbank_p50_ms: float | None = None
+    transfer_p50_ms: float | None = None
+    schedule_p50_ms: float | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -287,7 +295,11 @@ class LatencyMetrics:
 
 @dataclass(frozen=True)
 class SoakMetrics:
-    """30 分钟 1 Hz soak；`max_skin_temp_c` 为 None 表示全程没有 skin 温区。"""
+    """30 分钟 1 Hz soak；`max_skin_temp_c` 为 None 表示全程没有 skin 温区。
+
+    `final_graph_ms` 是最后一次**成功**运行的 graph 时间，不是最后一次采样：
+    末尾采样可能失败，失败样本不进这个字段。
+    """
 
     duration_s: int
     successful_runs: int
@@ -333,8 +345,8 @@ class LatencyEvent:
         return self.status == STATUS_PASS and self.graph_time_us is not None
 
     @property
-    def end_to_end_us(self) -> int:
-        """graph + I/O + FBank + 搬运 + 调度；缺项不估算。"""
+    def end_to_end_us(self) -> int | None:
+        """graph + I/O + FBank + 搬运 + 调度；缺任一项即不可得，不估算。"""
         parts = (
             self.graph_time_us,
             self.io_us,
@@ -342,7 +354,19 @@ class LatencyEvent:
             self.transfer_us,
             self.schedule_us,
         )
-        return sum(int(value) for value in parts if value is not None)
+        if any(value is None for value in parts):
+            return None
+        return sum(int(value) for value in parts)
+
+
+def _component_p50_ms(
+    events: Sequence[LatencyEvent], attribute: str
+) -> float | None:
+    """只有全部 measured 事件都记录了该组成项时才给 p50，缺一项即不可得。"""
+    values = [getattr(event, attribute) for event in events]
+    if not values or any(value is None for value in values):
+        return None
+    return percentile([int(value) / 1000.0 for value in values], QNN_P50)
 
 
 def summarize_latency(
@@ -351,7 +375,9 @@ def summarize_latency(
     """按 warmup 窗口切出 measured 事件并汇总；冷加载与暖延迟分列。
 
     dropped 事件（`status != "pass"` 或缺 graph time）不进任何百分位，
-    即使 profile 里残留了 10 秒看门狗 timeout 的数字。
+    即使 profile 里残留了 10 秒看门狗 timeout 的数字。`>= 10 s` 的 measured
+    graph time 直接拒绝（FastRPC timeout 不是速度值），`>= 1 s` 判不可常驻；
+    端到端/吞吐只有在全部组成项都实测时才输出，否则为 None。
     """
     if int(warmups) < 0:
         raise ValueError(f"warmups 必须 >= 0，实际 {warmups}")
@@ -361,6 +387,18 @@ def summarize_latency(
         raise ValueError(
             f"warmup 之后没有任何 measured 事件（warmups={warmups}, events={len(ordered)}）"
         )
+    for event in measured:
+        graph_us = int(event.graph_time_us)
+        if graph_us >= WATCHDOG_MS * 1000:
+            raise ValueError(
+                f"graph {graph_us} us >= {WATCHDOG_MS} ms 是 FastRPC timeout，"
+                "不是速度值"
+            )
+        if graph_us >= RESIDENT_CAP_MS * 1000:
+            raise ValueError(
+                f"graph {graph_us} us >= {RESIDENT_CAP_MS} ms，单次推理判不可常驻，"
+                "不能进速度矩阵"
+            )
     cold_samples = [
         int(event.context_load_us)
         for event in ordered
@@ -369,20 +407,37 @@ def summarize_latency(
     if not cold_samples:
         raise ValueError("没有任何 cold context load 样本，冷加载无法报告")
 
-    end_to_end_ms = [event.end_to_end_us / 1000.0 for event in measured]
     graph_ms = [int(event.graph_time_us) / 1000.0 for event in measured]
-    mean_end_to_end_ms = sum(end_to_end_ms) / len(end_to_end_ms)
-    if mean_end_to_end_ms <= 0:
-        raise ValueError("measured 端到端耗时为 0，无法计算吞吐")
+    end_to_end_ms = [
+        event.end_to_end_us / 1000.0
+        for event in measured
+        if event.end_to_end_us is not None
+    ]
+    if len(end_to_end_ms) != len(measured):
+        end_to_end_ms = []
+    throughput = None
+    if end_to_end_ms:
+        mean_end_to_end_ms = sum(end_to_end_ms) / len(end_to_end_ms)
+        if mean_end_to_end_ms <= 0:
+            raise ValueError("measured 端到端耗时为 0，无法计算吞吐")
+        throughput = 1_000.0 / mean_end_to_end_ms
     return LatencyMetrics(
         cold_load_p50_ms=percentile(cold_samples, QNN_P50) / 1000.0,
         cold_load_p95_ms=percentile(cold_samples, QNN_P95) / 1000.0,
         graph_p50_ms=percentile(graph_ms, QNN_P50),
         graph_p95_ms=percentile(graph_ms, QNN_P95),
         graph_p99_ms=percentile(graph_ms, QNN_P99),
-        end_to_end_p50_ms=percentile(end_to_end_ms, QNN_P50),
-        end_to_end_p95_ms=percentile(end_to_end_ms, QNN_P95),
-        throughput_ips=1_000.0 / mean_end_to_end_ms,
+        end_to_end_p50_ms=(
+            percentile(end_to_end_ms, QNN_P50) if end_to_end_ms else None
+        ),
+        end_to_end_p95_ms=(
+            percentile(end_to_end_ms, QNN_P95) if end_to_end_ms else None
+        ),
+        throughput_ips=throughput,
+        io_p50_ms=_component_p50_ms(measured, "io_us"),
+        fbank_p50_ms=_component_p50_ms(measured, "fbank_us"),
+        transfer_p50_ms=_component_p50_ms(measured, "transfer_us"),
+        schedule_p50_ms=_component_p50_ms(measured, "schedule_us"),
     )
 
 
@@ -1824,8 +1879,12 @@ def run_soak(
     successful = 0
     failed = 0
     started = time.monotonic()
-    while time.monotonic() - started < int(duration_s):
-        output_dir = root / f"sample-{len(temperatures):05d}"
+    tick = 0
+    while True:
+        next_tick = started + tick * float(interval_s)
+        if next_tick - started >= int(duration_s):
+            break
+        output_dir = root / f"sample-{tick:05d}"
         result = run_context(
             serial,
             artifact_dir,
@@ -1840,7 +1899,11 @@ def run_soak(
         else:
             failed += 1
         temperatures.append(_thermal_sample(serial))
-        time.sleep(float(interval_s))
+        # 绝对时刻调度：每次采样锚在 start + n*interval，运行耗时不会累积漂移。
+        tick += 1
+        remaining = started + tick * float(interval_s) - time.monotonic()
+        if remaining > 0:
+            time.sleep(remaining)
     if not graph_ms:
         raise DeviceUnavailableError(
             "device_unavailable：soak 期间没有任何 pass 的 graph 时间，"

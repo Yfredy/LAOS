@@ -35,12 +35,14 @@ from scripts.speaker_qnn.benchmark import (  # noqa: E402
     EMBEDDING_DIM,
     PERF_PROFILES,
     RECALIBRATED_W8A16_THRESHOLD,
+    RESIDENT_CAP_MS,
     REUSED_FP32_THRESHOLD,
     STATUS_DEVICE_UNAVAILABLE,
     STATUS_GATE_FAILED,
     STATUS_INCOMPLETE,
     STATUS_PASS,
     TASK_MATRIX,
+    WATCHDOG_MS,
     AccuracyMetrics,
     DeviceUnavailableError,
     EmbeddingParity,
@@ -1207,6 +1209,49 @@ class TestLatencySummary(unittest.TestCase):
         metrics = summarize_latency(cold + [event], warmups=1)
         self.assertEqual(metrics.end_to_end_p50_ms, 9.5)
         self.assertAlmostEqual(metrics.throughput_ips, 1000.0 / 9.5, places=9)
+        self.assertEqual(metrics.io_p50_ms, 1.0)
+        self.assertEqual(metrics.fbank_p50_ms, 2.0)
+        self.assertEqual(metrics.transfer_p50_ms, 0.5)
+        self.assertEqual(metrics.schedule_p50_ms, 1.0)
+
+    def test_graph_only_events_have_no_end_to_end_or_throughput(self):
+        cold = [LatencyEvent(status="pass", graph_us=1_000, context_load_us=100_000)]
+        warm = [
+            LatencyEvent(status="pass", graph_us=5_000),
+            LatencyEvent(status="pass", graph_us=6_000),
+        ]
+        metrics = summarize_latency(cold + warm, warmups=1)
+        self.assertEqual(metrics.graph_p50_ms, 5.5)
+        self.assertIsNone(metrics.end_to_end_p50_ms)
+        self.assertIsNone(metrics.end_to_end_p95_ms)
+        self.assertIsNone(metrics.throughput_ips)
+        self.assertIsNone(metrics.io_p50_ms)
+        self.assertIsNone(metrics.fbank_p50_ms)
+        self.assertIsNone(metrics.transfer_p50_ms)
+        self.assertIsNone(metrics.schedule_p50_ms)
+
+    def test_partial_components_never_compose_end_to_end(self):
+        cold = [LatencyEvent(status="pass", graph_us=1_000, context_load_us=100_000)]
+        event = LatencyEvent(status="pass", graph_us=5_000, io_us=1_000)
+        metrics = summarize_latency(cold + [event], warmups=1)
+        self.assertEqual(metrics.io_p50_ms, 1.0)
+        self.assertIsNone(metrics.fbank_p50_ms)
+        self.assertIsNone(metrics.end_to_end_p50_ms)
+        self.assertIsNone(metrics.throughput_ips)
+
+    def test_watchdog_scale_graph_time_is_not_a_speed_value(self):
+        cold = [LatencyEvent(status="pass", graph_us=1_000, context_load_us=100_000)]
+        event = LatencyEvent(status="pass", graph_us=WATCHDOG_MS * 1_000)
+        with self.assertRaises(ValueError) as caught:
+            summarize_latency(cold + [event], warmups=1)
+        self.assertIn("timeout", str(caught.exception))
+
+    def test_non_resident_graph_time_is_rejected(self):
+        cold = [LatencyEvent(status="pass", graph_us=1_000, context_load_us=100_000)]
+        event = LatencyEvent(status="pass", graph_us=RESIDENT_CAP_MS * 1_000)
+        with self.assertRaises(ValueError) as caught:
+            summarize_latency(cold + [event], warmups=1)
+        self.assertIn("不可常驻", str(caught.exception))
 
     def test_dropped_runs_do_not_enter_percentiles(self):
         events = [
@@ -1331,6 +1376,20 @@ class TestDeviceBoundBenchmarks(unittest.TestCase):
             throughput_ips=33.3,
         )
         self.assertEqual(metrics.to_dict()["graph_p99_ms"], 22.0)
+        self.assertEqual(metrics.to_dict()["fbank_p50_ms"], None)
+        graph_only = LatencyMetrics(
+            cold_load_p50_ms=10.0,
+            cold_load_p95_ms=11.0,
+            graph_p50_ms=20.0,
+            graph_p95_ms=21.0,
+            graph_p99_ms=22.0,
+        )
+        payload = graph_only.to_dict()
+        self.assertIsNone(payload["end_to_end_p50_ms"])
+        self.assertIsNone(payload["end_to_end_p95_ms"])
+        self.assertIsNone(payload["throughput_ips"])
+        self.assertIsNone(payload["transfer_p50_ms"])
+        self.assertIsNone(payload["schedule_p50_ms"])
         soak = SoakMetrics(
             duration_s=1800,
             successful_runs=1700,
