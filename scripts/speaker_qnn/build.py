@@ -6,11 +6,19 @@
   `socModel=87`、`dspArch=81` 才算合格；2.47 之类的静默回退
   （实测 `socModel=0`、`dspArch=81`）只作为被拒绝的反例，绝不进入 CAM++ 构建；
 - 转换固定 W8A16（`--weights_bitwidth 8`、`--act_bitwidth 16`）并使用
-  40 条真实语音校准列表；每次构建记录 converter / model-lib / context
-  三条完整命令与产物 SHA-256；
-- context 必须恰好一个 graph，且 graph 名与 build variant 一致；不满足即
-  `metadata_rejected`，不推送设备；
-- 完整图变体总数硬上限 10，Stage B 只在 Stage A 没有通过时展开。
+  40 条真实语音校准列表；真执行与展示共用同一 argv 构造器，每次构建记录
+  converter / model-lib / context generator / context utility 四条完整命令
+  与产物 SHA-256；
+- context 必须恰好一个 graph、build ID 与本候选树一致、graph 名与 build
+  variant 一致；元数据不满足即 `metadata_rejected`；
+- context generator exit 0 但日志出现 `unexpected GraphHtpSettings option`
+  时记 `config_warning`：产物保留但不上机，且 vtcm 在等价性证明前不算独立
+  变量；
+- 失败的构建（`build_error` / `metadata_rejected`）不留下任何 context
+  产物：全部中间物先落 `artifacts.tmp/`，只有成功才原子提升；
+- 完整图变体总数硬上限 10（按不同 context 二进制计数），Stage B 只在
+  Stage A 没有通过时展开；VTCM 8 MB 只在 4 MB 档全部失败后升级；
+- QPM 库存查询结果必须显式写入矩阵 JSON，查不到就写 `unavailable` 及原因。
 
     python -m scripts.speaker_qnn.build inventory
     python -m scripts.speaker_qnn.build matrix --stage toolchain
@@ -22,13 +30,14 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
 import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any, Callable, Mapping, Sequence
 
 from .contracts import (
     CAMPLUS_INPUT_SHAPE,
@@ -56,6 +65,9 @@ SMOKE_GRAPH_NAME = "smoke_w8a16"
 SMOKE_INPUT_SHAPE = (1, 16)
 SMOKE_OUTPUT_SHAPE = (1, 16)
 MAX_FULL_GRAPH_VARIANTS = 10
+
+QPM_PRODUCT = "qualcomm_ai_runtime_community"
+CONFIG_WARNING_MARKER = "unexpected GraphHtpSettings"
 
 DEFAULT_QAIRT_ROOTS: tuple[Path, ...] = (
     QNN_ROOT / "sdk/qairt/2.47.0.260601",
@@ -85,12 +97,16 @@ COMPONENT_PATHS: dict[str, str] = {
 SHELL_COMPONENTS = frozenset({"converter"})  # Python 脚本无内嵌 build ID
 
 BUILD_READY = "ready"
+BUILD_CONFIG_WARNING = "config_warning"
 BUILD_METADATA_REJECTED = "metadata_rejected"
 BUILD_ERROR = "build_error"
-# 只有这些状态算失败；device_unavailable 是"未验证"，不构成升级 VTCM 的理由。
+# 只有这些状态算失败；device_unavailable / config_warning 是"未验证"，
+# 不构成升级 VTCM 的理由。
 FAILURE_STATUSES = frozenset(
     {"build_error", "metadata_rejected", "load_error", "timeout", "ssr"}
 )
+
+STEP_TIMEOUT = 124  # 与 GNU coreutils 的超时退出码对齐
 
 
 @dataclass(frozen=True)
@@ -199,6 +215,7 @@ class BuildArtifact:
     sha256: dict[str, str]
     commands: tuple[str, ...]
     error: str | None
+    warning: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -209,6 +226,7 @@ class BuildArtifact:
             "sha256": dict(self.sha256),
             "commands": list(self.commands),
             "error": self.error,
+            "warning": self.warning,
         }
 
 
@@ -220,12 +238,16 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def _command(argv: list[str]) -> str:
+def _command(argv: Sequence[object]) -> str:
     return subprocess.list2cmdline([str(part) for part in argv])
 
 
 def _tail(text: str, lines: int = 20) -> str:
     return "\n".join((text or "").strip().splitlines()[-lines:])
+
+
+def _log_text(path: Path) -> str:
+    return Path(path).read_text(encoding="utf-8", errors="replace")
 
 
 def require_toolchain_files(toolchain: ToolchainSpec) -> None:
@@ -285,6 +307,91 @@ def discover_toolchains(
     return tuple(sorted(discovered, key=lambda spec: spec.build_id))
 
 
+_QPM_VERSION_RE = re.compile(r"^\s*(\d+\.\d+\.\d+\.\d+)\s*$")
+
+
+def _parse_qpm_versions(output: str) -> list[str]:
+    versions: list[str] = []
+    in_list = False
+    for line in (output or "").splitlines():
+        if "Available version" in line:
+            in_list = True
+            tail = line.split(":", 1)[1] if ":" in line else ""
+            candidate = tail.strip()
+            if _QPM_VERSION_RE.match(candidate):
+                versions.append(candidate)
+            continue
+        if not in_list:
+            continue
+        match = _QPM_VERSION_RE.match(line)
+        if match is None:
+            if line.strip():
+                break
+            continue
+        versions.append(match.group(1))
+    return versions
+
+
+def _version_key(version: str) -> tuple[int, ...]:
+    return tuple(int(part) for part in version.split("."))
+
+
+def probe_qpm_candidates(
+    *, product: str = QPM_PRODUCT, timeout: float = 120.0,
+    runner: Callable[[str], str] | None = None,
+) -> dict[str, Any]:
+    """查询 QPM 库存；任何失败都显式返回 `unavailable` 与原因，不省略。"""
+    command = shutil.which("qpm-cli") or shutil.which("qpm")
+    if command is None:
+        return {
+            "status": "unavailable",
+            "reason": "未找到 qpm-cli/qpm 可执行文件",
+            "product": product,
+        }
+
+    def default_runner(executable: str) -> str:
+        completed = subprocess.run(
+            [executable, "--info", product],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=timeout,
+            check=False,
+        )
+        if completed.returncode != 0:
+            raise subprocess.SubprocessError(
+                f"qpm --info {product} exit {completed.returncode}: "
+                f"{_tail((completed.stdout or '') + (completed.stderr or ''), 5)}"
+            )
+        return (completed.stdout or "") + (completed.stderr or "")
+
+    try:
+        output = (runner or default_runner)(command)
+    except (OSError, subprocess.SubprocessError) as exc:
+        return {
+            "status": "unavailable",
+            "reason": f"QPM 查询失败：{exc}",
+            "product": product,
+            "command": command,
+        }
+    versions = _parse_qpm_versions(output)
+    if not versions:
+        return {
+            "status": "unavailable",
+            "reason": "QPM 输出里没有可解析的版本列表",
+            "product": product,
+            "command": command,
+            "stdout_tail": _tail(output, 10),
+        }
+    return {
+        "status": "available",
+        "product": product,
+        "command": command,
+        "available_versions": versions,
+    }
+
+
 def write_backend_configs(
     directory: Path, variant: BuildVariant
 ) -> tuple[Path, Path]:
@@ -321,109 +428,129 @@ def write_backend_configs(
     return graph_path, wrapper_path
 
 
+def build_converter_argv(
+    model: Path,
+    calibration_list: Path,
+    variant: BuildVariant,
+    model_dir: Path | None = None,
+) -> list[str]:
+    """W8A16 转换的真实 argv（真执行与展示共用这一份）。"""
+    output_path = (
+        (Path(model_dir) / f"{variant.graph_name}.cpp").resolve()
+        if model_dir is not None
+        else Path(f"{variant.graph_name}.cpp")
+    )
+    return [
+        str(QAIRT_PYTHON),
+        str(variant.toolchain.converter),
+        "--input_network",
+        str(model),
+        "--input_list",
+        str(calibration_list),
+        "--weights_bitwidth",
+        "8",
+        "--act_bitwidth",
+        "16",
+        "--output_path",
+        str(output_path),
+    ]
+
+
 def build_converter_command(
     model: Path,
     calibration_list: Path,
     variant: BuildVariant,
     model_dir: Path | None = None,
 ) -> str:
-    """W8A16 转换命令；per-tensor 量化 + 真实语音校准列表。"""
-    output_path = (
-        (Path(model_dir) / f"{variant.graph_name}.cpp").resolve()
-        if model_dir is not None
-        else Path(f"{variant.graph_name}.cpp")
-    )
-    return _command(
-        [
-            QAIRT_PYTHON,
-            variant.toolchain.converter,
-            "--input_network",
-            model,
-            "--input_list",
-            calibration_list,
-            "--weights_bitwidth",
-            "8",
-            "--act_bitwidth",
-            "16",
-            "--output_path",
-            output_path,
-        ]
-    )
+    """W8A16 转换命令的可读形式；唯一真源是 `build_converter_argv`。"""
+    return _command(build_converter_argv(model, calibration_list, variant, model_dir))
+
+
+def build_model_lib_argv(
+    cpp: Path, binary: Path, variant: BuildVariant, lib_dir: Path
+) -> list[str]:
+    return [
+        str(QAIRT_PYTHON),
+        str(variant.toolchain.model_lib_generator),
+        "-c",
+        str(cpp),
+        "-b",
+        str(binary),
+        "-t",
+        "windows-x86_64",
+        "-l",
+        variant.graph_name,
+        "-o",
+        str(lib_dir),
+        "--clean_up",
+    ]
 
 
 def build_model_lib_command(
     cpp: Path, binary: Path, variant: BuildVariant, lib_dir: Path
 ) -> str:
-    return _command(
-        [
-            QAIRT_PYTHON,
-            variant.toolchain.model_lib_generator,
-            "-c",
-            cpp,
-            "-b",
-            binary,
-            "-t",
-            "windows-x86_64",
-            "-l",
-            variant.graph_name,
-            "-o",
-            lib_dir,
-            "--clean_up",
-        ]
-    )
+    return _command(build_model_lib_argv(cpp, binary, variant, lib_dir))
+
+
+def build_context_argv(
+    model_lib: Path, context_dir: Path, config_file: Path, variant: BuildVariant
+) -> list[str]:
+    return [
+        str(variant.toolchain.context_generator),
+        "--backend",
+        str(variant.toolchain.backend_host),
+        "--model",
+        str(model_lib),
+        "--binary_file",
+        f"{variant.graph_name}.bin",
+        "--output_dir",
+        str(context_dir),
+        "--config_file",
+        str(config_file),
+        "--htp_socs",
+        "sm8845",
+        "--optimization_level_override",
+        str(variant.optimization_level),
+        "--dlbc_override",
+        "true" if variant.dlbc else "false",
+    ]
 
 
 def build_context_command(
     model_lib: Path, context_dir: Path, config_file: Path, variant: BuildVariant
 ) -> str:
-    return _command(
-        [
-            variant.toolchain.context_generator,
-            "--backend",
-            variant.toolchain.backend_host,
-            "--model",
-            model_lib,
-            "--binary_file",
-            f"{variant.graph_name}.bin",
-            "--output_dir",
-            context_dir,
-            "--config_file",
-            config_file,
-            "--htp_socs",
-            "sm8845",
-            "--optimization_level_override",
-            str(variant.optimization_level),
-            "--dlbc_override",
-            "true" if variant.dlbc else "false",
-        ]
-    )
+    return _command(build_context_argv(model_lib, context_dir, config_file, variant))
 
 
-def _context_utility_command(
+def context_utility_argv(
     context_binary: Path, info_json: Path, toolchain: ToolchainSpec
-) -> str:
-    return _command(
-        [
-            toolchain.context_utility,
-            "--context_binary",
-            context_binary,
-            "--json_file",
-            info_json,
-            "--unified_qairt_format",
-        ]
-    )
+) -> list[str]:
+    return [
+        str(toolchain.context_utility),
+        "--context_binary",
+        str(context_binary),
+        "--json_file",
+        str(info_json),
+        "--unified_qairt_format",
+    ]
 
 
 def read_context_metadata(
     info_json: Path,
     *,
     graph_name: str | None = None,
+    expected_build_id: str | None = None,
     expected_input_shape: tuple[int, ...] | None = CAMPLUS_INPUT_SHAPE,
     expected_output_shape: tuple[int, ...] | None = CAMPLUS_OUTPUT_SHAPE,
 ) -> tuple[ContextMetadata | None, str | None]:
     """读取并门禁 context 元数据；不合格返回 (None, 原因)。"""
     try:
         metadata = load_context_metadata(info_json)
+        if expected_build_id is not None and metadata.build_id != expected_build_id:
+            raise ValueError(
+                "context build ID 与候选 QAIRT 树不一致："
+                f"期望 {expected_build_id!r}，实际 {metadata.build_id!r}"
+            )
         if graph_name is not None and metadata.graph_name != graph_name:
             raise ValueError(
                 f"context graph name 与编译配置不一致："
@@ -447,6 +574,17 @@ def read_context_metadata(
     return metadata, None
 
 
+def config_warning(log_path: Path) -> str | None:
+    """context generator exit 0 但配置项未被识别时返回原文行。"""
+    path = Path(log_path)
+    if not path.is_file():
+        return None
+    for line in _log_text(path).splitlines():
+        if CONFIG_WARNING_MARKER in line:
+            return line.strip()
+    return None
+
+
 def _converter_env(toolchain: ToolchainSpec) -> dict[str, str]:
     env = os.environ.copy()
     python_path = str(toolchain.root / "lib/python")
@@ -465,20 +603,48 @@ def _model_lib_env() -> dict[str, str]:
 def _run_step(argv: list[str], log_path: Path, *, env: dict[str, str] | None,
               timeout: float, cwd: Path | None = None) -> int:
     log_path.parent.mkdir(parents=True, exist_ok=True)
-    completed = subprocess.run(
-        [str(part) for part in argv],
-        capture_output=True,
-        text=True,
-        encoding="utf-8",
-        errors="replace",
-        timeout=timeout,
-        check=False,
-        env=env,
-        cwd=str(cwd) if cwd is not None else None,
-    )
+    try:
+        completed = subprocess.run(
+            [str(part) for part in argv],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=timeout,
+            check=False,
+            env=env,
+            cwd=str(cwd) if cwd is not None else None,
+        )
+    except subprocess.TimeoutExpired as exc:
+        output = f"主机侧等待超时（{exc.timeout}s）：{_command(argv)}"
+        log_path.write_text(output + "\n", encoding="utf-8", errors="replace")
+        return STEP_TIMEOUT
+    except OSError as exc:
+        log_path.write_text(f"无法执行：{exc}\n", encoding="utf-8", errors="replace")
+        return 1
+    except ValueError as exc:
+        log_path.write_text(f"命令参数无效：{exc}\n", encoding="utf-8", errors="replace")
+        return 1
     output = (completed.stdout or "") + "\n" + (completed.stderr or "")
     log_path.write_text(output.strip() + "\n", encoding="utf-8", errors="replace")
     return completed.returncode
+
+
+def _discard_workdir(work_dir: Path) -> None:
+    shutil.rmtree(work_dir, ignore_errors=True)
+
+
+def _promote_artifacts(work_dir: Path, output_dir: Path) -> None:
+    """只在构建成功时把中间物原子搬进最终目录。"""
+    for name in ("model", "lib", "context"):
+        source = work_dir / name
+        if not source.exists():
+            continue
+        target = output_dir / name
+        if target.exists():
+            shutil.rmtree(target)
+        source.replace(target)
+    shutil.rmtree(work_dir, ignore_errors=True)
 
 
 def _write_artifact(output_dir: Path, artifact: BuildArtifact) -> BuildArtifact:
@@ -494,6 +660,7 @@ def _failure(
     *,
     sha256: Mapping[str, str] | None = None,
     commands: tuple[str, ...] = (),
+    warning: str | None = None,
 ) -> BuildArtifact:
     return _write_artifact(
         output_dir,
@@ -505,6 +672,7 @@ def _failure(
             sha256=dict(sha256 or {}),
             commands=commands,
             error=error,
+            warning=warning,
         ),
     )
 
@@ -518,32 +686,43 @@ def build_w8a16_context(
     expected_input_shape: tuple[int, ...] = CAMPLUS_INPUT_SHAPE,
     expected_output_shape: tuple[int, ...] = CAMPLUS_OUTPUT_SHAPE,
 ) -> BuildArtifact:
-    """转换 + model DLL + SM8845 context，并做元数据门禁。
+    """转换 + model DLL + SM8845 context，并做元数据/配置门禁。
 
-    任何一步失败都写 `artifact.json`（`build_error`）并返回，不保留 context；
-    元数据回退/图形不符写 `metadata_rejected`。
+    中间物先落 `output_dir/artifacts.tmp/`；只有元数据通过（`ready` 或
+    `config_warning`）才原子提升到 `model/lib/context`，失败一律丢弃，
+    目录里只剩 `artifact.json`。
     """
     model = Path(model)
     calibration_list = Path(calibration_list)
     output_dir = Path(output_dir)
-    model_dir = output_dir / "model"
-    lib_dir = output_dir / "lib"
-    context_dir = output_dir / "context"
-    for directory in (model_dir, lib_dir, context_dir):
-        if directory.exists():
-            shutil.rmtree(directory)
-        directory.mkdir(parents=True)
+    work_dir = output_dir / "artifacts.tmp"
+    model_dir = work_dir / "model"
+    lib_dir = work_dir / "lib"
+    context_dir = work_dir / "context"
+    for stale in (model_dir, lib_dir, context_dir):
+        if stale.exists():
+            shutil.rmtree(stale)
+    for promoted in (output_dir / "model", output_dir / "lib", output_dir / "context"):
+        if promoted.exists():
+            shutil.rmtree(promoted)
     (output_dir / "artifact.json").unlink(missing_ok=True)
+    # 旧版本曾把步骤日志写在变体目录根层，重建时一并清掉。
+    (output_dir / "model-lib.log").unlink(missing_ok=True)
+    for directory in (model_dir, lib_dir, context_dir):
+        directory.mkdir(parents=True)
 
     if not model.is_file():
+        _discard_workdir(work_dir)
         return _failure(variant, output_dir, BUILD_ERROR, f"ONNX 模型不存在：{model}")
     if not calibration_list.is_file():
+        _discard_workdir(work_dir)
         return _failure(
             variant, output_dir, BUILD_ERROR, f"校准列表不存在：{calibration_list}"
         )
     try:
         require_toolchain_files(variant.toolchain)
     except FileNotFoundError as exc:
+        _discard_workdir(work_dir)
         return _failure(variant, output_dir, BUILD_ERROR, str(exc))
 
     base_sha = {
@@ -553,38 +732,33 @@ def build_w8a16_context(
     try:
         graph_config, wrapper = write_backend_configs(context_dir, variant)
     except FileNotFoundError as exc:
+        _discard_workdir(work_dir)
         return _failure(variant, output_dir, BUILD_ERROR, str(exc), sha256=base_sha)
     assert graph_config.is_file() and wrapper.is_file()
 
-    converter_command = build_converter_command(
-        model, calibration_list, variant, model_dir
-    )
-    commands = [converter_command]
+    converter_argv = build_converter_argv(model, calibration_list, variant, model_dir)
+    commands = [_command(converter_argv)]
     code = _run_step(
-        [
-            str(QAIRT_PYTHON),
-            str(variant.toolchain.converter),
-            "--input_network", str(model),
-            "--input_list", str(calibration_list),
-            "--weights_bitwidth", "8",
-            "--act_bitwidth", "16",
-            "--output_path", str((model_dir / f"{variant.graph_name}.cpp").resolve()),
-        ],
+        converter_argv,
         model_dir / "converter.log",
         env=_converter_env(variant.toolchain),
         timeout=1800,
         cwd=model_dir,
     )
     if code != 0:
-        return _failure(
-            variant, output_dir, BUILD_ERROR,
+        error = (
             f"converter 失败（exit {code}）：\n"
-            + _tail((model_dir / "converter.log").read_text(encoding="utf-8", errors="replace")),
+            + _tail(_log_text(model_dir / "converter.log"))
+        )
+        _discard_workdir(work_dir)
+        return _failure(
+            variant, output_dir, BUILD_ERROR, error,
             sha256=base_sha, commands=tuple(commands),
         )
     cpp = model_dir / f"{variant.graph_name}.cpp"
     binary = model_dir / f"{variant.graph_name}.bin"
     if not cpp.is_file() or not binary.is_file():
+        _discard_workdir(work_dir)
         return _failure(
             variant, output_dir, BUILD_ERROR,
             f"converter 未产出 {cpp.name}/{binary.name}", sha256=base_sha,
@@ -593,112 +767,102 @@ def build_w8a16_context(
     sha = dict(base_sha)
     sha.update({"cpp": _sha256(cpp), "bin": _sha256(binary)})
 
-    model_lib_command = build_model_lib_command(
+    model_lib_argv = build_model_lib_argv(
         cpp.resolve(), binary.resolve(), variant, lib_dir.resolve()
     )
-    commands.append(model_lib_command)
+    commands.append(_command(model_lib_argv))
     code = _run_step(
-        [
-            str(QAIRT_PYTHON),
-            str(variant.toolchain.model_lib_generator),
-            "-c", str(cpp.resolve()),
-            "-b", str(binary.resolve()),
-            "-t", "windows-x86_64",
-            "-l", variant.graph_name,
-            "-o", str(lib_dir.resolve()),
-            "--clean_up",
-        ],
-        output_dir / "model-lib.log",
+        model_lib_argv,
+        work_dir / "model-lib.log",
         env=_model_lib_env(),
         timeout=1800,
     )
     libraries = sorted(lib_dir.rglob(f"{variant.graph_name}.dll"))
     if code != 0 or not libraries:
-        return _failure(
-            variant, output_dir, BUILD_ERROR,
+        error = (
             f"model lib 失败（exit {code}）：\n"
-            + _tail((output_dir / "model-lib.log").read_text(encoding="utf-8", errors="replace")),
+            + _tail(_log_text(work_dir / "model-lib.log"))
+        )
+        _discard_workdir(work_dir)
+        return _failure(
+            variant, output_dir, BUILD_ERROR, error,
             sha256=sha, commands=tuple(commands),
         )
     model_lib = libraries[0]
     sha["model_lib"] = _sha256(model_lib)
 
-    context_command = build_context_command(
+    context_argv = build_context_argv(
         model_lib.resolve(), context_dir.resolve(), wrapper.resolve(), variant
     )
-    commands.append(context_command)
+    commands.append(_command(context_argv))
     code = _run_step(
-        [
-            str(variant.toolchain.context_generator),
-            "--backend", str(variant.toolchain.backend_host),
-            "--model", str(model_lib.resolve()),
-            "--binary_file", f"{variant.graph_name}.bin",
-            "--output_dir", str(context_dir.resolve()),
-            "--config_file", str(wrapper.resolve()),
-            "--htp_socs", "sm8845",
-            "--optimization_level_override", str(variant.optimization_level),
-            "--dlbc_override", "true" if variant.dlbc else "false",
-        ],
+        context_argv,
         context_dir / "context-generator.log",
         env=None,
         timeout=3600,
     )
     contexts = sorted(context_dir.glob("*.bin"))
     if code != 0 or not contexts:
-        return _failure(
-            variant, output_dir, BUILD_ERROR,
+        error = (
             f"context 生成失败（exit {code}）：\n"
-            + _tail((context_dir / "context-generator.log").read_text(
-                encoding="utf-8", errors="replace")),
+            + _tail(_log_text(context_dir / "context-generator.log"))
+        )
+        _discard_workdir(work_dir)
+        return _failure(
+            variant, output_dir, BUILD_ERROR, error,
             sha256=sha, commands=tuple(commands),
         )
     context_binary = contexts[0]
     sha["context"] = _sha256(context_binary)
+    warning = config_warning(context_dir / "context-generator.log")
 
     info_json = context_dir / "info.json"
-    utility_command = _context_utility_command(
+    utility_argv = context_utility_argv(
         context_binary.resolve(), info_json.resolve(), variant.toolchain
     )
-    commands.append(utility_command)
+    commands.append(_command(utility_argv))
     code = _run_step(
-        [
-            str(variant.toolchain.context_utility),
-            "--context_binary", str(context_binary.resolve()),
-            "--json_file", str(info_json.resolve()),
-            "--unified_qairt_format",
-        ],
+        utility_argv,
         context_dir / "context-utility.log",
         env=None,
         timeout=600,
     )
     if code != 0 or not info_json.is_file():
+        _discard_workdir(work_dir)
         return _failure(
             variant, output_dir, BUILD_ERROR,
-            f"context utility 失败（exit {code}）", sha256=sha, commands=tuple(commands),
+            f"context utility 失败（exit {code}）",
+            sha256=sha, commands=tuple(commands), warning=warning,
         )
 
-    metadata, error = read_context_metadata(
+    metadata, metadata_error = read_context_metadata(
         info_json,
         graph_name=variant.graph_name,
+        expected_build_id=variant.toolchain.build_id,
         expected_input_shape=expected_input_shape,
         expected_output_shape=expected_output_shape,
     )
     if metadata is None:
+        _discard_workdir(work_dir)
         return _failure(
-            variant, output_dir, BUILD_METADATA_REJECTED, error or "metadata rejected",
-            sha256=sha, commands=tuple(commands),
+            variant, output_dir, BUILD_METADATA_REJECTED,
+            metadata_error or "metadata rejected",
+            sha256=sha, commands=tuple(commands), warning=warning,
         )
 
+    _promote_artifacts(work_dir, output_dir)
+    promoted_context = output_dir / "context" / context_binary.name
     return _write_artifact(
         output_dir,
         BuildArtifact(
             variant_id=variant.variant_id,
-            status=BUILD_READY,
-            context_path=str(context_binary),
+            status=BUILD_CONFIG_WARNING if warning else BUILD_READY,
+            context_path=str(promoted_context),
             metadata=metadata,
             sha256=sha,
             commands=tuple(commands),
             error=None,
+            warning=warning,
         ),
     )
 
@@ -711,6 +875,62 @@ def compiler_variants(toolchain: ToolchainSpec) -> tuple[BuildVariant, ...]:
     return tuple(
         BuildVariant(toolchain, level, 4, False, GRAPH_NAME)
         for level in (0, 1, 2, 3)
+    )
+
+
+def compare_contexts(
+    reference: BuildArtifact, candidate: BuildArtifact
+) -> dict[str, Any]:
+    """4 MB vs 8 MB 的 host 侧等价性证明（context sha256 + 元数据回读）。"""
+    ref_sha = reference.sha256.get("context")
+    cand_sha = candidate.sha256.get("context")
+    if not ref_sha or not cand_sha:
+        return {
+            "status": "unavailable",
+            "reason": "缺少一侧 context 哈希，无法判定等价",
+            "variants": [reference.variant_id, candidate.variant_id],
+        }
+    equivalent = ref_sha == cand_sha
+    return {
+        "status": "equivalent" if equivalent else "distinct",
+        "variants": [reference.variant_id, candidate.variant_id],
+        "sha256": {reference.variant_id: ref_sha, candidate.variant_id: cand_sha},
+        "metadata": {
+            reference.variant_id: reference.metadata.to_dict()
+            if reference.metadata else None,
+            candidate.variant_id: candidate.metadata.to_dict()
+            if candidate.metadata else None,
+        },
+        "reason": (
+            "context 二进制逐字节相同 → vtcm_mb 未改变产物，不是独立变量"
+            if equivalent
+            else "context 二进制不同 → vtcm_mb 可能是独立变量，但仍受配置告警约束"
+        ),
+    }
+
+
+def _artifact_from_row(row: Mapping[str, Any]) -> BuildArtifact:
+    metadata = row.get("metadata")
+    return BuildArtifact(
+        variant_id=str(row["variant_id"]),
+        status=str(row["status"]),
+        context_path=row.get("context"),
+        metadata=(
+            ContextMetadata(
+                build_id=str(metadata["build_id"]),
+                soc_model=int(metadata["soc_model"]),
+                dsp_arch=int(metadata["dsp_arch"]),
+                graph_name=str(metadata["graph_name"]),
+                input_shape=tuple(int(value) for value in metadata["input_shape"]),
+                output_shape=tuple(int(value) for value in metadata["output_shape"]),
+            )
+            if metadata
+            else None
+        ),
+        sha256=dict(row.get("sha256") or {}),
+        commands=tuple(row.get("commands") or ()),
+        error=row.get("error"),
+        warning=row.get("warning"),
     )
 
 
@@ -784,9 +1004,47 @@ def _row(stage: str, kind: str, artifact: BuildArtifact) -> dict[str, Any]:
         "sha256": dict(artifact.sha256),
         "commands": list(artifact.commands),
         "error": artifact.error,
+        "warning": artifact.warning,
         "device_run": None,
         "stability_run": None,
     }
+
+
+def _qpm_record(
+    roots: tuple[Path, ...], toolchains: tuple[ToolchainSpec, ...],
+    probe: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
+    """把 QPM 库存与本地树对齐；没有可用更新树就显式 `unavailable`。"""
+    record = dict(probe) if probe is not None else probe_qpm_candidates()
+    local = [spec.build_id.lstrip("v") for spec in toolchains]
+    record["local_build_ids"] = [spec.build_id for spec in toolchains]
+    record["local_roots"] = [str(root) for root in roots]
+    versions = list(record.get("available_versions") or [])
+    if versions and local:
+        newest_local = max(_version_key(version) for version in local)
+        newer = sorted(
+            (version for version in versions
+             if _version_key(version) > newest_local),
+            key=_version_key,
+            reverse=True,
+        )
+        record["newer_than_local"] = newer
+    else:
+        record.setdefault("newer_than_local", [])
+    if record.get("status") != "unavailable":
+        newer = record.get("newer_than_local") or []
+        if not newer:
+            record["status"] = "unavailable"
+            record["reason"] = "QPM 库存里没有比本地更新的 QAIRT 版本"
+        else:
+            record["status"] = "unavailable"
+            record["reason"] = (
+                "QPM 有更新的 QAIRT（"
+                + ", ".join(newer)
+                + "），但未下载安装（需 license 与重资产下载），"
+                "Stage A 无可用更新树"
+            )
+    return record
 
 
 def run_matrix(
@@ -798,6 +1056,7 @@ def run_matrix(
     serial: str | None = None,
     num_inferences: int = 30,
     roots: tuple[Path, ...] = DEFAULT_QAIRT_ROOTS,
+    qpm_probe: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """执行 Stage A（版本）或 Stage B（编译配置）；完整图变体上限 10。"""
     if stage not in ("toolchain", "compiler", "all"):
@@ -842,10 +1101,12 @@ def run_matrix(
             expected_output_shape=SMOKE_OUTPUT_SHAPE,
         )
         rows.append(_row("eligibility", "smoke", smoke_artifact))
-        if smoke_artifact.status == BUILD_READY:
+        if smoke_artifact.status in (BUILD_READY, BUILD_CONFIG_WARNING):
             eligible.append(spec)
 
-    def build_full(variant: BuildVariant, *, allow_device: bool) -> dict[str, Any]:
+    def build_full(
+        variant: BuildVariant, *, allow_device: bool, stage_label: str
+    ) -> dict[str, Any]:
         if variant.variant_id not in full_variant_ids:
             if len(full_variant_ids) >= MAX_FULL_GRAPH_VARIANTS:
                 raise ValueError(
@@ -856,8 +1117,7 @@ def run_matrix(
         artifact = build_w8a16_context(
             model, calibration_list, variant, builds / variant.variant_id
         )
-        row = _row("compiler" if variant.optimization_level != 2 or variant.vtcm_mb != 4
-                   else "toolchain", "full", artifact)
+        row = _row(stage_label, "full", artifact)
         if artifact.status == BUILD_READY and allow_device:
             row.update(_device_row(serial, artifact, num_inferences))
         elif artifact.status == BUILD_READY:
@@ -867,20 +1127,37 @@ def run_matrix(
                 "device_run": None,
                 "stability_run": None,
             })
+        elif artifact.status == BUILD_CONFIG_WARNING:
+            row.update({
+                "status": BUILD_CONFIG_WARNING,
+                "reason": (
+                    "context 配置告警未闭环，未上机："
+                    f"{artifact.warning or CONFIG_WARNING_MARKER}"
+                ),
+                "device_run": None,
+                "stability_run": None,
+            })
         return row
 
     if stage in ("toolchain", "all"):
         for spec in eligible:
-            row = build_full(BuildVariant(spec, 2, 4, False, GRAPH_NAME), allow_device=True)
+            row = build_full(
+                BuildVariant(spec, 2, 4, False, GRAPH_NAME),
+                allow_device=True,
+                stage_label="toolchain",
+            )
             rows.append(row)
             if row["status"] == "pass":
                 break
 
     stage_a_passed = any(row["status"] == "pass" for row in rows)
     run_compiler = stage == "compiler" or (stage == "all" and not stage_a_passed)
+    reference = recorded.get(
+        f"{eligible[-1].short_version}-opt2-vtcm4-dlbc0-{GRAPH_NAME}"
+    ) if eligible else None
+    attempted: list[tuple[BuildVariant, dict[str, Any]]] = []
     if run_compiler and eligible:
         newest = eligible[-1]
-        attempted: list[tuple[BuildVariant, dict[str, Any]]] = []
         for variant in compiler_variants(newest):
             previous = recorded.get(variant.variant_id)
             # 已记录的变体不重复构建；但设备回来后要补跑 device_unavailable 的行。
@@ -895,21 +1172,89 @@ def run_matrix(
                 and not stale_pending
             ):
                 continue
-            row = build_full(variant, allow_device=True)
+            row = build_full(variant, allow_device=True, stage_label="compiler")
             rows.append(row)
             attempted.append((variant, row))
-        # brief Step 5：只有 4 MB 档全部失败，才为进度最多的变体升级 VTCM 8 MB。
-        if attempted and all(row["status"] in FAILURE_STATUSES for _, row in attempted):
-            best, _ = max(
-                attempted,
-                key=lambda pair: (len(pair[1]["sha256"]), -pair[0].optimization_level),
+        if reference is None:
+            reference = next(
+                (
+                    row for _, row in attempted
+                    if row["variant_id"].endswith(f"opt2-vtcm4-dlbc0-{GRAPH_NAME}")
+                ),
+                None,
             )
-            rows.append(
-                build_full(
-                    BuildVariant(newest, best.optimization_level, 8, False, GRAPH_NAME),
-                    allow_device=True,
+
+    # host 侧等价性证明：4 MB 参考变体 vs 同 opt 的 8 MB 变体。必须先于
+    # 升级判定：VTCM 未证明会改变 context 二进制前，它不是独立变量。
+    vtcm_equivalence: dict[str, Any] = {
+        "status": "not_probed",
+        "reason": "缺少 4 MB 参考 context，无法做等价性证明",
+    }
+    if run_compiler and eligible and reference is not None:
+        probe_variant = BuildVariant(eligible[-1], 2, 8, False, GRAPH_NAME)
+        probe_dir = output_root / "probes" / f"vtcm-equivalence-{probe_variant.variant_id}"
+        recorded_probe = probe_dir / "artifact.json"
+        if recorded_probe.is_file():
+            try:
+                probe_artifact = _artifact_from_row(
+                    json.loads(recorded_probe.read_text(encoding="utf-8"))
                 )
+            except (OSError, json.JSONDecodeError, KeyError):
+                probe_artifact = build_w8a16_context(
+                    model, calibration_list, probe_variant, probe_dir
+                )
+        else:
+            probe_artifact = build_w8a16_context(
+                model, calibration_list, probe_variant, probe_dir
             )
+        vtcm_equivalence = compare_contexts(
+            _artifact_from_row(reference), probe_artifact
+        )
+        vtcm_equivalence["probe_dir"] = str(probe_dir)
+        vtcm_equivalence["probe_warning"] = probe_artifact.warning
+        vtcm_equivalence["probe_status"] = probe_artifact.status
+
+    # VTCM 升级判定：4 MB 档"全部失败"且等价性证明为 distinct 才升级。
+    baseline_ids = (
+        {variant.variant_id for variant in compiler_variants(eligible[-1])}
+        if eligible else set()
+    )
+    baseline_rows = [row for row in rows if row["variant_id"] in baseline_ids]
+    known_failures = [
+        recorded.get(variant_id) for variant_id in baseline_ids - built
+    ]
+    known_failures = [row for row in known_failures if row is not None]
+    evaluated = baseline_rows + known_failures
+    four_mb_failed = bool(evaluated) and all(
+        row["status"] in FAILURE_STATUSES for row in evaluated
+    ) and len(evaluated) >= len(baseline_ids)
+    vtcm_escalation: dict[str, Any] = {
+        "status": "skipped",
+        "reason": "4 MB 档尚未取得全部失败证据（含 device_unavailable / config_warning）",
+    }
+    if run_compiler and eligible and four_mb_failed:
+        escalation = BuildVariant(eligible[-1], 2, 8, False, GRAPH_NAME)
+        if vtcm_equivalence.get("status") != "distinct":
+            vtcm_escalation = {
+                "status": "skipped",
+                "reason": (
+                    "4 MB→8 MB 未证明会改变 context 二进制（等价性 "
+                    f"{vtcm_equivalence.get('status')}），VTCM 不是独立变量"
+                ),
+            }
+        elif escalation.variant_id in built:
+            vtcm_escalation = {
+                "status": "already_recorded",
+                "variant_id": escalation.variant_id,
+            }
+        else:
+            rows.append(build_full(escalation, allow_device=True, stage_label="compiler"))
+            vtcm_escalation = {
+                "status": "built",
+                "variant_id": escalation.variant_id,
+            }
+    elif not run_compiler:
+        vtcm_escalation = {"status": "skipped", "reason": "未进入编译配置矩阵"}
 
     merge_path = output_root / "matrix.json"
     merged: dict[str, dict[str, Any]] = {}
@@ -925,16 +1270,30 @@ def run_matrix(
         stages.extend(previous.get("stages") or [])
         if previous.get("stage"):
             stages.append(previous["stage"])
-    for row in rows:
-        merged[row["variant_id"]] = row
+    merged.update({row["variant_id"]: row for row in rows})
     if stage not in stages:
         stages.append(stage)
     stages = list(dict.fromkeys(stages))
 
     merged_rows = sorted(merged.values(), key=lambda row: row["variant_id"])
+    # 同一 context 二进制只算一个独立变体：后出现的标 equivalent_to。
+    canonical: dict[str, str] = {}
+    for row in merged_rows:
+        if row.get("kind") != "full":
+            continue
+        digest = (row.get("sha256") or {}).get("context")
+        row.pop("equivalent_to", None)
+        if not digest:
+            continue
+        if digest in canonical:
+            row["equivalent_to"] = canonical[digest]
+        else:
+            canonical[digest] = row["variant_id"]
+
     statuses: dict[str, int] = {}
     for row in merged_rows:
         statuses[row["status"]] = statuses.get(row["status"], 0) + 1
+    full_rows = [row for row in merged_rows if row["kind"] == "full"]
     payload = {
         "schema_version": SCHEMA_VERSION,
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
@@ -953,14 +1312,16 @@ def run_matrix(
             ) if Path(calibration_list).is_file() else 0,
         },
         "device": {"serial": serial, "available": device_available},
+        "qpm": _qpm_record(roots, toolchains, qpm_probe),
         "toolchains": [
             {"build_id": spec.build_id, "root": str(spec.root)} for spec in toolchains
         ],
+        "vtcm_equivalence": vtcm_equivalence,
+        "vtcm_escalation": vtcm_escalation,
         "variants": merged_rows,
         "summary": {
-            "full_graph_variants": sum(
-                1 for row in merged_rows if row["kind"] == "full"
-            ),
+            "full_graph_variants": len(canonical),
+            "full_graph_rows": len(full_rows),
             "max_full_graph_variants": MAX_FULL_GRAPH_VARIANTS,
             "statuses": statuses,
             "stage_a_passed": any(
@@ -998,6 +1359,7 @@ def main(argv: list[str] | None = None) -> int:
                 f"{spec.build_id}  root={spec.root}  "
                 f"net-run-extensions={spec.net_run_extensions.is_file()}"
             )
+        print(json.dumps(probe_qpm_candidates(), ensure_ascii=False, sort_keys=True))
         return 0
     payload = run_matrix(
         arguments.stage,
@@ -1010,6 +1372,7 @@ def main(argv: list[str] | None = None) -> int:
     for row in payload["variants"]:
         print(f"{row['status']:>18}  {row['kind']:>4}  {row['variant_id']}")
     print(json.dumps(payload["summary"], ensure_ascii=False, sort_keys=True))
+    print(json.dumps(payload["qpm"], ensure_ascii=False, sort_keys=True))
     return 0
 
 

@@ -179,6 +179,21 @@ def parse_input_list(path: Path) -> list[tuple[str, Path]]:
     return entries
 
 
+def stability_inputs(
+    entries: list[tuple[str, Path]], num_inferences: int
+) -> list[tuple[str, Path]]:
+    """稳定性门禁是"同一输入连续 N 次"，不是 N 条不同输入。
+
+    取 input list 第一条真实语音重复 `num_inferences` 次；每次推理都由
+    `qnn-net-run --num_inferences` 独立执行一遍，输出必须逐次有限。
+    """
+    if num_inferences < 1:
+        raise ValueError("num_inferences 必须 >= 1")
+    if not entries:
+        raise ValueError("input list 为空，无法构造稳定性序列")
+    return [entries[0]] * num_inferences
+
+
 def write_farf_config(directory: Path) -> Path:
     """写 `<进程名>.farf`；运行目录（cwd）是搜索串第一项，/vendor 只读。"""
     path = Path(directory) / FARF_CONFIG_NAME
@@ -403,7 +418,7 @@ def run_context(
         entries = parse_input_list(input_list)
     except (OSError, ValueError) as exc:
         return _failure(output_dir, f"input list 不可用：{exc}")
-    needed = entries if num_inferences > len(entries) else entries[:num_inferences]
+    needed = stability_inputs(entries, num_inferences)
 
     run_name = (
         f"{time.strftime('%Y%m%d-%H%M%S')}-{artifact_dir.name}-{uuid.uuid4().hex[:8]}"
@@ -435,15 +450,20 @@ def run_context(
                             exit_code=process.returncode)
         pushed.append((context_bin, remote_context, _sha256(context_bin)))
 
+        remote_inputs: dict[Path, str] = {}
         remote_list_lines: list[str] = []
-        for index, (tensor, host) in enumerate(needed):
-            remote_input = f"{remote_dir}/inputs/{index:02d}-{host.name}"
-            process = _run_adb(serial, "push", str(host), remote_input, timeout=600)
-            if process.returncode != 0:
-                reason = _adb_failure(process) or process.stderr or process.stdout
-                return _failure(output_dir, f"推送输入 {host.name} 失败：{reason}",
-                                exit_code=process.returncode)
-            pushed.append((host, remote_input, _sha256(host)))
+        for tensor, host in needed:
+            remote_input = remote_inputs.get(host)
+            if remote_input is None:
+                # 同一输入重复 N 次只推一次，list 里重复引用同一远端文件。
+                remote_input = f"{remote_dir}/inputs/{host.name}"
+                process = _run_adb(serial, "push", str(host), remote_input, timeout=600)
+                if process.returncode != 0:
+                    reason = _adb_failure(process) or process.stderr or process.stdout
+                    return _failure(output_dir, f"推送输入 {host.name} 失败：{reason}",
+                                    exit_code=process.returncode)
+                pushed.append((host, remote_input, _sha256(host)))
+                remote_inputs[host] = remote_input
             remote_list_lines.append(f"{tensor}:={remote_input}")
 
         local_list = output_dir / "input-list-device.txt"

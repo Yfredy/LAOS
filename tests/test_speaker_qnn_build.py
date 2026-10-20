@@ -2,33 +2,47 @@
 """受限 QNN 构建矩阵：同 build 资产、W8A16 转换、SM8845/V81 元数据门禁。
 
 口径（2026-10-20）：版本看似支持 SM8845 但实际静默回退（2.47 →
-`socModel=0`、`dspArch=68`）的产物必须在上机前被判 `metadata_rejected`；
-转换固定 `--weights_bitwidth 8 --act_bitwidth 16` + 真实语音校准列表；
-缺少 V81 skel 或 HTP backend extension 时不得进入构建。矩阵的完整图变体
-总数硬上限 10，避免无界试错。
+`socModel=0`）的产物必须在上机前被判 `metadata_rejected`；转换固定
+`--weights_bitwidth 8 --act_bitwidth 16` + 真实语音校准列表；缺少 V81 skel
+或 HTP backend extension 时不得进入构建。矩阵的完整图变体总数硬上限 10，
+避免无界试错。另有四条硬约束：真执行只用 argv 构造器（测试断言真 argv）、
+context 的 build ID 必须与候选树一致、context generator 的
+`unexpected GraphHtpSettings` 必须记 `config_warning`、失败的构建不得留下
+任何 context 产物。
 
     python -m unittest tests.test_speaker_qnn_build -v
 """
 from __future__ import annotations
 
 import json
+import subprocess
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
+import scripts.speaker_qnn.build as build_module  # noqa: E402
 from scripts.speaker_qnn.build import (  # noqa: E402
     MAX_FULL_GRAPH_VARIANTS,
+    BuildArtifact,
     BuildVariant,
     ToolchainSpec,
+    _parse_qpm_versions,
+    _qpm_record,
+    build_context_argv,
     build_context_command,
+    build_converter_argv,
     build_converter_command,
     build_model_lib_command,
     build_w8a16_context,
+    compare_contexts,
     compiler_variants,
+    config_warning,
+    probe_qpm_candidates,
     read_context_metadata,
     require_toolchain_files,
     write_backend_configs,
@@ -103,6 +117,66 @@ def context_info(**overrides: object) -> dict:
     return payload
 
 
+def make_toolchain_files(toolchain: ToolchainSpec) -> None:
+    """把 ToolchainSpec 里的十个文件落成真实占位文件。"""
+    for path in (
+        toolchain.runner,
+        toolchain.backend_host,
+        toolchain.backend_android,
+        toolchain.stub,
+        toolchain.skel,
+        toolchain.converter,
+        toolchain.context_generator,
+        toolchain.model_lib_generator,
+        toolchain.context_utility,
+        toolchain.net_run_extensions,
+    ):
+        Path(path).parent.mkdir(parents=True, exist_ok=True)
+        Path(path).write_bytes(b"stub")
+
+
+def fake_pipeline(*, info_overrides: dict | None = None, warning: bool = False):
+    """按步骤伪造 QAIRT 产物，用于验证目录清理/配置告警而不跑真编译。"""
+    graph = "campplus_w8a16_static_stats"
+
+    def run(argv, log_path, *, env, timeout, cwd=None):
+        log_path.parent.mkdir(parents=True, exist_ok=True)
+        log_path.write_text("ok\n", encoding="utf-8")
+        joined = " ".join(str(part) for part in argv)
+        if "qnn-onnx-converter" in joined:
+            (log_path.parent / f"{graph}.cpp").write_text("// cpp", encoding="utf-8")
+            (log_path.parent / f"{graph}.bin").write_bytes(b"bin")
+        elif "qnn-model-lib-generator" in joined:
+            dll = log_path.parent / "lib/x64" / f"{graph}.dll"
+            dll.parent.mkdir(parents=True, exist_ok=True)
+            dll.write_bytes(b"dll")
+        elif "qnn-context-binary-generator" in joined:
+            (log_path.parent / f"{graph}.bin.SM8845.bin").write_bytes(b"ctx")
+            if warning:
+                log_path.write_text(
+                    "qnn-context-binary-generator pid:1\n"
+                    "    74.9ms [ ERROR ]  <E> unexpected GraphHtpSettings option 66\n",
+                    encoding="utf-8",
+                )
+        elif "qnn-context-binary-utility" in joined:
+            (log_path.parent / "info.json").write_text(
+                json.dumps(context_info(**(info_overrides or {}))), encoding="utf-8"
+            )
+        return 0
+
+    return run
+
+
+def make_build_inputs(root: Path) -> tuple[Path, Path, ToolchainSpec]:
+    model = root / "model.onnx"
+    model.write_bytes(b"onnx")
+    calibration = root / "input_list.txt"
+    calibration.write_text("x:=a.raw\n", encoding="ascii")
+    toolchain = make_toolchain(root / "qairt")
+    make_toolchain_files(toolchain)
+    return model, calibration, toolchain
+
+
 class TestToolchainInventory(unittest.TestCase):
     def test_toolchain_assets_must_share_one_build_id(self):
         with self.assertRaisesRegex(ValueError, "mixed QAIRT build"):
@@ -129,6 +203,31 @@ class TestBuildCommands(unittest.TestCase):
         self.assertIn("--weights_bitwidth 8", command)
         self.assertIn("--act_bitwidth 16", command)
         self.assertIn(str(CALIBRATION_LIST), command)
+
+    def test_real_converter_argv_is_the_rendered_command(self):
+        """真执行用的 argv 才是唯一真源：删掉 W8A16 参数必须在这里红。"""
+        argv = build_converter_argv(MODEL, CALIBRATION_LIST, VARIANT)
+        self.assertIn("--weights_bitwidth", argv)
+        self.assertEqual(argv[argv.index("--weights_bitwidth") + 1], "8")
+        self.assertIn("--act_bitwidth", argv)
+        self.assertEqual(argv[argv.index("--act_bitwidth") + 1], "16")
+        self.assertEqual(argv[argv.index("--input_list") + 1], str(CALIBRATION_LIST))
+        self.assertEqual(
+            build_converter_command(MODEL, CALIBRATION_LIST, VARIANT),
+            subprocess.list2cmdline(argv),
+        )
+
+    def test_real_context_argv_pins_sm8845_and_variant_switches(self):
+        argv = build_context_argv(
+            Path("C:/builds/model/campplus_w8a16_static_stats.dll"),
+            Path("C:/builds/context"),
+            Path("C:/builds/context/backend_extensions.json"),
+            VARIANT,
+        )
+        self.assertEqual(argv[argv.index("--htp_socs") + 1], "sm8845")
+        self.assertEqual(argv[argv.index("--optimization_level_override") + 1], "2")
+        self.assertEqual(argv[argv.index("--dlbc_override") + 1], "false")
+        self.assertEqual(argv[argv.index("--backend") + 1], str(VARIANT.toolchain.backend_host))
 
     def test_model_lib_command_keeps_graph_name_and_windows_target(self):
         command = build_model_lib_command(
@@ -227,6 +326,240 @@ class TestContextMetadataGate(unittest.TestCase):
         self.assertEqual(metadata.soc_model, 87)
         self.assertEqual(metadata.dsp_arch, 81)
         self.assertEqual(metadata.input_shape, (1, 80, 298))
+
+    def test_build_id_mismatch_is_metadata_rejected(self):
+        """context 出自别的 QAIRT build（如 2.47 的产物）必须被拒。"""
+        with tempfile.TemporaryDirectory() as temporary:
+            info = Path(temporary) / "info.json"
+            info.write_text(
+                json.dumps(context_info(buildId="v2.47.0.260601114230")),
+                encoding="utf-8",
+            )
+            metadata, error = read_context_metadata(
+                info,
+                graph_name="campplus_w8a16_static_stats",
+                expected_build_id=BUILD_ID,
+            )
+        self.assertIsNone(metadata)
+        self.assertIn("build ID", error or "")
+        self.assertIn("v2.47.0.260601114230", error or "")
+
+
+class TestConfigWarningGate(unittest.TestCase):
+    def test_graph_htp_settings_error_is_marked_as_warning(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            log = Path(temporary) / "context-generator.log"
+            log.write_text(
+                "qnn-context-binary-generator pid:1\n"
+                "    74.9ms [ ERROR ]  <E> unexpected GraphHtpSettings option 66\n"
+                "Cache binary for SM8845 copied\n",
+                encoding="utf-8",
+            )
+            warning = config_warning(log)
+        self.assertIsNotNone(warning)
+        self.assertIn("GraphHtpSettings", warning or "")
+
+    def test_clean_log_has_no_warning(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            log = Path(temporary) / "context-generator.log"
+            log.write_text("Cache binary for SM8845 copied\n", encoding="utf-8")
+            self.assertIsNone(config_warning(log))
+        self.assertIsNone(config_warning(Path("C:/absent/context-generator.log")))
+
+    def test_warning_build_is_config_warning_not_ready(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            model, calibration, toolchain = make_build_inputs(root)
+            variant = BuildVariant(toolchain, 2, 4, False, "campplus_w8a16_static_stats")
+            with mock.patch.object(
+                build_module, "_run_step", fake_pipeline(warning=True)
+            ):
+                artifact = build_w8a16_context(
+                    model, calibration, variant, root / "builds/variant"
+                )
+            self.assertEqual(artifact.status, "config_warning")
+            self.assertIn("GraphHtpSettings", artifact.warning or "")
+            self.assertIsNotNone(artifact.context_path)
+            self.assertTrue((root / "builds/variant/context").is_dir())
+
+
+class TestFailedBuildCleanup(unittest.TestCase):
+    def test_metadata_rejected_leaves_no_context_artifacts(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            model, calibration, toolchain = make_build_inputs(root)
+            variant = BuildVariant(toolchain, 2, 4, False, "campplus_w8a16_static_stats")
+            output_dir = root / "builds/variant"
+            with mock.patch.object(
+                build_module, "_run_step",
+                fake_pipeline(info_overrides={"socModel": 0}),
+            ):
+                artifact = build_w8a16_context(model, calibration, variant, output_dir)
+            self.assertEqual(artifact.status, "metadata_rejected")
+            self.assertIsNone(artifact.context_path)
+            self.assertEqual(
+                sorted(path.name for path in output_dir.iterdir()), ["artifact.json"]
+            )
+            self.assertEqual(list(output_dir.rglob("*.bin")), [])
+            self.assertFalse((output_dir / "context").exists())
+
+
+class TestQpmInventory(unittest.TestCase):
+    QPM_OUTPUT = (
+        "\nProduct Name           : qualcomm_ai_runtime_community\n"
+        "Product Classification : Executable\n"
+        "Installed version      : None\n"
+        "Available version(s)   : 2.51.40.260930\n"
+        "                         2.51.1.261002\n"
+        "                         2.47.0.260601\n"
+        "\n"
+    )
+
+    def test_versions_are_parsed_from_qpm_info(self):
+        self.assertEqual(
+            _parse_qpm_versions(self.QPM_OUTPUT),
+            ["2.51.40.260930", "2.51.1.261002", "2.47.0.260601"],
+        )
+
+    def test_successful_query_reports_available_versions(self):
+        record = probe_qpm_candidates(runner=lambda command: self.QPM_OUTPUT)
+        self.assertEqual(record["status"], "available")
+        self.assertEqual(record["product"], "qualcomm_ai_runtime_community")
+        self.assertIn("2.51.40.260930", record["available_versions"])
+
+    def test_offline_query_is_explicitly_unavailable(self):
+        def offline(command: str) -> str:
+            raise OSError("network unreachable")
+
+        record = probe_qpm_candidates(runner=offline)
+        self.assertEqual(record["status"], "unavailable")
+        self.assertIn("network unreachable", record["reason"])
+
+    def test_empty_output_is_explicitly_unavailable(self):
+        record = probe_qpm_candidates(runner=lambda command: "no versions here\n")
+        self.assertEqual(record["status"], "unavailable")
+        self.assertIn("版本", record["reason"])
+
+    def test_newer_qpm_version_without_local_tree_is_unavailable(self):
+        """QPM 列出更新版本但本机没装：必须显式 unavailable + 原因。"""
+        toolchain = make_toolchain()
+        record = _qpm_record(
+            (toolchain.root,),
+            (toolchain,),
+            {
+                "status": "available",
+                "product": "qualcomm_ai_runtime_community",
+                "command": "C:/qpm/qpm-cli.exe",
+                "available_versions": ["2.51.40.260930", "2.51.1.261002"],
+            },
+        )
+        self.assertEqual(record["status"], "unavailable")
+        self.assertIn("2.51.40.260930", record["reason"])
+        self.assertEqual(record["newer_than_local"], ["2.51.40.260930"])
+        self.assertEqual(record["local_build_ids"], [BUILD_ID])
+
+
+class TestVtcmEquivalence(unittest.TestCase):
+    def artifact(self, variant_id: str, digest: str) -> BuildArtifact:
+        return BuildArtifact(
+            variant_id=variant_id,
+            status="ready",
+            context_path=f"C:/builds/{variant_id}/context/graph.bin",
+            metadata=None,
+            sha256={"context": digest},
+            commands=(),
+            error=None,
+        )
+
+    def test_identical_context_binaries_are_equivalent(self):
+        record = compare_contexts(
+            self.artifact("2.51.1-opt2-vtcm4-dlbc0-g", "a" * 64),
+            self.artifact("2.51.1-opt2-vtcm8-dlbc0-g", "a" * 64),
+        )
+        self.assertEqual(record["status"], "equivalent")
+
+    def test_different_context_binaries_are_distinct(self):
+        record = compare_contexts(
+            self.artifact("2.51.1-opt2-vtcm4-dlbc0-g", "a" * 64),
+            self.artifact("2.51.1-opt2-vtcm8-dlbc0-g", "b" * 64),
+        )
+        self.assertEqual(record["status"], "distinct")
+
+    def test_missing_context_hash_is_unavailable(self):
+        record = compare_contexts(
+            self.artifact("2.51.1-opt2-vtcm4-dlbc0-g", "a" * 64),
+            BuildArtifact(
+                variant_id="2.51.1-opt2-vtcm8-dlbc0-g",
+                status="build_error",
+                context_path=None,
+                metadata=None,
+                sha256={},
+                commands=(),
+                error="context 生成失败",
+            ),
+        )
+        self.assertEqual(record["status"], "unavailable")
+
+
+class TestMatrixEquivalenceDedup(unittest.TestCase):
+    """opt0 与 opt2 同 context → 后者不算独立变体；VTCM 未证实前不升级。"""
+
+    def artifact(
+        self, variant: BuildVariant, status: str, digest: str,
+        warning: str | None = None,
+    ) -> BuildArtifact:
+        return BuildArtifact(
+            variant_id=variant.variant_id,
+            status=status,
+            context_path=f"C:/builds/{variant.variant_id}/context/{variant.graph_name}.bin",
+            metadata=None,
+            sha256={"context": digest},
+            commands=(),
+            error=None if status != "timeout" else "watchdog",
+            warning=warning,
+        )
+
+    def test_same_context_and_unproven_vtcm_do_not_extend_budget(self):
+        toolchain = make_toolchain()
+        digests = {0: "a" * 64, 1: "b" * 64, 2: "a" * 64, 3: "c" * 64}
+
+        def fake_build(model, calibration_list, variant, output_dir, **kwargs):
+            if variant.graph_name == "smoke_w8a16":
+                return self.artifact(variant, "ready", "f" * 64)
+            if variant.vtcm_mb == 8:
+                # 8 MB 与 opt2 的 4 MB 逐字节相同 → VTCM 不是独立变量。
+                return self.artifact(variant, "config_warning", "a" * 64, "warn")
+            return self.artifact(
+                variant, "timeout", digests[variant.optimization_level]
+            )
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            with mock.patch.object(
+                build_module, "discover_toolchains", return_value=(toolchain,)
+            ), mock.patch.object(
+                build_module, "build_w8a16_context", side_effect=fake_build
+            ):
+                payload = build_module.run_matrix(
+                    "compiler",
+                    output_root=root,
+                    qpm_probe={"status": "unavailable", "reason": "test"},
+                )
+        rows = {row["variant_id"]: row for row in payload["variants"]}
+        opt0 = f"{toolchain.short_version}-opt0-vtcm4-dlbc0-campplus_w8a16_static_stats"
+        opt2 = f"{toolchain.short_version}-opt2-vtcm4-dlbc0-campplus_w8a16_static_stats"
+        self.assertEqual(rows[opt2]["equivalent_to"], opt0)
+        self.assertNotIn("equivalent_to", rows[opt0])
+        self.assertEqual(payload["summary"]["full_graph_variants"], 3)
+        self.assertEqual(payload["summary"]["full_graph_rows"], 4)
+        self.assertEqual(payload["vtcm_equivalence"]["status"], "equivalent")
+        self.assertEqual(payload["vtcm_escalation"]["status"], "skipped")
+        self.assertIn("不是独立变量", payload["vtcm_escalation"]["reason"])
+        self.assertFalse(
+            any(row["variant_id"].endswith("vtcm8-dlbc0-campplus_w8a16_static_stats")
+                for row in payload["variants"])
+        )
+        self.assertEqual(payload["qpm"]["status"], "unavailable")
 
 
 class TestBoundedMatrix(unittest.TestCase):

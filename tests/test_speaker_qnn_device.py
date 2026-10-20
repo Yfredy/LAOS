@@ -42,6 +42,7 @@ from scripts.speaker_qnn.device import (  # noqa: E402
     qnn_run_pid,
     require_same_build_id,
     resolve_input_list,
+    stability_inputs,
     verify_toolchain,
     write_farf_config,
 )
@@ -342,6 +343,26 @@ class TestAdbParsing(unittest.TestCase):
 
     def test_parse_profile_timings_absent(self) -> None:
         self.assertEqual(parse_profile_timings("no timings here"), (None, None))
+
+
+class TestStabilityInputs(unittest.TestCase):
+    def test_same_input_is_repeated_not_truncated(self) -> None:
+        """稳定性门禁是同一段真实语音连续 30 次，不是 30 条不同输入。"""
+        entries = [(f"x{i}", Path(f"C:/data/{i}.raw")) for i in range(40)]
+        needed = stability_inputs(entries, 30)
+        self.assertEqual(len(needed), 30)
+        self.assertEqual(set(needed), {entries[0]})
+        self.assertEqual(needed, [entries[0]] * 30)
+
+    def test_short_input_list_is_still_repeated(self) -> None:
+        entries = [("x", Path("C:/data/only.raw"))]
+        self.assertEqual(stability_inputs(entries, 30), entries * 30)
+
+    def test_invalid_counts_and_empty_list_are_rejected(self) -> None:
+        with self.assertRaisesRegex(ValueError, "num_inferences"):
+            stability_inputs([("x", Path("C:/data/a.raw"))], 0)
+        with self.assertRaisesRegex(ValueError, "input list"):
+            stability_inputs([], 30)
 
 
 class TestInputListResolution(unittest.TestCase):
