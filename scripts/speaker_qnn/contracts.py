@@ -165,7 +165,13 @@ def validate_sm8845_context(
         )
 
 
-_TIMEOUT_RE = re.compile(r"remote session control[^\n]*?timeout\s*:\s*(\d+)", re.I)
+# 看门狗证据有两种真实形态：客户端主动终止
+# （`... remote session control ... timeout: 10000`）与 CDSP 崩溃报告
+# （`crashed in thread "fr/<pid>/..." ... timeout: 10000`）。
+_TIMEOUT_RE = re.compile(
+    r"(?:remote session control[^\n]*?|crashed in thread[^\n]*?)\btimeout\s*:\s*(\d+)",
+    re.I,
+)
 _INTENTIONAL_CRASH_RE = re.compile(r"intentional crash triggered", re.I)
 _SSR_RE = re.compile(
     r"SSR detected|SSR in progress|Single-Core SSR|SSR successfully recovered",

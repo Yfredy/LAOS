@@ -51,11 +51,21 @@ DEFAULT_TOOLCHAIN = REPO / "var/speaker-benchmark/qnn/sdk-2.51/qairt/2.51.1.2610
 SMOKE_ARTIFACT = REPO / "var/speaker-benchmark/qnn/htp-smoke/context-valid"
 REMOTE_ROOT = "/data/local/tmp/nanolaos-qnn"
 
-# adsprpc 会在进程 cwd 里找 `<进程名>.farf` 来配置 DSP 侧 FARF 日志掩码。
-# 缺省只开 ERROR（mask 8），DSP 的 `gpe_execute_novalidate` 与 FastRPC
-# "Intentional crash ... timeout: 10000" 都不会进 logcat；0x1F = DEBUG..FATAL。
+# adsprpc 在 `<进程名>.farf` 里读 DSP 侧 FARF 日志掩码；缺省只开 ERROR
+# （mask 8），DSP 的 `gpe_execute_novalidate` 与 FastRPC "Intentional crash
+# ... timeout: 10000" 都不会进 logcat；0x1F = DEBUG..FATAL。
 FARF_CONFIG_NAME = "qnn-net-run.farf"
 FARF_CONFIG_MASK = "0x1F"
+# 真实搜索串（logcat `log_config.c:449`）：
+# `at ;/vendor/lib64/rfs/dsp;/vendor/lib/rfsa/adsp;/vendor/lib/rfsa/dsp;/vendor/dsp;`
+# 首项空串即进程 cwd；/vendor 只读，所以唯一可写落点是运行目录本身，并把
+# 该目录显式并入 ADSP_LIBRARY_PATH 的复合搜索路径。
+ADSP_SEARCH_ROOTS: tuple[str, ...] = (
+    "/vendor/lib64/rfs/dsp",
+    "/vendor/lib/rfsa/adsp",
+    "/vendor/lib/rfsa/dsp",
+    "/vendor/dsp",
+)
 
 # (相对 QAIRT root, 远端文件名)；顺序即推送顺序。
 TOOLCHAIN_LAYOUT: tuple[tuple[str, str], ...] = (
@@ -170,10 +180,20 @@ def parse_input_list(path: Path) -> list[tuple[str, Path]]:
 
 
 def write_farf_config(directory: Path) -> Path:
-    """写 `<进程名>.farf`；设备端 cwd 是搜索结果的第一项。"""
+    """写 `<进程名>.farf`；运行目录（cwd）是搜索串第一项，/vendor 只读。"""
     path = Path(directory) / FARF_CONFIG_NAME
     path.write_text(FARF_CONFIG_MASK + "\n", encoding="ascii")
     return path
+
+
+def farf_remote_path(remote_dir: str) -> str:
+    """farf 必须落在 cwd（搜索串空串项），即远端运行目录。"""
+    return f"{remote_dir}/{FARF_CONFIG_NAME}"
+
+
+def build_adsp_library_path(remote_dir: str) -> str:
+    """复合 ADSP 搜索路径：cwd + 运行目录 + 设备真实 /vendor 搜索根。"""
+    return ";".join((".", remote_dir, *ADSP_SEARCH_ROOTS))
 
 
 def build_remote_command(
@@ -200,8 +220,7 @@ def build_remote_command(
     # ':' 会被当成单个目录名，skel 落到 /vendor/lib/rfsa/adsp 的旧版本）。
     environment = (
         "LD_LIBRARY_PATH=. "
-        'ADSP_LIBRARY_PATH=".;$PWD;/vendor/lib/rfsa/adsp;'
-        '/system/lib/rfsa/adsp;/dsp"'
+        f'ADSP_LIBRARY_PATH="{build_adsp_library_path(remote_dir)}"'
     )
     return f"cd {remote_dir} && {environment} " + " ".join(arguments)
 
@@ -243,6 +262,63 @@ def _parse_sha256sum(text: str) -> dict[str, str]:
             continue
         hashes[Path(match.group(2)).name] = match.group(1).lower()
     return hashes
+
+
+_LOGCAT_PID_RE = re.compile(
+    r"^\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}\.\d{3}\s+(\d+)\s+\d+\s+[VDIWEFA]\s"
+)
+_QNN_PID_RE = re.compile(r"qnn-net-run pid:(\d+)")
+
+
+def qnn_run_pid(stdout: str) -> int | None:
+    """从 runner 自报的 `qnn-net-run pid:N` 取本次运行 PID。"""
+    match = _QNN_PID_RE.search(stdout)
+    return int(match.group(1)) if match else None
+
+
+def filter_logcat_for_pid(logcat: str, pid: int | None) -> str:
+    """只留本次 qnn-net-run 的 logcat 行，避免外部进程污染分类。
+
+    DSP 侧崩溃报告来自 cdsprpcd，但正文用 `fr/<pid>/` 标注应用进程，
+    因此同时按 token 匹配。
+    """
+    if pid is None:
+        return logcat
+    token = re.compile(rf"(?<!\d){pid}(?!\d)")
+    kept: list[str] = []
+    for line in logcat.splitlines():
+        match = _LOGCAT_PID_RE.match(line)
+        if (match is not None and match.group(1) == str(pid)) or token.search(line):
+            kept.append(line)
+    return "\n".join(kept) + ("\n" if kept else "")
+
+
+def input_list_candidates(artifact: Path, *, smoke: bool) -> tuple[Path, ...]:
+    """brief Step 5 的裸命令没有 --input-list，需按候选位置回退。"""
+    artifact = Path(artifact)
+    if smoke:
+        return (artifact.parent / "input-list-host.txt", artifact / "input_list.txt")
+    return (
+        artifact / "input_list.txt",
+        artifact / "input-list-host.txt",
+        DEBUG_ROOT / "inputs/campplus-input-list-host.txt",
+    )
+
+
+def resolve_input_list(artifact: Path, explicit: str | None, *, smoke: bool) -> Path:
+    if explicit:
+        path = Path(explicit)
+        if not path.is_file():
+            raise FileNotFoundError(f"input list 不存在：{path}")
+        return path
+    candidates = input_list_candidates(artifact, smoke=smoke)
+    for path in candidates:
+        if path.is_file():
+            return path
+    raise FileNotFoundError(
+        "找不到 input list，已尝试：\n  "
+        + "\n  ".join(str(path) for path in candidates)
+    )
 
 
 def read_output(path: Path) -> "np.ndarray":
@@ -323,7 +399,10 @@ def run_context(
     selected = toolchain or discover_toolchain()
     verify_toolchain(selected, metadata.build_id)
 
-    entries = parse_input_list(input_list)
+    try:
+        entries = parse_input_list(input_list)
+    except (OSError, ValueError) as exc:
+        return _failure(output_dir, f"input list 不可用：{exc}")
     needed = entries if num_inferences > len(entries) else entries[:num_inferences]
 
     run_name = (
@@ -378,7 +457,7 @@ def run_context(
         pushed.append((local_list, remote_list, _sha256(local_list)))
 
         farf = write_farf_config(output_dir)
-        remote_farf = f"{remote_dir}/{FARF_CONFIG_NAME}"
+        remote_farf = farf_remote_path(remote_dir)
         process = _run_adb(serial, "push", str(farf), remote_farf, timeout=60)
         if process.returncode != 0:
             reason = _adb_failure(process) or process.stderr or process.stdout
@@ -453,8 +532,16 @@ def run_context(
             exit_code=completed.returncode,
         )
 
-    _run_adb(serial, "pull", f"{remote_dir}/output", str(output_dir / "output"),
-             timeout=300)
+    output_pull = _run_adb(serial, "pull", f"{remote_dir}/output",
+                           str(output_dir / "output"), timeout=300)
+    if output_pull.returncode != 0:
+        return _failure(
+            output_dir,
+            f"拉取 output 失败：{_adb_failure(output_pull) or output_pull.stderr or output_pull.stdout}",
+            stdout=stdout_text,
+            logcat=logcat_path.read_text(encoding="utf-8", errors="replace"),
+            exit_code=completed.returncode,
+        )
 
     profile_text = ""
     profile_path = output_dir / "profile.log"
@@ -470,9 +557,13 @@ def run_context(
     output_array = read_output(output_path) if output_path is not None else None
 
     logcat_text = logcat_path.read_text(encoding="utf-8", errors="replace")
+    # 全量 logcat 是设备全局的（混有 thermalextservice 等外部进程的 SSR/
+    # `Failed to load` 行），分类只看本次 qnn-net-run 的 PID；logcat.txt
+    # 仍保留全量作为证据。
+    run_logcat = filter_logcat_for_pid(logcat_text, qnn_run_pid(stdout_text))
     result = classify_device_run(
         stdout_text,
-        logcat_text,
+        run_logcat,
         output_array,
         expected_output_shape=tuple(metadata.output_shape),
         exit_code=completed.returncode,
@@ -519,20 +610,17 @@ def _parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     arguments = _parser().parse_args(argv)
     artifact = Path(arguments.artifact)
-    if arguments.command == "smoke":
-        input_list = (
-            Path(arguments.input_list)
-            if arguments.input_list
-            else artifact.parent / "input-list-host.txt"
+    try:
+        input_list = resolve_input_list(
+            artifact, arguments.input_list, smoke=arguments.command == "smoke"
         )
+    except FileNotFoundError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
+    if arguments.command == "smoke":
         expected_shapes = ((1, 16), (1, 16))
         label = "smoke"
     else:
-        input_list = (
-            Path(arguments.input_list)
-            if arguments.input_list
-            else artifact / "input_list.txt"
-        )
         expected_shapes = (CAMPLUS_INPUT_SHAPE, CAMPLUS_OUTPUT_SHAPE)
         label = artifact.name
 
