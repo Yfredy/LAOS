@@ -73,6 +73,8 @@ PARITY_SCALE_TOL = 1e-5
 FAILING_STATUSES = frozenset({"timeout", "ssr", "load_error", "execute_error"})
 PROBE_GRAPH_NAME = "campplus_probe"
 BISECTION_MAX_NODES = 16
+# 单算子族停止允许区间宽度超过 16：门禁只认这个机器码，不认自由文本。
+BISECTION_STOP_SINGLE_FAMILY = "single_operator_family"
 LAYOUT_SAMPLE_ENTRIES = 3
 
 # 阶段边界按真实 ONNX 节点名解析（不是猜结构）：head → block1 → block2 →
@@ -1035,28 +1037,49 @@ def _isolation_evidence(
 def _isolation_provenance_problems(
     isolation: Mapping[str, Any], interval: tuple[int, int]
 ) -> list[str]:
-    """已验证区间必须能追到真机探针与探针哈希，且宽度已收敛。"""
+    """区间端点必须能追到真机探针与探针哈希，且宽度已收敛。
+
+    只校验与当前区间端点相关的证据：终点 `interval[1]` 必须是失败 probe，
+    起点 `interval[0]`（非图输入 0）必须是通过 probe。与区间无关的 probe
+    （例如已被 `metadata_rejected`、没有 context 的 3076）不得污染门禁。
+    宽度超过二分阈值时，只有 `stop_reason="single_operator_family"` 的
+    单算子族停止才豁免；其余情况一律判未收敛。
+    """
     start, end = interval
     problems: list[str] = []
     rows = _isolation_evidence(isolation)
     if not rows:
         problems.append("缺少真机探针证据（probes 与 steps 均为空）")
-    evidence = {index: (status, hashed) for index, status, hashed in rows}
-    allowed = {"pass"} | FAILING_STATUSES
-    for index, (status, hashed) in sorted(evidence.items()):
-        if status not in allowed:
-            problems.append(f"节点 {index} 缺有效真机状态（device.status={status!r}）")
-        if not hashed:
-            problems.append(f"节点 {index} 的 probe 缺 context SHA-256")
-    if end not in evidence or evidence[end][0] not in FAILING_STATUSES:
-        problems.append(f"区间终点 {end} 没有失败 probe 的真机证据")
-    if start != 0 and (start not in evidence or evidence[start][0] != "pass"):
-        problems.append(f"区间起点 {start} 没有通过 probe 的真机证据")
+        return problems
+    end_evidence = [(status, hashed) for index, status, hashed in rows if index == end]
+    if not any(status in FAILING_STATUSES and hashed for status, hashed in end_evidence):
+        if not end_evidence:
+            problems.append(f"区间终点 {end} 没有失败 probe 的真机证据")
+        else:
+            problems.append(
+                f"区间终点 {end} 的真机证据不完整"
+                f"（需要失败状态与 context SHA-256）：{end_evidence}"
+            )
+    if start != 0:
+        start_evidence = [
+            (status, hashed) for index, status, hashed in rows if index == start
+        ]
+        if not any(status == "pass" and hashed for status, hashed in start_evidence):
+            if not start_evidence:
+                problems.append(f"区间起点 {start} 没有通过 probe 的真机证据")
+            else:
+                problems.append(
+                    f"区间起点 {start} 的真机证据不完整"
+                    f"（需要 pass 状态与 context SHA-256）：{start_evidence}"
+                )
     if end - start > BISECTION_MAX_NODES:
-        problems.append(
-            f"区间宽度 {end - start} 超过二分停止阈值 {BISECTION_MAX_NODES}，"
-            "未收敛区间不能作为改写依据"
-        )
+        if isolation.get("stop_reason") == BISECTION_STOP_SINGLE_FAMILY:
+            pass
+        else:
+            problems.append(
+                f"区间宽度 {end - start} 超过二分停止阈值 {BISECTION_MAX_NODES}，"
+                "且不是单算子族停止，未收敛区间不能作为改写依据"
+            )
     return problems
 
 
@@ -1570,20 +1593,25 @@ def _node_operator_families(
 def bisection_stop(
     model: Path | "onnx.ModelProto", first_node: int, last_node: int
 ) -> dict[str, Any] | None:
-    """brief Step 6 停止条件：≤16 个节点，或剩余节点同属一个算子族。"""
+    """brief Step 6 停止条件：≤16 个节点，或剩余节点同属一个算子族。
+
+    `stop_reason` 是机器码（`node_count` / `single_operator_family`），
+    供 `isolation.json` 与改写门禁判断"宽度超限是否由单算子族豁免"；
+    人类可读说明放在 `stop_detail`。
+    """
     node_count = last_node - first_node
     families = _node_operator_families(model, first_node, last_node)
     if node_count <= BISECTION_MAX_NODES:
         return {
-            "stop_reason": (
-                f"区间 {node_count} 个 ONNX 节点 <= {BISECTION_MAX_NODES}"
-            ),
+            "stop_reason": "node_count",
+            "stop_detail": f"区间 {node_count} 个 ONNX 节点 <= {BISECTION_MAX_NODES}",
             "node_count": node_count,
             "operator_families": list(families),
         }
     if len(families) == 1:
         return {
-            "stop_reason": f"剩余节点同属算子族 {families[0]}",
+            "stop_reason": "single_operator_family",
+            "stop_detail": f"剩余节点同属算子族 {families[0]}",
             "node_count": node_count,
             "operator_families": list(families),
         }
@@ -1676,7 +1704,8 @@ def run_bisection(
         "awaiting_interval": [start, end],
         "node_count": max(end - start, 0),
         "operator_families": [],
-        "stop_reason": "设备不在 adb，二分未取得真机证据（awaiting_device）",
+        "stop_reason": "awaiting_device",
+        "stop_detail": "设备不在 adb，二分未取得真机证据（awaiting_device）",
         "steps": [],
     }
     if not device_online or probe_at_cut is None:
@@ -1694,6 +1723,7 @@ def run_bisection(
                 "node_count": stop["node_count"],
                 "operator_families": stop["operator_families"],
                 "stop_reason": stop["stop_reason"],
+                "stop_detail": stop["stop_detail"],
                 "steps": steps,
             })
             return payload
@@ -1701,7 +1731,8 @@ def run_bisection(
         if cut is None:
             payload.update({
                 "status": "no_static_cut",
-                "stop_reason": (
+                "stop_reason": "no_static_cut",
+                "stop_detail": (
                     f"区间 ({start}, {end}) 内没有静态可表示的 cut，无法继续二分"
                 ),
                 "steps": steps,
@@ -1721,7 +1752,8 @@ def run_bisection(
             payload.update({
                 "status": "probe_error",
                 "awaiting_interval": [start, end],
-                "stop_reason": (
+                "stop_reason": "probe_error",
+                "stop_detail": (
                     f"中点 cut {cut.node_index} 的 probe 构建/校验失败，"
                     f"已保留 {len(steps)} 步证据后终止："
                     f"{type(exc).__name__}: {exc}"
@@ -1743,14 +1775,16 @@ def run_bisection(
             payload.update({
                 "status": "inconclusive",
                 "awaiting_interval": [start, end],
-                "stop_reason": f"中点 probe 状态 {result.status}，不能当模型失败",
+                "stop_reason": "inconclusive",
+                "stop_detail": f"中点 probe 状态 {result.status}，不能当模型失败",
                 "steps": steps,
             })
             return payload
     payload.update({
         "status": "max_steps",
         "awaiting_interval": [start, end],
-        "stop_reason": f"二分达到 {max_steps} 步仍未满足停止条件",
+        "stop_reason": "max_steps",
+        "stop_detail": f"二分达到 {max_steps} 步仍未满足停止条件",
         "steps": steps,
     })
     return payload
@@ -2607,10 +2641,16 @@ def _stage_outcome(
     suffix_devices = [
         (spec, result) for spec, result in device_results if spec.kind == "suffix"
     ]
+    # isolation.probes 的 device 必须来自真实 run 记录，而不是 probe 记录
+    # 里可能缺失的字段；否则设备恢复后所有端点都会被判"缺真机状态"。
+    device_by_probe = {
+        spec.probe_id: result.to_dict() for spec, result in device_results
+    }
     isolation: dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
         "status": "awaiting_device",
         "reason": None,
+        "stop_reason": None,
         "interval": None,
         "awaiting_interval": None,
         "node_count": None,
@@ -2626,7 +2666,7 @@ def _stage_outcome(
                 "physical_output_shape": record.get("physical_output_shape"),
                 "graph_sha256": (record.get("graph") or {}).get("sha256"),
                 "context_sha256": record.get("context_sha256"),
-                "device": record.get("device"),
+                "device": device_by_probe.get(record["probe_id"]),
             }
             for _, record in prefixes
         ],
@@ -2646,7 +2686,8 @@ def _stage_outcome(
         )
         isolation.update({
             "status": bisection["status"],
-            "reason": bisection["stop_reason"],
+            "reason": bisection["stop_detail"],
+            "stop_reason": bisection["stop_reason"],
             "interval": bisection["interval"],
             "awaiting_interval": bisection["awaiting_interval"],
             "node_count": bisection["node_count"],
@@ -2672,6 +2713,7 @@ def _stage_outcome(
         isolation.update({
             "status": "no_prefix_failure",
             "reason": str(exc),
+            "stop_reason": "no_prefix_failure",
             "suffix_statuses": {
                 spec.probe_id: result.status for spec, result in suffix_devices
             },
@@ -2697,7 +2739,8 @@ def _stage_outcome(
     )
     isolation.update({
         "status": bisection["status"],
-        "reason": bisection["stop_reason"],
+        "reason": bisection["stop_detail"],
+        "stop_reason": bisection["stop_reason"],
         "interval": bisection["interval"],
         "awaiting_interval": bisection["awaiting_interval"],
         "node_count": bisection["node_count"],

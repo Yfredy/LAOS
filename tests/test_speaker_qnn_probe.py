@@ -58,6 +58,7 @@ from scripts.speaker_qnn.probe import (  # noqa: E402
     RewriteResult,
     TensorCut,
     _run_device_probes,
+    _stage_outcome,
     apply_semantic_rewrite,
     bisect_failure_interval,
     bisection_stop,
@@ -530,7 +531,8 @@ class TestBisectionLoop(_TempDirTest):
         stop = bisection_stop(self._stage_model_path(), 0, 6)
         self.assertIsNotNone(stop)
         self.assertEqual(stop["node_count"], 6)
-        self.assertIn("<= 16", stop["stop_reason"])
+        self.assertEqual(stop["stop_reason"], "node_count")
+        self.assertIn("<= 16", stop["stop_detail"])
 
     def test_bisection_stop_when_single_operator_family(self) -> None:
         model = self.root / "identity-chain.onnx"
@@ -556,7 +558,8 @@ class TestBisectionLoop(_TempDirTest):
         stop = bisection_stop(model, 0, 20)
         self.assertIsNotNone(stop)
         self.assertEqual(stop["operator_families"], ["Identity"])
-        self.assertIn("算子族", stop["stop_reason"])
+        self.assertEqual(stop["stop_reason"], "single_operator_family")
+        self.assertIn("算子族", stop["stop_detail"])
 
     def test_midpoint_cut_picks_static_middle_tensor(self) -> None:
         sample = _write_raw(self.root / "sample.raw", [1.0, 2.0, 3.0, 4.0])
@@ -620,6 +623,83 @@ class TestBisectionLoop(_TempDirTest):
         self.assertEqual(payload["steps"][1]["node_index"], 30)
         self.assertEqual(payload["steps"][1]["status"], "probe_error")
         self.assertIn("布局交接未验证", payload["steps"][1]["error"])
+
+
+@NEEDS_ONNX
+class TestStageOutcomeWiring(_TempDirTest):
+    """设备恢复后 isolation → select_rewrite 的接线必须端到端放行。"""
+
+    def test_device_evidence_unblocks_rewrite_despite_unrelated_rejected_probe(
+        self,
+    ) -> None:
+        model = self.root / "shapes.onnx"
+        nodes = [
+            helper.make_node("Shape", ["x"], [f"s{index}"], name=f"shape_{index}")
+            for index in range(17)
+        ]
+        graph = helper.make_graph(
+            nodes,
+            "shapes",
+            [helper.make_tensor_value_info("x", TensorProto.FLOAT, [1, 4])],
+            [helper.make_tensor_value_info("s16", TensorProto.INT64, [2])],
+            initializer=[],
+        )
+        onnx.save(
+            helper.make_model(
+                graph, opset_imports=[helper.make_opsetid("", 17)], ir_version=8
+            ),
+            str(model),
+        )
+        passing = ProbeSpec("prefix-0000-shape_0", "prefix", 0, 0, ("x",), ("s0",))
+        failing = ProbeSpec("prefix-0016-shape_16", "prefix", 0, 16, ("x",), ("s16",))
+        # 模拟 3076：已被 metadata_rejected、没有 context SHA-256，也不是区间端点。
+        rejected = ProbeSpec(
+            "prefix-3076-transit", "prefix", 0, 3076, ("x",), ("transit",)
+        )
+
+        def record(spec: ProbeSpec, context_sha256: str | None) -> dict:
+            return {
+                "probe_id": spec.probe_id,
+                "kind": spec.kind,
+                "node_interval": [spec.first_node, spec.last_node],
+                "tensor": {"tensor_name": spec.output_tensors[0]},
+                "context_sha256": context_sha256,
+            }
+
+        # 真机结果夹具：显式构造 DeviceRunResult，不落进任何 var/ 产物。
+        device_results = [
+            (passing, _result("pass")),
+            (failing, _result("timeout")),
+        ]
+        sample = _write_raw(self.root / "sample.raw", [1.0, 2.0, 3.0, 4.0])
+
+        def never_called(cut: TensorCut):
+            raise AssertionError(f"区间已收敛，不应再生成中点 cut：{cut.node_index}")
+
+        outcome, isolation = _stage_outcome(
+            model,
+            [
+                (passing, record(passing, "a" * 64)),
+                (failing, record(failing, "b" * 64)),
+                (rejected, record(rejected, None)),
+            ],
+            device_results,
+            True,
+            "test-variant",
+            [],
+            sample,
+            never_called,
+        )
+        self.assertEqual(outcome["classification"], "stage_isolated")
+        self.assertEqual(isolation["status"], "verified")
+        self.assertEqual(isolation["interval"], [0, 16])
+        devices = {row["probe_id"]: row["device"] for row in isolation["probes"]}
+        self.assertEqual(devices[passing.probe_id]["status"], "pass")
+        self.assertEqual(devices[failing.probe_id]["status"], "timeout")
+        self.assertIsNone(devices[rejected.probe_id])
+        selection = select_rewrite(isolation)
+        self.assertEqual(selection["status"], REWRITE_SELECTED)
+        self.assertEqual(selection["interval"], [0, 16])
 
 
 class TestDeviceGate(unittest.TestCase):
@@ -955,6 +1035,12 @@ class TestRewriteGate(_TempDirTest):
         selection = select_rewrite(_verified_isolation(interval=(0, 20)))
         self.assertEqual(selection["status"], REWRITE_UNPROVEN)
         self.assertIn("阈值", selection["reason"])
+
+    def test_single_operator_family_stop_allows_wide_interval(self) -> None:
+        isolation = _verified_isolation(interval=(0, 20))
+        isolation["stop_reason"] = "single_operator_family"
+        selection = select_rewrite(isolation)
+        self.assertEqual(selection["status"], REWRITE_SELECTED)
 
     def test_empty_interval_raises_value_error(self) -> None:
         with self.assertRaisesRegex(ValueError, "interval"):
