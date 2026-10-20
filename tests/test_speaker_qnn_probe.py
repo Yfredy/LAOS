@@ -36,20 +36,26 @@ except ImportError:  # 主库 discover 环境没有 onnx/numpy
     ort = None
     TensorProto = helper = None
 
-from scripts.speaker_qnn.contracts import DeviceRunResult  # noqa: E402
+from scripts.speaker_qnn.contracts import ContextMetadata, DeviceRunResult  # noqa: E402
 from scripts.speaker_qnn.probe import (  # noqa: E402
     DEFAULT_CALIBRATION,
     DEFAULT_MODEL,
+    IntermediateEntry,
+    IntermediateManifest,
     ProbeSpec,
     SOURCE_KIND_REAL_AUDIO,
     TensorCut,
     bisect_failure_interval,
+    bisection_stop,
     capture_intermediates,
     discover_stage_cuts,
     extract_prefix,
     extract_suffix,
     load_manifest,
+    midpoint_cut,
     parity_gate,
+    run_bisection,
+    verify_layout_handoff,
     verify_probe_parity,
     write_suffix_calibration,
 )
@@ -109,6 +115,25 @@ def _stage_model() -> "onnx.ModelProto":
         "stages",
         [helper.make_tensor_value_info("x", TensorProto.FLOAT, [1, 4])],
         [helper.make_tensor_value_info("t6", TensorProto.FLOAT, [1, 4])],
+        initializer=[],
+    )
+    return helper.make_model(graph, opset_imports=[helper.make_opsetid("", 17)], ir_version=8)
+
+
+def _chain_model(count: int) -> "onnx.ModelProto":
+    """`count` 个交替 Identity/Relu 节点，避免单算子族提前停止。"""
+    nodes = []
+    previous = "x"
+    for index in range(count):
+        output = f"t{index}"
+        op = "Identity" if index % 2 == 0 else "Relu"
+        nodes.append(helper.make_node(op, [previous], [output], name=f"n{index}"))
+        previous = output
+    graph = helper.make_graph(
+        nodes,
+        "chain",
+        [helper.make_tensor_value_info("x", TensorProto.FLOAT, [1, 4])],
+        [helper.make_tensor_value_info(previous, TensorProto.FLOAT, [1, 4])],
         initializer=[],
     )
     return helper.make_model(graph, opset_imports=[helper.make_opsetid("", 17)], ir_version=8)
@@ -259,6 +284,8 @@ class TestCaptureAndExtraction(_TempDirTest):
             TensorCut(0, "h", (1, 0), "float32")
         with self.assertRaisesRegex(ValueError, "浮点"):
             TensorCut(0, "h", (1, 4), "int64")
+        with self.assertRaisesRegex(ValueError, "float32"):
+            TensorCut(0, "h", (1, 4), "float16")
 
 
 @NEEDS_ONNX
@@ -294,6 +321,23 @@ class TestSuffixCalibrationGate(_TempDirTest):
         self._rewrite_manifest(manifest, tamper)
         with self.assertRaisesRegex(ValueError, "SHA-256"):
             extract_suffix(model, cut, manifest, self.root / "suffix.onnx")
+
+    def test_random_tensor_manifest_is_rejected(self) -> None:
+        model, cut, manifest = self._prepare()
+        payload = json.loads(manifest.read_text(encoding="utf-8"))
+        raw = Path(payload["entries"][0]["raw_path"])
+        fake = np.random.default_rng(0).standard_normal(4).astype("<f4")
+        fake.tofile(raw)
+        payload["entries"][0]["sha256"] = hashlib.sha256(raw.read_bytes()).hexdigest()
+        manifest.write_text(json.dumps(payload), encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "真实 FP32 输出|重算不一致"):
+            extract_suffix(
+                model,
+                cut,
+                manifest,
+                self.root / "suffix.onnx",
+                input_list=self.root / "input_list.txt",
+            )
 
     def test_nan_intermediate_is_rejected(self) -> None:
         model, cut, manifest = self._prepare()
@@ -341,6 +385,14 @@ class TestParityGate(unittest.TestCase):
         self.assertGreater(result["max_abs"], 0.0)
         self.assertGreaterEqual(result["cosine_median"], 0.999999)
         self.assertTrue(result["passed"])
+
+    def test_global_scale_change_is_rejected(self) -> None:
+        reference = np.array([[1.0, 2.0], [3.0, 4.0]], dtype=np.float32)
+        candidate = (reference * 1.01).astype(np.float32)
+        result = parity_gate(reference, candidate)
+        self.assertFalse(result["passed"])
+        self.assertAlmostEqual(result["cosine_minimum"], 1.0, places=6)
+        self.assertAlmostEqual(result["scale_max_deviation"], 0.01, places=5)
 
     def test_shape_mismatch_is_rejected(self) -> None:
         result = parity_gate(
@@ -405,6 +457,159 @@ class TestBisection(unittest.TestCase):
     def test_no_pass_interval_starts_at_graph_input(self) -> None:
         results = ((_spec("prefix", 49), _result("timeout")),)
         self.assertEqual(bisect_failure_interval(results), (0, 49))
+
+
+@NEEDS_ONNX
+class TestBisectionLoop(_TempDirTest):
+    def _stage_model_path(self) -> Path:
+        model = self.root / "stages.onnx"
+        onnx.save(_stage_model(), str(model))
+        return model
+
+    def test_bisection_stop_at_small_interval(self) -> None:
+        stop = bisection_stop(self._stage_model_path(), 0, 6)
+        self.assertIsNotNone(stop)
+        self.assertEqual(stop["node_count"], 6)
+        self.assertIn("<= 16", stop["stop_reason"])
+
+    def test_bisection_stop_when_single_operator_family(self) -> None:
+        model = self.root / "identity-chain.onnx"
+        nodes = []
+        previous = "x"
+        for index in range(21):
+            output = f"t{index}"
+            nodes.append(helper.make_node("Identity", [previous], [output], name=f"n{index}"))
+            previous = output
+        graph = helper.make_graph(
+            nodes,
+            "identity-chain",
+            [helper.make_tensor_value_info("x", TensorProto.FLOAT, [1, 4])],
+            [helper.make_tensor_value_info(previous, TensorProto.FLOAT, [1, 4])],
+            initializer=[],
+        )
+        onnx.save(
+            helper.make_model(
+                graph, opset_imports=[helper.make_opsetid("", 17)], ir_version=8
+            ),
+            str(model),
+        )
+        stop = bisection_stop(model, 0, 20)
+        self.assertIsNotNone(stop)
+        self.assertEqual(stop["operator_families"], ["Identity"])
+        self.assertIn("算子族", stop["stop_reason"])
+
+    def test_midpoint_cut_picks_static_middle_tensor(self) -> None:
+        sample = _write_raw(self.root / "sample.raw", [1.0, 2.0, 3.0, 4.0])
+        cut = midpoint_cut(self._stage_model_path(), 0, 6, sample)
+        self.assertIsNotNone(cut)
+        self.assertEqual(cut.node_index, 3)
+        self.assertEqual(cut.tensor_name, "t3")
+        self.assertEqual(cut.shape, (1, 4))
+        self.assertEqual(cut.dtype, "float32")
+
+    def test_offline_bisection_awaits_device(self) -> None:
+        sample = _write_raw(self.root / "sample.raw", [1.0, 2.0, 3.0, 4.0])
+        payload = run_bisection(
+            self._stage_model_path(), (0, 6), sample, None, device_online=False
+        )
+        self.assertEqual(payload["status"], "awaiting_device")
+        self.assertFalse(payload["verified"])
+        self.assertIsNone(payload["interval"])
+        self.assertEqual(payload["awaiting_interval"], [0, 6])
+        self.assertEqual(payload["steps"], [])
+        self.assertEqual(payload["operator_families"], [])
+
+    def test_bisection_narrows_interval_with_probe_runner(self) -> None:
+        model = self.root / "chain.onnx"
+        onnx.save(_chain_model(41), str(model))
+        sample = _write_raw(self.root / "sample.raw", [1.0, 2.0, 3.0, 4.0])
+
+        def runner(cut: TensorCut):
+            status = "pass" if cut.node_index < 20 else "timeout"
+            return _spec("prefix", cut.node_index), {"cut": cut.node_index}, _result(status)
+
+        payload = run_bisection(model, (0, 40), sample, runner, device_online=True)
+        self.assertEqual(payload["status"], "verified")
+        self.assertTrue(payload["verified"])
+        self.assertEqual(payload["interval"], [10, 20])
+        self.assertEqual(payload["node_count"], 10)
+        self.assertEqual(len(payload["steps"]), 2)
+        self.assertEqual(payload["steps"][0]["node_index"], 20)
+        self.assertEqual(payload["steps"][0]["device"]["status"], "timeout")
+        self.assertEqual(payload["steps"][1]["node_index"], 10)
+        self.assertEqual(payload["steps"][1]["device"]["status"], "pass")
+
+
+@NEEDS_ONNX
+class TestLayoutHandoff(_TempDirTest):
+    def _manifest(self, semantic: tuple[int, ...]) -> IntermediateManifest:
+        raw = (np.arange(int(np.prod(semantic)), dtype="<f4") + 1.0).reshape(semantic)
+        raw_path = self.root / "cut.raw"
+        raw.tofile(raw_path)
+        entry = IntermediateEntry(
+            input_path=str(self.root / "input.raw"),
+            input_sha256="0" * 64,
+            raw_path=str(raw_path),
+            sha256="0" * 64,
+            shape=semantic,
+            dtype="float32",
+        )
+        return IntermediateManifest(
+            path=self.root / "manifest.json",
+            source_kind=SOURCE_KIND_REAL_AUDIO,
+            tensor_name="h",
+            node_index=0,
+            shape=semantic,
+            dtype="float32",
+            model_sha256="0" * 64,
+            input_list_sha256="0" * 64,
+            entries=(entry,),
+        )
+
+    def _metadata(self, input_shape, output_shape) -> ContextMetadata:
+        return ContextMetadata(
+            build_id="test",
+            soc_model=87,
+            dsp_arch=81,
+            graph_name="probe",
+            input_shape=tuple(input_shape),
+            output_shape=tuple(output_shape),
+        )
+
+    def test_rank3_handoff_transpose_is_verified(self) -> None:
+        cut = TensorCut(0, "h", (1, 2, 3), "float32")
+        layout = verify_layout_handoff(
+            cut,
+            self._manifest((1, 2, 3)),
+            self._metadata((1, 4), (1, 2, 3)),
+            self._metadata((1, 3, 2), (1, 192)),
+        )
+        self.assertTrue(layout["verified"], layout.get("reason"))
+        self.assertEqual(layout["transpose_axes"], [0, 2, 1])
+        self.assertEqual(layout["semantic_output_shape"], [1, 2, 3])
+        self.assertEqual(layout["prefix_physical_output_shape"], [1, 2, 3])
+        self.assertEqual(layout["suffix_physical_input_shape"], [1, 3, 2])
+        self.assertEqual(layout["round_trip_max_abs"], 0.0)
+        self.assertEqual(layout["cosine_minimum"], 1.0)
+
+    def test_incompatible_handoff_is_rejected(self) -> None:
+        cut = TensorCut(0, "h", (1, 2, 3), "float32")
+        layout = verify_layout_handoff(
+            cut,
+            self._manifest((1, 2, 3)),
+            self._metadata((1, 4), (1, 2, 3)),
+            self._metadata((1, 2, 2), (1, 192)),
+        )
+        self.assertFalse(layout["verified"])
+        self.assertIn("元素数不衔接", layout["reason"])
+
+    def test_missing_metadata_is_rejected(self) -> None:
+        cut = TensorCut(0, "h", (1, 2, 3), "float32")
+        layout = verify_layout_handoff(
+            cut, self._manifest((1, 2, 3)), None, self._metadata((1, 3, 2), (1, 192))
+        )
+        self.assertFalse(layout["verified"])
+        self.assertIn("metadata", layout["reason"])
 
 
 @NEEDS_ONNX

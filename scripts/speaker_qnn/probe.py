@@ -32,7 +32,7 @@ import sys
 import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Literal, Sequence
+from typing import TYPE_CHECKING, Any, Callable, Literal, Sequence
 
 from .build import (
     BUILD_CONFIG_WARNING,
@@ -64,11 +64,15 @@ DEFAULT_CALIBRATION = REPO / "var/speaker-benchmark/qnn/campplus-w8a16/input_lis
 REFERENCE_VARIANT = "2.51.1-opt2-vtcm4-dlbc0-campplus_w8a16_static_stats"
 
 SOURCE_KIND_REAL_AUDIO = "fp32_real_audio"
-FLOAT_DTYPES = frozenset({"float32", "float16"})
+# capture/verify 以 `<f4` 读写；float16 cut 会被静默误读，因此只接受 float32。
+FLOAT_DTYPES = frozenset({"float32"})
 PARITY_MEDIAN_MIN = 0.999999
 PARITY_MINIMUM_MIN = 0.99999
+PARITY_SCALE_TOL = 1e-5
 FAILING_STATUSES = frozenset({"timeout", "ssr", "load_error", "execute_error"})
 PROBE_GRAPH_NAME = "campplus_probe"
+BISECTION_MAX_NODES = 16
+LAYOUT_SAMPLE_ENTRIES = 3
 
 # 阶段边界按真实 ONNX 节点名解析（不是猜结构）：head → block1 → block2 →
 # block3/transit → out nonlinear → stats concat → final dense。
@@ -148,7 +152,7 @@ class TensorCut:
             )
         if self.dtype not in FLOAT_DTYPES:
             raise ValueError(
-                f"cut tensor dtype 必须是浮点（{sorted(FLOAT_DTYPES)}）："
+                f"cut tensor dtype 必须是浮点且仅为 float32（capture 按 <f4 读写）："
                 f"{self.tensor_name} {self.dtype}"
             )
 
@@ -583,7 +587,70 @@ def extract_prefix(model: Path, cut: TensorCut, output: Path) -> ProbeSpec:
     )
 
 
-def _verify_manifest(cut: TensorCut, manifest: IntermediateManifest, model: Path) -> None:
+def _verify_input_list(
+    manifest: IntermediateManifest, input_list: Path
+) -> None:
+    """证明 manifest 的每条张量都对应 input list 中同序的真实输入。"""
+    input_list = Path(input_list)
+    if not input_list.is_file():
+        raise ValueError(f"input list 不存在：{input_list}")
+    actual = _sha256(input_list)
+    if manifest.input_list_sha256 != actual:
+        raise ValueError(
+            "中间张量 manifest 的 input list SHA-256 不一致："
+            f"{manifest.input_list_sha256} != {actual}"
+        )
+    listed = parse_input_list(input_list)
+    if len(listed) != len(manifest.entries):
+        raise ValueError(
+            f"input list 条目数 {len(listed)} 与中间张量条目数 "
+            f"{len(manifest.entries)} 不一致"
+        )
+    for index, ((_, path), entry) in enumerate(zip(listed, manifest.entries)):
+        if Path(path).resolve() != Path(entry.input_path).resolve():
+            raise ValueError(
+                f"input list 第 {index} 条输入 {path} 与 manifest "
+                f"{entry.input_path} 不一致"
+            )
+
+
+def _verify_sample_entries(
+    model: Path, cut: TensorCut, manifest: IntermediateManifest
+) -> int:
+    """抽样重跑 FP32 ORT，逐元素证明 raw 是该输入的真实中间张量。"""
+    np = _require_numpy()
+    ort = _import_onnxruntime()
+    model_proto = _load_model(Path(model))
+    input_name, input_shape = _model_input_spec(model_proto)
+    session = ort.InferenceSession(
+        _instrumented_model(model_proto, [cut.tensor_name]).SerializeToString(),
+        _session_options(),
+        providers=["CPUExecutionProvider"],
+    )
+    entries = manifest.entries
+    indices = sorted({0, len(entries) // 2, len(entries) - 1})
+    checked = 0
+    for index in indices:
+        entry = entries[index]
+        array = _input_array(Path(entry.input_path), input_shape)
+        value = session.run([cut.tensor_name], {input_name: array})[0]
+        expected = np.fromfile(Path(entry.raw_path), dtype="<f4")
+        actual = np.asarray(value, dtype="<f4").reshape(-1)
+        if actual.size != expected.size or not np.array_equal(actual, expected):
+            raise ValueError(
+                f"中间张量不是该输入的真实 FP32 输出（重算不一致）："
+                f"{entry.raw_path} 对应 {entry.input_path}"
+            )
+        checked += 1
+    return checked
+
+
+def _verify_manifest(
+    cut: TensorCut,
+    manifest: IntermediateManifest,
+    model: Path,
+    input_list: Path | None = None,
+) -> None:
     if manifest.source_kind != SOURCE_KIND_REAL_AUDIO:
         raise ValueError(
             f"后缀校准必须来自 {SOURCE_KIND_REAL_AUDIO}，实际 {manifest.source_kind!r}"
@@ -613,6 +680,13 @@ def _verify_manifest(cut: TensorCut, manifest: IntermediateManifest, model: Path
         raw = Path(entry.raw_path)
         if not raw.is_file():
             raise ValueError(f"中间张量文件不存在：{raw}")
+        if not Path(entry.input_path).is_file():
+            raise ValueError(f"源输入不存在：{entry.input_path}")
+        if _sha256(Path(entry.input_path)) != entry.input_sha256:
+            raise ValueError(
+                f"源输入 SHA-256 不匹配：{entry.input_path} "
+                f"期望 {entry.input_sha256}"
+            )
         if _sha256(raw) != entry.sha256:
             raise ValueError(
                 f"中间张量 SHA-256 不匹配：{raw} "
@@ -625,6 +699,9 @@ def _verify_manifest(cut: TensorCut, manifest: IntermediateManifest, model: Path
             raise ValueError(f"中间张量元素数不匹配：{raw}")
         if not np.all(np.isfinite(data)):
             raise ValueError(f"中间张量含非有限值（NaN/Inf）：{raw}")
+    if input_list is not None:
+        _verify_input_list(manifest, Path(input_list))
+    _verify_sample_entries(model, cut, manifest)
 
 
 def extract_suffix(
@@ -632,6 +709,8 @@ def extract_suffix(
     cut: TensorCut,
     intermediate_manifest: Path,
     output: Path,
+    *,
+    input_list: Path | None = None,
 ) -> ProbeSpec:
     """节点 `cut.node_index+1..end` 的子图，输入唯一 cut 张量，输出原 embedding。"""
     onnx = _require_onnx()
@@ -639,7 +718,7 @@ def extract_suffix(
     model_proto = _load_model(model)
     _check_cut_node(model_proto, cut)
     manifest = load_manifest(Path(intermediate_manifest))
-    _verify_manifest(cut, manifest, model)
+    _verify_manifest(cut, manifest, model, input_list)
     nodes = list(model_proto.graph.node)[cut.node_index + 1 :]
     if not nodes:
         raise ValueError(
@@ -736,24 +815,44 @@ def parity_gate(reference: "np.ndarray", candidate: "np.ndarray") -> dict[str, A
             "cosine_median": 1.0,
             "cosine_minimum": 1.0,
         }
-    norms = np.linalg.norm(reference, axis=1) * np.linalg.norm(candidate, axis=1)
+    reference_norms = np.linalg.norm(reference, axis=1)
+    candidate_norms = np.linalg.norm(candidate, axis=1)
+    norms = reference_norms * candidate_norms
     numerator = np.sum(reference * candidate, axis=1)
     cosines = np.divide(
         numerator, norms, out=np.zeros_like(numerator, dtype=np.float64), where=norms > 0
     )
+    # cosine 对整体缩放不敏感；整体缩放 1.01 倍必须被拒。
+    scale_deviation = np.abs(
+        np.divide(
+            candidate_norms,
+            reference_norms,
+            out=np.ones_like(candidate_norms, dtype=np.float64),
+            where=reference_norms > 0,
+        )
+        - 1.0
+    )
+    scale_max = float(np.max(scale_deviation)) if scale_deviation.size else 0.0
     median = float(np.median(cosines))
     minimum = float(np.min(cosines))
-    passed = median >= PARITY_MEDIAN_MIN and minimum >= PARITY_MINIMUM_MIN
+    passed = (
+        median >= PARITY_MEDIAN_MIN
+        and minimum >= PARITY_MINIMUM_MIN
+        and scale_max <= PARITY_SCALE_TOL
+    )
     return {
         "passed": passed,
         "mode": "cosine",
         "reason": (
-            f"cosine median={median:.9f} minimum={minimum:.9f}；"
-            f"要求 median>={PARITY_MEDIAN_MIN} minimum>={PARITY_MINIMUM_MIN}"
+            f"cosine median={median:.9f} minimum={minimum:.9f} "
+            f"scale_max_deviation={scale_max:.9g}；"
+            f"要求 median>={PARITY_MEDIAN_MIN} minimum>={PARITY_MINIMUM_MIN} "
+            f"scale_deviation<={PARITY_SCALE_TOL}"
         ),
         "max_abs": max_abs,
         "cosine_median": median,
         "cosine_minimum": minimum,
+        "scale_max_deviation": scale_max,
     }
 
 
@@ -824,6 +923,309 @@ def verify_probe_parity(
     gate["inputs"] = len(full)
     gate["cut_shape"] = list(intermediates[0].shape)
     return gate
+
+
+def _transpose_axes(
+    source: tuple[int, ...], target: tuple[int, ...]
+) -> tuple[int, ...] | None:
+    """返回 `axes` 使 `transpose(source, axes).shape == target`；无法置换返回 None。"""
+    if len(source) != len(target) or sorted(source) != sorted(target):
+        return None
+    used = [False] * len(source)
+    axes: list[int] = []
+    for dim in target:
+        for index, value in enumerate(source):
+            if not used[index] and value == dim:
+                used[index] = True
+                axes.append(index)
+                break
+        else:
+            return None
+    return tuple(axes)
+
+
+def _inverse_axes(axes: Sequence[int]) -> tuple[int, ...]:
+    inverse = [0] * len(axes)
+    for position, axis in enumerate(axes):
+        inverse[axis] = position
+    return tuple(inverse)
+
+
+def verify_layout_handoff(
+    cut: TensorCut,
+    manifest: IntermediateManifest,
+    prefix_metadata: ContextMetadata | None,
+    suffix_metadata: ContextMetadata | None,
+) -> dict[str, Any]:
+    """显式声明并验证 prefix 物理输出 → suffix 物理输入的 transpose。
+
+    用 3 条真实捕获中间张量做 transposed round-trip：语义 → prefix 物理
+    → 声明 transpose → suffix 物理 → 逆变换恢复语义，要求逐元素一致。
+    元素数或轴集合不衔接的组合必须拒绝，不能静默通过。
+    """
+    np = _require_numpy()
+    semantic = tuple(cut.shape)
+    result: dict[str, Any] = {
+        "semantic_output_shape": list(semantic),
+        "prefix_physical_output_shape": None,
+        "suffix_physical_input_shape": None,
+        "transpose_axes": None,
+        "verified": False,
+        "cosine_minimum": None,
+        "round_trip_max_abs": None,
+        "samples": 0,
+    }
+    if prefix_metadata is None or suffix_metadata is None:
+        result["reason"] = "缺少 prefix 或 suffix context metadata，无法声明布局链"
+        return result
+    prefix_shape = tuple(prefix_metadata.output_shape)
+    suffix_shape = tuple(suffix_metadata.input_shape)
+    result["prefix_physical_output_shape"] = list(prefix_shape)
+    result["suffix_physical_input_shape"] = list(suffix_shape)
+    if math.prod(prefix_shape) != math.prod(suffix_shape):
+        result["reason"] = f"元素数不衔接：{prefix_shape} vs {suffix_shape}"
+        return result
+    handoff_axes = _transpose_axes(prefix_shape, suffix_shape)
+    if handoff_axes is None:
+        result["reason"] = f"形状不是同一元素的轴置换：{prefix_shape} -> {suffix_shape}"
+        return result
+    semantic_to_prefix = _transpose_axes(semantic, prefix_shape)
+    semantic_to_suffix = _transpose_axes(semantic, suffix_shape)
+    if semantic_to_prefix is None or semantic_to_suffix is None:
+        result["reason"] = (
+            f"cut 语义 shape {semantic} 无法映射到物理布局 "
+            f"{prefix_shape}/{suffix_shape}"
+        )
+        return result
+    result["transpose_axes"] = list(handoff_axes)
+    entries = manifest.entries
+    indices = sorted({0, len(entries) // 2, len(entries) - 1})[:LAYOUT_SAMPLE_ENTRIES]
+    cosine_minimum = 1.0
+    max_abs = 0.0
+    checked = 0
+    for index in indices:
+        raw = np.fromfile(Path(entries[index].raw_path), dtype="<f4").reshape(semantic)
+        prefix_value = np.transpose(raw, semantic_to_prefix)
+        suffix_value = np.transpose(prefix_value, handoff_axes)
+        if tuple(suffix_value.shape) != suffix_shape:
+            result["reason"] = (
+                f"transpose 后 shape {suffix_value.shape} 与 suffix 输入 {suffix_shape} 不一致"
+            )
+            return result
+        round_trip = np.transpose(
+            np.transpose(suffix_value, _inverse_axes(handoff_axes)),
+            _inverse_axes(semantic_to_prefix),
+        )
+        if tuple(round_trip.shape) != semantic:
+            result["reason"] = f"round-trip shape {round_trip.shape} 与语义 {semantic} 不一致"
+            return result
+        delta = np.abs(
+            np.asarray(round_trip, dtype=np.float64) - np.asarray(raw, dtype=np.float64)
+        )
+        max_abs = max(max_abs, float(np.max(delta)) if delta.size else 0.0)
+        left = np.asarray(raw, dtype=np.float64).reshape(-1)
+        right = np.asarray(round_trip, dtype=np.float64).reshape(-1)
+        denominator = float(np.linalg.norm(left) * np.linalg.norm(right))
+        cosine = float(np.dot(left, right) / denominator) if denominator else 1.0
+        cosine_minimum = min(cosine_minimum, cosine)
+        checked += 1
+    result["samples"] = checked
+    result["round_trip_max_abs"] = max_abs
+    result["cosine_minimum"] = cosine_minimum
+    if max_abs != 0.0 or cosine_minimum < PARITY_MINIMUM_MIN:
+        result["reason"] = (
+            f"transposed round-trip 不一致：max_abs={max_abs} "
+            f"cosine_min={cosine_minimum}"
+        )
+        return result
+    result["verified"] = True
+    result["reason"] = (
+        f"transpose {list(handoff_axes)} 经 {checked} 条真实张量 round-trip 验证"
+    )
+    return result
+
+
+def _as_model(model: Path | "onnx.ModelProto") -> "onnx.ModelProto":
+    if hasattr(model, "graph"):
+        return model  # type: ignore[return-value]
+    return _load_model(Path(model))
+
+
+def _node_operator_families(
+    model: Path | "onnx.ModelProto", first_node: int, last_node: int
+) -> tuple[str, ...]:
+    """区间 `first_node+1..last_node` 内剩余节点的算子族。"""
+    model_proto = _as_model(model)
+    nodes = list(model_proto.graph.node)[first_node + 1 : last_node + 1]
+    return tuple(sorted({node.op_type for node in nodes}))
+
+
+def bisection_stop(
+    model: Path | "onnx.ModelProto", first_node: int, last_node: int
+) -> dict[str, Any] | None:
+    """brief Step 6 停止条件：≤16 个节点，或剩余节点同属一个算子族。"""
+    node_count = last_node - first_node
+    families = _node_operator_families(model, first_node, last_node)
+    if node_count <= BISECTION_MAX_NODES:
+        return {
+            "stop_reason": (
+                f"区间 {node_count} 个 ONNX 节点 <= {BISECTION_MAX_NODES}"
+            ),
+            "node_count": node_count,
+            "operator_families": list(families),
+        }
+    if len(families) == 1:
+        return {
+            "stop_reason": f"剩余节点同属算子族 {families[0]}",
+            "node_count": node_count,
+            "operator_families": list(families),
+        }
+    return None
+
+
+def _cut_at_node(
+    model_proto: "onnx.ModelProto",
+    node_index: int,
+    input_name: str,
+    array: "np.ndarray",
+    ort,
+) -> TensorCut | None:
+    node = model_proto.graph.node[node_index]
+    if not node.output:
+        return None
+    tensor_name = node.output[0]
+    try:
+        session = ort.InferenceSession(
+            _instrumented_model(model_proto, [tensor_name]).SerializeToString(),
+            _session_options(),
+            providers=["CPUExecutionProvider"],
+        )
+        value = session.run([tensor_name], {input_name: array})[0]
+        shape = tuple(int(dim) for dim in value.shape)
+        dtype = str(value.dtype)
+        if any(dim <= 0 for dim in shape) or dtype not in FLOAT_DTYPES:
+            return None
+        if not np_all_finite(value):
+            return None
+        return TensorCut(node_index, tensor_name, shape, dtype)
+    except Exception:
+        return None
+
+
+def np_all_finite(value) -> bool:
+    np = _require_numpy()
+    return bool(np.all(np.isfinite(value)))
+
+
+def midpoint_cut(
+    model: Path | "onnx.ModelProto",
+    first_node: int,
+    last_node: int,
+    sample_input: Path,
+) -> TensorCut | None:
+    """在 `(first_node, last_node)` 内选中点附近第一个静态可表示的 cut。"""
+    ort = _import_onnxruntime()
+    model_proto = _as_model(model)
+    input_name, input_shape = _model_input_spec(model_proto)
+    array = _input_array(Path(sample_input), input_shape)
+    candidates = list(range(first_node + 1, last_node))
+    if not candidates:
+        return None
+    middle = (first_node + last_node) / 2.0
+    candidates.sort(key=lambda index: (abs(index - middle), index))
+    for index in candidates:
+        cut = _cut_at_node(model_proto, index, input_name, array, ort)
+        if cut is not None:
+            return cut
+    return None
+
+
+ProbeRunner = Callable[
+    ["TensorCut"], tuple[ProbeSpec, dict[str, Any], DeviceRunResult]
+]
+
+
+def run_bisection(
+    model: Path | "onnx.ModelProto",
+    interval: tuple[int, int],
+    sample_input: Path,
+    probe_at_cut: ProbeRunner | None,
+    *,
+    device_online: bool = True,
+    max_steps: int = 16,
+) -> dict[str, Any]:
+    """Step 6 二分循环：只在当前失败区间内生成中点 cut，直到停止条件。
+
+    设备不可用时停在 `awaiting_device`：`interval` 为 None（未验证），
+    只保留 `awaiting_interval` 与待真机说明，绝不把未验证区间当成结论。
+    """
+    model_proto = _as_model(model)
+    start, end = int(interval[0]), int(interval[1])
+    payload: dict[str, Any] = {
+        "schema_version": SCHEMA_VERSION,
+        "status": "awaiting_device",
+        "verified": False,
+        "interval": None,
+        "awaiting_interval": [start, end],
+        "node_count": max(end - start, 0),
+        "operator_families": [],
+        "stop_reason": "设备不在 adb，二分未取得真机证据（awaiting_device）",
+        "steps": [],
+    }
+    if not device_online or probe_at_cut is None:
+        return payload
+    if start >= end:
+        raise ValueError(f"二分区间自相矛盾：{start} >= {end}")
+    steps: list[dict[str, Any]] = []
+    for _ in range(max_steps):
+        stop = bisection_stop(model_proto, start, end)
+        if stop is not None:
+            payload.update({
+                "status": "verified",
+                "verified": True,
+                "interval": [start, end],
+                "node_count": stop["node_count"],
+                "operator_families": stop["operator_families"],
+                "stop_reason": stop["stop_reason"],
+                "steps": steps,
+            })
+            return payload
+        cut = midpoint_cut(model_proto, start, end, sample_input)
+        if cut is None:
+            payload.update({
+                "status": "no_static_cut",
+                "stop_reason": (
+                    f"区间 ({start}, {end}) 内没有静态可表示的 cut，无法继续二分"
+                ),
+                "steps": steps,
+            })
+            return payload
+        spec, record, result = probe_at_cut(cut)
+        steps.append({
+            "node_index": cut.node_index,
+            "cut": cut.to_dict(),
+            "probe": record,
+            "device": result.to_dict(),
+        })
+        if result.status == "pass":
+            start = cut.node_index
+        elif result.status in FAILING_STATUSES:
+            end = cut.node_index
+        else:
+            payload.update({
+                "status": "inconclusive",
+                "awaiting_interval": [start, end],
+                "stop_reason": f"中点 probe 状态 {result.status}，不能当模型失败",
+                "steps": steps,
+            })
+            return payload
+    payload.update({
+        "status": "max_steps",
+        "awaiting_interval": [start, end],
+        "stop_reason": f"二分达到 {max_steps} 步仍未满足停止条件",
+        "steps": steps,
+    })
+    return payload
 
 
 def bisect_failure_interval(
@@ -1005,6 +1407,82 @@ def _build_probe(
     return artifact, variant
 
 
+def _probe_cut_on_device(
+    cut: TensorCut,
+    *,
+    model: Path,
+    toolchain: ToolchainSpec,
+    calibration_list: Path,
+    probes_root: Path,
+    intermediates_root: Path,
+    serial: str,
+) -> tuple[ProbeSpec, dict[str, Any], DeviceRunResult]:
+    """二分中点 probe：捕获真实中间张量 → parity → 编译 → 布局校验 → 真机。"""
+    model = Path(model)
+    calibration_list = Path(calibration_list)
+    manifests = capture_intermediates(
+        model, (cut,), calibration_list, Path(intermediates_root) / "bisect"
+    )
+    manifest_path = manifests[cut.tensor_name]
+    manifest = load_manifest(manifest_path)
+
+    prefix_dir = Path(probes_root) / "bisect" / _probe_id("prefix", cut)
+    prefix_onnx = prefix_dir / "onnx" / "prefix.onnx"
+    prefix_spec = extract_prefix(model, cut, prefix_onnx)
+    prefix_list = prefix_dir / "input_list.txt"
+    shutil.copyfile(calibration_list, prefix_list)
+
+    suffix_dir = Path(probes_root) / "bisect" / _probe_id("suffix", cut)
+    suffix_onnx = suffix_dir / "onnx" / "suffix.onnx"
+    extract_suffix(model, cut, manifest_path, suffix_onnx, input_list=calibration_list)
+    suffix_list = write_suffix_calibration(manifest, suffix_dir / "input_list.txt")
+    parity = verify_probe_parity(model, prefix_onnx, suffix_onnx, cut, calibration_list)
+    write_json_atomic(suffix_dir / "parity.json", parity)
+    if not parity.get("passed"):
+        raise ValueError(
+            f"中点 cut {cut.tensor_name} 未过 FP32 parity：{parity.get('reason')}"
+        )
+
+    prefix_artifact, prefix_variant = _build_probe(
+        prefix_dir, prefix_onnx, prefix_list, toolchain, cut, "prefix"
+    )
+    suffix_artifact, suffix_variant = _build_probe(
+        suffix_dir, suffix_onnx, suffix_list, toolchain, cut, "suffix"
+    )
+    layout = verify_layout_handoff(
+        cut, manifest, prefix_artifact.metadata, suffix_artifact.metadata
+    )
+    write_json_atomic(suffix_dir / "layout.json", layout)
+    if not layout["verified"]:
+        raise ValueError(
+            f"中点 cut {cut.tensor_name} 布局交接未验证：{layout.get('reason')}"
+        )
+
+    run_dir = Path(probes_root) / "bisect-device-runs" / _probe_id("prefix", cut)
+    result = run_context(
+        serial,
+        prefix_dir,
+        prefix_list,
+        run_dir,
+        num_inferences=1,
+        expected_input_shape=tuple(prefix_artifact.metadata.input_shape),
+        expected_output_shape=tuple(prefix_artifact.metadata.output_shape),
+    )
+    record = _probe_record(
+        prefix_spec,
+        cut,
+        model,
+        prefix_dir,
+        parity=parity,
+        calibration_source="real_audio_fbank",
+        calibration_sha256=_sha256(calibration_list),
+    )
+    record |= _build_fields(prefix_artifact, prefix_variant)
+    record |= _shape_fields(cut, "prefix", prefix_artifact)
+    record["layout"] = layout
+    return prefix_spec, record, result
+
+
 def run_stages(
     variant_id: str,
     *,
@@ -1051,12 +1529,16 @@ def run_stages(
         manifest_path = manifests[cut.tensor_name]
         suffix_dir = probes_root / _probe_id("suffix", cut)
         suffix_onnx = suffix_dir / "onnx" / "suffix.onnx"
+        suffix_manifest: IntermediateManifest | None
         suffix_parity: dict[str, Any] | None
         try:
-            suffix_spec = extract_suffix(model, cut, manifest_path, suffix_onnx)
+            suffix_spec = extract_suffix(
+                model, cut, manifest_path, suffix_onnx, input_list=calibration_list
+            )
         except ValueError as exc:
             if "没有后缀子图" not in str(exc):
                 raise
+            suffix_manifest = None
             suffix_spec = ProbeSpec(
                 probe_id=_probe_id("suffix", cut),
                 kind="suffix",
@@ -1086,6 +1568,7 @@ def run_stages(
             )
             probe_artifacts[prefix_spec.probe_id] = prefix_artifact
         prefix_fields = _build_fields(prefix_artifact, prefix_variant)
+        prefix_fields |= _shape_fields(cut, "prefix", prefix_artifact)
         if not parity_passed:
             prefix_fields["build_status"] = "parity_rejected"
         prefixes.append((
@@ -1127,8 +1610,23 @@ def run_stages(
             )
             probe_artifacts[suffix_spec.probe_id] = suffix_artifact
         suffix_fields = _build_fields(suffix_artifact, suffix_variant)
+        suffix_fields |= _shape_fields(cut, "suffix", suffix_artifact)
+
+        # prefix 物理输出 → suffix 物理输入必须显式声明 transpose，并用
+        # 真实捕获中间张量做 round-trip；不衔接的组合拒绝上机。
+        layout = verify_layout_handoff(
+            cut,
+            suffix_manifest,
+            prefix_artifact.metadata if prefix_artifact is not None else None,
+            suffix_artifact.metadata if suffix_artifact is not None else None,
+        )
+        layout["prefix_context_sha256"] = prefix_fields.get("context_sha256")
+        layout["suffix_context_sha256"] = suffix_fields.get("context_sha256")
+        write_json_atomic(suffix_dir / "layout.json", layout)
         if not parity_passed:
             suffix_fields["build_status"] = "parity_rejected"
+        elif not layout["verified"]:
+            suffix_fields["build_status"] = "layout_rejected"
         suffixes.append((
             suffix_spec,
             _probe_record(
@@ -1139,7 +1637,7 @@ def run_stages(
                 parity=suffix_parity,
                 calibration_source=SOURCE_KIND_REAL_AUDIO,
                 calibration_sha256=_sha256(manifest_path),
-            ) | suffix_fields,
+            ) | suffix_fields | {"layout": layout},
         ))
 
     device_online = _device_available(serial)
@@ -1197,8 +1695,30 @@ def run_stages(
         for row in suffix_records
         if row.get("parity") and not row["parity"].get("passed")
     ]
+    runner: ProbeRunner | None = None
+    if device_online and serial:
+        def probe_at_cut(cut: TensorCut):
+            return _probe_cut_on_device(
+                cut,
+                model=model,
+                toolchain=toolchain,
+                calibration_list=calibration_list,
+                probes_root=probes_root,
+                intermediates_root=intermediates_root,
+                serial=serial,
+            )
+
+        runner = probe_at_cut
+
     stage_outcome, isolation = _stage_outcome(
-        model, prefixes, device_results, device_online, variant_id, parity_failures
+        model,
+        prefixes,
+        device_results,
+        device_online,
+        variant_id,
+        parity_failures,
+        Path(entries[0][1]),
+        runner,
     )
     payload = {
         "schema_version": SCHEMA_VERSION,
@@ -1235,7 +1755,7 @@ def run_stages(
 def _build_fields(
     artifact: BuildArtifact | None, variant: BuildVariant | None
 ) -> dict[str, Any]:
-    return {
+    fields: dict[str, Any] = {
         "variant": variant.variant_id if variant else None,
         "build_status": artifact.status if artifact else None,
         "metadata": (
@@ -1251,6 +1771,38 @@ def _build_fields(
         "build_error": artifact.error if artifact else None,
         "warning": artifact.warning if artifact else None,
     }
+    # 被拒绝的构建已删除 context 产物：不能把已删除文件的 SHA-256 留在记录里。
+    if (
+        artifact is not None
+        and (
+            artifact.status not in (BUILD_READY, BUILD_CONFIG_WARNING)
+            or not artifact.context_path
+        )
+    ):
+        fields["context"] = None
+        fields["context_sha256"] = None
+        fields["sha256"].pop("context", None)
+    return fields
+
+
+def _shape_fields(
+    cut: TensorCut, kind: str, artifact: BuildArtifact | None
+) -> dict[str, Any]:
+    """显式声明 cut 的语义 shape 与 QNN context 的物理 shape。"""
+    metadata = artifact.metadata if artifact is not None else None
+    if kind == "prefix":
+        return {
+            "semantic_output_shape": list(cut.shape),
+            "physical_output_shape": (
+                list(metadata.output_shape) if metadata is not None else None
+            ),
+        }
+    return {
+        "semantic_input_shape": list(cut.shape),
+        "physical_input_shape": (
+            list(metadata.input_shape) if metadata is not None else None
+        ),
+    }
 
 
 def _stage_outcome(
@@ -1260,6 +1812,8 @@ def _stage_outcome(
     device_online: bool,
     variant_id: str,
     parity_failures: Sequence[str],
+    sample_input: Path,
+    probe_at_cut: ProbeRunner | None,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     prefix_devices = [
         (spec, result) for spec, result in device_results if spec.kind == "prefix"
@@ -1267,17 +1821,23 @@ def _stage_outcome(
     suffix_devices = [
         (spec, result) for spec, result in device_results if spec.kind == "suffix"
     ]
-    isolation = {
+    isolation: dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
-        "status": "device_unavailable",
-        "reason": "手机不在 adb，无法取得 prefix 的真机通过/超时证据，拒绝伪造区间",
+        "status": "awaiting_device",
+        "reason": None,
         "interval": None,
+        "awaiting_interval": None,
+        "node_count": None,
+        "operator_families": [],
+        "steps": [],
         "probes": [
             {
                 "probe_id": record["probe_id"],
                 "kind": record["kind"],
                 "node_interval": record.get("node_interval"),
                 "tensor": record.get("tensor"),
+                "semantic_output_shape": record.get("semantic_output_shape"),
+                "physical_output_shape": record.get("physical_output_shape"),
                 "graph_sha256": (record.get("graph") or {}).get("sha256"),
                 "context_sha256": record.get("context_sha256"),
                 "device": record.get("device"),
@@ -1287,11 +1847,26 @@ def _stage_outcome(
         "pending": [
             "设备恢复后重跑 `python -m scripts.speaker_qnn.probe stages "
             f"--variant {variant_id} --serial <serial>` 取得真机 prefix/suffix 结果",
-            "有 prefix 失败证据后按 bisect_failure_interval 在当前失败区间内生成中点 cut",
+            "有 prefix 失败证据后从 [最后通过, 首个失败] 区间生成中点 cut，"
+            f"二分到区间 <= {BISECTION_MAX_NODES} 个节点或剩余节点同属一个算子族",
         ],
         "parity_failures": list(parity_failures),
     }
+    last_node = len(_load_model(Path(model)).graph.node) - 1
+
     if not device_online:
+        bisection = run_bisection(
+            model, (0, last_node), Path(sample_input), None, device_online=False
+        )
+        isolation.update({
+            "status": bisection["status"],
+            "reason": bisection["stop_reason"],
+            "interval": bisection["interval"],
+            "awaiting_interval": bisection["awaiting_interval"],
+            "node_count": bisection["node_count"],
+            "operator_families": bisection["operator_families"],
+            "steps": bisection["steps"],
+        })
         return (
             {
                 "last_passing_prefix": None,
@@ -1300,6 +1875,7 @@ def _stage_outcome(
             },
             isolation,
         )
+
     if not prefix_devices:
         raise ValueError("设备在线但没有任何 prefix 真机结果")
     try:
@@ -1325,24 +1901,35 @@ def _stage_outcome(
             },
             isolation,
         )
-    start, end = interval
-    nodes = list(_load_model(model).graph.node)
-    node_types = sorted({node.op_type for node in nodes[start + 1 : end + 1]})
+
+    bisection = run_bisection(
+        model,
+        interval,
+        Path(sample_input),
+        probe_at_cut,
+        device_online=True,
+    )
     isolation.update({
-        "status": "bisected",
-        "reason": "最小 [最后通过, 首个失败] 区间",
-        "interval": [start, end],
-        "node_count": max(end - start, 0),
-        "operator_families": node_types,
+        "status": bisection["status"],
+        "reason": bisection["stop_reason"],
+        "interval": bisection["interval"],
+        "awaiting_interval": bisection["awaiting_interval"],
+        "node_count": bisection["node_count"],
+        "operator_families": bisection["operator_families"],
+        "steps": bisection["steps"],
         "suffix_statuses": {
             spec.probe_id: result.status for spec, result in suffix_devices
         },
     })
     return (
         {
-            "last_passing_prefix": start,
-            "first_failing_prefix": end,
-            "classification": "stage_isolated",
+            "last_passing_prefix": interval[0],
+            "first_failing_prefix": interval[1],
+            "classification": (
+                "stage_isolated"
+                if bisection["status"] == "verified"
+                else bisection["status"]
+            ),
         },
         isolation,
     )
