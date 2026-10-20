@@ -458,6 +458,24 @@ class TestQpmInventory(unittest.TestCase):
         self.assertEqual(record["newer_than_local"], ["2.51.40.260930"])
         self.assertEqual(record["local_build_ids"], [BUILD_ID])
 
+    def test_qpm_newest_version_installed_is_recorded_as_installed(self):
+        """QPM 最新的 2.51.40 已纳入本地矩阵：不再是 unavailable。"""
+        toolchain = make_toolchain(build_id="v2.51.40.260930230134")
+        record = _qpm_record(
+            (toolchain.root,),
+            (toolchain,),
+            {
+                "status": "available",
+                "product": "qualcomm_ai_runtime_community",
+                "command": "C:/qpm/qpm-cli.exe",
+                "available_versions": ["2.51.40.260930", "2.51.1.261002"],
+            },
+        )
+        self.assertEqual(record["status"], "installed")
+        self.assertEqual(record["newer_than_local"], [])
+        self.assertEqual(record["installed_versions"], ["2.51.40.260930"])
+        self.assertEqual(record["local_build_ids"], ["v2.51.40.260930230134"])
+
 
 class TestVtcmEquivalence(unittest.TestCase):
     def artifact(self, variant_id: str, digest: str) -> BuildArtifact:

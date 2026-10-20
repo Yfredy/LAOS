@@ -72,6 +72,7 @@ CONFIG_WARNING_MARKER = "unexpected GraphHtpSettings"
 DEFAULT_QAIRT_ROOTS: tuple[Path, ...] = (
     QNN_ROOT / "sdk/qairt/2.47.0.260601",
     QNN_ROOT / "sdk-2.51/qairt/2.51.1.261002",
+    QNN_ROOT / "sdk-2.51.40/qairt/2.51.40.260930",
 )
 QAIRT_PYTHON = Path(
     os.environ.get("LAOS_QAIRT_PYTHON", QNN_ROOT / ".venv310/Scripts/python.exe")
@@ -1031,19 +1032,32 @@ def _qpm_record(
         record["newer_than_local"] = newer
     else:
         record.setdefault("newer_than_local", [])
+    installed = [
+        version for version in versions
+        if any(spec.build_id.startswith("v" + version) for spec in toolchains)
+    ]
+    if installed:
+        record["installed_versions"] = installed
     if record.get("status") != "unavailable":
         newer = record.get("newer_than_local") or []
-        if not newer:
-            record["status"] = "unavailable"
-            record["reason"] = "QPM 库存里没有比本地更新的 QAIRT 版本"
-        else:
+        pending = [version for version in newer if version not in installed]
+        if pending:
             record["status"] = "unavailable"
             record["reason"] = (
                 "QPM 有更新的 QAIRT（"
-                + ", ".join(newer)
+                + ", ".join(pending)
                 + "），但未下载安装（需 license 与重资产下载），"
                 "Stage A 无可用更新树"
             )
+        elif installed:
+            record["status"] = "installed"
+            record["reason"] = (
+                "QPM 列表中的 QAIRT 已下载并纳入本地矩阵："
+                + ", ".join(installed)
+            )
+        else:
+            record["status"] = "unavailable"
+            record["reason"] = "QPM 库存里没有比本地更新的 QAIRT 版本"
     return record
 
 
