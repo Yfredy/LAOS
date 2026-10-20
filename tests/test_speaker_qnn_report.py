@@ -583,10 +583,49 @@ class TestReportEvidenceDerivation(unittest.TestCase):
             },
         ]
         report = render_report(incident, _benchmark_without_success())
-        self.assertIn("execute_error=1", report)
-        self.assertIn("load_error=1", report)
-        self.assertIn("ssr=1", report)
-        self.assertNotIn("全部 timeout/SSR", report)
+        measured, unavailable = _columns(report, "## 1. ")
+        self.assertIn("`blocked`", unavailable)
+        self.assertIn("execute_error=1", unavailable)
+        self.assertIn("load_error=1", unavailable)
+        self.assertIn("ssr=1", unavailable)
+        self.assertNotIn("全部 timeout/SSR", unavailable)
+        self.assertNotIn("完整 192 维 embedding", measured)
+
+    def test_partial_latency_pointer_stays_out_of_measured(self):
+        benchmark = _benchmark_without_success()
+        benchmark["latency"] = {
+            "cold_load_p50_ms": 12.5,
+            "cold_load_p95_ms": 15.0,
+            "graph_p50_ms": 42.0,
+            "graph_p95_ms": 45.0,
+            "graph_p99_ms": 47.0,
+            "end_to_end_p50_ms": None,
+            "end_to_end_p95_ms": None,
+            "throughput_ips": None,
+            "io_p50_ms": None,
+            "fbank_p50_ms": None,
+            "transfer_p50_ms": None,
+            "schedule_p50_ms": None,
+        }
+        report = render_report(_incident_with_timeout(), benchmark)
+        measured, unavailable = _columns(report, "## 1. ")
+        self.assertIn("冷/暖 graph 延迟", measured)
+        self.assertIn("见第 8 节", measured)
+        self.assertNotIn("端到端与吞吐：见第 8 节", measured)
+        self.assertIn("端到端", unavailable)
+        self.assertIn("不可得", unavailable)
+
+    def test_empty_accuracy_mapping_falls_back_to_unavailable(self):
+        benchmark = _benchmark_without_success()
+        benchmark["accuracy"] = {}
+        report = render_report(_incident_with_timeout(), benchmark)
+        measured7, unavailable7 = _columns(report, "## 7. ")
+        self.assertIn("不计算任何准确率", measured7)
+        self.assertNotIn("任务指标存在", measured7)
+        self.assertIn("EER、Top-1", unavailable7)
+        measured1, unavailable1 = _columns(report, "## 1. ")
+        self.assertNotIn("accuracy", measured1)
+        self.assertIn("EER、Top-1", unavailable1)
 
     def test_matrix_sentence_counts_rows_with_build_id(self):
         incident = _incident_with_timeout()

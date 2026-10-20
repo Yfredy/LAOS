@@ -200,6 +200,16 @@ def _is_full_pass(record: Mapping[str, Any]) -> bool:
     )
 
 
+def _has_accuracy(benchmark: Mapping[str, Any]) -> bool:
+    """空映射与缺失同等对待，避免 §7 声称有任务指标却零行。"""
+    accuracy = benchmark.get("accuracy")
+    if accuracy is None:
+        return False
+    if isinstance(accuracy, Mapping):
+        return bool(accuracy)
+    return True
+
+
 def _terminal_status(incident: Mapping[str, Any]) -> str:
     """终态优先由时间线实测决定；旧 `terminal_status` 只在没有证据时兜底。"""
     if any(_is_full_pass(record) for record in incident.get("timeline") or ()):
@@ -297,13 +307,21 @@ def _section_measured(
             f"{_cell(fold.get('inputs'))} 条真实语音 FP32 输出逐元素一致"
             f"（`max_abs={fold.get('max_abs')}`）；这条路径没有解决真机超时。"
         )
-    if benchmark.get("accuracy") is not None:
+    if _has_accuracy(benchmark):
         measured.append(
             "- EER、Top-1、固定 k ARI、在线 ARI 与簇数量：accuracy 已由 "
             "benchmark.json 给出（见第 7 节）。"
         )
-    if benchmark.get("latency") is not None:
-        measured.append("- 冷/暖延迟、端到端与吞吐：见第 8 节；soak 见第 9 节。")
+    latency = benchmark.get("latency")
+    latency_complete = False
+    if isinstance(latency, Mapping):
+        latency_complete = latency.get("end_to_end_p50_ms") is not None and all(
+            latency.get(key) is not None for key, _, _ in LATENCY_COMPONENTS
+        )
+        if latency_complete:
+            measured.append("- 冷/暖延迟、端到端与吞吐：见第 8 节；soak 见第 9 节。")
+        elif latency.get("graph_p50_ms") is not None:
+            measured.append("- 冷/暖 graph 延迟：见第 8 节；soak 见第 9 节。")
     if not measured:
         measured.append("- 证据根没有任何真机产物：没有可报告的实测值。")
     lines.extend(measured)
@@ -335,13 +353,19 @@ def _section_measured(
             f"- 双 context 分区根因：`{_cell(partition.get('solves_root_cause'))}`"
             f"（status=`{_cell(partition.get('status'))}`）。"
         )
-    if benchmark.get("accuracy") is None:
+    if not _has_accuracy(benchmark):
         unavailable.append(
             "- EER、Top-1、固定 k ARI、在线 ARI、阈值重标定与产品准入：全部不可得。"
         )
-    if benchmark.get("latency") is None:
+    if not isinstance(latency, Mapping):
         unavailable.append(
             "- 冷/暖延迟 p50/p95/p99、端到端、吞吐与 30 分钟 soak：全部不可得。"
+        )
+    elif not latency_complete:
+        if latency.get("graph_p50_ms") is None:
+            unavailable.append("- 冷/暖 graph 延迟 p50/p95/p99：没有实测值。")
+        unavailable.append(
+            "- 端到端与吞吐：缺少实测组成项，不可得（不求和、不估算）。"
         )
     lines.extend(unavailable)
     lines.append("")
@@ -660,7 +684,7 @@ def _accuracy_rows(accuracy: Any) -> list[str]:
                 )
                 continue
             parts = [
-                f"{key}={metrics[key]}"
+                f"{key}={_cell(metrics[key])}"
                 for key in ("eer", "top1", "fixed_k_ari", "online_ari", "cluster_count")
                 if metrics.get(key) is not None
             ]
@@ -674,7 +698,7 @@ def _section_accuracy(benchmark: Mapping[str, Any]) -> list[str]:
     status = benchmark.get("status")
     parity_present = benchmark.get("parity") is not None
     accuracy = benchmark.get("accuracy")
-    accuracy_present = accuracy is not None
+    accuracy_present = _has_accuracy(benchmark)
     lines = [
         "## 7. Paired accuracy",
         "",
