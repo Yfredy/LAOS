@@ -19,6 +19,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
@@ -30,7 +31,9 @@ except ImportError:  # 主库 discover 环境没有 numpy
 
 from scripts.speaker_qnn.benchmark import (  # noqa: E402
     BLOCKED_ACTIONS,
+    COLD_LOAD_SAMPLES,
     EMBEDDING_DIM,
+    PERF_PROFILES,
     RECALIBRATED_W8A16_THRESHOLD,
     REUSED_FP32_THRESHOLD,
     STATUS_DEVICE_UNAVAILABLE,
@@ -41,6 +44,9 @@ from scripts.speaker_qnn.benchmark import (  # noqa: E402
     AccuracyMetrics,
     DeviceUnavailableError,
     EmbeddingParity,
+    LatencyEvent,
+    LatencyMetrics,
+    SoakMetrics,
     adjusted_rand_index,
     collect_benchmark,
     dequantize_device_output,
@@ -54,12 +60,23 @@ from scripts.speaker_qnn.benchmark import (  # noqa: E402
     load_embedding_set,
     main,
     online_cluster,
+    parse_execution_timings,
+    parse_thermal_sample,
+    percentile,
     read_device_output,
     round_robin_order,
+    run_latency_benchmark,
+    run_soak,
     scan_device_evidence,
+    summarize_latency,
+    summarize_thermal,
     write_embedding_set,
 )
-from scripts.speaker_qnn.contracts import load_context_metadata  # noqa: E402
+from scripts.speaker_qnn.build import BuildArtifact  # noqa: E402
+from scripts.speaker_qnn.contracts import (  # noqa: E402
+    ContextMetadata,
+    load_context_metadata,
+)
 
 requires_numpy = unittest.skipIf(np is None, "主库测试环境没有 numpy")
 
@@ -1075,6 +1092,255 @@ class TestCli(unittest.TestCase):
                 ]
             )
             self.assertEqual(code, 2)
+
+
+def _passing_artifact(root: Path, *, status: str = "pass") -> BuildArtifact:
+    """测试用 artifact：真实 info.json 结构 + 存在的 context 二进制。"""
+    context = root / "context" / "campplus_w8a16_static_stats.bin.SM8845.bin"
+    context.parent.mkdir(parents=True, exist_ok=True)
+    context.write_bytes(b"unit-test-context")
+    metadata = ContextMetadata(
+        build_id="v2.51.1.261002102551",
+        soc_model=87,
+        dsp_arch=81,
+        graph_name="campplus_w8a16_static_stats",
+        input_shape=(1, 80, 298),
+        output_shape=(1, 192),
+    )
+    return BuildArtifact(
+        variant_id="unit-latency",
+        status=status,
+        context_path=str(context),
+        metadata=metadata,
+        sha256={"context": "0" * 64},
+        commands=(),
+        error=None,
+        warning=None,
+    )
+
+
+class TestLatencyPercentiles(unittest.TestCase):
+    """百分位定义在所有环境固定为线性插值（与 numpy 默认 linear 同义）。"""
+
+    def test_median_uses_linear_interpolation(self):
+        self.assertEqual(percentile([1.0, 2.0, 3.0, 4.0], 0.5), 2.5)
+        self.assertEqual(percentile([1.0, 2.0, 3.0, 4.0], 0.0), 1.0)
+        self.assertEqual(percentile([1.0, 2.0, 3.0, 4.0], 1.0), 4.0)
+
+    def test_p95_and_p99_are_interpolated_not_index_rounded(self):
+        values = list(range(1, 101))
+        self.assertAlmostEqual(percentile(values, 0.95), 95.05, places=9)
+        self.assertAlmostEqual(percentile(values, 0.99), 99.01, places=9)
+
+    def test_single_sample_returns_itself(self):
+        self.assertEqual(percentile([7.0], 0.99), 7.0)
+
+    def test_empty_and_out_of_range_are_rejected(self):
+        with self.assertRaises(ValueError):
+            percentile([], 0.5)
+        with self.assertRaises(ValueError):
+            percentile([1.0, 2.0], 1.5)
+        with self.assertRaises(ValueError):
+            percentile([1.0, 2.0], -0.1)
+
+    def test_input_order_does_not_change_percentile(self):
+        ordered = [1.0, 2.0, 3.0, 4.0]
+        shuffled = [3.0, 1.0, 4.0, 2.0]
+        self.assertEqual(percentile(ordered, 0.5), percentile(shuffled, 0.5))
+
+
+class TestLatencySummary(unittest.TestCase):
+    def test_latency_uses_measured_runs_after_warmup(self):
+        events = [
+            LatencyEvent(status="pass", graph_us=1_000, context_load_us=250_000)
+            for _ in range(100)
+        ] + [
+            LatencyEvent(status="pass", graph_us=value)
+            for value in (1_500, 1_900, 2_000, 2_100, 2_500)
+        ]
+        metrics = summarize_latency(events, warmups=100)
+        self.assertIsInstance(metrics, LatencyMetrics)
+        self.assertEqual(metrics.graph_p50_ms, 2.0)
+        self.assertEqual(metrics.cold_load_p50_ms, 250.0)
+        self.assertEqual(metrics.cold_load_p95_ms, 250.0)
+
+    def test_profile_unit_conversion(self):
+        profile = (
+            "Context load time: 1.2 s\n"
+            "Graph execute time: 4726 us\n"
+            "Graph execute time: 5 ms\n"
+            "Graph execute time: 0.25 s\n"
+        )
+        self.assertEqual(parse_execution_timings(profile), (4726, 5000, 250000))
+        event = LatencyEvent(
+            status="pass", context_load_us=200_000, profile_text="Graph execute time: 4.726 ms"
+        )
+        metrics = summarize_latency([event], warmups=0)
+        self.assertAlmostEqual(metrics.graph_p50_ms, 4.726, places=6)
+
+    def test_cold_and_warm_are_separated(self):
+        cold = [
+            LatencyEvent(
+                status="pass", graph_us=100_000, context_load_us=300_000
+            )
+        ]
+        warm = [
+            LatencyEvent(status="pass", graph_us=5_000),
+            LatencyEvent(status="pass", graph_us=6_000),
+        ]
+        metrics = summarize_latency(cold + warm, warmups=1)
+        self.assertEqual(metrics.cold_load_p50_ms, 300.0)
+        self.assertEqual(metrics.graph_p50_ms, 5.5)
+        self.assertAlmostEqual(metrics.graph_p95_ms, 5.95, places=9)
+        self.assertAlmostEqual(metrics.graph_p99_ms, 5.99, places=9)
+
+    def test_two_context_transfer_and_scheduling_are_counted(self):
+        cold = [LatencyEvent(status="pass", graph_us=1_000, context_load_us=100_000)]
+        event = LatencyEvent(
+            status="pass",
+            graph_us=5_000,
+            io_us=1_000,
+            fbank_us=2_000,
+            transfer_us=500,
+            schedule_us=1_000,
+        )
+        metrics = summarize_latency(cold + [event], warmups=1)
+        self.assertEqual(metrics.end_to_end_p50_ms, 9.5)
+        self.assertAlmostEqual(metrics.throughput_ips, 1000.0 / 9.5, places=9)
+
+    def test_dropped_runs_do_not_enter_percentiles(self):
+        events = [
+            LatencyEvent(status="pass", graph_us=1_000, context_load_us=100_000),
+            LatencyEvent(status="timeout", graph_us=10_000_000),
+            LatencyEvent(status="pass", graph_us=2_000),
+            LatencyEvent(status="ssr", graph_us=None),
+            LatencyEvent(status="pass", graph_us=None),
+        ]
+        metrics = summarize_latency(events, warmups=1)
+        self.assertEqual(metrics.graph_p50_ms, 2.0)
+        self.assertEqual(metrics.graph_p99_ms, 2.0)
+        self.assertLess(metrics.graph_p95_ms, 10_000.0)
+
+    def test_all_measured_runs_dropped_is_rejected(self):
+        events = [
+            LatencyEvent(status="pass", graph_us=1_000, context_load_us=100_000),
+            LatencyEvent(status="timeout", graph_us=None),
+            LatencyEvent(status="ssr", graph_us=None),
+        ]
+        with self.assertRaises(ValueError) as caught:
+            summarize_latency(events, warmups=1)
+        self.assertIn("measured", str(caught.exception))
+
+    def test_negative_warmup_is_rejected(self):
+        with self.assertRaises(ValueError):
+            summarize_latency([LatencyEvent(status="pass", graph_us=1_000)], warmups=-1)
+
+    def test_missing_cold_load_sample_is_rejected(self):
+        with self.assertRaises(ValueError) as caught:
+            summarize_latency([LatencyEvent(status="pass", graph_us=1_000)], warmups=0)
+        self.assertIn("cold", str(caught.exception))
+
+
+class TestThermalSamples(unittest.TestCase):
+    def test_parses_battery_and_skin_maxima(self):
+        dump = (
+            "Current temperatures from HAL:\n"
+            "      Temperature{mValue=31.2, mType=0, mName=BATTERY, mStatus=0}\n"
+            "      Temperature{mValue=35.9, mType=3, mName=SKIN, mStatus=0}\n"
+            "      Temperature{mValue=36.1, mType=3, mName=TP_SKIN, mStatus=0}\n"
+        )
+        self.assertEqual(parse_thermal_sample(dump), (31.2, 36.1))
+
+    def test_missing_thermal_zones_are_none(self):
+        self.assertEqual(parse_thermal_sample("no thermal service\n"), (None, None))
+        dump = "Temperature{mValue=34.0, mType=3, mName=SKIN, mStatus=0}\n"
+        self.assertEqual(parse_thermal_sample(dump), (None, 34.0))
+
+    def test_soak_temperature_gaps(self):
+        self.assertEqual(
+            summarize_thermal([(31.2, 35.9), (None, None), (32.0, None)]),
+            (32.0, 35.9),
+        )
+        self.assertEqual(summarize_thermal([(31.0, None)]), (31.0, None))
+
+    def test_soak_without_any_battery_sample_is_rejected(self):
+        with self.assertRaises(ValueError) as caught:
+            summarize_thermal([(None, 35.0), (None, None)])
+        self.assertIn("battery", str(caught.exception))
+
+
+class TestDeviceBoundBenchmarks(unittest.TestCase):
+    def test_offline_device_reports_device_unavailable(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            artifact = _passing_artifact(Path(raw_root))
+            with mock.patch(
+                "scripts.speaker_qnn.benchmark.discover_device_serial", return_value=None
+            ):
+                with self.assertRaises(DeviceUnavailableError) as caught:
+                    run_latency_benchmark(
+                        artifact, 100, 1000, "sustained_high_performance"
+                    )
+            self.assertEqual(caught.exception.status, STATUS_DEVICE_UNAVAILABLE)
+            self.assertIn("device_unavailable", caught.exception.reason)
+            self.assertIn("1000", caught.exception.reason)
+
+    def test_soak_reports_device_unavailable(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            artifact = _passing_artifact(Path(raw_root))
+            with mock.patch(
+                "scripts.speaker_qnn.benchmark.discover_device_serial", return_value=None
+            ):
+                with self.assertRaises(DeviceUnavailableError) as caught:
+                    run_soak(artifact, 1800, 1.0)
+            self.assertEqual(caught.exception.status, STATUS_DEVICE_UNAVAILABLE)
+            self.assertIn("30 分钟", caught.exception.reason)
+
+    def test_invalid_perf_profile_is_rejected_before_device(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            artifact = _passing_artifact(Path(raw_root))
+            with self.assertRaises(ValueError) as caught:
+                run_latency_benchmark(artifact, 1, 1, "turbo")
+            self.assertIn("perf_profile", str(caught.exception))
+        self.assertIn("sustained_high_performance", PERF_PROFILES)
+
+    def test_config_warning_artifact_is_not_benchmarked(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            artifact = _passing_artifact(Path(raw_root), status="config_warning")
+            with self.assertRaises(ValueError) as caught:
+                run_latency_benchmark(artifact, 1, 1, "burst")
+            self.assertIn("告警", str(caught.exception))
+
+    def test_metadata_rejected_artifact_is_not_benchmarked(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            artifact = _passing_artifact(Path(raw_root), status="metadata_rejected")
+            with self.assertRaises(ValueError):
+                run_latency_benchmark(artifact, 1, 1, "burst")
+
+    def test_cold_load_sample_count_matches_plan(self):
+        self.assertEqual(COLD_LOAD_SAMPLES, 20)
+
+    def test_metrics_serialize_to_json_ready_dicts(self):
+        metrics = LatencyMetrics(
+            cold_load_p50_ms=10.0,
+            cold_load_p95_ms=11.0,
+            graph_p50_ms=20.0,
+            graph_p95_ms=21.0,
+            graph_p99_ms=22.0,
+            end_to_end_p50_ms=30.0,
+            end_to_end_p95_ms=31.0,
+            throughput_ips=33.3,
+        )
+        self.assertEqual(metrics.to_dict()["graph_p99_ms"], 22.0)
+        soak = SoakMetrics(
+            duration_s=1800,
+            successful_runs=1700,
+            failed_runs=100,
+            max_battery_temp_c=39.5,
+            max_skin_temp_c=None,
+            median_graph_ms=20.0,
+            final_graph_ms=21.0,
+        )
+        self.assertIsNone(soak.to_dict()["max_skin_temp_c"])
 
 
 if __name__ == "__main__":

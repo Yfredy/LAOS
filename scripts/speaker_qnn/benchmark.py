@@ -13,6 +13,13 @@
 - 准确率只认 `status == "pass"` 且 `finite`、`output_count == 192` 的
   真机运行结果；manifest 未记录 `w8a16_provenance.device_runs` 时直接
   `DeviceUnavailableError`；
+- 延迟百分位固定为线性插值（与 numpy.percentile 默认 `method="linear"`
+  同定义）：`rank = (n-1) * p`，在 floor/ceil 两个邻居间按 rank 的小数部分
+  插值，不对样本做索引取整。`>= 10 s` 只可能是 FastRPC 看门狗 timeout，
+  不是推理延迟，绝不进入延迟样本；`>= 1 s` 判不可常驻；同一 warm 进程里
+  warmup 窗口被剔除，冷加载只来自 fresh-process 采样；
+- 双 context 的端到端 = graph + runner I/O + CPU FBank + 中间张量搬运 +
+  第二次调度，全部是实测组成项，缺项不估算（直接不计入）；
 - 主库测试环境没有 numpy：numpy 一律延迟导入，模块导入本身保持纯 stdlib。
 
     python -m scripts.speaker_qnn.benchmark --root <evidence-root> --manifest <manifest.json>
@@ -24,7 +31,11 @@ import argparse
 import hashlib
 import json
 import math
+import os
+import re
+import subprocess
 import sys
+import time
 from collections.abc import Mapping, Sequence
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -36,6 +47,7 @@ from .contracts import (
     validate_sm8845_context,
     write_json_atomic,
 )
+from .device import resolve_input_list, run_context
 
 if TYPE_CHECKING:  # 主库 discover 环境没有 numpy
     import numpy as np
@@ -57,6 +69,23 @@ STATUS_PASS = "pass"
 STATUS_GATE_FAILED = "gate_failed"
 STATUS_INCOMPLETE = "incomplete"
 STATUS_DEVICE_UNAVAILABLE = "device_unavailable"
+
+# 延迟/soak 的固定口径：20 次 fresh-process 冷加载；看门狗 10 s 是不可
+# 越过的安全边界，>= 1 s 判不可常驻。
+COLD_LOAD_SAMPLES = 20
+WATCHDOG_MS = 10_000
+RESIDENT_CAP_MS = 1_000
+PERF_PROFILES = (
+    "default",
+    "burst",
+    "balanced",
+    "high_performance",
+    "power_saver",
+    "sustained_high_performance",
+    "low_balance",
+)
+SOAK_PERF_PROFILE = "sustained_high_performance"
+QNN_P50, QNN_P95, QNN_P99 = 0.50, 0.95, 0.99
 
 EXTRACTION_KIND = "campplus_embedding_extraction"
 EXTRACTION_FILE = "extraction.json"
@@ -111,6 +140,71 @@ def _sha256(path: Path) -> str:
         for chunk in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+_TIMING_UNIT_US = {"us": 1, "µs": 1, "ms": 1_000, "s": 1_000_000}
+_GRAPH_TIME_RE = re.compile(
+    r"(?:graph\s+)?execut(?:e|ion)(?:\s+excluding\s+wait)?\)?\s*time\s*[:=]\s*"
+    r"([0-9]+(?:\.[0-9]+)?)\s*(us|µs|ms|s)\b",
+    re.I,
+)
+_THERMAL_RE = re.compile(
+    r"Temperature\{\s*mValue=(-?[0-9]+(?:\.[0-9]+)?)\s*,\s*mType=-?[0-9]+\s*,\s*"
+    r"mName=([A-Za-z0-9_]+)"
+)
+
+
+def percentile(values: Sequence[float], p: float) -> float:
+    """线性插值百分位（与 numpy 默认 `method="linear"` 同定义）。
+
+    `rank = (n - 1) * p`，在 floor/ceil 邻居间按 rank 的小数部分插值；
+    不做索引取整，也不做四舍五入。
+    """
+    samples = [float(value) for value in values]
+    if not samples:
+        raise ValueError("百分位需要至少一个样本")
+    if not 0.0 <= float(p) <= 1.0:
+        raise ValueError(f"百分位必须在 [0, 1] 内，实际 {p}")
+    ordered = sorted(samples)
+    rank = (len(ordered) - 1) * float(p)
+    lower = math.floor(rank)
+    upper = math.ceil(rank)
+    if lower == upper:
+        return ordered[lower]
+    fraction = rank - lower
+    return ordered[lower] + (ordered[upper] - ordered[lower]) * fraction
+
+
+def parse_execution_timings(text: str) -> tuple[int, ...]:
+    """按出现顺序解析 profile 里所有 graph execute time，统一成微秒。"""
+    return tuple(
+        int(round(float(value) * _TIMING_UNIT_US[unit.lower()]))
+        for value, unit in _GRAPH_TIME_RE.findall(text or "")
+    )
+
+
+def parse_thermal_sample(dump: str) -> tuple[float | None, float | None]:
+    """从 `dumpsys thermalservice` 取 (BATTERY 最大值, SKIN 类最大值)。"""
+    battery: float | None = None
+    skin: float | None = None
+    for value, name in _THERMAL_RE.findall(dump or ""):
+        temperature = float(value)
+        if name == "BATTERY":
+            battery = temperature if battery is None else max(battery, temperature)
+        elif "SKIN" in name:
+            skin = temperature if skin is None else max(skin, temperature)
+    return battery, skin
+
+
+def summarize_thermal(
+    samples: Sequence[tuple[float | None, float | None]]
+) -> tuple[float, float | None]:
+    """汇总 soak 温升采样；允许 skin 缺口，但全程无 battery 样本即拒绝。"""
+    battery = [value for value, _ in samples if value is not None]
+    if not battery:
+        raise ValueError("soak 全程没有 battery 温区样本，无法报告温升")
+    skins = [value for _, value in samples if value is not None]
+    return max(battery), (max(skins) if skins else None)
 
 
 class DeviceUnavailableError(RuntimeError):
@@ -174,7 +268,127 @@ class AccuracyMetrics:
         return asdict(self)
 
 
-def _as_matrix(value: Any, embedding_dim: int, name: str) -> "np.ndarray":
+@dataclass(frozen=True)
+class LatencyMetrics:
+    """一次速度矩阵汇总；所有数值都是实测毫秒/IPS，不含任何看门狗超时。"""
+
+    cold_load_p50_ms: float
+    cold_load_p95_ms: float
+    graph_p50_ms: float
+    graph_p95_ms: float
+    graph_p99_ms: float
+    end_to_end_p50_ms: float
+    end_to_end_p95_ms: float
+    throughput_ips: float
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(frozen=True)
+class SoakMetrics:
+    """30 分钟 1 Hz soak；`max_skin_temp_c` 为 None 表示全程没有 skin 温区。"""
+
+    duration_s: int
+    successful_runs: int
+    failed_runs: int
+    max_battery_temp_c: float
+    max_skin_temp_c: float | None
+    median_graph_ms: float
+    final_graph_ms: float
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(frozen=True)
+class LatencyEvent:
+    """单次推理（或单次 cold load）的实测组成项，单位微秒。
+
+    `status != "pass"` 的事件一律视为 dropped：即使 profile 里残留了
+    graph time，也不进延迟样本——10 秒看门狗 timeout 不是速度值。
+    """
+
+    status: str
+    graph_us: int | None = None
+    context_load_us: int | None = None
+    io_us: int | None = None
+    fbank_us: int | None = None
+    transfer_us: int | None = None
+    schedule_us: int | None = None
+    profile_text: str = ""
+
+    @property
+    def graph_time_us(self) -> int | None:
+        if self.graph_us is not None:
+            return int(self.graph_us)
+        if self.profile_text:
+            values = parse_execution_timings(self.profile_text)
+            if values:
+                return int(values[0])
+        return None
+
+    @property
+    def measured(self) -> bool:
+        return self.status == STATUS_PASS and self.graph_time_us is not None
+
+    @property
+    def end_to_end_us(self) -> int:
+        """graph + I/O + FBank + 搬运 + 调度；缺项不估算。"""
+        parts = (
+            self.graph_time_us,
+            self.io_us,
+            self.fbank_us,
+            self.transfer_us,
+            self.schedule_us,
+        )
+        return sum(int(value) for value in parts if value is not None)
+
+
+def summarize_latency(
+    events: Sequence[LatencyEvent], warmups: int
+) -> LatencyMetrics:
+    """按 warmup 窗口切出 measured 事件并汇总；冷加载与暖延迟分列。
+
+    dropped 事件（`status != "pass"` 或缺 graph time）不进任何百分位，
+    即使 profile 里残留了 10 秒看门狗 timeout 的数字。
+    """
+    if int(warmups) < 0:
+        raise ValueError(f"warmups 必须 >= 0，实际 {warmups}")
+    ordered = list(events)
+    measured = [event for event in ordered[int(warmups):] if event.measured]
+    if not measured:
+        raise ValueError(
+            f"warmup 之后没有任何 measured 事件（warmups={warmups}, events={len(ordered)}）"
+        )
+    cold_samples = [
+        int(event.context_load_us)
+        for event in ordered
+        if event.status == STATUS_PASS and event.context_load_us is not None
+    ]
+    if not cold_samples:
+        raise ValueError("没有任何 cold context load 样本，冷加载无法报告")
+
+    end_to_end_ms = [event.end_to_end_us / 1000.0 for event in measured]
+    graph_ms = [int(event.graph_time_us) / 1000.0 for event in measured]
+    mean_end_to_end_ms = sum(end_to_end_ms) / len(end_to_end_ms)
+    if mean_end_to_end_ms <= 0:
+        raise ValueError("measured 端到端耗时为 0，无法计算吞吐")
+    return LatencyMetrics(
+        cold_load_p50_ms=percentile(cold_samples, QNN_P50) / 1000.0,
+        cold_load_p95_ms=percentile(cold_samples, QNN_P95) / 1000.0,
+        graph_p50_ms=percentile(graph_ms, QNN_P50),
+        graph_p95_ms=percentile(graph_ms, QNN_P95),
+        graph_p99_ms=percentile(graph_ms, QNN_P99),
+        end_to_end_p50_ms=percentile(end_to_end_ms, QNN_P50),
+        end_to_end_p95_ms=percentile(end_to_end_ms, QNN_P95),
+        throughput_ips=1_000.0 / mean_end_to_end_ms,
+    )
+
+
+def _as_matrix(
+    value: Any, embedding_dim: int, name: str
+) -> "np.ndarray":
     """把输入归一成 (N, D) float64；行未对齐/非有限都在这里拒绝。"""
     np = _require_numpy()
     array = np.asarray(value, dtype=np.float64)
@@ -1430,6 +1644,218 @@ def collect_benchmark(
     if output is not None:
         write_json_atomic(Path(output), record)
     return record
+
+
+def discover_device_serial() -> str | None:
+    """返回第一台 adb 在线设备；没有设备（离线）时返回 None。"""
+    try:
+        process = subprocess.run(
+            ["adb", "devices"],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=30,
+            check=False,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None
+    for line in (process.stdout or "").splitlines()[1:]:
+        parts = line.split()
+        if len(parts) >= 2 and parts[1] == "device":
+            return parts[0]
+    return None
+
+
+def _require_deliverable_artifact(artifact: Any) -> Any:
+    """只有元数据通过 SM8845/V81 门禁且无配置告警的 pass artifact 可上机。"""
+    variant_id = getattr(artifact, "variant_id", "<unknown>")
+    status = getattr(artifact, "status", None)
+    if status == "config_warning":
+        raise ValueError(
+            f"artifact {variant_id} 仍有配置告警（unexpected GraphHtpSettings），"
+            "告警未闭环前不能上机测速或 soak"
+        )
+    if status != STATUS_PASS:
+        raise ValueError(
+            f"artifact {variant_id} 状态为 {status!r}，只有 pass 产物才能上机测速"
+        )
+    metadata = getattr(artifact, "metadata", None)
+    if metadata is None:
+        raise ValueError(f"artifact {variant_id} 缺少 context metadata，无法上机")
+    validate_sm8845_context(metadata)
+    context_path = getattr(artifact, "context_path", None)
+    if not context_path or not Path(context_path).is_file():
+        raise ValueError(f"artifact {variant_id} 的 context 不存在：{context_path}")
+    return metadata
+
+
+def _profile_text(output_dir: Path) -> str:
+    path = Path(output_dir) / "profile.log"
+    if not path.is_file():
+        return ""
+    return path.read_text(encoding="utf-8", errors="replace")
+
+
+def _collect_latency_events(
+    serial: str,
+    artifact: Any,
+    warmups: int,
+    measured: int,
+    perf_profile: str,
+) -> list[LatencyEvent]:
+    """20 次 fresh-process 冷加载 + 一个 warm 进程（warmup + measured）。
+
+    warm 进程只记 graph 时间；cold load 只来自 fresh-process 采样，避免把
+    warm 进程唯一那次 context load 混进冷加载分布。runner I/O、CPU FBank、
+    中间张量搬运和第二次调度没有实测值时留空，不估算。
+    """
+    artifact_dir = Path(str(artifact.context_path)).parent
+    input_list = resolve_input_list(artifact_dir, None, smoke=False)
+    root = DEBUG_ROOT / "latency" / time.strftime("%Y%m%d-%H%M%S")
+    events: list[LatencyEvent] = []
+    for index in range(COLD_LOAD_SAMPLES):
+        output_dir = root / f"cold-{index:02d}"
+        result = run_context(
+            serial,
+            artifact_dir,
+            input_list,
+            output_dir,
+            num_inferences=1,
+            perf_profile=perf_profile,
+        )
+        events.append(
+            LatencyEvent(
+                status=result.status,
+                graph_us=result.graph_execute_us,
+                context_load_us=result.context_load_us,
+                profile_text=_profile_text(output_dir),
+            )
+        )
+
+    output_dir = root / "warm"
+    result = run_context(
+        serial,
+        artifact_dir,
+        input_list,
+        output_dir,
+        num_inferences=int(warmups) + int(measured),
+        perf_profile=perf_profile,
+    )
+    profile_text = _profile_text(output_dir)
+    timings = parse_execution_timings(profile_text)
+    if result.status != STATUS_PASS:
+        events.append(LatencyEvent(status=result.status, profile_text=profile_text))
+        return events
+    events.extend(
+        LatencyEvent(status=STATUS_PASS, graph_us=value)
+        for value in timings[: int(warmups) + int(measured)]
+    )
+    return events
+
+
+def run_latency_benchmark(
+    artifact: Any,
+    warmups: int,
+    measured: int,
+    perf_profile: str,
+) -> LatencyMetrics:
+    """跑冷加载 + measured 速度矩阵；设备离线时明确 `device_unavailable`。"""
+    if int(warmups) < 0:
+        raise ValueError(f"warmups 必须 >= 0，实际 {warmups}")
+    if int(measured) < 1:
+        raise ValueError(f"measured 必须 >= 1，实际 {measured}")
+    if perf_profile not in PERF_PROFILES:
+        raise ValueError(
+            f"perf_profile 必须是 {PERF_PROFILES} 之一，实际 {perf_profile!r}"
+        )
+    _require_deliverable_artifact(artifact)
+    serial = discover_device_serial()
+    if serial is None:
+        raise DeviceUnavailableError(
+            "device_unavailable：adb 无在线设备，"
+            f"{COLD_LOAD_SAMPLES} 次 fresh-process 冷加载与 {int(measured)} 次 measured"
+            f"（{int(warmups)} 次 warmup，perf_profile={perf_profile}）未执行"
+        )
+    events = _collect_latency_events(
+        serial, artifact, int(warmups), int(measured), perf_profile
+    )
+    return summarize_latency(events, warmups=COLD_LOAD_SAMPLES + int(warmups))
+
+
+def _thermal_sample(serial: str) -> tuple[float | None, float | None]:
+    try:
+        process = subprocess.run(
+            ["adb", "-s", serial, "shell", "dumpsys thermalservice"],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=30,
+            check=False,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None, None
+    return parse_thermal_sample(process.stdout or "")
+
+
+def run_soak(
+    artifact: Any, duration_s: int, interval_s: float
+) -> SoakMetrics:
+    """`sustained_high_performance` 下按固定间隔执行并采样温区。"""
+    if int(duration_s) <= 0:
+        raise ValueError(f"duration_s 必须 > 0，实际 {duration_s}")
+    if float(interval_s) <= 0:
+        raise ValueError(f"interval_s 必须 > 0，实际 {interval_s}")
+    _require_deliverable_artifact(artifact)
+    minutes = int(duration_s) / 60.0
+    serial = discover_device_serial()
+    if serial is None:
+        raise DeviceUnavailableError(
+            f"device_unavailable：adb 无在线设备，{int(duration_s)} 秒"
+            f"（{minutes:g} 分钟）1 Hz soak 与温区采样未执行"
+        )
+
+    artifact_dir = Path(str(artifact.context_path)).parent
+    input_list = resolve_input_list(artifact_dir, None, smoke=False)
+    root = DEBUG_ROOT / "soak" / time.strftime("%Y%m%d-%H%M%S")
+    temperatures: list[tuple[float | None, float | None]] = []
+    graph_ms: list[float] = []
+    successful = 0
+    failed = 0
+    started = time.monotonic()
+    while time.monotonic() - started < int(duration_s):
+        output_dir = root / f"sample-{len(temperatures):05d}"
+        result = run_context(
+            serial,
+            artifact_dir,
+            input_list,
+            output_dir,
+            num_inferences=1,
+            perf_profile=SOAK_PERF_PROFILE,
+        )
+        if result.status == STATUS_PASS and result.graph_execute_us is not None:
+            successful += 1
+            graph_ms.append(int(result.graph_execute_us) / 1000.0)
+        else:
+            failed += 1
+        temperatures.append(_thermal_sample(serial))
+        time.sleep(float(interval_s))
+    if not graph_ms:
+        raise DeviceUnavailableError(
+            "device_unavailable：soak 期间没有任何 pass 的 graph 时间，"
+            "不能报告温升或吞吐"
+        )
+    max_battery, max_skin = summarize_thermal(temperatures)
+    return SoakMetrics(
+        duration_s=int(duration_s),
+        successful_runs=successful,
+        failed_runs=failed,
+        max_battery_temp_c=max_battery,
+        max_skin_temp_c=max_skin,
+        median_graph_ms=percentile(graph_ms, QNN_P50),
+        final_graph_ms=graph_ms[-1],
+    )
 
 
 def _main_extract(argv: Sequence[str]) -> int:
