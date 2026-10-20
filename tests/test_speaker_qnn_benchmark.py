@@ -12,7 +12,9 @@ EER/Top-1/ARI 数字。测试里的数组只是算法夹具，不冒充真机结
 """
 from __future__ import annotations
 
+import hashlib
 import json
+import os
 import sys
 import tempfile
 import unittest
@@ -27,28 +29,37 @@ except ImportError:  # 主库 discover 环境没有 numpy
     np = None
 
 from scripts.speaker_qnn.benchmark import (  # noqa: E402
+    BLOCKED_ACTIONS,
     EMBEDDING_DIM,
     RECALIBRATED_W8A16_THRESHOLD,
     REUSED_FP32_THRESHOLD,
     STATUS_DEVICE_UNAVAILABLE,
     STATUS_GATE_FAILED,
+    STATUS_INCOMPLETE,
     STATUS_PASS,
+    TASK_MATRIX,
     AccuracyMetrics,
     DeviceUnavailableError,
     EmbeddingParity,
     adjusted_rand_index,
     collect_benchmark,
+    dequantize_device_output,
     dequantize_embedding,
     embedding_gate,
     evaluate_accuracy,
     evaluate_embedding_parity,
+    extract_embedding_sets,
     identification_top1,
     l2_normalize,
     load_embedding_set,
+    main,
     online_cluster,
+    read_device_output,
     round_robin_order,
+    scan_device_evidence,
     write_embedding_set,
 )
+from scripts.speaker_qnn.contracts import load_context_metadata  # noqa: E402
 
 requires_numpy = unittest.skipIf(np is None, "主库测试环境没有 numpy")
 
@@ -93,32 +104,228 @@ def _manifest_payload(speakers: list[str], files_per_speaker: int = 4) -> dict:
     }
 
 
-def _write_result(root: Path, name: str, payload: dict) -> Path:
-    path = root / "device-runs" / name / "result.json"
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload), encoding="utf-8")
-    return path
+SCALE = 1e-3
+OFFSET = -32768
+W8A16_DTYPE = "QNN_DATATYPE_FIXED_POINT_16"
+FP32_DTYPE = "QNN_DATATYPE_FLOAT_32"
+REAL_INFO_JSON = (
+    REPO
+    / "var/speaker-benchmark/qnn/campplus-htp-debug/builds"
+    / "2.51.1-opt2-vtcm4-dlbc0-campplus_w8a16_static_stats/context/info.json"
+)
 
 
-def _pass_result() -> dict:
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def _item_ids_sha256(ids) -> str:
+    return hashlib.sha256("\n".join(str(value) for value in ids).encode("utf-8")).hexdigest()
+
+
+def _info_payload(*, data_type: str = W8A16_DTYPE, quantized: bool = True) -> dict:
+    output: dict = {
+        "name": "embedding",
+        "dimensions": [1, EMBEDDING_DIM],
+        "dataType": data_type,
+    }
+    if quantized:
+        output["quantizeParams"] = {
+            "definition": "QNN_DEFINITION_DEFINED",
+            "quantizationEncoding": "QNN_QUANTIZATION_ENCODING_SCALE_OFFSET",
+            "scaleOffset": {"scale": SCALE, "offset": OFFSET},
+        }
     return {
-        "status": "pass",
-        "exit_code": 0,
-        "output_path": "output.raw",
-        "output_count": EMBEDDING_DIM,
-        "finite": True,
-        "context_load_us": 1000,
-        "graph_execute_us": 2000,
-        "timeout_ms": None,
-        "evidence_paths": [],
+        "buildId": "v2.51.1.261002102551",
+        "socModel": 87,
+        "numGraphs": 1,
+        "graphs": [
+            {
+                "graphName": "campplus_w8a16_static_stats",
+                "graphInputs": [
+                    {
+                        "name": "x",
+                        "dimensions": [1, 80, 298],
+                        "dataType": "QNN_DATATYPE_UFIXED_POINT_16",
+                    }
+                ],
+                "graphOutputs": [output],
+            }
+        ],
+        "contextMetadata": {"dspArch": 81},
     }
 
 
-def _paired_manifest(path: Path, speakers: list[str], device_runs: list[str]) -> Path:
-    payload = _manifest_payload(speakers)
-    payload["w8a16_provenance"] = {"device_runs": device_runs}
+def _write_variant(root: Path, variant_id: str, *, quantized: bool) -> dict:
+    context = root / "builds" / variant_id / "context"
+    context.mkdir(parents=True, exist_ok=True)
+    info = context / "info.json"
+    info.write_text(
+        json.dumps(
+            _info_payload(
+                data_type=W8A16_DTYPE if quantized else FP32_DTYPE,
+                quantized=quantized,
+            )
+        ),
+        encoding="utf-8",
+    )
+    context_bin = context / "context.bin"
+    context_bin.write_bytes(f"context-{variant_id}".encode("ascii"))
+    return {"variant_id": variant_id, "info_json": str(info), "context_bin": str(context_bin)}
+
+
+def _write_raw(path: Path, values, *, quantized: bool) -> Path:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if quantized:
+        encoded = np.rint(np.asarray(values, dtype=np.float64) / SCALE + OFFSET)
+        np.clip(encoded, -32768, 32767).astype("<i2").tofile(path)
+    else:
+        np.asarray(values, dtype="<f4").tofile(path)
+    return path
+
+
+def _write_run(
+    root: Path,
+    name: str,
+    output_path: Path | None = None,
+    *,
+    status: str = "pass",
+    output_count: int = EMBEDDING_DIM,
+    finite: bool = True,
+) -> Path:
+    path = root / "device-runs" / name / "result.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "status": status,
+        "exit_code": 0,
+        "output_path": str(output_path) if output_path is not None else None,
+        "output_count": output_count,
+        "finite": finite,
+        "context_load_us": None,
+        "graph_execute_us": None,
+        "timeout_ms": None,
+        "evidence_paths": [],
+    }
     path.write_text(json.dumps(payload), encoding="utf-8")
     return path
+
+
+def _pass_run(root: Path, name: str = "run-pass", *, itemsize: int = 2) -> Path:
+    raw = root / "device-runs" / name / "output" / "embedding.raw"
+    raw.parent.mkdir(parents=True, exist_ok=True)
+    raw.write_bytes(b"\x00" * (EMBEDDING_DIM * itemsize))
+    return _write_run(root, name, raw)
+
+
+def _run_entry(path: Path) -> dict:
+    payload = json.loads(Path(path).read_text(encoding="utf-8"))
+    raw_value = payload.get("output_path")
+    if not raw_value or not Path(raw_value).is_file():
+        return {"result": str(path)}
+    raw = Path(raw_value)
+    return {"result": str(path), "raw": str(raw), "raw_sha256": _sha256(raw)}
+
+
+def _provenance(run_paths) -> dict:
+    entries = []
+    for path in run_paths:
+        if Path(path).is_file():
+            entries.append(_run_entry(Path(path)))
+        else:
+            entries.append({"result": str(path)})
+    return {
+        "variant_id": "w8a16-unit",
+        "context_sha256": "0" * 64,
+        "info_json_sha256": "1" * 64,
+        "output_dtype": W8A16_DTYPE,
+        "output_scale": SCALE,
+        "output_offset": OFFSET,
+        "item_ids_sha256": _item_ids_sha256(_item_ids()),
+        "embeddings": {},
+        "device_runs": entries,
+    }
+
+
+def _paired_manifest(
+    path: Path,
+    speakers: list[str],
+    device_runs: list[str],
+    *,
+    provenance: dict | None = None,
+) -> Path:
+    payload = _manifest_payload(speakers)
+    payload["w8a16_provenance"] = provenance or _provenance(device_runs)
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    return path
+
+
+def _write_extraction_spec(
+    root: Path,
+    *,
+    conditions=TASK_MATRIX,
+    w8a16=None,
+    run_status: str = "pass",
+) -> Path:
+    """host 侧抽取夹具：真实 info.json 结构 + 合成原始输出 + 单次运行记录。"""
+    embeddings, _ = _fixture_embeddings()
+    if w8a16 is None:
+        w8a16 = embeddings
+    items: list[dict] = []
+    first_raw: Path | None = None
+    for condition in conditions:
+        for index, item_id in enumerate(_item_ids()):
+            raw_fp32 = _write_raw(
+                root / "raw" / "fp32" / condition / f"{index}.raw",
+                embeddings[index],
+                quantized=False,
+            )
+            raw_w8a16 = _write_raw(
+                root / "raw" / "w8a16" / condition / f"{index}.raw",
+                w8a16[index],
+                quantized=True,
+            )
+            if first_raw is None:
+                first_raw = raw_w8a16
+            items.append(
+                {
+                    "item_id": item_id,
+                    "condition": condition,
+                    "fp32": {"raw": str(raw_fp32)},
+                    "w8a16": {"raw": str(raw_w8a16)},
+                }
+            )
+    if run_status == "pass":
+        run = _write_run(root, "w8a16-pass", first_raw)
+    else:
+        run = _write_run(
+            root, "w8a16-ssr", None, status="ssr", output_count=0, finite=False
+        )
+    for item in items:
+        item["w8a16"]["run"] = str(run)
+    spec = {
+        "fp32": _write_variant(root, "fp32-unit", quantized=False),
+        "w8a16": _write_variant(root, "w8a16-unit", quantized=True),
+        "items": items,
+    }
+    path = root / "extraction-spec.json"
+    path.write_text(json.dumps(spec), encoding="utf-8")
+    return path
+
+
+def _build_evidence_root(
+    root: Path,
+    *,
+    conditions=TASK_MATRIX,
+    w8a16=None,
+    run_status: str = "pass",
+) -> Path:
+    manifest = root / "manifest.json"
+    manifest.write_text(json.dumps(_manifest_payload(_speakers())), encoding="utf-8")
+    spec = _write_extraction_spec(
+        root, conditions=conditions, w8a16=w8a16, run_status=run_status
+    )
+    extract_embedding_sets(spec, root / "embeddings")
+    return manifest
 
 
 def _numeric_keys(payload) -> set[str]:
@@ -324,7 +531,7 @@ class TestAccuracyMetrics(unittest.TestCase):
         with tempfile.TemporaryDirectory() as raw_root:
             root = Path(raw_root)
             embeddings, _ = _fixture_embeddings()
-            result_path = _write_result(root, "run-pass", _pass_result())
+            result_path = _pass_run(root)
             manifest = _paired_manifest(
                 root / "manifest.json", _speakers(), [str(result_path)]
             )
@@ -346,7 +553,7 @@ class TestAccuracyMetrics(unittest.TestCase):
         with tempfile.TemporaryDirectory() as raw_root:
             root = Path(raw_root)
             embeddings, _ = _fixture_embeddings()
-            result_path = _write_result(root, "run-pass", _pass_result())
+            result_path = _pass_run(root)
             manifest = _paired_manifest(
                 root / "manifest.json", _speakers(), [str(result_path)]
             )
@@ -366,7 +573,7 @@ class TestAccuracyMetrics(unittest.TestCase):
         with tempfile.TemporaryDirectory() as raw_root:
             root = Path(raw_root)
             embeddings, _ = _fixture_embeddings()
-            result_path = _write_result(root, "run-pass", _pass_result())
+            result_path = _pass_run(root)
             manifest = _paired_manifest(
                 root / "manifest.json", _speakers(), [str(result_path)]
             )
@@ -391,9 +598,9 @@ class TestAccuracyMetrics(unittest.TestCase):
         with tempfile.TemporaryDirectory() as raw_root:
             root = Path(raw_root)
             embeddings, _ = _fixture_embeddings()
-            payload = _pass_result()
-            payload.update({"status": "ssr", "finite": False, "output_count": 0})
-            result_path = _write_result(root, "run-ssr", payload)
+            result_path = _write_run(
+                root, "run-ssr", None, status="ssr", output_count=0, finite=False
+            )
             manifest = _paired_manifest(
                 root / "manifest.json", _speakers(), [str(result_path)]
             )
@@ -497,65 +704,75 @@ class TestCollectBenchmark(unittest.TestCase):
             self.assertIsNone(record["accuracy"])
             self.assertIsNone(record["parity"])
             self.assertIn("embeddings", record["reason"])
-            self.assertEqual(
-                record["blocked_actions"],
-                [
-                    "accuracy_evaluation",
-                    "threshold_recalibration",
-                    "online_clustering",
-                    "speed_matrix",
-                ],
-            )
+            self.assertIn("extraction.json", record["reason"])
+            self.assertEqual(record["blocked_actions"], list(BLOCKED_ACTIONS))
             self.assertFalse(_numeric_keys(record) & ACCURACY_KEYS)
             self.assertTrue(output.is_file())
             json.loads(output.read_text(encoding="utf-8"))
 
     @requires_numpy
-    def test_embeddings_without_pass_run_stay_device_unavailable(self):
+    def test_extracted_embeddings_without_pass_run_stay_device_unavailable(self):
         with tempfile.TemporaryDirectory() as raw_root:
             root = Path(raw_root)
-            embeddings, _ = _fixture_embeddings()
-            write_embedding_set(
-                root / "embeddings" / "fp32.npz",
-                {"clean-6s": embeddings},
-                _item_ids(),
-            )
-            _write_result(root, "run-ssr", {"status": "ssr", "finite": False, "output_count": 0})
-            manifest = root / "manifest.json"
-            manifest.write_text(json.dumps(_manifest_payload(_speakers())), encoding="utf-8")
+            manifest = _build_evidence_root(root, run_status="ssr")
             record = collect_benchmark(root, manifest)
             self.assertEqual(record["status"], STATUS_DEVICE_UNAVAILABLE)
-            self.assertIn("pass", record["reason"])
+            self.assertIn("ssr", record["reason"])
             self.assertIsNone(record["accuracy"])
+            self.assertFalse(_numeric_keys(record) & ACCURACY_KEYS)
 
     @requires_numpy
     def test_passing_evidence_produces_gated_metrics(self):
         with tempfile.TemporaryDirectory() as raw_root:
             root = Path(raw_root)
-            embeddings, _ = _fixture_embeddings()
-            item_ids = _item_ids()
-            write_embedding_set(
-                root / "embeddings" / "fp32.npz", {"clean-6s": embeddings}, item_ids
-            )
-            write_embedding_set(
-                root / "embeddings" / "w8a16.npz", {"clean-6s": embeddings}, item_ids
-            )
-            _write_result(root, "run-pass", _pass_result())
-            manifest = root / "manifest.json"
-            manifest.write_text(json.dumps(_manifest_payload(_speakers())), encoding="utf-8")
+            manifest = _build_evidence_root(root)
+            output = root / "benchmark.json"
 
-            record = collect_benchmark(root, manifest, output=root / "benchmark.json")
+            record = collect_benchmark(root, manifest, output=output)
             self.assertEqual(record["status"], STATUS_PASS)
             self.assertAlmostEqual(
-                record["parity"]["clean-6s"]["median_cosine"], 1.0, places=12
+                record["parity"]["clean-6s"]["median_cosine"], 1.0, places=6
             )
             self.assertTrue(record["gate"]["passed"])
             self.assertEqual(record["threshold_recalibration"], "completed")
-            self.assertIn("clean-6s", record["accuracy"])
+            self.assertEqual(set(record["accuracy"]), set(TASK_MATRIX))
             self.assertEqual(
                 set(record["accuracy"]["clean-6s"]),
                 {REUSED_FP32_THRESHOLD, RECALIBRATED_W8A16_THRESHOLD},
             )
+            # provenance 必须把 embedding ↔ build ↔ run 串起来。
+            provenance = record["provenance"]
+            self.assertEqual(provenance["variant_id"], "w8a16-unit")
+            context_bin = root / "builds/w8a16-unit/context/context.bin"
+            self.assertEqual(provenance["context_sha256"], _sha256(context_bin))
+            self.assertEqual(
+                record["embeddings"]["w8a16"]["sha256"],
+                _sha256(root / "embeddings" / "w8a16.npz"),
+            )
+            self.assertEqual(
+                record["embeddings"]["item_ids_sha256"], _item_ids_sha256(_item_ids())
+            )
+            paired = json.loads(
+                (root / "benchmark-manifest.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(
+                paired["w8a16_provenance"]["context_sha256"],
+                provenance["context_sha256"],
+            )
+            self.assertTrue(output.is_file())
+
+    @requires_numpy
+    def test_incomplete_task_matrix_is_not_reported_as_pass(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            root = Path(raw_root)
+            manifest = _build_evidence_root(root, conditions=("clean-6s",))
+            record = collect_benchmark(root, manifest)
+            self.assertEqual(record["status"], STATUS_INCOMPLETE)
+            self.assertEqual(record["product_admission"], "blocked")
+            self.assertEqual(record["threshold_recalibration"], "blocked")
+            self.assertEqual(set(record["accuracy"]), {"clean-6s"})
+            self.assertEqual(record["blocked_actions"], list(BLOCKED_ACTIONS))
+            self.assertIn("clean-1s", record["reason"])
 
     @requires_numpy
     def test_failed_gate_blocks_accuracy_but_keeps_parity(self):
@@ -563,17 +780,8 @@ class TestCollectBenchmark(unittest.TestCase):
             root = Path(raw_root)
             embeddings, _ = _fixture_embeddings()
             rng = np.random.default_rng(7)
-            unrelated = rng.standard_normal(embeddings.shape)
-            item_ids = _item_ids()
-            write_embedding_set(
-                root / "embeddings" / "fp32.npz", {"clean-6s": embeddings}, item_ids
-            )
-            write_embedding_set(
-                root / "embeddings" / "w8a16.npz", {"clean-6s": unrelated}, item_ids
-            )
-            _write_result(root, "run-pass", _pass_result())
-            manifest = root / "manifest.json"
-            manifest.write_text(json.dumps(_manifest_payload(_speakers())), encoding="utf-8")
+            unrelated = rng.standard_normal(embeddings.shape) * 0.5
+            manifest = _build_evidence_root(root, w8a16=unrelated)
 
             record = collect_benchmark(root, manifest)
             self.assertEqual(record["status"], STATUS_GATE_FAILED)
@@ -586,18 +794,287 @@ class TestCollectBenchmark(unittest.TestCase):
             self.assertFalse(_numeric_keys(record) & ACCURACY_KEYS)
 
 
-class TestRealEvidenceRoot(unittest.TestCase):
-    """真实证据目录：设备离线 + 无 embedding，必须落 device_unavailable。"""
+class TestContextQuantization(unittest.TestCase):
+    def test_reads_real_context_output_quantization(self):
+        if not REAL_INFO_JSON.is_file():
+            self.skipTest("本机没有真实 CAM++ context info.json")
+        metadata = load_context_metadata(REAL_INFO_JSON)
+        self.assertEqual(metadata.output_data_type, "QNN_DATATYPE_UFIXED_POINT_16")
+        self.assertEqual(metadata.output_quant_encoding, "QNN_QUANTIZATION_ENCODING_SCALE_OFFSET")
+        self.assertAlmostEqual(metadata.output_scale, 0.00010776489216368645, places=18)
+        self.assertEqual(metadata.output_offset, -33100)
 
-    def test_repository_evidence_is_device_unavailable(self):
-        from scripts.speaker_qnn.benchmark import DEFAULT_EVIDENCE_ROOT, DEFAULT_MANIFEST
+    def test_unquantized_context_leaves_quantization_fields_empty(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            variant = _write_variant(Path(raw_root), "fp32-unit", quantized=False)
+            metadata = load_context_metadata(Path(variant["info_json"]))
+            self.assertIsNone(metadata.output_scale)
+            self.assertIsNone(metadata.output_offset)
+            self.assertEqual(metadata.output_data_type, FP32_DTYPE)
+            self.assertIsNone(metadata.output_quant_encoding)
+            self.assertIsNone(metadata.to_dict()["output_scale"])
 
-        if not DEFAULT_EVIDENCE_ROOT.is_dir() or not DEFAULT_MANIFEST.is_file():
-            self.skipTest("本机没有 CAM++ 真机证据目录")
-        record = collect_benchmark(DEFAULT_EVIDENCE_ROOT, DEFAULT_MANIFEST)
+
+class TestDeviceOutput(unittest.TestCase):
+    @requires_numpy
+    def test_dequantize_device_output_uses_parsed_metadata(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            root = Path(raw_root)
+            variant = _write_variant(root, "w8a16-unit", quantized=True)
+            metadata = load_context_metadata(Path(variant["info_json"]))
+            raw = np.arange(EMBEDDING_DIM, dtype=np.int64) - 96
+            path = root / "output.raw"
+            raw.astype("<i2").tofile(path)
+
+            values = dequantize_device_output(path, metadata)
+            expected = (raw.astype(np.float64) - OFFSET) * SCALE
+            expected = expected / np.linalg.norm(expected)
+            self.assertEqual(values.shape, (1, EMBEDDING_DIM))
+            np.testing.assert_allclose(values[0], expected, rtol=1e-6, atol=1e-7)
+            self.assertAlmostEqual(float(np.linalg.norm(values[0])), 1.0, places=12)
+
+    @requires_numpy
+    def test_dequantize_device_output_rejects_wrong_element_count(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            root = Path(raw_root)
+            variant = _write_variant(root, "w8a16-unit", quantized=True)
+            metadata = load_context_metadata(Path(variant["info_json"]))
+            path = root / "short.raw"
+            np.arange(100, dtype="<i2").tofile(path)
+            with self.assertRaises(ValueError) as caught:
+                dequantize_device_output(path, metadata)
+            self.assertIn("192", str(caught.exception))
+
+    @requires_numpy
+    def test_dequantize_device_output_requires_quantization(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            root = Path(raw_root)
+            variant = _write_variant(root, "fp32-unit", quantized=False)
+            metadata = load_context_metadata(Path(variant["info_json"]))
+            path = root / "output.raw"
+            np.zeros(EMBEDDING_DIM, dtype="<f4").tofile(path)
+            with self.assertRaises(ValueError) as caught:
+                dequantize_device_output(path, metadata)
+            self.assertIn("量化", str(caught.exception))
+
+    @requires_numpy
+    def test_read_device_output_reads_float32_without_dequantizing(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            root = Path(raw_root)
+            variant = _write_variant(root, "fp32-unit", quantized=False)
+            metadata = load_context_metadata(Path(variant["info_json"]))
+            embeddings, _ = _fixture_embeddings()
+            path = root / "output.raw"
+            embeddings[0].astype("<f4").tofile(path)
+            values = read_device_output(path, metadata)
+            expected = l2_normalize(embeddings[0:1])
+            np.testing.assert_allclose(values, expected, rtol=1e-6, atol=1e-7)
+
+
+class TestExtractionPipeline(unittest.TestCase):
+    @requires_numpy
+    def test_raw_plus_info_generates_paired_npz(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            root = Path(raw_root)
+            spec = _write_extraction_spec(root)
+            record = extract_embedding_sets(spec, root / "embeddings")
+
+            fp32_blocks, fp32_ids = load_embedding_set(
+                root / "embeddings" / "fp32.npz"
+            )
+            blocks, item_ids = load_embedding_set(
+                root / "embeddings" / "w8a16.npz"
+            )
+            self.assertEqual(item_ids, tuple(_item_ids()))
+            self.assertEqual(fp32_ids, item_ids)
+            self.assertEqual(list(blocks), list(TASK_MATRIX))
+            expected = l2_normalize(_fixture_embeddings()[0])
+            for condition in TASK_MATRIX:
+                np.testing.assert_allclose(
+                    blocks[condition], expected, rtol=0, atol=3e-3
+                )
+                np.testing.assert_allclose(
+                    fp32_blocks[condition], expected, rtol=0, atol=1e-6
+                )
+            self.assertEqual(
+                record["variants"]["w8a16"]["context_sha256"],
+                _sha256(root / "builds/w8a16-unit/context/context.bin"),
+            )
+            self.assertEqual(
+                record["variants"]["w8a16"]["npz_sha256"],
+                _sha256(root / "embeddings" / "w8a16.npz"),
+            )
+            self.assertEqual(record["item_ids_sha256"], _item_ids_sha256(_item_ids()))
+            self.assertTrue((root / "embeddings" / "extraction.json").is_file())
+
+    @requires_numpy
+    def test_condition_item_order_mismatch_is_rejected(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            root = Path(raw_root)
+            spec = _write_extraction_spec(root, conditions=("clean-6s", "clean-3s"))
+            payload = json.loads(spec.read_text(encoding="utf-8"))
+            payload["items"][5], payload["items"][6] = (
+                payload["items"][6],
+                payload["items"][5],
+            )
+            spec.write_text(json.dumps(payload), encoding="utf-8")
+            with self.assertRaises(ValueError) as caught:
+                extract_embedding_sets(spec, root / "embeddings")
+            self.assertIn("顺序", str(caught.exception))
+
+
+class TestEvidenceBinding(unittest.TestCase):
+    @requires_numpy
+    def test_missing_output_file_is_device_unavailable(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            root = Path(raw_root)
+            embeddings, _ = _fixture_embeddings()
+            missing = root / "missing.raw"
+            result_path = _write_run(root, "run-pass", missing)
+            manifest = _paired_manifest(
+                root / "manifest.json", _speakers(), [str(result_path)]
+            )
+            with self.assertRaises(DeviceUnavailableError) as caught:
+                evaluate_accuracy(embeddings, embeddings, manifest)
+            self.assertIn("output", caught.exception.reason)
+
+    @requires_numpy
+    def test_output_byte_size_mismatch_is_device_unavailable(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            root = Path(raw_root)
+            embeddings, _ = _fixture_embeddings()
+            short = root / "short.raw"
+            short.write_bytes(b"\x00" * 10)
+            result_path = _write_run(root, "run-pass", short)
+            manifest = _paired_manifest(
+                root / "manifest.json", _speakers(), [str(result_path)]
+            )
+            with self.assertRaises(DeviceUnavailableError) as caught:
+                evaluate_accuracy(embeddings, embeddings, manifest)
+            self.assertIn("字节", caught.exception.reason)
+
+    @requires_numpy
+    def test_raw_sha256_mismatch_is_rejected(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            root = Path(raw_root)
+            embeddings, _ = _fixture_embeddings()
+            result_path = _pass_run(root)
+            provenance = _provenance([str(result_path)])
+            provenance["device_runs"][0]["raw_sha256"] = "0" * 64
+            manifest = _paired_manifest(
+                root / "manifest.json",
+                _speakers(),
+                [str(result_path)],
+                provenance=provenance,
+            )
+            with self.assertRaises(ValueError) as caught:
+                evaluate_accuracy(embeddings, embeddings, manifest)
+            self.assertIn("sha256", str(caught.exception).lower())
+
+    @requires_numpy
+    def test_embedding_source_sha256_mismatch_is_rejected(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            root = Path(raw_root)
+            embeddings, _ = _fixture_embeddings()
+            result_path = _pass_run(root)
+            provenance = _provenance([str(result_path)])
+            provenance["embeddings"] = {"w8a16": {"sha256": "0" * 64}}
+            manifest = _paired_manifest(
+                root / "manifest.json",
+                _speakers(),
+                [str(result_path)],
+                provenance=provenance,
+            )
+            source = root / "w8a16.npz"
+            write_embedding_set(source, {"clean-6s": embeddings}, _item_ids())
+            with self.assertRaises(ValueError) as caught:
+                evaluate_accuracy(
+                    embeddings, embeddings, manifest, w8a16_source=source
+                )
+            self.assertIn("sha256", str(caught.exception).lower())
+
+    @requires_numpy
+    def test_item_ids_digest_mismatch_is_rejected(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            root = Path(raw_root)
+            embeddings, _ = _fixture_embeddings()
+            result_path = _pass_run(root)
+            provenance = _provenance([str(result_path)])
+            provenance["item_ids_sha256"] = "0" * 64
+            manifest = _paired_manifest(
+                root / "manifest.json",
+                _speakers(),
+                [str(result_path)],
+                provenance=provenance,
+            )
+            with self.assertRaises(ValueError) as caught:
+                evaluate_accuracy(embeddings, embeddings, manifest)
+            self.assertIn("item_id", str(caught.exception))
+
+    @requires_numpy
+    def test_provenance_without_variant_binding_is_device_unavailable(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            root = Path(raw_root)
+            embeddings, _ = _fixture_embeddings()
+            result_path = _pass_run(root)
+            provenance = _provenance([str(result_path)])
+            provenance["variant_id"] = ""
+            manifest = _paired_manifest(
+                root / "manifest.json",
+                _speakers(),
+                [str(result_path)],
+                provenance=provenance,
+            )
+            with self.assertRaises(DeviceUnavailableError) as caught:
+                evaluate_accuracy(embeddings, embeddings, manifest)
+            self.assertIn("variant_id", caught.exception.reason)
+
+
+class TestRelativeEvidenceRoot(unittest.TestCase):
+    def test_scan_resolves_relative_root_to_absolute_paths(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            base = Path(raw_root)
+            run = _pass_run(base / "evidence")
+            previous = Path.cwd()
+            os.chdir(base)
+            try:
+                records = scan_device_evidence(Path("evidence"))
+            finally:
+                os.chdir(previous)
+            self.assertEqual(len(records), 1)
+            self.assertTrue(Path(records[0]["path"]).is_absolute())
+            self.assertTrue(Path(records[0]["path"]).is_file())
+            self.assertEqual(Path(records[0]["path"]), run.resolve())
+
+
+class TestDeviceUnavailableRecord(unittest.TestCase):
+    """不依赖 numpy：主库 discover 环境也要锁住落盘契约。"""
+
+    def test_record_carries_status_and_reason(self):
+        record = DeviceUnavailableError("no device").to_dict()
         self.assertEqual(record["status"], STATUS_DEVICE_UNAVAILABLE)
-        self.assertIsNone(record["accuracy"])
-        self.assertFalse(_numeric_keys(record) & ACCURACY_KEYS)
+        self.assertEqual(record["reason"], "no device")
+
+
+class TestCli(unittest.TestCase):
+    def test_collect_returns_two_when_evidence_is_missing(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            root = Path(raw_root)
+            manifest = root / "manifest.json"
+            manifest.write_text(
+                json.dumps(_manifest_payload(["S1", "S2"])), encoding="utf-8"
+            )
+            code = main(
+                [
+                    "--root",
+                    str(root),
+                    "--manifest",
+                    str(manifest),
+                    "--output",
+                    str(root / "benchmark.json"),
+                ]
+            )
+            self.assertEqual(code, 2)
 
 
 if __name__ == "__main__":

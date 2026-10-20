@@ -48,7 +48,12 @@ DeviceRunStatus = Literal[
 
 @dataclass(frozen=True)
 class ContextMetadata:
-    """一个 context 的单一 graph 元数据（build/arch/形状）。"""
+    """一个 context 的单一 graph 元数据（build/arch/形状/输出量化）。
+
+    输出量化字段可缺省（默认 None）：只有 info.json 显式声明
+    `QNN_QUANTIZATION_ENCODING_SCALE_OFFSET` 时才填入，未量化的 FP32
+    context 保持 None。
+    """
 
     build_id: str
     soc_model: int
@@ -56,6 +61,10 @@ class ContextMetadata:
     graph_name: str
     input_shape: tuple[int, ...]
     output_shape: tuple[int, ...]
+    output_data_type: str | None = None
+    output_quant_encoding: str | None = None
+    output_scale: float | None = None
+    output_offset: int | None = None
 
     def to_dict(self) -> dict[str, Any]:
         payload = asdict(self)
@@ -136,7 +145,48 @@ def load_context_metadata(info_json: Path) -> ContextMetadata:
         graph_name=str(graph.get("graphName", "")),
         input_shape=tuple(int(v) for v in inputs[0].get("dimensions") or ()),
         output_shape=tuple(int(v) for v in outputs[0].get("dimensions") or ()),
+        **_output_quantization(outputs[0]),
     )
+
+
+def _output_quantization(tensor: dict[str, Any]) -> dict[str, Any]:
+    """从 graphOutputs[0] 解出 dtype 与 scale/offset；非法/缺省一律留 None。"""
+    fields: dict[str, Any] = {
+        "output_data_type": None,
+        "output_quant_encoding": None,
+        "output_scale": None,
+        "output_offset": None,
+    }
+    data_type = tensor.get("dataType")
+    if isinstance(data_type, str) and data_type:
+        fields["output_data_type"] = data_type
+    params = tensor.get("quantizeParams")
+    if not isinstance(params, dict):
+        return fields
+    if params.get("definition") != "QNN_DEFINITION_DEFINED":
+        return fields
+    encoding = params.get("quantizationEncoding")
+    if not isinstance(encoding, str) or not encoding:
+        return fields
+    fields["output_quant_encoding"] = encoding
+    if encoding != "QNN_QUANTIZATION_ENCODING_SCALE_OFFSET":
+        return fields
+    scale_offset = params.get("scaleOffset")
+    if not isinstance(scale_offset, dict):
+        return fields
+    scale = scale_offset.get("scale")
+    offset = scale_offset.get("offset")
+    if (
+        isinstance(scale, (int, float))
+        and not isinstance(scale, bool)
+        and math.isfinite(scale)
+        and scale > 0
+        and isinstance(offset, (int, float))
+        and not isinstance(offset, bool)
+    ):
+        fields["output_scale"] = float(scale)
+        fields["output_offset"] = int(offset)
+    return fields
 
 
 def validate_sm8845_context(
