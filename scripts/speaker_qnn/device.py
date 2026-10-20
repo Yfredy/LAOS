@@ -71,6 +71,8 @@ _DTYPE_STRUCT = {
     "<i2": ("h", 2),
     "<i4": ("i", 4),
     "<u4": ("I", 4),
+    "i1": ("b", 1),
+    "u1": ("B", 1),
 }
 
 # adsprpc 在 `<进程名>.farf` 里读 DSP 侧 FARF 日志掩码；缺省只开 ERROR

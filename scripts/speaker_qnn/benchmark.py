@@ -50,6 +50,7 @@ from .contracts import (
     write_json_atomic,
 )
 from .device import (
+    _DTYPE_STRUCT,
     require_sm8845_device,
     resolve_input_list,
     run_context,
@@ -243,6 +244,10 @@ class DeviceUnavailableError(RuntimeError):
 
     def to_dict(self) -> dict[str, Any]:
         return {"status": self.status, "reason": self.reason}
+
+
+class ProvenanceError(ValueError):
+    """证据自相矛盾（provenance 与落盘事实不符），不是设备离线。"""
 
 
 @dataclass(frozen=True)
@@ -576,10 +581,17 @@ def qnn_dtype_numpy(data_type: str) -> str:
     return code
 
 
+def _dtype_itemsize(dtype: str) -> int:
+    """单元素字节数；纯 stdlib，与 device._DTYPE_STRUCT 同源，不依赖 numpy。"""
+    entry = _DTYPE_STRUCT.get(str(dtype))
+    if entry is None:
+        raise ValueError(f"不支持的 output dtype：{dtype!r}")
+    return int(entry[1])
+
+
 def qnn_dtype_itemsize(data_type: str) -> int:
     """单元素字节数，供 device run 输出字节校验使用。"""
-    np = _require_numpy()
-    return int(np.dtype(qnn_dtype_numpy(data_type)).itemsize)
+    return _dtype_itemsize(qnn_dtype_numpy(data_type))
 
 
 def _read_raw_output(
@@ -1129,14 +1141,15 @@ def require_device_evidence(
             if bool(result.get("native_output")):
                 expected_dtype = qnn_dtype_numpy(provenance["output_dtype"])
                 if declared_dtype != expected_dtype:
-                    raise DeviceUnavailableError(
+                    raise ProvenanceError(
                         f"真机运行 {result_value} 声明 native_output={declared_dtype}，"
                         f"与 provenance output_dtype={provenance['output_dtype']!r} 不符"
                     )
-            itemsize = int(_require_numpy().dtype(declared_dtype).itemsize)
+            itemsize = _dtype_itemsize(declared_dtype)
         else:
-            # 旧 result.json 没有 dtype provenance：退回 context dtype 语义。
-            itemsize = qnn_dtype_itemsize(provenance["output_dtype"])
+            # 旧 result.json 没有 dtype provenance：qnn-net-run 当年同样按
+            # 默认 float32 落盘，不能按 context dtype 解释。
+            itemsize = _dtype_itemsize(DEFAULT_OUTPUT_FILE_DTYPE)
         expected_bytes = int(embedding_dim) * itemsize
         actual_bytes = output_path.stat().st_size
         if actual_bytes != expected_bytes:
@@ -2212,16 +2225,16 @@ def _main_metric(argv: Sequence[str], section: str) -> int:
             )
         output = record_benchmark_section(Path(arguments.root), section, metrics.to_dict())
     except (ValueError, OSError, DeviceUnavailableError) as exc:
-        print(
-            json.dumps(
-                {
-                    "status": getattr(exc, "status", "error"),
-                    "reason": str(exc),
-                    "section": section,
-                },
-                ensure_ascii=False,
-            )
-        )
+        failure = {
+            "status": str(getattr(exc, "status", "error")),
+            "reason": str(exc),
+        }
+        # 失败必须覆盖旧小节：只留状态与原因，旧数字不能再被报告渲染。
+        try:
+            record_benchmark_section(Path(arguments.root), section, failure)
+        except OSError:
+            pass
+        print(json.dumps({**failure, "section": section}, ensure_ascii=False))
         return 2
     print(
         json.dumps(

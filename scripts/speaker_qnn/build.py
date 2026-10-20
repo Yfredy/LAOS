@@ -113,6 +113,7 @@ FAILURE_STATUSES = frozenset(
         "load_error",
         "timeout",
         "ssr",
+        "execute_error",
     }
 )
 
@@ -342,7 +343,7 @@ def validate_calibration(calibration_list: Path) -> dict[str, Any]:
         raise ValueError(
             f"校准清单与评估集说话人重叠：{', '.join(overlap)}；校准必须完全排除评估集"
         )
-    manifest_hashes: dict[str, str] = {}
+    manifest_hashes: dict[Path, str] = {}
     for record in records:
         if not isinstance(record, Mapping):
             raise ValueError("校准清单 records 每条必须是对象")
@@ -362,37 +363,51 @@ def validate_calibration(calibration_list: Path) -> dict[str, Any]:
             raise ValueError(
                 f"校准 raw SHA-256 不符：{raw_path} 期望 {expected} 实际 {actual}"
             )
-        manifest_hashes[raw_path.resolve().as_posix()] = actual
+        manifest_hashes[raw_path.resolve()] = actual
 
-    sums_entries: dict[str, str] = {}
+    sums_entries: dict[Path, str] = {}
+    sums_labels: dict[Path, str] = {}
     for line in sums_path.read_text(encoding="utf-8").splitlines():
         match = _CALIBRATION_SHA_LINE_RE.match(line.strip())
         if match is None:
             continue
-        sums_entries[match.group(2).strip()] = match.group(1).lower()
-    if not sums_entries:
-        raise ValueError(f"SHA256 校验文件为空：{sums_path}")
-    for relative, expected in sums_entries.items():
-        item = Path(relative)
+        label = match.group(2).strip()
+        item = Path(label)
         if not item.is_absolute():
             item = base / item
+        item = item.resolve()
+        sums_entries[item] = match.group(1).lower()
+        sums_labels[item] = label
+    if not sums_entries:
+        raise ValueError(f"SHA256 校验文件为空：{sums_path}")
+    for item, expected in sums_entries.items():
         if not item.is_file():
-            raise ValueError(f"SHA256SUMS.txt 列出的文件不存在：{item}")
+            raise ValueError(
+                f"SHA256SUMS.txt 列出的文件不存在：{sums_labels[item]}"
+            )
         actual = _sha256(item)
         if actual != expected:
             raise ValueError(
-                f"SHA256SUMS.txt 校验失败：{item} 期望 {expected} 实际 {actual}"
+                f"SHA256SUMS.txt 校验失败：{sums_labels[item]} "
+                f"期望 {expected} 实际 {actual}"
             )
-    for relative, actual in manifest_hashes.items():
-        recorded = sums_entries.get(Path(relative).name)
-        if recorded is not None and recorded != actual:
+    # 必须按解析后的完整路径对账，不能只比 basename：同名但不同目录的
+    # 文件不能替代 manifest 里登记的那一条。
+    for raw_path, actual in manifest_hashes.items():
+        recorded = sums_entries.get(raw_path)
+        if recorded is None:
             raise ValueError(
-                f"manifest 与 SHA256SUMS.txt 的 raw 哈希不一致：{relative}"
+                f"manifest 的 raw 未列入 SHA256SUMS.txt：{raw_path}"
+            )
+        if recorded != actual:
+            raise ValueError(
+                f"manifest 与 SHA256SUMS.txt 的 raw 哈希不一致：{raw_path}"
             )
     return {
         "manifest": str(manifest_path),
         "manifest_sha256": _sha256(manifest_path),
         "sums": str(sums_path),
+        "sums_sha256": _sha256(sums_path),
         "records": len(records),
         "speakers": len(speakers),
     }
@@ -403,7 +418,7 @@ def discover_toolchains(
 ) -> tuple[ToolchainSpec, ...]:
     """枚举本地 QAIRT 树；只收可探测组件同 build 且齐全的候选。
 
-    可探测组件是 `COMPONENT_PATHS` 的 7 项（converter 是 Python 脚本，
+    可探测组件是 `COMPONENT_PATHS` 的 8 项（converter 是 Python 脚本，
     无内嵌版本串，沿用首个探测到的 build ID）；roots 来自
     `DEFAULT_QAIRT_ROOTS` 或显式传入，**不读 `LAOS_QAIRT_ROOT`**——该环境
     变量只由 `device.py` 的设备侧工具链发现使用。
@@ -856,7 +871,7 @@ def build_w8a16_context(
         _discard_workdir(work_dir)
         return _failure(variant, output_dir, BUILD_ERROR, str(exc))
     try:
-        validate_calibration(calibration_list)
+        calibration_summary = validate_calibration(calibration_list)
     except ValueError as exc:
         _discard_workdir(work_dir)
         return _failure(
@@ -867,6 +882,10 @@ def build_w8a16_context(
     base_sha = {
         "model": _sha256(model),
         "calibration_list": _sha256(calibration_list),
+        # 校准证据自身也必须进 artifact provenance：清单与校验文件任一
+        # 变动都要让 artifact 的 sha256 绑定失效。
+        "calibration_manifest": calibration_summary["manifest_sha256"],
+        "calibration_sums": calibration_summary["sums_sha256"],
     }
     try:
         graph_config, wrapper = write_backend_configs(context_dir, variant)

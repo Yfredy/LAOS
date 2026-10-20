@@ -48,6 +48,7 @@ from scripts.speaker_qnn.benchmark import (  # noqa: E402
     AccuracyMetrics,
     DeviceUnavailableError,
     EmbeddingParity,
+    ProvenanceError,
     LatencyEvent,
     LatencyMetrics,
     SoakMetrics,
@@ -224,7 +225,7 @@ def _write_run(
     status: str = "pass",
     output_count: int = EMBEDDING_DIM,
     finite: bool = True,
-    output_file_dtype: str = "<f4",
+    output_file_dtype: str | None = "<f4",
     native_output: bool = False,
 ) -> Path:
     path = root / "device-runs" / name / "result.json"
@@ -1502,6 +1503,58 @@ class TestOutputDtypeProvenance(unittest.TestCase):
                 )
             self.assertIn("字节", caught.exception.reason)
 
+    def test_legacy_run_without_dtype_is_read_as_float32(self):
+        """旧 result.json 没有 dtype 字段时，默认落盘是 float32（768 字节）。"""
+        with tempfile.TemporaryDirectory() as raw_root:
+            root = Path(raw_root)
+            raw = root / "legacy.raw"
+            raw.write_bytes(b"\x00" * (EMBEDDING_DIM * 4))
+            run = _write_run(
+                root, "legacy-float32", raw, output_file_dtype=None
+            )
+            records = require_device_evidence(
+                root / "manifest.json",
+                {"w8a16_provenance": _provenance([str(run)])},
+            )
+            self.assertEqual(records[0]["output_bytes"], EMBEDDING_DIM * 4)
+
+    def test_legacy_context_dtype_byte_count_is_rejected(self):
+        """不能把旧证据按 context dtype（2 字节）解释。"""
+        with tempfile.TemporaryDirectory() as raw_root:
+            root = Path(raw_root)
+            raw = root / "legacy-short.raw"
+            raw.write_bytes(b"\x00" * (EMBEDDING_DIM * 2))
+            run = _write_run(
+                root, "legacy-short", raw, output_file_dtype=None
+            )
+            with self.assertRaises(DeviceUnavailableError) as caught:
+                require_device_evidence(
+                    root / "manifest.json",
+                    {"w8a16_provenance": _provenance([str(run)])},
+                )
+            self.assertIn("字节", caught.exception.reason)
+
+    def test_native_output_dtype_contradiction_is_not_device_unavailable(self):
+        """provenance 自相矛盾是证据损坏，不是设备离线。"""
+        with tempfile.TemporaryDirectory() as raw_root:
+            root = Path(raw_root)
+            raw = root / "contradiction.raw"
+            raw.write_bytes(b"\x00" * (EMBEDDING_DIM * 4))
+            run = _write_run(
+                root,
+                "contradiction",
+                raw,
+                output_file_dtype="<f4",
+                native_output=True,
+            )
+            with self.assertRaises(ProvenanceError) as caught:
+                require_device_evidence(
+                    root / "manifest.json",
+                    {"w8a16_provenance": _provenance([str(run)])},
+                )
+            self.assertNotIsInstance(caught.exception, DeviceUnavailableError)
+            self.assertIn("native_output", str(caught.exception))
+
 
 class TestViewerProfileTimings(unittest.TestCase):
     """C2：qnn-profile-viewer 文本必须能被解析，不可得是显式状态。"""
@@ -1581,6 +1634,54 @@ class TestBenchmarkPersistence(unittest.TestCase):
             with self.assertRaises(ValueError) as caught:
                 record_benchmark_section(Path(raw_root), "accuracy", {})
             self.assertIn("小节", str(caught.exception))
+
+
+class TestCliMetricFailure(unittest.TestCase):
+    """M-d：失败的 latency/soak CLI 不得留下上一次的旧数字。"""
+
+    def test_failed_latency_run_replaces_stale_section(self):
+        with tempfile.TemporaryDirectory() as raw_root:
+            root = Path(raw_root)
+            (root / "benchmark.json").write_text(
+                json.dumps(
+                    {
+                        "latency": {
+                            "status": "pass",
+                            "perf_profile": "burst",
+                            "graph_p50_ms": 19.9,
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            artifact_path = root / "artifact.json"
+            artifact_path.write_text("{}", encoding="utf-8")
+            with mock.patch.object(
+                benchmark_module,
+                "load_artifact",
+                return_value=_passing_artifact(root),
+            ), mock.patch.object(
+                benchmark_module,
+                "run_latency_benchmark",
+                side_effect=ValueError("device offline"),
+            ):
+                code = main(
+                    [
+                        "latency",
+                        "--artifact",
+                        str(artifact_path),
+                        "--root",
+                        str(root),
+                    ]
+                )
+            self.assertEqual(code, 2)
+            payload = json.loads(
+                (root / "benchmark.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(payload["latency"]["status"], "error")
+            self.assertEqual(payload["latency"]["reason"], "device offline")
+            self.assertNotIn("graph_p50_ms", payload["latency"])
+            self.assertNotIn("perf_profile", payload["latency"])
 
 
 class TestDeviceIdentityBinding(unittest.TestCase):

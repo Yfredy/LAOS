@@ -186,16 +186,19 @@ def write_calibration(
     speakers: int = 20,
     overlap: bool = False,
     corrupt_sha: bool = False,
+    omit_raw_from_sums: bool = False,
 ) -> Path:
     """真实形状的校准清单：40 条 raw、20 个说话人、评估集排他。"""
     calibration_dir = base / "calibration"
     calibration_dir.mkdir(parents=True, exist_ok=True)
     entries = []
+    sum_lines = []
     for index in range(records):
         speaker = f"{3000 + index % speakers}"
         raw = calibration_dir / f"{index:03d}-{speaker}.raw"
         raw.write_bytes(f"raw-{index}".encode("ascii"))
-        digest = _sha256(raw)
+        actual = _sha256(raw)
+        digest = actual
         if corrupt_sha and index == 0:
             digest = "0" * 64
         entries.append(
@@ -205,6 +208,8 @@ def write_calibration(
                 "raw_sha256": digest,
             }
         )
+        if not (omit_raw_from_sums and index == 0):
+            sum_lines.append(f"{actual}  calibration/{raw.name}\n")
     excluded = [f"{9000 + index}" for index in range(speakers)]
     if overlap:
         excluded[0] = entries[0]["speaker"]
@@ -220,7 +225,8 @@ def write_calibration(
         encoding="utf-8",
     )
     (base / CALIBRATION_SUMS_NAME).write_text(
-        f"{_sha256(manifest_path)}  {CALIBRATION_MANIFEST_NAME}\n",
+        f"{_sha256(manifest_path)}  {CALIBRATION_MANIFEST_NAME}\n"
+        + "".join(sum_lines),
         encoding="ascii",
     )
     return base / "input_list.txt"
@@ -285,6 +291,52 @@ class TestCalibrationGate(unittest.TestCase):
             calibration = write_calibration(base, overlap=True)
             with self.assertRaisesRegex(ValueError, "重叠"):
                 validate_calibration(calibration)
+
+    def test_manifest_raw_absent_from_sums_is_rejected(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            calibration = write_calibration(base, omit_raw_from_sums=True)
+            with self.assertRaisesRegex(ValueError, "SHA256SUMS"):
+                validate_calibration(calibration)
+
+    def test_same_named_raw_elsewhere_does_not_satisfy_sums(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            calibration = write_calibration(base)
+            first = base / "calibration" / "000-3000.raw"
+            decoy = base / "decoy" / first.name
+            decoy.parent.mkdir(parents=True)
+            decoy.write_bytes(first.read_bytes())
+            sums = base / CALIBRATION_SUMS_NAME
+            text = sums.read_text(encoding="utf-8").replace(
+                "calibration/000-3000.raw", "decoy/000-3000.raw"
+            )
+            sums.write_text(text, encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "SHA256SUMS"):
+                validate_calibration(calibration)
+
+    def test_artifact_binds_calibration_manifest_and_sums(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            model, calibration, toolchain = make_build_inputs(root)
+            variant = BuildVariant(
+                toolchain, 2, 4, False, "campplus_w8a16_static_stats"
+            )
+            with mock.patch.object(build_module, "_run_step", fake_pipeline()):
+                artifact = build_w8a16_context(
+                    model, calibration, variant, root / "builds/variant"
+                )
+            self.assertEqual(
+                artifact.sha256["calibration_manifest"],
+                _sha256(root / CALIBRATION_MANIFEST_NAME),
+            )
+            self.assertEqual(
+                artifact.sha256["calibration_sums"],
+                _sha256(root / CALIBRATION_SUMS_NAME),
+            )
+
+    def test_execute_error_counts_as_build_failure(self):
+        self.assertIn("execute_error", build_module.FAILURE_STATUSES)
 
     def test_bad_calibration_refuses_build_before_converter(self):
         with tempfile.TemporaryDirectory() as temporary:
