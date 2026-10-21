@@ -831,15 +831,23 @@ def build_w8a16_context(
     *,
     expected_input_shape: tuple[int, ...] = CAMPLUS_INPUT_SHAPE,
     expected_output_shape: tuple[int, ...] = CAMPLUS_OUTPUT_SHAPE,
+    calibration_evidence: Path | None = None,
 ) -> BuildArtifact:
     """转换 + model DLL + SM8845 context，并做元数据/配置门禁。
 
     中间物先落 `output_dir/artifacts.tmp/`；只有元数据通过（`ready` 或
     `config_warning`）才原子提升到 `model/lib/context`，失败一律丢弃，
     目录里只剩 `artifact.json`。
+
+    `calibration_evidence` 用于派生输入清单（probe 前缀是真实校准清单的
+    副本、后缀是同一批 40 条语音的中间张量）：转换仍读 `calibration_list`，
+    但校准门禁校验其来源清单。默认两者相同。
     """
     model = Path(model)
     calibration_list = Path(calibration_list)
+    evidence = (
+        Path(calibration_evidence) if calibration_evidence is not None else calibration_list
+    )
     output_dir = Path(output_dir)
     work_dir = output_dir / "artifacts.tmp"
     model_dir = work_dir / "model"
@@ -865,13 +873,18 @@ def build_w8a16_context(
         return _failure(
             variant, output_dir, BUILD_ERROR, f"校准列表不存在：{calibration_list}"
         )
+    if not evidence.is_file():
+        _discard_workdir(work_dir)
+        return _failure(
+            variant, output_dir, BUILD_ERROR, f"校准证据清单不存在：{evidence}"
+        )
     try:
         require_toolchain_files(variant.toolchain)
     except FileNotFoundError as exc:
         _discard_workdir(work_dir)
         return _failure(variant, output_dir, BUILD_ERROR, str(exc))
     try:
-        calibration_summary = validate_calibration(calibration_list)
+        calibration_summary = validate_calibration(evidence)
     except ValueError as exc:
         _discard_workdir(work_dir)
         return _failure(

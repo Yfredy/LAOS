@@ -335,6 +335,36 @@ class TestCalibrationGate(unittest.TestCase):
                 _sha256(root / CALIBRATION_SUMS_NAME),
             )
 
+    def test_derived_input_list_gates_against_source_calibration(self):
+        """probe 前缀/后缀用的是派生清单，门禁必须回到源校准集对账。"""
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            model, calibration, toolchain = make_build_inputs(root)
+            derived_dir = root / "probe"
+            derived_dir.mkdir(parents=True)
+            derived = derived_dir / "input_list.txt"
+            derived.write_bytes(calibration.read_bytes())
+            variant = BuildVariant(
+                toolchain, 2, 4, False, "campplus_w8a16_static_stats"
+            )
+            with mock.patch.object(build_module, "_run_step", fake_pipeline()):
+                rejected = build_w8a16_context(
+                    model, derived, variant, root / "builds/derived"
+                )
+                accepted = build_w8a16_context(
+                    model,
+                    derived,
+                    variant,
+                    root / "builds/derived-evidence",
+                    calibration_evidence=calibration,
+                )
+            self.assertEqual(rejected.status, BUILD_CALIBRATION_REJECTED)
+            self.assertIn("校准清单缺失", rejected.error or "")
+            self.assertNotEqual(accepted.status, BUILD_CALIBRATION_REJECTED)
+            self.assertEqual(
+                accepted.sha256["calibration_list"], _sha256(derived)
+            )
+
     def test_execute_error_counts_as_build_failure(self):
         self.assertIn("execute_error", build_module.FAILURE_STATUSES)
 

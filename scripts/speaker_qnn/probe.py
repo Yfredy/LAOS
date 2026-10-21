@@ -2051,6 +2051,7 @@ def build_partition(
         prefix_dir,
         expected_input_shape=CAMPLUS_INPUT_SHAPE,
         expected_output_shape=tuple(cut.shape),
+        calibration_evidence=input_list,
     )
     suffix_artifact = build_w8a16_context(
         suffix_onnx,
@@ -2059,6 +2060,7 @@ def build_partition(
         suffix_dir,
         expected_input_shape=_qnn_input_shape(cut.shape),
         expected_output_shape=CAMPLUS_OUTPUT_SHAPE,
+        calibration_evidence=input_list,
     )
     require_partition_limit((prefix_artifact, suffix_artifact))
     for artifact in (prefix_artifact, suffix_artifact):
@@ -2156,6 +2158,7 @@ def _build_probe(
     toolchain: ToolchainSpec,
     cut: TensorCut,
     kind: str,
+    calibration_evidence: Path,
 ) -> tuple[BuildArtifact, BuildVariant]:
     graph_name = f"{PROBE_GRAPH_NAME}_{kind}_{cut.node_index:04d}"
     variant = BuildVariant(toolchain, 2, 4, False, graph_name)
@@ -2172,6 +2175,9 @@ def _build_probe(
         probe_dir,
         expected_input_shape=expected_input,
         expected_output_shape=expected_output,
+        # probe 的输入清单是派生物（前缀是真实校准清单的副本、后缀是同批
+        # 语音的中间张量），校准门禁必须回到源清单做 raw 对账。
+        calibration_evidence=calibration_evidence,
     )
     return artifact, variant
 
@@ -2213,10 +2219,12 @@ def _probe_cut_on_device(
         )
 
     prefix_artifact, prefix_variant = _build_probe(
-        prefix_dir, prefix_onnx, prefix_list, toolchain, cut, "prefix"
+        prefix_dir, prefix_onnx, prefix_list, toolchain, cut, "prefix",
+        calibration_evidence=calibration_list,
     )
     suffix_artifact, suffix_variant = _build_probe(
-        suffix_dir, suffix_onnx, suffix_list, toolchain, cut, "suffix"
+        suffix_dir, suffix_onnx, suffix_list, toolchain, cut, "suffix",
+        calibration_evidence=calibration_list,
     )
     layout = verify_layout_handoff(
         cut, manifest, prefix_artifact.metadata, suffix_artifact.metadata
@@ -2402,7 +2410,8 @@ def run_stages(
         prefix_artifact = prefix_variant = None
         if build_probes and parity_passed:
             prefix_artifact, prefix_variant = _build_probe(
-                prefix_dir, prefix_onnx, prefix_list, toolchain, cut, "prefix"
+                prefix_dir, prefix_onnx, prefix_list, toolchain, cut, "prefix",
+                calibration_evidence=calibration_list,
             )
             probe_artifacts[prefix_spec.probe_id] = prefix_artifact
         prefix_fields = _build_fields(prefix_artifact, prefix_variant)
@@ -2445,6 +2454,7 @@ def run_stages(
                 toolchain,
                 cut,
                 "suffix",
+                calibration_evidence=calibration_list,
             )
             probe_artifacts[suffix_spec.probe_id] = suffix_artifact
         suffix_fields = _build_fields(suffix_artifact, suffix_variant)
